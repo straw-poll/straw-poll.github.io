@@ -1,0 +1,20 @@
+# This folder is published to the public GitHub Pages site.
+# Only index.html and teams.json belong here.
+
+# Secrets and private data: never publish
+api_key.txt
+*.key
+*token*
+.env
+cache/
+*ballot*.json
+weeks.json
+
+# Working files that aren't part of the site
+*.bak
+*.orig.html
+*backup*
+teams.csv
+last_run.txt
+test/
+.DS_Store

@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CFB Ballot 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.2/Sortable.min.js"></script>
+<style>
+:root{
+  --paper:#E8EBE3; --panel:#F4F6F1; --ink:#17212B; --muted:#5B6672; --line:#C9CFC4;
+  --turf:#2E6B3F; --brick:#B1402F; --gold:#A87B16; --hi:#DDE5D6; --field:#1F4A2E;
+  --cond:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --body:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#142130; --panel:#1B2B3D; --ink:#E6EAE2; --muted:#9AA7B4; --line:#2E4157;
+    --turf:#6FBF82; --brick:#E27A67; --gold:#E0B650; --hi:#233850; --field:#6FBF82; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#142130; --panel:#1B2B3D; --ink:#E6EAE2; --muted:#9AA7B4; --line:#2E4157;
+  --turf:#6FBF82; --brick:#E27A67; --gold:#E0B650; --hi:#233850; --field:#6FBF82; color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.45 var(--body)}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.wrap{max-width:1180px;margin:0 auto;padding:20px 20px 64px}
+
+header.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 24px;padding-bottom:14px;border-bottom:3px solid var(--ink)}
+h1{font:800 clamp(2.4rem,6vw,3.6rem)/.9 var(--cond);margin:0;letter-spacing:-.01em}
+h1 span{color:var(--field)}
+.stamp{color:var(--muted);font-size:.9rem;margin-top:6px}
+.tabs{display:flex;gap:4px}
+.importer{margin-left:auto;align-self:center}
+.tab{background:none;border:0;border-bottom:3px solid transparent;padding:6px 10px;font:600 1.15rem var(--cond);color:var(--muted);margin-bottom:-17px}
+.tab[aria-selected="true"]{color:var(--ink);border-color:var(--field)}
+
+.weekbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin:18px 0 16px}
+.weekbar select,.weekbar input{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:6px 8px}
+.weekbar input{width:4.2em}
+.weeklabel{font:700 1.5rem var(--cond)}
+.btn{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:7px 14px;font-weight:600}
+.btn.primary{background:var(--field);border-color:var(--field);color:#fff}
+:root[data-theme="dark"] .btn.primary{color:#10202C}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn.primary{color:#10202C}}
+.btn:disabled{opacity:.45;cursor:default}
+.btn.quiet{background:none;border-color:transparent;color:var(--muted);padding-inline:8px}
+.status{font-size:.9rem;color:var(--muted)}
+.status.warn{color:var(--brick)}
+.spacer{flex:1}
+
+.grid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:28px;align-items:start}
+@media (max-width:880px){.grid{grid-template-columns:1fr}}
+
+/* Ballot */
+.bwrap{container:ballot/inline-size}
+.cols,.row{display:grid;grid-template-columns:3.2rem 2.6rem 18px minmax(0,1fr) 3.6rem 3.6rem 3.6rem 3.2rem 1.8rem;align-items:center;column-gap:6px}
+.cols{font-size:.78rem;color:var(--muted);padding:0 6px 6px;border-bottom:1px solid var(--line)}
+.cols span:nth-child(n+5){text-align:center}
+.row{padding:5px 6px;border-bottom:1px solid var(--line);background:transparent}
+.row.sortable-chosen{background:var(--hi)}
+.row.sortable-ghost{opacity:.35}
+.rk{font:800 2.1rem/1 var(--cond);text-align:right;font-variant-numeric:tabular-nums}
+.mv{font:700 .95rem var(--cond);text-align:center;white-space:nowrap}
+.mv.up{color:var(--turf)} .mv.dn{color:var(--brick)} .mv.new{color:var(--gold)} .mv.eq{color:var(--muted)}
+.grip{width:18px;height:28px;border:0;background:none;padding:0;cursor:grab;color:var(--muted);touch-action:none}
+.grip svg{display:block;margin:auto}
+.tm{min-width:0}
+.tm .nmb{background:none;border:0;padding:0;text-align:left;font:700 1.25rem/1.1 var(--cond);min-width:0;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tm .nmb:hover{text-decoration:underline;text-decoration-thickness:2px}
+.flag{border:1px solid currentColor;background:none;border-radius:4px;padding:0 4px;margin-right:5px;font:700 .72rem/1.35 var(--cond);letter-spacing:.05em;color:var(--brick);vertical-align:1px}
+.flag.loop{color:var(--gold)}
+#tip{position:fixed;z-index:50;max-width:min(300px,calc(100vw - 24px));background:var(--ink);color:var(--paper);padding:8px 10px;border-radius:8px;font-size:.85rem;line-height:1.35;white-space:pre-line;pointer-events:none;box-shadow:0 4px 14px rgba(0,0,0,.2)}
+.checks{margin-top:12px;border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:8px;padding:8px 12px;background:var(--panel);font-size:.92rem}
+.checks p{margin:0}.checks p+p{margin-top:8px}
+.checks small{display:block;color:var(--muted);font-size:.82rem}
+.btools{display:flex;justify-content:flex-end;margin:-8px 0 2px}
+.btools #cmpMode[aria-pressed="true"]{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+.colmenu{position:relative}
+.colmenu summary{list-style:none;display:inline-block}
+.colmenu summary::-webkit-details-marker{display:none}
+.colmenu .menu{position:absolute;right:0;top:calc(100% + 4px);z-index:20;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:6px 14px;box-shadow:0 8px 24px rgba(0,0,0,.18);min-width:15rem}
+.colmenu label{display:flex;gap:10px;align-items:center;padding:6px 0;font-size:.92rem;cursor:pointer}
+.colmenu label small{color:var(--muted);margin-left:auto;padding-left:8px}
+.tm small{display:block;color:var(--muted);font-size:.78rem}
+.st{text-align:center;font-variant-numeric:tabular-nums;font-weight:600}
+.st.dim{color:var(--muted);font-weight:500}
+.st.ap{font:700 1.05rem var(--cond)}
+.x{border:0;background:none;color:var(--muted);font-size:1.2rem;line-height:1;padding:4px}
+.x:hover{color:var(--brick)}
+.slot{display:grid;grid-template-columns:3.2rem 1fr;column-gap:8px;align-items:center;padding:7px 6px;border-bottom:1px dashed var(--line);color:var(--muted)}
+.slot .rk{color:var(--line)}
+.lbl{display:none}
+/* stacked rows when the Top 25 panel is narrow (phones, or a narrow viewer) */
+@container ballot (max-width:560px){
+  .cols{display:none}
+  .row{grid-template-columns:2.1rem 1.9rem 14px minmax(0,1fr) 1.6rem;column-gap:6px;grid-template-areas:"rk mv g tm x" "rk mv g stats x";row-gap:1px}
+  .cmp-on .row{grid-template-columns:2.1rem 1.9rem 14px minmax(0,1fr) 1.4rem 1.6rem;grid-template-areas:"rk mv g tm cmp x" "rk mv g stats cmp x"}
+  .rk{font-size:1.8rem}
+  .row .st.ap{font:600 .8rem var(--body)}
+  .tm small{display:inline;margin-left:6px}
+  .row .rk{grid-area:rk}.row .mv{grid-area:mv}.row .grip{grid-area:g}.row .tm{grid-area:tm}.row .x{grid-area:x}.row .cmpk{grid-area:cmp}
+  .row .stats{grid-area:stats;display:flex;flex-wrap:wrap;gap:0 10px;font-size:.8rem}
+  .row .st{text-align:left}
+  .row .lbl{display:inline;color:var(--muted);font-weight:500;margin-right:3px}
+  .slot{grid-template-columns:2.1rem 1fr}
+}
+@container ballot (min-width:561px){.row .stats{display:contents}}
+/* with many columns, rows keep a minimum width and scroll sideways (min-width set in #dyncols) */
+.bscroll{overflow-x:auto}
+
+/* Pool */
+.pool{container:pool/inline-size;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px)}
+@media (max-width:880px){.pool{position:static}}
+.pool h2,.hist h2{font:700 1.5rem var(--cond);margin:0 0 10px}
+.pool input[type=search]{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:var(--paper)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.chip{border:1px solid var(--line);background:none;border-radius:999px;padding:3px 11px;font-size:.88rem}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.sortby{display:flex;align-items:center;gap:6px;font-size:.88rem;color:var(--muted);margin-bottom:6px}
+.sortby select{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:3px 6px}
+.plist{max-height:62vh;overflow-y:auto;margin:0 -6px}
+@media (max-width:880px){.plist{max-height:none}}
+.phead,.prow{display:grid;grid-template-columns:minmax(0,1fr) 2.9rem 2.9rem 2.9rem 2.5rem 3.3rem;gap:5px;align-items:center;padding:6px}
+.prow{border-top:1px solid var(--line)}
+.phead{padding-bottom:4px;margin:0 -6px}
+.phead button{background:none;border:0;padding:2px 0;font-size:.78rem;color:var(--muted);text-align:center;white-space:nowrap}
+.phead button:first-child{text-align:left}
+.phead button[aria-pressed="true"]{color:var(--ink);font-weight:700;text-decoration:underline;text-underline-offset:3px}
+.prow .c{text-align:center;font-variant-numeric:tabular-nums;font-weight:600;font-size:.95rem}
+.prow .c.dim{color:var(--muted);font-weight:500}
+.prow .nm{font:700 1.1rem/1.1 var(--cond);background:none;border:0;padding:0;text-align:left;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.prow .meta{font-size:.8rem;color:var(--muted)}
+.prow .add{border:1px solid var(--field);color:var(--field);background:none;border-radius:6px;padding:3px 10px;font-weight:600;font-size:.88rem}
+.prow .on{font:700 .95rem var(--cond);color:var(--muted);min-width:3.2rem;text-align:center}
+.prow.sortable-chosen{background:var(--hi)}
+@container pool (min-width:380px){.prow .stats{display:contents}}
+.pscroll{overflow-x:auto;margin:0 -6px}
+.pscroll>.phead,.pscroll>.plist{margin:0}
+/* stacked rows when the team list is narrow */
+@container pool (max-width:379px){
+  .prow .lbl{display:inline;color:var(--muted);font-weight:500;margin-right:3px}
+  .phead{display:flex;flex-wrap:wrap;align-items:center;gap:2px 12px}
+  .phead::before{content:"Sort:";font-size:.78rem;color:var(--muted)}
+  .phead span{display:none}
+  .prow{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"nm add" "stats stats";row-gap:2px}
+  .cmp-on .prow{grid-template-columns:minmax(0,1fr) auto auto;grid-template-areas:"nm cmp add" "stats stats stats"}
+  .prow .pn{grid-area:nm}.prow .add,.prow .on{grid-area:add}.prow .cmpk{grid-area:cmp}
+  .prow .stats{grid-area:stats;display:flex;flex-wrap:wrap;gap:0 10px}
+  .prow .c{text-align:left;font-size:.8rem}
+}
+
+/* Just missed */
+.jm{margin-top:16px}
+.jmhead{display:flex;align-items:baseline;gap:8px;font:700 1.25rem var(--cond);padding:0 6px 6px;border-bottom:1px solid var(--line)}
+.jmhead small{font:400 .82rem var(--body);color:var(--muted)}
+.jmlist{min-height:44px}
+.jmlist:empty{border:1px dashed var(--line);border-radius:8px;margin-top:6px}
+.jmlist:empty::before{content:"Drag teams here, or use Add once your Top 25 is full.";display:block;padding:12px;color:var(--muted);font-size:.9rem}
+
+/* Compare */
+.cmpk{display:flex;align-items:center;justify-content:center;cursor:pointer}
+.cmpk input{width:16px;height:16px;margin:0;accent-color:var(--field);cursor:pointer}
+.cmpbar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 14px);z-index:30;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px 10px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 10px;box-shadow:0 8px 24px rgba(0,0,0,.2);width:max-content;max-width:calc(100vw - 24px)}
+.cmpbar .who{font-size:.9rem}
+#cmpDlg{width:min(1100px,calc(100vw - 16px))}
+.cmpgrid{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(220px,1fr);gap:18px;overflow-x:auto;margin:12px 0 6px;padding-bottom:4px}
+.cmpcol h4{font:800 1.5rem/1 var(--cond);margin:0}
+.cmpcol .sub{margin:2px 0 8px}
+.cmpcol .facts{margin-bottom:8px}
+.cmpcol .games .op{white-space:normal}
+
+/* Résumés */
+.rs-sort{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:.88rem;color:var(--muted)}
+.rsb{border:1px solid var(--line);background:none;border-radius:999px;padding:3px 11px;font-size:.88rem;color:var(--ink)}
+.rsb[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.rs-legend{display:flex;flex-wrap:wrap;align-items:center;gap:6px 18px;font-size:.84rem;color:var(--muted);margin:12px 0 10px}
+.rs-legend span{display:inline-flex;align-items:center;gap:6px}
+.rs-legend .lgrk{font:700 .8rem var(--cond);color:var(--ink)}
+.rs-body{--rsl:12rem}
+.rs-axis,.rs-row{display:grid;grid-template-columns:var(--rsl) minmax(0,1fr);align-items:center}
+.rs-axis{font-size:.78rem;color:var(--muted);padding-bottom:4px;border-bottom:1px solid var(--line)}
+.rs-axis div{display:flex;justify-content:space-between;padding:0 6px}
+.rs-row{border-bottom:1px solid var(--line);min-height:50px}
+.rs-name{display:grid;grid-template-columns:2rem minmax(0,1fr);column-gap:6px;align-items:baseline;min-width:0;padding-right:6px}
+.rs-rk{font:800 1.4rem/1 var(--cond);text-align:right;font-variant-numeric:tabular-nums}
+.rs-tm{background:none;border:0;padding:0;text-align:left;font:700 1.1rem/1.1 var(--cond);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.rs-tm:hover{text-decoration:underline}
+.rs-rec{grid-column:2;font-size:.78rem;color:var(--muted)}
+.rs-grp{font:700 1.25rem var(--cond);margin:22px 0 4px}
+.rs-track{position:relative;height:50px}
+.rs-track::before{content:"";position:absolute;left:10px;right:10px;top:50%;border-top:1px solid var(--line)}
+.rs-in{position:absolute;top:0;bottom:0;left:14px;right:14px}
+.dot{position:absolute;top:50%;transform:translate(-50%,-50%);border:0;padding:0;border-radius:50%;background:var(--muted)}
+.dot::after{content:"";position:absolute;inset:-7px;border-radius:50%}
+.dot.W{background:var(--turf)}.dot.L{background:var(--brick)}
+.dot.s1{width:9px;height:9px}.dot.s2{width:13px;height:13px}.dot.s3{width:18px;height:18px}
+.dot.close{box-shadow:0 0 0 1.5px var(--paper),0 0 0 3.5px var(--gold)}
+.dot.ot{box-shadow:0 0 0 1.5px var(--paper),0 0 0 3.5px var(--gold),0 0 0 5px var(--paper),0 0 0 7px var(--gold)}
+.dot .drk{position:absolute;left:100%;top:50%;transform:translateY(-50%);margin-left:4px;font:700 .72rem/1 var(--cond);color:var(--ink);pointer-events:none}
+.dot .dlb{position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:6px;font:700 .64rem/1 var(--body);letter-spacing:.04em;text-transform:uppercase;color:var(--ink);white-space:nowrap;pointer-events:none}
+.dot .dlb.up{top:auto;bottom:100%;margin:0 0 6px}
+.dot.lg{position:relative;top:auto;transform:none;display:inline-block;flex:none}
+.rs-body.rs-reorder{--rsl:13.2rem}
+.rs-drag .rs-name{grid-template-columns:2rem 18px minmax(0,1fr)}
+.rs-drag .rs-rec{grid-column:3}
+.rs-name .grip{grid-row:span 2;align-self:center}
+.rs-row.sortable-chosen{background:var(--hi)}
+.rs-row.sortable-ghost{opacity:.35}
+.rs-bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--paper);margin:0;padding:10px 0}
+.rs-hint{margin-left:6px}
+@media (max-width:640px){
+  .rs-body{--rsl:7.2rem}
+  .rs-body.rs-reorder{--rsl:8.4rem}
+  .rs-drag .rs-name{grid-template-columns:1.5rem 18px minmax(0,1fr)}
+  .rs-name{grid-template-columns:1.5rem minmax(0,1fr);column-gap:4px}
+  .rs-rk{font-size:1.1rem}
+  .rs-tm{font-size:.98rem}
+}
+
+/* History */
+.hist{margin-top:18px}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+th,td{padding:6px 10px;border-bottom:1px solid var(--line);text-align:center;white-space:nowrap}
+th{font:600 .85rem var(--body);color:var(--muted);position:sticky;top:0;background:var(--panel)}
+td.t,th.t{text-align:left;position:sticky;left:0;background:var(--panel)}
+td.t{font:700 1.05rem var(--cond)}
+td.r{font:700 1.05rem var(--cond)}
+td.r.top5{color:var(--field)}
+td.nr{color:var(--line)}
+
+.empty{padding:28px 18px;border:1px dashed var(--line);border-radius:10px;color:var(--muted)}
+.empty strong{color:var(--ink);display:block;font:700 1.3rem var(--cond);margin-bottom:4px}
+.note{margin-top:12px;font-size:.85rem;color:var(--muted)}
+
+dialog{border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--ink);padding:20px;width:min(440px,calc(100vw - 32px))}
+dialog::backdrop{background:rgba(10,20,30,.45)}
+dialog h3{font:800 1.9rem/1 var(--cond);margin:0}
+dialog .sub{color:var(--muted);font-size:.9rem;margin:4px 0 14px}
+.facts{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin-bottom:14px}
+.facts dt{color:var(--muted)} .facts dd{margin:0;font-weight:600}
+fieldset{border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin:0 0 12px}
+legend{font-weight:600;padding:0 4px}
+.wl{display:flex;align-items:center;gap:8px}
+.wl input{width:4em;padding:5px 6px;border:1px solid var(--line);border-radius:6px;background:var(--paper)}
+.dlgbtns{display:flex;justify-content:flex-end;gap:8px;margin-top:6px}
+.summ{display:flex;flex-wrap:wrap;gap:2px 14px;font-size:.9rem;margin:0 0 10px}
+.summ span{white-space:nowrap}.summ i{font-style:normal;color:var(--muted)}
+.games{list-style:none;margin:0 0 6px;padding:0;border-top:1px solid var(--line)}
+.games li{display:grid;grid-template-columns:1.1rem 3.4rem minmax(0,1fr) auto;gap:8px;align-items:baseline;padding:5px 6px;border-bottom:1px solid var(--line)}
+.games li.close{background:var(--hi);box-shadow:inset 3px 0 var(--gold)}
+.games .res{font:800 1.05rem var(--cond)}.games .res.W{color:var(--turf)}.games .res.L{color:var(--brick)}
+.games .sc{font-variant-numeric:tabular-nums;font-weight:600}
+.games .op{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.games .dt{color:var(--muted);font-size:.8rem}
+.dnote{font-size:.8rem;color:var(--muted);margin:0 0 14px}
+.dflags{margin:0 0 12px;padding:8px 10px;border-left:3px solid var(--brick);background:var(--paper);border-radius:0 6px 6px 0;font-size:.88rem;white-space:pre-line}
+.dflags.loop{border-color:var(--gold)}
+.trail{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.trail span{border:1px solid var(--line);border-radius:6px;padding:2px 8px;font-size:.85rem}
+.trail b{font-family:var(--cond);font-size:1rem}
+.phead button.wrap{white-space:normal;line-height:1.05}
+.colmenu .mix{padding:10px 14px;min-width:13.5rem}
+.colmenu .mix label{display:block;padding:0 0 6px;font-weight:600;cursor:default}
+.mix input[type=range]{width:100%;accent-color:var(--field)}
+.mixends{display:flex;justify-content:space-between;font-size:.78rem;color:var(--muted)}
+#mixTxt{font-size:.9rem;margin-top:6px}
+.upb{border:1px solid var(--line);background:none;border-radius:6px;color:var(--field);font:700 .95rem/1 var(--body);padding:3px 7px;cursor:pointer}
+.upb:hover{border-color:var(--field)}
+.rs-rk .upb{font-size:.85rem;padding:2px 6px;vertical-align:middle}
+.games .gepa{grid-column:2 / -1;font-size:.78rem;color:var(--muted);margin-top:-2px}
+.games .gepa b{color:var(--ink);font-weight:600}
+#syncToken{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:var(--paper);font-family:ui-monospace,Menlo,monospace;font-size:.85rem}
+#syncMsg:empty{display:none}
+.adv{width:auto;margin:0 0 14px;font-size:.9rem}
+.adv th,.adv td{padding:2px 14px 2px 0;border:0;text-align:right}
+.adv th{position:static;background:none;font:600 .8rem var(--body);color:var(--muted)}
+.adv tbody th{text-align:left}
+.adv td{font-weight:600}
+.adv caption{caption-side:bottom;text-align:left;font-size:.78rem;color:var(--muted);padding-top:2px}
+.toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 20px);transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:9px 16px;border-radius:8px;font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.show{opacity:1}
+@media (prefers-reduced-motion: reduce){.toast{transition:none}}
+[hidden]{display:none!important}
+</style>
+<style id="dyncols"></style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>CFB Ballot <span>2026</span></h1>
+      <div class="stamp" id="stamp">Loading team data…</div>
+    </div>
+    <div class="importer"><button class="btn" id="syncBtn">Ballot sync</button></div>
+    <nav class="tabs" role="tablist">
+      <button class="tab" role="tab" id="tab-ballot" aria-selected="true">Ballot</button>
+      <button class="tab" role="tab" id="tab-history" aria-selected="false">History</button>
+      <button class="tab" role="tab" id="tab-resumes" aria-selected="false">Résumés</button>
+    </nav>
+  </header>
+
+  <section id="view-ballot">
+    <div class="weekbar">
+      <span class="weeklabel">Week</span>
+      <select id="weekSel" aria-label="Choose week"></select>
+      <input id="weekNum" type="number" min="0" max="20" aria-label="Week number" hidden>
+      <button class="btn" id="newWeek">Start next week</button>
+      <span class="spacer"></span>
+      <span class="status" id="status"></span>
+      <button class="btn quiet" id="delWeek" hidden>Delete week</button>
+      <button class="btn primary" id="save" disabled>Save ballot</button>
+    </div>
+
+    <div class="grid">
+      <div class="bwrap">
+        <div class="btools"><button class="btn quiet" id="cmpMode" aria-pressed="false" title="Pick 2 to 4 teams to compare side by side">Compare</button><details class="colmenu" id="mixMenu"><summary class="btn quiet">Composite ▾</summary><div class="menu mix"><label for="mixW">Composite rank blend</label><input type="range" id="mixW" min="0" max="100" step="5" value="50"><div class="mixends"><span>All power</span><span>All résumé</span></div><div id="mixTxt"></div></div></details><details class="colmenu" id="colMenu"><summary class="btn quiet">Columns ▾</summary><div class="menu" id="colList"></div></details></div>
+        <div class="bscroll">
+        <div class="cols" id="cols" aria-hidden="true"></div>
+        <div id="ballot" aria-label="Your Top 25"></div>
+        <div id="slots"></div>
+        <div class="jm"><div class="jmhead">Just missed <small id="jmCount"></small></div><div id="others" class="jmlist" aria-label="Just missed"></div></div>
+        </div>
+        <p class="note">Drag the handle to reorder, or focus it and use the arrow keys. P4 records count games against SEC, Big Ten, Big 12 and ACC teams plus Notre Dame. “vs T25” is the record against teams currently on your ballot. <b>H2H</b> marks a head-to-head result that disagrees with your order; <b>LOOP</b> marks teams that beat each other in a circle. Both are reminders only; tap one to see why. Tap a team to see its games and rank history. Click a column heading in the team list to sort by it.</p>
+      </div>
+
+      <aside class="pool" aria-label="All teams">
+        <h2>Teams</h2>
+        <input type="search" id="q" placeholder="Search teams or conferences" aria-label="Search teams">
+        <div class="chips" role="group" aria-label="Filter">
+          <button class="chip" data-f="all" aria-pressed="true">All</button>
+          <button class="chip" data-f="p4" aria-pressed="false">Power 4</button>
+          <button class="chip" data-f="g5" aria-pressed="false">Group of 5</button>
+          <button class="chip" data-f="off" aria-pressed="false">Not on ballot</button>
+        </div>
+        <div class="pscroll">
+        <div class="phead" id="phead" role="group" aria-label="Sort teams by"></div>
+        <div class="plist" id="pool"></div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section id="view-history" class="hist" hidden>
+    <h2>Rank history</h2>
+    <div id="histBody"></div>
+  </section>
+
+  <section id="view-resumes" class="hist" hidden>
+    <h2>Résumés</h2>
+    <div class="weekbar rs-bar"><span class="weeklabel" id="rsWeek"></span><span class="spacer"></span><span class="status" id="rsStatus"></span><button class="btn primary" id="rsSave" disabled>Save ballot</button></div>
+    <div class="rs-sort" id="rsSort" role="group" aria-label="Sort résumés">Sort:
+      <button class="rsb" data-rs="ballot" aria-pressed="true">Ballot order</button>
+      <button class="rsb" data-rs="best" aria-pressed="false">Best win</button>
+      <button class="rsb" data-rs="worst" aria-pressed="false">Worst loss</button>
+      <span class="rs-hint" id="rsHint"></span>
+    </div>
+    <div class="rs-legend">
+      <span><i class="dot W s2 lg"></i>Win</span>
+      <span><i class="dot L s2 lg"></i>Loss</span>
+      <span><i class="dot s1 lg"></i><i class="dot s2 lg"></i><i class="dot s3 lg"></i>Margin 1–8 · 9–16 · 17+</span>
+      <span><i class="dot s2 close lg"></i>Close game (one score, and in doubt in the 4th quarter)</span>
+      <span><i class="dot s2 ot lg"></i>Overtime</span>
+      <span><b class="lgrk">6</b>Opponent’s rank on your Top 25</span>
+    </div>
+    <div id="rsBody" class="rs-body"></div>
+  </section>
+</div>
+
+<dialog id="dlg" aria-labelledby="dName">
+  <h3 id="dName"></h3>
+  <div class="sub" id="dSub"></div>
+  <dl class="facts" id="dFacts"></dl>
+  <div id="dAdv"></div>
+  <div id="dChecks"></div>
+  <div class="summ" id="dSumm"></div>
+  <ul class="games" id="dGames"></ul>
+  <p class="dnote" id="dNote"></p>
+  <div class="trail" id="dTrail"></div>
+  <form method="dialog"><div class="dlgbtns"><button class="btn">Close</button></div></form>
+</dialog>
+<dialog id="syncDlg" aria-labelledby="syncTitle">
+  <h3 id="syncTitle">Ballot sync</h3>
+  <div class="sub" id="syncState"></div>
+  <p class="dnote">Your ballots are saved in your private GitHub repo <b>the-chili-king/cfb-ballots</b>, so this Mac and your phone see the same ones. Paste the fine-grained token you made for that repo. It is stored only in this browser.</p>
+  <input type="password" id="syncToken" autocomplete="off" spellcheck="false" placeholder="github_pat_…" aria-label="GitHub token">
+  <p class="dnote" id="syncMsg" role="status"></p>
+  <div class="dlgbtns"><button class="btn quiet" id="syncOff">Disconnect</button><form method="dialog"><button class="btn">Cancel</button></form><button class="btn primary" id="syncSave">Connect</button></div>
+</dialog>
+<dialog id="cmpDlg" aria-labelledby="cmpTitle">
+  <h3 id="cmpTitle">Compare</h3>
+  <div class="cmpgrid" id="cmpGrid"></div>
+  <p class="dnote">Shaded games were decided by 8 points or fewer. Opponent ranks are from your current Top 25; records are current.</p>
+  <div class="dlgbtns"><button class="btn quiet" id="cmpClear2">Clear selection</button><form method="dialog"><button class="btn">Close</button></form></div>
+</dialog>
+<div class="cmpbar" id="cmpBar" hidden><span class="who" id="cmpWho"></span><button class="btn primary" id="cmpGo">Compare</button><button class="btn quiet" id="cmpClear">Clear</button><button class="btn quiet" id="cmpDone">Done</button></div>
+<div id="tip" role="tooltip" hidden></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  const MAX = 25, MAXO = 5, MAXC = 4;
+  const S = {db:null, teams:{}, meta:null, weeks:{}, cur:null, draft:[], dirty:false, newWeek:false,
+             f:'all', q:'', sort:'rec', canWrite:true, loadedWeeks:false, dlgTeam:null,
+             others:[], cmp:[], cmpOn:false, rsort:'ballot'};
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const rec = (w,l) => (w==null||l==null) ? '—' : w+'-'+l;
+  const pct = t => (t.w+t.l) ? t.w/(t.w+t.l) : 0;
+  const p4pct = t => (t.p4w==null) ? -2 : (t.p4w+t.p4l) ? t.p4w/(t.p4w+t.p4l) : -1;
+  const lypct = t => (t.lyW==null) ? -1 : (t.lyW+t.lyL) ? t.lyW/(t.lyW+t.lyL) : -1;
+  const wkId = n => 'w' + String(n).padStart(2,'0');
+  const CLOSE = 8; // "one-score game" margin
+  const nm = a => (S.teams[a]||{name:a}).name;
+  const fmtDate = d => { if(!d) return ''; const x=new Date(d+'T12:00:00'); return isNaN(x) ? d : x.toLocaleDateString([], {month:'short', day:'numeric'}); };
+
+  // ---------- stat columns ----------
+  // where: b = Top 25, p = team list. bw/pw = column widths on wide screens.
+  const COLS = [
+    {k:'prev', h:'Last wk', lbl:'Last wk', menu:'Last week’s rank', only:'Top 25', where:'b', bw:'2.9rem'},
+    {k:'rec',  h:'Record',  lbl:'Rec',     menu:'Record', where:'bp', bw:'2.9rem', pw:'2.7rem', sort:'rec'},
+    {k:'p4',   h:'vs P4',   lbl:'vs P4',   menu:'Record vs Power 4', where:'bp', bw:'2.9rem', pw:'2.7rem', sort:'p4'},
+    {k:'t25',  h:'vs T25',  lbl:'vs T25',  menu:'Record vs your Top 25', where:'bp', bw:'2.9rem', pw:'2.7rem', sort:'t25'},
+    {k:'ly',   h:'2025',    lbl:'2025',    menu:'2025 record', where:'bp', bw:'2.9rem', pw:'2.7rem', sort:'ly'},
+    {k:'ap',   h:"'25 AP",  lbl:"'25 AP",  menu:'2025 final AP rank', where:'bp', bw:'2.7rem', pw:'2.3rem', sort:'ap'},
+    // advanced stats: fmt n = 2 decimals, p = percent; lo = lower is better (defense); off = hidden by default
+    {k:'offEpa', h:'Off EPA',  lbl:'Off EPA',  menu:'Offense EPA per play',         where:'bp', bw:'2.9rem', pw:'2.8rem', sort:'offEpa', fmt:'n'},
+    {k:'defEpa', h:'Def EPA',  lbl:'Def EPA',  menu:'Defense EPA per play allowed', where:'bp', bw:'2.9rem', pw:'2.8rem', sort:'defEpa', fmt:'n', lo:true},
+    {k:'offSr',  h:'Off SR',   lbl:'Off SR',   menu:'Offense success rate',         where:'bp', bw:'2.9rem', pw:'2.8rem', sort:'offSr',  fmt:'p', off:true},
+    {k:'defSr',  h:'Def SR',   lbl:'Def SR',   menu:'Defense success rate allowed', where:'bp', bw:'2.9rem', pw:'2.8rem', sort:'defSr',  fmt:'p', lo:true, off:true},
+    {k:'offXpl', h:'Off Expl', lbl:'Off Expl', menu:'Offense explosiveness',        where:'bp', bw:'3.1rem', pw:'3rem',   sort:'offXpl', fmt:'n', off:true},
+    {k:'defXpl', h:'Def Expl', lbl:'Def Expl', menu:'Defense explosiveness allowed',where:'bp', bw:'3.1rem', pw:'3rem',   sort:'defXpl', fmt:'n', lo:true, off:true},
+    // model (from cfb/model): fmt r = rank; val = computed on the page; wrap = two-line heading
+    {k:'powerRank',  h:'Model',  lbl:'Model',  menu:'Model rank (power rating)', where:'bp', bw:'2.9rem', pw:'2.7rem', sort:'powerRank',  fmt:'r', lo:true},
+    {k:'resumeRank', h:'Résumé', lbl:'Résumé', menu:'Résumé rank',               where:'bp', bw:'2.9rem', pw:'2.7rem', sort:'resumeRank', fmt:'r', lo:true},
+    {k:'comp',       h:'Comp',   lbl:'Comp',   menu:'Composite rank (blend set under Composite ▾)', where:'bp', bw:'2.9rem', pw:'2.7rem', sort:'comp', fmt:'r', lo:true, val:a=>mdl().crank[a]},
+    {k:'adjOffEpa', h:'Adj Off EPA', lbl:'Adj Off EPA', menu:'Adjusted offense EPA per play',   where:'bp', bw:'3.3rem', pw:'3.1rem', sort:'adjOffEpa', fmt:'n', off:true, wrap:true},
+    {k:'adjDefEpa', h:'Adj Def EPA', lbl:'Adj Def EPA', menu:'Adjusted defense EPA allowed',    where:'bp', bw:'3.3rem', pw:'3.1rem', sort:'adjDefEpa', fmt:'n', lo:true, off:true, wrap:true},
+    {k:'adjOffSr',  h:'Adj Off SR',  lbl:'Adj Off SR',  menu:'Adjusted offense success rate',   where:'bp', bw:'3.3rem', pw:'3.1rem', sort:'adjOffSr',  fmt:'p', off:true, wrap:true},
+    {k:'adjDefSr',  h:'Adj Def SR',  lbl:'Adj Def SR',  menu:'Adjusted defense success rate allowed', where:'bp', bw:'3.3rem', pw:'3.1rem', sort:'adjDefSr', fmt:'p', lo:true, off:true, wrap:true},
+    {k:'sosDef', h:'Defs faced', lbl:'Defs faced', menu:'Defenses faced (avg adj def EPA; lower = tougher)', where:'bp', bw:'3.3rem', pw:'3.1rem', sort:'sosDef', fmt:'n', lo:true, off:true, wrap:true},
+    {k:'sosOff', h:'Offs faced', lbl:'Offs faced', menu:'Offenses faced (avg adj off EPA; higher = tougher)', where:'bp', bw:'3.3rem', pw:'3.1rem', sort:'sosOff', fmt:'n', off:true, wrap:true}
+  ];
+  const ADV = COLS.filter(c=>c.fmt);
+  const colVal = (c, a, t) => c.val ? c.val(a, t) : t[c.k];
+  const fmtStat = (c, v) => typeof v!=='number' ? null : c.fmt==='r' ? '#'+v : c.fmt==='p' ? Math.round(v*100)+'%' : (Math.abs(v)<0.005 ? 0 : v).toFixed(2);
+  const advOf = (t, k) => { const c=ADV.find(x=>x.k===k); return fmtStat(c, t[k]) ?? '–'; };
+  // compact offense/defense table for the team pop-up and compare view
+  const advTable = t => `<table class="adv"><thead><tr><th></th><th>EPA</th><th>SR</th><th>Expl</th></tr></thead><tbody>
+      <tr><th>Offense</th><td>${advOf(t,'offEpa')}</td><td>${advOf(t,'offSr')}</td><td>${advOf(t,'offXpl')}</td></tr>
+      <tr><th>Defense</th><td>${advOf(t,'defEpa')}</td><td>${advOf(t,'defSr')}</td><td>${advOf(t,'defXpl')}</td></tr>
+    </tbody><caption>Per play, garbage time excluded. Defense: lower is better.</caption></table>`;
+  S.vis = {}; COLS.forEach(c=>S.vis[c.k]=!c.off);
+  try{ const v=JSON.parse(localStorage.getItem('cfb-cols')||'null'); if(v && typeof v==='object') COLS.forEach(c=>{ if(typeof v[c.k]==='boolean') S.vis[c.k]=v[c.k]; }); }catch(e){}
+  const shown = where => COLS.filter(c=>c.where.includes(where) && S.vis[c.k]);
+
+  // ---------- games & head-to-head ----------
+  const gamesOf = a => { const g=(S.teams[a]||{}).games; return Array.isArray(g) ? g : []; };
+  // most recent meeting of a vs b, from a's side
+  function meeting(a, b){
+    let m=null;
+    for(const g of gamesOf(a)) if(g.opp===b && (!m || (g.date||'')>=(m.date||''))) m=g;
+    if(m) return m;
+    for(const g of gamesOf(b)) if(g.opp===a && (!m || (g.date||'')>=(m.date||''))) m={date:g.date, opp:b, pf:g.pa, pa:g.pf, result:g.result==='W'?'L':'W'};
+    return m;
+  }
+  function vsSet(a, onB){ let w=0,l=0; for(const g of gamesOf(a)) if(onB[g.opp] && g.opp!==a){ if(g.result==='W') w++; else l++; } return {w,l}; }
+  const onBallot = () => { const m={}; S.draft.forEach((a,i)=>m[a]=i+1); return m; };
+
+  // ---------- model (power / résumé / composite) ----------
+  // Percentiles among FBS teams (0 = lowest, 1 = highest); composite = w × résumé pct + (1 − w) × power pct.
+  S.mixW = 0.5;
+  try{ const w=Number(localStorage.getItem('cfb-mix')); if(localStorage.getItem('cfb-mix')!=null && w>=0 && w<=1) S.mixW=w; }catch(e){}
+  function mdl(){
+    if(S._mdl && S._mdl.w===S.mixW) return S._mdl;
+    const T=S.teams, pctOf = key => { const L=Object.keys(T).filter(a=>typeof T[a][key]==='number').sort((a,b)=>(T[a][key]-T[b][key]) || (a<b?-1:1)), m={}; L.forEach((a,i)=>m[a]= L.length>1 ? i/(L.length-1) : 1); return m; };
+    const pp = S._mdl ? S._mdl.pp : pctOf('powerRating'), rp = S._mdl ? S._mdl.rp : pctOf('resumeScore'), comp={}, crank={};
+    Object.keys(T).forEach(a=>{ if(a in pp && a in rp) comp[a]=S.mixW*rp[a]+(1-S.mixW)*pp[a]; });
+    Object.keys(comp).sort((a,b)=>(comp[b]-comp[a]) || (a<b?-1:1)).forEach((a,i)=>crank[a]=i+1);
+    return S._mdl={w:S.mixW, pp, rp, crank};
+  }
+  // Opponent position on the résumé strips: its "strength" (0-1, from the model); older data without
+  // it: power percentile. FCS / unknown at 0.02.
+  const oppPos = o => { const t=S.teams[o]; return t && typeof t.strength==='number' ? t.strength : (mdl().pp[o] ?? 0.02); };
+  // "Close" = the game's close field (one score and in doubt late); older data without it: one score.
+  const isClose = g => typeof g.close==='boolean' ? g.close : Math.abs(g.pf-g.pa)<=CLOSE;
+  // Best win = win with the highest résumé value; worst loss = loss with the lowest.
+  function bestWorst(a){
+    let bw=null, wl=null;
+    for(const g of gamesOf(a)){
+      if(typeof g.value!=='number') continue;
+      if(g.result==='W' && (!bw || g.value>bw.v)) bw={g, v:g.value};
+      if(g.result==='L' && (!wl || g.value<wl.v)) wl={g, v:g.value};
+    }
+    return {bw, wl};
+  }
+  // cfb/teams + cfb/model → S.teams (model fields on each team; per-game model data on each game)
+  function mergeModel(){
+    const T=JSON.parse(JSON.stringify(S.teamsRaw||{})), M=S.model&&S.model.teams||{};
+    const sameRun = S.model && S.meta && S.model.updatedAt===S.meta.updatedAt;
+    for(const [a,t] of Object.entries(T)){
+      const m=M[a]; if(!m) continue;
+      const {games:mg, ...rest}=m; Object.assign(t, rest);
+      if(sameRun && Array.isArray(mg) && Array.isArray(t.games) && mg.length===t.games.length)
+        t.games.forEach((g,i)=>{ const x=mg[i]||[]; g.close=!!x[0]; g.value=x[1];
+          if(x.length>2){ g.offEpa=x[2]; g.defEpa=x[3]; g.oppDefEpa=x[4]; g.oppOffEpa=x[5]; } });
+    }
+    S.teams=T; S._mdl=null;
+  }
+  const modelFacts = a => { const t=S.teams[a]||{}, c=mdl().crank[a], n=v=>typeof v==='number';
+    return `<dl class="facts"><dt>Power rating</dt><dd>${n(t.powerRating)?t.powerRating.toFixed(1):'–'}${t.powerRank?` · Model #${t.powerRank}`:''}</dd>
+      <dt>Résumé score</dt><dd>${n(t.resumeScore)?t.resumeScore.toFixed(3):'–'}${t.resumeRank?` · Résumé #${t.resumeRank}`:''}</dd>
+      <dt>Composite</dt><dd>${c?'#'+c:'–'} <span style="color:var(--muted);font-weight:500">(${Math.round(S.mixW*100)}% résumé / ${100-Math.round(S.mixW*100)}% power)</span></dd></dl>`; };
+  const gAt = g => g.site==='away' ? 'at' : 'vs';
+  const gScore = g => g.result==='W' ? `${g.pf}-${g.pa}` : `${g.pa}-${g.pf}`;
+  const gOppName = (o, onB) => (onB[o] ? '#'+onB[o]+' ' : '') + nm(o);
+  const gOppRec = o => S.teams[o] ? rec(S.teams[o].w, S.teams[o].l) : 'FCS';
+  function cmpBox(a){
+    if(!S.cmpOn) return '';
+    const on=S.cmp.includes(a);
+    return `<label class="cmpk" title="Compare"><input type="checkbox" data-cmp="${esc(a)}" aria-label="Compare ${esc(nm(a))}"${on?' checked':''}${!on&&S.cmp.length>=MAXC?' disabled':''}></label>`;
+  }
+
+  // Flags for teams that lost to a team ranked below them, and loops (strongly
+  // connected groups in the "beat" graph) among ballot teams. Nudges only.
+  // "Just missed" teams sit below the Top 25 (unordered among themselves).
+  function analyze(){
+    const onB=onBallot(), T=S.draft.concat(S.others.filter(a=>!onB[a])), out={}, meets=[], rk={};
+    T.forEach(a=>{ out[a]=[]; rk[a]=onB[a]||MAX+1; });
+    for(let i=0;i<T.length;i++) for(let j=i+1;j<T.length;j++){
+      const m=meeting(T[i],T[j]); if(!m) continue;
+      const won = m.result==='W';
+      const w = won?T[i]:T[j], l = won?T[j]:T[i];
+      out[w].push(l);
+      meets.push({hi:T[i], lo:T[j], m, upset:!won, unordered:!onB[T[i]] && !onB[T[j]]});
+    }
+    const pairs = meets.filter(p=>!p.unordered);
+    // Tarjan's SCC
+    let idx=0; const index={}, low={}, stack=[], on={}, comp={}, comps=[];
+    const visit = v => {
+      index[v]=low[v]=idx++; stack.push(v); on[v]=true;
+      for(const w of out[v]){ if(index[w]==null){ visit(w); low[v]=Math.min(low[v],low[w]); } else if(on[w]) low[v]=Math.min(low[v],index[w]); }
+      if(low[v]===index[v]){ const c=[]; let w; do{ w=stack.pop(); on[w]=false; comp[w]=comps.length; c.push(w); }while(w!==v); comps.push(c); }
+    };
+    T.forEach(v=>{ if(index[v]==null) visit(v); });
+    const loops=[], loopOf={};
+    comps.filter(c=>c.length>1 && c.some(a=>onB[a])).forEach(c=>{
+      c.sort((a,b)=>rk[a]-rk[b]);
+      const cyc=longestCycle(c, out, rk), mem=new Set(c);
+      const names = cyc.map(nm).concat(nm(cyc[0])).join(' → ');
+      const text = (cyc.length===c.length ? `Loop: ${names}.` : `Loop among ${c.map(nm).join(', ')}, e.g. ${names}.`) + ' No order satisfies all of them.';
+      const pos = a => { const i=cyc.indexOf(a); return i<0 ? 99 : i; };
+      const games = meets.filter(p=>mem.has(p.hi)&&mem.has(p.lo)).map(p=>({w:p.upset?p.lo:p.hi, l:p.upset?p.hi:p.lo, m:p.m}))
+        .sort((x,y)=>pos(x.w)-pos(y.w) || pos(x.l)-pos(y.l))
+        .map(({w,l,m})=>`${nm(w)} ${Math.max(m.pf,m.pa)}-${Math.min(m.pf,m.pa)} ${nm(l)}${m.date?' ('+fmtDate(m.date)+')':''}`);
+      const L={members:c, text, games}; loops.push(L); c.forEach(a=>loopOf[a]=L);
+    });
+    const flags={};
+    pairs.forEach(p=>{
+      if(!p.upset || (loopOf[p.hi] && loopOf[p.hi]===loopOf[p.lo])) return;
+      const sc=`${p.m.pa}-${p.m.pf}`, when=p.m.date?` (${fmtDate(p.m.date)})`:'';
+      (flags[p.hi]=flags[p.hi]||[]).push(`Ranked above ${nm(p.lo)} (${onB[p.lo]?'#'+onB[p.lo]:'just missed'}), but lost to them ${sc}${when}.`);
+      (flags[p.lo]=flags[p.lo]||[]).push(onB[p.lo] ? `Ranked below ${nm(p.hi)} (#${onB[p.hi]}), but beat them ${sc}${when}.` : `Just missed, but beat ${nm(p.hi)} (#${onB[p.hi]}) ${sc}${when}.`);
+    });
+    return {onB, flags, loops, loopOf};
+  }
+  // Longest simple cycle inside one strongly connected group (small, so brute force with a cap).
+  function longestCycle(c, out, onB){
+    const inC=new Set(c); let best=[], steps=0;
+    for(const s of c){
+      const path=[s], used=new Set([s]);
+      const dfs = v => {
+        if(++steps>50000 || best.length===c.length) return;
+        for(const w of out[v]){
+          if(!inC.has(w)) continue;
+          if(w===s){ if(path.length>best.length) best=path.slice(); continue; }
+          if(used.has(w) || onB[w]<onB[s]) continue;
+          used.add(w); path.push(w); dfs(w); path.pop(); used.delete(w);
+        }
+      };
+      dfs(s);
+    }
+    return best.length ? best : c;
+  }
+
+  function toast(msg){ const t=$('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove('show'),2200); }
+
+  // ---------- local draft (per-viewer convenience) ----------
+  function stashDraft(){ try{ if(S.dirty) localStorage.setItem('cfb-draft', JSON.stringify({week:S.cur, draft:S.draft, isNew:S.newWeek, others:S.others})); else localStorage.removeItem('cfb-draft'); }catch(e){} }
+  function readStash(){ try{ return JSON.parse(localStorage.getItem('cfb-draft')||'null'); }catch(e){ return null; } }
+
+  // ---------- derived ----------
+  const savedNums = () => Object.keys(S.weeks).map(Number).sort((a,b)=>a-b);
+  function prevWeekNum(n){ const s = savedNums().filter(x=>x<n); return s.length ? s[s.length-1] : null; }
+  function rankMap(n){ const w=S.weeks[n]; const m={}; if(w) (w.ranking||[]).forEach((a,i)=>m[a]=i+1); return m; }
+
+  function setDirty(v){ S.dirty=v; stashDraft(); renderStatus(); }
+
+  // ---------- render ----------
+  function renderStatus(){
+    const st=$('status'), sv=$('save');
+    if(!S.db || !S.sync){ st.textContent='Ballots not connected: tap Ballot sync to load and save them.'; st.className='status warn'; sv.disabled=true; return mirrorStatus(); }
+    if(!S.canWrite){ st.textContent='View only'; st.className='status'; sv.disabled=true; return mirrorStatus(); }
+    if(S.dirty){ st.textContent = S.draft.length<MAX ? `Unsaved: ${S.draft.length} of 25 ranked` : 'Unsaved changes'; st.className='status warn'; }
+    else { const w=S.weeks[S.cur]; st.textContent = w && w.savedAt ? 'Saved ' + new Date(w.savedAt).toLocaleString([], {month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}) : ''; st.className='status'; }
+    sv.disabled = !S.dirty || S.draft.length===0;
+    $('delWeek').hidden = !(S.weeks[S.cur] && !S.dirty);
+    mirrorStatus();
+  }
+  // the Résumés tab shows the same status and Save button
+  function mirrorStatus(){
+    $('rsStatus').textContent=$('status').textContent; $('rsStatus').className=$('status').className;
+    $('rsSave').disabled=$('save').disabled;
+    $('rsWeek').textContent = S.cur!=null ? 'Week '+S.cur : '';
+  }
+
+  function renderWeekBar(){
+    const sel=$('weekSel'), nums=savedNums();
+    const opts = nums.slice();
+    if(S.cur!=null && !opts.includes(S.cur)) opts.push(S.cur);
+    opts.sort((a,b)=>a-b);
+    sel.innerHTML = opts.map(n=>`<option value="${n}"${n===S.cur?' selected':''}>${n}${S.weeks[n]?'':' (new)'}</option>`).join('');
+    const isNew = S.cur!=null && !S.weeks[S.cur];
+    $('weekNum').hidden = !isNew; sel.hidden = isNew && opts.length===1;
+    if(isNew) $('weekNum').value = S.cur;
+  }
+
+  function moveCell(a, i, prev){
+    if(prev===null) return '<span class="mv eq"></span>';
+    const p = prev[a];
+    if(!p) return '<span class="mv new" title="New to your Top 25">NEW</span>';
+    const d = p-(i+1);
+    if(d>0) return `<span class="mv up" title="Up ${d} from #${p}">▲${d}</span>`;
+    if(d<0) return `<span class="mv dn" title="Down ${-d} from #${p}">▼${-d}</span>`;
+    return '<span class="mv eq" title="No change">–</span>';
+  }
+
+  // one stat cell; ctx = {onB, prev, pn}
+  function statCell(c, a, t, ctx, pool){
+    let v, cls='';
+    switch(c.k){
+      case 'prev': v = ctx.pn===null ? '—' : ctx.prev[a] ? '#'+ctx.prev[a] : 'NR'; cls = ctx.prev && ctx.prev[a] ? ' ap' : ' dim'; break;
+      case 'rec': v=rec(t.w,t.l); break;
+      case 'p4': v=rec(t.p4w,t.p4l); if(t.p4w==null) cls=' dim'; break;
+      case 't25': { const r=vsSet(a,ctx.onB); v=r.w+'-'+r.l; if(!r.w&&!r.l) cls=' dim'; break; }
+      case 'ly': v=rec(t.lyW,t.lyL); cls=' dim'; break;
+      case 'ap': v = t.lyAp ? '#'+t.lyAp : (pool ? '<span class="dim" style="font-weight:500">–</span>' : '<span class="dim">NR</span>'); if(!pool) cls=' ap'; break;
+      default: v = fmtStat(c, colVal(c, a, t)); if(v==null){ v='–'; cls=' dim'; }
+    }
+    return `<span class="${pool?'c':'st'}${cls}"><span class="lbl">${c.lbl}</span>${v}</span>`;
+  }
+
+  function renderHeads(){
+    const b=shown('b'), p=shown('p');
+    // minimum row widths (team column keeps 5.5rem / 7rem); narrower containers scroll sideways
+    const bMin = ['3.2rem','2.6rem','18px','5.5rem',...b.map(c=>c.bw),...(S.cmpOn?['1.5rem']:[]),'1.8rem'];
+    const pMin = ['7rem',...p.map(c=>c.pw),...(S.cmpOn?['1.5rem']:[]),'3rem'];
+    $('dyncols').textContent = `@container ballot (min-width:561px){.cols,.row{grid-template-columns:3.2rem 2.6rem 18px minmax(0,1fr) ${b.map(c=>c.bw).join(' ')}${S.cmpOn?' 1.5rem':''} 1.8rem}.bscroll>*{min-width:calc(${bMin.join(' + ')} + ${(bMin.length-1)*6+12}px)}}@container pool (min-width:380px){.phead,.prow{grid-template-columns:minmax(0,1fr) ${p.map(c=>c.pw).join(' ')}${S.cmpOn?' 1.5rem':''} 3rem}.pscroll>*{min-width:calc(${pMin.join(' + ')} + ${(pMin.length-1)*5+12}px)}}`;
+    $('cols').innerHTML = `<span style="text-align:right">Rank</span><span></span><span></span><span>Team</span>${b.map(c=>`<span>${c.h}</span>`).join('')}${S.cmpOn?'<span title="Compare">Cmp</span>':''}<span></span>`;
+    if(S.sort!=='name' && !p.some(c=>c.sort===S.sort)) S.sort = p.some(c=>c.k==='rec') ? 'rec' : 'name';
+    $('phead').innerHTML = `<button data-s="name" aria-pressed="${S.sort==='name'}">Team</button>${p.map(c=>`<button data-s="${c.sort}" aria-pressed="${S.sort===c.sort}"${c.k==='t25'?' title="Record vs teams currently on your ballot"':''}${c.wrap?' class="wrap"':''}>${c.h}</button>`).join('')}${S.cmpOn?'<span></span>':''}<span></span>`;
+    $('colList').innerHTML = COLS.map(c=>`<label><input type="checkbox" data-col="${c.k}"${S.vis[c.k]?' checked':''}>${c.menu}${c.only?`<small>${c.only}</small>`:''}</label>`).join('');
+  }
+
+  function renderBallot(){
+    hideTip();
+    const pn = prevWeekNum(S.cur);
+    const prev = pn===null ? null : rankMap(pn);
+    const an = analyze(), ctx = {onB:an.onB, prev, pn}, cols = shown('b');
+    const el=$('ballot');
+    el.innerHTML = S.draft.map((a,i)=>{
+      const t=S.teams[a]||{name:a,conf:''};
+      const fl = an.flags[a], lp = an.loopOf[a];
+      const marks = (fl ? `<button class="flag" data-tip="${esc(fl.join('\n'))}" aria-label="${esc(fl.join(' '))}">H2H</button>` : '')
+                  + (lp ? `<button class="flag loop" data-tip="${esc(lp.text+'\n'+lp.games.join('\n'))}" aria-label="${esc(lp.text)}">LOOP</button>` : '');
+      return `<div class="row" data-abbr="${esc(a)}">
+        <span class="rk">${i+1}</span>
+        ${moveCell(a,i,prev)}
+        <button class="grip" aria-label="Move ${esc(t.name)}, rank ${i+1}. Use arrow keys." data-i="${i}"><svg width="10" height="16" viewBox="0 0 10 16" fill="currentColor"><circle cx="2" cy="2" r="1.6"/><circle cx="8" cy="2" r="1.6"/><circle cx="2" cy="8" r="1.6"/><circle cx="8" cy="8" r="1.6"/><circle cx="2" cy="14" r="1.6"/><circle cx="8" cy="14" r="1.6"/></svg></button>
+        <div class="tm"><button class="nmb" data-open="${esc(a)}">${esc(t.name)}</button><small>${marks}${esc(t.conf||'')}</small></div>
+        <div class="stats">${cols.map(c=>statCell(c,a,t,ctx,false)).join('')}</div>
+        ${cmpBox(a)}
+        <button class="x" data-rm="${i}" aria-label="Remove ${esc(t.name)}">×</button>
+      </div>`;
+    }).join('');
+    $('others').innerHTML = S.others.map(a=>{
+      const t=S.teams[a]||{name:a,conf:''};
+      const fl = an.flags[a], lp = an.loopOf[a];
+      const marks = (fl ? `<button class="flag" data-tip="${esc(fl.join('\n'))}" aria-label="${esc(fl.join(' '))}">H2H</button>` : '')
+                  + (lp ? `<button class="flag loop" data-tip="${esc(lp.text+'\n'+lp.games.join('\n'))}" aria-label="${esc(lp.text)}">LOOP</button>` : '');
+      return `<div class="row jmrow" data-abbr="${esc(a)}">
+        <span class="rk"></span><button class="mv upb" data-up="${esc(a)}" aria-label="Move ${esc(t.name)} to Top 25" title="Move to Top 25">↑</button>
+        <button class="grip" aria-label="Drag ${esc(t.name)} between Just missed and your Top 25"><svg width="10" height="16" viewBox="0 0 10 16" fill="currentColor"><circle cx="2" cy="2" r="1.6"/><circle cx="8" cy="2" r="1.6"/><circle cx="2" cy="8" r="1.6"/><circle cx="8" cy="8" r="1.6"/><circle cx="2" cy="14" r="1.6"/><circle cx="8" cy="14" r="1.6"/></svg></button>
+        <div class="tm"><button class="nmb" data-open="${esc(a)}">${esc(t.name)}</button><small>${marks}${esc(t.conf||'')}</small></div>
+        <div class="stats">${cols.map(c=>statCell(c,a,t,ctx,false)).join('')}</div>
+        ${cmpBox(a)}
+        <button class="x" data-rmo="${esc(a)}" aria-label="Remove ${esc(t.name)} from Just missed">×</button>
+      </div>`;
+    }).join('');
+    $('jmCount').textContent = `${S.others.length} of ${MAXO}, unordered`;
+    const s=$('slots'); let h='';
+    if(an.loops.length) h += `<div class="checks">${an.loops.map(L=>`<p>${esc(L.text)}<small>${L.games.map(esc).join(' · ')}</small></p>`).join('')}</div>`;
+    if(!S.draft.length){
+      h += `<div class="empty"><strong>Your Top 25 is empty</strong>Add teams from the list${window.matchMedia('(max-width:880px)').matches?' below':' on the right'}, or drag them in.</div>`;
+    }
+    for(let i=S.draft.length;i<MAX && S.draft.length;i++) h += `<div class="slot"><span class="rk">${i+1}</span><span>Open spot</span></div>`;
+    // teams that dropped out vs last week
+    if(prev){
+      const out = Object.keys(prev).filter(a=>!S.draft.includes(a)).sort((a,b)=>prev[a]-prev[b]);
+      if(out.length) h += `<p class="note">Dropped out: ${out.map(a=>esc((S.teams[a]||{name:a}).name)+' (#'+prev[a]+')').join(', ')}</p>`;
+    }
+    s.innerHTML=h;
+  }
+
+  // advanced-stat sort, best first (defense ascending); teams with no data last
+  const statSort = k => { const c=ADV.find(c=>c.k===k)||{k}, lo=!!c.lo; return (x,y)=>{
+    const a=colVal(c,x[0],x[1]), b=colVal(c,y[0],y[1]), na=typeof a!=='number', nb=typeof b!=='number';
+    return (na-nb) || (na ? 0 : lo ? a-b : b-a) || x[1].name.localeCompare(y[1].name); }; };
+
+  function renderPool(){
+    const onB = onBallot(), ctx = {onB}, cols = shown('p'), inO = new Set(S.others);
+    const t25 = {}; Object.keys(S.teams).forEach(a=>t25[a]=vsSet(a,onB));
+    const q=S.q.trim().toLowerCase();
+    let list = Object.entries(S.teams).filter(([a,t])=>{
+      if(S.f==='p4' && !t.p4) return false;
+      if(S.f==='g5' && t.p4) return false;
+      if(S.f==='off' && (onB[a] || inO.has(a))) return false;
+      if(q && !(t.name.toLowerCase().includes(q) || (t.conf||'').toLowerCase().includes(q) || a.toLowerCase()===q)) return false;
+      return true;
+    });
+    const cmp = {
+      rec:(x,y)=> pct(y[1])-pct(x[1]) || (y[1].w-x[1].w) || ((y[1].p4?1:0)-(x[1].p4?1:0)) || ((x[1].lyAp||99)-(y[1].lyAp||99)) || x[1].name.localeCompare(y[1].name),
+      p4:(x,y)=> (p4pct(y[1])-p4pct(x[1])) || ((y[1].p4w||0)-(x[1].p4w||0)) || (pct(y[1])-pct(x[1])) || x[1].name.localeCompare(y[1].name),
+      ly:(x,y)=> (lypct(y[1])-lypct(x[1])) || ((y[1].lyW||0)-(x[1].lyW||0)) || x[1].name.localeCompare(y[1].name),
+      ap:(x,y)=> ((x[1].lyAp||99)-(y[1].lyAp||99)) || (pct(y[1])-pct(x[1])) || x[1].name.localeCompare(y[1].name),
+      t25:(x,y)=> (t25[y[0]].w-t25[x[0]].w) || (t25[x[0]].l-t25[y[0]].l) || (pct(y[1])-pct(x[1])) || x[1].name.localeCompare(y[1].name),
+      name:(x,y)=> x[1].name.localeCompare(y[1].name)
+    }[S.sort] || statSort(S.sort);
+    list.sort(cmp);
+    const full = S.draft.length>=MAX && S.others.length>=MAXO;
+    const addTitle = full ? ' disabled title="Your Top 25 and Just missed are full"' : S.draft.length>=MAX ? ' title="Adds to Just missed"' : '';
+    $('pool').innerHTML = list.length ? list.map(([a,t])=>`<div class="prow${onB[a]||inO.has(a)?' onb':''}" data-abbr="${esc(a)}">
+        <div class="pn" style="min-width:0"><button class="nm" data-open="${esc(a)}">${esc(t.name)}</button><div class="meta">${esc(t.conf)}</div></div>
+        <div class="stats">${cols.map(c=>statCell(c,a,t,ctx,true)).join('')}</div>
+        ${cmpBox(a)}
+        ${onB[a]?`<span class="on">#${onB[a]}</span>`:inO.has(a)?'<span class="on" title="Just missed">Missed</span>':`<button class="add" data-add="${esc(a)}"${addTitle}>Add</button>`}
+      </div>`).join('') : '<p class="note" style="padding:6px">No teams match.</p>';
+  }
+
+  function renderHistory(){
+    const nums=savedNums(), el=$('histBody');
+    if(!nums.length){ el.innerHTML='<div class="empty"><strong>No saved weeks yet</strong>Save your first ballot and each week will line up here.</div>'; return; }
+    const maps = nums.map(rankMap), last = maps[maps.length-1];
+    const all = new Set(); maps.forEach(m=>Object.keys(m).forEach(a=>all.add(a)));
+    const best = a => Math.min(...maps.map(m=>m[a]||99));
+    const rows=[...all].sort((a,b)=>((last[a]||99)-(last[b]||99)) || (best(a)-best(b)));
+    el.innerHTML = `<div class="tbl"><table><thead><tr><th class="t">Team</th><th>Record</th>${nums.map(n=>`<th>Wk ${n}</th>`).join('')}<th>High</th></tr></thead><tbody>${
+      rows.map(a=>{ const t=S.teams[a]||{name:a};
+        return `<tr><td class="t">${esc(t.name)}</td><td>${rec(t.w,t.l)}</td>${maps.map(m=>m[a]?`<td class="r${m[a]<=5?' top5':''}">${m[a]}</td>`:'<td class="nr">–</td>').join('')}<td>${best(a)}</td></tr>`;}).join('')
+    }</tbody></table></div>`;
+  }
+
+  function renderStamp(){
+    if(!S.meta){ $('stamp').textContent = 'Loading team data…'; return; }
+    const d = S.meta.updatedAt ? new Date(S.meta.updatedAt).toLocaleDateString([], {month:'short', day:'numeric'}) : '';
+    $('stamp').textContent = `Records include ${S.meta.through||''}${d?', updated '+d:''}`;
+  }
+
+  function renderAll(){ renderStamp(); renderHeads(); renderWeekBar(); renderBallot(); renderPool(); renderStatus(); renderCmpBar(); if(!$('view-history').hidden) renderHistory(); if(!$('view-resumes').hidden) renderResumes(); }
+
+  // ---------- actions ----------
+  function addTeam(a, at){
+    if(S.draft.includes(a) || S.others.includes(a) || S.draft.length>=MAX) return;
+    if(at==null || at>S.draft.length) at=S.draft.length;
+    S.draft.splice(at,0,a); setDirty(true); renderBallot(); renderPool();
+  }
+  function addOther(a){
+    if(S.draft.includes(a) || S.others.includes(a) || S.others.length>=MAXO) return;
+    S.others.push(a); setDirty(true); renderBallot(); renderPool();
+  }
+  // "Just missed" → Top 25: next open spot, or #25 when full (the old #25 takes its place in Just missed)
+  function promote(a){
+    const i=S.others.indexOf(a); if(i<0 || S.draft.includes(a)) return;
+    if(S.draft.length<MAX){ S.others.splice(i,1); S.draft.push(a); toast(`${nm(a)} moved to #${S.draft.length}.`); }
+    else { const b=S.draft[MAX-1]; S.draft[MAX-1]=a; S.others[i]=b; toast(`${nm(a)} moved to #${MAX}; ${nm(b)} moved to Just missed.`); }
+    setDirty(true); renderBallot(); renderPool(); if(!$('view-resumes').hidden) renderResumes();
+  }
+  function loadWeek(n){
+    S.cur=n; S.newWeek=false;
+    S.draft = (S.weeks[n] ? S.weeks[n].ranking : []).slice();
+    S.others = (S.weeks[n] && S.weeks[n].others || []).slice();
+    setDirty(false); renderAll();
+  }
+  function confirmDiscard(){ return !S.dirty || confirm('Discard unsaved changes to this week?'); }
+
+  $('weekSel').addEventListener('change', e=>{
+    const n=Number(e.target.value);
+    if(!confirmDiscard()){ e.target.value=S.cur; return; }
+    loadWeek(n);
+  });
+  $('weekNum').addEventListener('change', e=>{
+    const n=Math.max(0,Math.min(20,Number(e.target.value)||0));
+    if(S.weeks[n]){ toast(`Week ${n} already exists`); e.target.value=S.cur; return; }
+    S.cur=n; stashDraft(); renderWeekBar(); renderBallot();
+  });
+  $('newWeek').addEventListener('click', ()=>{
+    if(!confirmDiscard()) return;
+    const nums=savedNums(); const latest = nums.length? nums[nums.length-1] : null;
+    S.cur = latest==null ? (S.cur ?? 5) : latest+1;
+    S.newWeek = true;
+    S.draft = latest==null ? [] : S.weeks[latest].ranking.slice();
+    S.others = latest==null ? [] : (S.weeks[latest].others||[]).slice();
+    setDirty(true); renderAll();
+    toast(latest==null ? `Started week ${S.cur}` : `Week ${S.cur} started from week ${latest}`);
+  });
+  $('save').addEventListener('click', async ()=>{
+    if(!S.db || !S.dirty) return;
+    const snap={}; S.draft.forEach(a=>{ const t=S.teams[a]||{}; snap[a]={w:t.w??null,l:t.l??null,p4w:t.p4w??null,p4l:t.p4l??null}; });
+    const body={week:S.cur, ranking:S.draft.slice(), others:S.others.slice(), savedAt:new Date().toISOString(), records:snap};
+    $('save').disabled=true; $('rsSave').disabled=true;
+    try{ await S.db.collection('weeks').doc(wkId(S.cur)).set(body); S.weeks[S.cur]=body; S.newWeek=false; setDirty(false); renderAll(); toast(`Week ${S.cur} saved`); }
+    catch(e){ if(e&&e.code==='invalid_argument'){S.canWrite=false;} toast(e&&e.code==='unauthenticated'?'GitHub rejected the ballot sync token. Open Ballot sync to reconnect.':e&&e.code==='quota_exceeded'?'Storage is full: delete an old week and try again':'Couldn’t save. Check your connection and try again.'); renderStatus(); }
+  });
+  $('delWeek').addEventListener('click', async ()=>{
+    if(!S.db || !S.weeks[S.cur]) return;
+    if(!confirm(`Delete your week ${S.cur} ballot? This can’t be undone.`)) return;
+    const n=S.cur;
+    try{ await S.db.collection('weeks').doc(wkId(n)).delete(); delete S.weeks[n]; const nums=savedNums(); if(nums.length) loadWeek(nums[nums.length-1]); else { S.cur=n; S.draft=[]; S.others=[]; setDirty(false); renderAll(); } toast(`Week ${n} deleted`); }
+    catch(e){ toast('Couldn’t delete. Try again.'); }
+  });
+
+  $('ballot').addEventListener('click', e=>{
+    const rm=e.target.closest('[data-rm]'); if(rm){ S.draft.splice(Number(rm.dataset.rm),1); setDirty(true); renderBallot(); renderPool(); return; }
+    const op=e.target.closest('[data-open]'); if(op) openTeam(op.dataset.open);
+  });
+  $('ballot').addEventListener('keydown', e=>{
+    const g=e.target.closest('.grip'); if(!g) return;
+    const i=Number(g.dataset.i); let j=null;
+    if(e.key==='ArrowUp') j=i-1; else if(e.key==='ArrowDown') j=i+1; else return;
+    e.preventDefault(); if(j<0||j>=S.draft.length) return;
+    const [a]=S.draft.splice(i,1); S.draft.splice(j,0,a); setDirty(true); renderBallot(); renderPool();
+    const ng=document.querySelector(`#ballot .grip[data-i="${j}"]`); if(ng) ng.focus();
+  });
+  $('others').addEventListener('click', e=>{
+    const up=e.target.closest('[data-up]'); if(up){ promote(up.dataset.up); return; }
+    const rm=e.target.closest('[data-rmo]'); if(rm){ S.others=S.others.filter(x=>x!==rm.dataset.rmo); setDirty(true); renderBallot(); renderPool(); return; }
+    const op=e.target.closest('[data-open]'); if(op) openTeam(op.dataset.open);
+  });
+  $('pool').addEventListener('click', e=>{
+    const ad=e.target.closest('[data-add]'); if(ad){ if(S.draft.length<MAX) addTeam(ad.dataset.add); else addOther(ad.dataset.add); return; }
+    const op=e.target.closest('[data-open]'); if(op) openTeam(op.dataset.open);
+  });
+  $('q').addEventListener('input', e=>{ S.q=e.target.value; renderPool(); });
+  $('phead').addEventListener('click', e=>{
+    const b=e.target.closest('[data-s]'); if(!b) return;
+    S.sort=b.dataset.s; $('phead').querySelectorAll('[data-s]').forEach(x=>x.setAttribute('aria-pressed', x===b?'true':'false')); renderPool();
+  });
+
+  // ---------- columns menu ----------
+  $('colList').addEventListener('change', e=>{
+    const k=e.target.dataset.col; if(!k) return;
+    S.vis[k]=e.target.checked;
+    try{ localStorage.setItem('cfb-cols', JSON.stringify(S.vis)); }catch(err){}
+    renderHeads(); renderBallot(); renderPool();
+  });
+
+  // ---------- H2H / loop explanations (hover on desktop, tap on phones) ----------
+  let tipFor=null, tipVia='';
+  function showTip(el, via){
+    const tip=$('tip'); tip.textContent=el.dataset.tip; tip.hidden=false; tipFor=el; tipVia=via;
+    const r=el.getBoundingClientRect(), tw=tip.offsetWidth, th=tip.offsetHeight;
+    const x=Math.max(8, Math.min(r.left + r.width/2 - tw/2, innerWidth - tw - 8));
+    let y=r.bottom+6; if(y+th > innerHeight-8) y=Math.max(8, r.top-th-6);
+    tip.style.left=x+'px'; tip.style.top=y+'px';
+  }
+  function hideTip(){ const tip=$('tip'); if(tip) tip.hidden=true; tipFor=null; tipVia=''; }
+  document.addEventListener('pointerover', e=>{ if(e.pointerType!=='mouse') return; const f=e.target.closest('[data-tip]'); if(f && f!==tipFor) showTip(f,'hover'); });
+  document.addEventListener('pointerout', e=>{ if(e.pointerType!=='mouse' || tipVia!=='hover') return; const f=e.target.closest('[data-tip]'); if(f && !f.contains(e.relatedTarget)) hideTip(); });
+  document.addEventListener('click', e=>{
+    const f=e.target.closest('[data-tip]');
+    if(f){ if(tipFor===f && tipVia==='click') hideTip(); else showTip(f,'click'); }
+    else if(tipFor) hideTip();
+    const cm=$('colMenu'); if(cm.open && !cm.contains(e.target)) cm.open=false;
+    const mm=$('mixMenu'); if(mm.open && !mm.contains(e.target)) mm.open=false;
+  });
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ hideTip(); $('colMenu').open=false; $('mixMenu').open=false; } });
+  // ---------- composite blend slider ----------
+  function renderMix(){ const r=Math.round(S.mixW*100); $('mixW').value=r; $('mixTxt').textContent=`${r}% résumé / ${100-r}% power`; }
+  $('mixW').addEventListener('input', e=>{
+    S.mixW=Number(e.target.value)/100; renderMix();
+    try{ localStorage.setItem('cfb-mix', String(S.mixW)); }catch(err){}
+    renderBallot(); renderPool();
+  });
+  renderMix();
+  window.addEventListener('scroll', hideTip, true);
+  window.addEventListener('resize', hideTip);
+  document.querySelectorAll('.chip').forEach(c=>c.addEventListener('click', ()=>{
+    S.f=c.dataset.f; document.querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed', x===c?'true':'false')); renderPool();
+  }));
+  function showTab(v){
+    ['ballot','history','resumes'].forEach(k=>{ $('tab-'+k).setAttribute('aria-selected', String(k===v)); $('view-'+k).hidden = k!==v; });
+    if(v==='history') renderHistory();
+    if(v==='resumes') renderResumes();
+  }
+  $('tab-ballot').addEventListener('click', ()=>showTab('ballot'));
+  $('tab-history').addEventListener('click', ()=>showTab('history'));
+  $('tab-resumes').addEventListener('click', ()=>showTab('resumes'));
+  window.addEventListener('beforeunload', e=>{ if(S.dirty){ e.preventDefault(); e.returnValue=''; } });
+
+  // ---------- drag & drop ----------
+  if(window.Sortable){
+    Sortable.create($('ballot'), {
+      handle:'.grip', animation:150, group:{name:'b', pull:true, put:(to, from)=>S.draft.length<MAX || from.el===$('others')},
+      onEnd:(ev)=>{ if(ev.to!==ev.from || ev.oldIndex===ev.newIndex) return; const [a]=S.draft.splice(ev.oldIndex,1); S.draft.splice(ev.newIndex,0,a); setDirty(true); renderBallot(); renderPool(); },
+      onAdd:(ev)=>{ const a=ev.item.dataset.abbr; ev.item.remove();
+        // full Top 25: a Just missed team lands where dropped; whoever ends up at #26 takes its place in Just missed
+        if(ev.from===$('others') && S.draft.length>=MAX){
+          const i=S.others.indexOf(a), at=Math.min(ev.newIndex, MAX);
+          if(i<0 || at>=MAX){ renderBallot(); return; }  // dropped below #25: no change
+          S.draft.splice(at,0,a); const b=S.draft.pop(); S.others[i]=b;
+          setDirty(true); renderBallot(); renderPool(); toast(`${nm(a)} moved to #${at+1}; ${nm(b)} moved to Just missed.`); return;
+        }
+        if(ev.from===$('others')) S.others=S.others.filter(x=>x!==a); addTeam(a, ev.newIndex); }
+    });
+    // Just missed: unordered, so no sorting inside it
+    Sortable.create($('others'), {
+      handle:'.grip', animation:150, sort:false, group:{name:'b', pull:true, put:()=>S.others.length<MAXO},
+      onAdd:(ev)=>{ const a=ev.item.dataset.abbr; ev.item.remove(); if(ev.from===$('ballot')) S.draft=S.draft.filter(x=>x!==a); addOther(a); }
+    });
+    Sortable.create($('pool'), { group:{name:'b', pull:'clone', put:false}, sort:false, animation:150, delay:180, delayOnTouchOnly:true,
+      draggable:'.prow:not(.onb)' });
+  }
+
+  // ---------- team dialog ----------
+  // this game's EPA next to what the opponent typically allows / gains (FBS opponents only)
+  const gEpa = g => { const f=v=>typeof v==='number' ? (Math.abs(v)<0.005?0:v).toFixed(2) : '–';
+    return typeof g.offEpa==='number' ? `<span class="gepa">Off EPA <b>${f(g.offEpa)}</b> (their D allows ${f(g.oppDefEpa)}) · Def EPA <b>${f(g.defEpa)}</b> (their O gains ${f(g.oppOffEpa)})</span>` : ''; };
+  function openTeam(a){
+    const t=S.teams[a]; if(!t) return; S.dlgTeam=a;
+    $('dName').textContent=t.name;
+    $('dSub').textContent = `${t.conf}${t.p4?', Power 4':''}`;
+    $('dFacts').innerHTML = `<dt>2026 record</dt><dd>${rec(t.w,t.l)}</dd><dt>vs P4</dt><dd>${rec(t.p4w,t.p4l)}</dd><dt>2025 record</dt><dd>${rec(t.lyW,t.lyL)}</dd><dt>2025 final AP</dt><dd>${t.lyAp?'#'+t.lyAp:'Not ranked'}</dd>`;
+    $('dAdv').innerHTML = advTable(t) + modelFacts(a);
+    // games, ranked by your current (draft) ballot
+    const an=analyze(), onB=an.onB, games=gamesOf(a);
+    const oppName = o => (onB[o] ? '#'+onB[o]+' ' : '') + nm(o);
+    const oppDesc = o => onB[o] ? oppName(o) : S.teams[o] ? `${nm(o)} (${rec(S.teams[o].w,S.teams[o].l)})` : `${o} (FCS)`;
+    const at = g => g.site==='away' ? 'at' : 'vs';
+    const score = g => g.result==='W' ? `${g.pf}-${g.pa}` : `${g.pa}-${g.pf}`;
+    const bwl=bestWorst(a,onB), bw=bwl.bw&&bwl.bw.g, wl=bwl.wl&&bwl.wl.g;
+    const t25=vsSet(a,onB), one={w:0,l:0};
+    games.forEach(g=>{ if(Math.abs(g.pf-g.pa)<=CLOSE) one[g.result==='W'?'w':'l']++; });
+    const ch=[];
+    if(an.flags[a]) ch.push(`<div class="dflags">${esc(an.flags[a].join('\n'))}</div>`);
+    if(an.loopOf[a]) ch.push(`<div class="dflags loop">${esc(an.loopOf[a].text+'\n'+an.loopOf[a].games.join('\n'))}</div>`);
+    $('dChecks').innerHTML = ch.join('');
+    $('dSumm').innerHTML = games.length ? [
+      `<i>Best win</i> ${bw ? esc(oppDesc(bw.opp))+' '+score(bw) : 'none'}`,
+      `<i>Worst loss</i> ${wl ? esc(oppDesc(wl.opp))+' '+score(wl) : 'none'}`,
+      `<i>vs your Top 25</i> ${t25.w}-${t25.l}`,
+      `<i>One-score games</i> ${one.w}-${one.l}`
+    ].map(x=>`<span>${x}</span>`).join('') : '';
+    $('dGames').innerHTML = games.map(g=>{
+      const close=Math.abs(g.pf-g.pa)<=CLOSE;
+      return `<li class="${close?'close':''}"${close?` title="Decided by ${Math.abs(g.pf-g.pa)}"`:''}><span class="res ${g.result}">${g.result}</span><span class="sc">${score(g)}</span><span class="op">${at(g)} ${esc(oppName(g.opp))}${g.site==='neutral'?' <span class="dt">(neutral)</span>':''}</span><span class="dt">${fmtDate(g.date)}</span>${gEpa(g)}</li>`;
+    }).join('');
+    $('dGames').hidden = !games.length;
+    $('dNote').textContent = games.length ? `Shaded games were decided by ${CLOSE} points or fewer. Ranks are from your current ballot.` : (t.games ? 'No games played yet.' : 'Game results appear after you import a teams.json that includes them.');
+    const nums=savedNums();
+    $('dTrail').innerHTML = nums.length ? nums.map(n=>{ const r=rankMap(n)[a]; return `<span>Wk ${n}: <b>${r?'#'+r:'NR'}</b></span>`; }).join('') : '';
+    $('dlg').showModal();
+  }
+
+  // ---------- compare ----------
+  function syncCmp(){
+    document.querySelectorAll('input[data-cmp]').forEach(i=>{ const on=S.cmp.includes(i.dataset.cmp); i.checked=on; i.disabled=!on && S.cmp.length>=MAXC; });
+    renderCmpBar();
+  }
+  function renderCmpBar(){
+    const n=S.cmp.length;
+    document.body.classList.toggle('cmp-on', S.cmpOn);
+    $('cmpMode').setAttribute('aria-pressed', String(S.cmpOn));
+    $('cmpBar').hidden = !S.cmpOn;
+    $('cmpWho').textContent = n ? `Compare: ${S.cmp.map(nm).join(', ')}` : 'Tick 2 to 4 teams';
+    $('cmpClear').hidden = !n;
+    $('cmpGo').disabled = n<2;
+    $('cmpGo').textContent = n<2 ? 'Pick 2 to 4' : `Compare ${n}`;
+  }
+  function clearCmp(){ S.cmp=[]; syncCmp(); if($('cmpDlg').open) $('cmpDlg').close(); }
+  function openCompare(){
+    if(S.cmp.length<2) return;
+    const onB=onBallot(), inO=new Set(S.others);
+    $('cmpGrid').innerHTML = S.cmp.map(a=>{
+      const t=S.teams[a]||{name:a,conf:''}, r=vsSet(a,onB), games=gamesOf(a);
+      const where = onB[a] ? `#${onB[a]} on your ballot` : inO.has(a) ? 'Just missed' : 'Not on your ballot';
+      return `<div class="cmpcol"><h4>${esc(t.name)}</h4><div class="sub">${esc(t.conf||'')} · ${where}</div>
+        <dl class="facts"><dt>Record</dt><dd>${rec(t.w,t.l)}</dd><dt>vs P4</dt><dd>${rec(t.p4w,t.p4l)}</dd><dt>vs Top 25</dt><dd>${r.w}-${r.l}</dd></dl>
+        ${advTable(t)}${modelFacts(a)}
+        <ul class="games">${games.map(g=>{ const close=Math.abs(g.pf-g.pa)<=CLOSE;
+          return `<li class="${close?'close':''}"${close?` title="Decided by ${Math.abs(g.pf-g.pa)}"`:''}><span class="res ${g.result}">${g.result}</span><span class="sc">${gScore(g)}</span><span class="op">${gAt(g)} ${esc(gOppName(g.opp,onB))}</span><span class="dt">${gOppRec(g.opp)}</span></li>`; }).join('')}</ul>
+        ${games.length?'':'<p class="dnote">No games yet.</p>'}</div>`;
+    }).join('');
+    $('cmpDlg').showModal();
+  }
+  document.addEventListener('change', e=>{
+    const k=e.target.dataset && e.target.dataset.cmp; if(k==null) return;
+    if(e.target.checked){ if(!S.cmp.includes(k) && S.cmp.length<MAXC) S.cmp.push(k); }
+    else S.cmp=S.cmp.filter(x=>x!==k);
+    syncCmp();
+  });
+  function setCmpMode(on){ S.cmpOn=on; if(!on){ S.cmp=[]; if($('cmpDlg').open) $('cmpDlg').close(); } renderHeads(); renderBallot(); renderPool(); renderCmpBar(); }
+  $('cmpMode').addEventListener('click', ()=>setCmpMode(!S.cmpOn));
+  $('cmpDone').addEventListener('click', ()=>setCmpMode(false));
+  $('cmpGo').addEventListener('click', openCompare);
+  $('cmpClear').addEventListener('click', clearCmp);
+  $('cmpClear2').addEventListener('click', clearCmp);
+
+  // ---------- résumés ----------
+  // dots for one résumé strip; x = {a, bw, wl} from bestWorst(a, onB)
+  function rsDots(x, onB){
+    return gamesOf(x.a).map(g=>{
+      const m=Math.abs(g.pf-g.pa), size = m<=8 ? 1 : m<=16 ? 2 : 3;
+      const lab = x.bw && x.bw.g===g ? 'Best' : x.wl && x.wl.g===g ? 'Worst' : '';
+      const tip = `${g.result} ${gScore(g).replace('-','–')}${g.ot?' (OT)':''} ${gAt(g)} ${gOppName(g.opp,onB)}, ${gOppRec(g.opp)}`;
+      return {size, lab, html:`<button class="dot ${g.result} s${size}${g.ot?' ot':isClose(g)?' close':''}" style="left:${(oppPos(g.opp)*100).toFixed(2)}%" data-tip="${esc(tip)}" aria-label="${esc(tip)}">${onB[g.opp]?`<span class="drk">${onB[g.opp]}</span>`:''}${lab?`<span class="dlb${lab==='Worst'?' up':''}">${lab}</span>`:''}</button>`};
+    }).sort((p,q)=>(q.size-p.size) || ((p.lab?1:0)-(q.lab?1:0))).map(d=>d.html).join('');
+  }
+  const GRIP = '<svg width="10" height="16" viewBox="0 0 10 16" fill="currentColor"><circle cx="2" cy="2" r="1.6"/><circle cx="8" cy="2" r="1.6"/><circle cx="2" cy="8" r="1.6"/><circle cx="8" cy="8" r="1.6"/><circle cx="2" cy="14" r="1.6"/><circle cx="8" cy="14" r="1.6"/></svg>';
+  let rsSortable=null;
+  function renderResumes(){
+    const onB=onBallot(), el=$('rsBody');
+    $('rsSort').querySelectorAll('[data-rs]').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.rs===S.rsort)));
+    const canDrag = S.rsort==='ballot' && S.draft.length>0;
+    $('rsHint').textContent = !S.draft.length ? '' : canDrag ? 'Drag a handle to reorder your Top 25.' : 'Switch to Ballot order to reorder.';
+    el.classList.toggle('rs-reorder', canDrag);
+    mirrorStatus();
+    if(rsSortable){ rsSortable.destroy(); rsSortable=null; }
+    if(!S.draft.length && !S.others.length){ el.innerHTML='<div class="empty"><strong>No teams yet</strong>Add teams to your Top 25 and each one’s résumé will line up here.</div>'; return; }
+    const stronger = (x,y) => x.v-y.v;  // by résumé value
+    const worse = (x,y) => x.v-y.v;
+    const sorter = S.rsort==='best' ? (x,y)=> (!x.bw)-(!y.bw) || (x.bw&&y.bw ? stronger(y.bw,x.bw) : 0)
+                 : S.rsort==='worst' ? (x,y)=> (!x.wl)-(!y.wl) || (x.wl&&y.wl ? worse(x.wl,y.wl) : 0) : null;
+    const strip = (x, drag, jm) => {
+      const a=x.a, t=S.teams[a]||{name:a};
+      const grip = drag ? `<button class="grip" aria-label="Move ${esc(t.name)}, rank ${onB[a]}. Use arrow keys." data-i="${onB[a]-1}">${GRIP}</button>` : '';
+      return `<div class="rs-row${drag?' rs-drag':''}" data-abbr="${esc(a)}"><div class="rs-name"><span class="rs-rk">${jm?`<button class="upb" data-up="${esc(a)}" aria-label="Move ${esc(t.name)} to Top 25" title="Move to Top 25">↑</button>`:onB[a]||''}</span>${grip}<button class="rs-tm" data-open="${esc(a)}">${esc(t.name)}</button><span class="rs-rec">${rec(t.w,t.l)}</span></div><div class="rs-track"><div class="rs-in">${rsDots(x,onB)}</div></div></div>`;
+    };
+    const group = (list, drag, jm) => { let L=list.map(a=>Object.assign({a}, bestWorst(a,onB))); if(sorter) L=L.sort(sorter); return L.map(x=>strip(x,drag,jm)).join(''); };
+    const axis = '<div class="rs-axis"><span></span><div><span>← Weaker opponents</span><span>Stronger opponents →</span></div></div>';
+    el.innerHTML = (S.draft.length ? axis + `<div id="rsTop">${group(S.draft, canDrag)}</div>` : '')
+      + (S.others.length ? `<h3 class="rs-grp">Just missed</h3>${axis}${group(S.others, false, true)}` : '');
+    if(canDrag && window.Sortable){
+      rsSortable = Sortable.create($('rsTop'), {
+        handle:'.grip', draggable:'.rs-row', animation:150, group:'rs',
+        onChange:()=>rsLive(),
+        onEnd:(ev)=>{ const i=ev.oldIndex, j=ev.newIndex;
+          setTimeout(()=>{ if(j!=null && i!==j){ const [a]=S.draft.splice(i,1); S.draft.splice(j,0,a); setDirty(true); renderBallot(); renderPool(); } renderResumes(); }, 0); }
+      });
+    }
+  }
+  // mid-drag: recompute ranks and the opponent rank labels on the dots from the on-screen order, without rebuilding the rows
+  function rsLive(){
+    const order=[...new Set([...$('rsTop').children].filter(r=>r.classList.contains('rs-row') && !r.classList.contains('sortable-fallback') && r.style.display!=='none').map(r=>r.dataset.abbr))];
+    const onB={}; order.forEach((a,i)=>onB[a]=i+1);
+    $('rsBody').querySelectorAll('.rs-row:not(.sortable-fallback)').forEach(row=>{
+      const a=row.dataset.abbr;
+      if(row.closest('#rsTop')) row.querySelector('.rs-rk').textContent = onB[a]||'';
+      row.querySelector('.rs-in').innerHTML = rsDots(Object.assign({a}, bestWorst(a,onB)), onB);
+    });
+  }
+  $('rsSort').addEventListener('click', e=>{ const b=e.target.closest('[data-rs]'); if(!b) return; S.rsort=b.dataset.rs; renderResumes(); });
+  $('rsBody').addEventListener('click', e=>{ const up=e.target.closest('[data-up]'); if(up){ promote(up.dataset.up); return; } const op=e.target.closest('[data-open]'); if(op) openTeam(op.dataset.open); });
+  $('rsBody').addEventListener('keydown', e=>{
+    const g=e.target.closest('#rsTop .grip'); if(!g) return;
+    const i=Number(g.dataset.i); let j=null;
+    if(e.key==='ArrowUp') j=i-1; else if(e.key==='ArrowDown') j=i+1; else return;
+    e.preventDefault(); if(j<0||j>=S.draft.length) return;
+    const [a]=S.draft.splice(i,1); S.draft.splice(j,0,a); setDirty(true); renderBallot(); renderPool(); renderResumes();
+    const ng=document.querySelector(`#rsTop .grip[data-i="${j}"]`); if(ng) ng.focus();
+  });
+  $('rsSave').addEventListener('click', ()=>$('save').click());
+
+  // ---------- storage (GitHub Pages) ----------
+  // Same interface the page used on claude.ai (doc / collection, set / delete, onSnapshot):
+  //  - cfb/teams and cfb/model: read-only, from teams.json published next to this page
+  //  - weeks (your ballots): weeks.json in your PRIVATE repo SYNC.owner/SYNC.repo, read and
+  //    written through GitHub's API with a fine-grained token kept only in this browser
+  const SYNC = {owner:'the-chili-king', repo:'cfb-ballots', path:'weeks.json', key:'cfb-gh-token'};
+  const syncToken = () => { try{ return localStorage.getItem(SYNC.key)||''; }catch(e){ return ''; } };
+  function siteDb(){
+    const api = `https://api.github.com/repos/${SYNC.owner}/${SYNC.repo}/contents/${SYNC.path}`;
+    const clone = x => x==null ? x : JSON.parse(JSON.stringify(x));
+    const snap = (id, data) => ({id, exists:data!=null, data:()=>clone(data)});
+    const fail = (code, message) => Object.assign(new Error(message), {code});
+    const b64d = t => new TextDecoder().decode(Uint8Array.from(atob(t.replace(/\s/g,'')), c=>c.charCodeAt(0)));
+    const b64e = t => { let b=''; new TextEncoder().encode(t).forEach(x=>b+=String.fromCharCode(x)); return btoa(b); };
+    let weeks = {}, sha = null; const colL = [];
+    async function gh(method, body, token){
+      let r;
+      try{ r = await fetch(api, {method, cache:'no-store', headers:{Authorization:'Bearer '+(token||syncToken()), Accept:'application/vnd.github+json', ...(body?{'Content-Type':'application/json'}:{})}, body:body?JSON.stringify(body):undefined}); }
+      catch(e){ throw fail('unavailable', 'Couldn’t reach GitHub'); }
+      if(r.status===401) throw fail('unauthenticated', 'GitHub rejected the token');
+      if(r.status===403 || r.status===404) throw fail('not_found', 'The token can’t see the ballots repo');
+      return r;
+    }
+    async function pull(){
+      const r = await gh('GET'); if(!r.ok) throw fail('unavailable', 'GitHub error '+r.status);
+      const j = await r.json(); sha = j.sha; weeks = JSON.parse(b64d(j.content) || '{}') || {};
+    }
+    const emit = () => { const docs = Object.keys(weeks).sort().map(id=>snap(id, weeks[id])); colL.forEach(f=>f({docs})); };
+    // every write starts from the latest file, so saves from the phone and the Mac don't overwrite each other
+    async function write(change, message){
+      for(let attempt=0; attempt<2; attempt++){
+        await pull(); change(weeks);
+        const r = await gh('PUT', {message, content:b64e(JSON.stringify(weeks, null, 1)+'\n'), sha});
+        if(r.ok){ sha = (await r.json()).content.sha; emit(); return; }
+        if(r.status!==409 && r.status!==422) throw fail('unavailable', 'GitHub error '+r.status);
+      }
+      throw fail('unavailable', 'Saved on another device at the same moment; try again');
+    }
+    const teams = fetch('teams.json', {cache:'no-cache'}).then(r=>{ if(!r.ok) throw fail('unavailable','teams.json '+r.status); return r.json(); });
+    const weeksCol = {
+      doc: id => ({ set: body => write(w=>{ w[id]=clone(body); }, `Save ballot ${id}`),
+                    delete: () => write(w=>{ delete w[id]; }, `Delete ballot ${id}`) }),
+      onSnapshot: (f, err) => { colL.push(f); if(!syncToken()) f({docs:[]}); else pull().then(emit).catch(e=>err&&err(e)); return ()=>{}; }
+    };
+    // back on this tab (e.g. after saving on the phone): pick up the latest ballots
+    document.addEventListener('visibilitychange', ()=>{ if(document.visibilityState==='visible' && syncToken() && colL.length) pull().then(emit).catch(()=>{}); });
+    return {
+      doc: path => ({ onSnapshot: (f, err) => { teams.then(d=>f(snap(path.split('/')[1], path==='cfb/model' ? d.model : {season:d.season, updatedAt:d.updatedAt, through:d.through, teams:d.teams}))).catch(e=>err&&err(e)); return ()=>{}; } }),
+      collection: () => weeksCol,
+      check: async token => { try{ const r=await gh('GET', null, token); return r.ok ? 'ok' : 'unavailable'; }catch(e){ return e.code; } }
+    };
+  }
+
+  // ---------- ballot sync dialog ----------
+  function openSync(){
+    $('syncState').textContent = syncToken() ? 'Connected on this device.' : 'Not connected on this device.';
+    $('syncToken').value=''; $('syncMsg').textContent=''; $('syncOff').hidden = !syncToken();
+    $('syncDlg').showModal();
+  }
+  $('syncBtn').addEventListener('click', openSync);
+  $('syncSave').addEventListener('click', async ()=>{
+    const t=$('syncToken').value.trim(); if(!t){ $('syncMsg').textContent='Paste your token first.'; return; }
+    $('syncMsg').textContent='Checking…';
+    const r = await S.db.check(t);
+    if(r!=='ok'){ $('syncMsg').textContent = r==='unauthenticated' ? 'GitHub rejected that token. Check that you copied all of it.' : r==='not_found' ? 'That token can’t see the cfb-ballots repo. Give it access to that repo, with Contents: Read and write.' : 'Couldn’t reach GitHub. Check your connection and try again.'; return; }
+    try{ localStorage.setItem(SYNC.key, t); }catch(e){ $('syncMsg').textContent='This browser won’t store the token (private browsing?).'; return; }
+    location.reload();
+  });
+  $('syncOff').addEventListener('click', ()=>{
+    if(!confirm('Disconnect ballot sync on this device? Your saved ballots stay in GitHub.')) return;
+    try{ localStorage.removeItem(SYNC.key); }catch(e){}
+    location.reload();
+  });
+
+  // ---------- data ----------
+  renderAll();
+  (async ()=>{
+    const db = siteDb();
+    S.db=db; S.sync=!!syncToken();
+    db.doc('cfb/teams').onSnapshot(snap=>{
+      const d = snap.exists ? snap.data() : null;
+      S.meta = d ? {through:d.through, updatedAt:d.updatedAt, season:d.season} : null;
+      S.teamsRaw = d && d.teams ? d.teams : {};
+      mergeModel(); renderAll();
+    }, ()=>{ $('stamp').textContent='Team data couldn’t load. Reload the page to try again.'; });
+    db.doc('cfb/model').onSnapshot(snap=>{
+      S.model = snap.exists ? snap.data() : null;
+      mergeModel(); renderAll();
+    }, ()=>{});
+    db.collection('weeks').onSnapshot(qs=>{
+      const w={}; qs.docs.forEach(d=>{ const x=d.data(); if(x && typeof x.week==='number') w[x.week]=x; });
+      S.weeks=w;
+      if(!S.loadedWeeks){
+        S.loadedWeeks=true;
+        const st=readStash(), nums=savedNums();
+        if(st && Array.isArray(st.draft)){ S.cur=st.week; S.draft=st.draft.slice(); S.others=Array.isArray(st.others)?st.others.slice():[]; S.newWeek=!!st.isNew; S.dirty=true; }
+        else if(nums.length){ S.cur=nums[nums.length-1]; S.draft=w[S.cur].ranking.slice(); S.others=(w[S.cur].others||[]).slice(); }
+        else { S.cur=5; S.draft=[]; S.newWeek=true; }
+      } else if(!S.dirty && S.weeks[S.cur]){ S.draft=S.weeks[S.cur].ranking.slice(); S.others=(S.weeks[S.cur].others||[]).slice(); }
+      renderAll();
+    }, e=>{ toast(e&&e.code==='unauthenticated' ? 'GitHub rejected the ballot sync token. Open Ballot sync to reconnect.' : e&&e.code==='not_found' ? 'Ballot sync can’t see the cfb-ballots repo. Open Ballot sync to fix the token.' : 'Saved weeks couldn’t load. Reload to try again.'); });
+  })();
+})();
+</script>
+</body>
+</html>
