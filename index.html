@@ -281,6 +281,10 @@ legend{font-weight:600;padding:0 4px}
 .rs-rk .upb{font-size:.85rem;padding:2px 6px;vertical-align:middle}
 .games .gepa{grid-column:2 / -1;font-size:.78rem;color:var(--muted);margin-top:-2px}
 .games .gepa b{color:var(--ink);font-weight:600}
+/* visitors (no ballot sync token on this device): read-only page */
+.viewonly .grip,.viewonly .x,.viewonly .add,.viewonly .upb{visibility:hidden}
+.viewonly #newWeek,.viewonly #delWeek,.viewonly #save,.viewonly #rsSave,.viewonly .rs-hint{display:none}
+.viewonly .jmlist:empty::before{content:none}
 #syncToken{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:var(--paper);font-family:ui-monospace,Menlo,monospace;font-size:.85rem}
 #syncMsg:empty{display:none}
 .adv{width:auto;margin:0 0 14px;font-size:.9rem}
@@ -393,7 +397,7 @@ legend{font-weight:600;padding:0 4px}
 <dialog id="syncDlg" aria-labelledby="syncTitle">
   <h3 id="syncTitle">Ballot sync</h3>
   <div class="sub" id="syncState"></div>
-  <p class="dnote">Your ballots are saved in your private GitHub repo <b>the-chili-king/cfb-ballots</b>, so this Mac and your phone see the same ones. Paste the fine-grained token you made for that repo. It is stored only in this browser.</p>
+  <p class="dnote">Your ballots are saved in your GitHub repo <b>the-chili-king/cfb-ballots</b>. Anyone with this page's link can view them; only a device connected here can change them. Paste the fine-grained token you made for that repo. It is stored only in this browser.</p>
   <input type="password" id="syncToken" autocomplete="off" spellcheck="false" placeholder="github_pat_…" aria-label="GitHub token">
   <p class="dnote" id="syncMsg" role="status"></p>
   <div class="dlgbtns"><button class="btn quiet" id="syncOff">Disconnect</button><form method="dialog"><button class="btn">Cancel</button></form><button class="btn primary" id="syncSave">Connect</button></div>
@@ -415,6 +419,9 @@ legend{font-weight:600;padding:0 4px}
              f:'all', q:'', sort:'rec', canWrite:true, loadedWeeks:false, dlgTeam:null,
              others:[], cmp:[], cmpOn:false, rsort:'ballot'};
   const $ = id => document.getElementById(id);
+  // Only a device connected with your ballot sync token can edit; everyone else gets a read-only page.
+  try{ S.canWrite = !!localStorage.getItem('cfb-gh-token'); }catch(e){ S.canWrite = false; }
+  document.body.classList.toggle('viewonly', !S.canWrite);
   const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const rec = (w,l) => (w==null||l==null) ? '—' : w+'-'+l;
   const pct = t => (t.w+t.l) ? t.w/(t.w+t.l) : 0;
@@ -610,8 +617,7 @@ legend{font-weight:600;padding:0 4px}
   // ---------- render ----------
   function renderStatus(){
     const st=$('status'), sv=$('save');
-    if(!S.db || !S.sync){ st.textContent='Ballots not connected: tap Ballot sync to load and save them.'; st.className='status warn'; sv.disabled=true; return mirrorStatus(); }
-    if(!S.canWrite){ st.textContent='View only'; st.className='status'; sv.disabled=true; return mirrorStatus(); }
+    if(!S.canWrite){ const w=S.weeks[S.cur]; st.textContent='View only'+(w && w.savedAt ? ' · ballot saved '+new Date(w.savedAt).toLocaleDateString([], {month:'short',day:'numeric'}) : ''); st.className='status'; sv.disabled=true; return mirrorStatus(); }
     if(S.dirty){ st.textContent = S.draft.length<MAX ? `Unsaved: ${S.draft.length} of 25 ranked` : 'Unsaved changes'; st.className='status warn'; }
     else { const w=S.weeks[S.cur]; st.textContent = w && w.savedAt ? 'Saved ' + new Date(w.savedAt).toLocaleString([], {month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}) : ''; st.className='status'; }
     sv.disabled = !S.dirty || S.draft.length===0;
@@ -921,7 +927,7 @@ legend{font-weight:600;padding:0 4px}
   // ---------- drag & drop ----------
   if(window.Sortable){
     Sortable.create($('ballot'), {
-      handle:'.grip', animation:150, group:{name:'b', pull:true, put:(to, from)=>S.draft.length<MAX || from.el===$('others')},
+      handle:'.grip', animation:150, disabled:!S.canWrite, group:{name:'b', pull:true, put:(to, from)=>S.draft.length<MAX || from.el===$('others')},
       onEnd:(ev)=>{ if(ev.to!==ev.from || ev.oldIndex===ev.newIndex) return; const [a]=S.draft.splice(ev.oldIndex,1); S.draft.splice(ev.newIndex,0,a); setDirty(true); renderBallot(); renderPool(); },
       onAdd:(ev)=>{ const a=ev.item.dataset.abbr; ev.item.remove();
         // full Top 25: a Just missed team lands where dropped; whoever ends up at #26 takes its place in Just missed
@@ -935,10 +941,10 @@ legend{font-weight:600;padding:0 4px}
     });
     // Just missed: unordered, so no sorting inside it
     Sortable.create($('others'), {
-      handle:'.grip', animation:150, sort:false, group:{name:'b', pull:true, put:()=>S.others.length<MAXO},
+      handle:'.grip', animation:150, sort:false, disabled:!S.canWrite, group:{name:'b', pull:true, put:()=>S.others.length<MAXO},
       onAdd:(ev)=>{ const a=ev.item.dataset.abbr; ev.item.remove(); if(ev.from===$('ballot')) S.draft=S.draft.filter(x=>x!==a); addOther(a); }
     });
-    Sortable.create($('pool'), { group:{name:'b', pull:'clone', put:false}, sort:false, animation:150, delay:180, delayOnTouchOnly:true,
+    Sortable.create($('pool'), { group:{name:'b', pull:'clone', put:false}, sort:false, disabled:!S.canWrite, animation:150, delay:180, delayOnTouchOnly:true,
       draggable:'.prow:not(.onb)' });
   }
 
@@ -1041,7 +1047,7 @@ legend{font-weight:600;padding:0 4px}
   function renderResumes(){
     const onB=onBallot(), el=$('rsBody');
     $('rsSort').querySelectorAll('[data-rs]').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.rs===S.rsort)));
-    const canDrag = S.rsort==='ballot' && S.draft.length>0;
+    const canDrag = S.canWrite && S.rsort==='ballot' && S.draft.length>0;
     $('rsHint').textContent = !S.draft.length ? '' : canDrag ? 'Drag a handle to reorder your Top 25.' : 'Switch to Ballot order to reorder.';
     el.classList.toggle('rs-reorder', canDrag);
     mirrorStatus();
@@ -1107,14 +1113,21 @@ legend{font-weight:600;padding:0 4px}
     const b64e = t => { let b=''; new TextEncoder().encode(t).forEach(x=>b+=String.fromCharCode(x)); return btoa(b); };
     let weeks = {}, sha = null; const colL = [];
     async function gh(method, body, token){
-      let r;
-      try{ r = await fetch(api, {method, cache:'no-store', headers:{Authorization:'Bearer '+(token||syncToken()), Accept:'application/vnd.github+json', ...(body?{'Content-Type':'application/json'}:{})}, body:body?JSON.stringify(body):undefined}); }
+      let r; const t = token || syncToken();
+      try{ r = await fetch(api, {method, cache:'no-store', headers:{...(t?{Authorization:'Bearer '+t}:{}), Accept:'application/vnd.github+json', ...(body?{'Content-Type':'application/json'}:{})}, body:body?JSON.stringify(body):undefined}); }
       catch(e){ throw fail('unavailable', 'Couldn’t reach GitHub'); }
       if(r.status===401) throw fail('unauthenticated', 'GitHub rejected the token');
       if(r.status===403 || r.status===404) throw fail('not_found', 'The token can’t see the ballots repo');
       return r;
     }
     async function pull(){
+      if(!syncToken()){  // visitors: read the public file without a token (GitHub's API first, then its file server)
+        let r = await fetch(api, {cache:'no-store', headers:{Accept:'application/vnd.github+json'}}).catch(()=>null);
+        if(r && r.ok){ const j=await r.json(); weeks = JSON.parse(b64d(j.content) || '{}') || {}; return; }
+        r = await fetch(`https://raw.githubusercontent.com/${SYNC.owner}/${SYNC.repo}/main/${SYNC.path}`, {cache:'no-store'}).catch(()=>null);
+        if(r && r.ok){ weeks = await r.json() || {}; return; }
+        throw fail('unavailable', 'Couldn’t load the ballots');
+      }
       const r = await gh('GET'); if(!r.ok) throw fail('unavailable', 'GitHub error '+r.status);
       const j = await r.json(); sha = j.sha; weeks = JSON.parse(b64d(j.content) || '{}') || {};
     }
@@ -1133,10 +1146,10 @@ legend{font-weight:600;padding:0 4px}
     const weeksCol = {
       doc: id => ({ set: body => write(w=>{ w[id]=clone(body); }, `Save ballot ${id}`),
                     delete: () => write(w=>{ delete w[id]; }, `Delete ballot ${id}`) }),
-      onSnapshot: (f, err) => { colL.push(f); if(!syncToken()) f({docs:[]}); else pull().then(emit).catch(e=>err&&err(e)); return ()=>{}; }
+      onSnapshot: (f, err) => { colL.push(f); pull().then(emit).catch(e=>err&&err(e)); return ()=>{}; }
     };
     // back on this tab (e.g. after saving on the phone): pick up the latest ballots
-    document.addEventListener('visibilitychange', ()=>{ if(document.visibilityState==='visible' && syncToken() && colL.length) pull().then(emit).catch(()=>{}); });
+    document.addEventListener('visibilitychange', ()=>{ if(document.visibilityState==='visible' && colL.length) pull().then(emit).catch(()=>{}); });
     return {
       doc: path => ({ onSnapshot: (f, err) => { teams.then(d=>f(snap(path.split('/')[1], path==='cfb/model' ? d.model : {season:d.season, updatedAt:d.updatedAt, through:d.through, teams:d.teams}))).catch(e=>err&&err(e)); return ()=>{}; } }),
       collection: () => weeksCol,
@@ -1169,7 +1182,7 @@ legend{font-weight:600;padding:0 4px}
   renderAll();
   (async ()=>{
     const db = siteDb();
-    S.db=db; S.sync=!!syncToken();
+    S.db=db;
     db.doc('cfb/teams').onSnapshot(snap=>{
       const d = snap.exists ? snap.data() : null;
       S.meta = d ? {through:d.through, updatedAt:d.updatedAt, season:d.season} : null;
