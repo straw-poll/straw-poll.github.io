@@ -424,6 +424,9 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   <!-- PREVIOUS RANKINGS -->
   <section id="view-history" hidden>
     <div class="ph"><div><h1>Previous Rankings</h1><div class="sub">Every saved Wolp+ ballot, week by week</div></div></div>
+    <div class="card" id="scoreCard" style="margin-bottom:22px"><div class="ch"><h2>Scorecard<small>Who picks more winners: Wolp+, the AP poll, or the model?</small></h2></div>
+      <div class="tblw" id="scoreBody"></div>
+      <p class="note">Games with a Wolp+ Top 25 or AP Top 25 team. Wolp+ and AP pick the better-ranked team (that week's ballot and poll; outside the Wolp+ 35 or AP 25 counts as unranked, and a game with neither team ranked in a list gets no pick from it). Model and Line pick the favorite in the model's spread and the betting line, both as of the last update before kickoff.</p></div>
     <div class="card hist"><div class="tblw" id="histBody"></div></div>
   </section>
 
@@ -469,7 +472,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
           <li><b>A win</b> is worth the opponent's strength × location (<b data-set="LOC_WIN">road 1.02, neutral 1.01, home 1.00</b>), × (1 + <b data-set="DECISIVE_WIN_BONUS">0.1</b> × strength) if it wasn't close.</li>
           <li><b>A loss</b> costs <b data-set="LOSS_WEIGHT">0.5</b> × (1 − strength) × location (<b data-set="LOC_LOSS">home 1.05, neutral 1.00, road 0.95</b>), × <b data-set="CLOSE_LOSS_FACTOR">0.6</b> if it was close, and always at least <b data-set="MIN_LOSS">0.1</b>. Losses weigh less than wins.</li>
           <li><b>FCS:</b> a win doesn't count; a loss counts <b data-set="FCS_LOSS_VALUE">-1.5</b>.</li>
-          <li><b>Score</b> = the average value of the games that count. Example: a decisive home win over a 0.70-strength team is worth 0.70 × 1.00 × 1.07 = 0.75.</li>
+          <li><b>Score</b> = the total value of the games that count, divided by <b data-set="QW_SEASON_GAMES">12</b> (a full regular season). Every win adds and every loss subtracts, so beating a weak team can never lower the score, and more good wins mean a higher score. Example: a decisive home win over a 0.70-strength team is worth 0.70 × 1.00 × 1.07 = 0.75.</li>
         </ul>
 
         <h2 id="m-comp">Composite</h2>
@@ -490,6 +493,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
           <dt>Model spread</dt><dd>The model's predicted margin, written like a betting line (favorite −points, rounded to the half point). It never uses the betting line.</dd>
           <dt>Line</dt><dd>The median spread across sportsbooks, from CollegeFootballData.com.</dd>
           <dt>Upset alerts</dt><dd>Games hand-picked each week, usually where the model favors the betting underdog or disagrees with the line by a touchdown or more.</dd>
+          <dt>Scorecard</dt><dd>On Previous Rankings: each week, how many winners Wolp+, the AP poll, the model and the betting line picked in games with a ranked team. Looking back at 2024–25, in games between two AP-ranked teams the better-ranked AP team won only 52% of the time; the model's pick won 66%, and the betting line's 64%.</dd>
           <dt>Big games</dt><dd>This week's games with a Wolp+ ranked (1–35) or AP Top 25 team where the favorite is giving 14 points or less (by the betting line, or the model spread when there's no line). When both teams are ranked (Wolp+ or AP), the limit is 21 points.</dd>
         </dl>
 
@@ -899,7 +903,34 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   window.addEventListener('resize', ()=>{ if(S.tab==='rank') stackDots($('rMap')); if(S.tab==='work' && S.ws==='map') stackDots($('wMap')); });
 
   // ---------- PREVIOUS RANKINGS ----------
+  function renderScore(){
+    const P=(S.picks||[]).filter(w=>w.games.some(g=>g.hp!=null)), el=$('scoreBody');
+    if(!P.length){ el.innerHTML='<p class="lead" style="margin:0">The first week is graded once its games are final.</p>'; return; }
+    const SYS=['Wolp+','AP','Model','Line'], tot={}; SYS.forEach(k=>tot[k]=[0,0]); let totN=0;
+    const fmt = r => r[0]+r[1] ? `${r[0]}-${r[1]} <span class="dim" style="color:var(--muted)">(${Math.round(100*r[0]/(r[0]+r[1]))}%)</span>` : '—';
+    const rows = P.map(w=>{
+      const rm = S.weeks[w.week] ? rankMap(w.week) : null, ap = w.ap || null, rec2={}; SYS.forEach(k=>rec2[k]=[0,0]); let n=0;
+      w.games.forEach(g=>{
+        if(g.hp==null || g.hp===g.ap) return;
+        const inW = rm && ((rm[g.home]||99)<=TOP || (rm[g.away]||99)<=TOP), inA = ap && (ap[g.home] || ap[g.away]);
+        if(!inW && !inA) return;
+        n++; const homeWon = g.hp>g.ap;
+        const pick = (h,a,none) => (h===none && a===none) ? null : h<a;   // true = home
+        const picks = {'Wolp+': rm ? pick(rm[g.home]||MAX+1, rm[g.away]||MAX+1, MAX+1) : null,
+                       'AP': ap ? pick(ap[g.home]||26, ap[g.away]||26, 26) : null,
+                       'Model': typeof g.model==='number' && g.model!==0 ? g.model>0 : null,
+                       'Line': typeof g.line==='number' && g.line!==0 ? g.line>0 : null};
+        SYS.forEach(k=>{ if(picks[k]===null) return; const ok = picks[k]===homeWon; rec2[k][ok?0:1]++; tot[k][ok?0:1]++; });
+      });
+      totN+=n;
+      return `<tr><td style="text-align:left">Week ${w.week}</td><td>${n}</td>${SYS.map(k=>`<td>${fmt(rec2[k])}</td>`).join('')}</tr>`;
+    });
+    const best = Math.max(...SYS.map(k=>tot[k][0]+tot[k][1] ? tot[k][0]/(tot[k][0]+tot[k][1]) : 0));
+    el.innerHTML = `<table><thead><tr class="cols"><th style="text-align:left">Week</th><th>Games</th>${SYS.map(k=>`<th>${k}</th>`).join('')}</tr></thead><tbody>${rows.join('')}
+      <tr style="font-weight:600"><td style="text-align:left">Season</td><td>${totN}</td>${SYS.map(k=>{ const r=tot[k], p=r[0]+r[1]?r[0]/(r[0]+r[1]):0; return `<td${p===best&&p>0?' class="strong"':''}>${fmt(r)}</td>`; }).join('')}</tr></tbody></table>`;
+  }
   function renderHistory(){
+    renderScore();
     const nums=savedNums(), el=$('histBody');
     if(!nums.length){ el.innerHTML='<div class="empty"><strong>No saved weeks yet</strong>Each saved Wolp+ ballot will line up here.</div>'; return; }
     const maps = nums.map(rankMap), last = maps[maps.length-1];
@@ -1411,7 +1442,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     db.settings().then(st=>{ S.settings=st||{}; S.upsets=S.settings.upsets||{}; const a=Number(S.settings.compositeStart), b=Number(S.settings.compositeEnd); if(S.settings.compositeStart!=null && S.settings.compositeEnd!=null && a>=0 && a<=1 && b>=0 && b<=1){ S.mix={a,b}; S.mixPub={a,b}; S._mdl=null; } renderAll(); }).catch(()=>{});
     db.teams.then(d=>{
       S.meta = {through:d.through, updatedAt:d.updatedAt, season:d.season};
-      S.teamsRaw = d.teams||{}; S.model = d.model||null; S.schedule = d.schedule||null; S.ap = d.ap||null;
+      S.teamsRaw = d.teams||{}; S.model = d.model||null; S.schedule = d.schedule||null; S.ap = d.ap||null; S.picks = d.picks||[];
       mergeModel(); renderConfs(); renderAll();
     }).catch(()=>{ $('stamp').textContent='Team data couldn’t load. Reload the page to try again.'; });
     db.collection('weeks').onSnapshot(qs=>{
