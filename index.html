@@ -277,8 +277,13 @@ legend{font-weight:600;padding:0 4px}
 @container pool (max-width:379px){.phead button.hwrap{white-space:nowrap}}
 .colmenu .mix{padding:10px 14px;min-width:13.5rem}
 .colmenu .mix label{display:block;padding:0 0 6px;font-weight:600;cursor:default}
-.mix input[type=range]{width:100%;accent-color:var(--field)}
+.mix input[type=range]{width:100%;-webkit-appearance:none;appearance:none;height:6px;border-radius:3px;margin:8px 0;cursor:pointer;
+  background:linear-gradient(to right,var(--gold) 0 var(--qw,50%),var(--field) var(--qw,50%) 100%)}
+.mix input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--panel);border:2px solid var(--ink)}
+.mix input[type=range]::-moz-range-thumb{width:13px;height:13px;border-radius:50%;background:var(--panel);border:2px solid var(--ink)}
 .mixends{display:flex;justify-content:space-between;font-size:.78rem;color:var(--muted)}
+.mixends span:first-child,.mixp{color:var(--field)}
+.mixends span:last-child,.mixq{color:var(--gold)}
 #mixTxt{font-size:.9rem;margin-top:6px}
 .mixsave{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px}
 .mixsave small{color:var(--muted);font-size:.78rem}
@@ -372,7 +377,7 @@ legend{font-weight:600;padding:0 4px}
     <h2>Data</h2>
     <div class="weekbar rs-bar"><span class="weeklabel" id="rsWeek"></span><span class="spacer"></span><span class="status" id="rsStatus"></span><button class="btn primary" id="rsSave" disabled>Save ballot</button></div>
     <div class="rs-sort" id="rsSort" role="group" aria-label="Sort data">Sort:
-      <button class="rsb" data-rs="ballot" aria-pressed="true">Ballot order</button>
+      <button class="rsb" data-rs="ballot" aria-pressed="true">Weekly ranking</button>
       <button class="rsb" data-rs="best" aria-pressed="false">Best win</button>
       <button class="rsb" data-rs="worst" aria-pressed="false">Worst loss</button>
       <span class="rs-hint" id="rsHint"></span>
@@ -538,7 +543,7 @@ legend{font-weight:600;padding:0 4px}
   const modelFacts = a => { const t=S.teams[a]||{}, c=mdl().crank[a], n=v=>typeof v==='number';
     return `<dl class="facts"><dt>Power rating</dt><dd>${n(t.powerRating)?t.powerRating.toFixed(1):'–'}${t.powerRank?` · Model #${t.powerRank}`:''}</dd>
       <dt>Quality-wins score</dt><dd>${n(t.resumeScore)?t.resumeScore.toFixed(3):'–'}${t.resumeRank?` · Quality wins #${t.resumeRank}`:''}</dd>
-      <dt>Composite</dt><dd>${c?'#'+c:'–'} <span style="color:var(--muted);font-weight:500">(${Math.round(S.mixW*100)}% quality wins / ${100-Math.round(S.mixW*100)}% power)</span></dd></dl>`; };
+      <dt>Composite</dt><dd>${c?'#'+c:'–'} <span style="color:var(--muted);font-weight:500">(${100-Math.round(S.mixW*100)}% power / ${Math.round(S.mixW*100)}% quality wins)</span></dd></dl>`; };
   const gAt = g => g.site==='away' ? 'at' : 'vs';
   const gScore = g => g.result==='W' ? `${g.pf}-${g.pa}` : `${g.pa}-${g.pf}`;
   const gOppName = (o, onB) => (onB[o] ? '#'+onB[o]+' ' : '') + nm(o);
@@ -922,7 +927,8 @@ legend{font-weight:600;padding:0 4px}
   // ---------- composite blend slider ----------
   function renderMix(){
     const r=Math.round(S.mixW*100), same = r===Math.round(S.mixPub*100);
-    $('mixW').value=r; $('mixTxt').textContent=`${r}% quality wins / ${100-r}% power`;
+    $('mixW').value=r; $('mixW').style.setProperty('--qw', r+'%');
+    $('mixTxt').innerHTML=`<b class="mixp">${100-r}% power</b> / <b class="mixq">${r}% quality wins</b>`;
     $('mixSave').hidden = !S.canWrite; $('mixSave').disabled = same;
     $('mixNote').textContent = same ? (S.canWrite ? 'Everyone sees this blend.' : 'The page owner’s blend.') : (S.canWrite ? 'Only you see this until you save.' : 'Only your view changes; reload to reset.');
   }
@@ -1078,7 +1084,7 @@ legend{font-weight:600;padding:0 4px}
     const onB=onBallot(), el=$('rsBody');
     $('rsSort').querySelectorAll('[data-rs]').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.rs===S.rsort)));
     const canDrag = S.canWrite && S.rsort==='ballot' && S.draft.length>0;
-    $('rsHint').textContent = !S.draft.length ? '' : canDrag ? 'Drag a handle to reorder your Top 25.' : 'Switch to Ballot order to reorder.';
+    $('rsHint').textContent = !S.draft.length ? '' : canDrag ? 'Drag a handle to reorder your Top 25.' : 'Switch to Weekly ranking to reorder.';
     el.classList.toggle('rs-reorder', canDrag);
     mirrorStatus();
     if(rsSortable){ rsSortable.destroy(); rsSortable=null; }
