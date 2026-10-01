@@ -3,342 +3,510 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>CFB Rankings 2026</title>
+<title>Wolp+ 2026</title>
+<meta name="description" content="Wolp+ college football rankings, with a results map, model ratings and this week's games.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.2/Sortable.min.js"></script>
 <style>
 :root{
-  --paper:#E8EBE3; --panel:#F4F6F1; --ink:#17212B; --muted:#5B6672; --line:#C9CFC4;
-  --turf:#2E6B3F; --brick:#B1402F; --gold:#A87B16; --hi:#DDE5D6; --field:#1F4A2E;
+  --bg:#0e1622; --bar:#0b121c; --panel:#131e2d; --panel2:#16233a; --line:#22324a; --line2:#1a2738;
+  --ink:#f2f5fa; --muted:#8fa3bf; --faint:#3c4f69; --gold:#e3b341; --win:#4fbf7a; --loss:#e5675a; --neutral:#6b7d96;
   --cond:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
-  --body:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif;
-  box-sizing:border-box;
-  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
-  color-scheme:light;
+  --body:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:dark;
 }
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --paper:#142130; --panel:#1B2B3D; --ink:#E6EAE2; --muted:#9AA7B4; --line:#2E4157;
-    --turf:#6FBF82; --brick:#E27A67; --gold:#E0B650; --hi:#233850; --field:#6FBF82; color-scheme:dark;
-  }
-}
-:root[data-theme="dark"]{
-  --paper:#142130; --panel:#1B2B3D; --ink:#E6EAE2; --muted:#9AA7B4; --line:#2E4157;
-  --turf:#6FBF82; --brick:#E27A67; --gold:#E0B650; --hi:#233850; --field:#6FBF82; color-scheme:dark;
-}
-*,*::before,*::after{box-sizing:inherit}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.45 var(--body)}
-button,input,select{font:inherit;color:inherit}
+*,*::before,*::after{box-sizing:border-box}
+html{overflow-x:clip}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 var(--body);overflow-x:clip;padding-bottom:env(safe-area-inset-bottom,0px)}
+button,input,select,textarea{font:inherit;color:inherit}
 button{cursor:pointer}
+a{color:inherit}
 :focus-visible{outline:2px solid var(--gold);outline-offset:2px}
-.wrap{max-width:1600px;margin:0 auto;padding:20px 20px 64px}
+[hidden]{display:none!important}
 
-header.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 24px;padding-bottom:14px;border-bottom:3px solid var(--ink)}
-h1{font:800 clamp(2.4rem,6vw,3.6rem)/.9 var(--cond);margin:0;letter-spacing:-.01em}
-h1 span{color:var(--field)}
-.stamp{color:var(--muted);font-size:.9rem;margin-top:6px}
-.tabs{display:flex;gap:4px}
-.importer{margin-left:auto;align-self:center;display:flex;align-items:center;gap:4px}
-.tab{background:none;border:0;border-bottom:3px solid transparent;padding:6px 10px;font:600 1.15rem var(--cond);color:var(--muted);margin-bottom:-17px}
-.tab[aria-selected="true"]{color:var(--ink);border-color:var(--field)}
-
-.weekbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin:18px 0 16px}
-.weekbar select,.weekbar input{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:6px 8px}
-.weekbar input{width:4.2em}
-.weeklabel{font:700 1.5rem var(--cond)}
-.btn{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:7px 14px;font-weight:600}
-.btn.primary{background:var(--field);border-color:var(--field);color:#fff}
-:root[data-theme="dark"] .btn.primary{color:#10202C}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn.primary{color:#10202C}}
+/* header */
+.bar{position:sticky;top:0;z-index:20;background:var(--bar);border-bottom:1px solid var(--line);box-shadow:0 6px 16px rgba(0,0,0,.45);padding-top:env(safe-area-inset-top,0px)}
+.bar .inner{max-width:1440px;margin:0 auto;padding:10px 28px;display:flex;align-items:center;gap:12px 34px;flex-wrap:wrap}
+.brand{display:flex;flex-direction:column;line-height:1;background:none;border:0;padding:0;text-align:left;color:var(--ink)}
+.brand b{font:800 28px/1 var(--cond)} .brand b span{color:var(--gold)}
+.brand small{color:var(--muted);font-size:11px;letter-spacing:.04em;margin-top:3px}
+.tabs{display:flex;gap:4px 20px;flex-wrap:wrap}
+.tab{background:none;border:0;padding:4px 0;font-weight:500;color:var(--muted)}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{color:var(--ink);box-shadow:0 2px 0 var(--gold)}
+.tab.owner{color:var(--gold)}
+.tools{margin-left:auto;display:flex;align-items:center;gap:8px}
+.pill{border:1px solid var(--line);border-radius:999px;padding:5px 12px;color:var(--muted);font-size:13px;background:none;text-decoration:none;white-space:nowrap}
+.pill:hover{color:var(--ink);border-color:#33465f}
+.pill.on,.pill[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.btn{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:7px 14px;font-weight:600;font-size:13px}
+.btn:hover{border-color:#33465f}
+.btn.primary{background:var(--gold);border-color:var(--gold);color:#1a1405}
 .btn:disabled{opacity:.45;cursor:default}
-.btn.quiet{background:none;border-color:transparent;color:var(--muted);padding-inline:8px}
-.status{font-size:.9rem;color:var(--muted)}
-.status.warn{color:var(--brick)}
+.btn.quiet{background:none;border-color:transparent;color:var(--muted)}
+.wrap{max-width:1440px;margin:0 auto;padding:24px 28px 40px}
+.ph{display:flex;align-items:flex-end;justify-content:space-between;gap:12px 16px;flex-wrap:wrap;margin-bottom:16px}
+h1{font:800 40px/1 var(--cond);margin:0}
+.sub{color:var(--muted);margin-top:6px}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.card,.sec{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+.sec{margin:16px 0 22px;scroll-margin-top:130px}
+.ch,.sh{display:flex;align-items:center;justify-content:space-between;gap:10px 12px;flex-wrap:wrap;margin-bottom:12px}
+h2{font:700 25px/1 var(--cond);margin:0}
+h2 small{font:400 13px var(--body);color:var(--muted);margin-left:10px}
+.more{color:var(--gold);font-size:13px;font-weight:500;background:none;border:0;padding:0;text-decoration:none}
+.more:hover{text-decoration:underline}
+.lg{display:block;width:22px;height:22px;object-fit:contain;flex:none}
+.lg.ph0{border-radius:50%;background:var(--line)}
+.note{color:var(--muted);font-size:12.5px;margin:10px 0 0}
+.empty{padding:24px 18px;border:1px dashed var(--line);border-radius:12px;color:var(--muted)}
+.empty strong{color:var(--ink);display:block;font:700 20px var(--cond);margin-bottom:4px}
+.mv{font:700 13px var(--cond);text-align:center;white-space:nowrap}
+.mv.up{color:var(--win)} .mv.dn{color:var(--loss)} .mv.new{color:var(--gold)} .mv.eq{color:var(--faint)}
+
+/* home */
+.hero{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:22px;align-items:start}
+.t25{display:grid;grid-template-columns:1fr 1fr;gap:0 26px}
+.trow{display:grid;grid-template-columns:30px 30px 24px minmax(0,1fr) auto;gap:8px;align-items:center;height:38px;border-bottom:1px solid var(--line2);box-shadow:inset 3px 0 var(--tc,transparent);padding-left:8px;background:none;border-width:0 0 1px;width:100%;text-align:left;color:var(--ink)}
+.trow:hover{background:var(--panel2)}
+.trow .rk{font:800 21px/1 var(--cond);text-align:right}
+.tn{font:700 17px var(--cond);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tr{color:var(--muted);font-size:12.5px;font-variant-numeric:tabular-nums}
+.also{margin-top:14px;color:var(--muted);font-size:13px;line-height:1.7}
+.also b{color:var(--ink);font:700 15px var(--cond);margin-right:2px}
+.side-col{display:grid;gap:22px}
+.lead{color:var(--muted);font-size:13px;margin:-4px 0 10px}
+.wrow{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line2);background:none;border-width:0 0 1px;width:100%;text-align:left;color:var(--ink)}
+.wrow .lg{width:26px;height:26px}
+.wn b{display:block;font:700 18px/1.05 var(--cond)} .wn small{color:var(--muted);font-size:12px}
+.wk{display:flex;gap:14px;font:700 17px var(--cond);text-align:center}
+.wk small{display:block;font:500 10.5px var(--body);color:var(--muted);letter-spacing:.04em}
+.fraud .wk span:first-child{color:var(--loss)} .radar .wk span:nth-child(2){color:var(--win)}
+.badge{font:600 11px var(--body);letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:999px}
+.badge.f{background:#3a1d1f;color:#f29a8d} .badge.r{background:#173325;color:#8fdcab}
+.hsec{margin-top:28px}
+.games{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.game{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.game.hot{border-color:#6b4f1a;box-shadow:inset 0 3px 0 var(--gold)}
+.gtop{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px;min-height:22px}
+.when{color:var(--muted);font-size:12.5px}
+.tag{font:600 10.5px var(--body);letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:999px;white-space:nowrap}
+.tag.up{background:#3d3115;color:var(--gold)}
+.side{display:grid;grid-template-columns:32px minmax(0,1fr);gap:10px;align-items:center;background:none;border:0;padding:0;text-align:left;width:100%;color:var(--ink)}
+.side .lg{width:30px;height:30px}
+.side b{font:700 20px/1.05 var(--cond);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.side small{color:var(--muted);font-size:12px}
+.rkb{font:800 15px var(--cond);color:var(--gold);margin-right:6px}
+.at{color:var(--muted);font-size:12px;margin:2px 0 2px 42px}
+.nums{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;padding-top:10px;border-top:1px solid var(--line2)}
+.nums small{display:block;color:var(--muted);font-size:11px;letter-spacing:.04em;text-transform:uppercase}
+.nums b{font:700 17px var(--cond)} .nums b.mup{color:var(--gold)}
+.gnote{margin:10px 0 0;font-size:13px;color:var(--ink);border-left:3px solid var(--gold);padding-left:9px}
+.glist{margin-top:14px}
+.glist table td{text-align:left}
+.glist .gl-n{display:flex;align-items:center;gap:8px;font:700 16px var(--cond)}
+
+/* rankings: filters, results map, stats */
+.filters{position:sticky;top:calc(env(safe-area-inset-top,0px) + 55px);z-index:9;background:var(--bg);padding:10px 0 12px;border-bottom:1px solid var(--line2)}
+.filters .lab{color:var(--muted);font-size:13px;margin-right:2px}
+.filters select,.filters input,.fsel{background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:5px 12px;font-size:13px}
+.filters input{width:200px}
+.count{margin-left:auto;color:var(--muted);font-size:13px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;color:var(--muted);font-size:12.5px;margin:0 0 10px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend .dot{position:static;transform:none;display:inline-block}
+.legend b{font:700 12px var(--cond);color:var(--ink)}
+.map{--mapcols:44px 30px 30px minmax(120px,190px) minmax(0,1fr) 56px}
+.map.drag{--mapcols:44px 30px 18px 30px minmax(120px,190px) minmax(0,1fr) 56px}
+.mrow,.axis{display:grid;grid-template-columns:var(--mapcols);gap:10px;align-items:center}
+.cmp-on .map{--mapcols:44px 30px 30px minmax(120px,190px) minmax(0,1fr) 56px 22px}
+.cmp-on .map.drag{--mapcols:44px 30px 18px 30px minmax(120px,190px) minmax(0,1fr) 56px 22px}
+.axis{color:var(--muted);font-size:12px;padding:0 0 6px;border-bottom:1px solid var(--line)}
+.axis .ax{display:flex;justify-content:space-between;padding:0 12px}
+.mrow{min-height:52px;border-bottom:1px solid var(--line2);box-shadow:inset 3px 0 var(--tc,transparent);padding-left:6px}
+.mrow:hover{background:var(--panel2)}
+.mrow.sortable-chosen{background:var(--panel2)} .mrow.sortable-ghost{opacity:.35}
+.grp{font:700 18px var(--cond);margin:18px 0 4px;color:var(--muted)}
+.rk{font:800 28px/1 var(--cond);text-align:right;font-variant-numeric:tabular-nums}
+.rk.none{color:#33465f;font-size:18px}
+.mrow .lg{width:26px;height:26px}
+.nm{min-width:0;background:none;border:0;padding:0;text-align:left;color:var(--ink)}
+.nm b{display:block;font:700 19px/1.05 var(--cond);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nm small{color:var(--muted);font-size:12px;white-space:nowrap}
+.nm:hover b{text-decoration:underline}
+.track{position:relative;height:50px}
+.track::before{content:"";position:absolute;left:8px;right:8px;top:50%;border-top:1px solid var(--line)}
+.din{position:absolute;inset:0 12px}
+.dot{position:absolute;top:50%;transform:translate(-50%,-50%);border:0;padding:0;border-radius:50%;background:var(--neutral)}
+.dot::after{content:"";position:absolute;inset:-7px;border-radius:50%}
+.dot.W{background:var(--win)} .dot.L{background:var(--loss)}
+.dot.s1{width:9px;height:9px}.dot.s2{width:13px;height:13px}.dot.s3{width:18px;height:18px}
+.dot.close{box-shadow:0 0 0 1.5px var(--panel),0 0 0 3.5px var(--gold)}
+.dot.ot{box-shadow:0 0 0 1.5px var(--panel),0 0 0 3.5px var(--gold),0 0 0 5px var(--panel),0 0 0 7px var(--gold)}
+.drk{position:absolute;left:100%;top:50%;transform:translateY(-50%);margin-left:4px;font:700 11px/1 var(--cond);color:var(--ink);pointer-events:none}
+.dlb{position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:5px;font:600 9.5px/1 var(--body);letter-spacing:.05em;text-transform:uppercase;color:var(--muted);white-space:nowrap;pointer-events:none}
+.dlb.up{top:auto;bottom:100%;margin:0 0 5px}
+.cr{font:700 15px var(--cond);color:var(--gold);text-align:right;padding-right:6px}
+.tblw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+th,td{padding:7px 10px;text-align:center;white-space:nowrap;border-bottom:1px solid var(--line2)}
+thead tr.grph th{font:600 11px var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);border-bottom:0;padding-bottom:2px}
+thead tr.cols th{font:500 12px var(--body);color:var(--muted);border-bottom:1px solid var(--line)}
+thead tr.cols th[data-c]{cursor:pointer;user-select:none}
+thead tr.cols th[data-c]:hover,thead tr.cols th.on{color:var(--ink)}
+thead tr.cols th.on::after{content:' ▼';font-size:9px;color:var(--gold)} thead tr.cols th.on.rev::after{content:' ▲'}
+.g1{border-left:1px solid var(--line)}
+tbody tr{box-shadow:inset 3px 0 var(--tc,transparent)} tbody tr:hover{background:var(--panel2)}
+.rkc{font:800 20px var(--cond);text-align:right;width:44px} .rkc.none{color:#33465f;font-size:15px}
+td.tmc{text-align:left}
+.tmc .tb{display:flex;align-items:center;gap:10px;font:700 17px var(--cond);background:none;border:0;padding:0;color:var(--ink)}
+.tmc .tb:hover span{text-decoration:underline}
+td.dim{color:var(--muted)} td.strong{color:var(--gold);font-weight:600}
+td.c-mv{padding-left:0;width:30px}
+.colmenu{position:relative}
+.colmenu summary{list-style:none;display:inline-block;cursor:pointer}
+.colmenu summary::-webkit-details-marker{display:none}
+.colmenu .menu{position:absolute;right:0;top:calc(100% + 6px);z-index:30;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 14px;box-shadow:0 10px 28px rgba(0,0,0,.45);min-width:16rem;max-height:70vh;overflow:auto}
+.colmenu .mh{font:600 11px var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin:8px 0 2px}
+.colmenu label{display:flex;gap:10px;align-items:center;padding:5px 0;font-size:13px;cursor:pointer}
+.cmpk{display:flex;align-items:center;justify-content:center}
+.cmpk input{width:16px;height:16px;margin:0;accent-color:var(--gold);cursor:pointer}
+
+/* composite menu */
+.mix{padding:12px 14px;min-width:15rem}
+.mix .mt{font-weight:600;margin-bottom:4px}
+.mix input[type=range]{width:100%;-webkit-appearance:none;appearance:none;height:6px;border-radius:3px;margin:10px 0;cursor:pointer;
+  background:linear-gradient(to right,var(--gold) 0 var(--qw,50%),#5b8fd6 var(--qw,50%) 100%)}
+.mix input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--ink);border:2px solid var(--bg)}
+.mix input[type=range]::-moz-range-thumb{width:13px;height:13px;border-radius:50%;background:var(--ink);border:2px solid var(--bg)}
+.mixends{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}
+.mixp{color:#8fb6ea}.mixq{color:var(--gold)}
+#mixTxt{font-size:13px;margin-top:6px}
+.mixsave{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:10px}
+.mixsave small{color:var(--muted);font-size:12px}
+
+/* workspace */
+.wbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px;margin-bottom:14px}
+.wbar select,.wbar input{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:6px 8px}
+.wbar input{width:4.2em}
+.weeklabel{font:700 24px var(--cond)}
+.status{font-size:13px;color:var(--muted)} .status.warn{color:var(--loss)}
 .spacer{flex:1}
-
-.grid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:28px;align-items:start}
-@media (max-width:880px){.grid{grid-template-columns:1fr}}
-
-/* Ballot */
-.bwrap{container:ballot/inline-size}
-.cols,.row{display:grid;grid-template-columns:3.2rem 2.6rem 18px minmax(0,1fr) 3.6rem 3.6rem 3.6rem 3.2rem 1.8rem;align-items:center;column-gap:6px}
-.cols{font-size:.78rem;color:var(--muted);padding:0 6px 6px;border-bottom:1px solid var(--line)}
-.cols span:nth-child(n+5){text-align:center}
-.row{padding:5px 6px;border-bottom:1px solid var(--line);background:transparent}
-.row.sortable-chosen{background:var(--hi)}
-.row.sortable-ghost{opacity:.35}
-.rk{font:800 2.1rem/1 var(--cond);text-align:right;font-variant-numeric:tabular-nums}
-.mv{font:700 .95rem var(--cond);text-align:center;white-space:nowrap}
-.mv.up{color:var(--turf)} .mv.dn{color:var(--brick)} .mv.new{color:var(--gold)} .mv.eq{color:var(--muted)}
+.wsub{display:flex;gap:8px;margin-bottom:14px}
+.wgrid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:22px;align-items:start}
+.brow,.bcols{display:grid;grid-template-columns:var(--bcols);column-gap:8px;align-items:center}
+.bcols{font-size:12px;color:var(--muted);padding:0 6px 6px;border-bottom:1px solid var(--line)}
+.bcols span:nth-child(n+6){text-align:center}
+.brow{padding:4px 6px;border-bottom:1px solid var(--line2);box-shadow:inset 3px 0 var(--tc,transparent);min-height:44px}
+.brow.sortable-chosen{background:var(--panel2)} .brow.sortable-ghost{opacity:.35}
+.brow .rk{font-size:24px}
+.brow .lg{width:24px;height:24px}
 .grip{width:18px;height:28px;border:0;background:none;padding:0;cursor:grab;color:var(--muted);touch-action:none}
 .grip svg{display:block;margin:auto}
 .tm{min-width:0}
-.tm .nmb{background:none;border:0;padding:0;text-align:left;font:700 1.25rem/1.1 var(--cond);min-width:0;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.tm .nmb:hover{text-decoration:underline;text-decoration-thickness:2px}
-.flag{border:1px solid currentColor;background:none;border-radius:4px;padding:0 4px;margin-right:5px;font:700 .72rem/1.35 var(--cond);letter-spacing:.05em;color:var(--brick);vertical-align:1px}
+.tm .nmb{background:none;border:0;padding:0;text-align:left;font:700 18px/1.1 var(--cond);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink)}
+.tm .nmb:hover{text-decoration:underline}
+.tm small{display:block;color:var(--muted);font-size:11.5px}
+.flag{border:1px solid currentColor;background:none;border-radius:4px;padding:0 4px;margin-right:5px;font:700 11px/1.35 var(--cond);letter-spacing:.05em;color:var(--loss);vertical-align:1px}
 .flag.loop{color:var(--gold)}
-#tip{position:fixed;z-index:50;max-width:min(300px,calc(100vw - 24px));background:var(--ink);color:var(--paper);padding:8px 10px;border-radius:8px;font-size:.85rem;line-height:1.35;white-space:pre-line;pointer-events:none;box-shadow:0 4px 14px rgba(0,0,0,.2)}
-.checks{margin-top:12px;border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:8px;padding:8px 12px;background:var(--panel);font-size:.92rem}
-.checks p{margin:0}.checks p+p{margin-top:8px}
-.checks small{display:block;color:var(--muted);font-size:.82rem}
-.btools{display:flex;justify-content:flex-end;margin:-8px 0 2px}
-.btools #cmpMode[aria-pressed="true"]{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
-.colmenu{position:relative}
-.colmenu summary{list-style:none;display:inline-block}
-.colmenu summary::-webkit-details-marker{display:none}
-.colmenu .menu{position:absolute;right:0;top:calc(100% + 4px);z-index:20;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:6px 14px;box-shadow:0 8px 24px rgba(0,0,0,.18);min-width:15rem}
-.colmenu label{display:flex;gap:10px;align-items:center;padding:6px 0;font-size:.92rem;cursor:pointer}
-.colmenu label small{color:var(--muted);margin-left:auto;padding-left:8px}
-.tm small{display:block;color:var(--muted);font-size:.78rem}
-.st{text-align:center;font-variant-numeric:tabular-nums;font-weight:600}
+.st{text-align:center;font-variant-numeric:tabular-nums;font-weight:600;font-size:13px}
 .st.dim{color:var(--muted);font-weight:500}
-.st.ap{font:700 1.05rem var(--cond)}
-.x{border:0;background:none;color:var(--muted);font-size:1.2rem;line-height:1;padding:4px}
-.x:hover{color:var(--brick)}
-.slot{display:grid;grid-template-columns:3.2rem 1fr;column-gap:8px;align-items:center;padding:7px 6px;border-bottom:1px dashed var(--line);color:var(--muted)}
-.slot .rk{color:var(--line)}
-.lbl{display:none}
-/* stacked rows when the Top 25 panel is narrow (phones, or a narrow viewer) */
-@container ballot (max-width:560px){
-  .cols{display:none}
-  .row{grid-template-columns:2.1rem 1.9rem 14px minmax(0,1fr) 1.6rem;column-gap:6px;grid-template-areas:"rk mv g tm x" "rk mv g stats x";row-gap:1px}
-  .cmp-on .row{grid-template-columns:2.1rem 1.9rem 14px minmax(0,1fr) 1.4rem 1.6rem;grid-template-areas:"rk mv g tm cmp x" "rk mv g stats cmp x"}
-  .rk{font-size:1.8rem}
-  .row .st.ap{font:600 .8rem var(--body)}
-  .tm small{display:inline;margin-left:6px}
-  .row .rk{grid-area:rk}.row .mv{grid-area:mv}.row .grip{grid-area:g}.row .tm{grid-area:tm}.row .x{grid-area:x}.row .cmpk{grid-area:cmp}
-  .row .stats{grid-area:stats;display:flex;flex-wrap:wrap;gap:0 10px;font-size:.8rem}
-  .row .st{text-align:left}
-  .row .lbl{display:inline;color:var(--muted);font-weight:500;margin-right:3px}
-  .slot{grid-template-columns:2.1rem 1fr}
-}
-@container ballot (min-width:561px){.row .stats{display:contents}}
-/* with many columns, rows keep a minimum width and scroll sideways (min-width set in #dyncols) */
+.x{border:0;background:none;color:var(--muted);font-size:18px;line-height:1;padding:4px}
+.x:hover{color:var(--loss)}
+.slot{display:grid;grid-template-columns:44px 1fr;column-gap:8px;align-items:center;padding:8px 6px;border-bottom:1px dashed var(--line2);color:var(--faint)}
+.slot .rk{color:#2a3b52;font-size:22px}
+.cut{font:700 16px var(--cond);color:var(--gold);padding:14px 6px 4px;border-bottom:1px solid var(--line);letter-spacing:.02em}
+.checks{margin-top:12px;border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:8px;padding:8px 12px;background:var(--panel);font-size:13px}
+.checks p{margin:0}.checks p+p{margin-top:8px}
+.checks small{display:block;color:var(--muted)}
 .bscroll{overflow-x:auto}
-
-/* Pool */
-.pool{container:pool/inline-size;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px)}
-@media (max-width:880px){.pool{position:static}}
-.pool h2,.hist h2{font:700 1.5rem var(--cond);margin:0 0 10px}
-.pool input[type=search]{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:var(--paper)}
+.pool{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 70px)}
+.pool input[type=search]{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg)}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
-.chip{border:1px solid var(--line);background:none;border-radius:999px;padding:3px 11px;font-size:.88rem}
-.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
-.sortby{display:flex;align-items:center;gap:6px;font-size:.88rem;color:var(--muted);margin-bottom:6px}
-.sortby select{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:3px 6px}
-.plist{max-height:62vh;overflow-y:auto;margin:0 -6px}
-@media (max-width:880px){.plist{max-height:none}}
-.phead,.prow{display:grid;grid-template-columns:minmax(0,1fr) 2.9rem 2.9rem 2.9rem 2.5rem 3.3rem;gap:5px;align-items:center;padding:6px}
-.prow{border-top:1px solid var(--line)}
-.phead{padding-bottom:4px;margin:0 -6px}
-.phead button{background:none;border:0;padding:2px 0;font-size:.78rem;color:var(--muted);text-align:center;white-space:nowrap}
+.plist{max-height:62vh;overflow-y:auto}
+.phead,.prow{display:grid;grid-template-columns:var(--pcols);gap:6px;align-items:center;padding:6px}
+.prow{border-top:1px solid var(--line2)}
+.phead button{background:none;border:0;padding:2px 0;font-size:11.5px;color:var(--muted);text-align:center;white-space:nowrap}
 .phead button:first-child{text-align:left}
-.phead button[aria-pressed="true"]{color:var(--ink);font-weight:700;text-decoration:underline;text-underline-offset:3px}
-.prow .c{text-align:center;font-variant-numeric:tabular-nums;font-weight:600;font-size:.95rem}
+.phead button[aria-pressed="true"]{color:var(--ink);font-weight:600;text-decoration:underline;text-underline-offset:3px}
+.prow .c{text-align:center;font-variant-numeric:tabular-nums;font-weight:600;font-size:13px}
 .prow .c.dim{color:var(--muted);font-weight:500}
-.prow .nm{font:700 1.1rem/1.1 var(--cond);background:none;border:0;padding:0;text-align:left;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.prow .meta{font-size:.8rem;color:var(--muted)}
-.prow .add{border:1px solid var(--field);color:var(--field);background:none;border-radius:6px;padding:3px 10px;font-weight:600;font-size:.88rem}
-.prow .on{font:700 .95rem var(--cond);color:var(--muted);min-width:3.2rem;text-align:center}
-.prow.sortable-chosen{background:var(--hi)}
-@container pool (min-width:380px){.prow .stats{display:contents}}
-.pscroll{overflow-x:auto;margin:0 -6px}
-.poolhead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
-.pool .poolhead h2{margin:0}
-#poolData .pool{position:static;margin-top:22px}
-.pscroll>.phead,.pscroll>.plist{margin:0}
-/* stacked rows when the team list is narrow */
-@container pool (max-width:379px){
-  .prow .lbl{display:inline;color:var(--muted);font-weight:500;margin-right:3px}
-  .phead{display:flex;flex-wrap:wrap;align-items:center;gap:2px 12px}
-  .phead::before{content:"Sort:";font-size:.78rem;color:var(--muted)}
-  .phead span{display:none}
-  .prow{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"nm add" "stats stats";row-gap:2px}
-  .cmp-on .prow{grid-template-columns:minmax(0,1fr) auto auto;grid-template-areas:"nm cmp add" "stats stats stats"}
-  .prow .pn{grid-area:nm}.prow .add,.prow .on{grid-area:add}.prow .cmpk{grid-area:cmp}
-  .prow .stats{grid-area:stats;display:flex;flex-wrap:wrap;gap:0 10px}
-  .prow .c{text-align:left;font-size:.8rem}
-}
+.prow .pn{display:flex;align-items:center;gap:8px;min-width:0}
+.prow .nm2{font:700 16px/1.1 var(--cond);background:none;border:0;padding:0;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink)}
+.prow .add{border:1px solid var(--gold);color:var(--gold);background:none;border-radius:6px;padding:3px 10px;font-weight:600;font-size:12px}
+.prow .on{font:700 14px var(--cond);color:var(--muted);text-align:center}
+.prow.sortable-chosen{background:var(--panel2)}
+.pscroll{overflow-x:auto}
+.ups td{vertical-align:middle}
+.ups td.l{text-align:left}
+.ups input[type=text]{width:100%;min-width:14rem;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:5px 8px;font-size:13px}
+.ups input[type=checkbox]{width:17px;height:17px;accent-color:var(--gold)}
+.ups tr.cand td:first-child{box-shadow:inset 3px 0 var(--gold)}
+.ups .why{font-size:11.5px;color:var(--gold)}
+.ups .why.g{color:#9fb7d8}
 
-/* Just missed */
-.jm{margin-top:16px}
-.jmhead{display:flex;align-items:baseline;gap:8px;font:700 1.25rem var(--cond);padding:0 6px 6px;border-bottom:1px solid var(--line)}
-.jmhead small{font:400 .82rem var(--body);color:var(--muted)}
-.jmlist{min-height:44px}
-.jmlist:empty{border:1px dashed var(--line);border-radius:8px;margin-top:6px}
-.jmlist:empty::before{content:"Drag teams here, or use Add once your Top 25 is full.";display:block;padding:12px;color:var(--muted);font-size:.9rem}
+/* previous rankings */
+.hist td.t,.hist th.t{text-align:left;position:sticky;left:0;background:var(--panel)}
+.hist td.t{font:700 16px var(--cond)}
+.hist td.t span{display:flex;align-items:center;gap:8px}
+.hist td.r{font:700 16px var(--cond)} .hist td.r.top5{color:var(--gold)} .hist td.nr{color:#2a3b52}
+.hist th{position:sticky;top:0;background:var(--panel)}
 
-/* Compare */
-.cmpk{display:flex;align-items:center;justify-content:center;cursor:pointer}
-.cmpk input{width:16px;height:16px;margin:0;accent-color:var(--field);cursor:pointer}
-.cmpbar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 14px);z-index:30;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px 10px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 10px;box-shadow:0 8px 24px rgba(0,0,0,.2);width:max-content;max-width:calc(100vw - 24px)}
-.cmpbar .who{font-size:.9rem}
-#cmpDlg{width:min(1100px,calc(100vw - 16px))}
-.cmpgrid{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(220px,1fr);gap:18px;overflow-x:auto;margin:12px 0 6px;padding-bottom:4px}
-.cmpcol h4{font:800 1.5rem/1 var(--cond);margin:0}
-.cmpcol .sub{margin:2px 0 8px}
-.cmpcol .facts{margin-bottom:8px}
-.cmpcol .games .op{white-space:normal}
+/* methodology */
+.mwrap{display:grid;grid-template-columns:220px minmax(0,1fr);gap:40px;align-items:start}
+.toc{position:sticky;top:90px;display:flex;flex-direction:column;gap:2px;border-left:1px solid var(--line);padding-left:14px}
+.toc a{color:var(--muted);text-decoration:none;padding:4px 0;font-size:13px}
+.toc a:hover{color:var(--ink)}
+.method{max-width:74ch;font-size:15px;line-height:1.65}
+.method h2{margin:34px 0 10px;scroll-margin-top:90px} .method h2:first-child{margin-top:0}
+.method h3{font:700 19px var(--cond);margin:22px 0 6px;color:var(--gold)}
+.method p{margin:0 0 12px} .method ol,.method ul{padding-left:1.3em;margin:0 0 12px} .method li{margin:5px 0}
+.method dl{display:grid;grid-template-columns:max-content 1fr;gap:8px 18px;margin:0 0 12px}
+.method dt{font-weight:600} .method dd{margin:0;color:#d5dde9}
+.method b[data-set],.method b.mxtxt{color:var(--gold);font-weight:600}
+.method a{color:var(--gold)}
+.method .box{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:0 0 14px;font-size:14px}
 
-/* Résumés */
-.rs-sort{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:.88rem;color:var(--muted)}
-.rsb{border:1px solid var(--line);background:none;border-radius:999px;padding:3px 11px;font-size:.88rem;color:var(--ink)}
-.rsb[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
-.rs-legend{display:flex;flex-wrap:wrap;align-items:center;gap:6px 18px;font-size:.84rem;color:var(--muted);margin:12px 0 10px}
-.rs-legend span{display:inline-flex;align-items:center;gap:6px}
-.rs-legend .lgrk{font:700 .8rem var(--cond);color:var(--ink)}
-.rs-body{--rsl:12rem}
-.rs-axis,.rs-row{display:grid;grid-template-columns:var(--rsl) minmax(0,1fr);align-items:center}
-.rs-axis{font-size:.78rem;color:var(--muted);padding-bottom:4px;border-bottom:1px solid var(--line)}
-.rs-axis div{display:flex;justify-content:space-between;padding:0 6px}
-.rs-row{border-bottom:1px solid var(--line);min-height:50px}
-.rs-name{display:grid;grid-template-columns:2rem minmax(0,1fr);column-gap:6px;align-items:baseline;min-width:0;padding-right:6px}
-.rs-rk{font:800 1.4rem/1 var(--cond);text-align:right;font-variant-numeric:tabular-nums}
-.rs-tm{background:none;border:0;padding:0;text-align:left;font:700 1.1rem/1.1 var(--cond);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
-.rs-tm:hover{text-decoration:underline}
-.rs-rec{grid-column:2;font-size:.78rem;color:var(--muted)}
-.rs-grp{font:700 1.25rem var(--cond);margin:22px 0 4px}
-.rs-track{position:relative;height:50px}
-.rs-track::before{content:"";position:absolute;left:10px;right:10px;top:50%;border-top:1px solid var(--line)}
-.rs-in{position:absolute;top:0;bottom:0;left:14px;right:14px}
-.dot{position:absolute;top:50%;transform:translate(-50%,-50%);border:0;padding:0;border-radius:50%;background:var(--muted)}
-.dot::after{content:"";position:absolute;inset:-7px;border-radius:50%}
-.dot.W{background:var(--turf)}.dot.L{background:var(--brick)}
-.dot.s1{width:9px;height:9px}.dot.s2{width:13px;height:13px}.dot.s3{width:18px;height:18px}
-.dot.close{box-shadow:0 0 0 1.5px var(--paper),0 0 0 3.5px var(--gold)}
-.dot.ot{box-shadow:0 0 0 1.5px var(--paper),0 0 0 3.5px var(--gold),0 0 0 5px var(--paper),0 0 0 7px var(--gold)}
-.dot .drk{position:absolute;left:100%;top:50%;transform:translateY(-50%);margin-left:4px;font:700 .72rem/1 var(--cond);color:var(--ink);pointer-events:none}
-.dot .dlb{position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:6px;font:700 .64rem/1 var(--body);letter-spacing:.04em;text-transform:uppercase;color:var(--ink);white-space:nowrap;pointer-events:none}
-.dot .dlb.up{top:auto;bottom:100%;margin:0 0 6px}
-.dot.lg{position:relative;top:auto;transform:none;display:inline-block;flex:none}
-.rs-body.rs-reorder{--rsl:13.2rem}
-.rs-drag .rs-name{grid-template-columns:2rem 18px minmax(0,1fr)}
-.rs-drag .rs-rec{grid-column:3}
-.rs-name .grip{grid-row:span 2;align-self:center}
-.rs-row.sortable-chosen{background:var(--hi)}
-.rs-row.sortable-ghost{opacity:.35}
-.rs-bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--paper);margin:0;padding:10px 0}
-.rs-hint{margin-left:6px}
-@media (max-width:640px){
-  .rs-body{--rsl:7.2rem}
-  .rs-body.rs-reorder{--rsl:8.4rem}
-  .rs-drag .rs-name{grid-template-columns:1.5rem 18px minmax(0,1fr)}
-  .rs-name{grid-template-columns:1.5rem minmax(0,1fr);column-gap:4px}
-  .rs-rk{font-size:1.1rem}
-  .rs-tm{font-size:.98rem}
-}
-
-/* History */
-.hist{margin-top:18px}
-.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
-table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
-th,td{padding:6px 10px;border-bottom:1px solid var(--line);text-align:center;white-space:nowrap}
-th{font:600 .85rem var(--body);color:var(--muted);position:sticky;top:0;background:var(--panel)}
-td.t,th.t{text-align:left;position:sticky;left:0;background:var(--panel)}
-td.t{font:700 1.05rem var(--cond)}
-td.r{font:700 1.05rem var(--cond)}
-td.r.top5{color:var(--field)}
-td.nr{color:var(--line)}
-
-.empty{padding:28px 18px;border:1px dashed var(--line);border-radius:10px;color:var(--muted)}
-.empty strong{color:var(--ink);display:block;font:700 1.3rem var(--cond);margin-bottom:4px}
-.note{margin-top:12px;font-size:.85rem;color:var(--muted)}
-
-dialog{border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--ink);padding:20px;width:min(440px,calc(100vw - 32px))}
-dialog::backdrop{background:rgba(10,20,30,.45)}
-dialog h3{font:800 1.9rem/1 var(--cond);margin:0}
-dialog .sub{color:var(--muted);font-size:.9rem;margin:4px 0 14px}
-.facts{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin-bottom:14px}
+/* dialogs, tooltip, toast, footer */
+dialog{border:1px solid var(--line);border-radius:14px;background:var(--panel);color:var(--ink);padding:20px;width:min(460px,calc(100vw - 32px))}
+dialog::backdrop{background:rgba(5,10,18,.6)}
+dialog h3{font:800 30px/1 var(--cond);margin:0;display:flex;align-items:center;gap:10px}
+dialog h3 .lg{width:34px;height:34px}
+dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
+.facts{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin:0 0 14px}
 .facts dt{color:var(--muted)} .facts dd{margin:0;font-weight:600}
-fieldset{border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin:0 0 12px}
-legend{font-weight:600;padding:0 4px}
-.wl{display:flex;align-items:center;gap:8px}
-.wl input{width:4em;padding:5px 6px;border:1px solid var(--line);border-radius:6px;background:var(--paper)}
-.dlgbtns{display:flex;justify-content:flex-end;gap:8px;margin-top:6px}
-.summ{display:flex;flex-wrap:wrap;gap:2px 14px;font-size:.9rem;margin:0 0 10px}
+.dlgbtns{display:flex;justify-content:flex-end;gap:8px;margin-top:8px}
+.summ{display:flex;flex-wrap:wrap;gap:2px 14px;font-size:13px;margin:0 0 10px}
 .summ span{white-space:nowrap}.summ i{font-style:normal;color:var(--muted)}
-.games{list-style:none;margin:0 0 6px;padding:0;border-top:1px solid var(--line)}
-.games li{display:grid;grid-template-columns:1.1rem 3.4rem minmax(0,1fr) auto;gap:8px;align-items:baseline;padding:5px 6px;border-bottom:1px solid var(--line)}
-.games li.close{background:var(--hi);box-shadow:inset 3px 0 var(--gold)}
-.games .res{font:800 1.05rem var(--cond)}.games .res.W{color:var(--turf)}.games .res.L{color:var(--brick)}
-.games .sc{font-variant-numeric:tabular-nums;font-weight:600}
-.games .op{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.games .dt{color:var(--muted);font-size:.8rem}
-.dnote{font-size:.8rem;color:var(--muted);margin:0 0 14px}
-.dflags{margin:0 0 12px;padding:8px 10px;border-left:3px solid var(--brick);background:var(--paper);border-radius:0 6px 6px 0;font-size:.88rem;white-space:pre-line}
+.glog{list-style:none;margin:0 0 6px;padding:0;border-top:1px solid var(--line)}
+.glog li{display:grid;grid-template-columns:1.1rem 3.6rem minmax(0,1fr) auto;gap:8px;align-items:baseline;padding:5px 6px;border-bottom:1px solid var(--line2)}
+.glog li.close{background:#1a2536;box-shadow:inset 3px 0 var(--gold)}
+.glog .res{font:800 16px var(--cond)}.glog .res.W{color:var(--win)}.glog .res.L{color:var(--loss)}
+.glog .sc{font-variant-numeric:tabular-nums;font-weight:600}
+.glog .op{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.glog .dt{color:var(--muted);font-size:12px}
+.glog .gepa{grid-column:2 / -1;font-size:12px;color:var(--muted);margin-top:-2px}
+.glog .gepa b{color:var(--ink);font-weight:600}
+.dnote{font-size:12.5px;color:var(--muted);margin:0 0 14px}
+.dflags{margin:0 0 12px;padding:8px 10px;border-left:3px solid var(--loss);background:var(--bg);border-radius:0 6px 6px 0;font-size:13px;white-space:pre-line}
 .dflags.loop{border-color:var(--gold)}
 .trail{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
-.trail span{border:1px solid var(--line);border-radius:6px;padding:2px 8px;font-size:.85rem}
-.trail b{font-family:var(--cond);font-size:1rem}
-.phead button.hwrap{white-space:normal;line-height:1.05}
-@container pool (max-width:379px){.phead button.hwrap{white-space:nowrap}}
-.colmenu .mix{padding:10px 14px;min-width:13.5rem}
-.colmenu .mix label{display:block;padding:0 0 6px;font-weight:600;cursor:default}
-.mix input[type=range]{width:100%;-webkit-appearance:none;appearance:none;height:6px;border-radius:3px;margin:8px 0;cursor:pointer;
-  background:linear-gradient(to right,var(--gold) 0 var(--qw,50%),var(--field) var(--qw,50%) 100%)}
-.mix input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--panel);border:2px solid var(--ink)}
-.mix input[type=range]::-moz-range-thumb{width:13px;height:13px;border-radius:50%;background:var(--panel);border:2px solid var(--ink)}
-.mixends{display:flex;justify-content:space-between;font-size:.78rem;color:var(--muted)}
-.mixends span:first-child,.mixp{color:var(--field)}
-.mixends span:last-child,.mixq{color:var(--gold)}
-#mixTxt{font-size:.9rem;margin-top:6px}
-.mixsave{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px}
-.mixsave small{color:var(--muted);font-size:.78rem}
-.mixsave .btn{padding:4px 10px;font-size:.85rem;white-space:nowrap}
-.upb{border:1px solid var(--line);background:none;border-radius:6px;color:var(--field);font:700 .95rem/1 var(--body);padding:3px 7px;cursor:pointer}
-.upb:hover{border-color:var(--field)}
-.rs-rk .upb{font-size:.85rem;padding:2px 6px;vertical-align:middle}
-.games .gepa{grid-column:2 / -1;font-size:.78rem;color:var(--muted);margin-top:-2px}
-.games .gepa b{color:var(--ink);font-weight:600}
-/* visitors (no ballot sync token on this device): read-only page */
-.viewonly .grip,.viewonly .x,.viewonly .add,.viewonly .upb{visibility:hidden}
-.viewonly #newWeek,.viewonly #delWeek,.viewonly #save,.viewonly #rsSave,.viewonly .rs-hint{display:none}
-.viewonly .jmlist:empty::before{content:none}
-#syncToken{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:var(--paper);font-family:ui-monospace,Menlo,monospace;font-size:.85rem}
-#syncMsg:empty{display:none}
-.method{max-width:80ch}
-.method h3{font:700 1.3rem var(--cond);margin:22px 0 6px}
-.method p,.method li,.method dd{line-height:1.5}
-.method ol,.method ul{padding-left:1.3em;margin:0}
-.method li{margin:4px 0}
-.method dl{display:grid;grid-template-columns:max-content 1fr;gap:6px 14px;margin:0}
-.method dt{font-weight:700}.method dd{margin:0}
-.method a{color:var(--field)}
-@media (max-width:640px){.method dl{grid-template-columns:1fr}.method dd{margin-bottom:6px}}
-.adv{width:auto;margin:0 0 14px;font-size:.9rem}
-.adv th,.adv td{padding:2px 14px 2px 0;border:0;text-align:right}
-.adv th{position:static;background:none;font:600 .8rem var(--body);color:var(--muted)}
+.trail span{border:1px solid var(--line);border-radius:6px;padding:2px 8px;font-size:12.5px}
+.trail b{font-family:var(--cond);font-size:15px}
+.adv{width:auto;margin:0 0 14px;font-size:13px}
+.adv th,.adv td{padding:2px 14px 2px 0;border:0;text-align:right;box-shadow:none}
+.adv th{background:none;font:600 12px var(--body);color:var(--muted)}
 .adv tbody th{text-align:left}
 .adv td{font-weight:600}
-.adv caption{caption-side:bottom;text-align:left;font-size:.78rem;color:var(--muted);padding-top:2px}
-.toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 20px);transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:9px 16px;border-radius:8px;font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s}
+.adv caption{caption-side:bottom;text-align:left;font-size:12px;color:var(--muted);padding-top:2px}
+.adv tbody tr{box-shadow:none} .adv tbody tr:hover{background:none}
+#cmpDlg{width:min(1100px,calc(100vw - 16px))}
+.cmpgrid{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(220px,1fr);gap:18px;overflow-x:auto;margin:12px 0 6px;padding-bottom:4px}
+.cmpcol h4{font:800 24px/1 var(--cond);margin:0;display:flex;align-items:center;gap:8px}
+.cmpcol .sub{margin:4px 0 8px}
+.cmpbar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 14px);z-index:30;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px 10px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:8px 10px;box-shadow:0 10px 28px rgba(0,0,0,.5);width:max-content;max-width:calc(100vw - 24px)}
+#syncToken{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);font-family:ui-monospace,Menlo,monospace;font-size:13px}
+#syncMsg:empty{display:none}
+#tip{position:fixed;z-index:60;max-width:min(300px,calc(100vw - 24px));background:var(--ink);color:var(--bg);padding:8px 10px;border-radius:8px;font-size:12.5px;line-height:1.35;white-space:pre-line;pointer-events:none;box-shadow:0 4px 14px rgba(0,0,0,.4)}
+.toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 20px);transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:8px;font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s;z-index:70}
 .toast.show{opacity:1}
 @media (prefers-reduced-motion: reduce){.toast{transition:none}}
-[hidden]{display:none!important}
+.foot{max-width:1440px;margin:0 auto;padding:16px 28px 40px;color:var(--muted);font-size:12.5px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.foot .wrapin{border-top:1px solid var(--line2);padding-top:16px;width:100%;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.foot button{background:none;border:0;padding:0;color:var(--muted);text-decoration:underline;font-size:12.5px}
+
+/* visitors: read-only */
+.viewonly .owner-only{display:none!important}
+
+/* narrower screens */
+@media (max-width:1100px){
+  .hero,.wgrid{grid-template-columns:1fr}
+  .games{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .pool{position:static}
+}
+@media (max-width:700px){
+  .bar .inner,.wrap,.foot{padding-left:16px;padding-right:16px}
+  .bar{position:static}
+  .tools{margin-left:0}
+  h1{font-size:32px}
+  .games,.t25{grid-template-columns:1fr}
+  .filters{position:static}
+  .filters input{width:100%}
+  .map{--mapcols:30px 0 24px minmax(0,1fr) 44px}
+  .map .mrow,.map .axis{grid-template-columns:30px 24px minmax(0,1fr) 40px;row-gap:0}
+  .map .mrow>.mv,.map .axis>span:nth-child(2){display:none}
+  .map .mrow .track,.map .axis .ax{grid-column:1 / -1;grid-row:2}
+  .map .mrow .grip{display:none}
+  .map .mrow>.cmpk{display:none}
+  .rk{font-size:22px}
+  .mtoc{display:none}
+  .mwrap{grid-template-columns:1fr}
+  .toc{display:none}
+  .method dl{grid-template-columns:1fr}
+}
 </style>
 <style id="dyncols"></style>
 </head>
 <body>
-<div class="wrap">
-  <header class="top">
-    <div>
-      <h1>CFB Rankings <span>2026</span></h1>
-      <div class="stamp" id="stamp">Loading team data…</div>
-    </div>
-    <div class="importer"><button class="btn quiet" id="cmpMode" aria-pressed="false" title="Pick 2 to 4 teams to compare side by side">Compare</button><details class="colmenu" id="mixMenu"><summary class="btn quiet">Composite ▾</summary><div class="menu mix"><label for="mixW">Composite rank blend</label><input type="range" id="mixW" min="0" max="100" step="5" value="50"><div class="mixends"><span>All power</span><span>All quality wins</span></div><div id="mixTxt"></div><div class="mixsave"><small id="mixNote"></small><button class="btn primary" id="mixSave" hidden>Save for everyone</button></div></div></details><button class="btn" id="syncBtn">Ballot sync</button></div>
+<header class="bar">
+  <div class="inner">
+    <button class="brand" id="brand" aria-label="Wolp+ 2026 home"><b>Wolp<span>+</span> 2026</b><small>College football rankings</small></button>
     <nav class="tabs" role="tablist">
-      <button class="tab" role="tab" id="tab-ballot" aria-selected="true">Current Rankings</button>
-      <button class="tab" role="tab" id="tab-resumes" aria-selected="false">Data</button>
+      <button class="tab" role="tab" id="tab-home" aria-selected="true">Home</button>
+      <button class="tab" role="tab" id="tab-rank" aria-selected="false">Rankings</button>
       <button class="tab" role="tab" id="tab-history" aria-selected="false">Previous Rankings</button>
       <button class="tab" role="tab" id="tab-method" aria-selected="false">Methodology</button>
+      <button class="tab owner owner-only" role="tab" id="tab-work" aria-selected="false">Workspace</button>
     </nav>
-  </header>
+    <div class="tools">
+      <button class="pill" id="cmpMode" aria-pressed="false" title="Pick 2 to 4 teams to compare side by side" hidden>Compare</button>
+      <details class="colmenu" id="mixMenu"><summary class="pill" id="mixSum">Composite ▾</summary>
+        <div class="menu mix"><div class="mt">Composite blend</div><input type="range" id="mixW" min="0" max="100" step="5" value="20" aria-label="Composite blend: share of quality wins">
+          <div class="mixends"><span class="mixp">All power</span><span class="mixq">All quality wins</span></div><div id="mixTxt"></div>
+          <div class="mixsave"><small id="mixNote"></small><button class="btn primary owner-only" id="mixSave">Save for everyone</button></div></div></details>
+    </div>
+  </div>
+</header>
 
-  <section id="view-ballot">
-    <div class="weekbar">
+<main class="wrap">
+  <!-- HOME -->
+  <section id="view-home">
+    <div class="hero">
+      <div class="card"><div class="ch"><h2 id="hTitle">Wolp+ Top 25</h2><button class="more" data-go="rank">Full rankings, Results Map and stats →</button></div>
+        <div class="t25" id="hTop"></div><div class="also" id="hAlso"></div></div>
+      <div class="side-col">
+        <div class="card fraud"><div class="ch"><h2>Fraud watch</h2><span class="badge f">Overrated?</span></div>
+          <p class="lead">In the AP Top 25, but both Wolp+ and the Composite rank them at least <span class="fthr">8</span> spots lower.</p><div id="hFraud"></div></div>
+        <div class="card radar"><div class="ch"><h2>Under the radar</h2><span class="badge r">Underrated?</span></div>
+          <p class="lead">Both Wolp+ and the Composite rank them at least <span class="fthr">8</span> spots higher than the AP.</p><div id="hRadar"></div></div>
+      </div>
+    </div>
+    <div class="hsec" id="hUpsWrap" hidden><div class="ch"><h2>Upset alerts<small id="hUpsSub"></small></h2></div><div class="games" id="hUps"></div></div>
+    <div class="hsec" id="hBigWrap"><div class="ch"><h2 id="hBigT">This week's big games</h2><button class="more" id="hAllBtn">All games →</button></div>
+      <div class="games" id="hBig"></div><div class="glist card" id="hAll" hidden></div></div>
+  </section>
+
+  <!-- RANKINGS -->
+  <section id="view-rank" hidden>
+    <div class="ph"><div><h1 id="rTitle">Wolp+ Top 25</h1><div class="sub" id="rSub"></div></div>
+      <div class="row"><a class="pill on" href="#map">Results Map</a><a class="pill" href="#stats">Stats table ↓</a></div></div>
+    <div class="filters row">
+      <span class="lab">Show</span>
+      <button class="pill" data-show="wolp">Wolp+ Top 25</button>
+      <button class="pill" data-show="c25">Composite Top 25</button>
+      <button class="pill" data-show="c50">Composite Top 50</button>
+      <button class="pill" data-show="all">All FBS</button>
+      <select id="rConf" aria-label="Conference"></select>
+      <input id="rQ" type="search" placeholder="Search teams" aria-label="Search teams">
+      <span class="count" id="rCount"></span>
+    </div>
+    <section class="sec" id="map"><div class="sh"><h2>Results Map<small>Every game, placed by the opponent’s Composite rank</small></h2>
+      <div class="row"><span style="color:var(--muted);font-size:13px">Sort</span><button class="pill" data-ms="wolp">Wolp+</button><button class="pill" data-ms="comp">Composite</button><button class="pill" data-ms="best">Best win</button><button class="pill" data-ms="worst">Worst loss</button></div></div>
+      <div class="legend" id="legend1"></div>
+      <div id="rMap" class="map"></div>
+    </section>
+    <section class="sec" id="stats"><div class="sh"><h2>Stats<small>Same teams as the Results Map</small></h2>
+      <details class="colmenu" id="colMenu"><summary class="pill">Columns ▾</summary><div class="menu" id="colList"></div></details></div>
+      <div class="tblw"><table id="rTable"></table></div>
+      <p class="note">Click a column heading to sort (click again to reverse). Click any team for its full game log.</p>
+    </section>
+  </section>
+
+  <!-- PREVIOUS RANKINGS -->
+  <section id="view-history" hidden>
+    <div class="ph"><div><h1>Previous Rankings</h1><div class="sub">Every saved Wolp+ ballot, week by week</div></div></div>
+    <div class="card hist"><div class="tblw" id="histBody"></div></div>
+  </section>
+
+  <!-- METHODOLOGY -->
+  <section id="view-method" hidden>
+    <div class="ph"><div><h1>Methodology</h1><div class="sub">How the ratings, the Results Map and the Home page are built</div></div></div>
+    <div class="mwrap">
+      <nav class="toc" aria-label="Methodology sections">
+        <a href="#m-overview">Overview</a><a href="#m-wolp">The Wolp+ rankings</a><a href="#m-ratings">The three ratings</a><a href="#m-power">Power rating</a>
+        <a href="#m-qw">Quality wins</a><a href="#m-comp">Composite</a><a href="#m-map">Results Map</a><a href="#m-home">Home page</a><a href="#m-cols">Columns and flags</a><a href="#m-data">Data and updates</a>
+      </nav>
+      <article class="method">
+        <h2 id="m-overview">Overview</h2>
+        <p>Wolp+ is a weekly college football Top 25, ranked by hand. Alongside it, a model rates every FBS team two ways: how good a team is (the power rating) and what it has earned (quality wins). The model is a reference: it never sees the Wolp+ rankings, and the Wolp+ rankings never feed into it.</p>
+
+        <h2 id="m-wolp">The Wolp+ rankings</h2>
+        <p>Each week's ballot ranks 35 teams. The Top 25 is the headline; teams 26–35 are listed as <b>Also ranked</b>. Ranking 35 gives the comparisons on the Home page a real scale: a team at #31 is close to the Top 25, not simply "unranked". (Ballots before week 6 ranked 25 teams plus an unordered "just missed" list; those teams are shown as 26–30 in their saved order.)</p>
+
+        <h2 id="m-ratings">The three ratings</h2>
+        <dl>
+          <dt>Power rating (Model)</dt><dd><b>How good a team is.</b> Points better than an average FBS team on a neutral field. The difference between two teams' ratings, plus the home edge, is the model's predicted margin.</dd>
+          <dt>Quality wins (QW)</dt><dd><b>What a team has earned.</b> Its wins and losses, each weighted by how good the opponent's record is. Results only: no scoring margins and no power ratings.</dd>
+          <dt>Composite</dt><dd>A blend of the two (currently <b class="mxtxt"></b>), set under <b>Composite ▾</b> in the header.</dd>
+        </dl>
+
+        <h2 id="m-power">Power rating, step by step</h2>
+        <ol>
+          <li><b>Margins have diminishing returns.</b> A win counts as <b data-set="DIMINISH_SCALE">50</b> × tanh(margin ÷ <b data-set="DIMINISH_SCALE">50</b>) points, so a 14-point win counts about 14, a 28-point win about 25, and a 50-point win about 38.</li>
+          <li><b>Close games count as narrow results.</b> A game is <i>close</i> if it ended within <b data-set="ONE_SCORE">8</b> points <i>unless</i> the winner led by <b data-set="FAKE_LEAD">17</b>+ going into the 4th quarter (more than two scores). Close games count as a <b data-set="CLOSE_MARGIN">3</b>-point result whatever the final margin. A one-score game that wasn't really in doubt (a late rally against a big lead) counts as its final margin + <b data-set="FAKE_BUMP">2</b>; for example, leading 31–14 after three quarters and winning 31–24 counts as 9.</li>
+          <li><b>Win bonus:</b> every win gets <b data-set="WIN_BONUS">0.75</b> extra points (and the loser loses them).</li>
+          <li><b>Each game is judged against expectations.</b> Ratings are fitted so the margins they predict match the credited results. A blowout a team was expected to win barely moves it; a close loss to a much better team can raise it.</li>
+          <li><b>Location:</b> home teams get <b data-set="HOME_FIELD">2.5</b> points. At a neutral site, the team closer to the stadium gets part of that edge (<b data-set="NEUTRAL_SHARE">1.0</b> × home edge × how much shorter its trip is). Any team traveling farther than its opponent gives up <b data-set="TRAVEL_PER_1000">1.0</b> point per 1,000 extra miles.</li>
+          <li><b>FCS games:</b> wins over FCS teams are ignored; a loss to an FCS team counts as a loss to a team rated <b data-set="FCS_BELOW">15</b> points below the FBS average.</li>
+          <li><b>Openers count a bit less:</b> each team's first game counts <b data-set="FIRST_GAME_WEIGHT">0.8</b> of a game.</li>
+          <li><b>Preseason start:</b> a mix of last season's rating, the share of production returning, and roster talent (weights fitted on earlier seasons), plus <b data-set="P4_START_BONUS">5</b> points for Power 4 teams (stats from weaker conferences tend to overrate teams). It counts as <b data-set="PRIOR_GAMES">3</b> games before the season and fades to nothing by week <b data-set="PRIOR_END_WEEK">14</b>.</li>
+        </ol>
+        <div class="box">Not used: betting lines (kept out so the model can disagree with them), per-play efficiency (it didn't improve predictions), and the Wolp+ rankings. On a week-by-week replay of 2024–2026, the model's predicted margins were off by about 12.5 points per game on average; the closing betting line was off by about 12.0.</div>
+
+        <h2 id="m-qw">Quality wins</h2>
+        <ul>
+          <li><b>Opponent strength (0 to 1):</b> a results-only rating (the Colley method) from wins and losses, adjusted for who each team played. An average team is about 0.5.</li>
+          <li><b>A win</b> is worth the opponent's strength × location (<b data-set="LOC_WIN">road 1.02, neutral 1.01, home 1.00</b>), × (1 + <b data-set="DECISIVE_WIN_BONUS">0.1</b> × strength) if it wasn't close.</li>
+          <li><b>A loss</b> costs <b data-set="LOSS_WEIGHT">0.5</b> × (1 − strength) × location (<b data-set="LOC_LOSS">home 1.05, neutral 1.00, road 0.95</b>), × <b data-set="CLOSE_LOSS_FACTOR">0.6</b> if it was close, and always at least <b data-set="MIN_LOSS">0.1</b>. Losses weigh less than wins.</li>
+          <li><b>FCS:</b> a win doesn't count; a loss counts <b data-set="FCS_LOSS_VALUE">-1.5</b>.</li>
+          <li><b>Score</b> = the average value of the games that count. Example: a decisive home win over a 0.70-strength team is worth 0.70 × 1.00 × 1.07 = 0.75.</li>
+        </ul>
+
+        <h2 id="m-comp">Composite</h2>
+        <p>Each team's power rating and quality-wins score are turned into percentiles among FBS teams (0 = lowest, 1 = highest). The Composite is the blend of the two, then ranked. The saved blend is what everyone sees; moving the slider changes only your own view until the page is reloaded.</p>
+
+        <h2 id="m-map">Results Map</h2>
+        <ul>
+          <li>Each row shows a team's games, placed left to right by the <b>opponent's Composite rank</b> (#1 at the far right; FCS opponents at the far left).</li>
+          <li>Green = win, red = loss. Dot size = margin (1–8, 9–16, 17+). Gold ring = close game; double ring = overtime.</li>
+          <li>A small number beside a dot is the opponent's Wolp+ rank. <b>Best</b> marks the win over the highest-ranked opponent (the rightmost green dot) and <b>Worst</b> the loss to the lowest-ranked one (the leftmost red dot).</li>
+          <li>Dots for similarly ranked opponents are stacked slightly above and below the line so none are hidden.</li>
+        </ul>
+
+        <h2 id="m-home">Home page</h2>
+        <dl>
+          <dt>Fraud watch</dt><dd>Teams in the AP Top 25 that both Wolp+ and the Composite rank at least <b class="fthr">8</b> spots lower. A team outside the Wolp+ 35 counts as #36. Sorted by the size of the gap.</dd>
+          <dt>Under the radar</dt><dd>Wolp+ teams that both Wolp+ and the Composite rank at least <b class="fthr">8</b> spots higher than the AP. A team outside the AP Top 25 counts as AP #30.</dd>
+          <dt>Model spread</dt><dd>The model's predicted margin, written like a betting line (favorite −points, rounded to the half point). It never uses the betting line.</dd>
+          <dt>Line</dt><dd>The median spread across sportsbooks, from CollegeFootballData.com.</dd>
+          <dt>Upset alerts</dt><dd>Games hand-picked each week, usually where the model favors the betting underdog or disagrees with the line by a touchdown or more.</dd>
+          <dt>Big games</dt><dd>This week's games with a Wolp+ ranked (1–35) or AP Top 25 team where the favorite is giving 14 points or less (by the betting line, or the model spread when there's no line). When both teams are ranked (Wolp+ or AP), the limit is 21 points.</dd>
+        </dl>
+
+        <h2 id="m-cols">Columns and flags</h2>
+        <dl>
+          <dt>vs P4</dt><dd>Record against SEC, Big Ten, Big 12 and ACC teams, plus Notre Dame.</dd>
+          <dt>vs Wolp+ 25</dt><dd>Record against teams in the Wolp+ Top 25.</dd>
+          <dt>2025, Final AP</dt><dd>Last season's regular-season record and final AP rank.</dd>
+          <dt>Off / Def EPA</dt><dd>Expected points added per play on offense, and allowed on defense (garbage time excluded). Defense: lower is better.</dd>
+          <dt>SR, Expl</dt><dd>Success rate (share of plays that keep a drive on schedule) and explosiveness (size of successful plays).</dd>
+          <dt>Adj …</dt><dd>The same stats, adjusted for the opponents faced.</dd>
+          <dt>Defs / Offs faced</dt><dd>Strength of schedule: the average adjusted EPA of the FBS defenses (lower = tougher) and offenses (higher = tougher) a team has played.</dd>
+          <dt>▲ ▼ NEW</dt><dd>Movement since the previous week's Wolp+ ballot.</dd>
+          <dt>H2H, LOOP</dt><dd>Workspace reminders: a head-to-head result that disagrees with the order, or teams that beat each other in a circle.</dd>
+        </dl>
+
+        <h2 id="m-data">Data and updates</h2>
+        <p>Team data comes from <a href="https://collegefootballdata.com" target="_blank" rel="noopener">CollegeFootballData.com</a>. Results, stats, ratings and the AP poll update every Sunday morning; the schedule and betting lines refresh again on Thursday. Only FBS teams are rated.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- WORKSPACE (owner only) -->
+  <section id="view-work" class="owner-only" hidden>
+    <div class="wbar">
       <span class="weeklabel">Week</span>
       <select id="weekSel" aria-label="Choose week"></select>
       <input id="weekNum" type="number" min="0" max="20" aria-label="Week number" hidden>
@@ -348,122 +516,43 @@ legend{font-weight:600;padding:0 4px}
       <button class="btn quiet" id="delWeek" hidden>Delete week</button>
       <button class="btn primary" id="save" disabled>Save ballot</button>
     </div>
-
-    <div class="grid">
-      <div class="bwrap">
-        <div class="btools"><details class="colmenu" id="colMenu"><summary class="btn quiet">Columns ▾</summary><div class="menu" id="colList"></div></details></div>
-        <div class="bscroll">
-        <div class="cols" id="cols" aria-hidden="true"></div>
-        <div id="ballot" aria-label="Your Top 25"></div>
-        <div id="slots"></div>
-        <div class="jm"><div class="jmhead">Just missed <small id="jmCount"></small></div><div id="others" class="jmlist" aria-label="Just missed"></div></div>
+    <div class="wsub" role="group" aria-label="Workspace view">
+      <button class="pill" data-ws="ballot">Ballot</button><button class="pill" data-ws="map">Results Map</button><button class="pill" data-ws="ups">Upset alerts</button>
+    </div>
+    <div id="ws-ballot">
+      <div class="wgrid">
+        <div>
+          <div class="row" style="justify-content:flex-end;margin-bottom:6px"><details class="colmenu" id="colMenuB"><summary class="pill">Columns ▾</summary><div class="menu" id="colListB"></div></details></div>
+          <div class="bscroll"><div class="bcols" id="bcols" aria-hidden="true"></div><div id="ballot" aria-label="Wolp+ ballot"></div><div id="slots"></div></div>
+          <p class="note">Drag the handle to reorder, or focus it and use the arrow keys. Teams 1–25 are the Top 25; 26–35 are shown as Also ranked. <b>H2H</b> marks a head-to-head result that disagrees with the order; <b>LOOP</b> marks teams that beat each other in a circle. Both are reminders only; tap one to see why.</p>
         </div>
-        <p class="note">Drag the handle to reorder, or focus it and use the arrow keys. P4 records count games against SEC, Big Ten, Big 12 and ACC teams plus Notre Dame. “vs T25” is the record against teams currently on your ballot. <b>H2H</b> marks a head-to-head result that disagrees with your order; <b>LOOP</b> marks teams that beat each other in a circle. Both are reminders only; tap one to see why. Tap a team to see its games and rank history. Click a column heading in the team list to sort by it.</p>
+        <aside class="pool" aria-label="All teams">
+          <div class="ch" style="margin-bottom:10px"><h2>Teams</h2><details class="colmenu" id="colMenuP"><summary class="pill">Columns ▾</summary><div class="menu" id="colListP"></div></details></div>
+          <input type="search" id="q" placeholder="Search teams or conferences" aria-label="Search teams">
+          <div class="chips" role="group" aria-label="Filter">
+            <button class="pill" data-f="all" aria-pressed="true">All</button>
+            <button class="pill" data-f="p4" aria-pressed="false">Power 4</button>
+            <button class="pill" data-f="g5" aria-pressed="false">Group of 5</button>
+            <button class="pill" data-f="off" aria-pressed="false">Not on ballot</button>
+          </div>
+          <div class="pscroll"><div class="phead" id="phead" role="group" aria-label="Sort teams by"></div><div class="plist" id="pool"></div></div>
+        </aside>
       </div>
-
-      <aside class="pool" aria-label="All teams">
-        <div class="poolhead"><h2>Teams</h2><details class="colmenu" id="colMenuP"><summary class="btn quiet">Columns ▾</summary><div class="menu" id="colListP"></div></details></div>
-        <input type="search" id="q" placeholder="Search teams or conferences" aria-label="Search teams">
-        <div class="chips" role="group" aria-label="Filter">
-          <button class="chip" data-f="all" aria-pressed="true">All</button>
-          <button class="chip" data-f="p4" aria-pressed="false">Power 4</button>
-          <button class="chip" data-f="g5" aria-pressed="false">Group of 5</button>
-          <button class="chip" data-f="off" aria-pressed="false">Not on ballot</button>
-        </div>
-        <div class="pscroll">
-        <div class="phead" id="phead" role="group" aria-label="Sort teams by"></div>
-        <div class="plist" id="pool"></div>
-        </div>
-      </aside>
+    </div>
+    <div id="ws-map" hidden>
+      <section class="sec" style="margin-top:0"><div class="sh"><h2>Results Map<small>Your draft ballot; drag a handle to reorder</small></h2></div>
+        <div class="legend" id="legend2"></div><div id="wMap" class="map drag"></div></section>
+    </div>
+    <div id="ws-ups" hidden>
+      <section class="sec" style="margin-top:0"><div class="sh"><h2 id="uTitle">Upset alerts</h2>
+        <div class="row"><label style="font-size:13px;color:var(--muted)"><input type="checkbox" id="uAll"> Show all games</label><button class="btn primary" id="uSave" disabled>Publish upset alerts</button></div></div>
+        <p class="note" style="margin:0 0 10px">Candidates (gold edge) are games where the model favors the betting underdog, or differs from the line by 7+ points. Tick the ones to publish; add an optional one-line note. Only ticked games appear on Home.</p>
+        <div class="tblw"><table class="ups" id="uTable"></table></div></section>
     </div>
   </section>
+</main>
 
-  <section id="view-history" class="hist" hidden>
-    <h2>Previous Rankings</h2>
-    <div id="histBody"></div>
-  </section>
-
-  <section id="view-resumes" class="hist" hidden>
-    <h2>Data</h2>
-    <div class="weekbar rs-bar"><span class="weeklabel" id="rsWeek"></span><span class="spacer"></span><span class="status" id="rsStatus"></span><button class="btn primary" id="rsSave" disabled>Save ballot</button></div>
-    <div class="rs-sort" id="rsSort" role="group" aria-label="Sort data">Sort:
-      <button class="rsb" data-rs="ballot" aria-pressed="true">Weekly ranking</button>
-      <button class="rsb" data-rs="best" aria-pressed="false">Best win</button>
-      <button class="rsb" data-rs="worst" aria-pressed="false">Worst loss</button>
-      <span class="rs-hint" id="rsHint"></span>
-    </div>
-    <div class="rs-legend">
-      <span><i class="dot W s2 lg"></i>Win</span>
-      <span><i class="dot L s2 lg"></i>Loss</span>
-      <span><i class="dot s1 lg"></i><i class="dot s2 lg"></i><i class="dot s3 lg"></i>Margin 1–8 · 9–16 · 17+</span>
-      <span><i class="dot s2 close lg"></i>Close game (one score, and in doubt in the 4th quarter)</span>
-      <span><i class="dot s2 ot lg"></i>Overtime</span>
-      <span><b class="lgrk">6</b>Opponent’s rank on your Top 25</span>
-    </div>
-    <div id="rsBody" class="rs-body"></div>
-    <div id="poolData"></div>
-  </section>
-
-  <section id="view-method" class="hist method" hidden>
-    <h2>Methodology</h2>
-    <p>Team data comes from <a href="https://collegefootballdata.com" target="_blank" rel="noopener">CollegeFootballData.com</a> and updates every Sunday morning. Only FBS teams are rated. The model is a reference: the weekly rankings are my own, and they never feed into the model.</p>
-
-    <h3>The three ratings</h3>
-    <dl>
-      <dt>Model rank (power rating)</dt><dd><b>How good a team is.</b> Points better than an average FBS team on a neutral field. The difference between two teams' ratings, plus the home edge, is the model's predicted margin.</dd>
-      <dt>Quality wins (QW)</dt><dd><b>What a team has earned.</b> Its wins and losses, each weighted by how good the opponent's record is. Results only: no scoring margins and no power ratings.</dd>
-      <dt>Composite</dt><dd>A blend of the two (currently <b class="mxtxt"></b>), set under <b>Composite ▾</b>.</dd>
-    </dl>
-
-    <h3>Power rating, step by step</h3>
-    <ol>
-      <li><b>Margins have diminishing returns.</b> A win counts as <b data-set="DIMINISH_SCALE">50</b> × tanh(margin ÷ <b data-set="DIMINISH_SCALE">50</b>) points, so a 14-point win counts about 14, a 28-point win about 25, and a 50-point win about 38.</li>
-      <li><b>Close games count as narrow results.</b> A game is <i>close</i> if it ended within <b data-set="ONE_SCORE">8</b> points <i>unless</i> the winner led by <b data-set="FAKE_LEAD">17</b>+ going into the 4th quarter (more than two scores). Close games count as a <b data-set="CLOSE_MARGIN">3</b>-point result whatever the final margin. A one-score game that wasn't really in doubt (a late rally against a big lead) counts as its final margin + <b data-set="FAKE_BUMP">2</b>; for example, leading 31–14 after three quarters and winning 31–24 counts as 9.</li>
-      <li><b>Win bonus:</b> every win gets <b data-set="WIN_BONUS">0.75</b> extra points (and the loser loses them).</li>
-      <li><b>Each game is judged against expectations.</b> Ratings are fitted so the margins they predict match the credited results. A blowout a team was expected to win barely moves it; a close loss to a much better team can raise it.</li>
-      <li><b>Location:</b> home teams get <b data-set="HOME_FIELD">2.5</b> points. At a neutral site, the team closer to the stadium gets part of that edge (<b data-set="NEUTRAL_SHARE">1.0</b> × home edge × how much shorter its trip is). Any team traveling farther than its opponent gives up <b data-set="TRAVEL_PER_1000">1.0</b> point per 1,000 extra miles.</li>
-      <li><b>FCS games:</b> wins over FCS teams are ignored; a loss to an FCS team counts as a loss to a team rated <b data-set="FCS_BELOW">15</b> points below the FBS average.</li>
-      <li><b>Openers count a bit less:</b> each team's first game counts <b data-set="FIRST_GAME_WEIGHT">0.8</b> of a game.</li>
-      <li><b>Preseason start:</b> a mix of last season's rating, the share of production returning, and roster talent (weights fitted on earlier seasons), plus <b data-set="P4_START_BONUS">5</b> points for Power 4 teams (stats from weaker conferences tend to overrate teams). It counts as <b data-set="PRIOR_GAMES">3</b> games before the season and fades to nothing by week <b data-set="PRIOR_END_WEEK">14</b>.</li>
-    </ol>
-    <p class="note">Not used: betting lines (kept out so the model can disagree with them), per-play efficiency (it didn't improve predictions), and my own rankings. On a week-by-week replay of 2024–2026, the model's predicted margins were off by about 12.6 points per game on average (the closing betting line: about 12.0), and it picked the winner about 72% of the time.</p>
-
-    <h3>Quality wins</h3>
-    <ul>
-      <li><b>Opponent strength (0 to 1):</b> a results-only rating (the Colley method) from wins and losses, adjusted for who each team played. An average team is about 0.5.</li>
-      <li><b>A win</b> is worth the opponent's strength × location (<b data-set="LOC_WIN">road 1.02, neutral 1.01, home 1.00</b>), × (1 + <b data-set="DECISIVE_WIN_BONUS">0.1</b> × strength) if it wasn't close.</li>
-      <li><b>A loss</b> costs <b data-set="LOSS_WEIGHT">0.5</b> × (1 − strength) × location (<b data-set="LOC_LOSS">home 1.05, neutral 1.00, road 0.95</b>), × <b data-set="CLOSE_LOSS_FACTOR">0.6</b> if it was close, and always at least <b data-set="MIN_LOSS">0.1</b>. Losses weigh less than wins.</li>
-      <li><b>FCS:</b> a win doesn't count; a loss counts <b data-set="FCS_LOSS_VALUE">-1.5</b>.</li>
-      <li><b>Score</b> = the average value of the games that count. Example: a decisive home win over a 0.70-strength team is worth 0.70 × 1.00 × 1.07 = 0.75.</li>
-    </ul>
-
-    <h3>Composite</h3>
-    <p>Each team's power rating and quality-wins score are turned into percentiles among FBS teams (0 = lowest, 1 = highest). The Composite is the blend of the two, then ranked. The saved blend is what everyone sees; moving the slider changes only your own view.</p>
-
-    <h3>Data tab</h3>
-    <ul>
-      <li>Each strip shows a team's games, placed left to right by the <b>opponent's Composite rank</b> (#1 at the far right; FCS opponents at the far left).</li>
-      <li>Green = win, red = loss. Dot size = margin (1–8, 9–16, 17+). Gold ring = close game; double ring = overtime.</li>
-      <li>A small number beside a dot is the opponent's rank in my Top 25. <b>Best</b> marks the win over the highest-ranked opponent (by Composite rank, the rightmost green dot) and <b>Worst</b> the loss to the lowest-ranked one (the leftmost red dot).</li>
-      <li>Dots for similarly ranked opponents are stacked slightly above and below the line so none are hidden.</li>
-    </ul>
-
-    <h3>Columns and flags</h3>
-    <dl>
-      <dt>vs P4</dt><dd>Record against SEC, Big Ten, Big 12 and ACC teams, plus Notre Dame.</dd>
-      <dt>vs T25</dt><dd>Record against teams currently in my Top 25.</dd>
-      <dt>2025, '25 AP</dt><dd>Last season's regular-season record and final AP rank.</dd>
-      <dt>Off / Def EPA</dt><dd>Expected points added per play on offense, and allowed on defense (garbage time excluded). Defense: lower is better.</dd>
-      <dt>SR, Expl</dt><dd>Success rate (share of plays that keep a drive on schedule) and explosiveness (size of successful plays).</dd>
-      <dt>Adj …</dt><dd>The same stats, adjusted for the opponents faced.</dd>
-      <dt>Defs faced / Offs faced</dt><dd>Strength of schedule: the average adjusted EPA of the FBS defenses (lower = tougher) and offenses (higher = tougher) a team has played.</dd>
-      <dt>H2H</dt><dd>A head-to-head result that disagrees with my order.</dd>
-      <dt>LOOP</dt><dd>Teams that beat each other in a circle, so no order satisfies every result.</dd>
-      <dt>▲ ▼ NEW</dt><dd>Movement since my previous week's ranking.</dd>
-      <dt>Just missed</dt><dd>Up to five teams I'd rank next, in no particular order.</dd>
-    </dl>
-  </section>
-</div>
+<footer class="foot"><div class="wrapin"><span id="stamp">Loading team data…</span><span>Model spreads are the model’s predicted margin, written like a betting line; they never use betting lines. · <button id="syncBtn">Ballot sync</button></span></div></footer>
 
 <dialog id="dlg" aria-labelledby="dName">
   <h3 id="dName"></h3>
@@ -472,7 +561,7 @@ legend{font-weight:600;padding:0 4px}
   <div id="dAdv"></div>
   <div id="dChecks"></div>
   <div class="summ" id="dSumm"></div>
-  <ul class="games" id="dGames"></ul>
+  <ul class="glog" id="dGames"></ul>
   <p class="dnote" id="dNote"></p>
   <div class="trail" id="dTrail"></div>
   <form method="dialog"><div class="dlgbtns"><button class="btn">Close</button></div></form>
@@ -480,7 +569,7 @@ legend{font-weight:600;padding:0 4px}
 <dialog id="syncDlg" aria-labelledby="syncTitle">
   <h3 id="syncTitle">Ballot sync</h3>
   <div class="sub" id="syncState"></div>
-  <p class="dnote">Your ballots are saved in your GitHub repo <b>the-chili-king/cfb-ballots</b>. Anyone with this page's link can view them; only a device connected here can change them. Paste the fine-grained token you made for that repo. It is stored only in this browser.</p>
+  <p class="dnote">Ballots are saved in the GitHub repo <b>the-chili-king/cfb-ballots</b>. Anyone with this page's link can view them; only a device connected here can change them. Paste the fine-grained token made for that repo. It is stored only in this browser.</p>
   <input type="password" id="syncToken" autocomplete="off" spellcheck="false" placeholder="github_pat_…" aria-label="GitHub token">
   <p class="dnote" id="syncMsg" role="status"></p>
   <div class="dlgbtns"><button class="btn quiet" id="syncOff">Disconnect</button><form method="dialog"><button class="btn">Cancel</button></form><button class="btn primary" id="syncSave">Connect</button></div>
@@ -488,108 +577,110 @@ legend{font-weight:600;padding:0 4px}
 <dialog id="cmpDlg" aria-labelledby="cmpTitle">
   <h3 id="cmpTitle">Compare</h3>
   <div class="cmpgrid" id="cmpGrid"></div>
-  <p class="dnote">Shaded games were decided by 8 points or fewer. Opponent ranks are from your current Top 25; records are current.</p>
+  <p class="dnote">Shaded games were close (one score, and in doubt late). Opponent ranks are Wolp+ ranks; records are current.</p>
   <div class="dlgbtns"><button class="btn quiet" id="cmpClear2">Clear selection</button><form method="dialog"><button class="btn">Close</button></form></div>
 </dialog>
-<div class="cmpbar" id="cmpBar" hidden><span class="who" id="cmpWho"></span><button class="btn primary" id="cmpGo">Compare</button><button class="btn quiet" id="cmpClear">Clear</button><button class="btn quiet" id="cmpDone">Done</button></div>
+<div class="cmpbar" id="cmpBar" hidden><span id="cmpWho"></span><button class="btn primary" id="cmpGo">Compare</button><button class="btn quiet" id="cmpClear">Clear</button><button class="btn quiet" id="cmpDone">Done</button></div>
 <div id="tip" role="tooltip" hidden></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
 (function(){
-  const MAX = 25, MAXO = 5, MAXC = 4;
-  const S = {db:null, teams:{}, meta:null, weeks:{}, cur:null, draft:[], dirty:false, newWeek:false,
-             f:'all', q:'', sort:'rec', canWrite:true, loadedWeeks:false, dlgTeam:null,
-             others:[], cmp:[], cmpOn:false, rsort:'ballot'};
+  const MAX = 35, TOP = 25, MAXC = 4, FRAUD = 8, AP_NR = 30, BIG = 14, BIG_RANKED = 21;
+  const S = {db:null, teams:{}, teamsRaw:null, meta:null, model:null, schedule:null, ap:null, weeks:{}, cur:null, draft:[], dirty:false, newWeek:false,
+             canWrite:false, loadedWeeks:false, cmp:[], cmpOn:false, tab:'home', ws:'ballot',
+             r:{show:'wolp', conf:'', q:'', ms:'wolp', col:'wolp', rev:false}, f:'all', q:'', sort:'rec',
+             settings:{}, upsets:{}, uDraft:null, uDirty:false, uAll:false, showAll:false};
   const $ = id => document.getElementById(id);
-  // Only a device connected with your ballot sync token can edit; everyone else gets a read-only page.
+  // Only a device connected with the ballot sync token can edit; everyone else gets a read-only site.
   try{ S.canWrite = !!localStorage.getItem('cfb-gh-token'); }catch(e){ S.canWrite = false; }
   document.body.classList.toggle('viewonly', !S.canWrite);
   const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const rec = (w,l) => (w==null||l==null) ? '—' : w+'-'+l;
   const pct = t => (t.w+t.l) ? t.w/(t.w+t.l) : 0;
-  const p4pct = t => (t.p4w==null) ? -2 : (t.p4w+t.p4l) ? t.p4w/(t.p4w+t.p4l) : -1;
-  const lypct = t => (t.lyW==null) ? -1 : (t.lyW+t.lyL) ? t.lyW/(t.lyW+t.lyL) : -1;
+  const rv = (w,l) => w==null ? -1 : (w+l ? w/(w+l) : 0) + w/1000;
   const wkId = n => 'w' + String(n).padStart(2,'0');
-  const CLOSE = 8; // "one-score game" margin
+  const CLOSE = 8;
   const nm = a => (S.teams[a]||{name:a}).name;
-  const fmtDate = d => { if(!d) return ''; const x=new Date(d+'T12:00:00'); return isNaN(x) ? d : x.toLocaleDateString([], {month:'short', day:'numeric'}); };
+  const fmtDate = d => { if(!d) return ''; const x=new Date(d+'T12:00:00'); return isNaN(x) ? d : x.toLocaleDateString('en-US', {month:'short', day:'numeric'}); };
+  const logo = (a, cls='lg') => { const t=S.teams[a]; return t && t.logo ? `<img class="${cls}" src="${esc(t.logo)}" alt="" loading="lazy">` : `<span class="${cls} ph0"></span>`; };
+  const tc = a => { const c=(S.teams[a]||{}).color; return /^#[0-9a-f]{3,8}$/i.test(c||'') ? c : 'transparent'; };
+  const GRIP = '<svg width="10" height="16" viewBox="0 0 10 16" fill="currentColor"><circle cx="2" cy="2" r="1.6"/><circle cx="8" cy="2" r="1.6"/><circle cx="2" cy="8" r="1.6"/><circle cx="8" cy="8" r="1.6"/><circle cx="2" cy="14" r="1.6"/><circle cx="8" cy="14" r="1.6"/></svg>';
+  function toast(msg){ const t=$('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove('show'),2400); }
 
-  // ---------- stat columns ----------
-  // where: b = Top 25, p = team list. bw/pw = column widths on wide screens.
+  // ---------- columns ----------
+  // g = group heading in the Stats table; fmt n = 2 decimals, p = percent, r = rank; lo = lower is better; off = hidden by default
   const COLS = [
-    {k:'prev', h:'Last wk', lbl:'Last wk', menu:'Last week’s rank', only:'Top 25', where:'b', bw:'2.9rem'},
-    {k:'rec',  h:'Record',  lbl:'Rec',     menu:'Record', where:'bp', bw:'2.9rem', pw:'2.7rem', sort:'rec'},
-    {k:'p4',   h:'vs P4',   lbl:'vs P4',   menu:'Record vs Power 4', where:'bp', bw:'2.9rem', pw:'2.7rem', sort:'p4'},
-    {k:'t25',  h:'vs T25',  lbl:'vs T25',  menu:'Record vs your Top 25', where:'bp', bw:'2.9rem', pw:'2.7rem', sort:'t25'},
-    {k:'ly',   h:'2025',    lbl:'2025',    menu:'2025 record', where:'bp', bw:'2.9rem', pw:'2.7rem', sort:'ly'},
-    {k:'ap',   h:"'25 AP",  lbl:"'25 AP",  menu:'2025 final AP rank', where:'bp', bw:'2.7rem', pw:'2.3rem', sort:'ap'},
-    // advanced stats: fmt n = 2 decimals, p = percent; lo = lower is better (defense); off = hidden by default
-    {k:'offEpa', h:'Off EPA',  lbl:'Off EPA',  menu:'Offense EPA per play',         where:'bp', bw:'2.9rem', pw:'2.8rem', sort:'offEpa', fmt:'n'},
-    {k:'defEpa', h:'Def EPA',  lbl:'Def EPA',  menu:'Defense EPA per play allowed', where:'bp', bw:'2.9rem', pw:'2.8rem', sort:'defEpa', fmt:'n', lo:true},
-    {k:'offSr',  h:'Off SR',   lbl:'Off SR',   menu:'Offense success rate',         where:'bp', bw:'2.9rem', pw:'2.8rem', sort:'offSr',  fmt:'p', off:true},
-    {k:'defSr',  h:'Def SR',   lbl:'Def SR',   menu:'Defense success rate allowed', where:'bp', bw:'2.9rem', pw:'2.8rem', sort:'defSr',  fmt:'p', lo:true, off:true},
-    {k:'offXpl', h:'Off Expl', lbl:'Off Expl', menu:'Offense explosiveness',        where:'bp', bw:'3.1rem', pw:'3rem',   sort:'offXpl', fmt:'n', off:true},
-    {k:'defXpl', h:'Def Expl', lbl:'Def Expl', menu:'Defense explosiveness allowed',where:'bp', bw:'3.1rem', pw:'3rem',   sort:'defXpl', fmt:'n', lo:true, off:true},
-    // model (from cfb/model): fmt r = rank; val = computed on the page; wrap = two-line heading
-    {k:'powerRank',  h:'Model',  lbl:'Model',  menu:'Model rank (power rating)', where:'bp', bw:'2.9rem', pw:'2.7rem', sort:'powerRank',  fmt:'r', lo:true},
-    {k:'resumeRank', h:'QW',     lbl:'QW',     menu:'Quality wins rank',         where:'bp', bw:'2.9rem', pw:'2.7rem', sort:'resumeRank', fmt:'r', lo:true},
-    {k:'comp',       h:'Comp',   lbl:'Comp',   menu:'Composite rank (blend set under Composite ▾)', where:'bp', bw:'2.9rem', pw:'2.7rem', sort:'comp', fmt:'r', lo:true, val:a=>mdl().crank[a]},
-    {k:'adjOffEpa', h:'Adj Off EPA', lbl:'Adj Off EPA', menu:'Adjusted offense EPA per play',   where:'bp', bw:'3.3rem', pw:'3.1rem', sort:'adjOffEpa', fmt:'n', off:true, wrap:true},
-    {k:'adjDefEpa', h:'Adj Def EPA', lbl:'Adj Def EPA', menu:'Adjusted defense EPA allowed',    where:'bp', bw:'3.3rem', pw:'3.1rem', sort:'adjDefEpa', fmt:'n', lo:true, off:true, wrap:true},
-    {k:'adjOffSr',  h:'Adj Off SR',  lbl:'Adj Off SR',  menu:'Adjusted offense success rate',   where:'bp', bw:'3.3rem', pw:'3.1rem', sort:'adjOffSr',  fmt:'p', off:true, wrap:true},
-    {k:'adjDefSr',  h:'Adj Def SR',  lbl:'Adj Def SR',  menu:'Adjusted defense success rate allowed', where:'bp', bw:'3.3rem', pw:'3.1rem', sort:'adjDefSr', fmt:'p', lo:true, off:true, wrap:true},
-    {k:'sosDef', h:'Defs faced', lbl:'Defs faced', menu:'Defenses faced (avg adj def EPA; lower = tougher)', where:'bp', bw:'3.3rem', pw:'3.1rem', sort:'sosDef', fmt:'n', lo:true, off:true, wrap:true},
-    {k:'sosOff', h:'Offs faced', lbl:'Offs faced', menu:'Offenses faced (avg adj off EPA; higher = tougher)', where:'bp', bw:'3.3rem', pw:'3.1rem', sort:'sosOff', fmt:'n', off:true, wrap:true}
+    {k:'rec',  h:'Record', menu:'Record', g:'This season', bw:'2.9rem', pw:'2.7rem'},
+    {k:'p4',   h:'vs P4',  menu:'Record vs Power 4', g:'This season', bw:'2.9rem', pw:'2.7rem'},
+    {k:'t25',  h:'vs Wolp+ 25', menu:'Record vs the Wolp+ Top 25', g:'This season', bw:'3.4rem', pw:'3.2rem'},
+    {k:'ly',   h:'2025',   menu:'2025 record', g:'Last season', bw:'2.9rem', pw:'2.7rem'},
+    {k:'lyAp', h:'Final AP', menu:'2025 final AP rank', g:'Last season', bw:'3rem', pw:'2.8rem'},
+    {k:'offEpa', h:'Off EPA',  menu:'Offense EPA per play', g:'Efficiency', bw:'3rem', pw:'2.9rem', fmt:'n'},
+    {k:'defEpa', h:'Def EPA',  menu:'Defense EPA per play allowed', g:'Efficiency', bw:'3rem', pw:'2.9rem', fmt:'n', lo:true},
+    {k:'offSr',  h:'Off SR',   menu:'Offense success rate', g:'Efficiency', bw:'3rem', pw:'2.9rem', fmt:'p', off:true},
+    {k:'defSr',  h:'Def SR',   menu:'Defense success rate allowed', g:'Efficiency', bw:'3rem', pw:'2.9rem', fmt:'p', lo:true, off:true},
+    {k:'offXpl', h:'Off Expl', menu:'Offense explosiveness', g:'Efficiency', bw:'3.2rem', pw:'3rem', fmt:'n', off:true},
+    {k:'defXpl', h:'Def Expl', menu:'Defense explosiveness allowed', g:'Efficiency', bw:'3.2rem', pw:'3rem', fmt:'n', lo:true, off:true},
+    {k:'adjOffEpa', h:'Adj Off EPA', menu:'Adjusted offense EPA', g:'Adjusted', bw:'3.6rem', pw:'3.4rem', fmt:'n', off:true},
+    {k:'adjDefEpa', h:'Adj Def EPA', menu:'Adjusted defense EPA allowed', g:'Adjusted', bw:'3.6rem', pw:'3.4rem', fmt:'n', lo:true, off:true},
+    {k:'adjOffSr',  h:'Adj Off SR',  menu:'Adjusted offense success rate', g:'Adjusted', bw:'3.6rem', pw:'3.4rem', fmt:'p', off:true},
+    {k:'adjDefSr',  h:'Adj Def SR',  menu:'Adjusted defense success rate allowed', g:'Adjusted', bw:'3.6rem', pw:'3.4rem', fmt:'p', lo:true, off:true},
+    {k:'sosDef', h:'Defs faced', menu:'Defenses faced (lower = tougher)', g:'Schedule', bw:'3.6rem', pw:'3.4rem', fmt:'n', lo:true, off:true},
+    {k:'sosOff', h:'Offs faced', menu:'Offenses faced (higher = tougher)', g:'Schedule', bw:'3.6rem', pw:'3.4rem', fmt:'n', off:true},
+    {k:'powerRank',  h:'Power', menu:'Model rank (power rating)', g:'Model', bw:'2.9rem', pw:'2.7rem', fmt:'r', lo:true},
+    {k:'resumeRank', h:'Quality wins', menu:'Quality wins rank', g:'Model', bw:'3.6rem', pw:'2.9rem', fmt:'r', lo:true},
+    {k:'comp',       h:'Composite', menu:'Composite rank', g:'Model', bw:'3.6rem', pw:'3.2rem', fmt:'r', lo:true, val:a=>mdl().crank[a], strong:true}
   ];
   const ADV = COLS.filter(c=>c.fmt);
   const colVal = (c, a, t) => c.val ? c.val(a, t) : t[c.k];
   const fmtStat = (c, v) => typeof v!=='number' ? null : c.fmt==='r' ? '#'+v : c.fmt==='p' ? Math.round(v*100)+'%' : (Math.abs(v)<0.005 ? 0 : v).toFixed(2);
   const advOf = (t, k) => { const c=ADV.find(x=>x.k===k); return fmtStat(c, t[k]) ?? '–'; };
-  // compact offense/defense table for the team pop-up and compare view
   const advTable = t => `<table class="adv"><thead><tr><th></th><th>EPA</th><th>SR</th><th>Expl</th></tr></thead><tbody>
       <tr><th>Offense</th><td>${advOf(t,'offEpa')}</td><td>${advOf(t,'offSr')}</td><td>${advOf(t,'offXpl')}</td></tr>
       <tr><th>Defense</th><td>${advOf(t,'defEpa')}</td><td>${advOf(t,'defSr')}</td><td>${advOf(t,'defXpl')}</td></tr>
     </tbody><caption>Per play, garbage time excluded. Defense: lower is better.</caption></table>`;
-  S.vis = {}; COLS.forEach(c=>S.vis[c.k]=!c.off);
-  try{ const v=JSON.parse(localStorage.getItem('cfb-cols')||'null'); if(v && typeof v==='object') COLS.forEach(c=>{ if(typeof v[c.k]==='boolean') S.vis[c.k]=v[c.k]; }); }catch(e){}
-  // the Teams table has its own column choices; until changed, it starts from the Top 25's
-  S.visP = Object.assign({}, S.vis);
-  try{ const v=JSON.parse(localStorage.getItem('cfb-cols-teams')||'null'); if(v && typeof v==='object') COLS.forEach(c=>{ if(typeof v[c.k]==='boolean') S.visP[c.k]=v[c.k]; }); }catch(e){}
-  const shown = where => COLS.filter(c=>c.where.includes(where) && (where==='p' ? S.visP : S.vis)[c.k]);
+  // three independent column choices: Stats table (r), ballot (b), Teams list (p)
+  function loadVis(key, defOff){ const v={}; COLS.forEach(c=>v[c.k]=!c.off && !(defOff||[]).includes(c.k)); try{ const s=JSON.parse(localStorage.getItem(key)||'null'); if(s && typeof s==='object') COLS.forEach(c=>{ if(typeof s[c.k]==='boolean') v[c.k]=s[c.k]; }); }catch(e){} return v; }
+  S.vis = {r:loadVis('cfb2-cols'), b:loadVis('cfb2-cols-ballot',['ly','lyAp','resumeRank']), p:loadVis('cfb2-cols-teams',['ly','lyAp','t25','resumeRank'])};
+  const shown = w => COLS.filter(c=>S.vis[w][c.k]);
+  function colMenu(w){ let g=''; return COLS.map(c=>{ const h = c.g!==g ? `<div class="mh">${c.g}</div>` : ''; g=c.g; return h+`<label><input type="checkbox" data-col="${c.k}" data-w="${w}"${S.vis[w][c.k]?' checked':''}>${c.menu}</label>`; }).join(''); }
+  document.addEventListener('change', e=>{
+    const k=e.target.dataset && e.target.dataset.col, w=e.target.dataset && e.target.dataset.w; if(!k||!w) return;
+    S.vis[w][k]=e.target.checked; try{ localStorage.setItem({r:'cfb2-cols',b:'cfb2-cols-ballot',p:'cfb2-cols-teams'}[w], JSON.stringify(S.vis[w])); }catch(err){}
+    if(w==='r') renderRank(); else { renderHeads(); renderBallot(); renderPool(); }
+  });
 
-  // ---------- games & head-to-head ----------
+  // ---------- ballots ----------
+  // A week's ballot as one ordered list: ranking (up to 35), plus the old unordered "just missed" teams as 26-30.
+  const eff = w => !w ? [] : (w.ranking||[]).concat((w.others||[]).filter(a=>!(w.ranking||[]).includes(a))).slice(0, MAX);
+  const savedNums = () => Object.keys(S.weeks).map(Number).sort((a,b)=>a-b);
+  const pubNum = () => { const n=savedNums(); return n.length ? n[n.length-1] : null; };
+  const rankMap = n => { const m={}; eff(S.weeks[n]).forEach((a,i)=>m[a]=i+1); return m; };
+  function prevNum(n){ const s=savedNums().filter(x=>x<n); return s.length ? s[s.length-1] : null; }
+  const pub = () => { const n=pubNum(); return n==null ? [] : eff(S.weeks[n]); };
+  const pubMap = () => { const n=pubNum(); return n==null ? {} : rankMap(n); };
+  const draftMap = () => { const m={}; S.draft.forEach((a,i)=>m[a]=i+1); return m; };
   const gamesOf = a => { const g=(S.teams[a]||{}).games; return Array.isArray(g) ? g : []; };
-  // most recent meeting of a vs b, from a's side
-  function meeting(a, b){
-    let m=null;
-    for(const g of gamesOf(a)) if(g.opp===b && (!m || (g.date||'')>=(m.date||''))) m=g;
-    if(m) return m;
-    for(const g of gamesOf(b)) if(g.opp===a && (!m || (g.date||'')>=(m.date||''))) m={date:g.date, opp:b, pf:g.pa, pa:g.pf, result:g.result==='W'?'L':'W'};
-    return m;
+  function vsTop(a, ranks){ let w=0,l=0; for(const g of gamesOf(a)) if(ranks[g.opp] && ranks[g.opp]<=TOP && g.opp!==a){ if(g.result==='W') w++; else l++; } return {w,l}; }
+  function moveOf(a, rank, prev){
+    if(!prev) return '<span class="mv eq"></span>';
+    const p=prev[a]; if(!p) return '<span class="mv new" title="Newly ranked">NEW</span>';
+    const d=p-rank; return d>0 ? `<span class="mv up" title="Up ${d} from #${p}">▲${d}</span>` : d<0 ? `<span class="mv dn" title="Down ${-d} from #${p}">▼${-d}</span>` : '<span class="mv eq" title="No change">–</span>';
   }
-  function vsSet(a, onB){ let w=0,l=0; for(const g of gamesOf(a)) if(onB[g.opp] && g.opp!==a){ if(g.result==='W') w++; else l++; } return {w,l}; }
-  const onBallot = () => { const m={}; S.draft.forEach((a,i)=>m[a]=i+1); return m; };
 
-  // ---------- model (power / résumé / composite) ----------
-  // Percentiles among FBS teams (0 = lowest, 1 = highest); composite = w × résumé pct + (1 − w) × power pct.
-  S.mixW = S.mixPub = 0.5;  // replaced by the saved blend (settings.json) once it loads
+  // ---------- model ----------
+  S.mixW = S.mixPub = 0.2;
   function mdl(){
     if(S._mdl && S._mdl.w===S.mixW) return S._mdl;
     const T=S.teams, pctOf = key => { const L=Object.keys(T).filter(a=>typeof T[a][key]==='number').sort((a,b)=>(T[a][key]-T[b][key]) || (a<b?-1:1)), m={}; L.forEach((a,i)=>m[a]= L.length>1 ? i/(L.length-1) : 1); return m; };
     const pp = S._mdl ? S._mdl.pp : pctOf('powerRating'), rp = S._mdl ? S._mdl.rp : pctOf('resumeScore'), comp={}, crank={};
     Object.keys(T).forEach(a=>{ if(a in pp && a in rp) comp[a]=S.mixW*rp[a]+(1-S.mixW)*pp[a]; });
     Object.keys(comp).sort((a,b)=>(comp[b]-comp[a]) || (a<b?-1:1)).forEach((a,i)=>crank[a]=i+1);
-    return S._mdl={w:S.mixW, pp, rp, crank};
+    return S._mdl={w:S.mixW, pp, rp, crank, n:Object.keys(crank).length};
   }
-  // Opponent position on the Data strips: its Composite rank, evenly spaced (#1 at the right edge,
-  // the lowest-ranked FBS team at 0.04). Follows the Composite slider. FCS / unknown at 0.02.
-  const oppPos = o => { const c=mdl().crank, n=Object.keys(c).length; return c[o] && n>1 ? 0.04 + 0.96*(n-c[o])/(n-1) : 0.02; };
-  // "Close" = the game's close field (one score and in doubt late); older data without it: one score.
+  const oppPos = o => { const m=mdl(), c=m.crank[o]; return c && m.n>1 ? 0.04 + 0.96*(m.n-c)/(m.n-1) : 0.02; };
   const isClose = g => typeof g.close==='boolean' ? g.close : Math.abs(g.pf-g.pa)<=CLOSE;
-  // Best win = win over the opponent with the best Composite rank (the rightmost green dot);
-  // worst loss = loss to the opponent with the worst (the leftmost red dot; an FCS loss is always worst).
-  // v = the opponent's strip position (higher = better opponent). FCS wins are never the best win.
   function bestWorst(a){
     let bw=null, wl=null;
     for(const g of gamesOf(a)){
@@ -599,7 +690,6 @@ legend{font-weight:600;padding:0 4px}
     }
     return {bw, wl};
   }
-  // cfb/teams + cfb/model → S.teams (model fields on each team; per-game model data on each game)
   function mergeModel(){
     const T=JSON.parse(JSON.stringify(S.teamsRaw||{})), M=S.model&&S.model.teams||{};
     const sameRun = S.model && S.meta && S.model.updatedAt===S.meta.updatedAt;
@@ -618,7 +708,7 @@ legend{font-weight:600;padding:0 4px}
       <dt>Composite</dt><dd>${c?'#'+c:'–'} <span style="color:var(--muted);font-weight:500">(${100-Math.round(S.mixW*100)}% power / ${Math.round(S.mixW*100)}% quality wins)</span></dd></dl>`; };
   const gAt = g => g.site==='away' ? 'at' : 'vs';
   const gScore = g => g.result==='W' ? `${g.pf}-${g.pa}` : `${g.pa}-${g.pf}`;
-  const gOppName = (o, onB) => (onB[o] ? '#'+onB[o]+' ' : '') + nm(o);
+  const gOppName = (o, ranks) => (ranks[o] ? '#'+ranks[o]+' ' : '') + nm(o);
   const gOppRec = o => S.teams[o] ? rec(S.teams[o].w, S.teams[o].l) : 'FCS';
   function cmpBox(a){
     if(!S.cmpOn) return '';
@@ -626,33 +716,219 @@ legend{font-weight:600;padding:0 4px}
     return `<label class="cmpk" title="Compare"><input type="checkbox" data-cmp="${esc(a)}" aria-label="Compare ${esc(nm(a))}"${on?' checked':''}${!on&&S.cmp.length>=MAXC?' disabled':''}></label>`;
   }
 
-  // Flags for teams that lost to a team ranked below them, and loops (strongly
-  // connected groups in the "beat" graph) among ballot teams. Nudges only.
-  // "Just missed" teams sit below the Top 25 (unordered among themselves).
+  // ---------- spreads ----------
+  // home margin (positive = home favored) → "Team −3.5", rounded to the half point like a betting line
+  function spread(m, h, a){
+    if(typeof m!=='number') return '—';
+    const r=Math.round(Math.abs(m)*2)/2; if(r===0) return 'Pick’em';
+    return `${esc(nm(m>0?h:a))} −${r.toFixed(1)}`;
+  }
+  const kick = s => { const d=new Date(s); return isNaN(d) ? '' : d.toLocaleString('en-US',{weekday:'short',hour:'numeric',minute:'2-digit',timeZone:'America/New_York'})+' ET'; };
+
+  // ---------- HOME ----------
+  function apRank(a){ return S.ap && S.ap.ranks ? S.ap.ranks[a] : undefined; }
+  function renderHome(){
+    const n=pubNum(), list=pub(), ranks=pubMap(), prev = n!=null && prevNum(n)!=null ? rankMap(prevNum(n)) : null;
+    $('hTitle').innerHTML = `Wolp+ Top 25${n!=null?`<small>Week ${n}</small>`:''}`;
+    if(!list.length){ $('hTop').innerHTML='<div class="empty"><strong>No ballot yet</strong>The first Wolp+ Top 25 will appear here.</div>'; $('hAlso').innerHTML=''; }
+    else {
+      const top=list.slice(0,TOP), half=Math.ceil(top.length/2);
+      const row=(a,i)=>`<button class="trow" data-open="${esc(a)}" style="--tc:${tc(a)}"><span class="rk">${i+1}</span>${moveOf(a,i+1,prev)}${logo(a)}<span class="tn">${esc(nm(a))}</span><span class="tr">${S.teams[a]?rec(S.teams[a].w,S.teams[a].l):''}</span></button>`;
+      $('hTop').innerHTML = `<div>${top.slice(0,half).map((a,i)=>row(a,i)).join('')}</div><div>${top.slice(half).map((a,i)=>row(a,i+half)).join('')}</div>`;
+      const rest=list.slice(TOP);
+      $('hAlso').innerHTML = rest.length ? `Also ranked: ${rest.map((a,i)=>`<b>${TOP+i+1}</b> ${esc(nm(a))}`).join(' · ')}` : '';
+    }
+    // fraud watch / under the radar (both Wolp+ and Composite must disagree with the AP)
+    const cr=mdl().crank, apR=(S.ap&&S.ap.ranks)||{}, hasAp=Object.keys(apR).length>0 && list.length>0;
+    const wrow = a => `<button class="wrow" data-open="${esc(a)}">${logo(a)}<div class="wn"><b>${esc(nm(a))}</b><small>${S.teams[a]?rec(S.teams[a].w,S.teams[a].l)+' · '+esc(S.teams[a].conf||''):''}</small></div>
+      <div class="wk"><span><small>AP</small>${apR[a]?'#'+apR[a]:'NR'}</span><span><small>Wolp+</small>${ranks[a]?'#'+ranks[a]:'NR'}</span><span><small>Comp</small>${cr[a]?'#'+cr[a]:'–'}</span></div></button>`;
+    const fraud = Object.keys(apR).filter(a=>S.teams[a] && (ranks[a]||MAX+1)-apR[a]>=FRAUD && (cr[a]||999)-apR[a]>=FRAUD).sort((a,b)=>((ranks[b]||MAX+1)-apR[b])-((ranks[a]||MAX+1)-apR[a]) || apR[a]-apR[b]);
+    const radar = list.filter(a=>(apR[a]||AP_NR)-ranks[a]>=FRAUD && (apR[a]||AP_NR)-(cr[a]||999)>=FRAUD).sort((a,b)=>((apR[b]||AP_NR)-ranks[b])-((apR[a]||AP_NR)-ranks[a]));
+    const none = '<p class="lead" style="margin:0">No one this week.</p>', wait='<p class="lead" style="margin:0">Waiting for the AP poll and a saved ballot.</p>';
+    $('hFraud').innerHTML = !hasAp ? wait : fraud.map(wrow).join('') || none;
+    $('hRadar').innerHTML = !hasAp ? wait : radar.map(wrow).join('') || none;
+    document.querySelectorAll('.fthr').forEach(el=>el.textContent=FRAUD);
+    // this week's games
+    const sch=S.schedule||{}, games=(sch.games||[]).filter(g=>S.teams[g.home]||S.teams[g.away]);
+    const upW = (S.upsets||{})[sch.week] || {};
+    const card = g => { const up=upW[g.id], mFav = typeof g.model==='number' ? (g.model>0?g.home:g.away) : null, lFav = typeof g.line==='number' ? (g.line>0?g.home:g.away) : null;
+      const side = a => `<button class="side" data-open="${esc(a)}">${logo(a)}<div><b>${ranks[a]?`<span class="rkb">${ranks[a]}</span>`:''}${esc(nm(a))}</b><small>${S.teams[a]?rec(S.teams[a].w,S.teams[a].l):'FCS'}${apR[a]?' · AP #'+apR[a]:''}</small></div></button>`;
+      return `<div class="game${up?' hot':''}"><div class="gtop"><span class="when">${esc(kick(g.start))}</span>${up?'<span class="tag up">Upset alert</span>':''}</div>
+        ${side(g.away)}<div class="at">${g.neutral?'vs':'at'}</div>${side(g.home)}
+        <div class="nums"><div><small>Line</small><b>${spread(g.line,g.home,g.away)}</b></div><div><small>Model</small><b class="${mFav && lFav && mFav!==lFav ? 'mup':''}">${spread(g.model,g.home,g.away)}</b></div></div>
+        ${up && up.note ? `<p class="gnote">${esc(up.note)}</p>` : ''}</div>`; };
+    const ups = games.filter(g=>upW[g.id]);
+    $('hUpsWrap').hidden = !ups.length;
+    $('hUpsSub').textContent = sch.week!=null ? `Week ${sch.week}` : '';
+    $('hUps').innerHTML = ups.map(card).join('');
+    const imp = g => Math.min(ranks[g.home]||99, ranks[g.away]||99, apR[g.home]||99, apR[g.away]||99);
+    const fav = g => typeof g.line==='number' ? Math.abs(g.line) : typeof g.model==='number' ? Math.abs(g.model) : 0;  // spread: line, else model
+    const rkd = a => !!(ranks[a] || apR[a]), both = g => rkd(g.home) && rkd(g.away);  // ranked matchups get a wider window
+    const big = games.filter(g=>imp(g)<99 && fav(g)<=(both(g) ? BIG_RANKED : BIG)).sort((x,y)=>((ranks[x.home]||45)+(ranks[x.away]||45)) - ((ranks[y.home]||45)+(ranks[y.away]||45)) || imp(x)-imp(y));
+    $('hBigWrap').hidden = !games.length;
+    $('hBigT').innerHTML = `This week's big games${sch.week!=null?`<small>Week ${sch.week} · ranked teams with a favorite of ${BIG} or less (${BIG_RANKED} or less for ranked matchups)</small>`:''}`;
+    $('hBig').innerHTML = big.map(card).join('') || '<p class="lead">No close-looking ranked games this week.</p>';
+    $('hAllBtn').textContent = S.showAll ? 'Hide all games' : `All ${games.length} games →`;
+    $('hAll').hidden = !S.showAll;
+    if(S.showAll) $('hAll').innerHTML = `<div class="tblw"><table><thead><tr class="cols"><th style="text-align:left">Kickoff</th><th style="text-align:left">Away</th><th></th><th style="text-align:left">Home</th><th>Line</th><th>Model</th></tr></thead><tbody>${
+      games.map(g=>`<tr><td class="dim">${esc(kick(g.start))}</td><td><span class="gl-n">${logo(g.away)}${ranks[g.away]?`<span class="rkb">${ranks[g.away]}</span>`:''}${esc(nm(g.away))}</span></td><td class="dim">${g.neutral?'vs':'at'}</td><td><span class="gl-n">${logo(g.home)}${ranks[g.home]?`<span class="rkb">${ranks[g.home]}</span>`:''}${esc(nm(g.home))}</span></td><td style="text-align:center">${spread(g.line,g.home,g.away)}</td><td style="text-align:center">${spread(g.model,g.home,g.away)}</td></tr>`).join('')}</tbody></table></div>`;
+  }
+  $('hAllBtn').addEventListener('click', ()=>{ S.showAll=!S.showAll; renderHome(); });
+
+  // ---------- RANKINGS ----------
+  const P4C = ['SEC','Big Ten','Big 12','ACC'];
+  function rankList(){
+    const ranks=pubMap(), cr=mdl().crank, q=S.r.q.trim().toLowerCase(), R=S.r;
+    return Object.keys(S.teams).filter(a=>{
+      const t=S.teams[a];
+      if(R.show==='wolp' && !ranks[a]) return false;
+      if(R.show==='c25' && !(cr[a]<=25)) return false;
+      if(R.show==='c50' && !(cr[a]<=50)) return false;
+      if(R.conf==='p4' && !t.p4) return false;
+      if(R.conf==='g5' && (t.p4 || t.conf==='FBS Independents')) return false;
+      if(R.conf && R.conf!=='p4' && R.conf!=='g5' && t.conf!==R.conf) return false;
+      if(q && !(t.name.toLowerCase().includes(q))) return false;
+      return true;
+    });
+  }
+  const wsort = ranks => (a,b) => ((ranks[a]||99)-(ranks[b]||99)) || ((mdl().crank[a]||999)-(mdl().crank[b]||999));
+  function mapRow(a, rank, prev, ranksForDots, drag){
+    const t=S.teams[a]||{name:a,conf:''}, bw=bestWorst(a);
+    const dots = gamesOf(a).map(g=>{
+      const m=Math.abs(g.pf-g.pa), size = m<=8 ? 1 : m<=16 ? 2 : 3;
+      const lab = bw.bw && bw.bw.g===g ? 'Best' : bw.wl && bw.wl.g===g ? 'Worst' : '';
+      const tip = `${g.result} ${gScore(g).replace('-','–')}${g.ot?' (OT)':''} ${gAt(g)} ${gOppName(g.opp,ranksForDots)}, ${gOppRec(g.opp)}${mdl().crank[g.opp]?', Composite #'+mdl().crank[g.opp]:''}`;
+      return {size, lab, html:`<button class="dot ${g.result} s${size}${g.ot?' ot':isClose(g)?' close':''}" style="left:${(oppPos(g.opp)*100).toFixed(2)}%" data-tip="${esc(tip)}" aria-label="${esc(tip)}">${ranksForDots[g.opp]?`<span class="drk">${ranksForDots[g.opp]}</span>`:''}${lab?`<span class="dlb${lab==='Worst'?' up':''}">${lab}</span>`:''}</button>`};
+    }).sort((p,q)=>(q.size-p.size) || ((p.lab?1:0)-(q.lab?1:0))).map(d=>d.html).join('');
+    const rk = rank ? `<span class="rk">${rank}</span>` : '<span class="rk none">–</span>';
+    const grip = drag ? `<button class="grip" aria-label="Move ${esc(t.name)}, rank ${rank}. Use arrow keys." data-i="${rank-1}">${GRIP}</button>` : '';
+    return `<div class="mrow" data-abbr="${esc(a)}" style="--tc:${tc(a)}">${rk}${rank?moveOf(a,rank,prev):'<span class="mv"></span>'}${grip}${logo(a)}<button class="nm" data-open="${esc(a)}"><b>${esc(t.name)}</b><small>${rec(t.w,t.l)} · ${esc(t.conf||'')}</small></button><div class="track"><div class="din">${dots}</div></div><span class="cr">${mdl().crank[a]?'#'+mdl().crank[a]:''}</span>${cmpBox(a)}</div>`;
+  }
+  const axis = drag => `<div class="axis"><span></span><span></span>${drag?'<span></span>':''}<span></span><span></span><div class="ax"><span>#${mdl().n||''}</span><span>Opponent Composite rank</span><span>#1</span></div><span style="text-align:right">Comp</span>${S.cmpOn?'<span></span>':''}</div>`;
+  const legend = () => `<span><i class="dot W s2"></i>Win</span><span><i class="dot L s2"></i>Loss</span><span><i class="dot s1"></i><i class="dot s2"></i><i class="dot s3"></i>Margin 1–8 · 9–16 · 17+</span><span><i class="dot s2 close"></i>Close game</span><span><i class="dot s2 ot"></i>Overtime</span><span><b>6</b>Opponent’s Wolp+ rank</span>`;
+  function renderRank(){
+    const n=pubNum(), ranks=pubMap(), prev = n!=null && prevNum(n)!=null ? rankMap(prevNum(n)) : null, R=S.r, cr=mdl().crank;
+    $('rTitle').textContent = `Wolp+ Top 25${n!=null?' · Week '+n:''}`;
+    $('rSub').textContent = stampText() + (n!=null && S.weeks[n].savedAt ? ` · ballot saved ${new Date(S.weeks[n].savedAt).toLocaleDateString('en-US',{month:'short',day:'numeric'})}` : '');
+    document.querySelectorAll('[data-show]').forEach(b=>b.classList.toggle('on', b.dataset.show===R.show));
+    document.querySelectorAll('[data-ms]').forEach(b=>b.classList.toggle('on', b.dataset.ms===R.ms));
+    $('legend1').innerHTML = legend();
+    const L = rankList(); $('rCount').textContent = `${L.length} team${L.length===1?'':'s'}`;
+    // Results Map
+    const bwv = a => { const x=bestWorst(a); return x; };
+    const ord = {wolp:wsort(ranks), comp:(a,b)=>(cr[a]||999)-(cr[b]||999),
+      best:(a,b)=>{ const x=bwv(a).bw, y=bwv(b).bw; return (!x)-(!y) || (x&&y ? y.v-x.v : 0) || wsort(ranks)(a,b); },
+      worst:(a,b)=>{ const x=bwv(a).wl, y=bwv(b).wl; return (!x)-(!y) || (x&&y ? x.v-y.v : 0) || wsort(ranks)(a,b); }}[R.ms];
+    const M = L.slice().sort(ord);
+    let h='';
+    if(!M.length) h = '<p class="lead">No teams match these filters.</p>';
+    else if(R.ms==='wolp' && R.show==='wolp'){
+      const a=M.filter(x=>ranks[x]<=TOP), b=M.filter(x=>ranks[x]>TOP);
+      h = axis(false) + a.map(x=>mapRow(x, ranks[x], prev, ranks)).join('') + (b.length ? `<div class="grp">Also ranked 26–35</div>${b.map(x=>mapRow(x, ranks[x], prev, ranks)).join('')}` : '');
+    } else h = axis(false) + M.map(x=>mapRow(x, ranks[x], prev, ranks)).join('');
+    $('rMap').innerHTML = h; stackDots($('rMap'));
+    // Stats table
+    const cols = shown('r'), key = c => c==='wolp' ? (a=>-(ranks[a]||99)*1000-(cr[a]||999)) : c==='name' ? (a=>nm(a)) : (()=>{
+      const C=COLS.find(x=>x.k===c), t=a=>S.teams[a];
+      if(c==='rec') return a=>rv(t(a).w,t(a).l); if(c==='p4') return a=>rv(t(a).p4w,t(a).p4l); if(c==='ly') return a=>rv(t(a).lyW,t(a).lyL);
+      if(c==='lyAp') return a=>-(t(a).lyAp||99); if(c==='t25') return a=>{ const r=vsTop(a,ranks); return r.w-r.l/100; };
+      return a=>{ const v=colVal(C,a,t(a)); return typeof v!=='number' ? -1e9 : C.lo ? -v : v; };
+    })();
+    if(R.col!=='wolp' && R.col!=='name' && !cols.some(c=>c.k===R.col)) { R.col='wolp'; R.rev=false; }
+    const k=key(R.col), T = L.slice().sort((a,b)=>{ const x=k(a), y=k(b); const d = typeof x==='string' ? x.localeCompare(y) : y-x; return (R.rev?-d:d) || wsort(ranks)(a,b); });
+    const groups=[]; cols.forEach(c=>{ const g=groups[groups.length-1]; if(g && g.g===c.g) g.n++; else groups.push({g:c.g, n:1}); });
+    const cell = (c,a) => { const t=S.teams[a]; let v, cls='';
+      switch(c.k){ case 'rec': v=rec(t.w,t.l); break; case 'p4': v=rec(t.p4w,t.p4l); if(t.p4w==null) cls='dim'; break;
+        case 't25': { const r=vsTop(a,ranks); v=r.w+'-'+r.l; if(!r.w&&!r.l) cls='dim'; break; }
+        case 'ly': v=rec(t.lyW,t.lyL); cls='dim'; break; case 'lyAp': v=t.lyAp?'#'+t.lyAp:'NR'; cls='dim'; break;
+        default: v=fmtStat(c,colVal(c,a,t)); if(v==null){ v='–'; cls='dim'; } if(c.strong) cls='strong'; }
+      return `<td class="${cls}">${v}</td>`; };
+    const firstOf = new Set(); { let g=''; cols.forEach(c=>{ if(c.g!==g) firstOf.add(c.k); g=c.g; }); }
+    const th = (c,label,extra='') => `<th data-c="${c}" class="${R.col===c?'on':''}${R.col===c&&R.rev?' rev':''}${extra}">${label}</th>`;
+    $('rTable').innerHTML = `<thead><tr class="grph"><th colspan="3"></th>${groups.map(g=>`<th class="g1" colspan="${g.n}">${esc(g.g)}</th>`).join('')}${S.cmpOn?'<th></th>':''}</tr>
+      <tr class="cols">${th('wolp','Wolp+')}<th></th>${th('name','Team','" style="text-align:left')}${cols.map(c=>th(c.k,c.h,firstOf.has(c.k)?' g1':'')).join('')}${S.cmpOn?'<th>Cmp</th>':''}</tr></thead>
+      <tbody>${T.map(a=>`<tr style="--tc:${tc(a)}"><td class="rkc${ranks[a]?'':' none'}">${ranks[a]||'–'}</td><td class="c-mv">${ranks[a]?moveOf(a,ranks[a],prev):''}</td><td class="tmc"><button class="tb" data-open="${esc(a)}">${logo(a)}<span>${esc(nm(a))}</span></button></td>${cols.map(c=>cell(c,a).replace('<td class="', `<td class="${firstOf.has(c.k)?'g1 ':''}`)).join('')}${S.cmpOn?`<td>${cmpBox(a)}</td>`:''}</tr>`).join('')}</tbody>`;
+    $('colList').innerHTML = colMenu('r');
+  }
+  document.querySelectorAll('[data-show]').forEach(b=>b.addEventListener('click',()=>{ S.r.show=b.dataset.show; saveR(); renderRank(); }));
+  document.querySelectorAll('[data-ms]').forEach(b=>b.addEventListener('click',()=>{ S.r.ms=b.dataset.ms; saveR(); renderRank(); }));
+  $('rTable').addEventListener('click', e=>{ const th=e.target.closest('th[data-c]'); if(!th) return; const c=th.dataset.c; S.r.rev = c===S.r.col ? !S.r.rev : false; S.r.col=c; renderRank(); });
+  $('rConf').addEventListener('change', e=>{ S.r.conf=e.target.value; saveR(); renderRank(); });
+  $('rQ').addEventListener('input', e=>{ S.r.q=e.target.value; renderRank(); });
+  function saveR(){ try{ localStorage.setItem('cfb2-rank', JSON.stringify({ms:S.r.ms})); }catch(e){} }
+  try{ const v=JSON.parse(localStorage.getItem('cfb2-rank')||'null'); if(v && ['wolp','comp','best','worst'].includes(v.ms)) S.r.ms=v.ms; }catch(e){}
+  function renderConfs(){
+    const confs=[...new Set(Object.values(S.teams).map(t=>t.conf).filter(Boolean))].sort();
+    $('rConf').innerHTML = `<option value="">All conferences</option><option value="p4">Power 4</option><option value="g5">Group of 5</option>${confs.map(c=>`<option${S.r.conf===c?' selected':''}>${esc(c)}</option>`).join('')}`;
+    $('rConf').value=S.r.conf;
+  }
+
+  // Dots for opponents rated about the same would sit on top of each other: nudge them above / below the line.
+  function stackDots(scope){
+    const R = d => (d.classList.contains('s3') ? 9 : d.classList.contains('s2') ? 6.5 : 4.5) + (d.classList.contains('ot') ? 7 : d.classList.contains('close') ? 3.5 : 0);
+    scope.querySelectorAll('.din').forEach(track=>{
+      const W = track.clientWidth; if(!W) return;
+      const dots = [...track.querySelectorAll('.dot')].map(d=>({d, x:parseFloat(d.style.left)/100*W, r:R(d), y:0})).sort((a,b)=>a.x-b.x);
+      const groups = [];
+      dots.forEach(p=>{ const g=groups[groups.length-1]; if(g && g.some(q=>p.x-q.x < q.r+p.r+1)) g.push(p); else groups.push([p]); });
+      groups.forEach(g=>{
+        if(g.length>1){
+          const placed=[];
+          g.forEach(p=>{ p.y = [0,-8,8,-16,16,-24,24].find(y=>placed.every(q=>Math.hypot(q.x-p.x, q.y-y) >= q.r+p.r+1)) ?? 0; placed.push(p); });
+          const shift = -(Math.min(...g.map(p=>p.y)) + Math.max(...g.map(p=>p.y)))/2;
+          g.forEach(p=>p.y+=shift);
+        }
+        g.forEach(p=>{ p.d.style.top = p.y ? `calc(50% + ${p.y}px)` : ''; const lb=p.d.querySelector('.dlb'); if(lb) lb.classList.toggle('up', p.y<0 || (p.y===0 && lb.textContent==='Worst')); });
+      });
+    });
+  }
+  window.addEventListener('resize', ()=>{ if(S.tab==='rank') stackDots($('rMap')); if(S.tab==='work' && S.ws==='map') stackDots($('wMap')); });
+
+  // ---------- PREVIOUS RANKINGS ----------
+  function renderHistory(){
+    const nums=savedNums(), el=$('histBody');
+    if(!nums.length){ el.innerHTML='<div class="empty"><strong>No saved weeks yet</strong>Each saved Wolp+ ballot will line up here.</div>'; return; }
+    const maps = nums.map(rankMap), last = maps[maps.length-1];
+    const all = new Set(); maps.forEach(m=>Object.keys(m).forEach(a=>all.add(a)));
+    const best = a => Math.min(...maps.map(m=>m[a]||99));
+    const rows=[...all].sort((a,b)=>((last[a]||99)-(last[b]||99)) || (best(a)-best(b)));
+    el.innerHTML = `<table><thead><tr class="cols"><th class="t">Team</th><th>Record</th>${nums.map(n=>`<th>Wk ${n}</th>`).join('')}<th>High</th></tr></thead><tbody>${
+      rows.map(a=>`<tr style="--tc:${tc(a)}"><td class="t"><span>${logo(a)}${esc(nm(a))}</span></td><td>${S.teams[a]?rec(S.teams[a].w,S.teams[a].l):'—'}</td>${maps.map(m=>m[a]?`<td class="r${m[a]<=5?' top5':''}">${m[a]}</td>`:'<td class="nr">–</td>').join('')}<td>${best(a)}</td></tr>`).join('')
+    }</tbody></table>`;
+  }
+
+  // ---------- METHODOLOGY ----------
+  function renderMethod(){
+    const st=(S.model&&S.model.settings)||{};
+    document.querySelectorAll('#view-method [data-set]').forEach(el=>{
+      const k=el.dataset.set, v=st[k]; if(v==null) return;
+      if(k==='LOC_WIN') el.textContent=`road ${v.away.toFixed(2)}, neutral ${v.neutral.toFixed(2)}, home ${v.home.toFixed(2)}`;
+      else if(k==='LOC_LOSS') el.textContent=`home ${v.home.toFixed(2)}, neutral ${v.neutral.toFixed(2)}, road ${v.away.toFixed(2)}`;
+      else el.textContent=String(v);
+    });
+    document.querySelectorAll('.mxtxt').forEach(el=>el.textContent=`${100-Math.round(S.mixW*100)}% power / ${Math.round(S.mixW*100)}% quality wins`);
+    document.querySelectorAll('.fthr').forEach(el=>el.textContent=FRAUD);
+  }
+
+  // ---------- WORKSPACE: ballot ----------
   function analyze(){
-    const onB=onBallot(), T=S.draft.concat(S.others.filter(a=>!onB[a])), out={}, meets=[], rk={};
-    T.forEach(a=>{ out[a]=[]; rk[a]=onB[a]||MAX+1; });
+    const onB=draftMap(), T=S.draft.slice(), out={}, meets=[];
+    T.forEach(a=>{ out[a]=[]; });
+    const meeting = (a,b) => { let m=null; for(const g of gamesOf(a)) if(g.opp===b && (!m || (g.date||'')>=(m.date||''))) m=g; return m; };
     for(let i=0;i<T.length;i++) for(let j=i+1;j<T.length;j++){
       const m=meeting(T[i],T[j]); if(!m) continue;
-      const won = m.result==='W';
-      const w = won?T[i]:T[j], l = won?T[j]:T[i];
-      out[w].push(l);
-      meets.push({hi:T[i], lo:T[j], m, upset:!won, unordered:!onB[T[i]] && !onB[T[j]]});
+      const won = m.result==='W', w = won?T[i]:T[j], l = won?T[j]:T[i];
+      out[w].push(l); meets.push({hi:T[i], lo:T[j], m, upset:!won});
     }
-    const pairs = meets.filter(p=>!p.unordered);
-    // Tarjan's SCC
-    let idx=0; const index={}, low={}, stack=[], on={}, comp={}, comps=[];
-    const visit = v => {
-      index[v]=low[v]=idx++; stack.push(v); on[v]=true;
+    let idx=0; const index={}, low={}, stack=[], on={}, comps=[];
+    const visit = v => { index[v]=low[v]=idx++; stack.push(v); on[v]=true;
       for(const w of out[v]){ if(index[w]==null){ visit(w); low[v]=Math.min(low[v],low[w]); } else if(on[w]) low[v]=Math.min(low[v],index[w]); }
-      if(low[v]===index[v]){ const c=[]; let w; do{ w=stack.pop(); on[w]=false; comp[w]=comps.length; c.push(w); }while(w!==v); comps.push(c); }
-    };
+      if(low[v]===index[v]){ const c=[]; let w; do{ w=stack.pop(); on[w]=false; c.push(w); }while(w!==v); comps.push(c); } };
     T.forEach(v=>{ if(index[v]==null) visit(v); });
     const loops=[], loopOf={};
-    comps.filter(c=>c.length>1 && c.some(a=>onB[a])).forEach(c=>{
-      c.sort((a,b)=>rk[a]-rk[b]);
-      const cyc=longestCycle(c, out, rk), mem=new Set(c);
-      const names = cyc.map(nm).concat(nm(cyc[0])).join(' → ');
+    comps.filter(c=>c.length>1).forEach(c=>{
+      c.sort((a,b)=>onB[a]-onB[b]);
+      const cyc=longestCycle(c, out, onB), mem=new Set(c), names = cyc.map(nm).concat(nm(cyc[0])).join(' → ');
       const text = (cyc.length===c.length ? `Loop: ${names}.` : `Loop among ${c.map(nm).join(', ')}, e.g. ${names}.`) + ' No order satisfies all of them.';
       const pos = a => { const i=cyc.indexOf(a); return i<0 ? 99 : i; };
       const games = meets.filter(p=>mem.has(p.hi)&&mem.has(p.lo)).map(p=>({w:p.upset?p.lo:p.hi, l:p.upset?p.hi:p.lo, m:p.m}))
@@ -661,66 +937,39 @@ legend{font-weight:600;padding:0 4px}
       const L={members:c, text, games}; loops.push(L); c.forEach(a=>loopOf[a]=L);
     });
     const flags={};
-    pairs.forEach(p=>{
+    meets.forEach(p=>{
       if(!p.upset || (loopOf[p.hi] && loopOf[p.hi]===loopOf[p.lo])) return;
       const sc=`${p.m.pa}-${p.m.pf}`, when=p.m.date?` (${fmtDate(p.m.date)})`:'';
-      (flags[p.hi]=flags[p.hi]||[]).push(`Ranked above ${nm(p.lo)} (${onB[p.lo]?'#'+onB[p.lo]:'just missed'}), but lost to them ${sc}${when}.`);
-      (flags[p.lo]=flags[p.lo]||[]).push(onB[p.lo] ? `Ranked below ${nm(p.hi)} (#${onB[p.hi]}), but beat them ${sc}${when}.` : `Just missed, but beat ${nm(p.hi)} (#${onB[p.hi]}) ${sc}${when}.`);
+      (flags[p.hi]=flags[p.hi]||[]).push(`Ranked above ${nm(p.lo)} (#${onB[p.lo]}), but lost to them ${sc}${when}.`);
+      (flags[p.lo]=flags[p.lo]||[]).push(`Ranked below ${nm(p.hi)} (#${onB[p.hi]}), but beat them ${sc}${when}.`);
     });
     return {onB, flags, loops, loopOf};
   }
-  // Longest simple cycle inside one strongly connected group (small, so brute force with a cap).
-  function longestCycle(c, out, onB){
+  function longestCycle(c, out, rk){
     const inC=new Set(c); let best=[], steps=0;
     for(const s of c){
       const path=[s], used=new Set([s]);
-      const dfs = v => {
-        if(++steps>50000 || best.length===c.length) return;
-        for(const w of out[v]){
-          if(!inC.has(w)) continue;
+      const dfs = v => { if(++steps>50000 || best.length===c.length) return;
+        for(const w of out[v]){ if(!inC.has(w)) continue;
           if(w===s){ if(path.length>best.length) best=path.slice(); continue; }
-          if(used.has(w) || onB[w]<onB[s]) continue;
-          used.add(w); path.push(w); dfs(w); path.pop(); used.delete(w);
-        }
-      };
+          if(used.has(w) || rk[w]<rk[s]) continue;
+          used.add(w); path.push(w); dfs(w); path.pop(); used.delete(w); } };
       dfs(s);
     }
     return best.length ? best : c;
   }
-
-  function toast(msg){ const t=$('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove('show'),2200); }
-
-  // ---------- local draft (per-viewer convenience) ----------
-  function stashDraft(){ try{ if(S.dirty) localStorage.setItem('cfb-draft', JSON.stringify({week:S.cur, draft:S.draft, isNew:S.newWeek, others:S.others})); else localStorage.removeItem('cfb-draft'); }catch(e){} }
-  function readStash(){ try{ return JSON.parse(localStorage.getItem('cfb-draft')||'null'); }catch(e){ return null; } }
-
-  // ---------- derived ----------
-  const savedNums = () => Object.keys(S.weeks).map(Number).sort((a,b)=>a-b);
-  function prevWeekNum(n){ const s = savedNums().filter(x=>x<n); return s.length ? s[s.length-1] : null; }
-  function rankMap(n){ const w=S.weeks[n]; const m={}; if(w) (w.ranking||[]).forEach((a,i)=>m[a]=i+1); return m; }
-
+  function stashDraft(){ try{ if(S.dirty) localStorage.setItem('cfb-draft2', JSON.stringify({week:S.cur, draft:S.draft, isNew:S.newWeek})); else localStorage.removeItem('cfb-draft2'); }catch(e){} }
+  function readStash(){ try{ return JSON.parse(localStorage.getItem('cfb-draft2')||'null'); }catch(e){ return null; } }
   function setDirty(v){ S.dirty=v; stashDraft(); renderStatus(); }
-
-  // ---------- render ----------
   function renderStatus(){
     const st=$('status'), sv=$('save');
-    if(!S.canWrite){ const w=S.weeks[S.cur]; st.textContent='View only'+(w && w.savedAt ? ' · ballot saved '+new Date(w.savedAt).toLocaleDateString([], {month:'short',day:'numeric'}) : ''); st.className='status'; sv.disabled=true; return mirrorStatus(); }
-    if(S.dirty){ st.textContent = S.draft.length<MAX ? `Unsaved: ${S.draft.length} of 25 ranked` : 'Unsaved changes'; st.className='status warn'; }
-    else { const w=S.weeks[S.cur]; st.textContent = w && w.savedAt ? 'Saved ' + new Date(w.savedAt).toLocaleString([], {month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}) : ''; st.className='status'; }
+    if(S.dirty){ st.textContent = S.draft.length<MAX ? `Unsaved: ${S.draft.length} of ${MAX} ranked` : 'Unsaved changes'; st.className='status warn'; }
+    else { const w=S.weeks[S.cur]; st.textContent = w && w.savedAt ? 'Saved ' + new Date(w.savedAt).toLocaleString('en-US', {month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}) : ''; st.className='status'; }
     sv.disabled = !S.dirty || S.draft.length===0;
     $('delWeek').hidden = !(S.weeks[S.cur] && !S.dirty);
-    mirrorStatus();
   }
-  // the Résumés tab shows the same status and Save button
-  function mirrorStatus(){
-    $('rsStatus').textContent=$('status').textContent; $('rsStatus').className=$('status').className;
-    $('rsSave').disabled=$('save').disabled;
-    $('rsWeek').textContent = S.cur!=null ? 'Week '+S.cur : '';
-  }
-
   function renderWeekBar(){
-    const sel=$('weekSel'), nums=savedNums();
-    const opts = nums.slice();
+    const sel=$('weekSel'), opts=savedNums().slice();
     if(S.cur!=null && !opts.includes(S.cur)) opts.push(S.cur);
     opts.sort((a,b)=>a-b);
     sel.innerHTML = opts.map(n=>`<option value="${n}"${n===S.cur?' selected':''}>${n}${S.weeks[n]?'':' (new)'}</option>`).join('');
@@ -728,254 +977,185 @@ legend{font-weight:600;padding:0 4px}
     $('weekNum').hidden = !isNew; sel.hidden = isNew && opts.length===1;
     if(isNew) $('weekNum').value = S.cur;
   }
-
-  function moveCell(a, i, prev){
-    if(prev===null) return '<span class="mv eq"></span>';
-    const p = prev[a];
-    if(!p) return '<span class="mv new" title="New to your Top 25">NEW</span>';
-    const d = p-(i+1);
-    if(d>0) return `<span class="mv up" title="Up ${d} from #${p}">▲${d}</span>`;
-    if(d<0) return `<span class="mv dn" title="Down ${-d} from #${p}">▼${-d}</span>`;
-    return '<span class="mv eq" title="No change">–</span>';
-  }
-
-  // one stat cell; ctx = {onB, prev, pn}
-  function statCell(c, a, t, ctx, pool){
-    let v, cls='';
-    switch(c.k){
-      case 'prev': v = ctx.pn===null ? '—' : ctx.prev[a] ? '#'+ctx.prev[a] : 'NR'; cls = ctx.prev && ctx.prev[a] ? ' ap' : ' dim'; break;
-      case 'rec': v=rec(t.w,t.l); break;
-      case 'p4': v=rec(t.p4w,t.p4l); if(t.p4w==null) cls=' dim'; break;
-      case 't25': { const r=vsSet(a,ctx.onB); v=r.w+'-'+r.l; if(!r.w&&!r.l) cls=' dim'; break; }
-      case 'ly': v=rec(t.lyW,t.lyL); cls=' dim'; break;
-      case 'ap': v = t.lyAp ? '#'+t.lyAp : (pool ? '<span class="dim" style="font-weight:500">–</span>' : '<span class="dim">NR</span>'); if(!pool) cls=' ap'; break;
-      default: v = fmtStat(c, colVal(c, a, t)); if(v==null){ v='–'; cls=' dim'; }
-    }
-    return `<span class="${pool?'c':'st'}${cls}"><span class="lbl">${c.lbl}</span>${v}</span>`;
-  }
-
   function renderHeads(){
     const b=shown('b'), p=shown('p');
-    // minimum row widths (team column keeps 5.5rem / 7rem); narrower containers scroll sideways
-    const bMin = ['3.2rem','2.6rem','18px','5.5rem',...b.map(c=>c.bw),...(S.cmpOn?['1.5rem']:[]),'1.8rem'];
-    const pMin = ['7rem',...p.map(c=>c.pw),...(S.cmpOn?['1.5rem']:[]),'3rem'];
-    $('dyncols').textContent = `@container ballot (min-width:561px){.cols,.row{grid-template-columns:3.2rem 2.6rem 18px minmax(0,1fr) ${b.map(c=>c.bw).join(' ')}${S.cmpOn?' 1.5rem':''} 1.8rem}.bscroll>*{min-width:calc(${bMin.join(' + ')} + ${(bMin.length-1)*6+12}px)}}@container pool (min-width:380px){.phead,.prow{grid-template-columns:minmax(0,1fr) ${p.map(c=>c.pw).join(' ')}${S.cmpOn?' 1.5rem':''} 3rem}.pscroll>*{min-width:calc(${pMin.join(' + ')} + ${(pMin.length-1)*5+12}px)}}`;
-    $('cols').innerHTML = `<span style="text-align:right">Rank</span><span></span><span></span><span>Team</span>${b.map(c=>`<span>${c.h}</span>`).join('')}${S.cmpOn?'<span title="Compare">Cmp</span>':''}<span></span>`;
-    if(S.sort!=='name' && !p.some(c=>c.sort===S.sort)) S.sort = p.some(c=>c.k==='rec') ? 'rec' : 'name';
-    $('phead').innerHTML = `<button data-s="name" aria-pressed="${S.sort==='name'}">Team</button>${p.map(c=>`<button data-s="${c.sort}" aria-pressed="${S.sort===c.sort}"${c.k==='t25'?' title="Record vs teams currently on your ballot"':''}${c.wrap?' class="hwrap"':''}>${c.h}</button>`).join('')}${S.cmpOn?'<span></span>':''}<span></span>`;
-    $('colListP').innerHTML = COLS.filter(c=>c.where.includes('p')).map(c=>`<label><input type="checkbox" data-col="${c.k}"${S.visP[c.k]?' checked':''}>${c.menu}</label>`).join('');
-    $('colList').innerHTML = COLS.filter(c=>c.where.includes('b')).map(c=>`<label><input type="checkbox" data-col="${c.k}"${S.vis[c.k]?' checked':''}>${c.menu}${c.only?`<small>${c.only}</small>`:''}</label>`).join('');
+    const bc = `44px 34px 18px 24px minmax(7rem,1fr) ${b.map(c=>c.bw).join(' ')}${S.cmpOn?' 22px':''} 26px`;
+    const pc = `minmax(8rem,1fr) ${p.map(c=>c.pw).join(' ')}${S.cmpOn?' 22px':''} 3.2rem`;
+    $('dyncols').textContent = `.brow,.bcols{--bcols:${bc}}.phead,.prow{--pcols:${pc}}`;
+    $('bcols').innerHTML = `<span style="text-align:right">Rank</span><span></span><span></span><span></span><span>Team</span>${b.map(c=>`<span>${c.h}</span>`).join('')}${S.cmpOn?'<span>Cmp</span>':''}<span></span>`;
+    if(S.sort!=='name' && !p.some(c=>c.k===S.sort)) S.sort = p.some(c=>c.k==='rec') ? 'rec' : 'name';
+    $('phead').innerHTML = `<button data-s="name" aria-pressed="${S.sort==='name'}">Team</button>${p.map(c=>`<button data-s="${c.k}" aria-pressed="${S.sort===c.k}">${c.h}</button>`).join('')}${S.cmpOn?'<span></span>':''}<span></span>`;
+    $('colListB').innerHTML = colMenu('b'); $('colListP').innerHTML = colMenu('p');
   }
-
+  function statCell(c, a, t, onB, pool){
+    let v, cls='';
+    switch(c.k){
+      case 'rec': v=rec(t.w,t.l); break;
+      case 'p4': v=rec(t.p4w,t.p4l); if(t.p4w==null) cls=' dim'; break;
+      case 't25': { const r=vsTop(a,onB); v=r.w+'-'+r.l; if(!r.w&&!r.l) cls=' dim'; break; }
+      case 'ly': v=rec(t.lyW,t.lyL); cls=' dim'; break;
+      case 'lyAp': v = t.lyAp ? '#'+t.lyAp : 'NR'; cls=' dim'; break;
+      default: v = fmtStat(c, colVal(c, a, t)); if(v==null){ v='–'; cls=' dim'; }
+    }
+    return `<span class="${pool?'c':'st'}${cls}">${v}</span>`;
+  }
   function renderBallot(){
     hideTip();
-    const pn = prevWeekNum(S.cur);
-    const prev = pn===null ? null : rankMap(pn);
-    const an = analyze(), ctx = {onB:an.onB, prev, pn}, cols = shown('b');
-    const el=$('ballot');
-    el.innerHTML = S.draft.map((a,i)=>{
-      const t=S.teams[a]||{name:a,conf:''};
-      const fl = an.flags[a], lp = an.loopOf[a];
-      const marks = (fl ? `<button class="flag" data-tip="${esc(fl.join('\n'))}" aria-label="${esc(fl.join(' '))}">H2H</button>` : '')
-                  + (lp ? `<button class="flag loop" data-tip="${esc(lp.text+'\n'+lp.games.join('\n'))}" aria-label="${esc(lp.text)}">LOOP</button>` : '');
-      return `<div class="row" data-abbr="${esc(a)}">
-        <span class="rk">${i+1}</span>
-        ${moveCell(a,i,prev)}
-        <button class="grip" aria-label="Move ${esc(t.name)}, rank ${i+1}. Use arrow keys." data-i="${i}"><svg width="10" height="16" viewBox="0 0 10 16" fill="currentColor"><circle cx="2" cy="2" r="1.6"/><circle cx="8" cy="2" r="1.6"/><circle cx="2" cy="8" r="1.6"/><circle cx="8" cy="8" r="1.6"/><circle cx="2" cy="14" r="1.6"/><circle cx="8" cy="14" r="1.6"/></svg></button>
-        <div class="tm"><button class="nmb" data-open="${esc(a)}">${esc(t.name)}</button><small>${marks}${esc(t.conf||'')}</small></div>
-        <div class="stats">${cols.map(c=>statCell(c,a,t,ctx,false)).join('')}</div>
-        ${cmpBox(a)}
-        <button class="x" data-rm="${i}" aria-label="Remove ${esc(t.name)}">×</button>
-      </div>`;
-    }).join('');
-    $('others').innerHTML = S.others.map(a=>{
-      const t=S.teams[a]||{name:a,conf:''};
-      const fl = an.flags[a], lp = an.loopOf[a];
-      const marks = (fl ? `<button class="flag" data-tip="${esc(fl.join('\n'))}" aria-label="${esc(fl.join(' '))}">H2H</button>` : '')
-                  + (lp ? `<button class="flag loop" data-tip="${esc(lp.text+'\n'+lp.games.join('\n'))}" aria-label="${esc(lp.text)}">LOOP</button>` : '');
-      return `<div class="row jmrow" data-abbr="${esc(a)}">
-        <span class="rk"></span><button class="mv upb" data-up="${esc(a)}" aria-label="Move ${esc(t.name)} to Top 25" title="Move to Top 25">↑</button>
-        <button class="grip" aria-label="Drag ${esc(t.name)} between Just missed and your Top 25"><svg width="10" height="16" viewBox="0 0 10 16" fill="currentColor"><circle cx="2" cy="2" r="1.6"/><circle cx="8" cy="2" r="1.6"/><circle cx="2" cy="8" r="1.6"/><circle cx="8" cy="8" r="1.6"/><circle cx="2" cy="14" r="1.6"/><circle cx="8" cy="14" r="1.6"/></svg></button>
-        <div class="tm"><button class="nmb" data-open="${esc(a)}">${esc(t.name)}</button><small>${marks}${esc(t.conf||'')}</small></div>
-        <div class="stats">${cols.map(c=>statCell(c,a,t,ctx,false)).join('')}</div>
-        ${cmpBox(a)}
-        <button class="x" data-rmo="${esc(a)}" aria-label="Remove ${esc(t.name)} from Just missed">×</button>
-      </div>`;
-    }).join('');
-    $('jmCount').textContent = `${S.others.length} of ${MAXO}, unordered`;
-    const s=$('slots'); let h='';
+    const pn = prevNum(S.cur), prev = pn===null ? null : rankMap(pn);
+    const an = analyze(), cols = shown('b');
+    const row = (a,i) => { const t=S.teams[a]||{name:a,conf:''}, fl=an.flags[a], lp=an.loopOf[a];
+      const marks = (fl ? `<button class="flag" data-tip="${esc(fl.join('\n'))}" aria-label="${esc(fl.join(' '))}">H2H</button>` : '') + (lp ? `<button class="flag loop" data-tip="${esc(lp.text+'\n'+lp.games.join('\n'))}" aria-label="${esc(lp.text)}">LOOP</button>` : '');
+      return `<div class="brow" data-abbr="${esc(a)}" style="--tc:${tc(a)}"><span class="rk">${i+1}</span>${moveOf(a,i+1,prev)}<button class="grip owner-only" aria-label="Move ${esc(t.name)}, rank ${i+1}. Use arrow keys." data-i="${i}">${GRIP}</button>${logo(a)}
+        <div class="tm"><button class="nmb" data-open="${esc(a)}">${esc(t.name)}</button><small>${marks}${esc(t.conf||'')}</small></div>${cols.map(c=>statCell(c,a,t,an.onB,false)).join('')}${cmpBox(a)}<button class="x" data-rm="${i}" aria-label="Remove ${esc(t.name)}">×</button></div>`; };
+    $('ballot').innerHTML = S.draft.map((a,i)=> (i===TOP ? '<div class="cut" data-cut>Also ranked 26–35</div>' : '') + row(a,i)).join('');
+    let h='';
     if(an.loops.length) h += `<div class="checks">${an.loops.map(L=>`<p>${esc(L.text)}<small>${L.games.map(esc).join(' · ')}</small></p>`).join('')}</div>`;
-    if(!S.draft.length){
-      h += `<div class="empty"><strong>Your Top 25 is empty</strong>Add teams from the list${window.matchMedia('(max-width:880px)').matches?' below':' on the right'}, or drag them in.</div>`;
-    }
-    for(let i=S.draft.length;i<MAX && S.draft.length;i++) h += `<div class="slot"><span class="rk">${i+1}</span><span>Open spot</span></div>`;
-    // teams that dropped out vs last week
-    if(prev){
-      const out = Object.keys(prev).filter(a=>!S.draft.includes(a)).sort((a,b)=>prev[a]-prev[b]);
-      if(out.length) h += `<p class="note">Dropped out: ${out.map(a=>esc((S.teams[a]||{name:a}).name)+' (#'+prev[a]+')').join(', ')}</p>`;
-    }
-    s.innerHTML=h;
+    if(!S.draft.length) h += `<div class="empty"><strong>The ballot is empty</strong>Add teams from the list, or drag them in.</div>`;
+    for(let i=S.draft.length;i<MAX && S.draft.length;i++) h += (i===TOP && S.draft.length<=TOP ? '<div class="cut">Also ranked 26–35</div>' : '') + `<div class="slot"><span class="rk">${i+1}</span><span>Open spot</span></div>`;
+    if(prev){ const out = Object.keys(prev).filter(a=>!S.draft.includes(a)).sort((a,b)=>prev[a]-prev[b]); if(out.length) h += `<p class="note">Dropped out: ${out.map(a=>esc(nm(a))+' (#'+prev[a]+')').join(', ')}</p>`; }
+    $('slots').innerHTML=h;
   }
-
-  // advanced-stat sort, best first (defense ascending); teams with no data last
   const statSort = k => { const c=ADV.find(c=>c.k===k)||{k}, lo=!!c.lo; return (x,y)=>{
     const a=colVal(c,x[0],x[1]), b=colVal(c,y[0],y[1]), na=typeof a!=='number', nb=typeof b!=='number';
     return (na-nb) || (na ? 0 : lo ? a-b : b-a) || x[1].name.localeCompare(y[1].name); }; };
-
   function renderPool(){
-    const onB = onBallot(), ctx = {onB}, cols = shown('p'), inO = new Set(S.others);
-    const t25 = {}; Object.keys(S.teams).forEach(a=>t25[a]=vsSet(a,onB));
-    const q=S.q.trim().toLowerCase();
+    const onB = draftMap(), cols = shown('p'), q=S.q.trim().toLowerCase();
     let list = Object.entries(S.teams).filter(([a,t])=>{
-      if(S.f==='p4' && !t.p4) return false;
-      if(S.f==='g5' && t.p4) return false;
-      if(S.f==='off' && (onB[a] || inO.has(a))) return false;
-      if(q && !(t.name.toLowerCase().includes(q) || (t.conf||'').toLowerCase().includes(q) || a.toLowerCase()===q)) return false;
-      return true;
-    });
-    const cmp = {
-      rec:(x,y)=> pct(y[1])-pct(x[1]) || (y[1].w-x[1].w) || ((y[1].p4?1:0)-(x[1].p4?1:0)) || ((x[1].lyAp||99)-(y[1].lyAp||99)) || x[1].name.localeCompare(y[1].name),
-      p4:(x,y)=> (p4pct(y[1])-p4pct(x[1])) || ((y[1].p4w||0)-(x[1].p4w||0)) || (pct(y[1])-pct(x[1])) || x[1].name.localeCompare(y[1].name),
-      ly:(x,y)=> (lypct(y[1])-lypct(x[1])) || ((y[1].lyW||0)-(x[1].lyW||0)) || x[1].name.localeCompare(y[1].name),
-      ap:(x,y)=> ((x[1].lyAp||99)-(y[1].lyAp||99)) || (pct(y[1])-pct(x[1])) || x[1].name.localeCompare(y[1].name),
-      t25:(x,y)=> (t25[y[0]].w-t25[x[0]].w) || (t25[x[0]].l-t25[y[0]].l) || (pct(y[1])-pct(x[1])) || x[1].name.localeCompare(y[1].name),
-      name:(x,y)=> x[1].name.localeCompare(y[1].name)
-    }[S.sort] || statSort(S.sort);
+      if(S.f==='p4' && !t.p4) return false; if(S.f==='g5' && t.p4) return false; if(S.f==='off' && onB[a]) return false;
+      if(q && !(t.name.toLowerCase().includes(q) || (t.conf||'').toLowerCase().includes(q))) return false; return true; });
+    const t25 = {}; list.forEach(([a])=>t25[a]=vsTop(a,onB));
+    const cmp = { rec:(x,y)=> pct(y[1])-pct(x[1]) || (y[1].w-x[1].w) || ((y[1].p4?1:0)-(x[1].p4?1:0)) || x[1].name.localeCompare(y[1].name),
+      p4:(x,y)=> rv(y[1].p4w,y[1].p4l)-rv(x[1].p4w,x[1].p4l) || x[1].name.localeCompare(y[1].name),
+      ly:(x,y)=> rv(y[1].lyW,y[1].lyL)-rv(x[1].lyW,x[1].lyL) || x[1].name.localeCompare(y[1].name),
+      lyAp:(x,y)=> ((x[1].lyAp||99)-(y[1].lyAp||99)) || x[1].name.localeCompare(y[1].name),
+      t25:(x,y)=> (t25[y[0]].w-t25[x[0]].w) || (t25[x[0]].l-t25[y[0]].l) || x[1].name.localeCompare(y[1].name),
+      name:(x,y)=> x[1].name.localeCompare(y[1].name) }[S.sort] || statSort(S.sort);
     list.sort(cmp);
-    const full = S.draft.length>=MAX && S.others.length>=MAXO;
-    const addTitle = full ? ' disabled title="Your Top 25 and Just missed are full"' : S.draft.length>=MAX ? ' title="Adds to Just missed"' : '';
-    $('pool').innerHTML = list.length ? list.map(([a,t])=>`<div class="prow${onB[a]||inO.has(a)?' onb':''}" data-abbr="${esc(a)}">
-        <div class="pn" style="min-width:0"><button class="nm" data-open="${esc(a)}">${esc(t.name)}</button><div class="meta">${esc(t.conf)}</div></div>
-        <div class="stats">${cols.map(c=>statCell(c,a,t,ctx,true)).join('')}</div>
-        ${cmpBox(a)}
-        ${onB[a]?`<span class="on">#${onB[a]}</span>`:inO.has(a)?'<span class="on" title="Just missed">Missed</span>':`<button class="add" data-add="${esc(a)}"${addTitle}>Add</button>`}
-      </div>`).join('') : '<p class="note" style="padding:6px">No teams match.</p>';
+    const full = S.draft.length>=MAX;
+    $('pool').innerHTML = list.length ? list.map(([a,t])=>`<div class="prow${onB[a]?' onb':''}" data-abbr="${esc(a)}">
+        <div class="pn">${logo(a)}<div style="min-width:0"><button class="nm2" data-open="${esc(a)}">${esc(t.name)}</button></div></div>
+        ${cols.map(c=>statCell(c,a,t,onB,true)).join('')}${cmpBox(a)}
+        ${onB[a]?`<span class="on">#${onB[a]}</span>`:`<button class="add" data-add="${esc(a)}"${full?' disabled title="The ballot is full (35)"':''}>Add</button>`}</div>`).join('') : '<p class="note" style="padding:6px">No teams match.</p>';
   }
-
-  function renderHistory(){
-    const nums=savedNums(), el=$('histBody');
-    if(!nums.length){ el.innerHTML='<div class="empty"><strong>No saved weeks yet</strong>Save your first ballot and each week will line up here.</div>'; return; }
-    const maps = nums.map(rankMap), last = maps[maps.length-1];
-    const all = new Set(); maps.forEach(m=>Object.keys(m).forEach(a=>all.add(a)));
-    const best = a => Math.min(...maps.map(m=>m[a]||99));
-    const rows=[...all].sort((a,b)=>((last[a]||99)-(last[b]||99)) || (best(a)-best(b)));
-    el.innerHTML = `<div class="tbl"><table><thead><tr><th class="t">Team</th><th>Record</th>${nums.map(n=>`<th>Wk ${n}</th>`).join('')}<th>High</th></tr></thead><tbody>${
-      rows.map(a=>{ const t=S.teams[a]||{name:a};
-        return `<tr><td class="t">${esc(t.name)}</td><td>${rec(t.w,t.l)}</td>${maps.map(m=>m[a]?`<td class="r${m[a]<=5?' top5':''}">${m[a]}</td>`:'<td class="nr">–</td>').join('')}<td>${best(a)}</td></tr>`;}).join('')
-    }</tbody></table></div>`;
+  function renderWMap(){
+    const onB=draftMap(), pn=prevNum(S.cur), prev = pn===null ? null : rankMap(pn), el=$('wMap');
+    $('legend2').innerHTML = legend();
+    if(wSortable){ wSortable.destroy(); wSortable=null; }
+    if(!S.draft.length){ el.innerHTML='<div class="empty"><strong>No teams yet</strong>Add teams on the Ballot view first.</div>'; return; }
+    el.innerHTML = axis(true) + `<div id="wTop">${S.draft.map((a,i)=>(i===TOP?'<div class="grp" data-cut>Also ranked 26–35</div>':'')+mapRow(a, i+1, prev, onB, true)).join('')}</div>`;
+    stackDots(el);
+    if(window.Sortable) wSortable = Sortable.create($('wTop'), { handle:'.grip', draggable:'.mrow', animation:150,
+      onEnd:(ev)=>{ const order=[...$('wTop').querySelectorAll('.mrow')].map(r=>r.dataset.abbr); if(order.join()!==S.draft.join()){ S.draft=order; setDirty(true); } renderBallot(); renderPool(); renderWMap(); } });
   }
-
-  function renderStamp(){
-    if(!S.meta){ $('stamp').textContent = 'Loading team data…'; return; }
-    const d = S.meta.updatedAt ? new Date(S.meta.updatedAt).toLocaleDateString([], {month:'short', day:'numeric'}) : '';
-    $('stamp').textContent = `Records include ${S.meta.through||''}${d?', updated '+d:''}`;
+  let wSortable=null;
+  function renderWork(){
+    document.querySelectorAll('[data-ws]').forEach(b=>b.classList.toggle('on', b.dataset.ws===S.ws));
+    ['ballot','map','ups'].forEach(k=>$('ws-'+k).hidden = k!==S.ws);
+    renderWeekBar(); renderHeads(); renderBallot(); renderPool(); renderStatus();
+    if(S.ws==='map') renderWMap();
+    if(S.ws==='ups') renderUps();
   }
+  document.querySelectorAll('[data-ws]').forEach(b=>b.addEventListener('click',()=>{ S.ws=b.dataset.ws; renderWork(); }));
 
-  function renderAll(){ renderStamp(); renderHeads(); renderWeekBar(); renderBallot(); renderPool(); renderStatus(); renderCmpBar(); if(!$('view-history').hidden) renderHistory(); if(!$('view-resumes').hidden) renderResumes(); if(!$('view-method').hidden) renderMethod(); }
-
-  // ---------- actions ----------
+  // ballot actions
   function addTeam(a, at){
-    if(S.draft.includes(a) || S.others.includes(a) || S.draft.length>=MAX) return;
+    if(S.draft.includes(a) || S.draft.length>=MAX) return;
     if(at==null || at>S.draft.length) at=S.draft.length;
-    S.draft.splice(at,0,a); setDirty(true); renderBallot(); renderPool(); if(!$('view-resumes').hidden) renderResumes();
+    S.draft.splice(at,0,a); setDirty(true); renderBallot(); renderPool();
   }
-  function addOther(a){
-    if(S.draft.includes(a) || S.others.includes(a) || S.others.length>=MAXO) return;
-    S.others.push(a); setDirty(true); renderBallot(); renderPool(); if(!$('view-resumes').hidden) renderResumes();
-  }
-  // "Just missed" → Top 25: next open spot, or #25 when full (the old #25 takes its place in Just missed)
-  function promote(a){
-    const i=S.others.indexOf(a); if(i<0 || S.draft.includes(a)) return;
-    if(S.draft.length<MAX){ S.others.splice(i,1); S.draft.push(a); toast(`${nm(a)} moved to #${S.draft.length}.`); }
-    else { const b=S.draft[MAX-1]; S.draft[MAX-1]=a; S.others[i]=b; toast(`${nm(a)} moved to #${MAX}; ${nm(b)} moved to Just missed.`); }
-    setDirty(true); renderBallot(); renderPool(); if(!$('view-resumes').hidden) renderResumes();
-  }
-  function loadWeek(n){
-    S.cur=n; S.newWeek=false;
-    S.draft = (S.weeks[n] ? S.weeks[n].ranking : []).slice();
-    S.others = (S.weeks[n] && S.weeks[n].others || []).slice();
-    setDirty(false); renderAll();
-  }
+  function loadWeek(n){ S.cur=n; S.newWeek=false; S.draft=eff(S.weeks[n]); setDirty(false); renderWork(); }
   function confirmDiscard(){ return !S.dirty || confirm('Discard unsaved changes to this week?'); }
-
-  $('weekSel').addEventListener('change', e=>{
-    const n=Number(e.target.value);
-    if(!confirmDiscard()){ e.target.value=S.cur; return; }
-    loadWeek(n);
-  });
-  $('weekNum').addEventListener('change', e=>{
-    const n=Math.max(0,Math.min(20,Number(e.target.value)||0));
-    if(S.weeks[n]){ toast(`Week ${n} already exists`); e.target.value=S.cur; return; }
-    S.cur=n; stashDraft(); renderWeekBar(); renderBallot();
-  });
+  $('weekSel').addEventListener('change', e=>{ const n=Number(e.target.value); if(!confirmDiscard()){ e.target.value=S.cur; return; } loadWeek(n); });
+  $('weekNum').addEventListener('change', e=>{ const n=Math.max(0,Math.min(20,Number(e.target.value)||0)); if(S.weeks[n]){ toast(`Week ${n} already exists`); e.target.value=S.cur; return; } S.cur=n; stashDraft(); renderWeekBar(); renderBallot(); });
   $('newWeek').addEventListener('click', ()=>{
     if(!confirmDiscard()) return;
-    const nums=savedNums(); const latest = nums.length? nums[nums.length-1] : null;
-    S.cur = latest==null ? (S.cur ?? 5) : latest+1;
-    S.newWeek = true;
-    S.draft = latest==null ? [] : S.weeks[latest].ranking.slice();
-    S.others = latest==null ? [] : (S.weeks[latest].others||[]).slice();
-    setDirty(true); renderAll();
-    toast(latest==null ? `Started week ${S.cur}` : `Week ${S.cur} started from week ${latest}`);
+    const latest=pubNum(); S.cur = latest==null ? 5 : latest+1; S.newWeek=true;
+    S.draft = latest==null ? [] : eff(S.weeks[latest]);
+    setDirty(true); renderWork(); toast(latest==null ? `Started week ${S.cur}` : `Week ${S.cur} started from week ${latest}`);
   });
   $('save').addEventListener('click', async ()=>{
     if(!S.db || !S.dirty) return;
     const snap={}; S.draft.forEach(a=>{ const t=S.teams[a]||{}; snap[a]={w:t.w??null,l:t.l??null,p4w:t.p4w??null,p4l:t.p4l??null}; });
-    const body={week:S.cur, ranking:S.draft.slice(), others:S.others.slice(), savedAt:new Date().toISOString(), records:snap};
-    $('save').disabled=true; $('rsSave').disabled=true;
+    const body={week:S.cur, ranking:S.draft.slice(), savedAt:new Date().toISOString(), records:snap};
+    $('save').disabled=true;
     try{ await S.db.collection('weeks').doc(wkId(S.cur)).set(body); S.weeks[S.cur]=body; S.newWeek=false; setDirty(false); renderAll(); toast(`Week ${S.cur} saved`); }
-    catch(e){ if(e&&e.code==='invalid_argument'){S.canWrite=false;} toast(e&&e.code==='unauthenticated'?'GitHub rejected the ballot sync token. Open Ballot sync to reconnect.':e&&e.code==='quota_exceeded'?'Storage is full: delete an old week and try again':'Couldn’t save. Check your connection and try again.'); renderStatus(); }
+    catch(e){ toast(e&&e.code==='unauthenticated'?'GitHub rejected the ballot sync token. Open Ballot sync to reconnect.':'Couldn’t save. Check your connection and try again.'); renderStatus(); }
   });
   $('delWeek').addEventListener('click', async ()=>{
     if(!S.db || !S.weeks[S.cur]) return;
-    if(!confirm(`Delete your week ${S.cur} ballot? This can’t be undone.`)) return;
+    if(!confirm(`Delete the week ${S.cur} ballot? This can’t be undone.`)) return;
     const n=S.cur;
-    try{ await S.db.collection('weeks').doc(wkId(n)).delete(); delete S.weeks[n]; const nums=savedNums(); if(nums.length) loadWeek(nums[nums.length-1]); else { S.cur=n; S.draft=[]; S.others=[]; setDirty(false); renderAll(); } toast(`Week ${n} deleted`); }
+    try{ await S.db.collection('weeks').doc(wkId(n)).delete(); delete S.weeks[n]; const nums=savedNums(); if(nums.length) loadWeek(nums[nums.length-1]); else { S.cur=n; S.draft=[]; setDirty(false); renderAll(); } toast(`Week ${n} deleted`); }
     catch(e){ toast('Couldn’t delete. Try again.'); }
   });
-
   $('ballot').addEventListener('click', e=>{
     const rm=e.target.closest('[data-rm]'); if(rm){ S.draft.splice(Number(rm.dataset.rm),1); setDirty(true); renderBallot(); renderPool(); return; }
-    const op=e.target.closest('[data-open]'); if(op) openTeam(op.dataset.open);
   });
-  $('ballot').addEventListener('keydown', e=>{
-    const g=e.target.closest('.grip'); if(!g) return;
+  function arrowMove(e, sel, after){
+    const g=e.target.closest(sel); if(!g) return;
     const i=Number(g.dataset.i); let j=null;
     if(e.key==='ArrowUp') j=i-1; else if(e.key==='ArrowDown') j=i+1; else return;
     e.preventDefault(); if(j<0||j>=S.draft.length) return;
-    const [a]=S.draft.splice(i,1); S.draft.splice(j,0,a); setDirty(true); renderBallot(); renderPool();
-    const ng=document.querySelector(`#ballot .grip[data-i="${j}"]`); if(ng) ng.focus();
-  });
-  $('others').addEventListener('click', e=>{
-    const up=e.target.closest('[data-up]'); if(up){ promote(up.dataset.up); return; }
-    const rm=e.target.closest('[data-rmo]'); if(rm){ S.others=S.others.filter(x=>x!==rm.dataset.rmo); setDirty(true); renderBallot(); renderPool(); return; }
-    const op=e.target.closest('[data-open]'); if(op) openTeam(op.dataset.open);
-  });
-  $('pool').addEventListener('click', e=>{
-    const ad=e.target.closest('[data-add]'); if(ad){ if(S.draft.length<MAX) addTeam(ad.dataset.add); else addOther(ad.dataset.add); return; }
-    const op=e.target.closest('[data-open]'); if(op) openTeam(op.dataset.open);
-  });
+    const [a]=S.draft.splice(i,1); S.draft.splice(j,0,a); setDirty(true); renderBallot(); renderPool(); if(after) after();
+    const ng=document.querySelector(`${sel.split(' ')[0]} .grip[data-i="${j}"]`); if(ng) ng.focus();
+  }
+  $('ballot').addEventListener('keydown', e=>arrowMove(e, '#ballot .grip'));
+  $('wMap').addEventListener('keydown', e=>arrowMove(e, '#wMap .grip', renderWMap));
+  $('pool').addEventListener('click', e=>{ const ad=e.target.closest('[data-add]'); if(ad) addTeam(ad.dataset.add); });
   $('q').addEventListener('input', e=>{ S.q=e.target.value; renderPool(); });
-  $('phead').addEventListener('click', e=>{
-    const b=e.target.closest('[data-s]'); if(!b) return;
-    S.sort=b.dataset.s; $('phead').querySelectorAll('[data-s]').forEach(x=>x.setAttribute('aria-pressed', x===b?'true':'false')); renderPool();
+  $('phead').addEventListener('click', e=>{ const b=e.target.closest('[data-s]'); if(!b) return; S.sort=b.dataset.s; renderHeads(); renderPool(); });
+  document.querySelectorAll('[data-f]').forEach(c=>c.addEventListener('click', ()=>{ S.f=c.dataset.f; document.querySelectorAll('[data-f]').forEach(x=>x.setAttribute('aria-pressed', x===c?'true':'false')); renderPool(); }));
+  if(window.Sortable){
+    Sortable.create($('ballot'), { handle:'.grip', draggable:'.brow', animation:150, disabled:!S.canWrite, group:{name:'b', pull:true, put:()=>S.draft.length<MAX},
+      onEnd:(ev)=>{ if(ev.to!==ev.from) return; const order=[...$('ballot').querySelectorAll('.brow')].map(r=>r.dataset.abbr); if(order.join()!==S.draft.join()){ S.draft=order; setDirty(true); } renderBallot(); renderPool(); },
+      onAdd:(ev)=>{ const a=ev.item.dataset.abbr; const at=[...$('ballot').children].filter(x=>x.classList.contains('brow')||x===ev.item).indexOf(ev.item); ev.item.remove(); addTeam(a, at<0?null:at); } });
+    Sortable.create($('pool'), { group:{name:'b', pull:'clone', put:false}, sort:false, disabled:!S.canWrite, animation:150, delay:180, delayOnTouchOnly:true, draggable:'.prow:not(.onb)' });
+  }
+
+  // ---------- WORKSPACE: upset alerts ----------
+  function upsetCands(){
+    const sch=S.schedule||{};
+    return (sch.games||[]).filter(g=>S.teams[g.home] && S.teams[g.away]).map(g=>{
+      const has = typeof g.model==='number' && typeof g.line==='number';
+      const dog = has && Math.abs(g.line)>=0.5 && (g.model>0)!==(g.line>0);
+      const gap = has ? Math.abs(g.model-g.line) : 0;
+      return {g, dog, gap, cand: dog || gap>=7};
+    }).sort((x,y)=>(y.cand-x.cand) || (y.dog-x.dog) || (y.gap-x.gap));
+  }
+  function renderUps(){
+    const sch=S.schedule||{}, wk=sch.week;
+    if(S.uDraft==null) S.uDraft = JSON.parse(JSON.stringify((S.upsets||{})[wk]||{}));
+    $('uTitle').innerHTML = `Upset alerts${wk!=null?`<small>Week ${wk}</small>`:''}`;
+    $('uSave').disabled = !S.uDirty;
+    const ranks=pubMap(), L = upsetCands().filter(x=>S.uAll || x.cand || S.uDraft[x.g.id]);
+    if(!L.length){ $('uTable').innerHTML='<tbody><tr><td class="dim">No games with both a line and a model spread yet.</td></tr></tbody>'; return; }
+    const nmR = a => `${ranks[a]?`<span class="rkb">${ranks[a]}</span>`:''}${esc(nm(a))}`;
+    $('uTable').innerHTML = `<thead><tr class="cols"><th>Publish</th><th style="text-align:left">Game</th><th>Line</th><th>Model</th><th>Gap</th><th style="text-align:left">Note (optional)</th></tr></thead><tbody>${
+      L.map(({g,dog,gap,cand})=>{ const on=!!S.uDraft[g.id];
+        return `<tr class="${cand?'cand':''}"><td><input type="checkbox" data-up="${g.id}"${on?' checked':''} aria-label="Publish ${esc(nm(g.away))} at ${esc(nm(g.home))}"></td>
+          <td class="l"><div class="gl-n" style="display:flex;align-items:center;gap:6px;font:700 16px var(--cond)">${logo(g.away)}${nmR(g.away)} <span class="dim" style="font:400 12px var(--body);color:var(--muted)">${g.neutral?'vs':'at'}</span> ${logo(g.home)}${nmR(g.home)}</div>
+            <div class="why${dog?'':' g'}">${dog?'Model favors the underdog':cand?'Model and line differ by 7+':''}</div></td>
+          <td>${spread(g.line,g.home,g.away)}</td><td>${spread(g.model,g.home,g.away)}</td><td>${typeof g.model==='number'&&typeof g.line==='number'?gap.toFixed(1):'–'}</td>
+          <td class="l"><input type="text" data-note="${g.id}" maxlength="140" placeholder="Why this one?" value="${esc((S.uDraft[g.id]||{}).note||'')}"${on?'':' disabled'}></td></tr>`; }).join('')}</tbody>`;
+  }
+  $('uTable').addEventListener('change', e=>{
+    const id=e.target.dataset.up; if(!id) return;
+    if(e.target.checked) S.uDraft[id]={note:''}; else delete S.uDraft[id];
+    S.uDirty=true; renderUps();
+  });
+  $('uTable').addEventListener('input', e=>{ const id=e.target.dataset.note; if(!id || !S.uDraft[id]) return; S.uDraft[id].note=e.target.value; S.uDirty=true; $('uSave').disabled=false; });
+  $('uAll').addEventListener('change', e=>{ S.uAll=e.target.checked; renderUps(); });
+  $('uSave').addEventListener('click', async ()=>{
+    const wk=(S.schedule||{}).week; if(wk==null) return;
+    $('uSave').disabled=true;
+    try{
+      const saved = await S.db.saveSettings(cur => { const u=Object.assign({}, cur.upsets||{}); u[wk]=S.uDraft; return Object.assign({}, cur, {upsets:u}); });
+      S.settings=saved; S.upsets=saved.upsets||{}; S.uDirty=false; renderUps(); renderHome();
+      const n=Object.keys(S.uDraft).length; toast(n ? `${n} upset alert${n===1?'':'s'} published` : 'Upset alerts cleared');
+    }catch(e){ $('uSave').disabled=false; toast(e&&e.code==='unauthenticated' ? 'GitHub rejected the ballot sync token. Open Ballot sync to reconnect.' : 'Couldn’t publish. Try again.'); }
   });
 
-  // ---------- columns menu ----------
-  $('colList').addEventListener('change', e=>{
-    const k=e.target.dataset.col; if(!k) return;
-    S.vis[k]=e.target.checked;
-    try{ localStorage.setItem('cfb-cols', JSON.stringify(S.vis)); }catch(err){}
-    renderHeads(); renderBallot(); renderPool();
-  });
-  $('colListP').addEventListener('change', e=>{
-    const k=e.target.dataset.col; if(!k) return;
-    S.visP[k]=e.target.checked;
-    try{ localStorage.setItem('cfb-cols-teams', JSON.stringify(S.visP)); }catch(err){}
-    renderHeads(); renderPool();
-  });
-
-  // ---------- H2H / loop explanations (hover on desktop, tap on phones) ----------
+  // ---------- tooltips, menus ----------
   let tipFor=null, tipVia='';
   function showTip(el, via){
     const tip=$('tip'); tip.textContent=el.dataset.tip; tip.hidden=false; tipFor=el; tipVia=via;
@@ -987,270 +1167,128 @@ legend{font-weight:600;padding:0 4px}
   function hideTip(){ const tip=$('tip'); if(tip) tip.hidden=true; tipFor=null; tipVia=''; }
   document.addEventListener('pointerover', e=>{ if(e.pointerType!=='mouse') return; const f=e.target.closest('[data-tip]'); if(f && f!==tipFor) showTip(f,'hover'); });
   document.addEventListener('pointerout', e=>{ if(e.pointerType!=='mouse' || tipVia!=='hover') return; const f=e.target.closest('[data-tip]'); if(f && !f.contains(e.relatedTarget)) hideTip(); });
+  const MENUS=['colMenu','colMenuB','colMenuP','mixMenu'];
   document.addEventListener('click', e=>{
     const f=e.target.closest('[data-tip]');
-    if(f){ if(tipFor===f && tipVia==='click') hideTip(); else showTip(f,'click'); }
-    else if(tipFor) hideTip();
-    const cm=$('colMenu'); if(cm.open && !cm.contains(e.target)) cm.open=false;
-    const mm=$('mixMenu'); if(mm.open && !mm.contains(e.target)) mm.open=false;
-    const pm=$('colMenuP'); if(pm.open && !pm.contains(e.target)) pm.open=false;
+    if(f){ if(tipFor===f && tipVia==='click') hideTip(); else showTip(f,'click'); } else if(tipFor) hideTip();
+    MENUS.forEach(id=>{ const m=$(id); if(m.open && !m.contains(e.target)) m.open=false; });
+    const op=e.target.closest('[data-open]'); if(op && !e.target.closest('.dot')) openTeam(op.dataset.open);
+    const go=e.target.closest('[data-go]'); if(go) showTab(go.dataset.go);
   });
-  document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ hideTip(); $('colMenu').open=false; $('mixMenu').open=false; $('colMenuP').open=false; } });
-  // ---------- composite blend slider ----------
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ hideTip(); MENUS.forEach(id=>$(id).open=false); } });
+  window.addEventListener('scroll', hideTip, true);
+  window.addEventListener('resize', hideTip);
+
+  // ---------- composite blend ----------
   function renderMix(){
     const r=Math.round(S.mixW*100), same = r===Math.round(S.mixPub*100);
     $('mixW').value=r; $('mixW').style.setProperty('--qw', r+'%');
     $('mixTxt').innerHTML=`<b class="mixp">${100-r}% power</b> / <b class="mixq">${r}% quality wins</b>`;
-    $('mixSave').hidden = !S.canWrite; $('mixSave').disabled = same;
-    $('mixNote').textContent = same ? (S.canWrite ? 'Everyone sees this blend.' : 'The page owner’s blend.') : (S.canWrite ? 'Only you see this until you save.' : 'Only your view changes; reload to reset.');
+    $('mixSum').textContent = `Composite: ${100-r}/${r} ▾`;
+    $('mixSave').disabled = same;
+    $('mixNote').textContent = same ? (S.canWrite ? 'Everyone sees this blend.' : 'The site’s saved blend.') : (S.canWrite ? 'Only you see this until you save.' : 'Only your view changes; reload to reset.');
   }
-  $('mixW').addEventListener('input', e=>{
-    S.mixW=Number(e.target.value)/100; renderMix();
-    renderBallot(); renderPool(); if(!$('view-resumes').hidden) renderResumes(); if(!$('view-method').hidden) renderMethod();
-  });
-  renderMix();
+  $('mixW').addEventListener('input', e=>{ S.mixW=Number(e.target.value)/100; renderMix(); renderCurrent(); });
   $('mixSave').addEventListener('click', async ()=>{
     $('mixSave').disabled=true;
-    try{ await S.db.saveSettings({compositeQW:S.mixW}); S.mixPub=S.mixW; renderMix(); toast(`Blend saved: everyone now sees ${$('mixTxt').textContent}`); }
+    try{ const saved=await S.db.saveSettings(cur=>Object.assign({}, cur, {compositeQW:S.mixW})); S.settings=saved; S.mixPub=S.mixW; renderMix(); toast(`Blend saved: everyone now sees ${$('mixTxt').textContent}`); }
     catch(e){ renderMix(); toast(e&&e.code==='unauthenticated' ? 'GitHub rejected the ballot sync token. Open Ballot sync to reconnect.' : 'Couldn’t save the blend. Try again.'); }
   });
-  window.addEventListener('scroll', hideTip, true);
-  window.addEventListener('resize', hideTip);
-  document.querySelectorAll('.chip').forEach(c=>c.addEventListener('click', ()=>{
-    S.f=c.dataset.f; document.querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed', x===c?'true':'false')); renderPool();
-  }));
-  // the one Teams table moves between Current Rankings (beside the Top 25) and Data (below the strips)
-  const poolEl = document.querySelector('aside.pool'), poolHome = poolEl.parentNode;
-  function showTab(v){
-    ['ballot','history','resumes','method'].forEach(k=>{ $('tab-'+k).setAttribute('aria-selected', String(k===v)); $('view-'+k).hidden = k!==v; });
-    if(v==='resumes') $('poolData').appendChild(poolEl); else if(v==='ballot') poolHome.appendChild(poolEl);
-    if(v==='history') renderHistory();
-    if(v==='resumes') renderResumes();
-    if(v==='method') renderMethod();
-  }
-  // Methodology tab: fill in the model's current settings (saved with the team data)
-  function renderMethod(){
-    const st=(S.model&&S.model.settings)||{}, f=v=>typeof v==='number' ? String(v) : v;
-    document.querySelectorAll('#view-method [data-set]').forEach(el=>{
-      const k=el.dataset.set, v=st[k]; if(v==null) return;
-      if(k==='LOC_WIN') el.textContent=`road ${v.away.toFixed(2)}, neutral ${v.neutral.toFixed(2)}, home ${v.home.toFixed(2)}`;
-      else if(k==='LOC_LOSS') el.textContent=`home ${v.home.toFixed(2)}, neutral ${v.neutral.toFixed(2)}, road ${v.away.toFixed(2)}`;
-      else el.textContent=f(v);
-    });
-    document.querySelectorAll('#view-method .mxtxt').forEach(el=>el.textContent=$('mixTxt').textContent);
-  }
-  $('tab-ballot').addEventListener('click', ()=>showTab('ballot'));
-  $('tab-history').addEventListener('click', ()=>showTab('history'));
-  $('tab-resumes').addEventListener('click', ()=>showTab('resumes'));
-  $('tab-method').addEventListener('click', ()=>showTab('method'));
-  window.addEventListener('beforeunload', e=>{ if(S.dirty){ e.preventDefault(); e.returnValue=''; } });
 
-  // ---------- drag & drop ----------
-  if(window.Sortable){
-    Sortable.create($('ballot'), {
-      handle:'.grip', animation:150, disabled:!S.canWrite, group:{name:'b', pull:true, put:(to, from)=>S.draft.length<MAX || from.el===$('others')},
-      onEnd:(ev)=>{ if(ev.to!==ev.from || ev.oldIndex===ev.newIndex) return; const [a]=S.draft.splice(ev.oldIndex,1); S.draft.splice(ev.newIndex,0,a); setDirty(true); renderBallot(); renderPool(); },
-      onAdd:(ev)=>{ const a=ev.item.dataset.abbr; ev.item.remove();
-        // full Top 25: a Just missed team lands where dropped; whoever ends up at #26 takes its place in Just missed
-        if(ev.from===$('others') && S.draft.length>=MAX){
-          const i=S.others.indexOf(a), at=Math.min(ev.newIndex, MAX);
-          if(i<0 || at>=MAX){ renderBallot(); return; }  // dropped below #25: no change
-          S.draft.splice(at,0,a); const b=S.draft.pop(); S.others[i]=b;
-          setDirty(true); renderBallot(); renderPool(); toast(`${nm(a)} moved to #${at+1}; ${nm(b)} moved to Just missed.`); return;
-        }
-        if(ev.from===$('others')) S.others=S.others.filter(x=>x!==a); addTeam(a, ev.newIndex); }
-    });
-    // Just missed: unordered, so no sorting inside it
-    Sortable.create($('others'), {
-      handle:'.grip', animation:150, sort:false, disabled:!S.canWrite, group:{name:'b', pull:true, put:()=>S.others.length<MAXO},
-      onAdd:(ev)=>{ const a=ev.item.dataset.abbr; ev.item.remove(); if(ev.from===$('ballot')) S.draft=S.draft.filter(x=>x!==a); addOther(a); }
-    });
-    Sortable.create($('pool'), { group:{name:'b', pull:'clone', put:false}, sort:false, disabled:!S.canWrite, animation:150, delay:180, delayOnTouchOnly:true,
-      draggable:'.prow:not(.onb)' });
+  // ---------- tabs ----------
+  const TABS=['home','rank','history','method','work'];
+  function showTab(v){
+    if(v==='work' && !S.canWrite) v='home';
+    S.tab=v;
+    TABS.forEach(k=>{ $('tab-'+k).setAttribute('aria-selected', String(k===v)); $('view-'+k).hidden = k!==v; });
+    $('cmpMode').hidden = !(v==='rank' || v==='work');
+    if($('cmpMode').hidden && S.cmpOn){ S.cmpOn=false; S.cmp=[]; renderCmpBar(); }
+    try{ history.replaceState(null, '', v==='home' ? location.pathname + location.search : '#'+v); }catch(e){}
+    renderCurrent(); window.scrollTo(0,0);
   }
+  function renderCurrent(){
+    if(S.tab==='home') renderHome(); else if(S.tab==='rank') renderRank(); else if(S.tab==='history') renderHistory();
+    else if(S.tab==='method') renderMethod(); else if(S.tab==='work') renderWork();
+  }
+  TABS.forEach(k=>$('tab-'+k).addEventListener('click', ()=>showTab(k)));
+  $('brand').addEventListener('click', ()=>showTab('home'));
+  window.addEventListener('hashchange', ()=>{ const h=(location.hash||'').slice(1); if(TABS.includes(h) && h!==S.tab) showTab(h); });
+  window.addEventListener('beforeunload', e=>{ if(S.dirty || S.uDirty){ e.preventDefault(); e.returnValue=''; } });
+
+  const stampText = () => { if(!S.meta) return 'Loading team data…'; const d = S.meta.updatedAt ? new Date(S.meta.updatedAt).toLocaleDateString('en-US', {month:'short', day:'numeric'}) : ''; return `Updated ${d} · ${S.meta.through||''}`; };
+  function renderAll(){ $('stamp').textContent = stampText(); renderMix(); renderCurrent(); }
 
   // ---------- team dialog ----------
-  // this game's EPA next to what the opponent typically allows / gains (FBS opponents only)
   const gEpa = g => { const f=v=>typeof v==='number' ? (Math.abs(v)<0.005?0:v).toFixed(2) : '–';
     return typeof g.offEpa==='number' ? `<span class="gepa">Off EPA <b>${f(g.offEpa)}</b> (their D allows ${f(g.oppDefEpa)}) · Def EPA <b>${f(g.defEpa)}</b> (their O gains ${f(g.oppOffEpa)})</span>` : ''; };
   function openTeam(a){
-    const t=S.teams[a]; if(!t) return; S.dlgTeam=a;
-    $('dName').textContent=t.name;
-    $('dSub').textContent = `${t.conf}${t.p4?', Power 4':''}`;
+    const t=S.teams[a]; if(!t) return;
+    const ranks = S.tab==='work' ? draftMap() : pubMap(), apR=apRank(a);
+    $('dName').innerHTML = logo(a) + esc(t.name);
+    $('dSub').textContent = `${t.conf}${t.p4?', Power 4':''}${ranks[a]?` · Wolp+ #${ranks[a]}`:''}${apR?` · AP #${apR}`:''}`;
     $('dFacts').innerHTML = `<dt>2026 record</dt><dd>${rec(t.w,t.l)}</dd><dt>vs P4</dt><dd>${rec(t.p4w,t.p4l)}</dd><dt>2025 record</dt><dd>${rec(t.lyW,t.lyL)}</dd><dt>2025 final AP</dt><dd>${t.lyAp?'#'+t.lyAp:'Not ranked'}</dd>`;
     $('dAdv').innerHTML = advTable(t) + modelFacts(a);
-    // games, ranked by your current (draft) ballot
-    const an=analyze(), onB=an.onB, games=gamesOf(a);
-    const oppName = o => (onB[o] ? '#'+onB[o]+' ' : '') + nm(o);
-    const oppDesc = o => onB[o] ? oppName(o) : S.teams[o] ? `${nm(o)} (${rec(S.teams[o].w,S.teams[o].l)})` : `${o} (FCS)`;
-    const at = g => g.site==='away' ? 'at' : 'vs';
-    const score = g => g.result==='W' ? `${g.pf}-${g.pa}` : `${g.pa}-${g.pf}`;
-    const bwl=bestWorst(a,onB), bw=bwl.bw&&bwl.bw.g, wl=bwl.wl&&bwl.wl.g;
-    const t25=vsSet(a,onB), one={w:0,l:0};
+    const games=gamesOf(a), bwl=bestWorst(a), bw=bwl.bw&&bwl.bw.g, wl=bwl.wl&&bwl.wl.g;
+    const oppDesc = o => ranks[o] ? gOppName(o,ranks) : S.teams[o] ? `${nm(o)} (${rec(S.teams[o].w,S.teams[o].l)})` : `${o} (FCS)`;
+    const t25=vsTop(a,ranks), one={w:0,l:0};
     games.forEach(g=>{ if(Math.abs(g.pf-g.pa)<=CLOSE) one[g.result==='W'?'w':'l']++; });
     const ch=[];
-    if(an.flags[a]) ch.push(`<div class="dflags">${esc(an.flags[a].join('\n'))}</div>`);
-    if(an.loopOf[a]) ch.push(`<div class="dflags loop">${esc(an.loopOf[a].text+'\n'+an.loopOf[a].games.join('\n'))}</div>`);
+    if(S.tab==='work'){ const an=analyze(); if(an.flags[a]) ch.push(`<div class="dflags">${esc(an.flags[a].join('\n'))}</div>`); if(an.loopOf[a]) ch.push(`<div class="dflags loop">${esc(an.loopOf[a].text+'\n'+an.loopOf[a].games.join('\n'))}</div>`); }
     $('dChecks').innerHTML = ch.join('');
     $('dSumm').innerHTML = games.length ? [
-      `<i>Best win</i> ${bw ? esc(oppDesc(bw.opp))+' '+score(bw) : 'none'}`,
-      `<i>Worst loss</i> ${wl ? esc(oppDesc(wl.opp))+' '+score(wl) : 'none'}`,
-      `<i>vs your Top 25</i> ${t25.w}-${t25.l}`,
-      `<i>One-score games</i> ${one.w}-${one.l}`
-    ].map(x=>`<span>${x}</span>`).join('') : '';
-    $('dGames').innerHTML = games.map(g=>{
-      const close=Math.abs(g.pf-g.pa)<=CLOSE;
-      return `<li class="${close?'close':''}"${close?` title="Decided by ${Math.abs(g.pf-g.pa)}"`:''}><span class="res ${g.result}">${g.result}</span><span class="sc">${score(g)}</span><span class="op">${at(g)} ${esc(oppName(g.opp))}${g.site==='neutral'?' <span class="dt">(neutral)</span>':''}</span><span class="dt">${fmtDate(g.date)}</span>${gEpa(g)}</li>`;
-    }).join('');
+      `<i>Best win</i> ${bw ? esc(oppDesc(bw.opp))+' '+gScore(bw) : 'none'}`,
+      `<i>Worst loss</i> ${wl ? esc(oppDesc(wl.opp))+' '+gScore(wl) : 'none'}`,
+      `<i>vs Wolp+ 25</i> ${t25.w}-${t25.l}`,
+      `<i>One-score games</i> ${one.w}-${one.l}`].map(x=>`<span>${x}</span>`).join('') : '';
+    $('dGames').innerHTML = games.map(g=>{ const c=isClose(g);
+      return `<li class="${c?'close':''}"><span class="res ${g.result}">${g.result}</span><span class="sc">${gScore(g)}${g.ot?' OT':''}</span><span class="op">${gAt(g)} ${esc(gOppName(g.opp,ranks))}${g.site==='neutral'?' <span class="dt">(neutral)</span>':''}</span><span class="dt">${fmtDate(g.date)}</span>${gEpa(g)}</li>`; }).join('');
     $('dGames').hidden = !games.length;
-    $('dNote').textContent = games.length ? `Shaded games were decided by ${CLOSE} points or fewer. Ranks are from your current ballot.` : (t.games ? 'No games played yet.' : 'Game results appear after you import a teams.json that includes them.');
+    $('dNote').textContent = games.length ? 'Shaded games were close (one score, and in doubt late). Ranks are Wolp+ ranks.' : 'No games played yet.';
     const nums=savedNums();
     $('dTrail').innerHTML = nums.length ? nums.map(n=>{ const r=rankMap(n)[a]; return `<span>Wk ${n}: <b>${r?'#'+r:'NR'}</b></span>`; }).join('') : '';
     $('dlg').showModal();
   }
 
   // ---------- compare ----------
-  function syncCmp(){
-    document.querySelectorAll('input[data-cmp]').forEach(i=>{ const on=S.cmp.includes(i.dataset.cmp); i.checked=on; i.disabled=!on && S.cmp.length>=MAXC; });
-    renderCmpBar();
-  }
+  function syncCmp(){ document.querySelectorAll('input[data-cmp]').forEach(i=>{ const on=S.cmp.includes(i.dataset.cmp); i.checked=on; i.disabled=!on && S.cmp.length>=MAXC; }); renderCmpBar(); }
   function renderCmpBar(){
     const n=S.cmp.length;
     document.body.classList.toggle('cmp-on', S.cmpOn);
     $('cmpMode').setAttribute('aria-pressed', String(S.cmpOn));
     $('cmpBar').hidden = !S.cmpOn;
     $('cmpWho').textContent = n ? `Compare: ${S.cmp.map(nm).join(', ')}` : 'Tick 2 to 4 teams';
-    $('cmpClear').hidden = !n;
-    $('cmpGo').disabled = n<2;
-    $('cmpGo').textContent = n<2 ? 'Pick 2 to 4' : `Compare ${n}`;
+    $('cmpClear').hidden = !n; $('cmpGo').disabled = n<2; $('cmpGo').textContent = n<2 ? 'Pick 2 to 4' : `Compare ${n}`;
   }
   function clearCmp(){ S.cmp=[]; syncCmp(); if($('cmpDlg').open) $('cmpDlg').close(); }
   function openCompare(){
     if(S.cmp.length<2) return;
-    const onB=onBallot(), inO=new Set(S.others);
+    const ranks = S.tab==='work' ? draftMap() : pubMap();
     $('cmpGrid').innerHTML = S.cmp.map(a=>{
-      const t=S.teams[a]||{name:a,conf:''}, r=vsSet(a,onB), games=gamesOf(a);
-      const where = onB[a] ? `#${onB[a]} on your ballot` : inO.has(a) ? 'Just missed' : 'Not on your ballot';
-      return `<div class="cmpcol"><h4>${esc(t.name)}</h4><div class="sub">${esc(t.conf||'')} · ${where}</div>
-        <dl class="facts"><dt>Record</dt><dd>${rec(t.w,t.l)}</dd><dt>vs P4</dt><dd>${rec(t.p4w,t.p4l)}</dd><dt>vs Top 25</dt><dd>${r.w}-${r.l}</dd></dl>
+      const t=S.teams[a]||{name:a,conf:''}, r=vsTop(a,ranks), games=gamesOf(a);
+      return `<div class="cmpcol"><h4>${logo(a)}${esc(t.name)}</h4><div class="sub">${esc(t.conf||'')} · ${ranks[a]?'Wolp+ #'+ranks[a]:'Not in the Wolp+ 35'}</div>
+        <dl class="facts"><dt>Record</dt><dd>${rec(t.w,t.l)}</dd><dt>vs P4</dt><dd>${rec(t.p4w,t.p4l)}</dd><dt>vs Wolp+ 25</dt><dd>${r.w}-${r.l}</dd></dl>
         ${advTable(t)}${modelFacts(a)}
-        <ul class="games">${games.map(g=>{ const close=Math.abs(g.pf-g.pa)<=CLOSE;
-          return `<li class="${close?'close':''}"${close?` title="Decided by ${Math.abs(g.pf-g.pa)}"`:''}><span class="res ${g.result}">${g.result}</span><span class="sc">${gScore(g)}</span><span class="op">${gAt(g)} ${esc(gOppName(g.opp,onB))}</span><span class="dt">${gOppRec(g.opp)}</span></li>`; }).join('')}</ul>
+        <ul class="glog">${games.map(g=>`<li class="${isClose(g)?'close':''}"><span class="res ${g.result}">${g.result}</span><span class="sc">${gScore(g)}</span><span class="op">${gAt(g)} ${esc(gOppName(g.opp,ranks))}</span><span class="dt">${gOppRec(g.opp)}</span></li>`).join('')}</ul>
         ${games.length?'':'<p class="dnote">No games yet.</p>'}</div>`;
     }).join('');
     $('cmpDlg').showModal();
   }
   document.addEventListener('change', e=>{
     const k=e.target.dataset && e.target.dataset.cmp; if(k==null) return;
-    if(e.target.checked){ if(!S.cmp.includes(k) && S.cmp.length<MAXC) S.cmp.push(k); }
-    else S.cmp=S.cmp.filter(x=>x!==k);
+    if(e.target.checked){ if(!S.cmp.includes(k) && S.cmp.length<MAXC) S.cmp.push(k); } else S.cmp=S.cmp.filter(x=>x!==k);
     syncCmp();
   });
-  function setCmpMode(on){ S.cmpOn=on; if(!on){ S.cmp=[]; if($('cmpDlg').open) $('cmpDlg').close(); } renderHeads(); renderBallot(); renderPool(); renderCmpBar(); }
+  function setCmpMode(on){ S.cmpOn=on; if(!on){ S.cmp=[]; if($('cmpDlg').open) $('cmpDlg').close(); } renderCmpBar(); renderCurrent(); }
   $('cmpMode').addEventListener('click', ()=>setCmpMode(!S.cmpOn));
   $('cmpDone').addEventListener('click', ()=>setCmpMode(false));
   $('cmpGo').addEventListener('click', openCompare);
   $('cmpClear').addEventListener('click', clearCmp);
   $('cmpClear2').addEventListener('click', clearCmp);
 
-  // ---------- résumés ----------
-  // dots for one résumé strip; x = {a, bw, wl} from bestWorst(a, onB)
-  function rsDots(x, onB){
-    return gamesOf(x.a).map(g=>{
-      const m=Math.abs(g.pf-g.pa), size = m<=8 ? 1 : m<=16 ? 2 : 3;
-      const lab = x.bw && x.bw.g===g ? 'Best' : x.wl && x.wl.g===g ? 'Worst' : '';
-      const tip = `${g.result} ${gScore(g).replace('-','–')}${g.ot?' (OT)':''} ${gAt(g)} ${gOppName(g.opp,onB)}, ${gOppRec(g.opp)}${mdl().crank[g.opp]?', Composite #'+mdl().crank[g.opp]:''}`;
-      return {size, lab, html:`<button class="dot ${g.result} s${size}${g.ot?' ot':isClose(g)?' close':''}" style="left:${(oppPos(g.opp)*100).toFixed(2)}%" data-tip="${esc(tip)}" aria-label="${esc(tip)}">${onB[g.opp]?`<span class="drk">${onB[g.opp]}</span>`:''}${lab?`<span class="dlb${lab==='Worst'?' up':''}">${lab}</span>`:''}</button>`};
-    }).sort((p,q)=>(q.size-p.size) || ((p.lab?1:0)-(q.lab?1:0))).map(d=>d.html).join('');
-  }
-  const GRIP = '<svg width="10" height="16" viewBox="0 0 10 16" fill="currentColor"><circle cx="2" cy="2" r="1.6"/><circle cx="8" cy="2" r="1.6"/><circle cx="2" cy="8" r="1.6"/><circle cx="8" cy="8" r="1.6"/><circle cx="2" cy="14" r="1.6"/><circle cx="8" cy="14" r="1.6"/></svg>';
-  let rsSortable=null;
-  function renderResumes(){
-    const onB=onBallot(), el=$('rsBody');
-    $('rsSort').querySelectorAll('[data-rs]').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.rs===S.rsort)));
-    const canDrag = S.canWrite && S.rsort==='ballot' && S.draft.length>0;
-    $('rsHint').textContent = !S.draft.length ? '' : canDrag ? 'Drag a handle to reorder your Top 25.' : 'Switch to Weekly ranking to reorder.';
-    el.classList.toggle('rs-reorder', canDrag);
-    mirrorStatus();
-    if(rsSortable){ rsSortable.destroy(); rsSortable=null; }
-    if(!S.draft.length && !S.others.length){ el.innerHTML='<div class="empty"><strong>No teams yet</strong>Add teams to your Top 25 and each one’s games will line up here.</div>'; return; }
-    const stronger = (x,y) => x.v-y.v;  // by opponent's Composite position
-    const worse = (x,y) => x.v-y.v;
-    const sorter = S.rsort==='best' ? (x,y)=> (!x.bw)-(!y.bw) || (x.bw&&y.bw ? stronger(y.bw,x.bw) : 0)
-                 : S.rsort==='worst' ? (x,y)=> (!x.wl)-(!y.wl) || (x.wl&&y.wl ? worse(x.wl,y.wl) : 0) : null;
-    const strip = (x, drag, jm) => {
-      const a=x.a, t=S.teams[a]||{name:a};
-      const grip = drag ? `<button class="grip" aria-label="Move ${esc(t.name)}, rank ${onB[a]}. Use arrow keys." data-i="${onB[a]-1}">${GRIP}</button>` : '';
-      return `<div class="rs-row${drag?' rs-drag':''}" data-abbr="${esc(a)}"><div class="rs-name"><span class="rs-rk">${jm?`<button class="upb" data-up="${esc(a)}" aria-label="Move ${esc(t.name)} to Top 25" title="Move to Top 25">↑</button>`:onB[a]||''}</span>${grip}<button class="rs-tm" data-open="${esc(a)}">${esc(t.name)}</button><span class="rs-rec">${rec(t.w,t.l)}</span></div><div class="rs-track"><div class="rs-in">${rsDots(x,onB)}</div></div></div>`;
-    };
-    const group = (list, drag, jm) => { let L=list.map(a=>Object.assign({a}, bestWorst(a,onB))); if(sorter) L=L.sort(sorter); return L.map(x=>strip(x,drag,jm)).join(''); };
-    const axis = '<div class="rs-axis"><span></span><div><span>← Lower Composite rank</span><span>Higher Composite rank →</span></div></div>';
-    el.innerHTML = (S.draft.length ? axis + `<div id="rsTop">${group(S.draft, canDrag)}</div>` : '')
-      + (S.others.length ? `<h3 class="rs-grp">Just missed</h3>${axis}${group(S.others, false, true)}` : '');
-    stackDots(el);
-    if(canDrag && window.Sortable){
-      rsSortable = Sortable.create($('rsTop'), {
-        handle:'.grip', draggable:'.rs-row', animation:150, group:'rs',
-        onChange:()=>rsLive(),
-        onEnd:(ev)=>{ const i=ev.oldIndex, j=ev.newIndex;
-          setTimeout(()=>{ if(j!=null && i!==j){ const [a]=S.draft.splice(i,1); S.draft.splice(j,0,a); setDirty(true); renderBallot(); renderPool(); } renderResumes(); }, 0); }
-      });
-    }
-  }
-  // Dots for opponents rated about the same would sit on top of each other: nudge them above /
-  // below the line until none overlap. Left-right positions stay exact. Runs after each render.
-  function stackDots(scope){
-    const R = d => (d.classList.contains('s3') ? 9 : d.classList.contains('s2') ? 6.5 : 4.5) + (d.classList.contains('ot') ? 7 : d.classList.contains('close') ? 3.5 : 0);
-    scope.querySelectorAll('.rs-in').forEach(track=>{
-      const W = track.clientWidth; if(!W) return;
-      const dots = [...track.querySelectorAll('.dot')].map(d=>({d, x:parseFloat(d.style.left)/100*W, r:R(d), y:0})).sort((a,b)=>a.x-b.x);
-      // groups of dots that would touch on the line
-      const groups = [];
-      dots.forEach(p=>{ const g=groups[groups.length-1]; if(g && g.some(q=>p.x-q.x < q.r+p.r+1)) g.push(p); else groups.push([p]); });
-      groups.forEach(g=>{
-        if(g.length>1){
-          const placed=[];
-          g.forEach(p=>{ p.y = [0,-8,8,-16,16,-24,24].find(y=>placed.every(q=>Math.hypot(q.x-p.x, q.y-y) >= q.r+p.r+1)) ?? 0; placed.push(p); });
-          const shift = -(Math.min(...g.map(p=>p.y)) + Math.max(...g.map(p=>p.y)))/2;  // centre the stack on the line
-          g.forEach(p=>p.y+=shift);
-        }
-        g.forEach(p=>{
-          p.d.style.top = p.y ? `calc(50% + ${p.y}px)` : '';
-          const lb = p.d.querySelector('.dlb');  // Best / Worst label goes on the outside of the stack
-          if(lb) lb.classList.toggle('up', p.y<0 || (p.y===0 && lb.textContent==='Worst'));
-        });
-      });
-    });
-  }
-  window.addEventListener('resize', ()=>{ if(!$('view-resumes').hidden) stackDots($('rsBody')); });
-  // mid-drag: recompute ranks and the opponent rank labels on the dots from the on-screen order, without rebuilding the rows
-  function rsLive(){
-    const order=[...new Set([...$('rsTop').children].filter(r=>r.classList.contains('rs-row') && !r.classList.contains('sortable-fallback') && r.style.display!=='none').map(r=>r.dataset.abbr))];
-    const onB={}; order.forEach((a,i)=>onB[a]=i+1);
-    $('rsBody').querySelectorAll('.rs-row:not(.sortable-fallback)').forEach(row=>{
-      const a=row.dataset.abbr;
-      if(row.closest('#rsTop')) row.querySelector('.rs-rk').textContent = onB[a]||'';
-      row.querySelector('.rs-in').innerHTML = rsDots(Object.assign({a}, bestWorst(a,onB)), onB);
-      stackDots(row);
-    });
-  }
-  $('rsSort').addEventListener('click', e=>{ const b=e.target.closest('[data-rs]'); if(!b) return; S.rsort=b.dataset.rs; renderResumes(); });
-  $('rsBody').addEventListener('click', e=>{ const up=e.target.closest('[data-up]'); if(up){ promote(up.dataset.up); return; } const op=e.target.closest('[data-open]'); if(op) openTeam(op.dataset.open); });
-  $('rsBody').addEventListener('keydown', e=>{
-    const g=e.target.closest('#rsTop .grip'); if(!g) return;
-    const i=Number(g.dataset.i); let j=null;
-    if(e.key==='ArrowUp') j=i-1; else if(e.key==='ArrowDown') j=i+1; else return;
-    e.preventDefault(); if(j<0||j>=S.draft.length) return;
-    const [a]=S.draft.splice(i,1); S.draft.splice(j,0,a); setDirty(true); renderBallot(); renderPool(); renderResumes();
-    const ng=document.querySelector(`#rsTop .grip[data-i="${j}"]`); if(ng) ng.focus();
-  });
-  $('rsSave').addEventListener('click', ()=>$('save').click());
-
   // ---------- storage (GitHub Pages) ----------
-  // Same interface the page used on claude.ai (doc / collection, set / delete, onSnapshot):
-  //  - cfb/teams and cfb/model: read-only, from teams.json published next to this page
-  //  - weeks (your ballots): weeks.json in your PRIVATE repo SYNC.owner/SYNC.repo, read and
-  //    written through GitHub's API with a fine-grained token kept only in this browser
+  //  - teams.json (published next to this page): teams, model, schedule, AP poll
+  //  - weeks.json (ballots) and settings.json (Composite blend, upset alerts) in the public repo SYNC.owner/SYNC.repo,
+  //    read without a token, written through GitHub's API with a fine-grained token kept only in this browser
   const SYNC = {owner:'the-chili-king', repo:'cfb-ballots', path:'weeks.json', key:'cfb-gh-token'};
   const syncToken = () => { try{ return localStorage.getItem(SYNC.key)||''; }catch(e){ return ''; } };
   function siteDb(){
@@ -1270,7 +1308,7 @@ legend{font-weight:600;padding:0 4px}
       return r;
     }
     async function pull(){
-      if(!syncToken()){  // visitors: read the public file without a token (GitHub's API first, then its file server)
+      if(!syncToken()){
         let r = await fetch(api, {cache:'no-store', headers:{Accept:'application/vnd.github+json'}}).catch(()=>null);
         if(r && r.ok){ const j=await r.json(); weeks = JSON.parse(b64d(j.content) || '{}') || {}; return; }
         r = await fetch(`https://raw.githubusercontent.com/${SYNC.owner}/${SYNC.repo}/main/${SYNC.path}`, {cache:'no-store'}).catch(()=>null);
@@ -1281,7 +1319,6 @@ legend{font-weight:600;padding:0 4px}
       const j = await r.json(); sha = j.sha; weeks = JSON.parse(b64d(j.content) || '{}') || {};
     }
     const emit = () => { const docs = Object.keys(weeks).sort().map(id=>snap(id, weeks[id])); colL.forEach(f=>f({docs})); };
-    // every write starts from the latest file, so saves from the phone and the Mac don't overwrite each other
     async function write(change, message){
       for(let attempt=0; attempt<2; attempt++){
         await pull(); change(weeks);
@@ -1291,19 +1328,19 @@ legend{font-weight:600;padding:0 4px}
       }
       throw fail('unavailable', 'Saved on another device at the same moment; try again');
     }
-    // page settings everyone sees (the Composite blend): settings.json in the same repo
     const sapi = `https://api.github.com/repos/${SYNC.owner}/${SYNC.repo}/contents/settings.json`;
     async function readSettings(){
       const t = syncToken();
       let r = await fetch(sapi, {cache:'no-store', headers:{...(t?{Authorization:'Bearer '+t}:{}), Accept:'application/vnd.github+json'}}).catch(()=>null);
       if(r && r.ok){ const j=await r.json(); return {data:JSON.parse(b64d(j.content) || '{}') || {}, sha:j.sha}; }
-      if(r && r.status===404) return {data:{}, sha:null};  // nothing saved yet
+      if(r && r.status===404) return {data:{}, sha:null};
       r = await fetch(`https://raw.githubusercontent.com/${SYNC.owner}/${SYNC.repo}/main/settings.json`, {cache:'no-store'}).catch(()=>null);
       return {data: r && r.ok ? (await r.json() || {}) : {}, sha:null};
     }
-    async function saveSettings(patch){
+    // change: a function from the latest saved settings to the new settings (so nothing saved elsewhere is lost)
+    async function saveSettings(change){
       for(let attempt=0; attempt<2; attempt++){
-        const cur = await readSettings(), data = Object.assign({}, cur.data, patch);
+        const cur = await readSettings(), data = change(cur.data||{});
         const r = await gh('PUT', {message:'Save page settings', content:b64e(JSON.stringify(data, null, 1)+'\n'), ...(cur.sha?{sha:cur.sha}:{})}, null, sapi);
         if(r.ok) return data;
         if(r.status!==409 && r.status!==422) throw fail('unavailable', 'GitHub error '+r.status);
@@ -1312,19 +1349,12 @@ legend{font-weight:600;padding:0 4px}
     }
     const teams = fetch('teams.json', {cache:'no-cache'}).then(r=>{ if(!r.ok) throw fail('unavailable','teams.json '+r.status); return r.json(); });
     const weeksCol = {
-      doc: id => ({ set: body => write(w=>{ w[id]=clone(body); }, `Save ballot ${id}`),
-                    delete: () => write(w=>{ delete w[id]; }, `Delete ballot ${id}`) }),
+      doc: id => ({ set: body => write(w=>{ w[id]=clone(body); }, `Save ballot ${id}`), delete: () => write(w=>{ delete w[id]; }, `Delete ballot ${id}`) }),
       onSnapshot: (f, err) => { colL.push(f); pull().then(emit).catch(e=>err&&err(e)); return ()=>{}; }
     };
-    // back on this tab (e.g. after saving on the phone): pick up the latest ballots
-    document.addEventListener('visibilitychange', ()=>{ if(document.visibilityState==='visible' && colL.length) pull().then(emit).catch(()=>{}); });
-    return {
-      doc: path => ({ onSnapshot: (f, err) => { teams.then(d=>f(snap(path.split('/')[1], path==='cfb/model' ? d.model : {season:d.season, updatedAt:d.updatedAt, through:d.through, teams:d.teams}))).catch(e=>err&&err(e)); return ()=>{}; } }),
-      collection: () => weeksCol,
-      settings: () => readSettings().then(x=>x.data),
-      saveSettings,
-      check: async token => { try{ const r=await gh('GET', null, token); return r.ok ? 'ok' : 'unavailable'; }catch(e){ return e.code; } }
-    };
+    document.addEventListener('visibilitychange', ()=>{ if(document.visibilityState==='visible' && colL.length && !S.dirty) pull().then(emit).catch(()=>{}); });
+    return { teams, collection: () => weeksCol, settings: () => readSettings().then(x=>x.data), saveSettings,
+      check: async token => { try{ const r=await gh('GET', null, token); return r.ok ? 'ok' : 'unavailable'; }catch(e){ return e.code; } } };
   }
 
   // ---------- ballot sync dialog ----------
@@ -1335,47 +1365,42 @@ legend{font-weight:600;padding:0 4px}
   }
   $('syncBtn').addEventListener('click', openSync);
   $('syncSave').addEventListener('click', async ()=>{
-    const t=$('syncToken').value.trim(); if(!t){ $('syncMsg').textContent='Paste your token first.'; return; }
+    const t=$('syncToken').value.trim(); if(!t){ $('syncMsg').textContent='Paste the token first.'; return; }
     $('syncMsg').textContent='Checking…';
     const r = await S.db.check(t);
-    if(r!=='ok'){ $('syncMsg').textContent = r==='unauthenticated' ? 'GitHub rejected that token. Check that you copied all of it.' : r==='not_found' ? 'That token can’t see the cfb-ballots repo. Give it access to that repo, with Contents: Read and write.' : 'Couldn’t reach GitHub. Check your connection and try again.'; return; }
+    if(r!=='ok'){ $('syncMsg').textContent = r==='unauthenticated' ? 'GitHub rejected that token. Check that all of it was copied.' : r==='not_found' ? 'That token can’t see the cfb-ballots repo. Give it access to that repo, with Contents: Read and write.' : 'Couldn’t reach GitHub. Check the connection and try again.'; return; }
     try{ localStorage.setItem(SYNC.key, t); }catch(e){ $('syncMsg').textContent='This browser won’t store the token (private browsing?).'; return; }
     location.reload();
   });
   $('syncOff').addEventListener('click', ()=>{
-    if(!confirm('Disconnect ballot sync on this device? Your saved ballots stay in GitHub.')) return;
+    if(!confirm('Disconnect ballot sync on this device? Saved ballots stay in GitHub.')) return;
     try{ localStorage.removeItem(SYNC.key); }catch(e){}
     location.reload();
   });
 
-  // ---------- data ----------
-  renderAll();
+  // ---------- start ----------
+  const start = (location.hash||'').slice(1);
+  showTab(TABS.includes(start) ? start : 'home');
   (async ()=>{
-    const db = siteDb();
-    S.db=db;
-    db.settings().then(st=>{ const w=Number(st.compositeQW); if(st.compositeQW!=null && w>=0 && w<=1){ S.mixW=S.mixPub=w; S._mdl=null; renderMix(); renderAll(); } }).catch(()=>{});
-    db.doc('cfb/teams').onSnapshot(snap=>{
-      const d = snap.exists ? snap.data() : null;
-      S.meta = d ? {through:d.through, updatedAt:d.updatedAt, season:d.season} : null;
-      S.teamsRaw = d && d.teams ? d.teams : {};
-      mergeModel(); renderAll();
-    }, ()=>{ $('stamp').textContent='Team data couldn’t load. Reload the page to try again.'; });
-    db.doc('cfb/model').onSnapshot(snap=>{
-      S.model = snap.exists ? snap.data() : null;
-      mergeModel(); renderAll();
-    }, ()=>{});
+    const db = siteDb(); S.db=db;
+    db.settings().then(st=>{ S.settings=st||{}; S.upsets=S.settings.upsets||{}; const w=Number(S.settings.compositeQW); if(S.settings.compositeQW!=null && w>=0 && w<=1){ S.mixW=S.mixPub=w; S._mdl=null; } renderAll(); }).catch(()=>{});
+    db.teams.then(d=>{
+      S.meta = {through:d.through, updatedAt:d.updatedAt, season:d.season};
+      S.teamsRaw = d.teams||{}; S.model = d.model||null; S.schedule = d.schedule||null; S.ap = d.ap||null;
+      mergeModel(); renderConfs(); renderAll();
+    }).catch(()=>{ $('stamp').textContent='Team data couldn’t load. Reload the page to try again.'; });
     db.collection('weeks').onSnapshot(qs=>{
       const w={}; qs.docs.forEach(d=>{ const x=d.data(); if(x && typeof x.week==='number') w[x.week]=x; });
       S.weeks=w;
       if(!S.loadedWeeks){
         S.loadedWeeks=true;
         const st=readStash(), nums=savedNums();
-        if(st && Array.isArray(st.draft)){ S.cur=st.week; S.draft=st.draft.slice(); S.others=Array.isArray(st.others)?st.others.slice():[]; S.newWeek=!!st.isNew; S.dirty=true; }
-        else if(nums.length){ S.cur=nums[nums.length-1]; S.draft=w[S.cur].ranking.slice(); S.others=(w[S.cur].others||[]).slice(); }
+        if(S.canWrite && st && Array.isArray(st.draft)){ S.cur=st.week; S.draft=st.draft.slice(0,MAX); S.newWeek=!!st.isNew; S.dirty=true; }
+        else if(nums.length){ S.cur=nums[nums.length-1]; S.draft=eff(w[S.cur]); }
         else { S.cur=5; S.draft=[]; S.newWeek=true; }
-      } else if(!S.dirty && S.weeks[S.cur]){ S.draft=S.weeks[S.cur].ranking.slice(); S.others=(S.weeks[S.cur].others||[]).slice(); }
+      } else if(!S.dirty && S.weeks[S.cur]) S.draft=eff(S.weeks[S.cur]);
       renderAll();
-    }, e=>{ toast(e&&e.code==='unauthenticated' ? 'GitHub rejected the ballot sync token. Open Ballot sync to reconnect.' : e&&e.code==='not_found' ? 'Ballot sync can’t see the cfb-ballots repo. Open Ballot sync to fix the token.' : 'Saved weeks couldn’t load. Reload to try again.'); });
+    }, e=>{ toast(e&&e.code==='unauthenticated' ? 'GitHub rejected the ballot sync token. Open Ballot sync to reconnect.' : 'Saved ballots couldn’t load. Reload to try again.'); });
   })();
 })();
 </script>
