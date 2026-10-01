@@ -177,10 +177,12 @@ td.c-mv{padding-left:0;width:30px}
 
 
 /* formula dials */
-.fmix{padding:12px 14px;min-width:19rem}
+.colmenu .menu.fmix{padding:12px 16px;width:24rem;min-width:0;max-width:calc(100vw - 24px)}
+.fmix .mixsave .btn{white-space:nowrap}
+.fdial input[type=range]{min-width:9rem;height:22px;cursor:pointer}
 .fmix .mt{font-weight:600;margin-bottom:4px}
 .mixhelp{color:var(--muted);font-size:12px;margin:0 0 8px;max-width:19rem}
-.fdial{display:grid;grid-template-columns:8.5rem 1fr 3rem;gap:8px;align-items:center;font-size:13px;padding:2px 0}
+.fdial{display:grid;grid-template-columns:8rem 1fr 3rem;gap:10px;align-items:center;font-size:13px;padding:3px 0}
 .fdial input{width:100%;accent-color:var(--gold)}
 .fdial b{text-align:right;font-variant-numeric:tabular-nums}
 .fgrp{font:600 11px var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin:8px 0 2px}
@@ -370,7 +372,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     <div class="tools">
       <details class="colmenu" id="fMenu"><summary class="pill" id="fSum">Formula ▾</summary>
         <div class="menu fmix"><div class="mt">Conference adjustments</div>
-          <p class="mixhelp">Points added to every team in a conference on top of the Model's rating. 0 = pure data. They change the Formula ranking, the Results Map and the Home cards; spreads and win chances always stay pure Model.</p>
+          <p class="mixhelp">Points added to every team in a conference (or in the whole Group of 5) on top of the Model's rating. 0 = pure data. They change the Formula ranking, the Results Map and the Home cards; spreads and win chances always stay pure Model.</p>
           <div id="fDials"></div>
           <div class="mixsave"><button class="btn quiet" id="fReset">Reset to 0</button><small id="fNote"></small><button class="btn primary owner-only" id="fSave">Save for everyone</button></div></div></details>
       <button class="pill" id="cmpMode" aria-pressed="false" title="Pick 2 to 4 teams to compare side by side" hidden>Compare</button>
@@ -705,7 +707,9 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   // The Formula = the Model's power rating + the conference adjustments set under Formula ▾ (points; all 0 = pure Model).
   // mdl().crank = {team: Formula rank}, n = number of rated teams. Spreads and win chances always use the pure Model.
   S.adj = {}; S.adjPub = {};
-  const adjOf = a => +(S.adj[(S.teams[a]||{}).conf]||0);
+  const DIALS = ['SEC','Big Ten','Big 12','ACC','FBS Independents','Group of 5'];  // each Power 4 conference, Independents, all of the Group of 5
+  const dialOf = conf => DIALS.includes(conf) ? conf : 'Group of 5';
+  const adjOf = a => +(S.adj[dialOf((S.teams[a]||{}).conf)]||0);
   const fRating = a => S.teams[a].powerRating + adjOf(a);
   function mdl(){
     if(S._mdl) return S._mdl;
@@ -1266,23 +1270,33 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   window.addEventListener('resize', hideTip);
 
   // ---------- Formula: conference adjustment dials ----------
-  const CONF_ORDER = ['SEC','Big Ten','Big 12','ACC','FBS Independents','Pac-12','American Athletic','Mountain West','Sun Belt','Mid-American','Conference USA'];
   function renderDials(){
-    const confs=[...new Set(Object.values(S.teams).map(t=>t.conf).filter(Boolean))].sort((a,b)=>((CONF_ORDER.indexOf(a)+99)%99)-((CONF_ORDER.indexOf(b)+99)%99) || a.localeCompare(b));
-    const p4=['SEC','Big Ten','Big 12','ACC'], row = k => { const v=+(S.adj[k]||0); return `<label class="fdial"><span>${esc(k==='FBS Independents'?'Independents':k)}</span><input type="range" min="-10" max="10" step="0.5" value="${v}" data-conf="${esc(k)}" aria-label="${esc(k)} adjustment"><b>${v>0?'+':''}${v}</b></label>`; };
-    $('fDials').innerHTML = `<div class="fgrp">Power 4</div>${confs.filter(k=>p4.includes(k)).map(row).join('')}<div class="fgrp">Others</div>${confs.filter(k=>!p4.includes(k)).map(row).join('')}`;
+    const row = k => { const v=+(S.adj[k]||0); return `<div class="fdial"><span>${esc(k==='FBS Independents'?'Independents':k)}</span><input type="range" min="-10" max="10" step="0.5" value="${v}" data-conf="${esc(k)}" aria-label="${esc(k)} adjustment"><b data-val="${esc(k)}">${v>0?'+':''}${v}</b></div>`; };
+    $('fDials').innerHTML = `<div class="fgrp">Power 4</div>${DIALS.slice(0,4).map(row).join('')}<div class="fgrp">Others</div>${DIALS.slice(4).map(row).join('')}`;
+    dialStatus();
+  }
+  function dialStatus(){
     const same = JSON.stringify(cleanAdj(S.adj))===JSON.stringify(cleanAdj(S.adjPub)), any=Object.values(S.adj).some(v=>+v);
     $('fSum').textContent = any ? 'Formula ▾ (adjusted)' : 'Formula ▾';
     $('fSave').disabled = same;
     $('fNote').textContent = same ? (S.canWrite ? 'Everyone sees these.' : 'The site’s saved settings.') : (S.canWrite ? 'Only you see this until you save.' : 'Only your view changes.');
   }
   const cleanAdj = o => Object.fromEntries(Object.entries(o||{}).filter(([k,v])=>+v).sort());
-  $('fDials').addEventListener('input', e=>{ const k=e.target.dataset.conf; if(k==null) return; S.adj[k]=+e.target.value; e.target.nextElementSibling.textContent=(S.adj[k]>0?'+':'')+S.adj[k]; S._mdl=null; renderDials(); renderCurrent(); });
-  $('fReset').addEventListener('click', ()=>{ S.adj={}; S._mdl=null; renderDials(); renderCurrent(); });
+  // while dragging: update the number right away; redraw the page at most once per frame (sliders are never rebuilt mid-drag)
+  let fFrame=0;
+  function setAdj(k, v){
+    v=Math.max(-10, Math.min(10, Math.round(v*2)/2)); S.adj[k]=v; S._mdl=null;
+    const inp=$('fDials').querySelector(`input[data-conf="${CSS.escape(k)}"]`), lab=$('fDials').querySelector(`b[data-val="${CSS.escape(k)}"]`);
+    if(inp && +inp.value!==v) inp.value=v; if(lab) lab.textContent=(v>0?'+':'')+v;
+    dialStatus();
+    if(!fFrame) fFrame=requestAnimationFrame(()=>{ fFrame=0; renderCurrent(); renderFormulaNote(); });
+  }
+  $('fDials').addEventListener('input', e=>{ const k=e.target.dataset.conf; if(k!=null && e.target.type==='range') setAdj(k, +e.target.value); });
+  $('fReset').addEventListener('click', ()=>{ S.adj={}; S._mdl=null; renderDials(); renderCurrent(); renderFormulaNote(); });
   $('fSave').addEventListener('click', async ()=>{
     $('fSave').disabled=true;
-    try{ const saved=await S.db.saveSettings(cur=>Object.assign({}, cur, {formula:cleanAdj(S.adj)})); S.settings=saved; S.adjPub={...cleanAdj(S.adj)}; renderDials(); toast('Conference adjustments saved for everyone'); }
-    catch(e){ renderDials(); toast(e&&e.code==='unauthenticated' ? 'GitHub rejected the ballot sync token. Open Ballot sync to reconnect.' : 'Couldn’t save. Try again.'); }
+    try{ const saved=await S.db.saveSettings(cur=>Object.assign({}, cur, {formula:cleanAdj(S.adj)})); S.settings=saved; S.adjPub={...cleanAdj(S.adj)}; dialStatus(); toast('Conference adjustments saved for everyone'); }
+    catch(e){ dialStatus(); toast(e&&e.code==='unauthenticated' ? 'GitHub rejected the ballot sync token. Open Ballot sync to reconnect.' : 'Couldn’t save. Try again.'); }
   });
 
   // ---------- tabs ----------
@@ -1306,7 +1320,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   window.addEventListener('beforeunload', e=>{ if(S.dirty || S.uDirty){ e.preventDefault(); e.returnValue=''; } });
 
   const stampText = () => { if(!S.meta) return 'Loading team data…'; const d = S.meta.updatedAt ? new Date(S.meta.updatedAt).toLocaleDateString('en-US', {month:'short', day:'numeric'}) : ''; return `Updated ${d} · ${S.meta.through||''}`; };
-  function renderAll(){ $('stamp').textContent = stampText(); renderDials(); renderCurrent(); renderFormulaNote(); }
+  function renderAll(){ $('stamp').textContent = stampText(); if(!$('fDials').children.length || !$('fMenu').open) renderDials(); renderCurrent(); renderFormulaNote(); }
 
   // ---------- team dialog ----------
   const gEpa = g => { const f=v=>typeof v==='number' ? (Math.abs(v)<0.005?0:v).toFixed(2) : '–';
@@ -1490,7 +1504,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   showTab(TABS.includes(start) ? start : 'home');
   (async ()=>{
     const db = siteDb(); S.db=db;
-    db.settings().then(st=>{ S.settings=st||{}; S.upsets=S.settings.upsets||{}; const f=S.settings.formula; if(f && typeof f==='object'){ S.adj={...f}; S.adjPub={...f}; S._mdl=null; } renderAll(); }).catch(()=>{});
+    db.settings().then(st=>{ S.settings=st||{}; S.upsets=S.settings.upsets||{}; const f=S.settings.formula; if(f && typeof f==='object'){ const g=Object.fromEntries(Object.entries(f).filter(([k])=>DIALS.includes(k))); S.adj={...g}; S.adjPub={...g}; S._mdl=null; } renderAll(); }).catch(()=>{});
     db.teams.then(d=>{
       S.meta = {through:d.through, updatedAt:d.updatedAt, season:d.season};
       S.teamsRaw = d.teams||{}; S.model = d.model||null; S.schedule = d.schedule||null; S.ap = d.ap||null; S.picks = d.picks||[];
