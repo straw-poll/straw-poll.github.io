@@ -776,9 +776,11 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
         <div class="nums"><div><small>Line</small><b>${spread(g.line,g.home,g.away)}</b></div><div><small>Model</small><b class="${mFav && lFav && mFav!==lFav ? 'mup':''}">${spread(g.model,g.home,g.away)}</b></div></div>
         ${up && up.note ? `<p class="gnote">${esc(up.note)}</p>` : ''}</div>`; };
     const ups = games.filter(g=>upW[g.id]);
-    $('hUpsWrap').hidden = !ups.length;
+    $('hUpsWrap').hidden = !ups.length && !S.canWrite;
     $('hUpsSub').textContent = sch.week!=null ? `Week ${sch.week}` : '';
-    $('hUps').innerHTML = ups.map(card).join('');
+    const nCand = S.canWrite ? upsetCands().filter(x=>x.cand).length : 0;
+    const review = S.canWrite ? `<div class="game" style="display:flex;flex-direction:column;justify-content:center;gap:8px;border-style:dashed"><b style="font:700 18px var(--cond)">${ups.length ? 'Edit upset alerts' : 'No upset alerts published yet'}</b><span class="lead" style="margin:0">${nCand} candidate${nCand===1?'':'s'} this week. Only you see this box.</span><button class="btn primary" data-go="work" data-ws="ups" style="align-self:flex-start">Review and publish →</button></div>` : '';
+    $('hUps').innerHTML = ups.map(card).join('') + review;
     const imp = g => Math.min(ranks[g.home]||99, ranks[g.away]||99, apR[g.home]||99, apR[g.away]||99);
     const fav = g => typeof g.line==='number' ? Math.abs(g.line) : typeof g.model==='number' ? Math.abs(g.model) : 0;  // spread: line, else model
     const rkd = a => !!(ranks[a] || apR[a]), both = g => rkd(g.home) && rkd(g.away);  // ranked matchups get a wider window
@@ -1220,7 +1222,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     if(f){ if(tipFor===f && tipVia==='click') hideTip(); else showTip(f,'click'); } else if(tipFor) hideTip();
     MENUS.forEach(id=>{ const m=$(id); if(m.open && !m.contains(e.target)) m.open=false; });
     const op=e.target.closest('[data-open]'); if(op && !e.target.closest('.dot')) openTeam(op.dataset.open);
-    const go=e.target.closest('[data-go]'); if(go) showTab(go.dataset.go);
+    const go=e.target.closest('[data-go]'); if(go){ if(go.dataset.ws) S.ws=go.dataset.ws; showTab(go.dataset.go); }
   });
   document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ hideTip(); MENUS.forEach(id=>$(id).open=false); } });
   window.addEventListener('scroll', hideTip, true);
