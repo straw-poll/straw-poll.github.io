@@ -116,7 +116,8 @@ h2 small{font:400 13px var(--body);color:var(--muted);margin-left:10px}
 .count{margin-left:auto;color:var(--muted);font-size:13px}
 .legend{display:flex;flex-wrap:wrap;gap:6px 18px;color:var(--muted);font-size:12.5px;margin:0 0 10px}
 .legend span{display:inline-flex;align-items:center;gap:6px}
-.legend .dot{position:static;transform:none;display:inline-block}
+.legend .dot{position:relative;top:auto;transform:none;display:inline-block;flex:none}
+.legend .dot::after{content:none}
 .legend b{font:700 12px var(--cond);color:var(--ink)}
 .map{--mapcols:44px 30px 30px minmax(120px,190px) minmax(0,1fr) 56px}
 .map.drag{--mapcols:44px 30px 18px 30px minmax(120px,190px) minmax(0,1fr) 56px}
@@ -355,7 +356,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     <button class="brand" id="brand" aria-label="Wolp+ 2026 home"><b>Wolp<span>+</span> 2026</b><small>College football rankings</small></button>
     <nav class="tabs" role="tablist">
       <button class="tab" role="tab" id="tab-home" aria-selected="true">Home</button>
-      <button class="tab" role="tab" id="tab-rank" aria-selected="false">Rankings</button>
+      <button class="tab" role="tab" id="tab-rank" aria-selected="false">Data</button>
       <button class="tab" role="tab" id="tab-history" aria-selected="false">Previous Rankings</button>
       <button class="tab" role="tab" id="tab-method" aria-selected="false">Methodology</button>
       <button class="tab owner owner-only" role="tab" id="tab-work" aria-selected="false">Workspace</button>
@@ -374,7 +375,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   <!-- HOME -->
   <section id="view-home">
     <div class="hero">
-      <div class="card"><div class="ch"><h2 id="hTitle">Wolp+ Top 25</h2><button class="more" data-go="rank">Full rankings, Results Map and stats →</button></div>
+      <div class="card"><div class="ch"><h2 id="hTitle">Wolp+ Top 25</h2><button class="more" data-go="rank">Results Map and stats →</button></div>
         <div class="t25" id="hTop"></div><div class="also" id="hAlso"></div></div>
       <div class="side-col">
         <div class="card fraud"><div class="ch"><h2>Fraud watch</h2><span class="badge f">Overrated?</span></div>
