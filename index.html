@@ -41,7 +41,7 @@ h1{font:800 clamp(2.4rem,6vw,3.6rem)/.9 var(--cond);margin:0;letter-spacing:-.01
 h1 span{color:var(--field)}
 .stamp{color:var(--muted);font-size:.9rem;margin-top:6px}
 .tabs{display:flex;gap:4px}
-.importer{margin-left:auto;align-self:center}
+.importer{margin-left:auto;align-self:center;display:flex;align-items:center;gap:4px}
 .tab{background:none;border:0;border-bottom:3px solid transparent;padding:6px 10px;font:600 1.15rem var(--cond);color:var(--muted);margin-bottom:-17px}
 .tab[aria-selected="true"]{color:var(--ink);border-color:var(--field)}
 
@@ -280,6 +280,9 @@ legend{font-weight:600;padding:0 4px}
 .mix input[type=range]{width:100%;accent-color:var(--field)}
 .mixends{display:flex;justify-content:space-between;font-size:.78rem;color:var(--muted)}
 #mixTxt{font-size:.9rem;margin-top:6px}
+.mixsave{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px}
+.mixsave small{color:var(--muted);font-size:.78rem}
+.mixsave .btn{padding:4px 10px;font-size:.85rem;white-space:nowrap}
 .upb{border:1px solid var(--line);background:none;border-radius:6px;color:var(--field);font:700 .95rem/1 var(--body);padding:3px 7px;cursor:pointer}
 .upb:hover{border-color:var(--field)}
 .rs-rk .upb{font-size:.85rem;padding:2px 6px;vertical-align:middle}
@@ -311,7 +314,7 @@ legend{font-weight:600;padding:0 4px}
       <h1>CFB Rankings <span>2026</span></h1>
       <div class="stamp" id="stamp">Loading team data…</div>
     </div>
-    <div class="importer"><button class="btn" id="syncBtn">Ballot sync</button></div>
+    <div class="importer"><button class="btn quiet" id="cmpMode" aria-pressed="false" title="Pick 2 to 4 teams to compare side by side">Compare</button><details class="colmenu" id="mixMenu"><summary class="btn quiet">Composite ▾</summary><div class="menu mix"><label for="mixW">Composite rank blend</label><input type="range" id="mixW" min="0" max="100" step="5" value="50"><div class="mixends"><span>All power</span><span>All quality wins</span></div><div id="mixTxt"></div><div class="mixsave"><small id="mixNote"></small><button class="btn primary" id="mixSave" hidden>Save for everyone</button></div></div></details><button class="btn" id="syncBtn">Ballot sync</button></div>
     <nav class="tabs" role="tablist">
       <button class="tab" role="tab" id="tab-ballot" aria-selected="true">Current Rankings</button>
       <button class="tab" role="tab" id="tab-resumes" aria-selected="false">Data</button>
@@ -333,7 +336,7 @@ legend{font-weight:600;padding:0 4px}
 
     <div class="grid">
       <div class="bwrap">
-        <div class="btools"><button class="btn quiet" id="cmpMode" aria-pressed="false" title="Pick 2 to 4 teams to compare side by side">Compare</button><details class="colmenu" id="mixMenu"><summary class="btn quiet">Composite ▾</summary><div class="menu mix"><label for="mixW">Composite rank blend</label><input type="range" id="mixW" min="0" max="100" step="5" value="50"><div class="mixends"><span>All power</span><span>All quality wins</span></div><div id="mixTxt"></div></div></details><details class="colmenu" id="colMenu"><summary class="btn quiet">Columns ▾</summary><div class="menu" id="colList"></div></details></div>
+        <div class="btools"><details class="colmenu" id="colMenu"><summary class="btn quiet">Columns ▾</summary><div class="menu" id="colList"></div></details></div>
         <div class="bscroll">
         <div class="cols" id="cols" aria-hidden="true"></div>
         <div id="ballot" aria-label="Your Top 25"></div>
@@ -495,8 +498,7 @@ legend{font-weight:600;padding:0 4px}
 
   // ---------- model (power / résumé / composite) ----------
   // Percentiles among FBS teams (0 = lowest, 1 = highest); composite = w × résumé pct + (1 − w) × power pct.
-  S.mixW = 0.5;
-  try{ const w=Number(localStorage.getItem('cfb-mix')); if(localStorage.getItem('cfb-mix')!=null && w>=0 && w<=1) S.mixW=w; }catch(e){}
+  S.mixW = S.mixPub = 0.5;  // replaced by the saved blend (settings.json) once it loads
   function mdl(){
     if(S._mdl && S._mdl.w===S.mixW) return S._mdl;
     const T=S.teams, pctOf = key => { const L=Object.keys(T).filter(a=>typeof T[a][key]==='number').sort((a,b)=>(T[a][key]-T[b][key]) || (a<b?-1:1)), m={}; L.forEach((a,i)=>m[a]= L.length>1 ? i/(L.length-1) : 1); return m; };
@@ -505,9 +507,9 @@ legend{font-weight:600;padding:0 4px}
     Object.keys(comp).sort((a,b)=>(comp[b]-comp[a]) || (a<b?-1:1)).forEach((a,i)=>crank[a]=i+1);
     return S._mdl={w:S.mixW, pp, rp, crank};
   }
-  // Opponent position on the résumé strips: its "strength" (0-1, from the model); older data without
-  // it: power percentile. FCS / unknown at 0.02.
-  const oppPos = o => { const t=S.teams[o]; return t && typeof t.strength==='number' ? t.strength : (mdl().pp[o] ?? 0.02); };
+  // Opponent position on the Data strips: its Composite rank, evenly spaced (#1 at the right edge,
+  // the lowest-ranked FBS team at 0.04). Follows the Composite slider. FCS / unknown at 0.02.
+  const oppPos = o => { const c=mdl().crank, n=Object.keys(c).length; return c[o] && n>1 ? 0.04 + 0.96*(n-c[o])/(n-1) : 0.02; };
   // "Close" = the game's close field (one score and in doubt late); older data without it: one score.
   const isClose = g => typeof g.close==='boolean' ? g.close : Math.abs(g.pf-g.pa)<=CLOSE;
   // Best win = win with the highest résumé value; worst loss = loss with the lowest.
@@ -918,13 +920,22 @@ legend{font-weight:600;padding:0 4px}
   });
   document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ hideTip(); $('colMenu').open=false; $('mixMenu').open=false; $('colMenuP').open=false; } });
   // ---------- composite blend slider ----------
-  function renderMix(){ const r=Math.round(S.mixW*100); $('mixW').value=r; $('mixTxt').textContent=`${r}% quality wins / ${100-r}% power`; }
+  function renderMix(){
+    const r=Math.round(S.mixW*100), same = r===Math.round(S.mixPub*100);
+    $('mixW').value=r; $('mixTxt').textContent=`${r}% quality wins / ${100-r}% power`;
+    $('mixSave').hidden = !S.canWrite; $('mixSave').disabled = same;
+    $('mixNote').textContent = same ? (S.canWrite ? 'Everyone sees this blend.' : 'The page owner’s blend.') : (S.canWrite ? 'Only you see this until you save.' : 'Only your view changes; reload to reset.');
+  }
   $('mixW').addEventListener('input', e=>{
     S.mixW=Number(e.target.value)/100; renderMix();
-    try{ localStorage.setItem('cfb-mix', String(S.mixW)); }catch(err){}
-    renderBallot(); renderPool();
+    renderBallot(); renderPool(); if(!$('view-resumes').hidden) renderResumes();
   });
   renderMix();
+  $('mixSave').addEventListener('click', async ()=>{
+    $('mixSave').disabled=true;
+    try{ await S.db.saveSettings({compositeQW:S.mixW}); S.mixPub=S.mixW; renderMix(); toast(`Blend saved: everyone now sees ${$('mixTxt').textContent}`); }
+    catch(e){ renderMix(); toast(e&&e.code==='unauthenticated' ? 'GitHub rejected the ballot sync token. Open Ballot sync to reconnect.' : 'Couldn’t save the blend. Try again.'); }
+  });
   window.addEventListener('scroll', hideTip, true);
   window.addEventListener('resize', hideTip);
   document.querySelectorAll('.chip').forEach(c=>c.addEventListener('click', ()=>{
@@ -1057,7 +1068,7 @@ legend{font-weight:600;padding:0 4px}
     return gamesOf(x.a).map(g=>{
       const m=Math.abs(g.pf-g.pa), size = m<=8 ? 1 : m<=16 ? 2 : 3;
       const lab = x.bw && x.bw.g===g ? 'Best' : x.wl && x.wl.g===g ? 'Worst' : '';
-      const tip = `${g.result} ${gScore(g).replace('-','–')}${g.ot?' (OT)':''} ${gAt(g)} ${gOppName(g.opp,onB)}, ${gOppRec(g.opp)}`;
+      const tip = `${g.result} ${gScore(g).replace('-','–')}${g.ot?' (OT)':''} ${gAt(g)} ${gOppName(g.opp,onB)}, ${gOppRec(g.opp)}${mdl().crank[g.opp]?', Composite #'+mdl().crank[g.opp]:''}`;
       return {size, lab, html:`<button class="dot ${g.result} s${size}${g.ot?' ot':isClose(g)?' close':''}" style="left:${(oppPos(g.opp)*100).toFixed(2)}%" data-tip="${esc(tip)}" aria-label="${esc(tip)}">${onB[g.opp]?`<span class="drk">${onB[g.opp]}</span>`:''}${lab?`<span class="dlb${lab==='Worst'?' up':''}">${lab}</span>`:''}</button>`};
     }).sort((p,q)=>(q.size-p.size) || ((p.lab?1:0)-(q.lab?1:0))).map(d=>d.html).join('');
   }
@@ -1082,7 +1093,7 @@ legend{font-weight:600;padding:0 4px}
       return `<div class="rs-row${drag?' rs-drag':''}" data-abbr="${esc(a)}"><div class="rs-name"><span class="rs-rk">${jm?`<button class="upb" data-up="${esc(a)}" aria-label="Move ${esc(t.name)} to Top 25" title="Move to Top 25">↑</button>`:onB[a]||''}</span>${grip}<button class="rs-tm" data-open="${esc(a)}">${esc(t.name)}</button><span class="rs-rec">${rec(t.w,t.l)}</span></div><div class="rs-track"><div class="rs-in">${rsDots(x,onB)}</div></div></div>`;
     };
     const group = (list, drag, jm) => { let L=list.map(a=>Object.assign({a}, bestWorst(a,onB))); if(sorter) L=L.sort(sorter); return L.map(x=>strip(x,drag,jm)).join(''); };
-    const axis = '<div class="rs-axis"><span></span><div><span>← Weaker opponents</span><span>Stronger opponents →</span></div></div>';
+    const axis = '<div class="rs-axis"><span></span><div><span>← Lower Composite rank</span><span>Higher Composite rank →</span></div></div>';
     el.innerHTML = (S.draft.length ? axis + `<div id="rsTop">${group(S.draft, canDrag)}</div>` : '')
       + (S.others.length ? `<h3 class="rs-grp">Just missed</h3>${axis}${group(S.others, false, true)}` : '');
     stackDots(el);
@@ -1159,9 +1170,9 @@ legend{font-weight:600;padding:0 4px}
     const b64d = t => new TextDecoder().decode(Uint8Array.from(atob(t.replace(/\s/g,'')), c=>c.charCodeAt(0)));
     const b64e = t => { let b=''; new TextEncoder().encode(t).forEach(x=>b+=String.fromCharCode(x)); return btoa(b); };
     let weeks = {}, sha = null; const colL = [];
-    async function gh(method, body, token){
+    async function gh(method, body, token, url){
       let r; const t = token || syncToken();
-      try{ r = await fetch(api, {method, cache:'no-store', headers:{...(t?{Authorization:'Bearer '+t}:{}), Accept:'application/vnd.github+json', ...(body?{'Content-Type':'application/json'}:{})}, body:body?JSON.stringify(body):undefined}); }
+      try{ r = await fetch(url || api, {method, cache:'no-store', headers:{...(t?{Authorization:'Bearer '+t}:{}), Accept:'application/vnd.github+json', ...(body?{'Content-Type':'application/json'}:{})}, body:body?JSON.stringify(body):undefined}); }
       catch(e){ throw fail('unavailable', 'Couldn’t reach GitHub'); }
       if(r.status===401) throw fail('unauthenticated', 'GitHub rejected the token');
       if(r.status===403 || r.status===404) throw fail('not_found', 'The token can’t see the ballots repo');
@@ -1189,6 +1200,25 @@ legend{font-weight:600;padding:0 4px}
       }
       throw fail('unavailable', 'Saved on another device at the same moment; try again');
     }
+    // page settings everyone sees (the Composite blend): settings.json in the same repo
+    const sapi = `https://api.github.com/repos/${SYNC.owner}/${SYNC.repo}/contents/settings.json`;
+    async function readSettings(){
+      const t = syncToken();
+      let r = await fetch(sapi, {cache:'no-store', headers:{...(t?{Authorization:'Bearer '+t}:{}), Accept:'application/vnd.github+json'}}).catch(()=>null);
+      if(r && r.ok){ const j=await r.json(); return {data:JSON.parse(b64d(j.content) || '{}') || {}, sha:j.sha}; }
+      if(r && r.status===404) return {data:{}, sha:null};  // nothing saved yet
+      r = await fetch(`https://raw.githubusercontent.com/${SYNC.owner}/${SYNC.repo}/main/settings.json`, {cache:'no-store'}).catch(()=>null);
+      return {data: r && r.ok ? (await r.json() || {}) : {}, sha:null};
+    }
+    async function saveSettings(patch){
+      for(let attempt=0; attempt<2; attempt++){
+        const cur = await readSettings(), data = Object.assign({}, cur.data, patch);
+        const r = await gh('PUT', {message:'Save page settings', content:b64e(JSON.stringify(data, null, 1)+'\n'), ...(cur.sha?{sha:cur.sha}:{})}, null, sapi);
+        if(r.ok) return data;
+        if(r.status!==409 && r.status!==422) throw fail('unavailable', 'GitHub error '+r.status);
+      }
+      throw fail('unavailable', 'Saved on another device at the same moment; try again');
+    }
     const teams = fetch('teams.json', {cache:'no-cache'}).then(r=>{ if(!r.ok) throw fail('unavailable','teams.json '+r.status); return r.json(); });
     const weeksCol = {
       doc: id => ({ set: body => write(w=>{ w[id]=clone(body); }, `Save ballot ${id}`),
@@ -1200,6 +1230,8 @@ legend{font-weight:600;padding:0 4px}
     return {
       doc: path => ({ onSnapshot: (f, err) => { teams.then(d=>f(snap(path.split('/')[1], path==='cfb/model' ? d.model : {season:d.season, updatedAt:d.updatedAt, through:d.through, teams:d.teams}))).catch(e=>err&&err(e)); return ()=>{}; } }),
       collection: () => weeksCol,
+      settings: () => readSettings().then(x=>x.data),
+      saveSettings,
       check: async token => { try{ const r=await gh('GET', null, token); return r.ok ? 'ok' : 'unavailable'; }catch(e){ return e.code; } }
     };
   }
@@ -1230,6 +1262,7 @@ legend{font-weight:600;padding:0 4px}
   (async ()=>{
     const db = siteDb();
     S.db=db;
+    db.settings().then(st=>{ const w=Number(st.compositeQW); if(st.compositeQW!=null && w>=0 && w<=1){ S.mixW=S.mixPub=w; S._mdl=null; renderMix(); renderAll(); } }).catch(()=>{});
     db.doc('cfb/teams').onSnapshot(snap=>{
       const d = snap.exists ? snap.data() : null;
       S.meta = d ? {through:d.through, updatedAt:d.updatedAt, season:d.season} : null;
