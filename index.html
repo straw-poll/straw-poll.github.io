@@ -371,13 +371,12 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
         <div class="t25" id="hTop"></div><div class="also" id="hAlso"></div></div>
       <div class="side-col">
         <div class="card fraud"><div class="ch"><h2>Fraud watch</h2><span class="badge f">Overrated?</span></div>
-          <p class="lead">In the AP Top 25, but both Wolp+ and the Model rank them at least <span class="fthr">8</span> spots lower.</p><div id="hFraud"></div></div>
+<div id="hFraud"></div></div>
         <div class="card radar"><div class="ch"><h2>Under the radar</h2><span class="badge r">Underrated?</span></div>
-          <p class="lead">Both Wolp+ and the Model rank them at least <span class="fthr">8</span> spots higher than the AP.</p><div id="hRadar"></div></div>
+<div id="hRadar"></div></div>
       </div>
     </div>
     <div class="hsec" id="hUpsWrap" hidden><div class="ch"><h2>Upset alerts<small id="hUpsSub"></small></h2></div><div class="games" id="hUps"></div></div>
-    <div class="hsec" id="hUnbWrap" hidden><div class="ch"><h2>Unbeaten watch<small>Chance to finish the regular season unbeaten, from 10,000 simulated seasons</small></h2></div><div class="card" id="hUnb"></div></div>
     <div class="hsec" id="hBigWrap"><div class="ch"><h2 id="hBigT">This week's big games</h2><button class="more" id="hAllBtn">All games →</button></div>
       <div class="games" id="hBig"></div><div class="glist card" id="hAll" hidden></div></div>
   </section>
@@ -795,19 +794,12 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     const rkd = a => !!(ranks[a] || apR[a]), both = g => rkd(g.home) && rkd(g.away);  // ranked matchups get a wider window
     const big = games.filter(g=>imp(g)<99 && fav(g)<=(both(g) ? BIG_RANKED : BIG)).sort((x,y)=>((ranks[x.home]||45)+(ranks[x.away]||45)) - ((ranks[y.home]||45)+(ranks[y.away]||45)) || imp(x)-imp(y));
     $('hBigWrap').hidden = !games.length;
-    $('hBigT').innerHTML = `This week's big games${sch.week!=null?`<small>Week ${sch.week} · ranked teams with a favorite of ${BIG} or less (${BIG_RANKED} or less for ranked matchups)</small>`:''}`;
+    $('hBigT').innerHTML = `This week's big games${sch.week!=null?`<small>Week ${sch.week}</small>`:''}`;
     $('hBig').innerHTML = big.map(card).join('') || '<p class="lead">No close-looking ranked games this week.</p>';
-    renderUnbeaten();
     $('hAllBtn').textContent = S.showAll ? 'Hide all games' : `All ${games.length} games →`;
     $('hAll').hidden = !S.showAll;
     if(S.showAll) $('hAll').innerHTML = `<div class="tblw"><table><thead><tr class="cols"><th style="text-align:left">Kickoff</th><th style="text-align:left">Away</th><th></th><th style="text-align:left">Home</th><th>Line</th><th>Model</th></tr></thead><tbody>${
       games.map(g=>`<tr><td class="dim">${esc(kick(g.start))}</td><td><span class="gl-n">${logo(g.away)}${ranks[g.away]?`<span class="rkb">${ranks[g.away]}</span>`:''}${esc(nm(g.away))}</span></td><td class="dim">${g.neutral?'vs':'at'}</td><td><span class="gl-n">${logo(g.home)}${ranks[g.home]?`<span class="rkb">${ranks[g.home]}</span>`:''}${esc(nm(g.home))}</span></td><td style="text-align:center">${spread(g.line,g.home,g.away)}</td><td style="text-align:center">${modelTxt(g.model,g.home,g.away)}</td></tr>`).join('')}</tbody></table></div>`;
-  }
-  function renderUnbeaten(){
-    const ranks=pubMap(), L=Object.keys(S.teams).filter(a=>S.teams[a].proj && S.teams[a].proj.unb>=0.005).sort((a,b)=>S.teams[b].proj.unb-S.teams[a].proj.unb).slice(0,12);
-    $('hUnbWrap').hidden=!L.length;
-    $('hUnb').innerHTML = `<div class="t25">${[L.slice(0,Math.ceil(L.length/2)), L.slice(Math.ceil(L.length/2))].map(col=>`<div>${col.map(a=>{ const t=S.teams[a], p=Math.round(t.proj.unb*100);
-      return `<button class="trow" data-open="${esc(a)}" style="--tc:${tc(a)};grid-template-columns:24px minmax(0,1fr) 34%;padding-left:10px">${logo(a)}<span class="tn">${ranks[a]?`<span class="rkb">${ranks[a]}</span>`:''}${esc(nm(a))} <span class="tr">${rec(t.w,t.l)}</span></span><span style="display:flex;align-items:center;gap:8px"><span style="flex:1;height:6px;border-radius:3px;background:var(--line)"><span style="display:block;height:6px;border-radius:3px;width:${p}%;background:var(--gold)"></span></span><b style="font:700 15px var(--cond);min-width:2.6em;text-align:right">${p<1?'<1':p}%</b></span></button>`; }).join('')}</div>`).join('')}</div>`;
   }
   $('hAllBtn').addEventListener('click', ()=>{ S.showAll=!S.showAll; renderHome(); });
 
