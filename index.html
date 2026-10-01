@@ -1066,6 +1066,7 @@ legend{font-weight:600;padding:0 4px}
     const axis = '<div class="rs-axis"><span></span><div><span>← Weaker opponents</span><span>Stronger opponents →</span></div></div>';
     el.innerHTML = (S.draft.length ? axis + `<div id="rsTop">${group(S.draft, canDrag)}</div>` : '')
       + (S.others.length ? `<h3 class="rs-grp">Just missed</h3>${axis}${group(S.others, false, true)}` : '');
+    stackDots(el);
     if(canDrag && window.Sortable){
       rsSortable = Sortable.create($('rsTop'), {
         handle:'.grip', draggable:'.rs-row', animation:150, group:'rs',
@@ -1075,6 +1076,32 @@ legend{font-weight:600;padding:0 4px}
       });
     }
   }
+  // Dots for opponents rated about the same would sit on top of each other: nudge them above /
+  // below the line until none overlap. Left-right positions stay exact. Runs after each render.
+  function stackDots(scope){
+    const R = d => (d.classList.contains('s3') ? 9 : d.classList.contains('s2') ? 6.5 : 4.5) + (d.classList.contains('ot') ? 7 : d.classList.contains('close') ? 3.5 : 0);
+    scope.querySelectorAll('.rs-in').forEach(track=>{
+      const W = track.clientWidth; if(!W) return;
+      const dots = [...track.querySelectorAll('.dot')].map(d=>({d, x:parseFloat(d.style.left)/100*W, r:R(d), y:0})).sort((a,b)=>a.x-b.x);
+      // groups of dots that would touch on the line
+      const groups = [];
+      dots.forEach(p=>{ const g=groups[groups.length-1]; if(g && g.some(q=>p.x-q.x < q.r+p.r+1)) g.push(p); else groups.push([p]); });
+      groups.forEach(g=>{
+        if(g.length>1){
+          const placed=[];
+          g.forEach(p=>{ p.y = [0,-8,8,-16,16,-24,24].find(y=>placed.every(q=>Math.hypot(q.x-p.x, q.y-y) >= q.r+p.r+1)) ?? 0; placed.push(p); });
+          const shift = -(Math.min(...g.map(p=>p.y)) + Math.max(...g.map(p=>p.y)))/2;  // centre the stack on the line
+          g.forEach(p=>p.y+=shift);
+        }
+        g.forEach(p=>{
+          p.d.style.top = p.y ? `calc(50% + ${p.y}px)` : '';
+          const lb = p.d.querySelector('.dlb');  // Best / Worst label goes on the outside of the stack
+          if(lb) lb.classList.toggle('up', p.y<0 || (p.y===0 && lb.textContent==='Worst'));
+        });
+      });
+    });
+  }
+  window.addEventListener('resize', ()=>{ if(!$('view-resumes').hidden) stackDots($('rsBody')); });
   // mid-drag: recompute ranks and the opponent rank labels on the dots from the on-screen order, without rebuilding the rows
   function rsLive(){
     const order=[...new Set([...$('rsTop').children].filter(r=>r.classList.contains('rs-row') && !r.classList.contains('sortable-fallback') && r.style.display!=='none').map(r=>r.dataset.abbr))];
@@ -1083,6 +1110,7 @@ legend{font-weight:600;padding:0 4px}
       const a=row.dataset.abbr;
       if(row.closest('#rsTop')) row.querySelector('.rs-rk').textContent = onB[a]||'';
       row.querySelector('.rs-in').innerHTML = rsDots(Object.assign({a}, bestWorst(a,onB)), onB);
+      stackDots(row);
     });
   }
   $('rsSort').addEventListener('click', e=>{ const b=e.target.closest('[data-rs]'); if(!b) return; S.rsort=b.dataset.rs; renderResumes(); });
