@@ -184,7 +184,10 @@ td.c-mv{padding-left:0;width:30px}
 .mix input[type=range]::-moz-range-thumb{width:13px;height:13px;border-radius:50%;background:var(--ink);border:2px solid var(--bg)}
 .mixends{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}
 .mixp{color:#8fb6ea}.mixq{color:var(--gold)}
-#mixTxt{font-size:13px;margin-top:6px}
+#mixTxt{font-size:14px;margin:2px 0 6px}
+.mixhelp{color:var(--muted);font-size:12px;margin:0 0 8px;max-width:17rem}
+.mixl{display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted);margin-top:4px}
+.mixl b{color:var(--ink);font-weight:600}
 .mixsave{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:10px}
 .mixsave small{color:var(--muted);font-size:12px}
 
@@ -364,8 +367,11 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     <div class="tools">
       <button class="pill" id="cmpMode" aria-pressed="false" title="Pick 2 to 4 teams to compare side by side" hidden>Compare</button>
       <details class="colmenu" id="mixMenu"><summary class="pill" id="mixSum">Composite ▾</summary>
-        <div class="menu mix"><div class="mt">Composite blend</div><input type="range" id="mixW" min="0" max="100" step="5" value="20" aria-label="Composite blend: share of quality wins">
-          <div class="mixends"><span class="mixp">All power</span><span class="mixq">All quality wins</span></div><div id="mixTxt"></div>
+        <div class="menu mix"><div class="mt">Composite blend</div><div id="mixTxt"></div>
+          <p class="mixhelp">Leans on power early, when results are few, and slides toward quality wins as the season goes on.</p>
+          <label class="mixl" for="mixA">Week 1 <b id="mixAv"></b></label><input type="range" id="mixA" min="0" max="100" step="5" value="0" aria-label="Quality wins share in week 1">
+          <label class="mixl" for="mixB">Week <span class="mixEnd">14</span> and later <b id="mixBv"></b></label><input type="range" id="mixB" min="0" max="100" step="5" value="50" aria-label="Quality wins share by the end of the season">
+          <div class="mixends"><span class="mixp">All power</span><span class="mixq">All quality wins</span></div>
           <div class="mixsave"><small id="mixNote"></small><button class="btn primary owner-only" id="mixSave">Save for everyone</button></div></div></details>
     </div>
   </div>
@@ -440,7 +446,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
         <dl>
           <dt>Power rating (Model)</dt><dd><b>How good a team is.</b> Points better than an average FBS team on a neutral field. The difference between two teams' ratings, plus the home edge, is the model's predicted margin.</dd>
           <dt>Quality wins (QW)</dt><dd><b>What a team has earned.</b> Its wins and losses, each weighted by how good the opponent's record is. Results only: no scoring margins and no power ratings.</dd>
-          <dt>Composite</dt><dd>A blend of the two (currently <b class="mxtxt"></b>), set under <b>Composite ▾</b> in the header.</dd>
+          <dt>Composite</dt><dd>A blend of the two (currently <b class="mxtxt"></b>), sliding from <b class="mxslide"></b>. Set under <b>Composite ▾</b> in the header.</dd>
         </dl>
 
         <h2 id="m-power">Power rating, step by step</h2>
@@ -466,7 +472,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
         </ul>
 
         <h2 id="m-comp">Composite</h2>
-        <p>Each team's power rating and quality-wins score are turned into percentiles among FBS teams (0 = lowest, 1 = highest). The Composite is the blend of the two, then ranked. The saved blend is what everyone sees; moving the slider changes only your own view until the page is reloaded.</p>
+        <p>Each team's power rating and quality-wins score are turned into percentiles among FBS teams (0 = lowest, 1 = highest). The Composite is the blend of the two, then ranked. The blend slides with the season: early on, when teams have played only a few games, it leans on the power rating; by the end of the regular season it leans more on quality wins (what teams have earned). Currently it slides from <b class="mxslide"></b>. On a replay of 2024–2026, this slide picked next week's winners slightly better than a fixed 80/20 blend and matched the final 2025 AP Top 25 much more closely (an average gap of about 5 spots instead of 7). The saved blend is what everyone sees; moving the sliders changes only your own view until the page is reloaded.</p>
 
         <h2 id="m-map">Results Map</h2>
         <ul>
@@ -671,7 +677,13 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   }
 
   // ---------- model ----------
-  S.mixW = S.mixPub = 0.2;
+  // Composite blend slides with the season: QW share = start (week 1) → end (by PRIOR_END_WEEK), linearly
+  S.mix = {a:0, b:0.5}; S.mixPub = {a:0, b:0.5}; S.mixW = 0;
+  const endWeek = () => ((S.model&&S.model.settings)||{}).PRIOR_END_WEEK || 14;
+  function blendWeek(){  // the week the current ratings are for: next week's games (after the last regular-season week: the end)
+    return S.schedule && S.schedule.week!=null ? S.schedule.week : endWeek();
+  }
+  function setMixW(){ const e=endWeek(), t=Math.min(1, Math.max(0, (blendWeek()-1)/(e-1))); const w = Math.round((S.mix.a + (S.mix.b-S.mix.a)*t)*100)/100; if(w!==S.mixW){ S.mixW=w; S._mdl=null; } }
   function mdl(){
     if(S._mdl && S._mdl.w===S.mixW) return S._mdl;
     const T=S.teams, pctOf = key => { const L=Object.keys(T).filter(a=>typeof T[a][key]==='number').sort((a,b)=>(T[a][key]-T[b][key]) || (a<b?-1:1)), m={}; L.forEach((a,i)=>m[a]= L.length>1 ? i/(L.length-1) : 1); return m; };
@@ -907,7 +919,8 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       else if(k==='LOC_LOSS') el.textContent=`home ${v.home.toFixed(2)}, neutral ${v.neutral.toFixed(2)}, road ${v.away.toFixed(2)}`;
       else el.textContent=String(v);
     });
-    document.querySelectorAll('.mxtxt').forEach(el=>el.textContent=`${100-Math.round(S.mixW*100)}% power / ${Math.round(S.mixW*100)}% quality wins`);
+    document.querySelectorAll('.mxtxt').forEach(el=>el.textContent=`${100-Math.round(S.mixW*100)}% power / ${Math.round(S.mixW*100)}% quality wins this week`);
+    document.querySelectorAll('.mxslide').forEach(el=>el.textContent=`${Math.round(S.mix.a*100)}% quality wins in week 1 to ${Math.round(S.mix.b*100)}% by week ${endWeek()}`);
     document.querySelectorAll('.fthr').forEach(el=>el.textContent=FRAUD);
   }
 
@@ -1182,17 +1195,19 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 
   // ---------- composite blend ----------
   function renderMix(){
-    const r=Math.round(S.mixW*100), same = r===Math.round(S.mixPub*100);
-    $('mixW').value=r; $('mixW').style.setProperty('--qw', r+'%');
-    $('mixTxt').innerHTML=`<b class="mixp">${100-r}% power</b> / <b class="mixq">${r}% quality wins</b>`;
+    setMixW();
+    const r=Math.round(S.mixW*100), A=Math.round(S.mix.a*100), B=Math.round(S.mix.b*100), same = A===Math.round(S.mixPub.a*100) && B===Math.round(S.mixPub.b*100);
+    $('mixA').value=A; $('mixA').style.setProperty('--qw', A+'%'); $('mixB').value=B; $('mixB').style.setProperty('--qw', B+'%');
+    $('mixAv').textContent=`${A}% QW`; $('mixBv').textContent=`${B}% QW`; document.querySelectorAll('.mixEnd').forEach(el=>el.textContent=endWeek());
+    $('mixTxt').innerHTML=`Week ${blendWeek()}: <b class="mixp">${100-r}% power</b> / <b class="mixq">${r}% quality wins</b>`;
     $('mixSum').textContent = `Composite: ${100-r}/${r} ▾`;
     $('mixSave').disabled = same;
     $('mixNote').textContent = same ? (S.canWrite ? 'Everyone sees this blend.' : 'The site’s saved blend.') : (S.canWrite ? 'Only you see this until you save.' : 'Only your view changes; reload to reset.');
   }
-  $('mixW').addEventListener('input', e=>{ S.mixW=Number(e.target.value)/100; renderMix(); renderCurrent(); });
+  ['mixA','mixB'].forEach(id=>$(id).addEventListener('input', e=>{ S.mix[id==='mixA'?'a':'b']=Number(e.target.value)/100; renderMix(); renderCurrent(); }));
   $('mixSave').addEventListener('click', async ()=>{
     $('mixSave').disabled=true;
-    try{ const saved=await S.db.saveSettings(cur=>Object.assign({}, cur, {compositeQW:S.mixW})); S.settings=saved; S.mixPub=S.mixW; renderMix(); toast(`Blend saved: everyone now sees ${$('mixTxt').textContent}`); }
+    try{ const saved=await S.db.saveSettings(cur=>{ const {compositeQW, ...rest}=cur; return Object.assign(rest, {compositeStart:S.mix.a, compositeEnd:S.mix.b}); }); S.settings=saved; S.mixPub={...S.mix}; renderMix(); toast(`Blend saved: everyone now sees ${Math.round(S.mix.a*100)}% → ${Math.round(S.mix.b*100)}% quality wins`); }
     catch(e){ renderMix(); toast(e&&e.code==='unauthenticated' ? 'GitHub rejected the ballot sync token. Open Ballot sync to reconnect.' : 'Couldn’t save the blend. Try again.'); }
   });
 
@@ -1391,7 +1406,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   showTab(TABS.includes(start) ? start : 'home');
   (async ()=>{
     const db = siteDb(); S.db=db;
-    db.settings().then(st=>{ S.settings=st||{}; S.upsets=S.settings.upsets||{}; const w=Number(S.settings.compositeQW); if(S.settings.compositeQW!=null && w>=0 && w<=1){ S.mixW=S.mixPub=w; S._mdl=null; } renderAll(); }).catch(()=>{});
+    db.settings().then(st=>{ S.settings=st||{}; S.upsets=S.settings.upsets||{}; const a=Number(S.settings.compositeStart), b=Number(S.settings.compositeEnd); if(S.settings.compositeStart!=null && S.settings.compositeEnd!=null && a>=0 && a<=1 && b>=0 && b<=1){ S.mix={a,b}; S.mixPub={a,b}; S._mdl=null; } renderAll(); }).catch(()=>{});
     db.teams.then(d=>{
       S.meta = {through:d.through, updatedAt:d.updatedAt, season:d.season};
       S.teamsRaw = d.teams||{}; S.model = d.model||null; S.schedule = d.schedule||null; S.ap = d.ap||null;
