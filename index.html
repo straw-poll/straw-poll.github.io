@@ -369,6 +369,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       </div>
     </div>
     <div class="hsec" id="hUpsWrap" hidden><div class="ch"><h2>Upset alerts<small id="hUpsSub"></small></h2></div><div class="games" id="hUps"></div></div>
+    <div class="hsec" id="hUnbWrap" hidden><div class="ch"><h2>Unbeaten watch<small>Chance to finish the regular season unbeaten, from 10,000 simulated seasons</small></h2></div><div class="card" id="hUnb"></div></div>
     <div class="hsec" id="hBigWrap"><div class="ch"><h2 id="hBigT">This week's big games</h2><button class="more" id="hAllBtn">All games →</button></div>
       <div class="games" id="hBig"></div><div class="glist card" id="hAll" hidden></div></div>
   </section>
@@ -414,7 +415,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     <div class="mwrap">
       <nav class="toc" aria-label="Methodology sections">
         <a href="#m-overview">Overview</a><a href="#m-wolp">The Wolp+ rankings</a><a href="#m-ratings">Three rankings</a><a href="#m-power">Power rating</a>
-        <a href="#m-qw">Quality wins</a><a href="#m-map">Results Map</a><a href="#m-home">Home page</a><a href="#m-cols">Columns and flags</a><a href="#m-data">Data and updates</a>
+        <a href="#m-qw">Quality wins</a><a href="#m-proj">Win chances and projections</a><a href="#m-quad">Quadrants</a><a href="#m-map">Results Map</a><a href="#m-home">Home page</a><a href="#m-cols">Columns and flags</a><a href="#m-data">Data and updates</a>
       </nav>
       <article class="method">
         <h2 id="m-overview">Overview</h2>
@@ -453,6 +454,20 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
           <li><b>FCS:</b> a win doesn't count; a loss counts <b data-set="FCS_LOSS_VALUE">-1.5</b>.</li>
           <li><b>Score</b> = the total value of the games that count, divided by <b data-set="QW_SEASON_GAMES">12</b> (a full regular season). Every win adds and every loss subtracts, so beating a weak team can never lower the score, and more good wins mean a higher score. Example: a decisive home win over a 0.70-strength team is worth 0.70 × 1.00 × 1.07 = 0.75.</li>
         </ul>
+
+        <h2 id="m-proj">Win chances and projections</h2>
+        <ul>
+          <li><b>Win chance:</b> a game's result typically lands about <b data-set="SIM_SIGMA">16</b> points from the model's spread in either direction, so the spread converts to a win chance on a normal curve: −3 is about 57%, −7 about 67%, −14 about 81%, −21 about 91%. These percentages were the best-calibrated on 2024–26 replays.</li>
+          <li><b>Projected records:</b> the rest of the regular season is simulated <b data-set="SIMS">10000</b> times using those win chances. In each simulated season, every team's true strength is also nudged by about <b data-set="SIM_TAU">5</b> points, because a rating after a few games is itself uncertain (this matched 2024–25 final records best). The results give each team's expected record, its chance to finish unbeaten, to win 10+ games, and to reach 6 wins (bowl eligible).</li>
+          <li>Tested and not used: giving each team its own "x-factor" for how much it swings. A team that over- or under-performed a lot early was no more likely to do so later (correlation about 0), and team-specific swings made the win chances slightly worse.</li>
+        </ul>
+
+        <h2 id="m-quad">Quadrants</h2>
+        <p>Borrowed from college basketball's NET: every game is sorted by the opponent's Model rank and where it was played, scaled to the 138 FBS teams. FCS opponents are Quadrant 4.</p>
+        <div class="tblw"><table style="width:auto;margin:0 0 14px"><thead><tr class="cols"><th></th><th>Home</th><th>Neutral</th><th>Away</th></tr></thead><tbody>
+          <tr><td><b>Q1</b></td><td>#1–11</td><td>#1–19</td><td>#1–29</td></tr><tr><td><b>Q2</b></td><td>#12–29</td><td>#20–38</td><td>#30–51</td></tr>
+          <tr><td><b>Q3</b></td><td>#30–61</td><td>#39–76</td><td>#52–91</td></tr><tr><td><b>Q4</b></td><td>#62+</td><td>#77+</td><td>#92+</td></tr></tbody></table></div>
+        <p>Quadrant records are a résumé stat (Stats columns Q1 and Q2, and every team's pop-up); they don't feed into any ranking.</p>
 
         <h2 id="m-map">Results Map</h2>
         <ul>
@@ -617,8 +632,11 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     {k:'sosDef', h:'Defs faced', menu:'Defenses faced (lower = tougher)', g:'Schedule', bw:'3.6rem', pw:'3.4rem', fmt:'n', lo:true, off:true},
     {k:'sosOff', h:'Offs faced', menu:'Offenses faced (higher = tougher)', g:'Schedule', bw:'3.6rem', pw:'3.4rem', fmt:'n', off:true},
     {k:'powerRank',  h:'Model', menu:'Model rank (power rating)', g:'Model', bw:'2.9rem', pw:'2.7rem', fmt:'r', lo:true, strong:true},
+    {k:'proj', h:'Proj. record', menu:'Projected final record (10,000 simulated seasons)', g:'Model', bw:'4.6rem', pw:'4.4rem'},
     {k:'powerRating', h:'Rating', menu:'Power rating (points vs. an average team)', g:'Model', bw:'3rem', pw:'2.9rem', fmt:'n1', off:true},
-    {k:'resumeRank', h:'Quality wins', menu:'Quality wins rank (résumé stat)', g:'Résumé', bw:'3.6rem', pw:'2.9rem', fmt:'r', lo:true}
+    {k:'resumeRank', h:'Quality wins', menu:'Quality wins rank (résumé stat)', g:'Résumé', bw:'3.6rem', pw:'2.9rem', fmt:'r', lo:true},
+    {k:'q1', h:'Q1', menu:'Quadrant 1 record (best opponents; see Methodology)', g:'Résumé', bw:'2.7rem', pw:'2.6rem'},
+    {k:'q2', h:'Q2', menu:'Quadrant 2 record', g:'Résumé', bw:'2.7rem', pw:'2.6rem', off:true}
   ];
   const ADV = COLS.filter(c=>c.fmt);
   const colVal = (c, a, t) => c.val ? c.val(a, t) : t[c.k];
@@ -691,6 +709,8 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   const modelFacts = a => { const t=S.teams[a]||{}, c=mdl().crank[a], n=v=>typeof v==='number';
     return `<dl class="facts"><dt>Power rating</dt><dd>${n(t.powerRating)?t.powerRating.toFixed(1):'–'}${t.powerRank?` · Model #${t.powerRank}`:''}</dd>
       <dt>Quality-wins score</dt><dd>${n(t.resumeScore)?t.resumeScore.toFixed(3):'–'}${t.resumeRank?` · Quality wins #${t.resumeRank}`:''}</dd>
+      <dt>Quadrants</dt><dd>${qStr(a)}</dd>
+      ${t.proj?`<dt>Projected</dt><dd>${projTxt(t)}${t.proj.unb?` · unbeaten ${Math.round(t.proj.unb*100)}%`:''} · 10+ wins ${Math.round(t.proj.w10*100)}% · bowl eligible ${Math.round(t.proj.bowl*100)}%</dd>`:''}
 </dl>`; };
   const gAt = g => g.site==='away' ? 'at' : 'vs';
   const gScore = g => g.result==='W' ? `${g.pf}-${g.pa}` : `${g.pa}-${g.pf}`;
@@ -709,6 +729,17 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     const r=Math.round(Math.abs(m)*2)/2; if(r===0) return 'Pick’em';
     return `${esc(nm(m>0?h:a))} −${r.toFixed(1)}`;
   }
+  // win chance from a spread: normal curve with the model's typical game-to-game spread (SIM_SIGMA, about 16 points)
+  const erf = x => { const t=1/(1+0.3275911*Math.abs(x)), y=1-(((((1.061405429*t-1.453152027)*t)+1.421413741)*t-0.284496736)*t+0.254829592)*t*Math.exp(-x*x); return x>=0?y:-y; };
+  const winPct = m => Math.round(100*0.5*(1+erf(Math.abs(m)/((((S.model&&S.model.settings)||{}).SIM_SIGMA)||16)/Math.SQRT2)));
+  const modelTxt = (m, h, a) => typeof m!=='number' || Math.round(Math.abs(m)*2)===0 ? spread(m,h,a) : `${spread(m,h,a)} · ${winPct(m)}%`;
+  // NET-style quadrants: by the opponent's Model rank and where the game was played (FCS opponents = Q4)
+  const QT = {home:[11,29,61], neutral:[19,38,76], away:[29,51,91]};
+  function quads(a){ const q={1:[0,0],2:[0,0],3:[0,0],4:[0,0]};
+    for(const g of gamesOf(a)){ const r=mdl().crank[g.opp], cut=QT[g.site]||QT.neutral; const k = r ? (r<=cut[0]?1:r<=cut[1]?2:r<=cut[2]?3:4) : 4; q[k][g.result==='W'?0:1]++; }
+    return q; }
+  const qStr = a => { const q=quads(a); return [1,2,3,4].map(k=>`Q${k} ${q[k][0]}-${q[k][1]}`).join(' · '); };
+  const projTxt = t => t.proj ? `${t.proj.w.toFixed(1)}–${t.proj.l.toFixed(1)}` : '–';
   const kick = s => { const d=new Date(s); return isNaN(d) ? '' : d.toLocaleString('en-US',{weekday:'short',hour:'numeric',minute:'2-digit',timeZone:'America/New_York'})+' ET'; };
 
   // ---------- HOME ----------
@@ -741,7 +772,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       const side = a => `<button class="side" data-open="${esc(a)}">${logo(a)}<div><b>${ranks[a]?`<span class="rkb">${ranks[a]}</span>`:''}${esc(nm(a))}</b><small>${S.teams[a]?rec(S.teams[a].w,S.teams[a].l):'FCS'}${apR[a]?' · AP #'+apR[a]:''}</small></div></button>`;
       return `<div class="game${up?' hot':''}"><div class="gtop"><span class="when">${esc(kick(g.start))}</span>${up?'<span class="tag up">Upset alert</span>':''}</div>
         ${side(g.away)}<div class="at">${g.neutral?'vs':'at'}</div>${side(g.home)}
-        <div class="nums"><div><small>Line</small><b>${spread(g.line,g.home,g.away)}</b></div><div><small>Model</small><b class="${mFav && lFav && mFav!==lFav ? 'mup':''}">${spread(g.model,g.home,g.away)}</b></div></div>
+        <div class="nums"><div><small>Line</small><b>${spread(g.line,g.home,g.away)}</b></div><div><small>Model</small><b class="${mFav && lFav && mFav!==lFav ? 'mup':''}">${modelTxt(g.model,g.home,g.away)}</b></div></div>
         ${up && up.note ? `<p class="gnote">${esc(up.note)}</p>` : ''}</div>`; };
     const ups = games.filter(g=>upW[g.id]);
     $('hUpsWrap').hidden = !ups.length && !S.canWrite;
@@ -756,10 +787,17 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     $('hBigWrap').hidden = !games.length;
     $('hBigT').innerHTML = `This week's big games${sch.week!=null?`<small>Week ${sch.week} · ranked teams with a favorite of ${BIG} or less (${BIG_RANKED} or less for ranked matchups)</small>`:''}`;
     $('hBig').innerHTML = big.map(card).join('') || '<p class="lead">No close-looking ranked games this week.</p>';
+    renderUnbeaten();
     $('hAllBtn').textContent = S.showAll ? 'Hide all games' : `All ${games.length} games →`;
     $('hAll').hidden = !S.showAll;
     if(S.showAll) $('hAll').innerHTML = `<div class="tblw"><table><thead><tr class="cols"><th style="text-align:left">Kickoff</th><th style="text-align:left">Away</th><th></th><th style="text-align:left">Home</th><th>Line</th><th>Model</th></tr></thead><tbody>${
-      games.map(g=>`<tr><td class="dim">${esc(kick(g.start))}</td><td><span class="gl-n">${logo(g.away)}${ranks[g.away]?`<span class="rkb">${ranks[g.away]}</span>`:''}${esc(nm(g.away))}</span></td><td class="dim">${g.neutral?'vs':'at'}</td><td><span class="gl-n">${logo(g.home)}${ranks[g.home]?`<span class="rkb">${ranks[g.home]}</span>`:''}${esc(nm(g.home))}</span></td><td style="text-align:center">${spread(g.line,g.home,g.away)}</td><td style="text-align:center">${spread(g.model,g.home,g.away)}</td></tr>`).join('')}</tbody></table></div>`;
+      games.map(g=>`<tr><td class="dim">${esc(kick(g.start))}</td><td><span class="gl-n">${logo(g.away)}${ranks[g.away]?`<span class="rkb">${ranks[g.away]}</span>`:''}${esc(nm(g.away))}</span></td><td class="dim">${g.neutral?'vs':'at'}</td><td><span class="gl-n">${logo(g.home)}${ranks[g.home]?`<span class="rkb">${ranks[g.home]}</span>`:''}${esc(nm(g.home))}</span></td><td style="text-align:center">${spread(g.line,g.home,g.away)}</td><td style="text-align:center">${modelTxt(g.model,g.home,g.away)}</td></tr>`).join('')}</tbody></table></div>`;
+  }
+  function renderUnbeaten(){
+    const ranks=pubMap(), L=Object.keys(S.teams).filter(a=>S.teams[a].proj && S.teams[a].proj.unb>=0.005).sort((a,b)=>S.teams[b].proj.unb-S.teams[a].proj.unb).slice(0,12);
+    $('hUnbWrap').hidden=!L.length;
+    $('hUnb').innerHTML = `<div class="t25">${[L.slice(0,Math.ceil(L.length/2)), L.slice(Math.ceil(L.length/2))].map(col=>`<div>${col.map(a=>{ const t=S.teams[a], p=Math.round(t.proj.unb*100);
+      return `<button class="trow" data-open="${esc(a)}" style="--tc:${tc(a)};grid-template-columns:24px minmax(0,1fr) 34%;padding-left:10px">${logo(a)}<span class="tn">${ranks[a]?`<span class="rkb">${ranks[a]}</span>`:''}${esc(nm(a))} <span class="tr">${rec(t.w,t.l)}</span></span><span style="display:flex;align-items:center;gap:8px"><span style="flex:1;height:6px;border-radius:3px;background:var(--line)"><span style="display:block;height:6px;border-radius:3px;width:${p}%;background:var(--gold)"></span></span><b style="font:700 15px var(--cond);min-width:2.6em;text-align:right">${p<1?'<1':p}%</b></span></button>`; }).join('')}</div>`).join('')}</div>`;
   }
   $('hAllBtn').addEventListener('click', ()=>{ S.showAll=!S.showAll; renderHome(); });
 
@@ -819,7 +857,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     const cols = shown('r'), key = c => c==='wolp' ? (a=>-(ranks[a]||99)*1000-(cr[a]||999)) : c==='name' ? (a=>nm(a)) : (()=>{
       const C=COLS.find(x=>x.k===c), t=a=>S.teams[a];
       if(c==='rec') return a=>rv(t(a).w,t(a).l); if(c==='p4') return a=>rv(t(a).p4w,t(a).p4l); if(c==='ly') return a=>rv(t(a).lyW,t(a).lyL);
-      if(c==='lyAp') return a=>-(t(a).lyAp||99); if(c==='t25') return a=>{ const r=vsTop(a,ranks); return r.w-r.l/100; };
+      if(c==='lyAp') return a=>-(t(a).lyAp||99); if(c==='proj') return a=>t(a).proj?t(a).proj.w:-1; if(c==='q1'||c==='q2') return a=>{ const q=quads(a)[c==='q1'?1:2]; return q[0]-q[1]/100; }; if(c==='t25') return a=>{ const r=vsTop(a,ranks); return r.w-r.l/100; };
       return a=>{ const v=colVal(C,a,t(a)); return typeof v!=='number' ? -1e9 : C.lo ? -v : v; };
     })();
     if(R.col!=='wolp' && R.col!=='name' && !cols.some(c=>c.k===R.col)) { R.col='wolp'; R.rev=false; }
@@ -829,6 +867,8 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       switch(c.k){ case 'rec': v=rec(t.w,t.l); break; case 'p4': v=rec(t.p4w,t.p4l); if(t.p4w==null) cls='dim'; break;
         case 't25': { const r=vsTop(a,ranks); v=r.w+'-'+r.l; if(!r.w&&!r.l) cls='dim'; break; }
         case 'ly': v=rec(t.lyW,t.lyL); cls='dim'; break; case 'lyAp': v=t.lyAp?'#'+t.lyAp:'NR'; cls='dim'; break;
+        case 'proj': v=projTxt(t); break;
+        case 'q1': case 'q2': { const q=quads(a)[c.k==='q1'?1:2]; v=q[0]+'-'+q[1]; if(!q[0]&&!q[1]) cls='dim'; break; }
         default: v=fmtStat(c,colVal(c,a,t)); if(v==null){ v='–'; cls='dim'; } if(c.strong) cls='strong'; }
       return `<td class="${cls}">${v}</td>`; };
     const firstOf = new Set(); { let g=''; cols.forEach(c=>{ if(c.g!==g) firstOf.add(c.k); g=c.g; }); }
@@ -919,6 +959,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       const k=el.dataset.set, v=st[k]; if(v==null) return;
       if(k==='LOC_WIN') el.textContent=`road ${v.away.toFixed(2)}, neutral ${v.neutral.toFixed(2)}, home ${v.home.toFixed(2)}`;
       else if(k==='LOC_LOSS') el.textContent=`home ${v.home.toFixed(2)}, neutral ${v.neutral.toFixed(2)}, road ${v.away.toFixed(2)}`;
+      else if(k==='SIMS') el.textContent=v.toLocaleString('en-US');
       else if(k==='NEW_FBS_PCT') el.textContent=`${Math.round(v*100)}th`;
       else el.textContent=String(v);
     });
@@ -1010,6 +1051,8 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       case 't25': { const r=vsTop(a,onB); v=r.w+'-'+r.l; if(!r.w&&!r.l) cls=' dim'; break; }
       case 'ly': v=rec(t.lyW,t.lyL); cls=' dim'; break;
       case 'lyAp': v = t.lyAp ? '#'+t.lyAp : 'NR'; cls=' dim'; break;
+      case 'proj': v=projTxt(t); break;
+      case 'q1': case 'q2': { const q=quads(a)[c.k==='q1'?1:2]; v=q[0]+'-'+q[1]; if(!q[0]&&!q[1]) cls=' dim'; break; }
       default: v = fmtStat(c, colVal(c, a, t)); if(v==null){ v='–'; cls=' dim'; }
     }
     return `<span class="${pool?'c':'st'}${cls}">${v}</span>`;
@@ -1044,6 +1087,9 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       ly:(x,y)=> rv(y[1].lyW,y[1].lyL)-rv(x[1].lyW,x[1].lyL) || x[1].name.localeCompare(y[1].name),
       lyAp:(x,y)=> ((x[1].lyAp||99)-(y[1].lyAp||99)) || x[1].name.localeCompare(y[1].name),
       t25:(x,y)=> (t25[y[0]].w-t25[x[0]].w) || (t25[x[0]].l-t25[y[0]].l) || x[1].name.localeCompare(y[1].name),
+      proj:(x,y)=> ((y[1].proj?y[1].proj.w:-1)-(x[1].proj?x[1].proj.w:-1)) || x[1].name.localeCompare(y[1].name),
+      q1:(x,y)=> { const a=quads(x[0])[1], b=quads(y[0])[1]; return (b[0]-a[0]) || (a[1]-b[1]) || x[1].name.localeCompare(y[1].name); },
+      q2:(x,y)=> { const a=quads(x[0])[2], b=quads(y[0])[2]; return (b[0]-a[0]) || (a[1]-b[1]) || x[1].name.localeCompare(y[1].name); },
       name:(x,y)=> x[1].name.localeCompare(y[1].name) }[S.sort] || statSort(S.sort);
     list.sort(cmp);
     const full = S.draft.length>=MAX;
@@ -1150,7 +1196,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
         return `<tr class="${cand?'cand':''}"><td><input type="checkbox" data-up="${g.id}"${on?' checked':''} aria-label="Publish ${esc(nm(g.away))} at ${esc(nm(g.home))}"></td>
           <td class="l"><div class="gl-n" style="display:flex;align-items:center;gap:6px;font:700 16px var(--cond)">${logo(g.away)}${nmR(g.away)} <span class="dim" style="font:400 12px var(--body);color:var(--muted)">${g.neutral?'vs':'at'}</span> ${logo(g.home)}${nmR(g.home)}</div>
             <div class="why${dog?'':' g'}">${dog?'Model favors the underdog':cand?'Model and line differ by 7+':''}</div></td>
-          <td>${spread(g.line,g.home,g.away)}</td><td>${spread(g.model,g.home,g.away)}</td><td>${typeof g.model==='number'&&typeof g.line==='number'?gap.toFixed(1):'–'}</td>
+          <td>${spread(g.line,g.home,g.away)}</td><td>${modelTxt(g.model,g.home,g.away)}</td><td>${typeof g.model==='number'&&typeof g.line==='number'?gap.toFixed(1):'–'}</td>
           <td class="l"><input type="text" data-note="${g.id}" maxlength="140" placeholder="Why this one?" value="${esc((S.uDraft[g.id]||{}).note||'')}"${on?'':' disabled'}></td></tr>`; }).join('')}</tbody>`;
   }
   $('uTable').addEventListener('change', e=>{
