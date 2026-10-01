@@ -176,6 +176,16 @@ td.c-mv{padding-left:0;width:30px}
 .cmpk input{width:16px;height:16px;margin:0;accent-color:var(--gold);cursor:pointer}
 
 
+/* formula dials */
+.fmix{padding:12px 14px;min-width:19rem}
+.fmix .mt{font-weight:600;margin-bottom:4px}
+.mixhelp{color:var(--muted);font-size:12px;margin:0 0 8px;max-width:19rem}
+.fdial{display:grid;grid-template-columns:8.5rem 1fr 3rem;gap:8px;align-items:center;font-size:13px;padding:2px 0}
+.fdial input{width:100%;accent-color:var(--gold)}
+.fdial b{text-align:right;font-variant-numeric:tabular-nums}
+.fgrp{font:600 11px var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin:8px 0 2px}
+.mixsave{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:10px}
+.mixsave small{color:var(--muted);font-size:12px}
 /* workspace */
 .wbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px;margin-bottom:14px}
 .wbar select,.wbar input{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:6px 8px}
@@ -358,6 +368,11 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       <button class="tab owner owner-only" role="tab" id="tab-work" aria-selected="false">Workspace</button>
     </nav>
     <div class="tools">
+      <details class="colmenu" id="fMenu"><summary class="pill" id="fSum">Formula ▾</summary>
+        <div class="menu fmix"><div class="mt">Conference adjustments</div>
+          <p class="mixhelp">Points added to every team in a conference on top of the Model's rating. 0 = pure data. They change the Formula ranking, the Results Map and the Home cards; spreads and win chances always stay pure Model.</p>
+          <div id="fDials"></div>
+          <div class="mixsave"><button class="btn quiet" id="fReset">Reset to 0</button><small id="fNote"></small><button class="btn primary owner-only" id="fSave">Save for everyone</button></div></div></details>
       <button class="pill" id="cmpMode" aria-pressed="false" title="Pick 2 to 4 teams to compare side by side" hidden>Compare</button>
     </div>
   </div>
@@ -388,15 +403,15 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     <div class="filters row">
       <span class="lab">Show</span>
       <button class="pill" data-show="wolp">Wolp+ Top 25</button>
-      <button class="pill" data-show="c25">Model Top 25</button>
-      <button class="pill" data-show="c50">Model Top 50</button>
+      <button class="pill" data-show="c25">Formula Top 25</button>
+      <button class="pill" data-show="c50">Formula Top 50</button>
       <button class="pill" data-show="all">All FBS</button>
       <select id="rConf" aria-label="Conference"></select>
       <input id="rQ" type="search" placeholder="Search teams" aria-label="Search teams">
       <span class="count" id="rCount"></span>
     </div>
-    <section class="sec" id="map"><div class="sh"><h2>Results Map<small>Every game, placed by the opponent’s Model rank</small></h2>
-      <div class="row"><span style="color:var(--muted);font-size:13px">Sort</span><button class="pill" data-ms="wolp">Wolp+</button><button class="pill" data-ms="comp">Model</button><button class="pill" data-ms="best">Best win</button><button class="pill" data-ms="worst">Worst loss</button></div></div>
+    <section class="sec" id="map"><div class="sh"><h2>Results Map<small>Every game, placed by the opponent’s Formula rank</small></h2>
+      <div class="row"><span style="color:var(--muted);font-size:13px">Sort</span><button class="pill" data-ms="wolp">Wolp+</button><button class="pill" data-ms="comp">Formula</button><button class="pill" data-ms="best">Best win</button><button class="pill" data-ms="worst">Worst loss</button></div></div>
       <div class="legend" id="legend1"></div>
       <div id="rMap" class="map"></div>
     </section>
@@ -421,7 +436,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     <div class="ph"><div><h1>Methodology</h1><div class="sub">How the ratings, the Results Map and the Home page are built</div></div></div>
     <div class="mwrap">
       <nav class="toc" aria-label="Methodology sections">
-        <a href="#m-overview">Overview</a><a href="#m-wolp">The Wolp+ rankings</a><a href="#m-ratings">Three rankings</a><a href="#m-power">Power rating</a>
+        <a href="#m-overview">Overview</a><a href="#m-wolp">The Wolp+ rankings</a><a href="#m-ratings">The rankings</a><a href="#m-power">Power rating</a>
         <a href="#m-qw">Quality wins</a><a href="#m-proj">Win chances and projections</a><a href="#m-quad">Quadrants</a><a href="#m-map">Results Map</a><a href="#m-home">Home page</a><a href="#m-cols">Columns and flags</a><a href="#m-data">Data and updates</a>
       </nav>
       <article class="method">
@@ -431,10 +446,11 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
         <h2 id="m-wolp">The Wolp+ rankings</h2>
         <p>Each week's ballot ranks 35 teams. The Top 25 is the headline; teams 26–35 are listed as <b>Also ranked</b>. Ranking 35 gives the comparisons on the Home page a real scale: a team at #31 is close to the Top 25, not simply "unranked". (Ballots before week 6 ranked 25 teams plus an unordered "just missed" list; those teams are shown as 26–30 in their saved order.)</p>
 
-        <h2 id="m-ratings">Three rankings</h2>
+        <h2 id="m-ratings">The rankings</h2>
         <dl>
           <dt>Wolp+</dt><dd><b>An opinion.</b> The hand-made weekly ballot.</dd>
           <dt>AP</dt><dd><b>Public opinion.</b> The Associated Press Top 25.</dd>
+          <dt>Formula</dt><dd><b>The numbers, with a point of view.</b> The Model's power rating plus any conference adjustments set under <b>Formula ▾</b> (currently: <b class="fnote">none</b>). With no adjustments it is exactly the Model. The Results Map, Best/Worst, Fraud watch and Under the radar use the Formula rank; spreads, win chances and the Scorecard always use the pure Model.</dd>
           <dt>Model</dt><dd><b>The numbers.</b> Teams ranked by power rating: points better than an average FBS team on a neutral field. The difference between two teams' ratings, plus the home edge, is the model's predicted margin. It picks winners better than the AP poll (see the Scorecard on Previous Rankings) and about as well as established computer ratings such as ESPN's FPI and Sagarin.</dd>
         </dl>
         <p><b>Quality wins</b> is shown alongside as a résumé stat, not a ranking: every win and loss, each weighted by how good the opponent is by Model rank.</p>
@@ -478,7 +494,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 
         <h2 id="m-map">Results Map</h2>
         <ul>
-          <li>Each row shows a team's games, placed left to right by the <b>opponent's Model rank</b> (#1 at the far right; FCS opponents at the far left).</li>
+          <li>Each row shows a team's games, placed left to right by the <b>opponent's Formula rank</b> (#1 at the far right; FCS opponents at the far left).</li>
           <li>Green = win, red = loss. Dot size = margin (1–8, 9–16, 17+). Gold ring = close game; double ring = overtime.</li>
           <li>A small number beside a dot is the opponent's Wolp+ rank. <b>Best</b> marks the win over the highest-ranked opponent (the rightmost green dot) and <b>Worst</b> the loss to the lowest-ranked one (the leftmost red dot).</li>
           <li>Dots for similarly ranked opponents are stacked slightly above and below the line so none are hidden.</li>
@@ -486,8 +502,8 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 
         <h2 id="m-home">Home page</h2>
         <dl>
-          <dt>Fraud watch</dt><dd>Teams in the AP Top 25 that both Wolp+ and the Model rank at least <b class="fthr">8</b> spots lower. A team outside the Wolp+ 35 counts as #36. Sorted by the size of the gap.</dd>
-          <dt>Under the radar</dt><dd>Wolp+ teams that both Wolp+ and the Model rank at least <b class="fthr">8</b> spots higher than the AP. A team outside the AP Top 25 counts as AP #36, the same as a team outside the Wolp+ 35 in Fraud watch.</dd>
+          <dt>Fraud watch</dt><dd>Teams in the AP Top 25 that both Wolp+ and the Formula rank at least <b class="fthr">8</b> spots lower. A team outside the Wolp+ 35 counts as #36. Sorted by the size of the gap.</dd>
+          <dt>Under the radar</dt><dd>Wolp+ teams that both Wolp+ and the Formula rank at least <b class="fthr">8</b> spots higher than the AP. A team outside the AP Top 25 counts as AP #36, the same as a team outside the Wolp+ 35 in Fraud watch.</dd>
           <dt>Model spread</dt><dd>The model's predicted margin, written like a betting line (favorite −points, rounded to the half point). It never uses the betting line.</dd>
           <dt>Line</dt><dd>The median spread across sportsbooks, from CollegeFootballData.com.</dd>
           <dt>Upset alerts</dt><dd>Games hand-picked each week, usually where the model favors the betting underdog or disagrees with the line by a touchdown or more.</dd>
@@ -640,7 +656,8 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     {k:'adjDefSr',  h:'Adj Def SR',  menu:'Adjusted defense success rate allowed', g:'Adjusted', bw:'3.6rem', pw:'3.4rem', fmt:'p', lo:true, off:true},
     {k:'sosDef', h:'Defs faced', menu:'Defenses faced (lower = tougher)', g:'Schedule', bw:'3.6rem', pw:'3.4rem', fmt:'n', lo:true, off:true},
     {k:'sosOff', h:'Offs faced', menu:'Offenses faced (higher = tougher)', g:'Schedule', bw:'3.6rem', pw:'3.4rem', fmt:'n', off:true},
-    {k:'powerRank',  h:'Model', menu:'Model rank (power rating)', g:'Model', bw:'2.9rem', pw:'2.7rem', fmt:'r', lo:true, strong:true},
+    {k:'frank', h:'Formula', menu:'Formula rank (Model + conference adjustments)', g:'Model', bw:'3.4rem', pw:'3.2rem', fmt:'r', lo:true, strong:true, val:a=>mdl().crank[a]},
+    {k:'powerRank',  h:'Model', menu:'Model rank (pure power rating)', g:'Model', bw:'2.9rem', pw:'2.7rem', fmt:'r', lo:true, off:true},
     {k:'proj', h:'Proj. record', menu:'Projected final record (10,000 simulated seasons)', g:'Model', bw:'4.6rem', pw:'4.4rem'},
     {k:'powerRating', h:'Rating', menu:'Power rating (points vs. an average team)', g:'Model', bw:'3rem', pw:'2.9rem', fmt:'n1', off:true},
     {k:'resumeRank', h:'Quality wins', menu:'Quality wins rank (résumé stat)', g:'Résumé', bw:'3.6rem', pw:'2.9rem', fmt:'r', lo:true},
@@ -685,11 +702,15 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   }
 
   // ---------- model ----------
-  // The computer ranking is the Model (power rating) rank. mdl().crank = {team: Model rank}, n = number of rated teams.
+  // The Formula = the Model's power rating + the conference adjustments set under Formula ▾ (points; all 0 = pure Model).
+  // mdl().crank = {team: Formula rank}, n = number of rated teams. Spreads and win chances always use the pure Model.
+  S.adj = {}; S.adjPub = {};
+  const adjOf = a => +(S.adj[(S.teams[a]||{}).conf]||0);
+  const fRating = a => S.teams[a].powerRating + adjOf(a);
   function mdl(){
     if(S._mdl) return S._mdl;
     const crank={}; Object.keys(S.teams).filter(a=>typeof S.teams[a].powerRating==='number')
-      .sort((a,b)=>(S.teams[b].powerRating-S.teams[a].powerRating) || (a<b?-1:1)).forEach((a,i)=>crank[a]=i+1);
+      .sort((a,b)=>(fRating(b)-fRating(a)) || (a<b?-1:1)).forEach((a,i)=>crank[a]=i+1);
     return S._mdl={crank, n:Object.keys(crank).length};
   }
   const oppPos = o => { const m=mdl(), c=m.crank[o]; return c && m.n>1 ? 0.04 + 0.96*(m.n-c)/(m.n-1) : 0.02; };
@@ -716,7 +737,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     S.teams=T; S._mdl=null;
   }
   const modelFacts = a => { const t=S.teams[a]||{}, c=mdl().crank[a], n=v=>typeof v==='number';
-    return `<dl class="facts"><dt>Power rating</dt><dd>${n(t.powerRating)?t.powerRating.toFixed(1):'–'}${t.powerRank?` · Model #${t.powerRank}`:''}</dd>
+    return `<dl class="facts"><dt>Power rating</dt><dd>${n(t.powerRating)?t.powerRating.toFixed(1):'–'}${t.powerRank?` · Model #${t.powerRank}`:''}${c?` · Formula #${c}`:''}${adjOf(a)?` <span style="color:var(--muted);font-weight:500">(${esc(t.conf)} ${adjOf(a)>0?'+':''}${adjOf(a)})</span>`:''}</dd>
       <dt>Quality-wins score</dt><dd>${n(t.resumeScore)?t.resumeScore.toFixed(3):'–'}${t.resumeRank?` · Quality wins #${t.resumeRank}`:''}</dd>
       <dt>Quadrants</dt><dd>${qStr(a)}</dd>
       ${t.proj?`<dt>Projected</dt><dd>${projTxt(t)}${t.proj.unb?` · unbeaten ${Math.round(t.proj.unb*100)}%`:''} · 10+ wins ${Math.round(t.proj.w10*100)}% · bowl eligible ${Math.round(t.proj.bowl*100)}%</dd>`:''}
@@ -767,7 +788,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     // fraud watch / under the radar (both Wolp+ and the Model must disagree with the AP)
     const cr=mdl().crank, apR=(S.ap&&S.ap.ranks)||{}, hasAp=Object.keys(apR).length>0 && list.length>0;
     const wrow = a => `<button class="wrow" data-open="${esc(a)}">${logo(a)}<div class="wn"><b>${esc(nm(a))}</b><small>${S.teams[a]?rec(S.teams[a].w,S.teams[a].l)+' · '+esc(S.teams[a].conf||''):''}</small></div>
-      <div class="wk"><span><small>AP</small>${apR[a]?'#'+apR[a]:'NR'}</span><span><small>Wolp+</small>${ranks[a]?'#'+ranks[a]:'NR'}</span><span><small>Model</small>${cr[a]?'#'+cr[a]:'–'}</span></div></button>`;
+      <div class="wk"><span><small>AP</small>${apR[a]?'#'+apR[a]:'NR'}</span><span><small>Wolp+</small>${ranks[a]?'#'+ranks[a]:'NR'}</span><span><small>Formula</small>${cr[a]?'#'+cr[a]:'–'}</span></div></button>`;
     const fraud = Object.keys(apR).filter(a=>S.teams[a] && (ranks[a]||MAX+1)-apR[a]>=FRAUD && (cr[a]||999)-apR[a]>=FRAUD).sort((a,b)=>((ranks[b]||MAX+1)-apR[b])-((ranks[a]||MAX+1)-apR[a]) || apR[a]-apR[b]);
     const radar = list.filter(a=>(apR[a]||AP_NR)-ranks[a]>=FRAUD && (apR[a]||AP_NR)-(cr[a]||999)>=FRAUD).sort((a,b)=>((apR[b]||AP_NR)-ranks[b])-((apR[a]||AP_NR)-ranks[a]));
     const none = '<p class="lead" style="margin:0">No one this week.</p>', wait='<p class="lead" style="margin:0">Waiting for the AP poll and a saved ballot.</p>';
@@ -825,14 +846,14 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     const dots = gamesOf(a).map(g=>{
       const m=Math.abs(g.pf-g.pa), size = m<=8 ? 1 : m<=16 ? 2 : 3;
       const lab = bw.bw && bw.bw.g===g ? 'Best' : bw.wl && bw.wl.g===g ? 'Worst' : '';
-      const tip = `${g.result} ${gScore(g).replace('-','–')}${g.ot?' (OT)':''} ${gAt(g)} ${gOppName(g.opp,ranksForDots)}, ${gOppRec(g.opp)}${mdl().crank[g.opp]?', Model #'+mdl().crank[g.opp]:''}`;
+      const tip = `${g.result} ${gScore(g).replace('-','–')}${g.ot?' (OT)':''} ${gAt(g)} ${gOppName(g.opp,ranksForDots)}, ${gOppRec(g.opp)}${mdl().crank[g.opp]?', Formula #'+mdl().crank[g.opp]:''}`;
       return {size, lab, html:`<button class="dot ${g.result} s${size}${g.ot?' ot':isClose(g)?' close':''}" style="left:${(oppPos(g.opp)*100).toFixed(2)}%" data-tip="${esc(tip)}" aria-label="${esc(tip)}">${ranksForDots[g.opp]?`<span class="drk">${ranksForDots[g.opp]}</span>`:''}${lab?`<span class="dlb${lab==='Worst'?' up':''}">${lab}</span>`:''}</button>`};
     }).sort((p,q)=>(q.size-p.size) || ((p.lab?1:0)-(q.lab?1:0))).map(d=>d.html).join('');
     const rk = rank ? `<span class="rk">${rank}</span>` : '<span class="rk none">–</span>';
     const grip = drag ? `<button class="grip" aria-label="Move ${esc(t.name)}, rank ${rank}. Use arrow keys." data-i="${rank-1}">${GRIP}</button>` : '';
     return `<div class="mrow" data-abbr="${esc(a)}" style="--tc:${tc(a)}">${rk}${rank?moveOf(a,rank,prev):'<span class="mv"></span>'}${grip}${logo(a)}<button class="nm" data-open="${esc(a)}"><b>${esc(t.name)}</b><small>${rec(t.w,t.l)} · ${esc(t.conf||'')}</small></button><div class="track"><div class="din">${dots}</div></div><span class="cr">${mdl().crank[a]?'#'+mdl().crank[a]:''}</span>${cmpBox(a)}</div>`;
   }
-  const axis = drag => `<div class="axis"><span></span><span></span>${drag?'<span></span>':''}<span></span><span></span><div class="ax"><span>#${mdl().n||''}</span><span>Opponent Model rank</span><span>#1</span></div><span style="text-align:right">Model</span>${S.cmpOn?'<span></span>':''}</div>`;
+  const axis = drag => `<div class="axis"><span></span><span></span>${drag?'<span></span>':''}<span></span><span></span><div class="ax"><span>#${mdl().n||''}</span><span>Opponent Formula rank</span><span>#1</span></div><span style="text-align:right">Formula</span>${S.cmpOn?'<span></span>':''}</div>`;
   const legend = () => `<span><i class="dot W s2"></i>Win</span><span><i class="dot L s2"></i>Loss</span><span><i class="dot s1"></i><i class="dot s2"></i><i class="dot s3"></i>Margin 1–8 · 9–16 · 17+</span><span><i class="dot s2 close"></i>Close game</span><span><i class="dot s2 ot"></i>Overtime</span><span><b>6</b>Opponent’s Wolp+ rank</span>`;
   function renderRank(){
     const n=pubNum(), ranks=pubMap(), prev = n!=null && prevNum(n)!=null ? rankMap(prevNum(n)) : null, R=S.r, cr=mdl().crank;
@@ -955,7 +976,9 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   }
 
   // ---------- METHODOLOGY ----------
+  function renderFormulaNote(){ const a=cleanAdj(S.adj); document.querySelectorAll('.fnote').forEach(el=>el.textContent = Object.keys(a).length ? Object.entries(a).map(([k,v])=>`${k} ${v>0?'+':''}${v}`).join(', ') : 'none'); }
   function renderMethod(){
+    renderFormulaNote();
     const st=(S.model&&S.model.settings)||{};
     document.querySelectorAll('#view-method [data-set]').forEach(el=>{
       const k=el.dataset.set, v=st[k]; if(v==null) return;
@@ -1230,7 +1253,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   function hideTip(){ const tip=$('tip'); if(tip) tip.hidden=true; tipFor=null; tipVia=''; }
   document.addEventListener('pointerover', e=>{ if(e.pointerType!=='mouse') return; const f=e.target.closest('[data-tip]'); if(f && f!==tipFor) showTip(f,'hover'); });
   document.addEventListener('pointerout', e=>{ if(e.pointerType!=='mouse' || tipVia!=='hover') return; const f=e.target.closest('[data-tip]'); if(f && !f.contains(e.relatedTarget)) hideTip(); });
-  const MENUS=['colMenu','colMenuB','colMenuP'];
+  const MENUS=['colMenu','colMenuB','colMenuP','fMenu'];
   document.addEventListener('click', e=>{
     const f=e.target.closest('[data-tip]');
     if(f){ if(tipFor===f && tipVia==='click') hideTip(); else showTip(f,'click'); } else if(tipFor) hideTip();
@@ -1241,6 +1264,26 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ hideTip(); MENUS.forEach(id=>$(id).open=false); } });
   window.addEventListener('scroll', hideTip, true);
   window.addEventListener('resize', hideTip);
+
+  // ---------- Formula: conference adjustment dials ----------
+  const CONF_ORDER = ['SEC','Big Ten','Big 12','ACC','FBS Independents','Pac-12','American Athletic','Mountain West','Sun Belt','Mid-American','Conference USA'];
+  function renderDials(){
+    const confs=[...new Set(Object.values(S.teams).map(t=>t.conf).filter(Boolean))].sort((a,b)=>((CONF_ORDER.indexOf(a)+99)%99)-((CONF_ORDER.indexOf(b)+99)%99) || a.localeCompare(b));
+    const p4=['SEC','Big Ten','Big 12','ACC'], row = k => { const v=+(S.adj[k]||0); return `<label class="fdial"><span>${esc(k==='FBS Independents'?'Independents':k)}</span><input type="range" min="-10" max="10" step="0.5" value="${v}" data-conf="${esc(k)}" aria-label="${esc(k)} adjustment"><b>${v>0?'+':''}${v}</b></label>`; };
+    $('fDials').innerHTML = `<div class="fgrp">Power 4</div>${confs.filter(k=>p4.includes(k)).map(row).join('')}<div class="fgrp">Others</div>${confs.filter(k=>!p4.includes(k)).map(row).join('')}`;
+    const same = JSON.stringify(cleanAdj(S.adj))===JSON.stringify(cleanAdj(S.adjPub)), any=Object.values(S.adj).some(v=>+v);
+    $('fSum').textContent = any ? 'Formula ▾ (adjusted)' : 'Formula ▾';
+    $('fSave').disabled = same;
+    $('fNote').textContent = same ? (S.canWrite ? 'Everyone sees these.' : 'The site’s saved settings.') : (S.canWrite ? 'Only you see this until you save.' : 'Only your view changes.');
+  }
+  const cleanAdj = o => Object.fromEntries(Object.entries(o||{}).filter(([k,v])=>+v).sort());
+  $('fDials').addEventListener('input', e=>{ const k=e.target.dataset.conf; if(k==null) return; S.adj[k]=+e.target.value; e.target.nextElementSibling.textContent=(S.adj[k]>0?'+':'')+S.adj[k]; S._mdl=null; renderDials(); renderCurrent(); });
+  $('fReset').addEventListener('click', ()=>{ S.adj={}; S._mdl=null; renderDials(); renderCurrent(); });
+  $('fSave').addEventListener('click', async ()=>{
+    $('fSave').disabled=true;
+    try{ const saved=await S.db.saveSettings(cur=>Object.assign({}, cur, {formula:cleanAdj(S.adj)})); S.settings=saved; S.adjPub={...cleanAdj(S.adj)}; renderDials(); toast('Conference adjustments saved for everyone'); }
+    catch(e){ renderDials(); toast(e&&e.code==='unauthenticated' ? 'GitHub rejected the ballot sync token. Open Ballot sync to reconnect.' : 'Couldn’t save. Try again.'); }
+  });
 
   // ---------- tabs ----------
   const TABS=['home','rank','history','method','work'];
@@ -1263,7 +1306,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   window.addEventListener('beforeunload', e=>{ if(S.dirty || S.uDirty){ e.preventDefault(); e.returnValue=''; } });
 
   const stampText = () => { if(!S.meta) return 'Loading team data…'; const d = S.meta.updatedAt ? new Date(S.meta.updatedAt).toLocaleDateString('en-US', {month:'short', day:'numeric'}) : ''; return `Updated ${d} · ${S.meta.through||''}`; };
-  function renderAll(){ $('stamp').textContent = stampText(); renderCurrent(); }
+  function renderAll(){ $('stamp').textContent = stampText(); renderDials(); renderCurrent(); renderFormulaNote(); }
 
   // ---------- team dialog ----------
   const gEpa = g => { const f=v=>typeof v==='number' ? (Math.abs(v)<0.005?0:v).toFixed(2) : '–';
@@ -1447,7 +1490,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   showTab(TABS.includes(start) ? start : 'home');
   (async ()=>{
     const db = siteDb(); S.db=db;
-    db.settings().then(st=>{ S.settings=st||{}; S.upsets=S.settings.upsets||{}; renderAll(); }).catch(()=>{});
+    db.settings().then(st=>{ S.settings=st||{}; S.upsets=S.settings.upsets||{}; const f=S.settings.formula; if(f && typeof f==='object'){ S.adj={...f}; S.adjPub={...f}; S._mdl=null; } renderAll(); }).catch(()=>{});
     db.teams.then(d=>{
       S.meta = {through:d.through, updatedAt:d.updatedAt, season:d.season};
       S.teamsRaw = d.teams||{}; S.model = d.model||null; S.schedule = d.schedule||null; S.ap = d.ap||null; S.picks = d.picks||[];
