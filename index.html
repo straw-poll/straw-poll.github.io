@@ -1250,6 +1250,13 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     $('dlg').showModal();
   }
 
+  // click outside a pop-up (on the dimmed background) to close it
+  ['dlg','cmpDlg','syncDlg'].forEach(id=>$(id).addEventListener('click', e=>{
+    if(e.target!==e.currentTarget) return;
+    const r=e.currentTarget.getBoundingClientRect();
+    if(e.clientX<r.left || e.clientX>r.right || e.clientY<r.top || e.clientY>r.bottom) e.currentTarget.close();
+  }));
+
   // ---------- compare ----------
   function syncCmp(){ document.querySelectorAll('input[data-cmp]').forEach(i=>{ const on=S.cmp.includes(i.dataset.cmp); i.checked=on; i.disabled=!on && S.cmp.length>=MAXC; }); renderCmpBar(); }
   function renderCmpBar(){
