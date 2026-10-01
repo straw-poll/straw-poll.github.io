@@ -146,6 +146,9 @@ h1 span{color:var(--field)}
 .prow.sortable-chosen{background:var(--hi)}
 @container pool (min-width:380px){.prow .stats{display:contents}}
 .pscroll{overflow-x:auto;margin:0 -6px}
+.poolhead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
+.pool .poolhead h2{margin:0}
+#poolData .pool{position:static;margin-top:22px}
 .pscroll>.phead,.pscroll>.plist{margin:0}
 /* stacked rows when the team list is narrow */
 @container pool (max-width:379px){
@@ -270,7 +273,8 @@ legend{font-weight:600;padding:0 4px}
 .trail{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
 .trail span{border:1px solid var(--line);border-radius:6px;padding:2px 8px;font-size:.85rem}
 .trail b{font-family:var(--cond);font-size:1rem}
-.phead button.wrap{white-space:normal;line-height:1.05}
+.phead button.hwrap{white-space:normal;line-height:1.05}
+@container pool (max-width:379px){.phead button.hwrap{white-space:nowrap}}
 .colmenu .mix{padding:10px 14px;min-width:13.5rem}
 .colmenu .mix label{display:block;padding:0 0 6px;font-weight:600;cursor:default}
 .mix input[type=range]{width:100%;accent-color:var(--field)}
@@ -340,7 +344,7 @@ legend{font-weight:600;padding:0 4px}
       </div>
 
       <aside class="pool" aria-label="All teams">
-        <h2>Teams</h2>
+        <div class="poolhead"><h2>Teams</h2><details class="colmenu" id="colMenuP"><summary class="btn quiet">Columns ▾</summary><div class="menu" id="colListP"></div></details></div>
         <input type="search" id="q" placeholder="Search teams or conferences" aria-label="Search teams">
         <div class="chips" role="group" aria-label="Filter">
           <button class="chip" data-f="all" aria-pressed="true">All</button>
@@ -379,6 +383,7 @@ legend{font-weight:600;padding:0 4px}
       <span><b class="lgrk">6</b>Opponent’s rank on your Top 25</span>
     </div>
     <div id="rsBody" class="rs-body"></div>
+    <div id="poolData"></div>
   </section>
 </div>
 
@@ -470,7 +475,10 @@ legend{font-weight:600;padding:0 4px}
     </tbody><caption>Per play, garbage time excluded. Defense: lower is better.</caption></table>`;
   S.vis = {}; COLS.forEach(c=>S.vis[c.k]=!c.off);
   try{ const v=JSON.parse(localStorage.getItem('cfb-cols')||'null'); if(v && typeof v==='object') COLS.forEach(c=>{ if(typeof v[c.k]==='boolean') S.vis[c.k]=v[c.k]; }); }catch(e){}
-  const shown = where => COLS.filter(c=>c.where.includes(where) && S.vis[c.k]);
+  // the Teams table has its own column choices; until changed, it starts from the Top 25's
+  S.visP = Object.assign({}, S.vis);
+  try{ const v=JSON.parse(localStorage.getItem('cfb-cols-teams')||'null'); if(v && typeof v==='object') COLS.forEach(c=>{ if(typeof v[c.k]==='boolean') S.visP[c.k]=v[c.k]; }); }catch(e){}
+  const shown = where => COLS.filter(c=>c.where.includes(where) && (where==='p' ? S.visP : S.vis)[c.k]);
 
   // ---------- games & head-to-head ----------
   const gamesOf = a => { const g=(S.teams[a]||{}).games; return Array.isArray(g) ? g : []; };
@@ -675,8 +683,9 @@ legend{font-weight:600;padding:0 4px}
     $('dyncols').textContent = `@container ballot (min-width:561px){.cols,.row{grid-template-columns:3.2rem 2.6rem 18px minmax(0,1fr) ${b.map(c=>c.bw).join(' ')}${S.cmpOn?' 1.5rem':''} 1.8rem}.bscroll>*{min-width:calc(${bMin.join(' + ')} + ${(bMin.length-1)*6+12}px)}}@container pool (min-width:380px){.phead,.prow{grid-template-columns:minmax(0,1fr) ${p.map(c=>c.pw).join(' ')}${S.cmpOn?' 1.5rem':''} 3rem}.pscroll>*{min-width:calc(${pMin.join(' + ')} + ${(pMin.length-1)*5+12}px)}}`;
     $('cols').innerHTML = `<span style="text-align:right">Rank</span><span></span><span></span><span>Team</span>${b.map(c=>`<span>${c.h}</span>`).join('')}${S.cmpOn?'<span title="Compare">Cmp</span>':''}<span></span>`;
     if(S.sort!=='name' && !p.some(c=>c.sort===S.sort)) S.sort = p.some(c=>c.k==='rec') ? 'rec' : 'name';
-    $('phead').innerHTML = `<button data-s="name" aria-pressed="${S.sort==='name'}">Team</button>${p.map(c=>`<button data-s="${c.sort}" aria-pressed="${S.sort===c.sort}"${c.k==='t25'?' title="Record vs teams currently on your ballot"':''}${c.wrap?' class="wrap"':''}>${c.h}</button>`).join('')}${S.cmpOn?'<span></span>':''}<span></span>`;
-    $('colList').innerHTML = COLS.map(c=>`<label><input type="checkbox" data-col="${c.k}"${S.vis[c.k]?' checked':''}>${c.menu}${c.only?`<small>${c.only}</small>`:''}</label>`).join('');
+    $('phead').innerHTML = `<button data-s="name" aria-pressed="${S.sort==='name'}">Team</button>${p.map(c=>`<button data-s="${c.sort}" aria-pressed="${S.sort===c.sort}"${c.k==='t25'?' title="Record vs teams currently on your ballot"':''}${c.wrap?' class="hwrap"':''}>${c.h}</button>`).join('')}${S.cmpOn?'<span></span>':''}<span></span>`;
+    $('colListP').innerHTML = COLS.filter(c=>c.where.includes('p')).map(c=>`<label><input type="checkbox" data-col="${c.k}"${S.visP[c.k]?' checked':''}>${c.menu}</label>`).join('');
+    $('colList').innerHTML = COLS.filter(c=>c.where.includes('b')).map(c=>`<label><input type="checkbox" data-col="${c.k}"${S.vis[c.k]?' checked':''}>${c.menu}${c.only?`<small>${c.only}</small>`:''}</label>`).join('');
   }
 
   function renderBallot(){
@@ -789,11 +798,11 @@ legend{font-weight:600;padding:0 4px}
   function addTeam(a, at){
     if(S.draft.includes(a) || S.others.includes(a) || S.draft.length>=MAX) return;
     if(at==null || at>S.draft.length) at=S.draft.length;
-    S.draft.splice(at,0,a); setDirty(true); renderBallot(); renderPool();
+    S.draft.splice(at,0,a); setDirty(true); renderBallot(); renderPool(); if(!$('view-resumes').hidden) renderResumes();
   }
   function addOther(a){
     if(S.draft.includes(a) || S.others.includes(a) || S.others.length>=MAXO) return;
-    S.others.push(a); setDirty(true); renderBallot(); renderPool();
+    S.others.push(a); setDirty(true); renderBallot(); renderPool(); if(!$('view-resumes').hidden) renderResumes();
   }
   // "Just missed" → Top 25: next open spot, or #25 when full (the old #25 takes its place in Just missed)
   function promote(a){
@@ -880,6 +889,12 @@ legend{font-weight:600;padding:0 4px}
     try{ localStorage.setItem('cfb-cols', JSON.stringify(S.vis)); }catch(err){}
     renderHeads(); renderBallot(); renderPool();
   });
+  $('colListP').addEventListener('change', e=>{
+    const k=e.target.dataset.col; if(!k) return;
+    S.visP[k]=e.target.checked;
+    try{ localStorage.setItem('cfb-cols-teams', JSON.stringify(S.visP)); }catch(err){}
+    renderHeads(); renderPool();
+  });
 
   // ---------- H2H / loop explanations (hover on desktop, tap on phones) ----------
   let tipFor=null, tipVia='';
@@ -899,8 +914,9 @@ legend{font-weight:600;padding:0 4px}
     else if(tipFor) hideTip();
     const cm=$('colMenu'); if(cm.open && !cm.contains(e.target)) cm.open=false;
     const mm=$('mixMenu'); if(mm.open && !mm.contains(e.target)) mm.open=false;
+    const pm=$('colMenuP'); if(pm.open && !pm.contains(e.target)) pm.open=false;
   });
-  document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ hideTip(); $('colMenu').open=false; $('mixMenu').open=false; } });
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ hideTip(); $('colMenu').open=false; $('mixMenu').open=false; $('colMenuP').open=false; } });
   // ---------- composite blend slider ----------
   function renderMix(){ const r=Math.round(S.mixW*100); $('mixW').value=r; $('mixTxt').textContent=`${r}% quality wins / ${100-r}% power`; }
   $('mixW').addEventListener('input', e=>{
@@ -914,8 +930,11 @@ legend{font-weight:600;padding:0 4px}
   document.querySelectorAll('.chip').forEach(c=>c.addEventListener('click', ()=>{
     S.f=c.dataset.f; document.querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed', x===c?'true':'false')); renderPool();
   }));
+  // the one Teams table moves between Current Rankings (beside the Top 25) and Data (below the strips)
+  const poolEl = document.querySelector('aside.pool'), poolHome = poolEl.parentNode;
   function showTab(v){
     ['ballot','history','resumes'].forEach(k=>{ $('tab-'+k).setAttribute('aria-selected', String(k===v)); $('view-'+k).hidden = k!==v; });
+    if(v==='resumes') $('poolData').appendChild(poolEl); else if(v==='ballot') poolHome.appendChild(poolEl);
     if(v==='history') renderHistory();
     if(v==='resumes') renderResumes();
   }
