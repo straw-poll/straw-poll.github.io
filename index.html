@@ -456,11 +456,12 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
           <li><b>Win bonus:</b> every win gets <b data-set="WIN_BONUS">0.75</b> extra points (and the loser loses them).</li>
           <li><b>Each game is judged against expectations.</b> Ratings are fitted so the margins they predict match the credited results. A blowout a team was expected to win barely moves it; a close loss to a much better team can raise it.</li>
           <li><b>Location:</b> home teams get <b data-set="HOME_FIELD">2.5</b> points. At a neutral site, the team closer to the stadium gets part of that edge (<b data-set="NEUTRAL_SHARE">1.0</b> × home edge × how much shorter its trip is). Any team traveling farther than its opponent gives up <b data-set="TRAVEL_PER_1000">1.0</b> point per 1,000 extra miles.</li>
-          <li><b>FCS games:</b> wins over FCS teams are ignored; a loss to an FCS team counts as a loss to a team rated <b data-set="FCS_BELOW">15</b> points below the FBS average.</li>
+          <li><b>FCS games count too:</b> an FCS opponent is treated as a team rated <b data-set="FCS_BELOW">18</b> points below the FBS average. A comfortable win over an FCS team barely moves a rating, but a narrow one lowers it, and a loss lowers it a lot.</li>
           <li><b>Openers count a bit less:</b> each team's first game counts <b data-set="FIRST_GAME_WEIGHT">0.8</b> of a game.</li>
-          <li><b>Preseason start:</b> a mix of last season's rating, the share of production returning, and roster talent (weights fitted on earlier seasons), plus <b data-set="P4_START_BONUS">5</b> points for Power 4 teams (stats from weaker conferences tend to overrate teams). It counts as <b data-set="PRIOR_GAMES">3</b> games before the season and fades to nothing by week <b data-set="PRIOR_END_WEEK">14</b>.</li>
+          <li><b>Recent games count a bit more:</b> each week further back, a game counts <b data-set="RECENCY">0.94</b> as much, so a team's current form outweighs September.</li>
+          <li><b>Preseason start:</b> a mix of last season's rating, the share of production returning, and roster talent (weights fitted on earlier seasons), plus <b data-set="P4_START_BONUS">5</b> points for Power 4 teams (stats from weaker conferences tend to overrate teams). Teams new to FBS start at the <b data-set="NEW_FBS_PCT">10th</b> percentile. The start counts as <b data-set="PRIOR_GAMES">3</b> games before the season and fades to nothing by week <b data-set="PRIOR_END_WEEK">18</b>.</li>
         </ol>
-        <div class="box">Not used: betting lines (kept out so the model can disagree with them), per-play efficiency (it didn't improve predictions), and the Wolp+ rankings. On a week-by-week replay of 2024–2026, the model's predicted margins were off by about 12.5 points per game on average; the closing betting line was off by about 12.0.</div>
+        <div class="box">Not used: betting lines (kept out so the model can disagree with them), per-play efficiency (it didn't improve predictions), and the Wolp+ rankings. On a week-by-week replay of 2024–2026, the model's predicted margins were off by about 12.35 points per game on average; the closing betting line was off by about 12.0. That's in line with established computer ratings such as ESPN's FPI and Sagarin.</div>
 
         <h2 id="m-qw">Quality wins</h2>
         <ul>
@@ -917,6 +918,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       const k=el.dataset.set, v=st[k]; if(v==null) return;
       if(k==='LOC_WIN') el.textContent=`road ${v.away.toFixed(2)}, neutral ${v.neutral.toFixed(2)}, home ${v.home.toFixed(2)}`;
       else if(k==='LOC_LOSS') el.textContent=`home ${v.home.toFixed(2)}, neutral ${v.neutral.toFixed(2)}, road ${v.away.toFixed(2)}`;
+      else if(k==='NEW_FBS_PCT') el.textContent=`${Math.round(v*100)}th`;
       else el.textContent=String(v);
     });
     document.querySelectorAll('.mxtxt').forEach(el=>el.textContent=`${100-Math.round(S.mixW*100)}% power / ${Math.round(S.mixW*100)}% quality wins this week`);
