@@ -489,7 +489,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
         <h2 id="m-home">Home page</h2>
         <dl>
           <dt>Fraud watch</dt><dd>Teams in the AP Top 25 that both Wolp+ and the Composite rank at least <b class="fthr">8</b> spots lower. A team outside the Wolp+ 35 counts as #36. Sorted by the size of the gap.</dd>
-          <dt>Under the radar</dt><dd>Wolp+ teams that both Wolp+ and the Composite rank at least <b class="fthr">8</b> spots higher than the AP. A team outside the AP Top 25 counts as AP #30.</dd>
+          <dt>Under the radar</dt><dd>Wolp+ teams that both Wolp+ and the Composite rank at least <b class="fthr">8</b> spots higher than the AP. A team outside the AP Top 25 counts as AP #36, the same as a team outside the Wolp+ 35 in Fraud watch.</dd>
           <dt>Model spread</dt><dd>The model's predicted margin, written like a betting line (favorite −points, rounded to the half point). It never uses the betting line.</dd>
           <dt>Line</dt><dd>The median spread across sportsbooks, from CollegeFootballData.com.</dd>
           <dt>Upset alerts</dt><dd>Games hand-picked each week, usually where the model favors the betting underdog or disagrees with the line by a touchdown or more.</dd>
@@ -598,7 +598,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 
 <script>
 (function(){
-  const MAX = 35, TOP = 25, MAXC = 4, FRAUD = 8, AP_NR = 30, BIG = 14, BIG_RANKED = 21;
+  const MAX = 35, TOP = 25, MAXC = 4, FRAUD = 8, AP_NR = 36, BIG = 14, BIG_RANKED = 21;
   const S = {db:null, teams:{}, teamsRaw:null, meta:null, model:null, schedule:null, ap:null, weeks:{}, cur:null, draft:[], dirty:false, newWeek:false,
              canWrite:false, loadedWeeks:false, cmp:[], cmpOn:false, tab:'home', ws:'ballot',
              r:{show:'wolp', conf:'', q:'', ms:'wolp', col:'wolp', rev:false}, f:'all', q:'', sort:'rec',
