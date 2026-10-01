@@ -748,7 +748,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     for(const g of gamesOf(a)){ const r=mdl().crank[g.opp], cut=QT[g.site]||QT.neutral; const k = r ? (r<=cut[0]?1:r<=cut[1]?2:r<=cut[2]?3:4) : 4; q[k][g.result==='W'?0:1]++; }
     return q; }
   const qStr = a => { const q=quads(a); return [1,2,3,4].map(k=>`Q${k} ${q[k][0]}-${q[k][1]}`).join(' · '); };
-  const projTxt = t => t.proj ? `${t.proj.w.toFixed(1)}–${t.proj.l.toFixed(1)}` : '–';
+  const projTxt = t => { if(!t.proj) return '–'; const n=Math.round(t.proj.w+t.proj.l), w=Math.round(t.proj.w); return `${w}–${n-w}`; };  // whole games
   const kick = s => { const d=new Date(s); return isNaN(d) ? '' : d.toLocaleString('en-US',{weekday:'short',hour:'numeric',minute:'2-digit',timeZone:'America/New_York'})+' ET'; };
 
   // ---------- HOME ----------
