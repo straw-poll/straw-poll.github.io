@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>CFB Ballot 2026</title>
+<title>CFB Rankings 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
@@ -304,14 +304,14 @@ legend{font-weight:600;padding:0 4px}
 <div class="wrap">
   <header class="top">
     <div>
-      <h1>CFB Ballot <span>2026</span></h1>
+      <h1>CFB Rankings <span>2026</span></h1>
       <div class="stamp" id="stamp">Loading team data…</div>
     </div>
     <div class="importer"><button class="btn" id="syncBtn">Ballot sync</button></div>
     <nav class="tabs" role="tablist">
-      <button class="tab" role="tab" id="tab-ballot" aria-selected="true">Ballot</button>
-      <button class="tab" role="tab" id="tab-history" aria-selected="false">History</button>
-      <button class="tab" role="tab" id="tab-resumes" aria-selected="false">Résumés</button>
+      <button class="tab" role="tab" id="tab-ballot" aria-selected="true">Current Rankings</button>
+      <button class="tab" role="tab" id="tab-resumes" aria-selected="false">Data</button>
+      <button class="tab" role="tab" id="tab-history" aria-selected="false">Previous Rankings</button>
     </nav>
   </header>
 
@@ -329,7 +329,7 @@ legend{font-weight:600;padding:0 4px}
 
     <div class="grid">
       <div class="bwrap">
-        <div class="btools"><button class="btn quiet" id="cmpMode" aria-pressed="false" title="Pick 2 to 4 teams to compare side by side">Compare</button><details class="colmenu" id="mixMenu"><summary class="btn quiet">Composite ▾</summary><div class="menu mix"><label for="mixW">Composite rank blend</label><input type="range" id="mixW" min="0" max="100" step="5" value="50"><div class="mixends"><span>All power</span><span>All résumé</span></div><div id="mixTxt"></div></div></details><details class="colmenu" id="colMenu"><summary class="btn quiet">Columns ▾</summary><div class="menu" id="colList"></div></details></div>
+        <div class="btools"><button class="btn quiet" id="cmpMode" aria-pressed="false" title="Pick 2 to 4 teams to compare side by side">Compare</button><details class="colmenu" id="mixMenu"><summary class="btn quiet">Composite ▾</summary><div class="menu mix"><label for="mixW">Composite rank blend</label><input type="range" id="mixW" min="0" max="100" step="5" value="50"><div class="mixends"><span>All power</span><span>All quality wins</span></div><div id="mixTxt"></div></div></details><details class="colmenu" id="colMenu"><summary class="btn quiet">Columns ▾</summary><div class="menu" id="colList"></div></details></div>
         <div class="bscroll">
         <div class="cols" id="cols" aria-hidden="true"></div>
         <div id="ballot" aria-label="Your Top 25"></div>
@@ -357,14 +357,14 @@ legend{font-weight:600;padding:0 4px}
   </section>
 
   <section id="view-history" class="hist" hidden>
-    <h2>Rank history</h2>
+    <h2>Previous Rankings</h2>
     <div id="histBody"></div>
   </section>
 
   <section id="view-resumes" class="hist" hidden>
-    <h2>Résumés</h2>
+    <h2>Data</h2>
     <div class="weekbar rs-bar"><span class="weeklabel" id="rsWeek"></span><span class="spacer"></span><span class="status" id="rsStatus"></span><button class="btn primary" id="rsSave" disabled>Save ballot</button></div>
-    <div class="rs-sort" id="rsSort" role="group" aria-label="Sort résumés">Sort:
+    <div class="rs-sort" id="rsSort" role="group" aria-label="Sort data">Sort:
       <button class="rsb" data-rs="ballot" aria-pressed="true">Ballot order</button>
       <button class="rsb" data-rs="best" aria-pressed="false">Best win</button>
       <button class="rsb" data-rs="worst" aria-pressed="false">Worst loss</button>
@@ -450,7 +450,7 @@ legend{font-weight:600;padding:0 4px}
     {k:'defXpl', h:'Def Expl', lbl:'Def Expl', menu:'Defense explosiveness allowed',where:'bp', bw:'3.1rem', pw:'3rem',   sort:'defXpl', fmt:'n', lo:true, off:true},
     // model (from cfb/model): fmt r = rank; val = computed on the page; wrap = two-line heading
     {k:'powerRank',  h:'Model',  lbl:'Model',  menu:'Model rank (power rating)', where:'bp', bw:'2.9rem', pw:'2.7rem', sort:'powerRank',  fmt:'r', lo:true},
-    {k:'resumeRank', h:'Résumé', lbl:'Résumé', menu:'Résumé rank',               where:'bp', bw:'2.9rem', pw:'2.7rem', sort:'resumeRank', fmt:'r', lo:true},
+    {k:'resumeRank', h:'QW',     lbl:'QW',     menu:'Quality wins rank',         where:'bp', bw:'2.9rem', pw:'2.7rem', sort:'resumeRank', fmt:'r', lo:true},
     {k:'comp',       h:'Comp',   lbl:'Comp',   menu:'Composite rank (blend set under Composite ▾)', where:'bp', bw:'2.9rem', pw:'2.7rem', sort:'comp', fmt:'r', lo:true, val:a=>mdl().crank[a]},
     {k:'adjOffEpa', h:'Adj Off EPA', lbl:'Adj Off EPA', menu:'Adjusted offense EPA per play',   where:'bp', bw:'3.3rem', pw:'3.1rem', sort:'adjOffEpa', fmt:'n', off:true, wrap:true},
     {k:'adjDefEpa', h:'Adj Def EPA', lbl:'Adj Def EPA', menu:'Adjusted defense EPA allowed',    where:'bp', bw:'3.3rem', pw:'3.1rem', sort:'adjDefEpa', fmt:'n', lo:true, off:true, wrap:true},
@@ -527,8 +527,8 @@ legend{font-weight:600;padding:0 4px}
   }
   const modelFacts = a => { const t=S.teams[a]||{}, c=mdl().crank[a], n=v=>typeof v==='number';
     return `<dl class="facts"><dt>Power rating</dt><dd>${n(t.powerRating)?t.powerRating.toFixed(1):'–'}${t.powerRank?` · Model #${t.powerRank}`:''}</dd>
-      <dt>Résumé score</dt><dd>${n(t.resumeScore)?t.resumeScore.toFixed(3):'–'}${t.resumeRank?` · Résumé #${t.resumeRank}`:''}</dd>
-      <dt>Composite</dt><dd>${c?'#'+c:'–'} <span style="color:var(--muted);font-weight:500">(${Math.round(S.mixW*100)}% résumé / ${100-Math.round(S.mixW*100)}% power)</span></dd></dl>`; };
+      <dt>Quality-wins score</dt><dd>${n(t.resumeScore)?t.resumeScore.toFixed(3):'–'}${t.resumeRank?` · Quality wins #${t.resumeRank}`:''}</dd>
+      <dt>Composite</dt><dd>${c?'#'+c:'–'} <span style="color:var(--muted);font-weight:500">(${Math.round(S.mixW*100)}% quality wins / ${100-Math.round(S.mixW*100)}% power)</span></dd></dl>`; };
   const gAt = g => g.site==='away' ? 'at' : 'vs';
   const gScore = g => g.result==='W' ? `${g.pf}-${g.pa}` : `${g.pa}-${g.pf}`;
   const gOppName = (o, onB) => (onB[o] ? '#'+onB[o]+' ' : '') + nm(o);
@@ -902,7 +902,7 @@ legend{font-weight:600;padding:0 4px}
   });
   document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ hideTip(); $('colMenu').open=false; $('mixMenu').open=false; } });
   // ---------- composite blend slider ----------
-  function renderMix(){ const r=Math.round(S.mixW*100); $('mixW').value=r; $('mixTxt').textContent=`${r}% résumé / ${100-r}% power`; }
+  function renderMix(){ const r=Math.round(S.mixW*100); $('mixW').value=r; $('mixTxt').textContent=`${r}% quality wins / ${100-r}% power`; }
   $('mixW').addEventListener('input', e=>{
     S.mixW=Number(e.target.value)/100; renderMix();
     try{ localStorage.setItem('cfb-mix', String(S.mixW)); }catch(err){}
@@ -1052,7 +1052,7 @@ legend{font-weight:600;padding:0 4px}
     el.classList.toggle('rs-reorder', canDrag);
     mirrorStatus();
     if(rsSortable){ rsSortable.destroy(); rsSortable=null; }
-    if(!S.draft.length && !S.others.length){ el.innerHTML='<div class="empty"><strong>No teams yet</strong>Add teams to your Top 25 and each one’s résumé will line up here.</div>'; return; }
+    if(!S.draft.length && !S.others.length){ el.innerHTML='<div class="empty"><strong>No teams yet</strong>Add teams to your Top 25 and each one’s games will line up here.</div>'; return; }
     const stronger = (x,y) => x.v-y.v;  // by résumé value
     const worse = (x,y) => x.v-y.v;
     const sorter = S.rsort==='best' ? (x,y)=> (!x.bw)-(!y.bw) || (x.bw&&y.bw ? stronger(y.bw,x.bw) : 0)
