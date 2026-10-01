@@ -1,6 +1,6 @@
 {
  "season": 2026,
- "updatedAt": "2026-10-01T03:44:02.862733+00:00",
+ "updatedAt": "2026-10-01T04:39:49.777385+00:00",
  "through": "games through Sat, Sep 26",
  "teams": {
   "Air Force": {
@@ -7680,12 +7680,12 @@
  },
  "model": {
   "season": 2026,
-  "updatedAt": "2026-10-01T03:44:02.862733+00:00",
+  "updatedAt": "2026-10-01T04:39:49.777385+00:00",
   "teams": {
    "Air Force": {
-    "powerRating": -12.9647,
-    "powerRank": 120,
-    "resumeScore": -0.3725,
+    "powerRating": -12.8458,
+    "powerRank": 119,
+    "resumeScore": -0.3704,
     "resumeRank": 95,
     "adjOffEpa": 0.3956,
     "adjDefEpa": 0.1522,
@@ -7693,7 +7693,7 @@
     "adjDefSr": 0.4869,
     "sosDef": -0.0406,
     "sosOff": 0.0849,
-    "strength": 0.021,
+    "strength": 0.0216,
     "games": [
      [
       0,
@@ -7701,7 +7701,7 @@
      ],
      [
       0,
-      -0.762,
+      -0.758,
       0.222,
       0.113,
       -0.279,
@@ -7718,9 +7718,9 @@
     ]
    },
    "Akron": {
-    "powerRating": -19.7956,
-    "powerRank": 134,
-    "resumeScore": -0.6684,
+    "powerRating": -19.7879,
+    "powerRank": 135,
+    "resumeScore": -0.6645,
     "resumeRank": 132,
     "adjOffEpa": -0.1209,
     "adjDefEpa": 0.4657,
@@ -7728,11 +7728,11 @@
     "adjDefSr": 0.4907,
     "sosDef": 0.0591,
     "sosOff": 0.0274,
-    "strength": 0.0064,
+    "strength": 0.0065,
     "games": [
      [
       0,
-      -0.612,
+      -0.611,
       -0.12,
       0.547,
       -0.084,
@@ -7752,7 +7752,7 @@
      ],
      [
       0,
-      -0.756,
+      -0.746,
       -0.158,
       0.445,
       0.167,
@@ -7761,9 +7761,9 @@
     ]
    },
    "Alabama": {
-    "powerRating": 23.7646,
+    "powerRating": 23.6682,
     "powerRank": 4,
-    "resumeScore": 0.206,
+    "resumeScore": 0.2048,
     "resumeRank": 3,
     "adjOffEpa": 0.3756,
     "adjDefEpa": -0.1469,
@@ -7771,11 +7771,11 @@
     "adjDefSr": 0.3073,
     "sosDef": 0.1026,
     "sosOff": 0.1816,
-    "strength": 0.6609,
+    "strength": 0.6599,
     "games": [
      [
       0,
-      0.089,
+      0.09,
       0.364,
       -0.17,
       0.11,
@@ -7783,7 +7783,7 @@
      ],
      [
       0,
-      0.302,
+      0.3,
       0.136,
       -0.349,
       -0.129,
@@ -7791,7 +7791,7 @@
      ],
      [
       0,
-      0.201,
+      0.199,
       0.457,
       0.173,
       0.317,
@@ -7799,7 +7799,7 @@
      ],
      [
       0,
-      0.232,
+      0.23,
       0.506,
       0.058,
       0.112,
@@ -7808,17 +7808,17 @@
     ]
    },
    "App State": {
-    "powerRating": -7.0338,
+    "powerRating": -6.9116,
     "powerRank": 95,
-    "resumeScore": -0.1845,
-    "resumeRank": 70,
+    "resumeScore": -0.1841,
+    "resumeRank": 69,
     "adjOffEpa": 0.0601,
     "adjDefEpa": 0.3115,
     "adjOffSr": 0.319,
     "adjDefSr": 0.4884,
     "sosDef": 0.1629,
     "sosOff": -0.0756,
-    "strength": 0.0507,
+    "strength": 0.0519,
     "games": [
      [
       0,
@@ -7826,7 +7826,7 @@
      ],
      [
       1,
-      0.09,
+      0.091,
       0.17,
       0.283,
       0.044,
@@ -7842,7 +7842,7 @@
      ],
      [
       0,
-      -0.648,
+      -0.647,
       0.091,
       0.269,
       0.437,
@@ -7851,9 +7851,9 @@
     ]
    },
    "Arizona": {
-    "powerRating": 9.7097,
-    "powerRank": 29,
-    "resumeScore": -0.0988,
+    "powerRating": 9.9347,
+    "powerRank": 28,
+    "resumeScore": -0.0979,
     "resumeRank": 51,
     "adjOffEpa": 0.3822,
     "adjDefEpa": 0.1959,
@@ -7861,7 +7861,7 @@
     "adjDefSr": 0.4536,
     "sosDef": 0.0323,
     "sosOff": 0.0525,
-    "strength": 0.3008,
+    "strength": 0.3073,
     "games": [
      [
       0,
@@ -7869,7 +7869,7 @@
      ],
      [
       0,
-      -0.396,
+      -0.395,
       0.106,
       0.46,
       -0.134,
@@ -7885,7 +7885,7 @@
      ],
      [
       0,
-      0.091,
+      0.092,
       0.167,
       -0.085,
       -0.038,
@@ -7894,17 +7894,17 @@
     ]
    },
    "Arizona State": {
-    "powerRating": 4.417,
-    "powerRank": 52,
-    "resumeScore": -0.178,
-    "resumeRank": 65,
+    "powerRating": 4.7543,
+    "powerRank": 48,
+    "resumeScore": -0.1819,
+    "resumeRank": 67,
     "adjOffEpa": -0.2779,
     "adjDefEpa": -0.0154,
     "adjOffSr": 0.3908,
     "adjDefSr": 0.3736,
     "sosDef": 0.1383,
     "sosOff": 0.1857,
-    "strength": 0.1908,
+    "strength": 0.198,
     "games": [
      [
       0,
@@ -7912,7 +7912,7 @@
      ],
      [
       0,
-      -0.467,
+      -0.471,
       -0.266,
       0.01,
       0.197,
@@ -7920,7 +7920,7 @@
      ],
      [
       0,
-      0.111,
+      0.107,
       -0.203,
       0.14,
       0.08,
@@ -7929,10 +7929,10 @@
     ]
    },
    "Arkansas": {
-    "powerRating": 4.5174,
-    "powerRank": 50,
-    "resumeScore": -0.1582,
-    "resumeRank": 59,
+    "powerRating": 4.4675,
+    "powerRank": 51,
+    "resumeScore": -0.1601,
+    "resumeRank": 61,
     "adjOffEpa": 0.2304,
     "adjDefEpa": -0.0219,
     "adjOffSr": 0.5043,
@@ -7947,7 +7947,7 @@
      ],
      [
       0,
-      -0.304,
+      -0.307,
       -0.038,
       0.629,
       -0.114,
@@ -7955,7 +7955,7 @@
      ],
      [
       0,
-      -0.219,
+      -0.222,
       -0.055,
       0.309,
       -0.215,
@@ -7972,9 +7972,9 @@
     ]
    },
    "Arkansas State": {
-    "powerRating": -10.3389,
+    "powerRating": -10.0808,
     "powerRank": 110,
-    "resumeScore": -0.4135,
+    "resumeScore": -0.408,
     "resumeRank": 106,
     "adjOffEpa": -0.0463,
     "adjDefEpa": 0.2901,
@@ -7982,11 +7982,11 @@
     "adjDefSr": 0.5429,
     "sosDef": 0.1965,
     "sosOff": 0.0524,
-    "strength": 0.0315,
+    "strength": 0.033,
     "games": [
      [
       0,
-      -0.642,
+      -0.632,
       0.091,
       0.433,
       0.242,
@@ -7998,7 +7998,7 @@
      ],
      [
       0,
-      -0.62,
+      -0.615,
       -0.22,
       0.212,
       0.009,
@@ -8006,7 +8006,7 @@
      ],
      [
       1,
-      0.022,
+      0.023,
       0.242,
       0.065,
       0.339,
@@ -8015,9 +8015,9 @@
     ]
    },
    "Army": {
-    "powerRating": -6.471,
+    "powerRating": -6.4726,
     "powerRank": 92,
-    "resumeScore": -0.1833,
+    "resumeScore": -0.1825,
     "resumeRank": 68,
     "adjOffEpa": 0.2067,
     "adjDefEpa": 0.3053,
@@ -8025,7 +8025,7 @@
     "adjDefSr": 0.4344,
     "sosDef": 0.092,
     "sosOff": 0.1536,
-    "strength": 0.0547,
+    "strength": 0.0551,
     "games": [
      [
       0,
@@ -8033,7 +8033,7 @@
      ],
      [
       1,
-      -0.413,
+      -0.411,
       0.128,
       0.351,
       0.025,
@@ -8041,7 +8041,7 @@
      ],
      [
       1,
-      0.047,
+      0.046,
       0.246,
       0.351,
       0.159,
@@ -8050,9 +8050,9 @@
     ]
    },
    "Auburn": {
-    "powerRating": 10.2021,
-    "powerRank": 28,
-    "resumeScore": 0.0267,
+    "powerRating": 9.6357,
+    "powerRank": 29,
+    "resumeScore": 0.0254,
     "resumeRank": 28,
     "adjOffEpa": 0.1793,
     "adjDefEpa": -0.0295,
@@ -8060,11 +8060,11 @@
     "adjDefSr": 0.3865,
     "sosDef": 0.0577,
     "sosOff": 0.1333,
-    "strength": 0.3124,
+    "strength": 0.3003,
     "games": [
      [
       1,
-      0.219,
+      0.224,
       -0.044,
       -0.011,
       0.17,
@@ -8072,7 +8072,7 @@
      ],
      [
       0,
-      0.02,
+      0.019,
       0.324,
       -0.201,
       0.161,
@@ -8080,7 +8080,7 @@
      ],
      [
       0,
-      -0.406,
+      -0.411,
       0.167,
       0.308,
       -0.107,
@@ -8088,7 +8088,7 @@
      ],
      [
       1,
-      0.274,
+      0.27,
       0.02,
       -0.145,
       0.008,
@@ -8097,9 +8097,9 @@
     ]
    },
    "BYU": {
-    "powerRating": 16.7298,
+    "powerRating": 16.7617,
     "powerRank": 13,
-    "resumeScore": 0.182,
+    "resumeScore": 0.1854,
     "resumeRank": 7,
     "adjOffEpa": 0.4528,
     "adjDefEpa": -0.1496,
@@ -8107,7 +8107,7 @@
     "adjDefSr": 0.3951,
     "sosDef": 0.1928,
     "sosOff": 0.3378,
-    "strength": 0.4785,
+    "strength": 0.4807,
     "games": [
      [
       0,
@@ -8115,7 +8115,7 @@
      ],
      [
       0,
-      0.31,
+      0.317,
       0.46,
       0.106,
       0.235,
@@ -8132,9 +8132,9 @@
     ]
    },
    "Ball State": {
-    "powerRating": -19.0179,
+    "powerRating": -18.7243,
     "powerRank": 133,
-    "resumeScore": -0.5495,
+    "resumeScore": -0.5458,
     "resumeRank": 119,
     "adjOffEpa": -0.0419,
     "adjDefEpa": 0.4718,
@@ -8142,11 +8142,11 @@
     "adjDefSr": 0.4903,
     "sosDef": 0.0927,
     "sosOff": 0.107,
-    "strength": 0.0074,
+    "strength": 0.0079,
     "games": [
      [
       0,
-      -0.214,
+      -0.207,
       -0.34,
       0.647,
       -0.088,
@@ -8158,7 +8158,7 @@
      ],
      [
       0,
-      -0.687,
+      -0.683,
       0.096,
       0.558,
       0.052,
@@ -8166,7 +8166,7 @@
      ],
      [
       0,
-      -0.748,
+      -0.747,
       0.058,
       0.194,
       0.314,
@@ -8175,9 +8175,9 @@
     ]
    },
    "Baylor": {
-    "powerRating": 5.8062,
-    "powerRank": 44,
-    "resumeScore": -0.0616,
+    "powerRating": 5.9913,
+    "powerRank": 43,
+    "resumeScore": -0.0607,
     "resumeRank": 44,
     "adjOffEpa": 0.2151,
     "adjDefEpa": 0.0892,
@@ -8185,11 +8185,11 @@
     "adjDefSr": 0.4421,
     "sosDef": -0.0823,
     "sosOff": -0.0605,
-    "strength": 0.217,
+    "strength": 0.2217,
     "games": [
      [
       1,
-      -0.33,
+      -0.336,
       -0.011,
       -0.044,
       -0.007,
@@ -8201,7 +8201,7 @@
      ],
      [
       0,
-      0.041,
+      0.043,
       0.213,
       0.014,
       -0.197,
@@ -8209,7 +8209,7 @@
      ],
      [
       0,
-      0.104,
+      0.111,
       -0.074,
       -0.153,
       -0.043,
@@ -8218,9 +8218,9 @@
     ]
    },
    "Boise State": {
-    "powerRating": 10.9238,
-    "powerRank": 26,
-    "resumeScore": 0.013,
+    "powerRating": 11.2223,
+    "powerRank": 23,
+    "resumeScore": 0.0188,
     "resumeRank": 31,
     "adjOffEpa": 0.3488,
     "adjDefEpa": -0.0543,
@@ -8228,11 +8228,11 @@
     "adjDefSr": 0.4274,
     "sosDef": 0.0747,
     "sosOff": 0.1886,
-    "strength": 0.3296,
+    "strength": 0.3381,
     "games": [
      [
       1,
-      -0.189,
+      -0.185,
       0.051,
       0.174,
       -0.079,
@@ -8240,7 +8240,7 @@
      ],
      [
       0,
-      0.157,
+      0.171,
       0.457,
       0.015,
       0.258,
@@ -8252,7 +8252,7 @@
      ],
      [
       0,
-      0.071,
+      0.07,
       0.415,
       -0.122,
       0.045,
@@ -8261,9 +8261,9 @@
     ]
    },
    "Boston College": {
-    "powerRating": -5.353,
-    "powerRank": 86,
-    "resumeScore": -0.3158,
+    "powerRating": -5.6191,
+    "powerRank": 87,
+    "resumeScore": -0.3183,
     "resumeRank": 89,
     "adjOffEpa": -0.1049,
     "adjDefEpa": -0.2174,
@@ -8271,11 +8271,11 @@
     "adjDefSr": 0.3706,
     "sosDef": 0.173,
     "sosOff": 0.3445,
-    "strength": 0.0635,
+    "strength": 0.0617,
     "games": [
      [
       0,
-      -0.602,
+      -0.608,
       -0.086,
       0.241,
       0.069,
@@ -8283,7 +8283,7 @@
      ],
      [
       1,
-      0.071,
+      0.069,
       -0.021,
       -0.084,
       0.068,
@@ -8304,9 +8304,9 @@
     ]
    },
    "Bowling Green": {
-    "powerRating": -14.538,
-    "powerRank": 127,
-    "resumeScore": -0.7434,
+    "powerRating": -14.6743,
+    "powerRank": 128,
+    "resumeScore": -0.7447,
     "resumeRank": 134,
     "adjOffEpa": -0.0117,
     "adjDefEpa": 0.1966,
@@ -8314,7 +8314,7 @@
     "adjDefSr": 0.4618,
     "sosDef": -0.0768,
     "sosOff": 0.2301,
-    "strength": 0.0162,
+    "strength": 0.016,
     "games": [
      [
       1,
@@ -8322,7 +8322,7 @@
      ],
      [
       0,
-      -0.504,
+      -0.506,
       -0.209,
       0.675,
       -0.165,
@@ -8330,7 +8330,7 @@
      ],
      [
       0,
-      -0.556,
+      -0.562,
       -0.186,
       0.383,
       -0.156,
@@ -8338,7 +8338,7 @@
      ],
      [
       1,
-      -0.413,
+      -0.411,
       -0.21,
       -0.12,
       0.091,
@@ -8347,9 +8347,9 @@
     ]
    },
    "Buffalo": {
-    "powerRating": -14.1125,
-    "powerRank": 124,
-    "resumeScore": -0.6202,
+    "powerRating": -13.7917,
+    "powerRank": 123,
+    "resumeScore": -0.6212,
     "resumeRank": 130,
     "adjOffEpa": 0.0635,
     "adjDefEpa": 0.4483,
@@ -8357,7 +8357,7 @@
     "adjDefSr": 0.5066,
     "sosDef": -0.0828,
     "sosOff": 0.0021,
-    "strength": 0.0174,
+    "strength": 0.0185,
     "games": [
      [
       1,
@@ -8365,7 +8365,7 @@
      ],
      [
       0,
-      -0.719,
+      -0.718,
       -0.03,
       0.107,
       0.064,
@@ -8373,7 +8373,7 @@
      ],
      [
       0,
-      -0.522,
+      -0.524,
       -0.238,
       0.557,
       -0.23,
@@ -8386,9 +8386,9 @@
     ]
    },
    "California": {
-    "powerRating": -3.9976,
+    "powerRating": -4.1165,
     "powerRank": 81,
-    "resumeScore": -0.3823,
+    "resumeScore": -0.3793,
     "resumeRank": 97,
     "adjOffEpa": 0.0268,
     "adjDefEpa": 0.1833,
@@ -8396,11 +8396,11 @@
     "adjDefSr": 0.4406,
     "sosDef": -0.0893,
     "sosOff": 0.0626,
-    "strength": 0.0755,
+    "strength": 0.0749,
     "games": [
      [
       0,
-      -0.55,
+      -0.544,
       -0.061,
       0.414,
       -0.207,
@@ -8408,7 +8408,7 @@
      ],
      [
       1,
-      0.046,
+      0.041,
       -0.11,
       -0.143,
       -0.016,
@@ -8420,7 +8420,7 @@
      ],
      [
       0,
-      -0.643,
+      -0.635,
       -0.322,
       0.057,
       -0.045,
@@ -8429,9 +8429,9 @@
     ]
    },
    "Central Michigan": {
-    "powerRating": -8.337,
-    "powerRank": 100,
-    "resumeScore": -0.3001,
+    "powerRating": -8.2394,
+    "powerRank": 99,
+    "resumeScore": -0.2974,
     "resumeRank": 87,
     "adjOffEpa": -0.0518,
     "adjDefEpa": 0.2444,
@@ -8439,11 +8439,11 @@
     "adjDefSr": 0.523,
     "sosDef": 0.089,
     "sosOff": 0.2324,
-    "strength": 0.0423,
+    "strength": 0.0432,
     "games": [
      [
       0,
-      -0.622,
+      -0.619,
       -0.363,
       0.298,
       0.047,
@@ -8455,7 +8455,7 @@
      ],
      [
       0,
-      0.024,
+      0.023,
       0.294,
       0.124,
       0.215,
@@ -8463,7 +8463,7 @@
      ],
      [
       0,
-      -0.302,
+      -0.297,
       -0.183,
       0.663,
       0.005,
@@ -8472,9 +8472,9 @@
     ]
    },
    "Charlotte": {
-    "powerRating": -22.2222,
+    "powerRating": -22.5971,
     "powerRank": 138,
-    "resumeScore": -0.8692,
+    "resumeScore": -0.8689,
     "resumeRank": 138,
     "adjOffEpa": -0.2873,
     "adjDefEpa": 0.0449,
@@ -8482,7 +8482,7 @@
     "adjDefSr": 0.5092,
     "sosDef": 0.131,
     "sosOff": 0.2032,
-    "strength": 0.004,
+    "strength": 0.0038,
     "games": [
      [
       1,
@@ -8490,7 +8490,7 @@
      ],
      [
       0,
-      -0.463,
+      -0.465,
       -0.011,
       0.375,
       0.085,
@@ -8506,7 +8506,7 @@
      ],
      [
       0,
-      -0.792,
+      -0.79,
       -0.649,
       -0.035,
       -0.048,
@@ -8515,9 +8515,9 @@
     ]
    },
    "Cincinnati": {
-    "powerRating": 5.3082,
+    "powerRating": 4.8388,
     "powerRank": 47,
-    "resumeScore": 0.1404,
+    "resumeScore": 0.1372,
     "resumeRank": 10,
     "adjOffEpa": 0.409,
     "adjDefEpa": 0.0866,
@@ -8525,11 +8525,11 @@
     "adjDefSr": 0.4524,
     "sosDef": -0.0225,
     "sosOff": 0.1392,
-    "strength": 0.2074,
+    "strength": 0.1995,
     "games": [
      [
       0,
-      0.064,
+      0.062,
       0.241,
       -0.086,
       -0.282,
@@ -8541,7 +8541,7 @@
      ],
      [
       1,
-      0.069,
+      0.068,
       0.235,
       0.225,
       0.174,
@@ -8549,7 +8549,7 @@
      ],
      [
       1,
-      0.289,
+      0.282,
       0.371,
       0.211,
       0.04,
@@ -8558,9 +8558,9 @@
     ]
    },
    "Clemson": {
-    "powerRating": 6.6634,
-    "powerRank": 40,
-    "resumeScore": -0.0231,
+    "powerRating": 7.0634,
+    "powerRank": 39,
+    "resumeScore": -0.0233,
     "resumeRank": 36,
     "adjOffEpa": -0.0781,
     "adjDefEpa": -0.0958,
@@ -8568,11 +8568,11 @@
     "adjDefSr": 0.37,
     "sosDef": 0.0631,
     "sosOff": 0.1577,
-    "strength": 0.2342,
+    "strength": 0.2435,
     "games": [
      [
       0,
-      -0.349,
+      -0.35,
       -0.544,
       0.309,
       -0.203,
@@ -8580,7 +8580,7 @@
      ],
      [
       0,
-      0.038,
+      0.039,
       -0.113,
       -0.102,
       0.243,
@@ -8596,7 +8596,7 @@
      ],
      [
       0,
-      0.078,
+      0.077,
       0.057,
       -0.322,
       0.148,
@@ -8605,9 +8605,9 @@
     ]
    },
    "Coastal Carolina": {
-    "powerRating": -12.6733,
+    "powerRating": -12.4685,
     "powerRank": 118,
-    "resumeScore": -0.6258,
+    "resumeScore": -0.6249,
     "resumeRank": 131,
     "adjOffEpa": 0.0131,
     "adjDefEpa": 0.1559,
@@ -8615,11 +8615,11 @@
     "adjDefSr": 0.4731,
     "sosDef": 0.2291,
     "sosOff": 0.1436,
-    "strength": 0.022,
+    "strength": 0.0229,
     "games": [
      [
       0,
-      -0.672,
+      -0.673,
       0.168,
       0.125,
       0.259,
@@ -8639,7 +8639,7 @@
      ],
      [
       0,
-      -0.759,
+      -0.755,
       -0.071,
       0.251,
       0.176,
@@ -8648,9 +8648,9 @@
     ]
    },
    "Colorado": {
-    "powerRating": -1.4317,
-    "powerRank": 71,
-    "resumeScore": -0.3361,
+    "powerRating": -0.9579,
+    "powerRank": 70,
+    "resumeScore": -0.3362,
     "resumeRank": 92,
     "adjOffEpa": -0.1249,
     "adjDefEpa": -0.091,
@@ -8658,11 +8658,11 @@
     "adjDefSr": 0.3788,
     "sosDef": 0.176,
     "sosOff": 0.2872,
-    "strength": 0.103,
+    "strength": 0.1094,
     "games": [
      [
       1,
-      0.094,
+      0.096,
       0.052,
       0.074,
       0.203,
@@ -8674,7 +8674,7 @@
      ],
      [
       0,
-      -0.507,
+      -0.513,
       -0.092,
       0.262,
       0.233,
@@ -8682,7 +8682,7 @@
      ],
      [
       0,
-      -0.595,
+      -0.591,
       -0.153,
       -0.074,
       0.092,
@@ -8691,9 +8691,9 @@
     ]
    },
    "Colorado State": {
-    "powerRating": -6.734,
+    "powerRating": -6.7928,
     "powerRank": 94,
-    "resumeScore": -0.3508,
+    "resumeScore": -0.3513,
     "resumeRank": 94,
     "adjOffEpa": 0.2929,
     "adjDefEpa": 0.1935,
@@ -8705,7 +8705,7 @@
     "games": [
      [
       0,
-      0.024,
+      0.023,
       0.301,
       -0.133,
       0.374,
@@ -8717,7 +8717,7 @@
      ],
      [
       0,
-      -0.438,
+      -0.436,
       0.046,
       0.611,
       -0.164,
@@ -8725,7 +8725,7 @@
      ],
      [
       0,
-      -0.639,
+      -0.641,
       0.299,
       0.41,
       -0.078,
@@ -8734,9 +8734,9 @@
     ]
    },
    "Delaware": {
-    "powerRating": -12.9361,
-    "powerRank": 119,
-    "resumeScore": -0.3758,
+    "powerRating": -12.8472,
+    "powerRank": 120,
+    "resumeScore": -0.3773,
     "resumeRank": 96,
     "adjOffEpa": 0.0271,
     "adjDefEpa": 0.2976,
@@ -8744,7 +8744,7 @@
     "adjDefSr": 0.5077,
     "sosDef": 0.0532,
     "sosOff": 0.0336,
-    "strength": 0.0211,
+    "strength": 0.0216,
     "games": [
      [
       0,
@@ -8752,7 +8752,7 @@
      ],
      [
       0,
-      -0.552,
+      -0.555,
       -0.18,
       -0.085,
       0.032,
@@ -8760,7 +8760,7 @@
      ],
      [
       1,
-      0.022,
+      0.023,
       0.156,
       0.289,
       0.109,
@@ -8768,7 +8768,7 @@
      ],
      [
       0,
-      -0.598,
+      -0.6,
       -0.066,
       0.465,
       0.019,
@@ -8777,9 +8777,9 @@
     ]
    },
    "Duke": {
-    "powerRating": 8.6458,
-    "powerRank": 33,
-    "resumeScore": 0.1345,
+    "powerRating": 8.0656,
+    "powerRank": 35,
+    "resumeScore": 0.1308,
     "resumeRank": 11,
     "adjOffEpa": 0.0988,
     "adjDefEpa": -0.1893,
@@ -8787,7 +8787,7 @@
     "adjDefSr": 0.4131,
     "sosDef": 0.268,
     "sosOff": 0.2686,
-    "strength": 0.2766,
+    "strength": 0.265,
     "games": [
      [
       0,
@@ -8799,7 +8799,7 @@
      ],
      [
       1,
-      0.221,
+      0.216,
       0.403,
       0.058,
       0.34,
@@ -8807,7 +8807,7 @@
      ],
      [
       0,
-      0.086,
+      0.08,
       0.448,
       -0.036,
       0.232,
@@ -8820,9 +8820,9 @@
     ]
    },
    "East Carolina": {
-    "powerRating": -2.7082,
+    "powerRating": -2.6732,
     "powerRank": 79,
-    "resumeScore": -0.2314,
+    "resumeScore": -0.2311,
     "resumeRank": 76,
     "adjOffEpa": 0.0273,
     "adjDefEpa": 0.1071,
@@ -8830,11 +8830,11 @@
     "adjDefSr": 0.4394,
     "sosDef": 0.0293,
     "sosOff": 0.1014,
-    "strength": 0.0885,
+    "strength": 0.0895,
     "games": [
      [
       0,
-      -0.258,
+      -0.259,
       -0.17,
       0.364,
       -0.163,
@@ -8850,7 +8850,7 @@
      ],
      [
       1,
-      0.042,
+      0.043,
       -0.276,
       -0.247,
       -0.033,
@@ -8863,9 +8863,9 @@
     ]
    },
    "Eastern Michigan": {
-    "powerRating": -15.4366,
+    "powerRating": -16.1035,
     "powerRank": 129,
-    "resumeScore": -0.4267,
+    "resumeScore": -0.4282,
     "resumeRank": 108,
     "adjOffEpa": 0.0488,
     "adjDefEpa": 0.0963,
@@ -8873,7 +8873,7 @@
     "adjDefSr": 0.4143,
     "sosDef": 0.0112,
     "sosOff": 0.1732,
-    "strength": 0.014,
+    "strength": 0.0126,
     "games": [
      [
       0,
@@ -8885,7 +8885,7 @@
      ],
      [
       1,
-      -0.491,
+      -0.49,
       -0.175,
       0.074,
       0.082,
@@ -8893,7 +8893,7 @@
      ],
      [
       0,
-      -0.657,
+      -0.662,
       0.07,
       0.265,
       -0.134,
@@ -8901,7 +8901,7 @@
      ],
      [
       0,
-      -0.565,
+      -0.567,
       -0.199,
       0.404,
       -0.119,
@@ -8914,9 +8914,9 @@
     ]
    },
    "Florida": {
-    "powerRating": 18.1542,
+    "powerRating": 17.8715,
     "powerRank": 12,
-    "resumeScore": 0.2659,
+    "resumeScore": 0.2609,
     "resumeRank": 2,
     "adjOffEpa": 0.4044,
     "adjDefEpa": -0.0336,
@@ -8924,7 +8924,7 @@
     "adjDefSr": 0.4166,
     "sosDef": 0.1458,
     "sosOff": 0.2436,
-    "strength": 0.5163,
+    "strength": 0.5102,
     "games": [
      [
       0,
@@ -8940,7 +8940,7 @@
      ],
      [
       0,
-      0.329,
+      0.316,
       0.308,
       0.167,
       -0.045,
@@ -8948,7 +8948,7 @@
      ],
      [
       0,
-      0.406,
+      0.404,
       0.393,
       0.152,
       0.188,
@@ -8957,9 +8957,9 @@
     ]
    },
    "Florida Atlantic": {
-    "powerRating": -5.4423,
-    "powerRank": 87,
-    "resumeScore": -0.0706,
+    "powerRating": -5.4576,
+    "powerRank": 86,
+    "resumeScore": -0.0713,
     "resumeRank": 46,
     "adjOffEpa": 0.1107,
     "adjDefEpa": 0.3013,
@@ -8967,11 +8967,11 @@
     "adjDefSr": 0.443,
     "sosDef": 0.1693,
     "sosOff": 0.0326,
-    "strength": 0.0627,
+    "strength": 0.0631,
     "games": [
      [
       0,
-      -0.368,
+      -0.372,
       -0.025,
       0.618,
       -0.037,
@@ -8979,7 +8979,7 @@
      ],
      [
       0,
-      0.025,
+      0.026,
       0.254,
       0.044,
       0.363,
@@ -8987,7 +8987,7 @@
      ],
      [
       1,
-      0.054,
+      0.055,
       0.061,
       -0.028,
       0.04,
@@ -9004,9 +9004,9 @@
     ]
    },
    "Florida International": {
-    "powerRating": -6.5401,
+    "powerRating": -6.4756,
     "powerRank": 93,
-    "resumeScore": -0.3444,
+    "resumeScore": -0.3429,
     "resumeRank": 93,
     "adjOffEpa": -0.1696,
     "adjDefEpa": 0.0474,
@@ -9014,11 +9014,11 @@
     "adjDefSr": 0.4003,
     "sosDef": 0.267,
     "sosOff": 0.0588,
-    "strength": 0.0542,
+    "strength": 0.0551,
     "games": [
      [
       0,
-      -0.623,
+      -0.62,
       -0.119,
       -0.063,
       -0.026,
@@ -9026,7 +9026,7 @@
      ],
      [
       0,
-      0.017,
+      0.019,
       0.107,
       -0.03,
       0.508,
@@ -9047,9 +9047,9 @@
     ]
    },
    "Florida State": {
-    "powerRating": 4.7499,
-    "powerRank": 48,
-    "resumeScore": -0.2127,
+    "powerRating": 4.6053,
+    "powerRank": 50,
+    "resumeScore": -0.2116,
     "resumeRank": 75,
     "adjOffEpa": 0.1898,
     "adjDefEpa": 0.2725,
@@ -9057,11 +9057,11 @@
     "adjDefSr": 0.4168,
     "sosDef": 0.1312,
     "sosOff": 0.1466,
-    "strength": 0.1969,
+    "strength": 0.1952,
     "games": [
      [
       0,
-      0.01,
+      0.012,
       0.269,
       0.107,
       0.366,
@@ -9069,7 +9069,7 @@
      ],
      [
       1,
-      -0.39,
+      -0.388,
       0.14,
       0.362,
       0.261,
@@ -9077,7 +9077,7 @@
      ],
      [
       0,
-      -0.258,
+      -0.259,
       0.173,
       0.457,
       -0.233,
@@ -9090,9 +9090,9 @@
     ]
    },
    "Fresno State": {
-    "powerRating": -0.7224,
-    "powerRank": 68,
-    "resumeScore": -0.0999,
+    "powerRating": -0.809,
+    "powerRank": 69,
+    "resumeScore": -0.0996,
     "resumeRank": 52,
     "adjOffEpa": 0.0339,
     "adjDefEpa": -0.0317,
@@ -9100,7 +9100,7 @@
     "adjDefSr": 0.4575,
     "sosDef": 0.1363,
     "sosOff": 0.1582,
-    "strength": 0.1117,
+    "strength": 0.1113,
     "games": [
      [
       0,
@@ -9120,7 +9120,7 @@
      ],
      [
       0,
-      0.026,
+      0.028,
       0.036,
       -0.167,
       -0.043,
@@ -9137,9 +9137,9 @@
     ]
    },
    "Georgia": {
-    "powerRating": 27.1568,
+    "powerRating": 26.9384,
     "powerRank": 1,
-    "resumeScore": 0.1985,
+    "resumeScore": 0.2002,
     "resumeRank": 5,
     "adjOffEpa": 0.4763,
     "adjDefEpa": -0.2015,
@@ -9147,7 +9147,7 @@
     "adjDefSr": 0.2819,
     "sosDef": 0.0599,
     "sosOff": 0.0799,
-    "strength": 0.7393,
+    "strength": 0.7357,
     "games": [
      [
       0,
@@ -9155,7 +9155,7 @@
      ],
      [
       0,
-      0.015,
+      0.017,
       1.17,
       -0.252,
       0.433,
@@ -9171,7 +9171,7 @@
      ],
      [
       0,
-      0.38,
+      0.383,
       -0.164,
       -0.373,
       -0.248,
@@ -9180,17 +9180,17 @@
     ]
    },
    "Georgia Southern": {
-    "powerRating": -9.1315,
-    "powerRank": 105,
-    "resumeScore": -0.5414,
-    "resumeRank": 117,
+    "powerRating": -8.9093,
+    "powerRank": 106,
+    "resumeScore": -0.5386,
+    "resumeRank": 116,
     "adjOffEpa": 0.1408,
     "adjDefEpa": 0.1877,
     "adjOffSr": 0.3914,
     "adjDefSr": 0.3785,
     "sosDef": 0.029,
     "sosOff": 0.1699,
-    "strength": 0.0377,
+    "strength": 0.0392,
     "games": [
      [
       0,
@@ -9198,7 +9198,7 @@
      ],
      [
       0,
-      -0.582,
+      -0.575,
       -0.102,
       -0.113,
       -0.083,
@@ -9206,7 +9206,7 @@
      ],
      [
       1,
-      -0.44,
+      -0.439,
       0.038,
       0.368,
       0.168,
@@ -9223,8 +9223,8 @@
     ]
    },
    "Georgia State": {
-    "powerRating": -8.6525,
-    "powerRank": 103,
+    "powerRating": -8.5225,
+    "powerRank": 102,
     "resumeScore": -0.1943,
     "resumeRank": 73,
     "adjOffEpa": 0.0769,
@@ -9233,7 +9233,7 @@
     "adjDefSr": 0.4804,
     "sosDef": 0.216,
     "sosOff": -0.0557,
-    "strength": 0.0404,
+    "strength": 0.0415,
     "games": [
      [
       0,
@@ -9241,7 +9241,7 @@
      ],
      [
       0,
-      0.023,
+      0.024,
       0.257,
       0.025,
       0.393,
@@ -9249,7 +9249,7 @@
      ],
      [
       0,
-      -0.614,
+      -0.616,
       0.049,
       0.228,
       -0.063,
@@ -9266,21 +9266,21 @@
     ]
    },
    "Georgia Tech": {
-    "powerRating": -2.3683,
+    "powerRating": -2.2588,
     "powerRank": 77,
-    "resumeScore": -0.539,
-    "resumeRank": 116,
+    "resumeScore": -0.5408,
+    "resumeRank": 117,
     "adjOffEpa": 0.1432,
     "adjDefEpa": 0.2272,
     "adjOffSr": 0.4273,
     "adjDefSr": 0.4565,
     "sosDef": 0.0358,
     "sosOff": 0.0693,
-    "strength": 0.0922,
+    "strength": 0.094,
     "games": [
      [
       1,
-      -0.452,
+      -0.449,
       0.074,
       0.052,
       -0.144,
@@ -9288,7 +9288,7 @@
      ],
      [
       0,
-      -0.47,
+      -0.474,
       -0.066,
       0.239,
       -0.073,
@@ -9300,7 +9300,7 @@
      ],
      [
       0,
-      -0.695,
+      -0.699,
       0.233,
       0.28,
       0.325,
@@ -9309,9 +9309,9 @@
     ]
    },
    "Hawai'i": {
-    "powerRating": -11.7293,
-    "powerRank": 114,
-    "resumeScore": -0.5456,
+    "powerRating": -11.6149,
+    "powerRank": 113,
+    "resumeScore": -0.544,
     "resumeRank": 118,
     "adjOffEpa": -0.1066,
     "adjDefEpa": 0.3199,
@@ -9319,11 +9319,11 @@
     "adjDefSr": 0.5236,
     "sosDef": 0.2619,
     "sosOff": 0.0072,
-    "strength": 0.0255,
+    "strength": 0.0262,
     "games": [
      [
       0,
-      -0.695,
+      -0.699,
       0.049,
       0.308,
       0.299,
@@ -9331,7 +9331,7 @@
      ],
      [
       0,
-      -0.756,
+      -0.746,
       -0.08,
       0.074,
       0.144,
@@ -9339,7 +9339,7 @@
      ],
      [
       0,
-      0.01,
+      0.012,
       0.133,
       -0.01,
       0.296,
@@ -9347,7 +9347,7 @@
      ],
      [
       0,
-      -0.741,
+      -0.742,
       0.071,
       0.483,
       0.308,
@@ -9356,9 +9356,9 @@
     ]
    },
    "Houston": {
-    "powerRating": 8.9547,
-    "powerRank": 32,
-    "resumeScore": -0.0278,
+    "powerRating": 8.9091,
+    "powerRank": 31,
+    "resumeScore": -0.0268,
     "resumeRank": 37,
     "adjOffEpa": 0.4253,
     "adjDefEpa": 0.0861,
@@ -9366,11 +9366,11 @@
     "adjDefSr": 0.3994,
     "sosDef": 0.0315,
     "sosOff": 0.2288,
-    "strength": 0.2835,
+    "strength": 0.2837,
     "games": [
      [
       0,
-      0.057,
+      0.062,
       0.28,
       0.056,
       -0.06,
@@ -9382,7 +9382,7 @@
      ],
      [
       1,
-      -0.179,
+      -0.183,
       0.283,
       0.261,
       -0.047,
@@ -9390,7 +9390,7 @@
      ],
      [
       0,
-      0.039,
+      0.04,
       0.476,
       0.268,
       0.201,
@@ -9399,9 +9399,9 @@
     ]
    },
    "Illinois": {
-    "powerRating": 5.7928,
-    "powerRank": 45,
-    "resumeScore": -0.186,
+    "powerRating": 5.4707,
+    "powerRank": 44,
+    "resumeScore": -0.1855,
     "resumeRank": 71,
     "adjOffEpa": 0.458,
     "adjDefEpa": 0.3667,
@@ -9409,7 +9409,7 @@
     "adjDefSr": 0.4693,
     "sosDef": -0.0623,
     "sosOff": 0.105,
-    "strength": 0.2168,
+    "strength": 0.2115,
     "games": [
      [
       0,
@@ -9421,7 +9421,7 @@
      ],
      [
       1,
-      -0.365,
+      -0.37,
       0.058,
       0.403,
       -0.134,
@@ -9433,7 +9433,7 @@
      ],
      [
       0,
-      -0.214,
+      -0.207,
       0.319,
       0.558,
       -0.138,
@@ -9442,9 +9442,9 @@
     ]
    },
    "Indiana": {
-    "powerRating": 20.2078,
+    "powerRating": 20.0308,
     "powerRank": 10,
-    "resumeScore": 0.1719,
+    "resumeScore": 0.1699,
     "resumeRank": 9,
     "adjOffEpa": 0.1476,
     "adjDefEpa": -0.1414,
@@ -9452,7 +9452,7 @@
     "adjDefSr": 0.2989,
     "sosDef": 0.3443,
     "sosOff": 0.2617,
-    "strength": 0.5706,
+    "strength": 0.5673,
     "games": [
      [
       0,
@@ -9468,7 +9468,7 @@
      ],
      [
       0,
-      0.015,
+      0.017,
       0.339,
       -0.362,
       0.712,
@@ -9476,7 +9476,7 @@
      ],
      [
       1,
-      0.333,
+      0.325,
       0.268,
       0.254,
       0.145,
@@ -9485,9 +9485,9 @@
     ]
    },
    "Iowa": {
-    "powerRating": 13.8657,
+    "powerRating": 13.7471,
     "powerRank": 16,
-    "resumeScore": 0.2059,
+    "resumeScore": 0.2016,
     "resumeRank": 4,
     "adjOffEpa": 0.1754,
     "adjDefEpa": -0.0923,
@@ -9495,7 +9495,7 @@
     "adjDefSr": 0.2533,
     "sosDef": 0.0475,
     "sosOff": 0.1146,
-    "strength": 0.4032,
+    "strength": 0.4015,
     "games": [
      [
       0,
@@ -9507,7 +9507,7 @@
      ],
      [
       1,
-      0.269,
+      0.261,
       -0.037,
       0.075,
       -0.137,
@@ -9519,7 +9519,7 @@
      ],
      [
       1,
-      0.341,
+      0.335,
       0.032,
       0.116,
       -0.034,
@@ -9528,9 +9528,9 @@
     ]
    },
    "Iowa State": {
-    "powerRating": 8.2875,
-    "powerRank": 36,
-    "resumeScore": -0.1975,
+    "powerRating": 7.8874,
+    "powerRank": 37,
+    "resumeScore": -0.1988,
     "resumeRank": 74,
     "adjOffEpa": 0.2366,
     "adjDefEpa": -0.1252,
@@ -9538,7 +9538,7 @@
     "adjDefSr": 0.4065,
     "sosDef": -0.0085,
     "sosOff": 0.2671,
-    "strength": 0.2687,
+    "strength": 0.2611,
     "games": [
      [
       0,
@@ -9546,7 +9546,7 @@
      ],
      [
       1,
-      -0.272,
+      -0.273,
       0.075,
       -0.037,
       -0.116,
@@ -9562,7 +9562,7 @@
      ],
      [
       0,
-      -0.337,
+      -0.34,
       -0.108,
       0.313,
       -0.076,
@@ -9571,9 +9571,9 @@
     ]
    },
    "Jacksonville State": {
-    "powerRating": -9.7739,
+    "powerRating": -9.3824,
     "powerRank": 109,
-    "resumeScore": -0.2685,
+    "resumeScore": -0.2671,
     "resumeRank": 81,
     "adjOffEpa": 0.1557,
     "adjDefEpa": 0.1263,
@@ -9581,11 +9581,11 @@
     "adjDefSr": 0.5065,
     "sosDef": 0.0576,
     "sosOff": 0.1012,
-    "strength": 0.0343,
+    "strength": 0.0366,
     "games": [
      [
       0,
-      -0.69,
+      -0.686,
       -0.477,
       0.223,
       -0.074,
@@ -9597,7 +9597,7 @@
      ],
      [
       1,
-      -0.44,
+      -0.439,
       0.269,
       0.103,
       0.183,
@@ -9605,7 +9605,7 @@
      ],
      [
       1,
-      0.038,
+      0.039,
       0.368,
       0.038,
       0.12,
@@ -9622,21 +9622,21 @@
     ]
    },
    "James Madison": {
-    "powerRating": 7.8722,
-    "powerRank": 37,
-    "resumeScore": 0.0668,
-    "resumeRank": 21,
+    "powerRating": 8.4127,
+    "powerRank": 33,
+    "resumeScore": 0.0695,
+    "resumeRank": 20,
     "adjOffEpa": 0.3092,
     "adjDefEpa": 0.0036,
     "adjOffSr": 0.4432,
     "adjDefSr": 0.3569,
     "sosDef": 0.0103,
     "sosOff": 0.0145,
-    "strength": 0.2596,
+    "strength": 0.2726,
     "games": [
      [
       0,
-      0.097,
+      0.102,
       0.28,
       -0.022,
       0.139,
@@ -9648,7 +9648,7 @@
      ],
      [
       0,
-      0.061,
+      0.063,
       0.173,
       -0.079,
       0.002,
@@ -9656,7 +9656,7 @@
      ],
      [
       0,
-      0.042,
+      0.043,
       0.161,
       -0.199,
       -0.11,
@@ -9665,9 +9665,9 @@
     ]
    },
    "Kansas": {
-    "powerRating": -0.9735,
-    "powerRank": 69,
-    "resumeScore": -0.5896,
+    "powerRating": -1.2972,
+    "powerRank": 71,
+    "resumeScore": -0.5864,
     "resumeRank": 126,
     "adjOffEpa": 0.2145,
     "adjDefEpa": 0.1328,
@@ -9675,7 +9675,7 @@
     "adjDefSr": 0.3437,
     "sosDef": -0.1101,
     "sosOff": -0.068,
-    "strength": 0.1086,
+    "strength": 0.1052,
     "games": [
      [
       0,
@@ -9683,7 +9683,7 @@
      ],
      [
       0,
-      -0.532,
+      -0.531,
       -0.129,
       0.135,
       -0.153,
@@ -9691,7 +9691,7 @@
      ],
      [
       0,
-      -0.647,
+      -0.642,
       0.14,
       -0.203,
       -0.068,
@@ -9700,9 +9700,9 @@
     ]
    },
    "Kansas State": {
-    "powerRating": 9.1849,
-    "powerRank": 30,
-    "resumeScore": -0.0585,
+    "powerRating": 8.8281,
+    "powerRank": 32,
+    "resumeScore": -0.0596,
     "resumeRank": 43,
     "adjOffEpa": 0.2943,
     "adjDefEpa": 0.0513,
@@ -9710,7 +9710,7 @@
     "adjDefSr": 0.4163,
     "sosDef": 0.063,
     "sosOff": 0.1245,
-    "strength": 0.2888,
+    "strength": 0.2819,
     "games": [
      [
       0,
@@ -9734,7 +9734,7 @@
      ],
      [
       1,
-      -0.361,
+      -0.365,
       0.211,
       0.371,
       0.119,
@@ -9743,9 +9743,9 @@
     ]
    },
    "Kennesaw State": {
-    "powerRating": -12.6506,
+    "powerRating": -12.3953,
     "powerRank": 117,
-    "resumeScore": -0.5577,
+    "resumeScore": -0.5584,
     "resumeRank": 120,
     "adjOffEpa": -0.0161,
     "adjDefEpa": 0.3593,
@@ -9753,7 +9753,7 @@
     "adjDefSr": 0.5414,
     "sosDef": 0.1486,
     "sosOff": 0.0525,
-    "strength": 0.0221,
+    "strength": 0.0232,
     "games": [
      [
       0,
@@ -9761,7 +9761,7 @@
      ],
      [
       0,
-      -0.806,
+      -0.805,
       0.025,
       0.257,
       0.271,
@@ -9769,7 +9769,7 @@
      ],
      [
       0,
-      -0.425,
+      -0.429,
       -0.034,
       0.4,
       -0.169,
@@ -9777,7 +9777,7 @@
      ],
      [
       1,
-      -0.442,
+      -0.441,
       0.065,
       0.242,
       0.344,
@@ -9786,9 +9786,9 @@
     ]
    },
    "Kent State": {
-    "powerRating": -14.5247,
-    "powerRank": 126,
-    "resumeScore": -0.2649,
+    "powerRating": -14.33,
+    "powerRank": 127,
+    "resumeScore": -0.2628,
     "resumeRank": 80,
     "adjOffEpa": -0.1445,
     "adjDefEpa": 0.2772,
@@ -9796,11 +9796,11 @@
     "adjDefSr": 0.5075,
     "sosDef": 0.17,
     "sosOff": 0.2059,
-    "strength": 0.0163,
+    "strength": 0.017,
     "games": [
      [
       0,
-      -0.588,
+      -0.589,
       0.045,
       0.742,
       0.102,
@@ -9812,7 +9812,7 @@
      ],
      [
       0,
-      -0.214,
+      -0.207,
       -0.458,
       0.363,
       -0.076,
@@ -9820,7 +9820,7 @@
      ],
      [
       0,
-      0.007,
+      0.008,
       0.194,
       0.058,
       0.484,
@@ -9829,9 +9829,9 @@
     ]
    },
    "Kentucky": {
-    "powerRating": 9.1471,
-    "powerRank": 31,
-    "resumeScore": 0.0547,
+    "powerRating": 9.0169,
+    "powerRank": 30,
+    "resumeScore": 0.0526,
     "resumeRank": 23,
     "adjOffEpa": 0.1456,
     "adjDefEpa": -0.1289,
@@ -9839,7 +9839,7 @@
     "adjDefSr": 0.3613,
     "sosDef": 0.1229,
     "sosOff": 0.2744,
-    "strength": 0.2879,
+    "strength": 0.2861,
     "games": [
      [
       0,
@@ -9847,7 +9847,7 @@
      ],
      [
       0,
-      -0.285,
+      -0.286,
       -0.349,
       0.136,
       -0.062,
@@ -9855,7 +9855,7 @@
      ],
      [
       0,
-      0.409,
+      0.402,
       0.45,
       -0.051,
       0.093,
@@ -9863,7 +9863,7 @@
      ],
      [
       0,
-      0.04,
+      0.041,
       0.368,
       0.014,
       0.339,
@@ -9872,21 +9872,21 @@
     ]
    },
    "LSU": {
-    "powerRating": 19.0974,
+    "powerRating": 18.9561,
     "powerRank": 11,
-    "resumeScore": 0.1009,
-    "resumeRank": 18,
+    "resumeScore": 0.1021,
+    "resumeRank": 17,
     "adjOffEpa": 0.3066,
     "adjDefEpa": -0.2349,
     "adjOffSr": 0.49,
     "adjDefSr": 0.2405,
     "sosDef": 0.0767,
     "sosOff": 0.1319,
-    "strength": 0.5413,
+    "strength": 0.539,
     "games": [
      [
       0,
-      0.24,
+      0.249,
       0.309,
       -0.544,
       -0.152,
@@ -9894,7 +9894,7 @@
      ],
      [
       0,
-      0.041,
+      0.043,
       -0.003,
       -0.64,
       0.111,
@@ -9902,7 +9902,7 @@
      ],
      [
       1,
-      -0.278,
+      -0.279,
       0.232,
       0.311,
       0.21,
@@ -9910,7 +9910,7 @@
      ],
      [
       0,
-      0.401,
+      0.394,
       0.485,
       -0.117,
       0.138,
@@ -9919,21 +9919,21 @@
     ]
    },
    "Liberty": {
-    "powerRating": -1.9904,
-    "powerRank": 73,
-    "resumeScore": -0.1776,
-    "resumeRank": 64,
+    "powerRating": -1.6573,
+    "powerRank": 72,
+    "resumeScore": -0.1738,
+    "resumeRank": 63,
     "adjOffEpa": 0.169,
     "adjDefEpa": 0.1228,
     "adjOffSr": 0.4691,
     "adjDefSr": 0.412,
     "sosDef": 0.2094,
     "sosOff": 0.0935,
-    "strength": 0.0965,
+    "strength": 0.1009,
     "games": [
      [
       0,
-      -0.563,
+      -0.553,
       -0.022,
       0.28,
       0.037,
@@ -9945,7 +9945,7 @@
      ],
      [
       0,
-      0.007,
+      0.008,
       0.558,
       0.096,
       0.456,
@@ -9953,7 +9953,7 @@
      ],
      [
       0,
-      0.022,
+      0.023,
       0.251,
       -0.071,
       0.135,
@@ -9962,7 +9962,7 @@
     ]
    },
    "Louisiana": {
-    "powerRating": -6.1636,
+    "powerRating": -5.9333,
     "powerRank": 90,
     "resumeScore": -0.1445,
     "resumeRank": 56,
@@ -9972,7 +9972,7 @@
     "adjDefSr": 0.367,
     "sosDef": 0.0754,
     "sosOff": 0.0488,
-    "strength": 0.057,
+    "strength": 0.0592,
     "games": [
      [
       0,
@@ -10005,9 +10005,9 @@
     ]
    },
    "Louisiana Tech": {
-    "powerRating": -8.5501,
-    "powerRank": 102,
-    "resumeScore": -0.4718,
+    "powerRating": -8.2727,
+    "powerRank": 100,
+    "resumeScore": -0.4709,
     "resumeRank": 110,
     "adjOffEpa": -0.1286,
     "adjDefEpa": -0.0438,
@@ -10015,7 +10015,7 @@
     "adjDefSr": 0.3602,
     "sosDef": -0.089,
     "sosOff": 0.2461,
-    "strength": 0.041,
+    "strength": 0.043,
     "games": [
      [
       0,
@@ -10023,7 +10023,7 @@
      ],
      [
       0,
-      -0.349,
+      -0.35,
       -0.64,
       -0.003,
       -0.176,
@@ -10031,7 +10031,7 @@
      ],
      [
       0,
-      -0.595,
+      -0.591,
       0.014,
       0.213,
       -0.002,
@@ -10040,9 +10040,9 @@
     ]
    },
    "Louisville": {
-    "powerRating": 7.1255,
-    "powerRank": 39,
-    "resumeScore": -0.156,
+    "powerRating": 6.8422,
+    "powerRank": 40,
+    "resumeScore": -0.1543,
     "resumeRank": 58,
     "adjOffEpa": 0.2694,
     "adjDefEpa": 0.0038,
@@ -10050,7 +10050,7 @@
     "adjDefSr": 0.3681,
     "sosDef": 0.1055,
     "sosOff": 0.2631,
-    "strength": 0.2437,
+    "strength": 0.239,
     "games": [
      [
       1,
@@ -10066,7 +10066,7 @@
      ],
      [
       0,
-      0.231,
+      0.235,
       0.405,
       -0.0,
       0.179,
@@ -10074,7 +10074,7 @@
      ],
      [
       1,
-      -0.406,
+      -0.405,
       0.104,
       0.21,
       -0.039,
@@ -10083,21 +10083,21 @@
     ]
    },
    "Marshall": {
-    "powerRating": -9.342,
+    "powerRating": -9.1516,
     "powerRank": 107,
-    "resumeScore": -0.1583,
-    "resumeRank": 60,
+    "resumeScore": -0.1591,
+    "resumeRank": 59,
     "adjOffEpa": 0.2208,
     "adjDefEpa": 0.5534,
     "adjOffSr": 0.4114,
     "adjDefSr": 0.5998,
     "sosDef": 0.0133,
     "sosOff": -0.0461,
-    "strength": 0.0366,
+    "strength": 0.0379,
     "games": [
      [
       0,
-      -0.522,
+      -0.524,
       -0.075,
       0.644,
       -0.228,
@@ -10113,7 +10113,7 @@
      ],
      [
       1,
-      0.029,
+      0.03,
       0.341,
       0.387,
       0.195,
@@ -10126,9 +10126,9 @@
     ]
    },
    "Maryland": {
-    "powerRating": -1.4112,
-    "powerRank": 70,
-    "resumeScore": -0.3914,
+    "powerRating": -1.7955,
+    "powerRank": 73,
+    "resumeScore": -0.3888,
     "resumeRank": 101,
     "adjOffEpa": 0.0529,
     "adjDefEpa": -0.0458,
@@ -10136,7 +10136,7 @@
     "adjDefSr": 0.4025,
     "sosDef": 0.0697,
     "sosOff": 0.2715,
-    "strength": 0.1032,
+    "strength": 0.0993,
     "games": [
      [
       0,
@@ -10144,7 +10144,7 @@
      ],
      [
       0,
-      0.069,
+      0.07,
       0.292,
       0.026,
       -0.042,
@@ -10160,7 +10160,7 @@
      ],
      [
       0,
-      -0.55,
+      -0.544,
       -0.529,
       -0.052,
       -0.047,
@@ -10169,9 +10169,9 @@
     ]
    },
    "Massachusetts": {
-    "powerRating": -7.8768,
-    "powerRank": 99,
-    "resumeScore": 0.0395,
+    "powerRating": -7.2455,
+    "powerRank": 96,
+    "resumeScore": 0.0386,
     "resumeRank": 25,
     "adjOffEpa": 0.2847,
     "adjDefEpa": -0.0774,
@@ -10179,11 +10179,11 @@
     "adjDefSr": 0.448,
     "sosDef": 0.1519,
     "sosOff": 0.0999,
-    "strength": 0.0451,
+    "strength": 0.0496,
     "games": [
      [
       0,
-      0.073,
+      0.071,
       0.33,
       -0.076,
       0.097,
@@ -10208,9 +10208,9 @@
     ]
    },
    "Memphis": {
-    "powerRating": 2.3116,
-    "powerRank": 60,
-    "resumeScore": -0.1253,
+    "powerRating": 3.0487,
+    "powerRank": 57,
+    "resumeScore": -0.1188,
     "resumeRank": 54,
     "adjOffEpa": 0.2081,
     "adjDefEpa": 0.2442,
@@ -10218,11 +10218,11 @@
     "adjDefSr": 0.4792,
     "sosDef": 0.1274,
     "sosOff": 0.0577,
-    "strength": 0.155,
+    "strength": 0.1679,
     "games": [
      [
       1,
-      0.102,
+      0.114,
       0.216,
       0.02,
       0.149,
@@ -10230,7 +10230,7 @@
      ],
      [
       0,
-      0.032,
+      0.033,
       0.433,
       0.091,
       0.272,
@@ -10238,7 +10238,7 @@
      ],
      [
       0,
-      -0.51,
+      -0.503,
       0.015,
       0.457,
       -0.039,
@@ -10251,9 +10251,9 @@
     ]
    },
    "Miami": {
-    "powerRating": 21.4242,
-    "powerRank": 7,
-    "resumeScore": 0.1108,
+    "powerRating": 21.6602,
+    "powerRank": 6,
+    "resumeScore": 0.11,
     "resumeRank": 15,
     "adjOffEpa": 0.4442,
     "adjDefEpa": -0.0041,
@@ -10261,11 +10261,11 @@
     "adjDefSr": 0.3832,
     "sosDef": 0.1605,
     "sosOff": 0.125,
-    "strength": 0.6022,
+    "strength": 0.6096,
     "games": [
      [
       0,
-      0.088,
+      0.082,
       0.565,
       0.174,
       0.313,
@@ -10277,7 +10277,7 @@
      ],
      [
       0,
-      0.202,
+      0.205,
       0.251,
       0.053,
       -0.029,
@@ -10285,7 +10285,7 @@
      ],
      [
       0,
-      0.042,
+      0.043,
       0.663,
       -0.183,
       0.197,
@@ -10294,9 +10294,9 @@
     ]
    },
    "Miami (OH)": {
-    "powerRating": -4.7506,
-    "powerRank": 84,
-    "resumeScore": -0.2832,
+    "powerRating": -4.9131,
+    "powerRank": 85,
+    "resumeScore": -0.2859,
     "resumeRank": 83,
     "adjOffEpa": 0.2278,
     "adjDefEpa": 0.0893,
@@ -10304,11 +10304,11 @@
     "adjDefSr": 0.4709,
     "sosDef": 0.0489,
     "sosOff": 0.28,
-    "strength": 0.0686,
+    "strength": 0.0677,
     "games": [
      [
       0,
-      -0.555,
+      -0.561,
       0.086,
       0.463,
       -0.027,
@@ -10320,7 +10320,7 @@
      ],
      [
       1,
-      -0.361,
+      -0.365,
       0.225,
       0.235,
       0.075,
@@ -10328,7 +10328,7 @@
      ],
      [
       1,
-      0.067,
+      0.068,
       0.184,
       0.109,
       0.099,
@@ -10337,9 +10337,9 @@
     ]
    },
    "Michigan": {
-    "powerRating": 11.0995,
-    "powerRank": 24,
-    "resumeScore": 0.0352,
+    "powerRating": 10.811,
+    "powerRank": 25,
+    "resumeScore": 0.0357,
     "resumeRank": 26,
     "adjOffEpa": 0.2771,
     "adjDefEpa": -0.034,
@@ -10347,11 +10347,11 @@
     "adjDefSr": 0.3034,
     "sosDef": 0.0103,
     "sosOff": 0.0569,
-    "strength": 0.3338,
+    "strength": 0.3281,
     "games": [
      [
       1,
-      0.069,
+      0.068,
       0.146,
       -0.045,
       0.137,
@@ -10359,7 +10359,7 @@
      ],
      [
       1,
-      0.366,
+      0.37,
       0.033,
       -0.139,
       -0.39,
@@ -10367,7 +10367,7 @@
      ],
      [
       0,
-      0.006,
+      0.007,
       0.35,
       -0.183,
       0.41,
@@ -10375,7 +10375,7 @@
      ],
      [
       1,
-      -0.301,
+      -0.302,
       0.116,
       0.032,
       -0.116,
@@ -10384,9 +10384,9 @@
     ]
    },
    "Michigan State": {
-    "powerRating": 1.0043,
+    "powerRating": 0.5021,
     "powerRank": 64,
-    "resumeScore": -0.1615,
+    "resumeScore": -0.1639,
     "resumeRank": 62,
     "adjOffEpa": 0.2547,
     "adjDefEpa": -0.0637,
@@ -10394,11 +10394,11 @@
     "adjDefSr": 0.3485,
     "sosDef": -0.1212,
     "sosOff": 0.3293,
-    "strength": 0.1351,
+    "strength": 0.1287,
     "games": [
      [
       0,
-      0.123,
+      0.118,
       0.008,
       0.096,
       0.015,
@@ -10406,7 +10406,7 @@
      ],
      [
       0,
-      0.014,
+      0.013,
       0.265,
       0.07,
       0.088,
@@ -10422,7 +10422,7 @@
      ],
      [
       0,
-      -0.557,
+      -0.56,
       -0.146,
       0.239,
       -0.053,
@@ -10431,9 +10431,9 @@
     ]
    },
    "Middle Tennessee": {
-    "powerRating": -14.0561,
-    "powerRank": 123,
-    "resumeScore": -0.3855,
+    "powerRating": -14.1183,
+    "powerRank": 124,
+    "resumeScore": -0.3846,
     "resumeRank": 99,
     "adjOffEpa": -0.0087,
     "adjDefEpa": 0.047,
@@ -10465,7 +10465,7 @@
      ],
      [
       0,
-      -0.734,
+      -0.732,
       0.115,
       0.183,
       0.088,
@@ -10474,9 +10474,9 @@
     ]
    },
    "Minnesota": {
-    "powerRating": 2.7566,
-    "powerRank": 58,
-    "resumeScore": -0.0879,
+    "powerRating": 2.7227,
+    "powerRank": 59,
+    "resumeScore": -0.0893,
     "resumeRank": 49,
     "adjOffEpa": -0.0297,
     "adjDefEpa": 0.0656,
@@ -10484,7 +10484,7 @@
     "adjDefSr": 0.4149,
     "sosDef": 0.1641,
     "sosOff": 0.1831,
-    "strength": 0.1622,
+    "strength": 0.1625,
     "games": [
      [
       0,
@@ -10492,7 +10492,7 @@
      ],
      [
       0,
-      -0.493,
+      -0.49,
       -0.11,
       0.53,
       -0.048,
@@ -10508,7 +10508,7 @@
      ],
      [
       1,
-      0.223,
+      0.216,
       0.049,
       0.071,
       -0.041,
@@ -10517,9 +10517,9 @@
     ]
    },
    "Mississippi State": {
-    "powerRating": 14.2478,
+    "powerRating": 14.3325,
     "powerRank": 15,
-    "resumeScore": 0.1942,
+    "resumeScore": 0.194,
     "resumeRank": 6,
     "adjOffEpa": 0.4215,
     "adjDefEpa": -0.0276,
@@ -10527,7 +10527,7 @@
     "adjDefSr": 0.3716,
     "sosDef": 0.0966,
     "sosOff": 0.1083,
-    "strength": 0.4131,
+    "strength": 0.4167,
     "games": [
      [
       0,
@@ -10547,7 +10547,7 @@
      ],
      [
       0,
-      0.236,
+      0.234,
       0.27,
       0.124,
       0.269,
@@ -10555,7 +10555,7 @@
      ],
      [
       1,
-      0.367,
+      0.368,
       0.169,
       0.118,
       -0.198,
@@ -10564,9 +10564,9 @@
     ]
    },
    "Missouri": {
-    "powerRating": 12.4328,
-    "powerRank": 20,
-    "resumeScore": -0.0393,
+    "powerRating": 12.4168,
+    "powerRank": 21,
+    "resumeScore": -0.039,
     "resumeRank": 40,
     "adjOffEpa": 0.1675,
     "adjDefEpa": -0.1792,
@@ -10574,7 +10574,7 @@
     "adjDefSr": 0.3272,
     "sosDef": 0.1035,
     "sosOff": 0.2855,
-    "strength": 0.3667,
+    "strength": 0.3677,
     "games": [
      [
       0,
@@ -10582,7 +10582,7 @@
      ],
      [
       0,
-      0.112,
+      0.108,
       0.135,
       -0.129,
       0.187,
@@ -10590,7 +10590,7 @@
      ],
      [
       0,
-      0.038,
+      0.041,
       0.182,
       -0.09,
       0.183,
@@ -10598,7 +10598,7 @@
      ],
      [
       1,
-      -0.268,
+      -0.266,
       0.118,
       0.169,
       -0.06,
@@ -10607,7 +10607,7 @@
     ]
    },
    "Missouri State": {
-    "powerRating": -11.0333,
+    "powerRating": -10.9422,
     "powerRank": 111,
     "resumeScore": -0.5137,
     "resumeRank": 114,
@@ -10617,11 +10617,11 @@
     "adjDefSr": 0.4958,
     "sosDef": 0.2897,
     "sosOff": 0.1812,
-    "strength": 0.0284,
+    "strength": 0.029,
     "games": [
      [
       0,
-      -0.467,
+      -0.471,
       -0.592,
       0.301,
       0.278,
@@ -10633,7 +10633,7 @@
      ],
      [
       1,
-      -0.486,
+      -0.485,
       0.387,
       0.341,
       0.426,
@@ -10641,7 +10641,7 @@
      ],
      [
       0,
-      -0.589,
+      -0.585,
       -0.124,
       0.189,
       0.166,
@@ -10650,9 +10650,9 @@
     ]
    },
    "NC State": {
-    "powerRating": 1.8358,
+    "powerRating": 1.8335,
     "powerRank": 61,
-    "resumeScore": -0.2926,
+    "resumeScore": -0.2935,
     "resumeRank": 85,
     "adjOffEpa": 0.0364,
     "adjDefEpa": 0.3317,
@@ -10660,11 +10660,11 @@
     "adjDefSr": 0.5024,
     "sosDef": 0.1067,
     "sosOff": 0.0537,
-    "strength": 0.1476,
+    "strength": 0.1483,
     "games": [
      [
       0,
-      -0.598,
+      -0.6,
       -0.249,
       0.318,
       0.096,
@@ -10676,7 +10676,7 @@
      ],
      [
       1,
-      -0.331,
+      -0.333,
       0.034,
       0.403,
       -0.071,
@@ -10684,7 +10684,7 @@
      ],
      [
       0,
-      0.051,
+      0.052,
       0.269,
       0.091,
       0.295,
@@ -10693,9 +10693,9 @@
     ]
    },
    "Navy": {
-    "powerRating": -11.9017,
-    "powerRank": 115,
-    "resumeScore": -0.5795,
+    "powerRating": -11.7154,
+    "powerRank": 114,
+    "resumeScore": -0.5793,
     "resumeRank": 125,
     "adjOffEpa": -0.0606,
     "adjDefEpa": 0.3091,
@@ -10703,7 +10703,7 @@
     "adjDefSr": 0.4324,
     "sosDef": 0.1963,
     "sosOff": 0.0206,
-    "strength": 0.0248,
+    "strength": 0.0258,
     "games": [
      [
       0,
@@ -10719,7 +10719,7 @@
      ],
      [
       1,
-      -0.447,
+      -0.446,
       0.003,
       0.18,
       0.061,
@@ -10728,9 +10728,9 @@
     ]
    },
    "Nebraska": {
-    "powerRating": 11.2035,
-    "powerRank": 23,
-    "resumeScore": 0.0638,
+    "powerRating": 11.0506,
+    "powerRank": 24,
+    "resumeScore": 0.0619,
     "resumeRank": 22,
     "adjOffEpa": 0.4646,
     "adjDefEpa": -0.1371,
@@ -10738,11 +10738,11 @@
     "adjDefSr": 0.3861,
     "sosDef": 0.1082,
     "sosOff": 0.1324,
-    "strength": 0.3364,
+    "strength": 0.3339,
     "games": [
      [
       0,
-      0.035,
+      0.037,
       0.456,
       0.05,
       0.236,
@@ -10762,7 +10762,7 @@
      ],
      [
       0,
-      0.14,
+      0.133,
       0.239,
       -0.146,
       -0.046,
@@ -10771,9 +10771,9 @@
     ]
    },
    "Nevada": {
-    "powerRating": -14.3157,
-    "powerRank": 125,
-    "resumeScore": -0.6065,
+    "powerRating": -14.2851,
+    "powerRank": 126,
+    "resumeScore": -0.606,
     "resumeRank": 129,
     "adjOffEpa": 0.0772,
     "adjDefEpa": 0.1202,
@@ -10781,11 +10781,11 @@
     "adjDefSr": 0.4204,
     "sosDef": 0.2521,
     "sosOff": 0.1425,
-    "strength": 0.0168,
+    "strength": 0.0171,
     "games": [
      [
       0,
-      0.015,
+      0.017,
       0.558,
       -0.041,
       0.555,
@@ -10814,9 +10814,9 @@
     ]
    },
    "New Mexico": {
-    "powerRating": 3.8647,
+    "powerRating": 4.0653,
     "powerRank": 54,
-    "resumeScore": -0.1429,
+    "resumeScore": -0.1412,
     "resumeRank": 55,
     "adjOffEpa": 0.2199,
     "adjDefEpa": -0.0232,
@@ -10824,11 +10824,11 @@
     "adjDefSr": 0.3477,
     "sosDef": 0.0774,
     "sosOff": -0.0203,
-    "strength": 0.181,
+    "strength": 0.1854,
     "games": [
      [
       0,
-      0.042,
+      0.043,
       0.298,
       -0.363,
       0.267,
@@ -10840,7 +10840,7 @@
      ],
      [
       0,
-      -0.482,
+      -0.479,
       -0.234,
       -0.083,
       -0.315,
@@ -10848,7 +10848,7 @@
      ],
      [
       0,
-      0.01,
+      0.012,
       0.488,
       -0.048,
       0.28,
@@ -10857,9 +10857,9 @@
     ]
    },
    "New Mexico State": {
-    "powerRating": -17.3028,
-    "powerRank": 131,
-    "resumeScore": -0.6796,
+    "powerRating": -16.4623,
+    "powerRank": 130,
+    "resumeScore": -0.6787,
     "resumeRank": 133,
     "adjOffEpa": -0.0622,
     "adjDefEpa": 0.3156,
@@ -10867,11 +10867,11 @@
     "adjDefSr": 0.4992,
     "sosDef": 0.1798,
     "sosOff": 0.1021,
-    "strength": 0.0101,
+    "strength": 0.0118,
     "games": [
      [
       0,
-      -0.61,
+      -0.612,
       0.107,
       0.269,
       0.27,
@@ -10883,7 +10883,7 @@
      ],
      [
       0,
-      -0.741,
+      -0.74,
       -0.01,
       0.133,
       0.376,
@@ -10891,7 +10891,7 @@
      ],
      [
       0,
-      -0.688,
+      -0.684,
       -0.048,
       0.488,
       -0.106,
@@ -10900,21 +10900,21 @@
     ]
    },
    "North Carolina": {
-    "powerRating": 1.3955,
+    "powerRating": 1.3497,
     "powerRank": 63,
-    "resumeScore": -0.0818,
-    "resumeRank": 48,
+    "resumeScore": -0.076,
+    "resumeRank": 47,
     "adjOffEpa": 0.1243,
     "adjDefEpa": 0.2412,
     "adjOffSr": 0.4663,
     "adjDefSr": 0.4551,
     "sosDef": -0.0554,
     "sosOff": -0.0413,
-    "strength": 0.1409,
+    "strength": 0.141,
     "games": [
      [
       1,
-      0.186,
+      0.193,
       -0.014,
       -0.075,
       -0.012,
@@ -10926,7 +10926,7 @@
      ],
      [
       1,
-      -0.349,
+      -0.345,
       -0.075,
       0.194,
       -0.098,
@@ -10935,21 +10935,21 @@
     ]
    },
    "North Dakota State": {
-    "powerRating": -2.3226,
-    "powerRank": 76,
-    "resumeScore": 0.0208,
-    "resumeRank": 30,
+    "powerRating": -1.9553,
+    "powerRank": 74,
+    "resumeScore": 0.0217,
+    "resumeRank": 29,
     "adjOffEpa": 0.0915,
     "adjDefEpa": -0.2019,
     "adjOffSr": 0.3054,
     "adjDefSr": 0.37,
     "sosDef": 0.1627,
     "sosOff": 0.1485,
-    "strength": 0.0927,
+    "strength": 0.0975,
     "games": [
      [
       0,
-      0.034,
+      0.037,
       0.223,
       -0.477,
       0.095,
@@ -10961,7 +10961,7 @@
      ],
      [
       0,
-      0.021,
+      0.022,
       0.113,
       0.222,
       0.171,
@@ -10978,9 +10978,9 @@
     ]
    },
    "North Texas": {
-    "powerRating": 2.9301,
-    "powerRank": 57,
-    "resumeScore": -0.2995,
+    "powerRating": 2.8678,
+    "powerRank": 58,
+    "resumeScore": -0.2965,
     "resumeRank": 86,
     "adjOffEpa": 0.3348,
     "adjDefEpa": 0.2851,
@@ -10988,11 +10988,11 @@
     "adjDefSr": 0.5218,
     "sosDef": 0.0574,
     "sosOff": 0.1009,
-    "strength": 0.165,
+    "strength": 0.1649,
     "games": [
      [
       0,
-      -0.326,
+      -0.329,
       0.151,
       0.594,
       -0.169,
@@ -11000,7 +11000,7 @@
      ],
      [
       0,
-      0.101,
+      0.113,
       0.456,
       -0.211,
       0.111,
@@ -11021,9 +11021,9 @@
     ]
    },
    "Northern Illinois": {
-    "powerRating": -18.2583,
+    "powerRating": -18.0018,
     "powerRank": 132,
-    "resumeScore": -0.8036,
+    "resumeScore": -0.8024,
     "resumeRank": 137,
     "adjOffEpa": -0.1778,
     "adjDefEpa": 0.3005,
@@ -11031,11 +11031,11 @@
     "adjDefSr": 0.4922,
     "sosDef": 0.1119,
     "sosOff": 0.2121,
-    "strength": 0.0085,
+    "strength": 0.009,
     "games": [
      [
       0,
-      -0.454,
+      -0.455,
       -0.49,
       0.332,
       -0.049,
@@ -11047,7 +11047,7 @@
      ],
      [
       0,
-      -0.531,
+      -0.526,
       -0.001,
       0.628,
       0.15,
@@ -11055,7 +11055,7 @@
      ],
      [
       0,
-      -0.729,
+      -0.728,
       -0.064,
       0.234,
       0.234,
@@ -11064,9 +11064,9 @@
     ]
    },
    "Northwestern": {
-    "powerRating": 11.0495,
-    "powerRank": 25,
-    "resumeScore": -0.0459,
+    "powerRating": 10.6777,
+    "powerRank": 26,
+    "resumeScore": -0.0433,
     "resumeRank": 41,
     "adjOffEpa": 0.486,
     "adjDefEpa": 0.1886,
@@ -11074,7 +11074,7 @@
     "adjDefSr": 0.5381,
     "sosDef": -0.1159,
     "sosOff": 0.0119,
-    "strength": 0.3326,
+    "strength": 0.3249,
     "games": [
      [
       0,
@@ -11082,7 +11082,7 @@
      ],
      [
       0,
-      0.104,
+      0.111,
       0.262,
       -0.092,
       -0.079,
@@ -11090,7 +11090,7 @@
      ],
      [
       1,
-      -0.196,
+      -0.197,
       0.254,
       0.268,
       -0.153,
@@ -11099,9 +11099,9 @@
     ]
    },
    "Notre Dame": {
-    "powerRating": 25.5416,
+    "powerRating": 25.4592,
     "powerRank": 3,
-    "resumeScore": 0.1311,
+    "resumeScore": 0.1294,
     "resumeRank": 12,
     "adjOffEpa": 0.4545,
     "adjDefEpa": -0.4593,
@@ -11109,11 +11109,11 @@
     "adjDefSr": 0.1947,
     "sosDef": 0.0951,
     "sosOff": 0.3272,
-    "strength": 0.7031,
+    "strength": 0.7024,
     "games": [
      [
       0,
-      0.266,
+      0.263,
       0.349,
       -0.105,
       -0.178,
@@ -11129,7 +11129,7 @@
      ],
      [
       0,
-      0.137,
+      0.13,
       0.179,
       -0.105,
       -0.028,
@@ -11137,7 +11137,7 @@
      ],
      [
       0,
-      0.096,
+      0.098,
       0.558,
       -0.107,
       0.318,
@@ -11146,9 +11146,9 @@
     ]
    },
    "Ohio": {
-    "powerRating": -9.6022,
+    "powerRating": -9.378,
     "powerRank": 108,
-    "resumeScore": -0.3998,
+    "resumeScore": -0.3995,
     "resumeRank": 104,
     "adjOffEpa": 0.1741,
     "adjDefEpa": 0.198,
@@ -11156,11 +11156,11 @@
     "adjDefSr": 0.4282,
     "sosDef": 0.1049,
     "sosOff": 0.2941,
-    "strength": 0.0352,
+    "strength": 0.0366,
     "games": [
      [
       0,
-      -0.504,
+      -0.506,
       0.05,
       0.456,
       -0.187,
@@ -11168,7 +11168,7 @@
      ],
      [
       1,
-      0.034,
+      0.037,
       0.103,
       0.269,
       0.157,
@@ -11189,21 +11189,21 @@
     ]
    },
    "Ohio State": {
-    "powerRating": 26.2031,
+    "powerRating": 26.5753,
     "powerRank": 2,
-    "resumeScore": 0.021,
-    "resumeRank": 29,
+    "resumeScore": 0.0199,
+    "resumeRank": 30,
     "adjOffEpa": 0.2963,
     "adjDefEpa": -0.1092,
     "adjOffSr": 0.5388,
     "adjDefSr": 0.37,
     "sosDef": 0.242,
     "sosOff": 0.1244,
-    "strength": 0.7182,
+    "strength": 0.7277,
     "games": [
      [
       0,
-      0.007,
+      0.008,
       0.647,
       -0.34,
       0.476,
@@ -11219,7 +11219,7 @@
      ],
      [
       0,
-      0.016,
+      0.017,
       0.363,
       -0.458,
       0.332,
@@ -11227,7 +11227,7 @@
      ],
      [
       0,
-      0.221,
+      0.216,
       0.558,
       0.319,
       0.363,
@@ -11236,21 +11236,21 @@
     ]
    },
    "Oklahoma": {
-    "powerRating": 12.4171,
-    "powerRank": 21,
-    "resumeScore": -0.0778,
-    "resumeRank": 47,
+    "powerRating": 12.4936,
+    "powerRank": 20,
+    "resumeScore": -0.078,
+    "resumeRank": 48,
     "adjOffEpa": 0.0609,
     "adjDefEpa": -0.3221,
     "adjOffSr": 0.4491,
     "adjDefSr": 0.2614,
     "sosDef": 0.0162,
     "sosOff": 0.2441,
-    "strength": 0.3664,
+    "strength": 0.3696,
     "games": [
      [
       0,
-      0.006,
+      0.007,
       0.508,
       -0.417,
       0.238,
@@ -11258,7 +11258,7 @@
      ],
      [
       1,
-      -0.304,
+      -0.306,
       -0.139,
       0.033,
       -0.014,
@@ -11266,7 +11266,7 @@
      ],
      [
       0,
-      0.184,
+      0.189,
       -0.083,
       -0.234,
       -0.018,
@@ -11274,7 +11274,7 @@
      ],
      [
       0,
-      -0.198,
+      -0.201,
       -0.373,
       -0.164,
       -0.141,
@@ -11283,9 +11283,9 @@
     ]
    },
    "Oklahoma State": {
-    "powerRating": 1.3981,
+    "powerRating": 1.5123,
     "powerRank": 62,
-    "resumeScore": -0.0061,
+    "resumeScore": -0.0035,
     "resumeRank": 33,
     "adjOffEpa": 0.1405,
     "adjDefEpa": -0.1398,
@@ -11293,7 +11293,7 @@
     "adjDefSr": 0.4075,
     "sosDef": 0.0384,
     "sosOff": 0.2584,
-    "strength": 0.1409,
+    "strength": 0.1434,
     "games": [
      [
       0,
@@ -11305,7 +11305,7 @@
      ],
      [
       1,
-      0.585,
+      0.595,
       -0.036,
       -0.081,
       -0.135,
@@ -11317,7 +11317,7 @@
      ],
      [
       0,
-      0.119,
+      0.118,
       0.409,
       -0.047,
       0.195,
@@ -11326,9 +11326,9 @@
     ]
    },
    "Old Dominion": {
-    "powerRating": -8.502,
+    "powerRating": -8.3887,
     "powerRank": 101,
-    "resumeScore": -0.5694,
+    "resumeScore": -0.5656,
     "resumeRank": 121,
     "adjOffEpa": -0.1323,
     "adjDefEpa": -0.0856,
@@ -11336,7 +11336,7 @@
     "adjDefSr": 0.3469,
     "sosDef": 0.146,
     "sosOff": 0.2555,
-    "strength": 0.0413,
+    "strength": 0.0423,
     "games": [
      [
       0,
@@ -11360,7 +11360,7 @@
      ],
      [
       0,
-      -0.622,
+      -0.611,
       -0.199,
       0.161,
       -0.019,
@@ -11369,9 +11369,9 @@
     ]
    },
    "Ole Miss": {
-    "powerRating": 13.3745,
+    "powerRating": 13.2443,
     "powerRank": 18,
-    "resumeScore": 0.106,
+    "resumeScore": 0.103,
     "resumeRank": 16,
     "adjOffEpa": 0.439,
     "adjDefEpa": 0.1643,
@@ -11379,11 +11379,11 @@
     "adjDefSr": 0.4594,
     "sosDef": -0.0449,
     "sosOff": 0.1702,
-    "strength": 0.3906,
+    "strength": 0.3886,
     "games": [
      [
       1,
-      0.246,
+      0.241,
       0.231,
       0.28,
       0.044,
@@ -11399,7 +11399,7 @@
      ],
      [
       1,
-      0.541,
+      0.539,
       0.311,
       0.232,
       -0.313,
@@ -11407,7 +11407,7 @@
      ],
      [
       0,
-      -0.368,
+      -0.372,
       0.152,
       0.393,
       0.045,
@@ -11416,9 +11416,9 @@
     ]
    },
    "Oregon": {
-    "powerRating": 20.7681,
+    "powerRating": 21.0886,
     "powerRank": 9,
-    "resumeScore": 0.1196,
+    "resumeScore": 0.1229,
     "resumeRank": 13,
     "adjOffEpa": 0.332,
     "adjDefEpa": -0.1098,
@@ -11426,11 +11426,11 @@
     "adjDefSr": 0.304,
     "sosDef": -0.0263,
     "sosOff": 0.3223,
-    "strength": 0.5852,
+    "strength": 0.5949,
     "games": [
      [
       1,
-      0.33,
+      0.338,
       0.174,
       0.051,
       -0.057,
@@ -11438,7 +11438,7 @@
      ],
      [
       1,
-      -0.392,
+      -0.391,
       -0.081,
       -0.036,
       -0.05,
@@ -11459,9 +11459,9 @@
     ]
    },
    "Oregon State": {
-    "powerRating": -6.1761,
-    "powerRank": 91,
-    "resumeScore": -0.2894,
+    "powerRating": -5.6249,
+    "powerRank": 88,
+    "resumeScore": -0.2914,
     "resumeRank": 84,
     "adjOffEpa": 0.1929,
     "adjDefEpa": -0.0524,
@@ -11469,11 +11469,11 @@
     "adjDefSr": 0.2528,
     "sosDef": 0.1256,
     "sosOff": 0.2507,
-    "strength": 0.0569,
+    "strength": 0.0617,
     "games": [
      [
       0,
-      -0.545,
+      -0.544,
       0.056,
       0.28,
       0.131,
@@ -11481,7 +11481,7 @@
      ],
      [
       0,
-      -0.33,
+      -0.336,
       0.168,
       0.197,
       -0.106,
@@ -11502,9 +11502,9 @@
     ]
    },
    "Penn State": {
-    "powerRating": 10.264,
+    "powerRating": 10.0522,
     "powerRank": 27,
-    "resumeScore": -0.0684,
+    "resumeScore": -0.0682,
     "resumeRank": 45,
     "adjOffEpa": 0.1607,
     "adjDefEpa": -0.2194,
@@ -11512,11 +11512,11 @@
     "adjDefSr": 0.2847,
     "sosDef": 0.2523,
     "sosOff": 0.2495,
-    "strength": 0.3138,
+    "strength": 0.3101,
     "games": [
      [
       0,
-      0.037,
+      0.038,
       0.644,
       -0.075,
       0.537,
@@ -11524,7 +11524,7 @@
      ],
      [
       0,
-      0.047,
+      0.046,
       0.207,
       0.035,
       0.156,
@@ -11532,7 +11532,7 @@
      ],
      [
       0,
-      0.017,
+      0.019,
       0.557,
       -0.238,
       0.389,
@@ -11540,7 +11540,7 @@
      ],
      [
       1,
-      -0.375,
+      -0.376,
       -0.171,
       -0.034,
       -0.073,
@@ -11549,21 +11549,21 @@
     ]
    },
    "Pittsburgh": {
-    "powerRating": 8.3407,
-    "powerRank": 35,
-    "resumeScore": 0.1023,
-    "resumeRank": 17,
+    "powerRating": 7.9249,
+    "powerRank": 36,
+    "resumeScore": 0.0996,
+    "resumeRank": 18,
     "adjOffEpa": 0.2635,
     "adjDefEpa": -0.0281,
     "adjOffSr": 0.4183,
     "adjDefSr": 0.3593,
     "sosDef": 0.0177,
     "sosOff": 0.0362,
-    "strength": 0.2698,
+    "strength": 0.2619,
     "games": [
      [
       0,
-      0.069,
+      0.068,
       0.463,
       0.086,
       0.001,
@@ -11571,7 +11571,7 @@
      ],
      [
       1,
-      0.192,
+      0.19,
       -0.044,
       -0.252,
       0.077,
@@ -11579,7 +11579,7 @@
      ],
      [
       0,
-      0.046,
+      0.041,
       0.135,
       -0.08,
       -0.025,
@@ -11592,9 +11592,9 @@
     ]
    },
    "Purdue": {
-    "powerRating": -2.3058,
-    "powerRank": 75,
-    "resumeScore": -0.3843,
+    "powerRating": -2.174,
+    "powerRank": 76,
+    "resumeScore": -0.3823,
     "resumeRank": 98,
     "adjOffEpa": 0.5228,
     "adjDefEpa": 0.2838,
@@ -11602,7 +11602,7 @@
     "adjDefSr": 0.5168,
     "sosDef": -0.2199,
     "sosOff": 0.3083,
-    "strength": 0.0929,
+    "strength": 0.095,
     "games": [
      [
       0,
@@ -11610,7 +11610,7 @@
      ],
      [
       1,
-      -0.406,
+      -0.405,
       0.293,
       0.357,
       -0.016,
@@ -11618,7 +11618,7 @@
      ],
      [
       0,
-      -0.498,
+      -0.492,
       0.387,
       0.524,
       -0.206,
@@ -11626,7 +11626,7 @@
      ],
      [
       0,
-      -0.249,
+      -0.25,
       -0.107,
       0.558,
       -0.438,
@@ -11635,9 +11635,9 @@
     ]
    },
    "Rice": {
-    "powerRating": -11.5875,
-    "powerRank": 112,
-    "resumeScore": -0.4567,
+    "powerRating": -11.733,
+    "powerRank": 115,
+    "resumeScore": -0.457,
     "resumeRank": 109,
     "adjOffEpa": 0.1095,
     "adjDefEpa": 0.2989,
@@ -11645,7 +11645,7 @@
     "adjDefSr": 0.4892,
     "sosDef": -0.1328,
     "sosOff": 0.1767,
-    "strength": 0.0261,
+    "strength": 0.0257,
     "games": [
      [
       0,
@@ -11661,7 +11661,7 @@
      ],
      [
       1,
-      -0.469,
+      -0.47,
       0.093,
       0.128,
       0.091,
@@ -11678,9 +11678,9 @@
     ]
    },
    "Rutgers": {
-    "powerRating": -4.5304,
+    "powerRating": -4.7593,
     "powerRank": 82,
-    "resumeScore": -0.5786,
+    "resumeScore": -0.5775,
     "resumeRank": 124,
     "adjOffEpa": 0.2003,
     "adjDefEpa": 0.1136,
@@ -11688,11 +11688,11 @@
     "adjDefSr": 0.4417,
     "sosDef": -0.0625,
     "sosOff": 0.2021,
-    "strength": 0.0706,
+    "strength": 0.069,
     "games": [
      [
       0,
-      -0.802,
+      -0.798,
       -0.076,
       0.33,
       -0.008,
@@ -11700,7 +11700,7 @@
      ],
      [
       1,
-      -0.427,
+      -0.428,
       -0.084,
       -0.021,
       -0.242,
@@ -11708,7 +11708,7 @@
      ],
      [
       0,
-      -0.507,
+      -0.506,
       0.181,
       0.359,
       0.063,
@@ -11721,9 +11721,9 @@
     ]
    },
    "SMU": {
-    "powerRating": 6.2317,
-    "powerRank": 42,
-    "resumeScore": -0.1151,
+    "powerRating": 6.4098,
+    "powerRank": 41,
+    "resumeScore": -0.1167,
     "resumeRank": 53,
     "adjOffEpa": 0.1288,
     "adjDefEpa": 0.2036,
@@ -11731,11 +11731,11 @@
     "adjDefSr": 0.4184,
     "sosDef": 0.1591,
     "sosOff": 0.064,
-    "strength": 0.2255,
+    "strength": 0.2301,
     "games": [
      [
       1,
-      0.201,
+      0.199,
       0.362,
       0.14,
       0.233,
@@ -11747,7 +11747,7 @@
      ],
      [
       0,
-      -0.575,
+      -0.578,
       -0.0,
       0.405,
       0.016,
@@ -11755,7 +11755,7 @@
      ],
      [
       0,
-      0.028,
+      0.029,
       0.189,
       -0.124,
       0.229,
@@ -11764,9 +11764,9 @@
     ]
    },
    "Sacramento State": {
-    "powerRating": -19.8428,
+    "powerRating": -20.0537,
     "powerRank": 136,
-    "resumeScore": -0.7472,
+    "resumeScore": -0.7456,
     "resumeRank": 135,
     "adjOffEpa": -0.0115,
     "adjDefEpa": 0.1945,
@@ -11774,11 +11774,11 @@
     "adjDefSr": 0.4501,
     "sosDef": -0.075,
     "sosOff": 0.1264,
-    "strength": 0.0063,
+    "strength": 0.0062,
     "games": [
      [
       0,
-      -0.749,
+      -0.75,
       -0.123,
       0.055,
       0.122,
@@ -11798,7 +11798,7 @@
      ],
      [
       0,
-      -0.762,
+      -0.758,
       -0.21,
       0.1,
       -0.266,
@@ -11806,7 +11806,7 @@
      ],
      [
       0,
-      -0.802,
+      -0.798,
       -0.131,
       0.333,
       -0.164,
@@ -11815,9 +11815,9 @@
     ]
    },
    "Sam Houston": {
-    "powerRating": -16.9976,
-    "powerRank": 130,
-    "resumeScore": -0.4057,
+    "powerRating": -17.1055,
+    "powerRank": 131,
+    "resumeScore": -0.4071,
     "resumeRank": 105,
     "adjOffEpa": 0.0454,
     "adjDefEpa": 0.0246,
@@ -11825,11 +11825,11 @@
     "adjDefSr": 0.4155,
     "sosDef": 0.0284,
     "sosOff": 0.2472,
-    "strength": 0.0107,
+    "strength": 0.0106,
     "games": [
      [
       1,
-      -0.439,
+      -0.438,
       0.067,
       0.157,
       0.175,
@@ -11837,7 +11837,7 @@
      ],
      [
       1,
-      -0.48,
+      -0.479,
       0.069,
       0.009,
       -0.118,
@@ -11849,7 +11849,7 @@
      ],
      [
       0,
-      -0.299,
+      -0.304,
       -0.248,
       0.318,
       0.028,
@@ -11858,17 +11858,17 @@
     ]
    },
    "San Diego State": {
-    "powerRating": -5.8677,
-    "powerRank": 88,
-    "resumeScore": -0.5957,
-    "resumeRank": 128,
+    "powerRating": -5.6335,
+    "powerRank": 89,
+    "resumeScore": -0.5916,
+    "resumeRank": 127,
     "adjOffEpa": 0.005,
     "adjDefEpa": -0.0072,
     "adjOffSr": 0.3919,
     "adjDefSr": 0.4235,
     "sosDef": -0.0586,
     "sosOff": 0.2957,
-    "strength": 0.0593,
+    "strength": 0.0616,
     "games": [
      [
       0,
@@ -11876,7 +11876,7 @@
      ],
      [
       0,
-      -0.498,
+      -0.492,
       -0.234,
       0.105,
       -0.169,
@@ -11884,7 +11884,7 @@
      ],
      [
       0,
-      -0.622,
+      -0.611,
       -0.079,
       0.173,
       -0.01,
@@ -11892,7 +11892,7 @@
      ],
      [
       0,
-      -0.668,
+      -0.672,
       -0.19,
       0.255,
       0.003,
@@ -11901,9 +11901,9 @@
     ]
    },
    "San Jos\u00e9 State": {
-    "powerRating": -11.6302,
-    "powerRank": 113,
-    "resumeScore": -0.3968,
+    "powerRating": -11.3325,
+    "powerRank": 112,
+    "resumeScore": -0.3973,
     "resumeRank": 103,
     "adjOffEpa": 0.0699,
     "adjDefEpa": 0.0127,
@@ -11911,7 +11911,7 @@
     "adjDefSr": 0.389,
     "sosDef": 0.0473,
     "sosOff": 0.1872,
-    "strength": 0.0259,
+    "strength": 0.0273,
     "games": [
      [
       0,
@@ -11923,7 +11923,7 @@
      ],
      [
       1,
-      0.014,
+      0.013,
       0.074,
       -0.175,
       0.09,
@@ -11935,7 +11935,7 @@
      ],
      [
       0,
-      -0.746,
+      -0.747,
       -0.167,
       0.036,
       0.002,
@@ -11944,8 +11944,8 @@
     ]
    },
    "South Alabama": {
-    "powerRating": -8.6645,
-    "powerRank": 104,
+    "powerRating": -8.6094,
+    "powerRank": 103,
     "resumeScore": -0.3061,
     "resumeRank": 88,
     "adjOffEpa": 0.2563,
@@ -11954,7 +11954,7 @@
     "adjDefSr": 0.5237,
     "sosDef": 0.0733,
     "sosOff": 0.1465,
-    "strength": 0.0403,
+    "strength": 0.0409,
     "games": [
      [
       0,
@@ -11970,7 +11970,7 @@
      ],
      [
       0,
-      0.035,
+      0.037,
       0.391,
       0.385,
       0.171,
@@ -11978,7 +11978,7 @@
      ],
      [
       0,
-      -0.541,
+      -0.543,
       0.014,
       0.368,
       -0.128,
@@ -11987,9 +11987,9 @@
     ]
    },
    "South Carolina": {
-    "powerRating": 6.2829,
-    "powerRank": 41,
-    "resumeScore": -0.2448,
+    "powerRating": 6.1298,
+    "powerRank": 42,
+    "resumeScore": -0.2438,
     "resumeRank": 77,
     "adjOffEpa": 0.372,
     "adjDefEpa": 0.1587,
@@ -11997,11 +11997,11 @@
     "adjDefSr": 0.3822,
     "sosDef": 0.0267,
     "sosOff": 0.2126,
-    "strength": 0.2265,
+    "strength": 0.2245,
     "games": [
      [
       0,
-      0.016,
+      0.017,
       0.742,
       0.045,
       0.196,
@@ -12013,7 +12013,7 @@
      ],
      [
       0,
-      -0.493,
+      -0.49,
       0.124,
       0.27,
       0.011,
@@ -12021,7 +12021,7 @@
      ],
      [
       0,
-      -0.258,
+      -0.259,
       0.058,
       0.506,
       -0.127,
@@ -12030,9 +12030,9 @@
     ]
    },
    "South Florida": {
-    "powerRating": 3.8111,
+    "powerRating": 3.9955,
     "powerRank": 55,
-    "resumeScore": 0.0423,
+    "resumeScore": 0.0426,
     "resumeRank": 24,
     "adjOffEpa": -0.0163,
     "adjDefEpa": 0.0277,
@@ -12040,7 +12040,7 @@
     "adjDefSr": 0.4656,
     "sosDef": 0.1544,
     "sosOff": 0.0081,
-    "strength": 0.18,
+    "strength": 0.1842,
     "games": [
      [
       0,
@@ -12064,7 +12064,7 @@
      ],
      [
       1,
-      0.017,
+      0.016,
       -0.12,
       -0.21,
       0.291,
@@ -12073,17 +12073,17 @@
     ]
    },
    "Southern Miss": {
-    "powerRating": -13.3165,
+    "powerRating": -13.5335,
     "powerRank": 122,
-    "resumeScore": -0.573,
-    "resumeRank": 122,
+    "resumeScore": -0.5756,
+    "resumeRank": 123,
     "adjOffEpa": -0.0556,
     "adjDefEpa": 0.1923,
     "adjOffSr": 0.3542,
     "adjDefSr": 0.5105,
     "sosDef": 0.0847,
     "sosOff": 0.1512,
-    "strength": 0.0198,
+    "strength": 0.0193,
     "games": [
      [
       0,
@@ -12091,7 +12091,7 @@
      ],
      [
       0,
-      -0.523,
+      -0.532,
       -0.201,
       0.324,
       -0.028,
@@ -12099,7 +12099,7 @@
      ],
      [
       0,
-      -0.784,
+      -0.783,
       -0.321,
       0.237,
       0.21,
@@ -12116,9 +12116,9 @@
     ]
    },
    "Stanford": {
-    "powerRating": -2.9897,
+    "powerRating": -3.611,
     "powerRank": 80,
-    "resumeScore": -0.1913,
+    "resumeScore": -0.1914,
     "resumeRank": 72,
     "adjOffEpa": 0.2105,
     "adjDefEpa": 0.292,
@@ -12126,7 +12126,7 @@
     "adjDefSr": 0.4902,
     "sosDef": 0.0869,
     "sosOff": 0.1421,
-    "strength": 0.0856,
+    "strength": 0.0798,
     "games": [
      [
       0,
@@ -12138,7 +12138,7 @@
      ],
      [
       0,
-      -0.334,
+      -0.328,
       0.174,
       0.565,
       -0.036,
@@ -12146,7 +12146,7 @@
      ],
      [
       0,
-      -0.55,
+      -0.559,
       -0.036,
       0.448,
       -0.219,
@@ -12154,7 +12154,7 @@
      ],
      [
       0,
-      0.093,
+      0.095,
       0.28,
       0.233,
       0.253,
@@ -12163,9 +12163,9 @@
     ]
    },
    "Syracuse": {
-    "powerRating": -7.8421,
-    "powerRank": 98,
-    "resumeScore": -0.5104,
+    "powerRating": -8.6799,
+    "powerRank": 104,
+    "resumeScore": -0.5136,
     "resumeRank": 113,
     "adjOffEpa": -0.0771,
     "adjDefEpa": -0.0207,
@@ -12173,7 +12173,7 @@
     "adjDefSr": 0.4208,
     "sosDef": 0.0779,
     "sosOff": 0.1457,
-    "strength": 0.0453,
+    "strength": 0.0405,
     "games": [
      [
       0,
@@ -12189,7 +12189,7 @@
      ],
      [
       0,
-      -0.555,
+      -0.561,
       -0.08,
       0.135,
       -0.104,
@@ -12198,8 +12198,8 @@
     ]
    },
    "TCU": {
-    "powerRating": 4.0239,
-    "powerRank": 53,
+    "powerRating": 4.3709,
+    "powerRank": 52,
     "resumeScore": -0.3316,
     "resumeRank": 91,
     "adjOffEpa": -0.0259,
@@ -12208,7 +12208,7 @@
     "adjDefSr": 0.4342,
     "sosDef": 0.1952,
     "sosOff": 0.037,
-    "strength": 0.1838,
+    "strength": 0.1909,
     "games": [
      [
       1,
@@ -12224,7 +12224,7 @@
      ],
      [
       0,
-      0.032,
+      0.033,
       0.212,
       -0.22,
       0.257,
@@ -12232,7 +12232,7 @@
      ],
      [
       0,
-      -0.614,
+      -0.616,
       -0.069,
       -0.051,
       -0.055,
@@ -12241,9 +12241,9 @@
     ]
    },
    "Temple": {
-    "powerRating": -7.7665,
-    "powerRank": 97,
-    "resumeScore": -0.4845,
+    "powerRating": -7.9038,
+    "powerRank": 98,
+    "resumeScore": -0.4863,
     "resumeRank": 112,
     "adjOffEpa": 0.3319,
     "adjDefEpa": 0.1561,
@@ -12251,7 +12251,7 @@
     "adjDefSr": 0.4809,
     "sosDef": 0.0476,
     "sosOff": 0.2341,
-    "strength": 0.0458,
+    "strength": 0.0453,
     "games": [
      [
       0,
@@ -12259,7 +12259,7 @@
      ],
      [
       0,
-      -0.576,
+      -0.58,
       0.035,
       0.207,
       -0.231,
@@ -12267,7 +12267,7 @@
      ],
      [
       1,
-      -0.401,
+      -0.403,
       0.332,
       0.378,
       -0.105,
@@ -12284,9 +12284,9 @@
     ]
    },
    "Tennessee": {
-    "powerRating": 15.2916,
+    "powerRating": 15.05,
     "powerRank": 14,
-    "resumeScore": -0.0204,
+    "resumeScore": -0.0194,
     "resumeRank": 35,
     "adjOffEpa": 0.1273,
     "adjDefEpa": -0.0815,
@@ -12294,7 +12294,7 @@
     "adjDefSr": 0.3816,
     "sosDef": 0.1388,
     "sosOff": 0.1066,
-    "strength": 0.4404,
+    "strength": 0.4355,
     "games": [
      [
       0,
@@ -12302,7 +12302,7 @@
      ],
      [
       0,
-      0.095,
+      0.097,
       0.239,
       -0.066,
       0.229,
@@ -12310,7 +12310,7 @@
      ],
      [
       0,
-      0.022,
+      0.023,
       0.4,
       -0.034,
       0.347,
@@ -12327,9 +12327,9 @@
     ]
    },
    "Texas": {
-    "powerRating": 23.1741,
+    "powerRating": 23.1278,
     "powerRank": 5,
-    "resumeScore": 0.3612,
+    "resumeScore": 0.3615,
     "resumeRank": 1,
     "adjOffEpa": 0.2131,
     "adjDefEpa": -0.168,
@@ -12337,11 +12337,11 @@
     "adjDefSr": 0.3028,
     "sosDef": -0.0108,
     "sosOff": 0.2434,
-    "strength": 0.6464,
+    "strength": 0.6466,
     "games": [
      [
       0,
-      0.116,
+      0.115,
       0.451,
       0.084,
       0.069,
@@ -12349,7 +12349,7 @@
      ],
      [
       1,
-      0.718,
+      0.728,
       0.063,
       0.115,
       -0.134,
@@ -12357,7 +12357,7 @@
      ],
      [
       0,
-      0.162,
+      0.159,
       0.017,
       -0.18,
       0.023,
@@ -12365,7 +12365,7 @@
      ],
      [
       1,
-      0.449,
+      0.444,
       -0.14,
       -0.175,
       -0.001,
@@ -12374,21 +12374,21 @@
     ]
    },
    "Texas A&M": {
-    "powerRating": 13.181,
+    "powerRating": 12.9048,
     "powerRank": 19,
-    "resumeScore": -0.1809,
-    "resumeRank": 67,
+    "resumeScore": -0.1797,
+    "resumeRank": 66,
     "adjOffEpa": 0.1895,
     "adjDefEpa": 0.1777,
     "adjOffSr": 0.463,
     "adjDefSr": 0.3875,
     "sosDef": -0.0345,
     "sosOff": -0.0163,
-    "strength": 0.3857,
+    "strength": 0.38,
     "games": [
      [
       0,
-      0.028,
+      0.029,
       0.301,
       -0.592,
       0.202,
@@ -12396,7 +12396,7 @@
      ],
      [
       0,
-      0.194,
+      0.202,
       0.01,
       -0.266,
       0.038,
@@ -12404,7 +12404,7 @@
      ],
      [
       0,
-      -0.598,
+      -0.6,
       -0.051,
       0.45,
       -0.129,
@@ -12412,7 +12412,7 @@
      ],
      [
       0,
-      -0.349,
+      -0.35,
       -0.117,
       0.485,
       -0.249,
@@ -12421,17 +12421,17 @@
     ]
    },
    "Texas State": {
-    "powerRating": -0.5164,
+    "powerRating": -0.6015,
     "powerRank": 67,
-    "resumeScore": -0.1749,
-    "resumeRank": 63,
+    "resumeScore": -0.1754,
+    "resumeRank": 64,
     "adjOffEpa": 0.3268,
     "adjDefEpa": 0.1491,
     "adjOffSr": 0.495,
     "adjDefSr": 0.4853,
     "sosDef": 0.0361,
     "sosOff": 0.2638,
-    "strength": 0.1143,
+    "strength": 0.1139,
     "games": [
      [
       0,
@@ -12443,7 +12443,7 @@
      ],
      [
       1,
-      -0.424,
+      -0.425,
       0.143,
       0.229,
       0.017,
@@ -12464,9 +12464,9 @@
     ]
    },
    "Texas Tech": {
-    "powerRating": 21.6132,
-    "powerRank": 6,
-    "resumeScore": 0.1175,
+    "powerRating": 21.2688,
+    "powerRank": 7,
+    "resumeScore": 0.1192,
     "resumeRank": 14,
     "adjOffEpa": 0.351,
     "adjDefEpa": -0.0418,
@@ -12474,7 +12474,7 @@
     "adjDefSr": 0.2587,
     "sosDef": 0.0197,
     "sosOff": 0.2218,
-    "strength": 0.607,
+    "strength": 0.5995,
     "games": [
      [
       0,
@@ -12482,7 +12482,7 @@
      ],
      [
       0,
-      0.058,
+      0.063,
       0.197,
       0.168,
       -0.058,
@@ -12507,21 +12507,21 @@
     ]
    },
    "Toledo": {
-    "powerRating": 0.0366,
+    "powerRating": -0.4266,
     "powerRank": 65,
-    "resumeScore": -0.1839,
-    "resumeRank": 69,
+    "resumeScore": -0.185,
+    "resumeRank": 70,
     "adjOffEpa": 0.3304,
     "adjDefEpa": -0.028,
     "adjOffSr": 0.4265,
     "adjDefSr": 0.2797,
     "sosDef": 0.0261,
     "sosOff": 0.193,
-    "strength": 0.1216,
+    "strength": 0.1162,
     "games": [
      [
       0,
-      -0.657,
+      -0.662,
       0.096,
       0.008,
       -0.048,
@@ -12533,7 +12533,7 @@
      ],
      [
       1,
-      0.046,
+      0.045,
       0.378,
       0.332,
       0.155,
@@ -12541,7 +12541,7 @@
      ],
      [
       0,
-      0.06,
+      0.062,
       0.255,
       -0.19,
       -0.029,
@@ -12550,9 +12550,9 @@
     ]
    },
    "Troy": {
-    "powerRating": -9.1612,
-    "powerRank": 106,
-    "resumeScore": -0.3956,
+    "powerRating": -8.7049,
+    "powerRank": 105,
+    "resumeScore": -0.3953,
     "resumeRank": 102,
     "adjOffEpa": 0.1878,
     "adjDefEpa": 0.1628,
@@ -12560,7 +12560,7 @@
     "adjDefSr": 0.3619,
     "sosDef": -0.1075,
     "sosOff": 0.0845,
-    "strength": 0.0375,
+    "strength": 0.0404,
     "games": [
      [
       1,
@@ -12593,9 +12593,9 @@
     ]
    },
    "Tulane": {
-    "powerRating": -2.0901,
-    "powerRank": 74,
-    "resumeScore": -0.2575,
+    "powerRating": -2.1568,
+    "powerRank": 75,
+    "resumeScore": -0.261,
     "resumeRank": 79,
     "adjOffEpa": 0.1152,
     "adjDefEpa": 0.1593,
@@ -12603,11 +12603,11 @@
     "adjDefSr": 0.4121,
     "sosDef": 0.0981,
     "sosOff": 0.149,
-    "strength": 0.0953,
+    "strength": 0.0952,
     "games": [
      [
       0,
-      -0.55,
+      -0.559,
       -0.131,
       -0.126,
       -0.211,
@@ -12615,7 +12615,7 @@
      ],
      [
       1,
-      0.04,
+      0.041,
       0.356,
       0.257,
       0.329,
@@ -12623,7 +12623,7 @@
      ],
      [
       0,
-      -0.541,
+      -0.546,
       0.059,
       0.36,
       0.049,
@@ -12631,7 +12631,7 @@
      ],
      [
       1,
-      0.02,
+      0.019,
       0.132,
       0.238,
       0.225,
@@ -12640,9 +12640,9 @@
     ]
    },
    "Tulsa": {
-    "powerRating": -7.3494,
-    "powerRank": 96,
-    "resumeScore": -0.1533,
+    "powerRating": -7.3495,
+    "powerRank": 97,
+    "resumeScore": -0.1524,
     "resumeRank": 57,
     "adjOffEpa": 0.1957,
     "adjDefEpa": -0.0275,
@@ -12650,11 +12650,11 @@
     "adjDefSr": 0.3032,
     "sosDef": -0.0436,
     "sosOff": 0.1363,
-    "strength": 0.0485,
+    "strength": 0.0489,
     "games": [
      [
       0,
-      0.143,
+      0.145,
       0.184,
       -0.204,
       -0.235,
@@ -12683,9 +12683,9 @@
     ]
    },
    "UAB": {
-    "powerRating": -13.0722,
+    "powerRating": -13.0513,
     "powerRank": 121,
-    "resumeScore": -0.3203,
+    "resumeScore": -0.3207,
     "resumeRank": 90,
     "adjOffEpa": -0.0707,
     "adjDefEpa": 0.0907,
@@ -12693,11 +12693,11 @@
     "adjDefSr": 0.5175,
     "sosDef": 0.2163,
     "sosOff": 0.0961,
-    "strength": 0.0206,
+    "strength": 0.0209,
     "games": [
      [
       0,
-      -0.595,
+      -0.599,
       0.113,
       0.458,
       0.395,
@@ -12713,7 +12713,7 @@
      ],
      [
       0,
-      -0.717,
+      -0.715,
       -0.257,
       0.057,
       -0.136,
@@ -12721,7 +12721,7 @@
      ],
      [
       1,
-      0.025,
+      0.026,
       0.18,
       0.003,
       0.256,
@@ -12730,9 +12730,9 @@
     ]
    },
    "UCF": {
-    "powerRating": 4.4898,
-    "powerRank": 51,
-    "resumeScore": -0.0351,
+    "powerRating": 4.3145,
+    "powerRank": 53,
+    "resumeScore": -0.0335,
     "resumeRank": 39,
     "adjOffEpa": 0.0247,
     "adjDefEpa": -0.0143,
@@ -12740,7 +12740,7 @@
     "adjDefSr": 0.4173,
     "sosDef": 0.064,
     "sosOff": 0.1072,
-    "strength": 0.1921,
+    "strength": 0.1899,
     "games": [
      [
       0,
@@ -12748,7 +12748,7 @@
      ],
      [
       1,
-      -0.333,
+      -0.337,
       -0.252,
       -0.044,
       0.048,
@@ -12756,7 +12756,7 @@
      ],
      [
       0,
-      0.041,
+      0.042,
       0.228,
       0.049,
       0.189,
@@ -12764,7 +12764,7 @@
      ],
      [
       0,
-      0.187,
+      0.195,
       -0.051,
       -0.069,
       -0.046,
@@ -12773,9 +12773,9 @@
     ]
    },
    "UCLA": {
-    "powerRating": 11.5689,
+    "powerRating": 11.8048,
     "powerRank": 22,
-    "resumeScore": 0.0844,
+    "resumeScore": 0.0843,
     "resumeRank": 19,
     "adjOffEpa": 0.2513,
     "adjDefEpa": -0.1584,
@@ -12783,11 +12783,11 @@
     "adjDefSr": 0.3112,
     "sosDef": 0.1038,
     "sosOff": 0.1524,
-    "strength": 0.3453,
+    "strength": 0.3524,
     "games": [
      [
       0,
-      0.078,
+      0.077,
       0.414,
       -0.061,
       0.147,
@@ -12795,7 +12795,7 @@
      ],
      [
       0,
-      0.06,
+      0.062,
       0.105,
       -0.234,
       0.007,
@@ -12803,7 +12803,7 @@
      ],
      [
       0,
-      0.094,
+      0.096,
       0.524,
       0.387,
       0.234,
@@ -12811,7 +12811,7 @@
      ],
      [
       0,
-      0.106,
+      0.102,
       -0.052,
       -0.529,
       0.028,
@@ -12820,9 +12820,9 @@
     ]
    },
    "UConn": {
-    "powerRating": -4.9514,
-    "powerRank": 85,
-    "resumeScore": -0.3859,
+    "powerRating": -4.836,
+    "powerRank": 84,
+    "resumeScore": -0.3873,
     "resumeRank": 100,
     "adjOffEpa": 0.1573,
     "adjDefEpa": 0.0886,
@@ -12830,7 +12830,7 @@
     "adjDefSr": 0.4693,
     "sosDef": 0.0793,
     "sosOff": 0.076,
-    "strength": 0.0669,
+    "strength": 0.0683,
     "games": [
      [
       0,
@@ -12838,7 +12838,7 @@
      ],
      [
       0,
-      -0.753,
+      -0.757,
       0.026,
       0.292,
       -0.059,
@@ -12863,9 +12863,9 @@
     ]
    },
    "UL Monroe": {
-    "powerRating": -20.3308,
+    "powerRating": -20.3521,
     "powerRank": 137,
-    "resumeScore": -0.795,
+    "resumeScore": -0.7942,
     "resumeRank": 136,
     "adjOffEpa": -0.0851,
     "adjDefEpa": 0.329,
@@ -12877,7 +12877,7 @@
     "games": [
      [
       0,
-      -0.446,
+      -0.443,
       -0.277,
       0.646,
       -0.013,
@@ -12885,7 +12885,7 @@
      ],
      [
       1,
-      -0.447,
+      -0.446,
       -0.178,
       0.109,
       0.117,
@@ -12906,9 +12906,9 @@
     ]
    },
    "UNLV": {
-    "powerRating": -1.6932,
-    "powerRank": 72,
-    "resumeScore": -0.257,
+    "powerRating": -0.8008,
+    "powerRank": 68,
+    "resumeScore": -0.2552,
     "resumeRank": 78,
     "adjOffEpa": -0.1363,
     "adjDefEpa": 0.1426,
@@ -12916,11 +12916,11 @@
     "adjDefSr": 0.4657,
     "sosDef": 0.3294,
     "sosOff": 0.079,
-    "strength": 0.0999,
+    "strength": 0.1114,
     "games": [
      [
       1,
-      -0.426,
+      -0.419,
       0.02,
       0.216,
       0.235,
@@ -12928,7 +12928,7 @@
      ],
      [
       0,
-      0.026,
+      0.027,
       0.074,
       -0.08,
       0.319,
@@ -12953,9 +12953,9 @@
     ]
    },
    "USC": {
-    "powerRating": 13.6161,
+    "powerRating": 13.5786,
     "powerRank": 17,
-    "resumeScore": -0.0159,
+    "resumeScore": -0.014,
     "resumeRank": 34,
     "adjOffEpa": 0.4747,
     "adjDefEpa": 0.0686,
@@ -12963,11 +12963,11 @@
     "adjDefSr": 0.4342,
     "sosDef": -0.0254,
     "sosOff": 0.1307,
-    "strength": 0.3968,
+    "strength": 0.3972,
     "games": [
      [
       0,
-      0.026,
+      0.027,
       0.404,
       0.118,
       0.001,
@@ -12983,7 +12983,7 @@
      ],
      [
       0,
-      0.057,
+      0.06,
       0.34,
       0.173,
       -0.162,
@@ -12991,7 +12991,7 @@
      ],
      [
       0,
-      0.073,
+      0.071,
       0.359,
       0.181,
       0.179,
@@ -12999,7 +12999,7 @@
      ],
      [
       0,
-      -0.348,
+      -0.34,
       0.269,
       0.444,
       -0.118,
@@ -13008,21 +13008,21 @@
     ]
    },
    "UTEP": {
-    "powerRating": -19.8045,
-    "powerRank": 135,
-    "resumeScore": -0.5933,
-    "resumeRank": 127,
+    "powerRating": -19.7619,
+    "powerRank": 134,
+    "resumeScore": -0.5926,
+    "resumeRank": 128,
     "adjOffEpa": -0.0272,
     "adjDefEpa": 0.3295,
     "adjOffSr": 0.4561,
     "adjDefSr": 0.5121,
     "sosDef": -0.1339,
     "sosOff": 0.1816,
-    "strength": 0.0064,
+    "strength": 0.0065,
     "games": [
      [
       0,
-      -0.482,
+      -0.479,
       -0.417,
       0.508,
       -0.334,
@@ -13034,7 +13034,7 @@
      ],
      [
       0,
-      -0.506,
+      -0.511,
       -0.183,
       0.35,
       -0.03,
@@ -13042,7 +13042,7 @@
      ],
      [
       0,
-      -0.792,
+      -0.788,
       -0.217,
       0.371,
       -0.038,
@@ -13051,9 +13051,9 @@
     ]
    },
    "UTSA": {
-    "powerRating": 2.5816,
-    "powerRank": 59,
-    "resumeScore": -0.033,
+    "powerRating": 2.3465,
+    "powerRank": 60,
+    "resumeScore": -0.0331,
     "resumeRank": 38,
     "adjOffEpa": 0.2068,
     "adjDefEpa": -0.0129,
@@ -13061,7 +13061,7 @@
     "adjDefSr": 0.4251,
     "sosDef": 0.0514,
     "sosOff": 0.2735,
-    "strength": 0.1593,
+    "strength": 0.1564,
     "games": [
      [
       0,
@@ -13069,7 +13069,7 @@
      ],
      [
       1,
-      0.117,
+      0.116,
       0.229,
       0.143,
       0.158,
@@ -13094,9 +13094,9 @@
     ]
    },
    "Utah": {
-    "powerRating": 21.3153,
+    "powerRating": 21.1198,
     "powerRank": 8,
-    "resumeScore": 0.1785,
+    "resumeScore": 0.176,
     "resumeRank": 8,
     "adjOffEpa": 0.6372,
     "adjDefEpa": -0.1284,
@@ -13104,7 +13104,7 @@
     "adjDefSr": 0.2516,
     "sosDef": -0.105,
     "sosOff": 0.1692,
-    "strength": 0.5994,
+    "strength": 0.5957,
     "games": [
      [
       0,
@@ -13128,7 +13128,7 @@
      ],
      [
       0,
-      0.281,
+      0.273,
       0.313,
       -0.108,
       -0.081,
@@ -13137,9 +13137,9 @@
     ]
    },
    "Utah State": {
-    "powerRating": -6.0964,
-    "powerRank": 89,
-    "resumeScore": -0.5308,
+    "powerRating": -6.094,
+    "powerRank": 91,
+    "resumeScore": -0.5316,
     "resumeRank": 115,
     "adjOffEpa": 0.0389,
     "adjDefEpa": -0.1687,
@@ -13147,7 +13147,7 @@
     "adjDefSr": 0.381,
     "sosDef": 0.0281,
     "sosOff": 0.3469,
-    "strength": 0.0575,
+    "strength": 0.058,
     "games": [
      [
       0,
@@ -13155,7 +13155,7 @@
      ],
      [
       1,
-      -0.356,
+      -0.36,
       -0.224,
       0.032,
       0.149,
@@ -13163,7 +13163,7 @@
      ],
      [
       0,
-      -0.304,
+      -0.307,
       -0.069,
       0.318,
       -0.194,
@@ -13171,7 +13171,7 @@
      ],
      [
       0,
-      0.038,
+      0.041,
       0.15,
       -0.151,
       0.13,
@@ -13180,9 +13180,9 @@
     ]
    },
    "Vanderbilt": {
-    "powerRating": 8.5231,
+    "powerRating": 8.275,
     "powerRank": 34,
-    "resumeScore": -0.0483,
+    "resumeScore": -0.0497,
     "resumeRank": 42,
     "adjOffEpa": -0.0305,
     "adjDefEpa": -0.0109,
@@ -13190,7 +13190,7 @@
     "adjDefSr": 0.3538,
     "sosDef": 0.1975,
     "sosOff": 0.0775,
-    "strength": 0.2739,
+    "strength": 0.2696,
     "games": [
      [
       0,
@@ -13198,7 +13198,7 @@
      ],
      [
       0,
-      0.021,
+      0.022,
       -0.085,
       -0.18,
       0.418,
@@ -13214,7 +13214,7 @@
      ],
      [
       1,
-      -0.314,
+      -0.319,
       -0.145,
       0.02,
       -0.039,
@@ -13223,21 +13223,21 @@
     ]
    },
    "Virginia": {
-    "powerRating": 5.6341,
+    "powerRating": 5.4407,
     "powerRank": 46,
-    "resumeScore": -0.1788,
-    "resumeRank": 66,
+    "resumeScore": -0.1789,
+    "resumeRank": 65,
     "adjOffEpa": 0.1298,
     "adjDefEpa": 0.0186,
     "adjOffSr": 0.4042,
     "adjDefSr": 0.3518,
     "sosDef": 0.2993,
     "sosOff": 0.0972,
-    "strength": 0.2137,
+    "strength": 0.211,
     "games": [
      [
       0,
-      0.15,
+      0.151,
       0.318,
       -0.249,
       0.344,
@@ -13249,7 +13249,7 @@
      ],
      [
       0,
-      -0.707,
+      -0.709,
       0.155,
       0.296,
       0.33,
@@ -13257,7 +13257,7 @@
      ],
      [
       0,
-      0.021,
+      0.022,
       0.465,
       -0.066,
       0.223,
@@ -13266,17 +13266,17 @@
     ]
    },
    "Virginia Tech": {
-    "powerRating": 3.5278,
+    "powerRating": 3.4878,
     "powerRank": 56,
-    "resumeScore": 0.0709,
-    "resumeRank": 20,
+    "resumeScore": 0.0692,
+    "resumeRank": 21,
     "adjOffEpa": 0.4251,
     "adjDefEpa": 0.3226,
     "adjOffSr": 0.4903,
     "adjDefSr": 0.484,
     "sosDef": -0.1127,
     "sosOff": -0.0587,
-    "strength": 0.1751,
+    "strength": 0.1753,
     "games": [
      [
       0,
@@ -13284,7 +13284,7 @@
      ],
      [
       0,
-      0.041,
+      0.042,
       0.284,
       0.146,
       -0.113,
@@ -13292,7 +13292,7 @@
      ],
      [
       0,
-      0.106,
+      0.102,
       0.387,
       0.313,
       -0.105,
@@ -13300,7 +13300,7 @@
      ],
      [
       1,
-      0.065,
+      0.063,
       -0.079,
       -0.011,
       -0.12,
@@ -13309,9 +13309,9 @@
     ]
    },
    "Wake Forest": {
-    "powerRating": 4.6086,
+    "powerRating": 4.6846,
     "powerRank": 49,
-    "resumeScore": 0.0039,
+    "resumeScore": 0.0048,
     "resumeRank": 32,
     "adjOffEpa": 0.2173,
     "adjDefEpa": -0.0429,
@@ -13319,7 +13319,7 @@
     "adjDefSr": 0.3847,
     "sosDef": 0.1869,
     "sosOff": 0.2802,
-    "strength": 0.1943,
+    "strength": 0.1967,
     "games": [
      [
       0,
@@ -13331,7 +13331,7 @@
      ],
      [
       1,
-      0.095,
+      0.097,
       0.357,
       0.293,
       0.3,
@@ -13339,7 +13339,7 @@
      ],
      [
       0,
-      -0.334,
+      -0.328,
       0.053,
       0.251,
       0.023,
@@ -13347,7 +13347,7 @@
      ],
      [
       1,
-      0.249,
+      0.244,
       0.21,
       0.104,
       -0.052,
@@ -13356,9 +13356,9 @@
     ]
    },
    "Washington": {
-    "powerRating": 5.8863,
-    "powerRank": 43,
-    "resumeScore": -0.0917,
+    "powerRating": 5.4671,
+    "powerRank": 45,
+    "resumeScore": -0.0913,
     "resumeRank": 50,
     "adjOffEpa": 0.2162,
     "adjDefEpa": 0.0416,
@@ -13366,7 +13366,7 @@
     "adjDefSr": 0.3702,
     "sosDef": -0.0545,
     "sosOff": -0.0475,
-    "strength": 0.2186,
+    "strength": 0.2115,
     "games": [
      [
       0,
@@ -13399,21 +13399,21 @@
     ]
    },
    "Washington State": {
-    "powerRating": -2.6866,
+    "powerRating": -2.6728,
     "powerRank": 78,
-    "resumeScore": -0.5739,
-    "resumeRank": 123,
+    "resumeScore": -0.5756,
+    "resumeRank": 122,
     "adjOffEpa": -0.1534,
     "adjDefEpa": -0.0613,
     "adjOffSr": 0.3024,
     "adjDefSr": 0.4352,
     "sosDef": 0.0965,
     "sosOff": 0.2982,
-    "strength": 0.0888,
+    "strength": 0.0895,
     "games": [
      [
       0,
-      -0.594,
+      -0.599,
       -0.17,
       0.046,
       0.02,
@@ -13421,7 +13421,7 @@
      ],
      [
       0,
-      -0.541,
+      -0.546,
       -0.241,
       0.161,
       0.065,
@@ -13433,7 +13433,7 @@
      ],
      [
       0,
-      -0.587,
+      -0.582,
       -0.085,
       0.167,
       0.204,
@@ -13442,21 +13442,21 @@
     ]
    },
    "West Virginia": {
-    "powerRating": -0.4047,
+    "powerRating": -0.596,
     "powerRank": 66,
     "resumeScore": -0.1597,
-    "resumeRank": 61,
+    "resumeRank": 60,
     "adjOffEpa": 0.235,
     "adjDefEpa": 0.2608,
     "adjOffSr": 0.4297,
     "adjDefSr": 0.4478,
     "sosDef": 0.0096,
     "sosOff": 0.0951,
-    "strength": 0.1158,
+    "strength": 0.114,
     "games": [
      [
       0,
-      0.022,
+      0.023,
       0.125,
       0.168,
       0.218,
@@ -13468,7 +13468,7 @@
      ],
      [
       0,
-      0.22,
+      0.218,
       0.296,
       0.155,
       -0.066,
@@ -13476,7 +13476,7 @@
      ],
      [
       0,
-      -0.722,
+      -0.72,
       -0.047,
       0.409,
       -0.123,
@@ -13485,9 +13485,9 @@
     ]
    },
    "Western Kentucky": {
-    "powerRating": -14.8842,
-    "powerRank": 128,
-    "resumeScore": -0.4239,
+    "powerRating": -14.2769,
+    "powerRank": 125,
+    "resumeScore": -0.4256,
     "resumeRank": 107,
     "adjOffEpa": -0.0311,
     "adjDefEpa": 0.5657,
@@ -13495,7 +13495,7 @@
     "adjDefSr": 0.5723,
     "sosDef": -0.0725,
     "sosOff": 0.2391,
-    "strength": 0.0153,
+    "strength": 0.0171,
     "games": [
      [
       0,
@@ -13507,7 +13507,7 @@
      ],
      [
       0,
-      -0.198,
+      -0.201,
       -0.252,
       1.17,
       -0.247,
@@ -13515,7 +13515,7 @@
      ],
      [
       0,
-      -0.326,
+      -0.329,
       -0.362,
       0.339,
       -0.098,
@@ -13528,9 +13528,9 @@
     ]
    },
    "Western Michigan": {
-    "powerRating": -4.715,
+    "powerRating": -4.8244,
     "powerRank": 83,
-    "resumeScore": -0.2801,
+    "resumeScore": -0.2787,
     "resumeRank": 82,
     "adjOffEpa": 0.0236,
     "adjDefEpa": 0.0923,
@@ -13538,11 +13538,11 @@
     "adjDefSr": 0.4389,
     "sosDef": 0.0735,
     "sosOff": 0.2392,
-    "strength": 0.0689,
+    "strength": 0.0684,
     "games": [
      [
       1,
-      -0.304,
+      -0.306,
       -0.045,
       0.146,
       -0.054,
@@ -13554,7 +13554,7 @@
      ],
      [
       1,
-      0.027,
+      0.026,
       0.128,
       0.093,
       0.34,
@@ -13562,7 +13562,7 @@
      ],
      [
       0,
-      -0.563,
+      -0.556,
       -0.122,
       0.415,
       -0.065,
@@ -13571,9 +13571,9 @@
     ]
    },
    "Wisconsin": {
-    "powerRating": 7.7296,
+    "powerRating": 7.577,
     "powerRank": 38,
-    "resumeScore": 0.0322,
+    "resumeScore": 0.0303,
     "resumeRank": 27,
     "adjOffEpa": 0.3891,
     "adjDefEpa": -0.1252,
@@ -13581,11 +13581,11 @@
     "adjDefSr": 0.2979,
     "sosDef": -0.1933,
     "sosOff": 0.2228,
-    "strength": 0.2565,
+    "strength": 0.2544,
     "games": [
      [
       0,
-      -0.237,
+      -0.238,
       -0.105,
       0.349,
       -0.48,
@@ -13597,7 +13597,7 @@
      ],
      [
       0,
-      0.014,
+      0.013,
       0.404,
       -0.199,
       0.086,
@@ -13605,7 +13605,7 @@
      ],
      [
       1,
-      0.32,
+      0.316,
       -0.034,
       -0.171,
       -0.186,
@@ -13614,9 +13614,9 @@
     ]
    },
    "Wyoming": {
-    "powerRating": -12.0104,
+    "powerRating": -12.3303,
     "powerRank": 116,
-    "resumeScore": -0.4741,
+    "resumeScore": -0.4736,
     "resumeRank": 111,
     "adjOffEpa": 0.0337,
     "adjDefEpa": 0.3013,
@@ -13624,7 +13624,7 @@
     "adjDefSr": 0.5746,
     "sosDef": 0.2651,
     "sosOff": 0.042,
-    "strength": 0.0244,
+    "strength": 0.0234,
     "games": [
      [
       0,
@@ -13640,7 +13640,7 @@
      ],
      [
       0,
-      -0.728,
+      -0.727,
       0.124,
       0.294,
       0.268,
