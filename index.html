@@ -424,7 +424,7 @@ legend{font-weight:600;padding:0 4px}
       <li><b>Location:</b> home teams get <b data-set="HOME_FIELD">2.5</b> points. At a neutral site, the team closer to the stadium gets part of that edge (<b data-set="NEUTRAL_SHARE">1.0</b> × home edge × how much shorter its trip is). Any team traveling farther than its opponent gives up <b data-set="TRAVEL_PER_1000">1.0</b> point per 1,000 extra miles.</li>
       <li><b>FCS games:</b> wins over FCS teams are ignored; a loss to an FCS team counts as a loss to a team rated <b data-set="FCS_BELOW">15</b> points below the FBS average.</li>
       <li><b>Openers count a bit less:</b> each team's first game counts <b data-set="FIRST_GAME_WEIGHT">0.8</b> of a game.</li>
-      <li><b>Preseason start:</b> a mix of last season's rating, the share of production returning, and roster talent (weights fitted on earlier seasons). It counts as <b data-set="PRIOR_GAMES">3</b> games before the season and fades to nothing by week <b data-set="PRIOR_END_WEEK">14</b>.</li>
+      <li><b>Preseason start:</b> a mix of last season's rating, the share of production returning, and roster talent (weights fitted on earlier seasons), plus <b data-set="P4_START_BONUS">5</b> points for Power 4 teams (stats from weaker conferences tend to overrate teams). It counts as <b data-set="PRIOR_GAMES">3</b> games before the season and fades to nothing by week <b data-set="PRIOR_END_WEEK">14</b>.</li>
     </ol>
     <p class="note">Not used: betting lines (kept out so the model can disagree with them), per-play efficiency (it didn't improve predictions), and my own rankings. On a week-by-week replay of 2024–2026, the model's predicted margins were off by about 12.6 points per game on average (the closing betting line: about 12.0), and it picked the winner about 72% of the time.</p>
 
@@ -444,7 +444,7 @@ legend{font-weight:600;padding:0 4px}
     <ul>
       <li>Each strip shows a team's games, placed left to right by the <b>opponent's Composite rank</b> (#1 at the far right; FCS opponents at the far left).</li>
       <li>Green = win, red = loss. Dot size = margin (1–8, 9–16, 17+). Gold ring = close game; double ring = overtime.</li>
-      <li>A small number beside a dot is the opponent's rank in my Top 25. <b>Best</b> and <b>Worst</b> mark the games with the highest and lowest quality-wins value.</li>
+      <li>A small number beside a dot is the opponent's rank in my Top 25. <b>Best</b> marks the win over the highest-ranked opponent (by Composite rank, the rightmost green dot) and <b>Worst</b> the loss to the lowest-ranked one (the leftmost red dot).</li>
       <li>Dots for similarly ranked opponents are stacked slightly above and below the line so none are hidden.</li>
     </ul>
 
@@ -587,13 +587,15 @@ legend{font-weight:600;padding:0 4px}
   const oppPos = o => { const c=mdl().crank, n=Object.keys(c).length; return c[o] && n>1 ? 0.04 + 0.96*(n-c[o])/(n-1) : 0.02; };
   // "Close" = the game's close field (one score and in doubt late); older data without it: one score.
   const isClose = g => typeof g.close==='boolean' ? g.close : Math.abs(g.pf-g.pa)<=CLOSE;
-  // Best win = win with the highest résumé value; worst loss = loss with the lowest.
+  // Best win = win over the opponent with the best Composite rank (the rightmost green dot);
+  // worst loss = loss to the opponent with the worst (the leftmost red dot; an FCS loss is always worst).
+  // v = the opponent's strip position (higher = better opponent). FCS wins are never the best win.
   function bestWorst(a){
     let bw=null, wl=null;
     for(const g of gamesOf(a)){
-      if(typeof g.value!=='number') continue;
-      if(g.result==='W' && (!bw || g.value>bw.v)) bw={g, v:g.value};
-      if(g.result==='L' && (!wl || g.value<wl.v)) wl={g, v:g.value};
+      const v=oppPos(g.opp), fcs=!S.teams[g.opp];
+      if(g.result==='W' && !fcs && (!bw || v>bw.v)) bw={g, v};
+      if(g.result==='L' && (!wl || v<wl.v)) wl={g, v};
     }
     return {bw, wl};
   }
@@ -1172,7 +1174,7 @@ legend{font-weight:600;padding:0 4px}
     mirrorStatus();
     if(rsSortable){ rsSortable.destroy(); rsSortable=null; }
     if(!S.draft.length && !S.others.length){ el.innerHTML='<div class="empty"><strong>No teams yet</strong>Add teams to your Top 25 and each one’s games will line up here.</div>'; return; }
-    const stronger = (x,y) => x.v-y.v;  // by résumé value
+    const stronger = (x,y) => x.v-y.v;  // by opponent's Composite position
     const worse = (x,y) => x.v-y.v;
     const sorter = S.rsort==='best' ? (x,y)=> (!x.bw)-(!y.bw) || (x.bw&&y.bw ? stronger(y.bw,x.bw) : 0)
                  : S.rsort==='worst' ? (x,y)=> (!x.wl)-(!y.wl) || (x.wl&&y.wl ? worse(x.wl,y.wl) : 0) : null;

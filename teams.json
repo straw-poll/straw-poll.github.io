@@ -1,6 +1,6 @@
 {
  "season": 2026,
- "updatedAt": "2026-10-01T14:20:09.567113+00:00",
+ "updatedAt": "2026-10-01T14:45:06.681790+00:00",
  "through": "games through Sat, Sep 26",
  "teams": {
   "Air Force": {
@@ -7680,11 +7680,11 @@
  },
  "model": {
   "season": 2026,
-  "updatedAt": "2026-10-01T14:20:09.567113+00:00",
+  "updatedAt": "2026-10-01T14:45:06.681790+00:00",
   "teams": {
    "Air Force": {
-    "powerRating": -12.8606,
-    "powerRank": 118,
+    "powerRating": -15.1135,
+    "powerRank": 121,
     "resumeScore": 0.0244,
     "resumeRank": 87,
     "adjOffEpa": 0.3956,
@@ -7718,8 +7718,8 @@
     ]
    },
    "Akron": {
-    "powerRating": -21.4695,
-    "powerRank": 136,
+    "powerRating": -22.8393,
+    "powerRank": 135,
     "resumeScore": -0.2163,
     "resumeRank": 129,
     "adjOffEpa": -0.1209,
@@ -7761,7 +7761,7 @@
     ]
    },
    "Alabama": {
-    "powerRating": 25.7605,
+    "powerRating": 27.557,
     "powerRank": 4,
     "resumeScore": 0.5413,
     "resumeRank": 4,
@@ -7808,8 +7808,8 @@
     ]
    },
    "App State": {
-    "powerRating": -8.6164,
-    "powerRank": 103,
+    "powerRating": -10.0635,
+    "powerRank": 102,
     "resumeScore": 0.1114,
     "resumeRank": 65,
     "adjOffEpa": 0.0601,
@@ -7851,7 +7851,7 @@
     ]
    },
    "Arizona": {
-    "powerRating": 8.7878,
+    "powerRating": 10.0997,
     "powerRank": 34,
     "resumeScore": 0.0954,
     "resumeRank": 70,
@@ -7894,8 +7894,8 @@
     ]
    },
    "Arizona State": {
-    "powerRating": 2.5156,
-    "powerRank": 59,
+    "powerRating": 4.7884,
+    "powerRank": 54,
     "resumeScore": 0.0463,
     "resumeRank": 81,
     "adjOffEpa": -0.2779,
@@ -7929,8 +7929,8 @@
     ]
    },
    "Arkansas": {
-    "powerRating": 4.3535,
-    "powerRank": 51,
+    "powerRating": 5.915,
+    "powerRank": 50,
     "resumeScore": 0.1099,
     "resumeRank": 66,
     "adjOffEpa": 0.2304,
@@ -7972,7 +7972,7 @@
     ]
    },
    "Arkansas State": {
-    "powerRating": -10.814,
+    "powerRating": -12.3654,
     "powerRank": 110,
     "resumeScore": -0.0746,
     "resumeRank": 104,
@@ -8015,8 +8015,8 @@
     ]
    },
    "Army": {
-    "powerRating": -7.2897,
-    "powerRank": 96,
+    "powerRating": -9.4806,
+    "powerRank": 100,
     "resumeScore": 0.0959,
     "resumeRank": 69,
     "adjOffEpa": 0.2067,
@@ -8050,8 +8050,8 @@
     ]
    },
    "Auburn": {
-    "powerRating": 10.9627,
-    "powerRank": 27,
+    "powerRating": 12.6582,
+    "powerRank": 26,
     "resumeScore": 0.3445,
     "resumeRank": 26,
     "adjOffEpa": 0.1793,
@@ -8097,7 +8097,7 @@
     ]
    },
    "BYU": {
-    "powerRating": 15.0835,
+    "powerRating": 16.5093,
     "powerRank": 14,
     "resumeScore": 0.5213,
     "resumeRank": 6,
@@ -8132,8 +8132,8 @@
     ]
    },
    "Ball State": {
-    "powerRating": -20.9664,
-    "powerRank": 134,
+    "powerRating": -22.9872,
+    "powerRank": 136,
     "resumeScore": -0.2142,
     "resumeRank": 126,
     "adjOffEpa": -0.0419,
@@ -8175,8 +8175,8 @@
     ]
    },
    "Baylor": {
-    "powerRating": 6.07,
-    "powerRank": 42,
+    "powerRating": 7.7901,
+    "powerRank": 43,
     "resumeScore": 0.232,
     "resumeRank": 46,
     "adjOffEpa": 0.2151,
@@ -8218,8 +8218,8 @@
     ]
    },
    "Boise State": {
-    "powerRating": 12.1,
-    "powerRank": 25,
+    "powerRating": 10.3837,
+    "powerRank": 33,
     "resumeScore": 0.3262,
     "resumeRank": 27,
     "adjOffEpa": 0.3488,
@@ -8261,8 +8261,8 @@
     ]
    },
    "Boston College": {
-    "powerRating": -5.3482,
-    "powerRank": 85,
+    "powerRating": -3.4189,
+    "powerRank": 77,
     "resumeScore": 0.032,
     "resumeRank": 85,
     "adjOffEpa": -0.1049,
@@ -8304,8 +8304,8 @@
     ]
    },
    "Bowling Green": {
-    "powerRating": -16.1352,
-    "powerRank": 127,
+    "powerRating": -17.1677,
+    "powerRank": 126,
     "resumeScore": -0.5033,
     "resumeRank": 136,
     "adjOffEpa": -0.0117,
@@ -8347,7 +8347,7 @@
     ]
    },
    "Buffalo": {
-    "powerRating": -15.076,
+    "powerRating": -16.9562,
     "powerRank": 125,
     "resumeScore": -0.2156,
     "resumeRank": 127,
@@ -8386,8 +8386,8 @@
     ]
    },
    "California": {
-    "powerRating": -4.0088,
-    "powerRank": 82,
+    "powerRating": -1.8368,
+    "powerRank": 74,
     "resumeScore": 0.0227,
     "resumeRank": 89,
     "adjOffEpa": 0.0268,
@@ -8429,8 +8429,8 @@
     ]
    },
    "Central Michigan": {
-    "powerRating": -10.0736,
-    "powerRank": 108,
+    "powerRating": -11.8645,
+    "powerRank": 107,
     "resumeScore": 0.0179,
     "resumeRank": 92,
     "adjOffEpa": -0.0518,
@@ -8472,7 +8472,7 @@
     ]
    },
    "Charlotte": {
-    "powerRating": -20.6404,
+    "powerRating": -22.1404,
     "powerRank": 133,
     "resumeScore": -0.5046,
     "resumeRank": 137,
@@ -8515,8 +8515,8 @@
     ]
    },
    "Cincinnati": {
-    "powerRating": 4.1078,
-    "powerRank": 52,
+    "powerRating": 5.6791,
+    "powerRank": 51,
     "resumeScore": 0.5269,
     "resumeRank": 5,
     "adjOffEpa": 0.409,
@@ -8558,8 +8558,8 @@
     ]
    },
    "Clemson": {
-    "powerRating": 6.0402,
-    "powerRank": 43,
+    "powerRating": 7.8652,
+    "powerRank": 41,
     "resumeScore": 0.2984,
     "resumeRank": 33,
     "adjOffEpa": -0.0781,
@@ -8605,8 +8605,8 @@
     ]
    },
    "Coastal Carolina": {
-    "powerRating": -12.8839,
-    "powerRank": 119,
+    "powerRating": -14.4859,
+    "powerRank": 118,
     "resumeScore": -0.2,
     "resumeRank": 123,
     "adjOffEpa": 0.0131,
@@ -8648,8 +8648,8 @@
     ]
    },
    "Colorado": {
-    "powerRating": -1.6444,
-    "powerRank": 73,
+    "powerRating": 0.5676,
+    "powerRank": 67,
     "resumeScore": -0.054,
     "resumeRank": 101,
     "adjOffEpa": -0.1249,
@@ -8691,8 +8691,8 @@
     ]
    },
    "Colorado State": {
-    "powerRating": -6.4386,
-    "powerRank": 91,
+    "powerRating": -8.0485,
+    "powerRank": 92,
     "resumeScore": 0.0194,
     "resumeRank": 91,
     "adjOffEpa": 0.2929,
@@ -8734,8 +8734,8 @@
     ]
    },
    "Delaware": {
-    "powerRating": -13.3107,
-    "powerRank": 121,
+    "powerRating": -14.4533,
+    "powerRank": 117,
     "resumeScore": -0.0408,
     "resumeRank": 99,
     "adjOffEpa": 0.0271,
@@ -8777,8 +8777,8 @@
     ]
    },
    "Duke": {
-    "powerRating": 8.2592,
-    "powerRank": 37,
+    "powerRating": 9.9224,
+    "powerRank": 35,
     "resumeScore": 0.5198,
     "resumeRank": 7,
     "adjOffEpa": 0.0988,
@@ -8820,8 +8820,8 @@
     ]
    },
    "East Carolina": {
-    "powerRating": -3.8844,
-    "powerRank": 81,
+    "powerRating": -5.573,
+    "powerRank": 85,
     "resumeScore": 0.0238,
     "resumeRank": 88,
     "adjOffEpa": 0.0273,
@@ -8863,7 +8863,7 @@
     ]
    },
    "Eastern Michigan": {
-    "powerRating": -17.4255,
+    "powerRating": -18.7696,
     "powerRank": 131,
     "resumeScore": -0.0695,
     "resumeRank": 103,
@@ -8914,8 +8914,8 @@
     ]
    },
    "Florida": {
-    "powerRating": 18.315,
-    "powerRank": 12,
+    "powerRating": 20.0239,
+    "powerRank": 11,
     "resumeScore": 0.7143,
     "resumeRank": 1,
     "adjOffEpa": 0.4044,
@@ -8957,8 +8957,8 @@
     ]
    },
    "Florida Atlantic": {
-    "powerRating": -6.502,
-    "powerRank": 92,
+    "powerRating": -8.2724,
+    "powerRank": 93,
     "resumeScore": 0.2077,
     "resumeRank": 49,
     "adjOffEpa": 0.1107,
@@ -9004,8 +9004,8 @@
     ]
    },
    "Florida International": {
-    "powerRating": -7.0175,
-    "powerRank": 94,
+    "powerRating": -9.1594,
+    "powerRank": 99,
     "resumeScore": 0.0397,
     "resumeRank": 84,
     "adjOffEpa": -0.1696,
@@ -9047,8 +9047,8 @@
     ]
    },
    "Florida State": {
-    "powerRating": 5.7849,
-    "powerRank": 47,
+    "powerRating": 7.6502,
+    "powerRank": 45,
     "resumeScore": -0.0101,
     "resumeRank": 95,
     "adjOffEpa": 0.1898,
@@ -9090,8 +9090,8 @@
     ]
    },
    "Fresno State": {
-    "powerRating": -0.8413,
-    "powerRank": 69,
+    "powerRating": -2.5745,
+    "powerRank": 75,
     "resumeScore": 0.24,
     "resumeRank": 43,
     "adjOffEpa": 0.0339,
@@ -9137,7 +9137,7 @@
     ]
    },
    "Georgia": {
-    "powerRating": 28.1541,
+    "powerRating": 29.9663,
     "powerRank": 1,
     "resumeScore": 0.4644,
     "resumeRank": 11,
@@ -9180,8 +9180,8 @@
     ]
    },
    "Georgia Southern": {
-    "powerRating": -9.1857,
-    "powerRank": 104,
+    "powerRating": -10.2833,
+    "powerRank": 103,
     "resumeScore": -0.1755,
     "resumeRank": 118,
     "adjOffEpa": 0.1408,
@@ -9223,7 +9223,7 @@
     ]
    },
    "Georgia State": {
-    "powerRating": -7.7091,
+    "powerRating": -9.0832,
     "powerRank": 98,
     "resumeScore": 0.0702,
     "resumeRank": 74,
@@ -9266,8 +9266,8 @@
     ]
    },
    "Georgia Tech": {
-    "powerRating": -1.4269,
-    "powerRank": 70,
+    "powerRating": 0.6956,
+    "powerRank": 64,
     "resumeScore": -0.1846,
     "resumeRank": 119,
     "adjOffEpa": 0.1432,
@@ -9309,8 +9309,8 @@
     ]
    },
    "Hawai'i": {
-    "powerRating": -12.5589,
-    "powerRank": 114,
+    "powerRating": -14.2479,
+    "powerRank": 113,
     "resumeScore": -0.1554,
     "resumeRank": 113,
     "adjOffEpa": -0.1066,
@@ -9356,8 +9356,8 @@
     ]
    },
    "Houston": {
-    "powerRating": 8.6315,
-    "powerRank": 36,
+    "powerRating": 9.7222,
+    "powerRank": 37,
     "resumeScore": 0.2212,
     "resumeRank": 47,
     "adjOffEpa": 0.4253,
@@ -9399,7 +9399,7 @@
     ]
    },
    "Illinois": {
-    "powerRating": 6.0009,
+    "powerRating": 7.6871,
     "powerRank": 44,
     "resumeScore": 0.0606,
     "resumeRank": 76,
@@ -9442,7 +9442,7 @@
     ]
    },
    "Indiana": {
-    "powerRating": 21.7864,
+    "powerRating": 23.238,
     "powerRank": 8,
     "resumeScore": 0.428,
     "resumeRank": 17,
@@ -9485,7 +9485,7 @@
     ]
    },
    "Iowa": {
-    "powerRating": 14.4484,
+    "powerRating": 16.2506,
     "powerRank": 15,
     "resumeScore": 0.4122,
     "resumeRank": 20,
@@ -9528,8 +9528,8 @@
     ]
    },
    "Iowa State": {
-    "powerRating": 9.6088,
-    "powerRank": 29,
+    "powerRating": 11.3082,
+    "powerRank": 28,
     "resumeScore": -0.0363,
     "resumeRank": 98,
     "adjOffEpa": 0.2366,
@@ -9571,8 +9571,8 @@
     ]
    },
    "Jacksonville State": {
-    "powerRating": -10.019,
-    "powerRank": 107,
+    "powerRating": -12.041,
+    "powerRank": 108,
     "resumeScore": 0.0973,
     "resumeRank": 68,
     "adjOffEpa": 0.1557,
@@ -9622,8 +9622,8 @@
     ]
    },
    "James Madison": {
-    "powerRating": 8.0702,
-    "powerRank": 38,
+    "powerRating": 6.0148,
+    "powerRank": 49,
     "resumeScore": 0.4153,
     "resumeRank": 19,
     "adjOffEpa": 0.3092,
@@ -9665,8 +9665,8 @@
     ]
    },
    "Kansas": {
-    "powerRating": -0.347,
-    "powerRank": 67,
+    "powerRating": 1.9387,
+    "powerRank": 61,
     "resumeScore": -0.187,
     "resumeRank": 120,
     "adjOffEpa": 0.2145,
@@ -9700,8 +9700,8 @@
     ]
    },
    "Kansas State": {
-    "powerRating": 8.6571,
-    "powerRank": 35,
+    "powerRating": 9.8315,
+    "powerRank": 36,
     "resumeScore": 0.2424,
     "resumeRank": 42,
     "adjOffEpa": 0.2943,
@@ -9743,8 +9743,8 @@
     ]
    },
    "Kennesaw State": {
-    "powerRating": -12.6574,
-    "powerRank": 116,
+    "powerRating": -14.2675,
+    "powerRank": 114,
     "resumeScore": -0.2129,
     "resumeRank": 125,
     "adjOffEpa": -0.0161,
@@ -9786,7 +9786,7 @@
     ]
    },
    "Kent State": {
-    "powerRating": -17.1844,
+    "powerRating": -18.6857,
     "powerRank": 130,
     "resumeScore": -0.0309,
     "resumeRank": 97,
@@ -9829,7 +9829,7 @@
     ]
    },
    "Kentucky": {
-    "powerRating": 8.8479,
+    "powerRating": 10.4845,
     "powerRank": 32,
     "resumeScore": 0.3033,
     "resumeRank": 30,
@@ -9872,7 +9872,7 @@
     ]
    },
    "LSU": {
-    "powerRating": 20.973,
+    "powerRating": 22.8555,
     "powerRank": 9,
     "resumeScore": 0.3831,
     "resumeRank": 22,
@@ -9919,8 +9919,8 @@
     ]
    },
    "Liberty": {
-    "powerRating": 0.4434,
-    "powerRank": 66,
+    "powerRating": -1.687,
+    "powerRank": 72,
     "resumeScore": 0.1549,
     "resumeRank": 57,
     "adjOffEpa": 0.169,
@@ -9962,8 +9962,8 @@
     ]
    },
    "Louisiana": {
-    "powerRating": -5.7878,
-    "powerRank": 87,
+    "powerRating": -7.482,
+    "powerRank": 91,
     "resumeScore": 0.1419,
     "resumeRank": 61,
     "adjOffEpa": 0.1085,
@@ -10005,8 +10005,8 @@
     ]
    },
    "Louisiana Tech": {
-    "powerRating": -7.9251,
-    "powerRank": 99,
+    "powerRating": -8.8634,
+    "powerRank": 94,
     "resumeScore": -0.1677,
     "resumeRank": 116,
     "adjOffEpa": -0.1286,
@@ -10040,8 +10040,8 @@
     ]
    },
    "Louisville": {
-    "powerRating": 6.9631,
-    "powerRank": 41,
+    "powerRating": 9.1322,
+    "powerRank": 38,
     "resumeScore": 0.1198,
     "resumeRank": 63,
     "adjOffEpa": 0.2694,
@@ -10083,7 +10083,7 @@
     ]
    },
    "Marshall": {
-    "powerRating": -10.4935,
+    "powerRating": -12.2124,
     "powerRank": 109,
     "resumeScore": 0.1621,
     "resumeRank": 54,
@@ -10126,8 +10126,8 @@
     ]
    },
    "Maryland": {
-    "powerRating": -2.8193,
-    "powerRank": 76,
+    "powerRating": -1.4001,
+    "powerRank": 71,
     "resumeScore": 0.0466,
     "resumeRank": 80,
     "adjOffEpa": 0.0529,
@@ -10169,7 +10169,7 @@
     ]
    },
    "Massachusetts": {
-    "powerRating": -7.3842,
+    "powerRating": -9.0628,
     "powerRank": 97,
     "resumeScore": 0.2986,
     "resumeRank": 32,
@@ -10208,8 +10208,8 @@
     ]
    },
    "Memphis": {
-    "powerRating": 2.6432,
-    "powerRank": 58,
+    "powerRating": 0.5887,
+    "powerRank": 66,
     "resumeScore": 0.2173,
     "resumeRank": 48,
     "adjOffEpa": 0.2081,
@@ -10251,8 +10251,8 @@
     ]
    },
    "Miami": {
-    "powerRating": 23.8743,
-    "powerRank": 6,
+    "powerRating": 25.7042,
+    "powerRank": 5,
     "resumeScore": 0.5757,
     "resumeRank": 3,
     "adjOffEpa": 0.4442,
@@ -10294,8 +10294,8 @@
     ]
    },
    "Miami (OH)": {
-    "powerRating": -6.372,
-    "powerRank": 90,
+    "powerRating": -7.228,
+    "powerRank": 89,
     "resumeScore": 0.0538,
     "resumeRank": 78,
     "adjOffEpa": 0.2278,
@@ -10337,8 +10337,8 @@
     ]
    },
    "Michigan": {
-    "powerRating": 10.4841,
-    "powerRank": 28,
+    "powerRating": 11.9168,
+    "powerRank": 27,
     "resumeScore": 0.2895,
     "resumeRank": 34,
     "adjOffEpa": 0.2771,
@@ -10384,8 +10384,8 @@
     ]
    },
    "Michigan State": {
-    "powerRating": 2.6701,
-    "powerRank": 57,
+    "powerRating": 3.6753,
+    "powerRank": 58,
     "resumeScore": 0.1684,
     "resumeRank": 52,
     "adjOffEpa": 0.2547,
@@ -10431,8 +10431,8 @@
     ]
    },
    "Middle Tennessee": {
-    "powerRating": -14.3728,
-    "powerRank": 123,
+    "powerRating": -16.4837,
+    "powerRank": 124,
     "resumeScore": -0.0591,
     "resumeRank": 102,
     "adjOffEpa": -0.0087,
@@ -10474,8 +10474,8 @@
     ]
    },
    "Minnesota": {
-    "powerRating": 2.3453,
-    "powerRank": 60,
+    "powerRating": 3.9544,
+    "powerRank": 56,
     "resumeScore": 0.2469,
     "resumeRank": 41,
     "adjOffEpa": -0.0297,
@@ -10517,7 +10517,7 @@
     ]
    },
    "Mississippi State": {
-    "powerRating": 14.2584,
+    "powerRating": 16.1049,
     "powerRank": 16,
     "resumeScore": 0.482,
     "resumeRank": 10,
@@ -10564,8 +10564,8 @@
     ]
    },
    "Missouri": {
-    "powerRating": 12.123,
-    "powerRank": 24,
+    "powerRating": 14.0319,
+    "powerRank": 23,
     "resumeScore": 0.2042,
     "resumeRank": 50,
     "adjOffEpa": 0.1675,
@@ -10607,7 +10607,7 @@
     ]
    },
    "Missouri State": {
-    "powerRating": -11.997,
+    "powerRating": -13.1743,
     "powerRank": 112,
     "resumeScore": -0.1965,
     "resumeRank": 121,
@@ -10650,8 +10650,8 @@
     ]
    },
    "NC State": {
-    "powerRating": 1.3534,
-    "powerRank": 64,
+    "powerRating": 2.8386,
+    "powerRank": 60,
     "resumeScore": 0.0758,
     "resumeRank": 73,
     "adjOffEpa": 0.0364,
@@ -10693,8 +10693,8 @@
     ]
    },
    "Navy": {
-    "powerRating": -12.8265,
-    "powerRank": 117,
+    "powerRating": -14.937,
+    "powerRank": 119,
     "resumeScore": -0.1718,
     "resumeRank": 117,
     "adjOffEpa": -0.0606,
@@ -10728,8 +10728,8 @@
     ]
    },
    "Nebraska": {
-    "powerRating": 13.7678,
-    "powerRank": 17,
+    "powerRating": 14.9547,
+    "powerRank": 20,
     "resumeScore": 0.4059,
     "resumeRank": 21,
     "adjOffEpa": 0.4646,
@@ -10771,7 +10771,7 @@
     ]
    },
    "Nevada": {
-    "powerRating": -13.6128,
+    "powerRating": -15.4801,
     "powerRank": 122,
     "resumeScore": -0.388,
     "resumeRank": 134,
@@ -10814,8 +10814,8 @@
     ]
    },
    "New Mexico": {
-    "powerRating": 5.5681,
-    "powerRank": 48,
+    "powerRating": 4.0489,
+    "powerRank": 55,
     "resumeScore": 0.1864,
     "resumeRank": 51,
     "adjOffEpa": 0.2199,
@@ -10857,7 +10857,7 @@
     ]
    },
    "New Mexico State": {
-    "powerRating": -16.3189,
+    "powerRating": -18.0664,
     "powerRank": 128,
     "resumeScore": -0.2883,
     "resumeRank": 132,
@@ -10900,8 +10900,8 @@
     ]
    },
    "North Carolina": {
-    "powerRating": 1.5487,
-    "powerRank": 63,
+    "powerRating": 3.6782,
+    "powerRank": 57,
     "resumeScore": 0.1656,
     "resumeRank": 53,
     "adjOffEpa": 0.1243,
@@ -10935,8 +10935,8 @@
     ]
    },
    "North Dakota State": {
-    "powerRating": -2.3309,
-    "powerRank": 75,
+    "powerRating": -4.5829,
+    "powerRank": 82,
     "resumeScore": 0.4332,
     "resumeRank": 16,
     "adjOffEpa": 0.0915,
@@ -10978,8 +10978,8 @@
     ]
    },
    "North Texas": {
-    "powerRating": 3.5058,
-    "powerRank": 55,
+    "powerRating": 1.8424,
+    "powerRank": 62,
     "resumeScore": 0.0252,
     "resumeRank": 86,
     "adjOffEpa": 0.3348,
@@ -11021,7 +11021,7 @@
     ]
    },
    "Northern Illinois": {
-    "powerRating": -17.8713,
+    "powerRating": -19.0017,
     "powerRank": 132,
     "resumeScore": -0.5246,
     "resumeRank": 138,
@@ -11064,8 +11064,8 @@
     ]
    },
    "Northwestern": {
-    "powerRating": 12.921,
-    "powerRank": 22,
+    "powerRating": 15.1094,
+    "powerRank": 19,
     "resumeScore": 0.1584,
     "resumeRank": 56,
     "adjOffEpa": 0.486,
@@ -11099,7 +11099,7 @@
     ]
    },
    "Notre Dame": {
-    "powerRating": 28.0329,
+    "powerRating": 29.8679,
     "powerRank": 2,
     "resumeScore": 0.5059,
     "resumeRank": 8,
@@ -11146,8 +11146,8 @@
     ]
    },
    "Ohio": {
-    "powerRating": -8.5796,
-    "powerRank": 102,
+    "powerRating": -10.3467,
+    "powerRank": 104,
     "resumeScore": 0.0587,
     "resumeRank": 77,
     "adjOffEpa": 0.1741,
@@ -11189,7 +11189,7 @@
     ]
    },
    "Ohio State": {
-    "powerRating": 27.4905,
+    "powerRating": 29.2071,
     "powerRank": 3,
     "resumeScore": 0.2823,
     "resumeRank": 37,
@@ -11236,8 +11236,8 @@
     ]
    },
    "Oklahoma": {
-    "powerRating": 11.8047,
-    "powerRank": 26,
+    "powerRating": 13.0369,
+    "powerRank": 25,
     "resumeScore": 0.1484,
     "resumeRank": 58,
     "adjOffEpa": 0.0609,
@@ -11283,8 +11283,8 @@
     ]
    },
    "Oklahoma State": {
-    "powerRating": 1.9918,
-    "powerRank": 62,
+    "powerRating": 3.6208,
+    "powerRank": 59,
     "resumeScore": 0.3689,
     "resumeRank": 25,
     "adjOffEpa": 0.1405,
@@ -11326,7 +11326,7 @@
     ]
    },
    "Old Dominion": {
-    "powerRating": -9.3822,
+    "powerRating": -10.9269,
     "powerRank": 105,
     "resumeScore": -0.1534,
     "resumeRank": 112,
@@ -11369,8 +11369,8 @@
     ]
    },
    "Ole Miss": {
-    "powerRating": 12.7237,
-    "powerRank": 23,
+    "powerRating": 14.6628,
+    "powerRank": 21,
     "resumeScore": 0.3085,
     "resumeRank": 28,
     "adjOffEpa": 0.439,
@@ -11416,7 +11416,7 @@
     ]
    },
    "Oregon": {
-    "powerRating": 20.7771,
+    "powerRating": 22.1575,
     "powerRank": 10,
     "resumeScore": 0.44,
     "resumeRank": 15,
@@ -11459,8 +11459,8 @@
     ]
    },
    "Oregon State": {
-    "powerRating": -3.5819,
-    "powerRank": 79,
+    "powerRating": -4.7632,
+    "powerRank": 84,
     "resumeScore": -0.0179,
     "resumeRank": 96,
     "adjOffEpa": 0.1929,
@@ -11502,8 +11502,8 @@
     ]
    },
    "Penn State": {
-    "powerRating": 12.9963,
-    "powerRank": 21,
+    "powerRating": 13.663,
+    "powerRank": 24,
     "resumeScore": 0.2864,
     "resumeRank": 35,
     "adjOffEpa": 0.1607,
@@ -11549,8 +11549,8 @@
     ]
    },
    "Pittsburgh": {
-    "powerRating": 9.0605,
-    "powerRank": 31,
+    "powerRating": 10.7369,
+    "powerRank": 30,
     "resumeScore": 0.4984,
     "resumeRank": 9,
     "adjOffEpa": 0.2635,
@@ -11592,8 +11592,8 @@
     ]
    },
    "Purdue": {
-    "powerRating": -1.6847,
-    "powerRank": 74,
+    "powerRating": 0.4692,
+    "powerRank": 69,
     "resumeScore": -0.1043,
     "resumeRank": 107,
     "adjOffEpa": 0.5228,
@@ -11635,8 +11635,8 @@
     ]
    },
    "Rice": {
-    "powerRating": -12.5587,
-    "powerRank": 113,
+    "powerRating": -14.4415,
+    "powerRank": 116,
     "resumeScore": -0.151,
     "resumeRank": 110,
     "adjOffEpa": 0.1095,
@@ -11678,8 +11678,8 @@
     ]
    },
    "Rutgers": {
-    "powerRating": -3.262,
-    "powerRank": 78,
+    "powerRating": -1.7723,
+    "powerRank": 73,
     "resumeScore": -0.1524,
     "resumeRank": 111,
     "adjOffEpa": 0.2003,
@@ -11721,8 +11721,8 @@
     ]
    },
    "SMU": {
-    "powerRating": 5.9722,
-    "powerRank": 45,
+    "powerRating": 7.8313,
+    "powerRank": 42,
     "resumeScore": 0.1615,
     "resumeRank": 55,
     "adjOffEpa": 0.1288,
@@ -11764,7 +11764,7 @@
     ]
    },
    "Sacramento State": {
-    "powerRating": -22.8183,
+    "powerRating": -24.839,
     "powerRank": 138,
     "resumeScore": -0.2107,
     "resumeRank": 124,
@@ -11815,7 +11815,7 @@
     ]
    },
    "Sam Houston": {
-    "powerRating": -16.5489,
+    "powerRating": -18.2259,
     "powerRank": 129,
     "resumeScore": -0.1486,
     "resumeRank": 109,
@@ -11858,8 +11858,8 @@
     ]
    },
    "San Diego State": {
-    "powerRating": -5.7431,
-    "powerRank": 86,
+    "powerRating": -7.4051,
+    "powerRank": 90,
     "resumeScore": -0.159,
     "resumeRank": 114,
     "adjOffEpa": 0.005,
@@ -11901,7 +11901,7 @@
     ]
    },
    "San Jos\u00e9 State": {
-    "powerRating": -11.2996,
+    "powerRating": -13.1101,
     "powerRank": 111,
     "resumeScore": 0.0121,
     "resumeRank": 93,
@@ -11944,7 +11944,7 @@
     ]
    },
    "South Alabama": {
-    "powerRating": -9.4955,
+    "powerRating": -10.9513,
     "powerRank": 106,
     "resumeScore": 0.0435,
     "resumeRank": 82,
@@ -11987,8 +11987,8 @@
     ]
    },
    "South Carolina": {
-    "powerRating": 8.7918,
-    "powerRank": 33,
+    "powerRating": 10.5108,
+    "powerRank": 31,
     "resumeScore": 0.0788,
     "resumeRank": 72,
     "adjOffEpa": 0.372,
@@ -12030,8 +12030,8 @@
     ]
    },
    "South Florida": {
-    "powerRating": 2.798,
-    "powerRank": 56,
+    "powerRating": 0.6845,
+    "powerRank": 65,
     "resumeScore": 0.3765,
     "resumeRank": 23,
     "adjOffEpa": -0.0163,
@@ -12073,8 +12073,8 @@
     ]
    },
    "Southern Miss": {
-    "powerRating": -14.7319,
-    "powerRank": 124,
+    "powerRating": -16.1425,
+    "powerRank": 123,
     "resumeScore": -0.1994,
     "resumeRank": 122,
     "adjOffEpa": -0.0556,
@@ -12116,8 +12116,8 @@
     ]
    },
    "Stanford": {
-    "powerRating": -6.1508,
-    "powerRank": 89,
+    "powerRating": -4.4821,
+    "powerRank": 81,
     "resumeScore": 0.069,
     "resumeRank": 75,
     "adjOffEpa": 0.2105,
@@ -12163,8 +12163,8 @@
     ]
    },
    "Syracuse": {
-    "powerRating": -6.8318,
-    "powerRank": 93,
+    "powerRating": -4.5896,
+    "powerRank": 83,
     "resumeScore": -0.1427,
     "resumeRank": 108,
     "adjOffEpa": -0.0771,
@@ -12198,7 +12198,7 @@
     ]
    },
    "TCU": {
-    "powerRating": 5.8285,
+    "powerRating": 7.3947,
     "powerRank": 46,
     "resumeScore": 0.0484,
     "resumeRank": 79,
@@ -12241,7 +12241,7 @@
     ]
    },
    "Temple": {
-    "powerRating": -7.2828,
+    "powerRating": -9.0233,
     "powerRank": 95,
     "resumeScore": -0.1591,
     "resumeRank": 115,
@@ -12284,7 +12284,7 @@
     ]
    },
    "Tennessee": {
-    "powerRating": 16.1255,
+    "powerRating": 17.8615,
     "powerRank": 13,
     "resumeScore": 0.1398,
     "resumeRank": 62,
@@ -12327,8 +12327,8 @@
     ]
    },
    "Texas": {
-    "powerRating": 23.9995,
-    "powerRank": 5,
+    "powerRating": 25.2946,
+    "powerRank": 6,
     "resumeScore": 0.6222,
     "resumeRank": 2,
     "adjOffEpa": 0.2131,
@@ -12374,8 +12374,8 @@
     ]
    },
    "Texas A&M": {
-    "powerRating": 13.3895,
-    "powerRank": 19,
+    "powerRating": 15.2273,
+    "powerRank": 18,
     "resumeScore": 0.1123,
     "resumeRank": 64,
     "adjOffEpa": 0.1895,
@@ -12421,8 +12421,8 @@
     ]
    },
    "Texas State": {
-    "powerRating": -1.5274,
-    "powerRank": 71,
+    "powerRating": -3.186,
+    "powerRank": 76,
     "resumeScore": 0.0857,
     "resumeRank": 71,
     "adjOffEpa": 0.3268,
@@ -12464,8 +12464,8 @@
     ]
    },
    "Texas Tech": {
-    "powerRating": 18.3409,
-    "powerRank": 11,
+    "powerRating": 19.6046,
+    "powerRank": 12,
     "resumeScore": 0.4456,
     "resumeRank": 12,
     "adjOffEpa": 0.351,
@@ -12507,8 +12507,8 @@
     ]
    },
    "Toledo": {
-    "powerRating": 0.579,
-    "powerRank": 65,
+    "powerRating": -1.0069,
+    "powerRank": 70,
     "resumeScore": 0.1454,
     "resumeRank": 60,
     "adjOffEpa": 0.3304,
@@ -12550,8 +12550,8 @@
     ]
    },
    "Troy": {
-    "powerRating": -8.0508,
-    "powerRank": 100,
+    "powerRating": -9.6024,
+    "powerRank": 101,
     "resumeScore": -0.0858,
     "resumeRank": 105,
     "adjOffEpa": 0.1878,
@@ -12593,8 +12593,8 @@
     ]
    },
    "Tulane": {
-    "powerRating": -3.1586,
-    "powerRank": 77,
+    "powerRating": -4.2506,
+    "powerRank": 80,
     "resumeScore": 0.1013,
     "resumeRank": 67,
     "adjOffEpa": 0.1152,
@@ -12640,8 +12640,8 @@
     ]
    },
    "Tulsa": {
-    "powerRating": -8.0817,
-    "powerRank": 101,
+    "powerRating": -9.0317,
+    "powerRank": 96,
     "resumeScore": 0.2475,
     "resumeRank": 40,
     "adjOffEpa": 0.1957,
@@ -12683,7 +12683,7 @@
     ]
    },
    "UAB": {
-    "powerRating": -12.5801,
+    "powerRating": -14.3127,
     "powerRank": 115,
     "resumeScore": 0.0225,
     "resumeRank": 90,
@@ -12730,8 +12730,8 @@
     ]
    },
    "UCF": {
-    "powerRating": 3.7824,
-    "powerRank": 53,
+    "powerRating": 5.2812,
+    "powerRank": 52,
     "resumeScore": 0.286,
     "resumeRank": 36,
     "adjOffEpa": 0.0247,
@@ -12773,8 +12773,8 @@
     ]
    },
    "UCLA": {
-    "powerRating": 13.6076,
-    "powerRank": 18,
+    "powerRating": 15.309,
+    "powerRank": 17,
     "resumeScore": 0.4439,
     "resumeRank": 13,
     "adjOffEpa": 0.2513,
@@ -12820,8 +12820,8 @@
     ]
    },
    "UConn": {
-    "powerRating": -5.1878,
-    "powerRank": 84,
+    "powerRating": -6.3732,
+    "powerRank": 86,
     "resumeScore": -0.0428,
     "resumeRank": 100,
     "adjOffEpa": 0.1573,
@@ -12863,7 +12863,7 @@
     ]
    },
    "UL Monroe": {
-    "powerRating": -21.5295,
+    "powerRating": -23.0346,
     "powerRank": 137,
     "resumeScore": -0.4906,
     "resumeRank": 135,
@@ -12906,8 +12906,8 @@
     ]
    },
    "UNLV": {
-    "powerRating": -1.5586,
-    "powerRank": 72,
+    "powerRating": -3.5098,
+    "powerRank": 78,
     "resumeScore": 0.0425,
     "resumeRank": 83,
     "adjOffEpa": -0.1363,
@@ -12953,8 +12953,8 @@
     ]
    },
    "USC": {
-    "powerRating": 13.3126,
-    "powerRank": 20,
+    "powerRating": 14.1295,
+    "powerRank": 22,
     "resumeScore": 0.3742,
     "resumeRank": 24,
     "adjOffEpa": 0.4747,
@@ -13008,8 +13008,8 @@
     ]
    },
    "UTEP": {
-    "powerRating": -21.0877,
-    "powerRank": 135,
+    "powerRating": -22.4992,
+    "powerRank": 134,
     "resumeScore": -0.2264,
     "resumeRank": 131,
     "adjOffEpa": -0.0272,
@@ -13051,8 +13051,8 @@
     ]
    },
    "UTSA": {
-    "powerRating": 2.128,
-    "powerRank": 61,
+    "powerRating": 0.4863,
+    "powerRank": 68,
     "resumeScore": 0.2987,
     "resumeRank": 31,
     "adjOffEpa": 0.2068,
@@ -13094,7 +13094,7 @@
     ]
    },
    "Utah": {
-    "powerRating": 22.693,
+    "powerRating": 24.4567,
     "powerRank": 7,
     "resumeScore": 0.4249,
     "resumeRank": 18,
@@ -13137,7 +13137,7 @@
     ]
    },
    "Utah State": {
-    "powerRating": -5.9939,
+    "powerRating": -7.0433,
     "powerRank": 88,
     "resumeScore": -0.3488,
     "resumeRank": 133,
@@ -13180,7 +13180,7 @@
     ]
    },
    "Vanderbilt": {
-    "powerRating": 7.2888,
+    "powerRating": 9.0515,
     "powerRank": 39,
     "resumeScore": 0.2623,
     "resumeRank": 39,
@@ -13223,7 +13223,7 @@
     ]
    },
    "Virginia": {
-    "powerRating": 7.1738,
+    "powerRating": 8.6962,
     "powerRank": 40,
     "resumeScore": 0.2339,
     "resumeRank": 45,
@@ -13266,8 +13266,8 @@
     ]
    },
    "Virginia Tech": {
-    "powerRating": 3.706,
-    "powerRank": 54,
+    "powerRating": 5.1714,
+    "powerRank": 53,
     "resumeScore": 0.443,
     "resumeRank": 14,
     "adjOffEpa": 0.4251,
@@ -13309,8 +13309,8 @@
     ]
    },
    "Wake Forest": {
-    "powerRating": 4.8312,
-    "powerRank": 50,
+    "powerRating": 6.8517,
+    "powerRank": 47,
     "resumeScore": 0.2662,
     "resumeRank": 38,
     "adjOffEpa": 0.2173,
@@ -13356,8 +13356,8 @@
     ]
    },
    "Washington": {
-    "powerRating": 5.2258,
-    "powerRank": 49,
+    "powerRating": 6.5056,
+    "powerRank": 48,
     "resumeScore": 0.147,
     "resumeRank": 59,
     "adjOffEpa": 0.2162,
@@ -13399,8 +13399,8 @@
     ]
    },
    "Washington State": {
-    "powerRating": -3.7761,
-    "powerRank": 80,
+    "powerRating": -4.224,
+    "powerRank": 79,
     "resumeScore": -0.2205,
     "resumeRank": 130,
     "adjOffEpa": -0.1534,
@@ -13442,8 +13442,8 @@
     ]
    },
    "West Virginia": {
-    "powerRating": -0.8033,
-    "powerRank": 68,
+    "powerRating": 0.7897,
+    "powerRank": 63,
     "resumeScore": 0.2358,
     "resumeRank": 44,
     "adjOffEpa": 0.235,
@@ -13485,8 +13485,8 @@
     ]
    },
    "Western Kentucky": {
-    "powerRating": -15.6616,
-    "powerRank": 126,
+    "powerRating": -17.4123,
+    "powerRank": 127,
     "resumeScore": -0.2157,
     "resumeRank": 128,
     "adjOffEpa": -0.0311,
@@ -13528,8 +13528,8 @@
     ]
    },
    "Western Michigan": {
-    "powerRating": -5.1328,
-    "powerRank": 83,
+    "powerRating": -6.929,
+    "powerRank": 87,
     "resumeScore": 0.0092,
     "resumeRank": 94,
     "adjOffEpa": 0.0236,
@@ -13571,8 +13571,8 @@
     ]
    },
    "Wisconsin": {
-    "powerRating": 9.3182,
-    "powerRank": 30,
+    "powerRating": 10.7805,
+    "powerRank": 29,
     "resumeScore": 0.3058,
     "resumeRank": 29,
     "adjOffEpa": 0.3891,
@@ -13614,7 +13614,7 @@
     ]
    },
    "Wyoming": {
-    "powerRating": -13.0293,
+    "powerRating": -15.0477,
     "powerRank": 120,
     "resumeScore": -0.0863,
     "resumeRank": 106,
@@ -13669,6 +13669,7 @@
    "TRAVEL_PER_1000": 1.0,
    "FCS_BELOW": 15,
    "FIRST_GAME_WEIGHT": 0.8,
+   "P4_START_BONUS": 5,
    "PRIOR_GAMES": 3,
    "PRIOR_END_WEEK": 14,
    "LOSS_WEIGHT": 0.5,
