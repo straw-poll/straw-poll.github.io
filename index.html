@@ -429,7 +429,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
           <dt>AP</dt><dd><b>Public opinion.</b> The Associated Press Top 25.</dd>
           <dt>Model</dt><dd><b>The numbers.</b> Teams ranked by power rating: points better than an average FBS team on a neutral field. The difference between two teams' ratings, plus the home edge, is the model's predicted margin. It picks winners better than the AP poll (see the Scorecard on Previous Rankings) and about as well as established computer ratings such as ESPN's FPI and Sagarin.</dd>
         </dl>
-        <p><b>Quality wins</b> is shown alongside as a résumé stat, not a ranking: its wins and losses, each weighted by how good the opponent's record is (results only, no margins).</p>
+        <p><b>Quality wins</b> is shown alongside as a résumé stat, not a ranking: every win and loss, each weighted by how good the opponent is by Model rank.</p>
 
         <h2 id="m-power">Power rating, step by step</h2>
         <ol>
@@ -447,7 +447,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 
         <h2 id="m-qw">Quality wins (résumé stat)</h2>
         <ul>
-          <li><b>Opponent strength (0 to 1):</b> a results-only rating (the Colley method) from wins and losses, adjusted for who each team played. An average team is about 0.5.</li>
+          <li><b>Opponent strength (0 to 1):</b> from the opponent's Model rank: #1 is 1.0 and the last FBS team is 0.0, the same left-to-right position as its dot on the Results Map. So a row of dots far to the right means a high Quality wins score.</li>
           <li><b>A win</b> is worth the opponent's strength × location (<b data-set="LOC_WIN">road 1.02, neutral 1.01, home 1.00</b>), × (1 + <b data-set="DECISIVE_WIN_BONUS">0.1</b> × strength) if it wasn't close.</li>
           <li><b>A loss</b> costs <b data-set="LOSS_WEIGHT">0.5</b> × (1 − strength) × location (<b data-set="LOC_LOSS">home 1.05, neutral 1.00, road 0.95</b>), × <b data-set="CLOSE_LOSS_FACTOR">0.6</b> if it was close, and always at least <b data-set="MIN_LOSS">0.1</b>. Losses weigh less than wins.</li>
           <li><b>FCS:</b> a win doesn't count; a loss counts <b data-set="FCS_LOSS_VALUE">-1.5</b>.</li>
