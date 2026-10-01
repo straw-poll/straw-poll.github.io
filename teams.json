@@ -1,6 +1,6 @@
 {
  "season": 2026,
- "updatedAt": "2026-10-01T05:10:09.606498+00:00",
+ "updatedAt": "2026-10-01T05:17:44.778956+00:00",
  "through": "games through Sat, Sep 26",
  "teams": {
   "Air Force": {
@@ -7680,7 +7680,7 @@
  },
  "model": {
   "season": 2026,
-  "updatedAt": "2026-10-01T05:10:09.606498+00:00",
+  "updatedAt": "2026-10-01T05:17:44.778956+00:00",
   "teams": {
    "Air Force": {
     "powerRating": -12.9874,
@@ -13655,6 +13655,35 @@
       -0.102
      ]
     ]
+   }
+  },
+  "settings": {
+   "DIMINISH_SCALE": 50,
+   "WIN_BONUS": 0.75,
+   "CLOSE_MARGIN": 3,
+   "ONE_SCORE": 8,
+   "CLOSE_WP": 0.75,
+   "HOME_FIELD": 2.5,
+   "NEUTRAL_SHARE": 1.0,
+   "TRAVEL_PER_1000": 1.0,
+   "FCS_BELOW": 15,
+   "FIRST_GAME_WEIGHT": 0.8,
+   "PRIOR_GAMES": 3,
+   "PRIOR_END_WEEK": 14,
+   "LOSS_WEIGHT": 0.5,
+   "MIN_LOSS": 0.1,
+   "CLOSE_LOSS_FACTOR": 0.6,
+   "DECISIVE_WIN_BONUS": 0.1,
+   "FCS_LOSS_VALUE": -1.5,
+   "LOC_WIN": {
+    "away": 1.02,
+    "neutral": 1.01,
+    "home": 1.0
+   },
+   "LOC_LOSS": {
+    "home": 1.05,
+    "neutral": 1.0,
+    "away": 0.95
    }
   }
  }

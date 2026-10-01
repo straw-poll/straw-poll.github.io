@@ -299,6 +299,15 @@ legend{font-weight:600;padding:0 4px}
 .viewonly .jmlist:empty::before{content:none}
 #syncToken{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:var(--paper);font-family:ui-monospace,Menlo,monospace;font-size:.85rem}
 #syncMsg:empty{display:none}
+.method{max-width:80ch}
+.method h3{font:700 1.3rem var(--cond);margin:22px 0 6px}
+.method p,.method li,.method dd{line-height:1.5}
+.method ol,.method ul{padding-left:1.3em;margin:0}
+.method li{margin:4px 0}
+.method dl{display:grid;grid-template-columns:max-content 1fr;gap:6px 14px;margin:0}
+.method dt{font-weight:700}.method dd{margin:0}
+.method a{color:var(--field)}
+@media (max-width:640px){.method dl{grid-template-columns:1fr}.method dd{margin-bottom:6px}}
 .adv{width:auto;margin:0 0 14px;font-size:.9rem}
 .adv th,.adv td{padding:2px 14px 2px 0;border:0;text-align:right}
 .adv th{position:static;background:none;font:600 .8rem var(--body);color:var(--muted)}
@@ -324,6 +333,7 @@ legend{font-weight:600;padding:0 4px}
       <button class="tab" role="tab" id="tab-ballot" aria-selected="true">Current Rankings</button>
       <button class="tab" role="tab" id="tab-resumes" aria-selected="false">Data</button>
       <button class="tab" role="tab" id="tab-history" aria-selected="false">Previous Rankings</button>
+      <button class="tab" role="tab" id="tab-method" aria-selected="false">Methodology</button>
     </nav>
   </header>
 
@@ -392,6 +402,66 @@ legend{font-weight:600;padding:0 4px}
     </div>
     <div id="rsBody" class="rs-body"></div>
     <div id="poolData"></div>
+  </section>
+
+  <section id="view-method" class="hist method" hidden>
+    <h2>Methodology</h2>
+    <p>Team data comes from <a href="https://collegefootballdata.com" target="_blank" rel="noopener">CollegeFootballData.com</a> and updates every Sunday morning. Only FBS teams are rated. The model is a reference: the weekly rankings are my own, and they never feed into the model.</p>
+
+    <h3>The three ratings</h3>
+    <dl>
+      <dt>Model rank (power rating)</dt><dd><b>How good a team is.</b> Points better than an average FBS team on a neutral field. The difference between two teams' ratings, plus the home edge, is the model's predicted margin.</dd>
+      <dt>Quality wins (QW)</dt><dd><b>What a team has earned.</b> Its wins and losses, each weighted by how good the opponent's record is. Results only: no scoring margins and no power ratings.</dd>
+      <dt>Composite</dt><dd>A blend of the two (currently <b class="mxtxt"></b>), set under <b>Composite ▾</b>.</dd>
+    </dl>
+
+    <h3>Power rating, step by step</h3>
+    <ol>
+      <li><b>Margins have diminishing returns.</b> A win counts as <b data-set="DIMINISH_SCALE">50</b> × tanh(margin ÷ <b data-set="DIMINISH_SCALE">50</b>) points, so a 14-point win counts about 14, a 28-point win about 25, and a 50-point win about 38.</li>
+      <li><b>Close games count as narrow results.</b> A game is <i>close</i> if it ended within <b data-set="ONE_SCORE">8</b> points <i>and</i> the winner's win probability fell below <b data-set="CLOSE_WP">0.75</b> at some point in the 4th quarter. Close games count as a <b data-set="CLOSE_MARGIN">3</b>-point result whatever the final margin. Other one-score games count as two-score results.</li>
+      <li><b>Win bonus:</b> every win gets <b data-set="WIN_BONUS">0.75</b> extra points (and the loser loses them).</li>
+      <li><b>Each game is judged against expectations.</b> Ratings are fitted so the margins they predict match the credited results. A blowout a team was expected to win barely moves it; a close loss to a much better team can raise it.</li>
+      <li><b>Location:</b> home teams get <b data-set="HOME_FIELD">2.5</b> points. At a neutral site, the team closer to the stadium gets part of that edge (<b data-set="NEUTRAL_SHARE">1.0</b> × home edge × how much shorter its trip is). Any team traveling farther than its opponent gives up <b data-set="TRAVEL_PER_1000">1.0</b> point per 1,000 extra miles.</li>
+      <li><b>FCS games:</b> wins over FCS teams are ignored; a loss to an FCS team counts as a loss to a team rated <b data-set="FCS_BELOW">15</b> points below the FBS average.</li>
+      <li><b>Openers count a bit less:</b> each team's first game counts <b data-set="FIRST_GAME_WEIGHT">0.8</b> of a game.</li>
+      <li><b>Preseason start:</b> a mix of last season's rating, the share of production returning, and roster talent (weights fitted on earlier seasons). It counts as <b data-set="PRIOR_GAMES">3</b> games before the season and fades to nothing by week <b data-set="PRIOR_END_WEEK">14</b>.</li>
+    </ol>
+    <p class="note">Not used: betting lines (kept out so the model can disagree with them), per-play efficiency (it didn't improve predictions), and my own rankings. On a week-by-week replay of 2024–2026, the model's predicted margins were off by about 12.6 points per game on average (the closing betting line: about 12.0), and it picked the winner about 72% of the time.</p>
+
+    <h3>Quality wins</h3>
+    <ul>
+      <li><b>Opponent strength (0 to 1):</b> a results-only rating (the Colley method) from wins and losses, adjusted for who each team played. An average team is about 0.5.</li>
+      <li><b>A win</b> is worth the opponent's strength × location (<b data-set="LOC_WIN">road 1.02, neutral 1.01, home 1.00</b>), × (1 + <b data-set="DECISIVE_WIN_BONUS">0.1</b> × strength) if it wasn't close.</li>
+      <li><b>A loss</b> costs <b data-set="LOSS_WEIGHT">0.5</b> × (1 − strength) × location (<b data-set="LOC_LOSS">home 1.05, neutral 1.00, road 0.95</b>), × <b data-set="CLOSE_LOSS_FACTOR">0.6</b> if it was close, and always at least <b data-set="MIN_LOSS">0.1</b>. Losses weigh less than wins.</li>
+      <li><b>FCS:</b> a win doesn't count; a loss counts <b data-set="FCS_LOSS_VALUE">-1.5</b>.</li>
+      <li><b>Score</b> = the average value of the games that count. Example: a decisive home win over a 0.70-strength team is worth 0.70 × 1.00 × 1.07 = 0.75.</li>
+    </ul>
+
+    <h3>Composite</h3>
+    <p>Each team's power rating and quality-wins score are turned into percentiles among FBS teams (0 = lowest, 1 = highest). The Composite is the blend of the two, then ranked. The saved blend is what everyone sees; moving the slider changes only your own view.</p>
+
+    <h3>Data tab</h3>
+    <ul>
+      <li>Each strip shows a team's games, placed left to right by the <b>opponent's Composite rank</b> (#1 at the far right; FCS opponents at the far left).</li>
+      <li>Green = win, red = loss. Dot size = margin (1–8, 9–16, 17+). Gold ring = close game; double ring = overtime.</li>
+      <li>A small number beside a dot is the opponent's rank in my Top 25. <b>Best</b> and <b>Worst</b> mark the games with the highest and lowest quality-wins value.</li>
+      <li>Dots for similarly ranked opponents are stacked slightly above and below the line so none are hidden.</li>
+    </ul>
+
+    <h3>Columns and flags</h3>
+    <dl>
+      <dt>vs P4</dt><dd>Record against SEC, Big Ten, Big 12 and ACC teams, plus Notre Dame.</dd>
+      <dt>vs T25</dt><dd>Record against teams currently in my Top 25.</dd>
+      <dt>2025, '25 AP</dt><dd>Last season's regular-season record and final AP rank.</dd>
+      <dt>Off / Def EPA</dt><dd>Expected points added per play on offense, and allowed on defense (garbage time excluded). Defense: lower is better.</dd>
+      <dt>SR, Expl</dt><dd>Success rate (share of plays that keep a drive on schedule) and explosiveness (size of successful plays).</dd>
+      <dt>Adj …</dt><dd>The same stats, adjusted for the opponents faced.</dd>
+      <dt>Defs faced / Offs faced</dt><dd>Strength of schedule: the average adjusted EPA of the FBS defenses (lower = tougher) and offenses (higher = tougher) a team has played.</dd>
+      <dt>H2H</dt><dd>A head-to-head result that disagrees with my order.</dd>
+      <dt>LOOP</dt><dd>Teams that beat each other in a circle, so no order satisfies every result.</dd>
+      <dt>▲ ▼ NEW</dt><dd>Movement since my previous week's ranking.</dd>
+      <dt>Just missed</dt><dd>Up to five teams I'd rank next, in no particular order.</dd>
+    </dl>
   </section>
 </div>
 
@@ -799,7 +869,7 @@ legend{font-weight:600;padding:0 4px}
     $('stamp').textContent = `Records include ${S.meta.through||''}${d?', updated '+d:''}`;
   }
 
-  function renderAll(){ renderStamp(); renderHeads(); renderWeekBar(); renderBallot(); renderPool(); renderStatus(); renderCmpBar(); if(!$('view-history').hidden) renderHistory(); if(!$('view-resumes').hidden) renderResumes(); }
+  function renderAll(){ renderStamp(); renderHeads(); renderWeekBar(); renderBallot(); renderPool(); renderStatus(); renderCmpBar(); if(!$('view-history').hidden) renderHistory(); if(!$('view-resumes').hidden) renderResumes(); if(!$('view-method').hidden) renderMethod(); }
 
   // ---------- actions ----------
   function addTeam(a, at){
@@ -934,7 +1004,7 @@ legend{font-weight:600;padding:0 4px}
   }
   $('mixW').addEventListener('input', e=>{
     S.mixW=Number(e.target.value)/100; renderMix();
-    renderBallot(); renderPool(); if(!$('view-resumes').hidden) renderResumes();
+    renderBallot(); renderPool(); if(!$('view-resumes').hidden) renderResumes(); if(!$('view-method').hidden) renderMethod();
   });
   renderMix();
   $('mixSave').addEventListener('click', async ()=>{
@@ -950,14 +1020,27 @@ legend{font-weight:600;padding:0 4px}
   // the one Teams table moves between Current Rankings (beside the Top 25) and Data (below the strips)
   const poolEl = document.querySelector('aside.pool'), poolHome = poolEl.parentNode;
   function showTab(v){
-    ['ballot','history','resumes'].forEach(k=>{ $('tab-'+k).setAttribute('aria-selected', String(k===v)); $('view-'+k).hidden = k!==v; });
+    ['ballot','history','resumes','method'].forEach(k=>{ $('tab-'+k).setAttribute('aria-selected', String(k===v)); $('view-'+k).hidden = k!==v; });
     if(v==='resumes') $('poolData').appendChild(poolEl); else if(v==='ballot') poolHome.appendChild(poolEl);
     if(v==='history') renderHistory();
     if(v==='resumes') renderResumes();
+    if(v==='method') renderMethod();
+  }
+  // Methodology tab: fill in the model's current settings (saved with the team data)
+  function renderMethod(){
+    const st=(S.model&&S.model.settings)||{}, f=v=>typeof v==='number' ? String(v) : v;
+    document.querySelectorAll('#view-method [data-set]').forEach(el=>{
+      const k=el.dataset.set, v=st[k]; if(v==null) return;
+      if(k==='LOC_WIN') el.textContent=`road ${v.away.toFixed(2)}, neutral ${v.neutral.toFixed(2)}, home ${v.home.toFixed(2)}`;
+      else if(k==='LOC_LOSS') el.textContent=`home ${v.home.toFixed(2)}, neutral ${v.neutral.toFixed(2)}, road ${v.away.toFixed(2)}`;
+      else el.textContent=f(v);
+    });
+    document.querySelectorAll('#view-method .mxtxt').forEach(el=>el.textContent=$('mixTxt').textContent);
   }
   $('tab-ballot').addEventListener('click', ()=>showTab('ballot'));
   $('tab-history').addEventListener('click', ()=>showTab('history'));
   $('tab-resumes').addEventListener('click', ()=>showTab('resumes'));
+  $('tab-method').addEventListener('click', ()=>showTab('method'));
   window.addEventListener('beforeunload', e=>{ if(S.dirty){ e.preventDefault(); e.returnValue=''; } });
 
   // ---------- drag & drop ----------
