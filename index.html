@@ -68,6 +68,10 @@ h2 small{font:400 13px var(--body);color:var(--muted);margin-left:10px}
 .sdefs dd{margin:0}
 .sdefs .sdh{grid-column:1/-1;font:600 11px var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin:10px 0 0}
 .empty{padding:24px 18px;border:1px dashed var(--line);border-radius:12px;color:var(--muted)}
+.steps{margin:8px 0 12px;padding-left:20px;color:var(--ink)} .steps li{margin:3px 0}
+.guide{display:flex;gap:14px;align-items:flex-start;justify-content:space-between;background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:12px;padding:12px 16px;margin-bottom:14px}
+.guide .steps{margin-bottom:0}
+.banner{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:12px;padding:10px 16px;margin-bottom:16px;color:var(--ink);font-size:14px}
 .empty strong{color:var(--ink);display:block;font:700 20px var(--cond);margin-bottom:4px}
 .mv{font:700 13px var(--cond);text-align:center;white-space:nowrap}
 .mv.up{color:var(--win)} .mv.dn{color:var(--loss)} .mv.new{color:var(--gold)} .mv.eq{color:var(--faint)}
@@ -426,7 +430,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     <button class="brand" id="brand" aria-label="Straw Poll home"><b>Straw Poll <span id="brandYr">2026</span></b><small>College football rankings</small></button>
     <nav class="tabs" role="tablist">
       <button class="tab" role="tab" id="tab-home" aria-selected="true">Home</button>
-      <button class="tab owner voter-only" role="tab" id="tab-work" aria-selected="false">Vote</button>
+      <button class="tab owner" role="tab" id="tab-work" aria-selected="false">Vote</button>
       <button class="tab" role="tab" id="tab-leagues" aria-selected="false">Leagues</button>
       <button class="tab" role="tab" id="tab-rank" aria-selected="false">Research</button>
       <button class="tab" role="tab" id="tab-history" aria-selected="false">History</button>
@@ -448,6 +452,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 <main class="wrap">
   <!-- HOME -->
   <section id="view-home">
+    <div class="banner" id="hBanner" role="status" hidden></div>
     <div class="hero">
       <div class="card"><div class="ch"><h2 id="hTitle">Straw Poll Top 25</h2><button class="more" data-go="rank">Results Map and stats →</button></div>
         <div class="t25" id="hTop"></div><div class="also" id="hAlso"></div></div>
@@ -627,8 +632,13 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   </section>
 
   <!-- WORKSPACE (approved users: your own ballot; owner also gets Upset watch) -->
-  <section id="view-work" class="voter-only" hidden>
+  <section id="view-work" hidden>
     <div class="empty" id="wsGate" role="status"></div>
+    <div class="guide" id="wsGuide" hidden><div><strong>How voting works</strong>
+      <ol class="steps"><li>Pick a starting point with <b>Start from…</b> (your last ballot, Wolp+, the AP, or empty).</li>
+      <li>Drag teams to rank exactly 25, or tap + in Add teams.</li>
+      <li>Submit before Tuesday 11:59 PM ET. You can change it until then; nobody sees it before voting closes.</li></ol></div>
+      <button class="btn quiet" id="wsGuideOk">Got it</button></div>
     <div class="wbar">
       <span class="weeklabel">Week</span>
       <select id="weekSel" aria-label="Choose week"></select>
@@ -665,7 +675,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
           <select id="pConf" class="fsel" aria-label="Conference"></select>
         </div>
         <div class="pscroll"><div class="phead" id="phead" role="group" aria-label="Sort teams by"></div><div class="plist" id="pool"></div></div>
-        <p class="note">Drag a team into the map or list, or tap + to add it to the first open spot. Click a column heading to sort.</p>
+        <p class="note">Drag a team into the map or list, or tap + to add it to the first open spot. Click a column heading to sort. Click a team for its game log, or <button class="linkbtn" data-go="rank">research a team →</button></p>
       </aside>
     </div>
   </section>
@@ -981,7 +991,24 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 
   // ---------- HOME ----------
   function apRank(a){ return S.ap && S.ap.ranks ? S.ap.ranks[a] : undefined; }
+  // one line at the top of Home that changes with who is looking and where the week stands
+  function renderBanner(){
+    const el=$('hBanner'), pr=S.me && S.me.profile, link = (go, t) => ` <button class="more" data-go="${go}">${t} →</button>`;
+    let h='';
+    if(!S.me) h = 'What is this? A weekly college football poll by friends, plus a power rating built from game results.' + link('method', 'How it works');
+    else if(S.me.err) h = '';
+    else if(!S.canWrite) h = pr && pr.status==='declined' ? '' : 'Your account is awaiting approval. You can explore everything in the meantime.';
+    else if(S.vote.state==='ready'){
+      const o=openWeekNum(), nx=S.vote.next;
+      if(o!=null) h = S.vote.mine[o] ? `Week ${o} ballot submitted ✓ You can change it until ${esc(etTime(lockOf(o)))}.` + link('work', 'Your ballot')
+                                      : `Week ${o} voting closes <b>${esc(etTime(lockOf(o)))}</b>.` + link('work', 'Submit your ballot');
+      else if(nx!=null) h = `Week ${nx} voting opens Sunday morning.` + link('work', 'Start your ballot');
+      else h = 'Voting is closed for this week.';
+    }
+    el.innerHTML = h; el.hidden = !h;
+  }
   function renderHome(){
+    renderBanner();
     const n=pubNum(), list=pub(), ranks=pubMap(), prev = n!=null && prevNum(n)!=null ? rankMap(prevNum(n)) : null;
     const wk = n!=null ? S.weeks[n] : null, nb = wk && wk.compiled ? wk.ballots : null;
     $('hTitle').innerHTML = `Straw Poll Top 25${n!=null?`<small>Week ${n}${nb!=null?` · ${nb} ballot${nb===1?'':'s'}`:''}</small>`:''}`;
@@ -1376,7 +1403,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       if(keep){ draft = stash.ranking.slice(); kept = true; } else try{ localStorage.removeItem(draftKey(n)); }catch(e){}
     }
     if(!draft) draft = n!=null && editable(n) ? startList('last') : [];
-    S.draft = draft; refreshDirty(); armLockTimer(); renderWorkIfShown(); if(S.tab==='admin') renderAdmin();
+    S.draft = draft; refreshDirty(); armLockTimer(); renderWorkIfShown(); if(S.tab==='admin') renderAdmin(); if(S.tab==='home') renderBanner();
     if(kept) stashDraft();  // re-save against the latest submission, so the question isn't asked again
   }
   // re-render the moment the week locks or its late window ends, so the page never offers what the database refuses
@@ -1416,7 +1443,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     else if(S.dirty && ph==='late'){ msg = sub && !pend ? `Your on-time ballot (${atTime(sub.at)}) counts. Changes now go in as a late ballot for the owner to approve.` : 'Ready to send as a late ballot'; warn=true; }
     else if(S.dirty){ msg = sub ? 'Changes not submitted' : 'Ready to submit'; warn=true; }
     else if(pend){ msg = `Late ballot sent ${atTime(lt.at)}. It counts once the owner approves it.`; btn='Pending'; }
-    else { msg = 'Submitted ' + atTime(sub.at); btn='Submitted'; }
+    else { msg = 'Submitted ' + atTime(sub.at) + (ph==='open' ? ` · you can change it until ${etTime(L)}` : ''); btn='Submitted'; }
     st.textContent=msg; st.className='status'+(warn?' warn':'');
     sv.hidden = !can; sv.textContent = S.busy ? 'Sending…' : btn;
     sv.disabled = S.busy || !can || ph==='soon' || S.draft.length!==BMAX || !S.dirty;
@@ -1458,7 +1485,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     }
     if(late) S.vote.late[n] = {ranking:data.ranking, at:data.submitted_at, status:data.status};
     else S.vote.mine[n] = {ranking:data.ranking, at:data.submitted_at};
-    S.draft = data.ranking.slice(); setDirty(); renderWork();
+    S.draft = data.ranking.slice(); setDirty(); renderWork(); renderBanner();
     toast(late ? `Late ballot sent for week ${n}. It counts once the owner approves it.` : `Week ${n} ballot submitted`);
   }
   // the coming Tuesday 11:59:59 PM Eastern (today, if it's Tuesday), on the server's clock
@@ -1587,7 +1614,11 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   }
   function refreshBuild(){ renderBallot(); renderPool(); if(S.ws==='map') renderWMap(); }
   let wSortable=null;
+  // first-visit guide for voters; dismissed per browser
+  const guideSeen = () => { try{ return localStorage.getItem('sp-guide-seen')==='1'; }catch(e){ return false; } };
+  $('wsGuideOk').addEventListener('click', ()=>{ try{ localStorage.setItem('sp-guide-seen','1'); }catch(e){} $('wsGuide').hidden=true; });
   function renderWork(){
+    $('wsGuide').hidden = !S.canWrite || guideSeen();
     document.querySelectorAll('[data-ws]').forEach(b=>b.classList.toggle('on', b.dataset.ws===S.ws));
     ['ballot','map'].forEach(k=>$('ws-'+k).hidden = k!==S.ws);
     renderWeekBar(); renderHeads(); renderBallot(); renderPool(); renderStatus();
@@ -1756,7 +1787,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
                  history:'history', how:'method', method:'method', methodology:'method', admin:'admin', home:'home'};
   const tabFromHash = h => ALIAS[(h||'').replace(/^#/, '').toLowerCase()] || null;
   function showTab(v){
-    const allowed = v==='work' ? !!S.me : v==='admin' ? S.isOwner : true;
+    const allowed = v==='admin' ? S.isOwner : true;
     if(!allowed){ if(!S.accessKnown) S.wantTab = v; v = 'home'; }  // reopened once sign-in is known (setAccess)
     S.tab=v;
     TABS.forEach(k=>{ $('tab-'+k).setAttribute('aria-selected', String(k===v)); $('view-'+k).hidden = k!==v; });
@@ -1909,14 +1940,16 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     if(S.tab==='admin') renderAdmin();
   }
   // What the page shows each kind of visitor (the database enforces the same rules on every request):
-  // signed out: no Workspace · signed in, not approved: the Workspace tab shows only their status ·
-  // approved: their own ballot · owner: also upset alerts and the "Open voting" fallback.
+  // signed out: Vote explains how to join · signed in, not approved: Vote shows only their status ·
+  // approved: their own ballot · owner: also the Admin tab.
   function setAccess(){
     const pr = S.me && S.me.profile, owner = !!(pr && pr.is_owner), vote = owner || !!(pr && pr.status==='approved');
     S.isOwner = owner; S.canWrite = vote;
     document.body.classList.toggle('viewonly', !S.me); document.body.classList.toggle('isowner', owner);
     $('view-work').classList.toggle('gated', !vote);
-    $('wsGate').innerHTML = !S.me || vote ? '' : S.me.err ? `<strong>Couldn’t load your account</strong>${esc(sbErr(S.me.err, 'Reload the page to try again.'))}`
+    $('wsGate').innerHTML = vote ? '' : !S.me
+      ? `<strong>How to join</strong><ol class="steps"><li>Sign in with Google.</li><li>The site owner approves your account.</li><li>Rank your 25 teams here each week and submit by Tuesday 11:59 PM ET.</li></ol><button class="btn primary" data-signin>Sign in</button> <button class="linkbtn" data-go="method">How it works</button>`
+      : S.me.err ? `<strong>Couldn’t load your account</strong>${esc(sbErr(S.me.err, 'Reload the page to try again.'))}`
       : pr && pr.status==='declined'
       ? '<strong>Not approved</strong>Your request to join wasn’t approved, so you can’t submit ballots. You can still view everything on the site.'
       : '<strong>Waiting for approval</strong>Your request to join has been sent. Once the owner approves it, you can build and submit your ballot here.';
@@ -1926,8 +1959,8 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     S.accessFor = who;
     if(vote) loadVoting(); else clearVoting();
     const want = S.wantTab; S.wantTab = null;
-    if(want && (want==='work' ? S.me : owner)) showTab(want);
-    else if((S.tab==='work' && !S.me) || (S.tab==='admin' && !owner)) showTab('home');
+    if(want && owner) showTab(want);
+    else if(S.tab==='admin' && !owner) showTab('home');
     else renderCurrent();
   }
   async function loadReqs(){
@@ -1966,6 +1999,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       ? `<p class="dnote">${n} waiting for you on the Admin tab. <button class="linkbtn" id="acctToAdmin">Open Admin</button></p>`
       : '<p class="dnote">Approvals, late ballots, upset watch and Open voting are on the Admin tab.</p>';
   }
+  document.addEventListener('click', e=>{ if(e.target.closest('[data-signin]')) $('acctBtn').click(); });
   $('acctAdminNote').addEventListener('click', e=>{ if(e.target.id==='acctToAdmin'){ $('acctDlg').close(); showTab('admin'); } });
   // Admin tab (owner): voting status + Open voting fallback, join requests, late ballots, upset watch
   function renderAdmin(){
