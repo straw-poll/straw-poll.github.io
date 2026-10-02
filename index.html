@@ -100,6 +100,9 @@ h2 small{font:400 13px var(--body);color:var(--muted);margin-left:10px}
 .when{color:var(--muted);font-size:12.5px}
 .tag{font:600 10.5px var(--body);letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:999px;white-space:nowrap}
 .tag.up{background:#3d3115;color:var(--gold)}
+.tag.hit{background:#163a26;color:var(--win)} .tag.miss{background:var(--panel2);color:var(--muted)}
+.side.scored{grid-template-columns:32px minmax(0,1fr) auto}
+.side .sc{font:800 24px var(--cond);color:var(--ink);font-variant-numeric:tabular-nums} .side .sc.lost{color:var(--muted)}
 .side{display:grid;grid-template-columns:32px minmax(0,1fr);gap:10px;align-items:center;background:none;border:0;padding:0;text-align:left;width:100%;color:var(--ink)}
 .side .lg{width:30px;height:30px}
 .side b{font:700 20px/1.05 var(--cond);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -941,25 +944,36 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     // this week's games
     const sch=S.schedule||{}, games=(sch.games||[]).filter(g=>S.teams[g.home]||S.teams[g.away]);
     const upW = (S.upsets||{})[sch.week] || {};
-    const card = g => { const up=upW[g.id], mFav = typeof g.model==='number' ? (g.model>0?g.home:g.away) : null, lFav = typeof g.line==='number' ? (g.line>0?g.home:g.away) : null;
-      const side = a => `<button class="side" data-open="${esc(a)}">${logo(a)}<div><b>${ranks[a]?`<span class="rkb">${ranks[a]}</span>`:''}${esc(nm(a))}</b><small>${S.teams[a]?rec(S.teams[a].w,S.teams[a].l):'FCS'}${apR[a]?' · AP #'+apR[a]:''}</small></div></button>`;
-      return `<div class="game${up?' hot':''}"><div class="gtop"><span class="when">${esc(kick(g.start))}</span>${up?'<span class="tag up">Upset alert</span>':''}</div>
+    // a game card; a finished game (final score from picks: hp/ap) shows the score and whether the betting underdog won
+    const card = (g, up) => { const mFav = typeof g.model==='number' ? (g.model>0?g.home:g.away) : null, lFav = typeof g.line==='number' ? (g.line>0?g.home:g.away) : null;
+      const done = g.hp!=null && g.ap!=null, won = done ? (g.hp>g.ap ? g.home : g.away) : null;
+      const result = !done || !lFav ? '' : won!==lFav ? '<span class="tag hit">Upset!</span>' : '<span class="tag miss">Favorite won</span>';
+      const score = a => done ? `<span class="sc${a===won?'':' lost'}">${a===g.home ? g.hp : g.ap}</span>` : '';
+      const side = a => `<button class="side${done?' scored':''}" data-open="${esc(a)}">${logo(a)}<div><b>${ranks[a]?`<span class="rkb">${ranks[a]}</span>`:''}${esc(nm(a))}</b><small>${S.teams[a]?rec(S.teams[a].w,S.teams[a].l):'FCS'}${apR[a]?' · AP #'+apR[a]:''}</small></div>${score(a)}</button>`;
+      return `<div class="game${up?' hot':''}"><div class="gtop"><span class="when">${done ? 'Final' : esc(kick(g.start))}</span>${result || (up?'<span class="tag up">Upset alert</span>':'')}</div>
         ${side(g.away)}<div class="at">${g.neutral?'vs':'at'}</div>${side(g.home)}
         <div class="nums"><div><small>Line</small><b>${spread(g.line,g.home,g.away)}</b></div><div><small>Wolp+</small><b class="${mFav && lFav && mFav!==lFav ? 'mup':''}">${modelTxt(g.model,g.home,g.away)}</b></div></div>
         ${up && up.note ? `<p class="gnote">${esc(up.note)}</p>` : ''}</div>`; };
-    const ups = games.filter(g=>upW[g.id]);
+    // Upset alerts: this week's; until this week's are published, last week's with final scores. (Saturday's results
+    // arrive with Sunday's update, the same run that moves the site on to the next week.)
+    const weekPicks = w => Object.fromEntries((((S.picks||[]).find(p=>p.week===w)) || {games:[]}).games.map(g=>[String(g.id), g]));
+    const pubWeeks = Object.keys(S.upsets||{}).map(Number).filter(w=>Object.keys(S.upsets[w]).length).sort((a,b)=>a-b);
+    const upWk = pubWeeks.includes(sch.week) ? sch.week : pubWeeks.filter(w=>sch.week==null || w<sch.week).pop();
+    const upNow = upWk==null ? {} : S.upsets[upWk], past = upWk==null ? {} : weekPicks(upWk);
+    const ups = Object.keys(upNow).map(id=>{ const p=past[id], g=games.find(x=>String(x.id)===id); return p && p.hp!=null ? p : g || p; })
+      .filter(g=>g && (S.teams[g.home]||S.teams[g.away])).sort((a,b)=>String(a.start).localeCompare(String(b.start)));
     $('hUpsWrap').hidden = !ups.length && !S.isOwner;
-    $('hUpsSub').textContent = sch.week!=null ? `Week ${sch.week}` : '';
+    $('hUpsSub').textContent = upWk==null ? (sch.week!=null ? `Week ${sch.week}` : '') : upWk===sch.week ? `Week ${upWk}` : `Week ${upWk} results`;
     const nCand = S.isOwner ? upsetCands().filter(x=>x.cand).length : 0;
-    const review = S.isOwner ? `<div class="game" style="display:flex;flex-direction:column;justify-content:center;gap:8px;border-style:dashed"><b style="font:700 18px var(--cond)">${ups.length ? 'Edit upset alerts' : 'No upset alerts published yet'}</b><span class="lead" style="margin:0">${nCand} candidate${nCand===1?'':'s'} this week. Only you see this box.</span><button class="btn primary" data-go="work" data-ws="ups" style="align-self:flex-start">Review and publish →</button></div>` : '';
-    $('hUps').innerHTML = ups.map(card).join('') + review;
+    const review = S.isOwner ? `<div class="game" style="display:flex;flex-direction:column;justify-content:center;gap:8px;border-style:dashed"><b style="font:700 18px var(--cond)">${Object.keys(upW).length ? 'Edit upset alerts' : `No week ${sch.week} upset alerts published yet`}</b><span class="lead" style="margin:0">${nCand} candidate${nCand===1?'':'s'} this week. Only you see this box.</span><button class="btn primary" data-go="work" data-ws="ups" style="align-self:flex-start">Review and publish →</button></div>` : '';
+    $('hUps').innerHTML = ups.map(g=>card(g, upNow[g.id])).join('') + review;
     const imp = g => Math.min(ranks[g.home]||99, ranks[g.away]||99, apR[g.home]||99, apR[g.away]||99);
     const fav = g => typeof g.line==='number' ? Math.abs(g.line) : typeof g.model==='number' ? Math.abs(g.model) : 0;  // spread: line, else model
     const rkd = a => !!(ranks[a] || apR[a]), both = g => rkd(g.home) && rkd(g.away);  // ranked matchups get a wider window
     const big = games.filter(g=>imp(g)<99 && fav(g)<=(both(g) ? BIG_RANKED : BIG)).sort((x,y)=>((ranks[x.home]||45)+(ranks[x.away]||45)) - ((ranks[y.home]||45)+(ranks[y.away]||45)) || imp(x)-imp(y));
     $('hBigWrap').hidden = !games.length;
     $('hBigT').innerHTML = `This week's big games${sch.week!=null?`<small>Week ${sch.week}</small>`:''}`;
-    $('hBig').innerHTML = big.map(card).join('') || '<p class="lead">No close-looking ranked games this week.</p>';
+    $('hBig').innerHTML = big.map(g=>card(g, upW[g.id])).join('') || '<p class="lead">No close-looking ranked games this week.</p>';
     $('hAllBtn').textContent = S.showAll ? 'Hide all games' : `All ${games.length} games →`;
     $('hAll').hidden = !S.showAll;
     if(S.showAll) $('hAll').innerHTML = `<div class="tblw"><table><thead><tr class="cols"><th style="text-align:left">Kickoff</th><th style="text-align:left">Away</th><th></th><th style="text-align:left">Home</th><th>Line</th><th>Wolp+</th></tr></thead><tbody>${
