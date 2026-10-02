@@ -400,7 +400,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 
   <!-- RANKINGS -->
   <section id="view-rank" hidden>
-    <div class="ph"><div><h1 id="rTitle">Chili Poll Top 25</h1><div class="sub" id="rSub"></div></div>
+    <div class="ph"><div><h1 id="rTitle">Data</h1><div class="sub" id="rSub"></div></div>
       <div class="row"><a class="pill on" href="#map">Results Map</a><a class="pill" href="#stats">Stats table ↓</a></div></div>
     <div class="filters row">
       <span class="lab">Show</span>
@@ -868,7 +868,6 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   const legend = () => `<span><i class="dot W s2"></i>Win</span><span><i class="dot L s2"></i>Loss</span><span><i class="dot s1"></i><i class="dot s2"></i><i class="dot s3"></i>Margin 1–8 · 9–16 · 17+</span><span><i class="dot s2 close"></i>Close game</span><span><i class="dot s2 ot"></i>Overtime</span><span><b>6</b>Opponent’s Chili Poll rank</span>`;
   function renderRank(){
     const n=pubNum(), ranks=pubMap(), prev = n!=null && prevNum(n)!=null ? rankMap(prevNum(n)) : null, R=S.r, cr=mdl().crank;
-    $('rTitle').textContent = `Chili Poll Top 25${n!=null?' · Week '+n:''}`;
     $('rSub').textContent = stampText() + (n!=null && S.weeks[n].savedAt ? ` · ballot saved ${new Date(S.weeks[n].savedAt).toLocaleDateString('en-US',{month:'short',day:'numeric'})}` : '');
     document.querySelectorAll('[data-show]').forEach(b=>b.classList.toggle('on', b.dataset.show===R.show));
     document.querySelectorAll('[data-ms]').forEach(b=>b.classList.toggle('on', b.dataset.ms===R.ms));
