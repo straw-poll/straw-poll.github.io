@@ -131,7 +131,7 @@ h2 small{font:400 13px var(--body);color:var(--muted);margin-left:10px}
 .map.norc{--mapcols:44px 30px 30px minmax(120px,190px) minmax(0,1fr)}
 .cmp-on .map.norc{--mapcols:44px 30px 30px minmax(120px,190px) minmax(0,1fr) 22px}
 .xsel{display:inline-flex;align-items:center;gap:6px;color:var(--muted);font-size:13px;margin-left:8px}
-.axis .axrk{font-weight:600;color:var(--gold);text-align:center}
+.axis .axrk{font-weight:700;color:var(--ink);text-align:right}
 .axis{color:var(--muted);font-size:12px;padding:0 0 6px;border-bottom:1px solid var(--line)}
 .axis .ax{display:flex;justify-content:space-between;padding:0 12px}
 .mrow{min-height:52px;border-bottom:1px solid var(--line2);box-shadow:inset 3px 0 var(--tc,transparent);padding-left:6px}
@@ -416,7 +416,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       <div class="row"><a class="pill on" href="#map">Results Map</a><a class="pill" href="#stats">Stats table ↓</a></div></div>
     <div class="filters row">
       <span class="lab">Filter</span>
-      <button class="pill" data-show="top" id="topBtn">Chili Top 25</button>
+      <button class="pill" data-show="top" id="topBtn">Top 25</button>
       <button class="pill" data-show="all">All FBS</button>
       <details class="colmenu confmenu" id="rConfMenu"><summary class="pill" id="rConfSum">All conferences ▾</summary><div class="menu" id="rConfList"></div></details>
       <input id="rQ" type="search" placeholder="Search teams" aria-label="Search teams">
@@ -892,12 +892,10 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   const axis = (drag, rkLabel, noRight) => `<div class="axis"><span class="axrk">${rkLabel||''}</span><span></span>${drag?'<span></span>':''}<span></span><span></span><div class="ax"><span>#${mdl().n||''}</span><span>Opponent ${XAX[S.r.xax]} rank</span><span>#1</span></div>${noRight?'':'<span style="text-align:right">Wolp+</span>'}${S.cmpOn?'<span></span>':''}</div>`;
   const legend = () => `<span><i class="dot W s2"></i>Win</span><span><i class="dot L s2"></i>Loss</span><span><i class="dot s1"></i><i class="dot s2"></i><i class="dot s3"></i>Margin 1–8 · 9–16 · 17+</span><span><i class="dot s2 close"></i>Close game</span><span><i class="dot s2 ot"></i>Overtime</span><span><b>6</b>Opponent’s Chili Poll rank</span>`;
   const SORTLAB = {wolp:'Chili', comp:'Wolp+', ap:'AP', fpi:'FPI', best:'#', worst:'#'};
-  const TOPLAB = {wolp:'Chili Top 25', comp:'Wolp+ Top 25', ap:'AP Top 25', fpi:'FPI Top 25'};
   function renderRank(){
     const n=pubNum(), ranks=pubMap(), prev = n!=null && prevNum(n)!=null ? rankMap(prevNum(n)) : null, R=S.r, cr=mdl().crank;
     $('rSub').textContent = stampText() + (n!=null && S.weeks[n].savedAt ? ` · ballot saved ${new Date(S.weeks[n].savedAt).toLocaleDateString('en-US',{month:'short',day:'numeric'})}` : '');
     document.querySelectorAll('[data-show]').forEach(b=>b.classList.toggle('on', b.dataset.show===R.show));
-    $('topBtn').textContent = TOPLAB[R.ms] || 'Chili Top 25';  // Top 25 filters by the current Sort
     document.querySelectorAll('[data-ms]').forEach(b=>b.classList.toggle('on', b.dataset.ms===R.ms && (!b.closest('#stats') || R.col==='ms')));
     $('legend1').innerHTML = legend();
     $('xAx').value = R.xax; $('mapSub').textContent = `Every game, placed by the opponent’s ${XAX[R.xax]} rank`;
