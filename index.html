@@ -397,6 +397,20 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   .map .mrow .track,.map .axis .ax{grid-column:1 / -1;grid-row:2}
   .map .mrow .grip{display:none}
   .map .mrow>.cmpk{display:none}
+  /* Results Map on a phone: one compact line per team (record beside the name), a shorter track, smaller dots and
+     labels, and more room at the ends so dots near #1 or #138 and their numbers stay on screen */
+  .mrow{min-height:0;padding:6px 0 2px 6px}
+  .map .mrow .nm{display:flex;align-items:baseline;gap:6px;min-width:0}
+  .map .mrow .nm b{font-size:17px}
+  .map .mrow .nm small{font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .track{height:36px}
+  .din{inset:0 22px 0 10px}
+  .dot.s1{width:6px;height:6px}.dot.s2{width:9px;height:9px}.dot.s3{width:12px;height:12px}
+  .dot.close{box-shadow:0 0 0 1px var(--panel),0 0 0 2.5px var(--gold)}
+  .dot.ot{box-shadow:0 0 0 1px var(--panel),0 0 0 2.5px var(--gold),0 0 0 3.5px var(--panel),0 0 0 5px var(--gold)}
+  .drk{font-size:9.5px;margin-left:3px}
+  .dlb{font-size:8px;margin-top:3px}
+  .legend{font-size:11.5px;gap:4px 12px}
   .rk{font-size:22px}
   .mtoc{display:none}
   .mwrap{grid-template-columns:1fr}
