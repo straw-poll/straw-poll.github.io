@@ -324,6 +324,8 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 .trail span{border:1px solid var(--line);border-radius:6px;padding:2px 8px;font-size:12.5px}
 .trail .trl{border:0;padding-left:0;color:var(--muted)}
 #acctDlg input{width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:8px;background:var(--bg);margin:6px 0 2px}
+#acctDlg input.locked{background:var(--panel2);color:var(--muted);cursor:not-allowed;border-style:dashed}
+.lockednote{display:block;font-size:12px;color:var(--muted);margin-top:2px}
 .acctf{display:block;font-size:13px;color:var(--muted);margin:12px 0 0}
 .acctstat{border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:14px}
 .gbox{min-height:44px;margin:12px 0 4px}
@@ -669,7 +671,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   </div>
   <div id="acctIn" hidden>
     <div class="acctstat" id="acctStatus"></div>
-    <label class="acctf">Username<input id="acctName" maxlength="24" autocomplete="nickname" placeholder="2–24 letters, numbers, _ . -"></label>
+    <label class="acctf">Username<input id="acctName" maxlength="24" autocomplete="nickname" placeholder="2–24 letters, numbers, _ . -"><small class="lockednote" id="acctNameNote" hidden>Usernames can’t be changed. Ask the site owner if you need a new one.</small></label>
     <label class="acctf" id="acctNoteRow">Note for the owner (optional)<input id="acctNote" maxlength="120" placeholder="e.g. Mike's roommate"></label>
     <div class="dlgbtns"><button class="btn primary" id="acctSaveMe">Save</button></div>
     <div id="acctReqs"></div>
@@ -1662,8 +1664,11 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       : st==='declined' ? 'Your request wasn’t approved. You can still view everything on the site.'
       : '<b>Request sent.</b> The owner will approve you soon. Add a username (and a note so they know who you are).';
     if(document.activeElement!==$('acctName')) $('acctName').value = (pr&&pr.username) || '';
+    const locked = !!(pr && pr.username);  // a username is permanent once chosen (the database enforces it too)
+    $('acctName').readOnly = locked; $('acctName').classList.toggle('locked', locked); $('acctNameNote').hidden = !locked;
     if(document.activeElement!==$('acctNote')) $('acctNote').value = (me.request&&me.request.note) || '';
     $('acctNoteRow').hidden = st!=='pending';
+    $('acctSaveMe').parentElement.hidden = locked && st!=='pending';  // nothing left to save
     $('acctDelRow').hidden = !!(pr && pr.is_owner);
     $('acctReqs').innerHTML = pr && pr.is_owner ? `<div class="reqs"><h4>Requests to join${n?` (${n})`:''}</h4>${n ? S.reqs.map(x=>`<div class="req"><div>${esc(x.username||'(no username yet)')}<small>${esc(x.email||'')}${x.note?' · '+esc(x.note):''}</small></div><button class="btn primary" data-appr="${esc(x.id)}">Approve</button><button class="btn quiet" data-decl="${esc(x.id)}">Decline</button></div>`).join('') : '<p class="dnote">No pending requests.</p>'}</div>` : '';
   }
@@ -1711,7 +1716,9 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     const name=$('acctName').value.trim(), note=$('acctNote').value.trim();
     if(name && !/^[A-Za-z0-9_.-]{2,24}$/.test(name)){ acctMsg('Usernames are 2–24 letters, numbers, _ . or -'); return; }
     acctMsg('Saving…');
-    const r1 = await sb.from('profiles').update({username: name || null}).eq('id', S.me.user.id);
+    const had = S.me.profile && S.me.profile.username;
+    if(!had && name && !confirm(`Use “${name}” as your username? It can’t be changed later.`)) return;
+    const r1 = had ? {error:null} : await sb.from('profiles').update({username: name || null}).eq('id', S.me.user.id);
     if(r1.error){ acctMsg(r1.error.code==='23505' ? 'That username is taken.' : 'Couldn’t save. Try again.'); return; }
     if(!$('acctNoteRow').hidden){ const r2 = await sb.from('join_requests').update({note: note || null}).eq('user_id', S.me.user.id); if(r2.error){ acctMsg('Saved your username, but not the note. Try again.'); return; } }
     acctMsg('Saved.'); loadMe();
