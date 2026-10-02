@@ -130,6 +130,7 @@ h2 small{font:400 13px var(--body);color:var(--muted);margin-left:10px}
 .cmp-on .map.drag{--mapcols:44px 30px 18px 30px minmax(120px,190px) minmax(0,1fr) 56px 22px}
 .map.norc{--mapcols:44px 30px 30px minmax(120px,190px) minmax(0,1fr)}
 .cmp-on .map.norc{--mapcols:44px 30px 30px minmax(120px,190px) minmax(0,1fr) 22px}
+.xsel{display:inline-flex;align-items:center;gap:6px;color:var(--muted);font-size:13px;margin-left:8px}
 .axis .axrk{font-weight:600;color:var(--gold);text-align:center}
 .axis{color:var(--muted);font-size:12px;padding:0 0 6px;border-bottom:1px solid var(--line)}
 .axis .ax{display:flex;justify-content:space-between;padding:0 12px}
@@ -421,8 +422,8 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       <input id="rQ" type="search" placeholder="Search teams" aria-label="Search teams">
       <span class="count" id="rCount"></span>
     </div>
-    <section class="sec" id="map"><div class="sh"><h2>Results Map<small>Every game, placed by the opponent’s Wolp+ rank</small></h2>
-      <div class="row"><span style="color:var(--muted);font-size:13px">Sort</span><button class="pill" data-ms="wolp">Chili</button><button class="pill" data-ms="comp">Wolp+</button><button class="pill" data-ms="ap">AP</button><button class="pill" data-ms="fpi">FPI</button><button class="pill" data-ms="best">Best win</button><button class="pill" data-ms="worst">Worst loss</button></div></div>
+    <section class="sec" id="map"><div class="sh"><h2>Results Map<small id="mapSub">Every game, placed by the opponent’s Wolp+ rank</small></h2>
+      <div class="row"><span style="color:var(--muted);font-size:13px">Sort</span><button class="pill" data-ms="wolp">Chili</button><button class="pill" data-ms="comp">Wolp+</button><button class="pill" data-ms="ap">AP</button><button class="pill" data-ms="fpi">FPI</button><button class="pill" data-ms="best">Best win</button><button class="pill" data-ms="worst">Worst loss</button><label class="xsel">X axis <select id="xAx" class="fsel" aria-label="Results Map x axis"><option value="wolp">Wolp+</option><option value="fpi">FPI</option><option value="sor">SOR</option><option value="qw">Quality wins</option></select></label></div></div>
       <div class="legend" id="legend1"></div>
       <div id="rMap" class="map norc"></div>
     </section>
@@ -514,7 +515,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 
         <h2 id="m-map">Results Map</h2>
         <ul>
-          <li>Each row shows a team's games, placed left to right by the <b>opponent's Wolp+ rank</b> (#1 at the far right; FCS opponents at the far left).</li>
+          <li>Each row shows a team's games, placed left to right by the <b>opponent's rank</b> in the metric chosen under <b>X axis</b>: Wolp+ (the default), FPI, SOR or Quality wins (#1 at the far right; FCS opponents at the far left). Best and Worst follow the same choice.</li>
           <li>Green = win, red = loss. Dot size = margin (1–8, 9–16, 17+). Gold ring = close game; double ring = overtime.</li>
           <li>A small number beside a dot is the opponent's Chili Poll rank. <b>Best</b> marks the win over the highest-ranked opponent (the rightmost green dot) and <b>Worst</b> the loss to the lowest-ranked one (the leftmost red dot).</li>
           <li>Dots for similarly ranked opponents are stacked slightly above and below the line so none are hidden.</li>
@@ -637,7 +638,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   const MAX = 35, TOP = 25, MAXC = 4, FRAUD = 8, AP_NR = 36, BIG = 14, BIG_RANKED = 21;
   const S = {db:null, teams:{}, teamsRaw:null, meta:null, model:null, schedule:null, ap:null, weeks:{}, cur:null, draft:[], dirty:false, newWeek:false,
              canWrite:false, loadedWeeks:false, cmp:[], cmpOn:false, tab:'home', ws:'ballot',
-             r:{show:'top', confOff:[], q:'', ms:'wolp', col:'ms', rev:false}, f:'all', q:'', sort:'rec',
+             r:{show:'top', confOff:[], q:'', ms:'wolp', col:'ms', rev:false, xax:'wolp'}, f:'all', q:'', sort:'rec',
              settings:{}, upsets:{}, uDraft:null, uDirty:false, uAll:false, showAll:false};
   const $ = id => document.getElementById(id);
   // Only a device connected with the ballot sync token can edit; everyone else gets a read-only site.
@@ -742,7 +743,10 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       .sort((a,b)=>(fRating(b)-fRating(a)) || (a<b?-1:1)).forEach((a,i)=>crank[a]=i+1);
     return S._mdl={crank, n:Object.keys(crank).length};
   }
-  const oppPos = o => { const m=mdl(), c=m.crank[o]; return c && m.n>1 ? 0.04 + 0.96*(m.n-c)/(m.n-1) : 0.02; };
+  // Results Map x axis: the opponent's rank in the chosen metric (S.r.xax); FCS opponents sit at the far left
+  const XAX = {wolp:'Wolp+', fpi:'FPI', sor:'SOR', qw:'Quality wins'};
+  const xRank = o => { const t=S.teams[o]; if(!t) return null; const k=S.r.xax; return k==='fpi' ? t.fpiRank : k==='sor' ? t.resultsRank : k==='qw' ? t.resumeRank : mdl().crank[o]; };
+  const oppPos = o => { const m=mdl(), c=xRank(o); return c && m.n>1 ? 0.04 + 0.96*(m.n-c)/(m.n-1) : 0.02; };
   const isClose = g => typeof g.close==='boolean' ? g.close : Math.abs(g.pf-g.pa)<=CLOSE;
   function bestWorst(a){
     let bw=null, wl=null;
@@ -873,14 +877,14 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     const dots = gamesOf(a).map(g=>{
       const m=Math.abs(g.pf-g.pa), size = m<=8 ? 1 : m<=16 ? 2 : 3;
       const lab = bw.bw && bw.bw.g===g ? 'Best' : bw.wl && bw.wl.g===g ? 'Worst' : '';
-      const tip = `${g.result} ${gScore(g).replace('-','–')}${g.ot?' (OT)':''} ${gAt(g)} ${gOppName(g.opp,ranksForDots)}, ${gOppRec(g.opp)}${mdl().crank[g.opp]?', Wolp+ #'+mdl().crank[g.opp]:''}`;
+      const tip = `${g.result} ${gScore(g).replace('-','–')}${g.ot?' (OT)':''} ${gAt(g)} ${gOppName(g.opp,ranksForDots)}, ${gOppRec(g.opp)}${xRank(g.opp)?`, ${XAX[S.r.xax]} #`+xRank(g.opp):''}`;
       return {size, lab, html:`<button class="dot ${g.result} s${size}${g.ot?' ot':isClose(g)?' close':''}" style="left:${(oppPos(g.opp)*100).toFixed(2)}%" data-tip="${esc(tip)}" aria-label="${esc(tip)}">${ranksForDots[g.opp]?`<span class="drk">${ranksForDots[g.opp]}</span>`:''}${lab?`<span class="dlb${lab==='Worst'?' up':''}">${lab}</span>`:''}</button>`};
     }).sort((p,q)=>(q.size-p.size) || ((p.lab?1:0)-(q.lab?1:0))).map(d=>d.html).join('');
     const rk = rank ? `<span class="rk">${rank}</span>` : '<span class="rk none">–</span>';
     const grip = drag ? `<button class="grip" aria-label="Move ${esc(t.name)}, rank ${rank}. Use arrow keys." data-i="${rank-1}">${GRIP}</button>` : '';
     return `<div class="mrow" data-abbr="${esc(a)}" style="--tc:${tc(a)}">${rk}${rank?moveOf(a,rank,prev):'<span class="mv"></span>'}${grip}${logo(a)}<button class="nm" data-open="${esc(a)}"><b>${esc(t.name)}</b><small>${rec(t.w,t.l)} · ${esc(t.conf||'')}</small></button><div class="track"><div class="din">${dots}</div></div>${noRight?'':`<span class="cr">${mdl().crank[a]?'#'+mdl().crank[a]:''}</span>`}${cmpBox(a)}</div>`;
   }
-  const axis = (drag, rkLabel, noRight) => `<div class="axis"><span class="axrk">${rkLabel||''}</span><span></span>${drag?'<span></span>':''}<span></span><span></span><div class="ax"><span>#${mdl().n||''}</span><span>Opponent Wolp+ rank</span><span>#1</span></div>${noRight?'':'<span style="text-align:right">Wolp+</span>'}${S.cmpOn?'<span></span>':''}</div>`;
+  const axis = (drag, rkLabel, noRight) => `<div class="axis"><span class="axrk">${rkLabel||''}</span><span></span>${drag?'<span></span>':''}<span></span><span></span><div class="ax"><span>#${mdl().n||''}</span><span>Opponent ${XAX[S.r.xax]} rank</span><span>#1</span></div>${noRight?'':'<span style="text-align:right">Wolp+</span>'}${S.cmpOn?'<span></span>':''}</div>`;
   const legend = () => `<span><i class="dot W s2"></i>Win</span><span><i class="dot L s2"></i>Loss</span><span><i class="dot s1"></i><i class="dot s2"></i><i class="dot s3"></i>Margin 1–8 · 9–16 · 17+</span><span><i class="dot s2 close"></i>Close game</span><span><i class="dot s2 ot"></i>Overtime</span><span><b>6</b>Opponent’s Chili Poll rank</span>`;
   const SORTLAB = {wolp:'Chili', comp:'Wolp+', ap:'AP', fpi:'FPI', best:'#', worst:'#'};
   const TOPLAB = {wolp:'Chili Top 25', comp:'Wolp+ Top 25', ap:'AP Top 25', fpi:'FPI Top 25'};
@@ -891,6 +895,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     $('topBtn').textContent = TOPLAB[R.ms] || 'Chili Top 25';  // Top 25 filters by the current Sort
     document.querySelectorAll('[data-ms]').forEach(b=>b.classList.toggle('on', b.dataset.ms===R.ms && (!b.closest('#stats') || R.col==='ms')));
     $('legend1').innerHTML = legend();
+    $('xAx').value = R.xax; $('mapSub').textContent = `Every game, placed by the opponent’s ${XAX[R.xax]} rank`;
     const L = rankList(); $('rCount').textContent = `${L.length} team${L.length===1?'':'s'}`;
     // Results Map
     const bwv = a => { const x=bestWorst(a); return x; };
@@ -941,8 +946,9 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   $('rConfList').addEventListener('change', e=>{ const k=e.target.dataset.cf; if(!k) return; S.r.confOff = e.target.checked ? S.r.confOff.filter(x=>x!==k) : [...S.r.confOff, k]; renderConfs(); renderRank(); });
   $('rConfList').addEventListener('click', e=>{ const b=e.target.closest('[data-cfall]'); if(!b) return; S.r.confOff = b.dataset.cfall==='1' ? [] : DIALS.slice(); renderConfs(); renderRank(); });
   $('rQ').addEventListener('input', e=>{ S.r.q=e.target.value; renderRank(); });
-  function saveR(){ try{ localStorage.setItem('cfb2-rank', JSON.stringify({ms:S.r.ms})); }catch(e){} }
-  try{ const v=JSON.parse(localStorage.getItem('cfb2-rank')||'null'); if(v && ['wolp','comp','ap','fpi','best','worst'].includes(v.ms)) S.r.ms=v.ms; }catch(e){}
+  function saveR(){ try{ localStorage.setItem('cfb2-rank', JSON.stringify({ms:S.r.ms, xax:S.r.xax})); }catch(e){} }
+  $('xAx').addEventListener('change', e=>{ S.r.xax=e.target.value; saveR(); renderRank(); });
+  try{ const v=JSON.parse(localStorage.getItem('cfb2-rank')||'null'); if(v && ['wolp','comp','ap','fpi','best','worst'].includes(v.ms)) S.r.ms=v.ms; if(v && XAX[v.xax]) S.r.xax=v.xax; }catch(e){}
   function renderConfs(){
     // one checkbox per Power 4 conference, Independents, and the whole Group of 5 (same groups as the conference dials)
     const lab = k => k==='FBS Independents' ? 'Independents' : k, on = DIALS.filter(k=>!S.r.confOff.includes(k));
