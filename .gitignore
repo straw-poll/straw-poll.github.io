@@ -18,3 +18,4 @@ teams.csv
 last_run.txt
 test/
 .DS_Store
+.claude/

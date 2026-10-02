@@ -555,8 +555,8 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 
         <h2 id="m-home">Home page</h2>
         <dl>
-          <dt>Fraud watch</dt><dd>Teams in the AP Top 25 that both the Straw Poll and Wolp+ rank at least <b class="fthr">8</b> spots lower. A team outside the Straw Poll 35 counts as #36. Sorted by the size of the gap.</dd>
-          <dt>Under the radar</dt><dd>Straw Poll teams that both the Straw Poll and Wolp+ rank at least <b class="fthr">8</b> spots higher than the AP. A team outside the AP Top 25 counts as AP #36, the same as a team outside the Straw Poll 35 in Fraud watch.</dd>
+          <dt>Fraud watch</dt><dd>Teams in the AP Top 25 that the Straw Poll ranks at least <b class="fthr">8</b> spots lower. A team outside the Straw Poll 35 counts as #36. Sorted by the size of the gap.</dd>
+          <dt>Under the radar</dt><dd>Straw Poll teams that the Straw Poll ranks at least <b class="fthr">8</b> spots higher than the AP. A team outside the AP Top 25 counts as AP #36, the same as a team outside the Straw Poll 35 in Fraud watch.</dd>
           <dt>Model spread</dt><dd>The model's predicted margin, written like a betting line (favorite −points, rounded to the half point). It never uses the betting line.</dd>
           <dt>Line</dt><dd>The median spread across sportsbooks, from CollegeFootballData.com.</dd>
           <dt>Upset alerts</dt><dd>Games hand-picked each week, usually where the model favors the betting underdog or disagrees with the line by a touchdown or more.</dd>
@@ -919,12 +919,12 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       const rest=list.slice(TOP);
       $('hAlso').innerHTML = rest.length ? `Also ranked: ${rest.map((a,i)=>`<b>${TOP+i+1}</b> ${esc(nm(a))}`).join(' · ')}` : '';
     }
-    // fraud watch / under the radar (both the Straw Poll and the Model must disagree with the AP)
-    const cr=mdl().crank, apR=(S.ap&&S.ap.ranks)||{}, hasAp=Object.keys(apR).length>0 && list.length>0;
+    // fraud watch / under the radar (the Straw Poll vs the AP)
+    const apR=(S.ap&&S.ap.ranks)||{}, hasAp=Object.keys(apR).length>0 && list.length>0;
     const wrow = a => `<button class="wrow" data-open="${esc(a)}">${logo(a)}<div class="wn"><b>${esc(nm(a))}</b><small>${S.teams[a]?rec(S.teams[a].w,S.teams[a].l)+' · '+esc(S.teams[a].conf||''):''}</small></div>
-      <div class="wk"><span><small>AP</small>${apR[a]?'#'+apR[a]:'NR'}</span><span><small>Straw</small>${ranks[a]?'#'+ranks[a]:'NR'}</span><span><small>Wolp+</small>${cr[a]?'#'+cr[a]:'–'}</span></div></button>`;
-    const fraud = Object.keys(apR).filter(a=>S.teams[a] && (ranks[a]||MAX+1)-apR[a]>=FRAUD && (cr[a]||999)-apR[a]>=FRAUD).sort((a,b)=>((ranks[b]||MAX+1)-apR[b])-((ranks[a]||MAX+1)-apR[a]) || apR[a]-apR[b]);
-    const radar = list.filter(a=>(apR[a]||AP_NR)-ranks[a]>=FRAUD && (apR[a]||AP_NR)-(cr[a]||999)>=FRAUD).sort((a,b)=>((apR[b]||AP_NR)-ranks[b])-((apR[a]||AP_NR)-ranks[a]));
+      <div class="wk"><span><small>AP</small>${apR[a]?'#'+apR[a]:'NR'}</span><span><small>Straw</small>${ranks[a]?'#'+ranks[a]:'NR'}</span></div></button>`;
+    const fraud = Object.keys(apR).filter(a=>S.teams[a] && (ranks[a]||MAX+1)-apR[a]>=FRAUD).sort((a,b)=>((ranks[b]||MAX+1)-apR[b])-((ranks[a]||MAX+1)-apR[a]) || apR[a]-apR[b]);
+    const radar = list.filter(a=>(apR[a]||AP_NR)-ranks[a]>=FRAUD).sort((a,b)=>((apR[b]||AP_NR)-ranks[b])-((apR[a]||AP_NR)-ranks[a]));
     const none = '<p class="lead" style="margin:0">No one this week.</p>', wait='<p class="lead" style="margin:0">Waiting for the AP poll and a saved ballot.</p>';
     $('hFraud').innerHTML = !hasAp ? wait : fraud.map(wrow).join('') || none;
     $('hRadar').innerHTML = !hasAp ? wait : radar.map(wrow).join('') || none;
@@ -936,7 +936,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       const side = a => `<button class="side" data-open="${esc(a)}">${logo(a)}<div><b>${ranks[a]?`<span class="rkb">${ranks[a]}</span>`:''}${esc(nm(a))}</b><small>${S.teams[a]?rec(S.teams[a].w,S.teams[a].l):'FCS'}${apR[a]?' · AP #'+apR[a]:''}</small></div></button>`;
       return `<div class="game${up?' hot':''}"><div class="gtop"><span class="when">${esc(kick(g.start))}</span>${up?'<span class="tag up">Upset alert</span>':''}</div>
         ${side(g.away)}<div class="at">${g.neutral?'vs':'at'}</div>${side(g.home)}
-        <div class="nums"><div><small>Line</small><b>${spread(g.line,g.home,g.away)}</b></div><div><small>Model</small><b class="${mFav && lFav && mFav!==lFav ? 'mup':''}">${modelTxt(g.model,g.home,g.away)}</b></div></div>
+        <div class="nums"><div><small>Line</small><b>${spread(g.line,g.home,g.away)}</b></div><div><small>Wolp+</small><b class="${mFav && lFav && mFav!==lFav ? 'mup':''}">${modelTxt(g.model,g.home,g.away)}</b></div></div>
         ${up && up.note ? `<p class="gnote">${esc(up.note)}</p>` : ''}</div>`; };
     const ups = games.filter(g=>upW[g.id]);
     $('hUpsWrap').hidden = !ups.length && !S.canWrite;
@@ -953,7 +953,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     $('hBig').innerHTML = big.map(card).join('') || '<p class="lead">No close-looking ranked games this week.</p>';
     $('hAllBtn').textContent = S.showAll ? 'Hide all games' : `All ${games.length} games →`;
     $('hAll').hidden = !S.showAll;
-    if(S.showAll) $('hAll').innerHTML = `<div class="tblw"><table><thead><tr class="cols"><th style="text-align:left">Kickoff</th><th style="text-align:left">Away</th><th></th><th style="text-align:left">Home</th><th>Line</th><th>Model</th></tr></thead><tbody>${
+    if(S.showAll) $('hAll').innerHTML = `<div class="tblw"><table><thead><tr class="cols"><th style="text-align:left">Kickoff</th><th style="text-align:left">Away</th><th></th><th style="text-align:left">Home</th><th>Line</th><th>Wolp+</th></tr></thead><tbody>${
       games.map(g=>`<tr><td class="dim">${esc(kick(g.start))}</td><td><span class="gl-n">${logo(g.away)}${ranks[g.away]?`<span class="rkb">${ranks[g.away]}</span>`:''}${esc(nm(g.away))}</span></td><td class="dim">${g.neutral?'vs':'at'}</td><td><span class="gl-n">${logo(g.home)}${ranks[g.home]?`<span class="rkb">${ranks[g.home]}</span>`:''}${esc(nm(g.home))}</span></td><td style="text-align:center">${spread(g.line,g.home,g.away)}</td><td style="text-align:center">${modelTxt(g.model,g.home,g.away)}</td></tr>`).join('')}</tbody></table></div>`;
   }
   $('hAllBtn').addEventListener('click', ()=>{ S.showAll=!S.showAll; renderHome(); });
@@ -1373,11 +1373,11 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     const ranks=pubMap(), L = upsetCands().filter(x=>S.uAll || x.cand || S.uDraft[x.g.id]);
     if(!L.length){ $('uTable').innerHTML='<tbody><tr><td class="dim">No games with both a line and a model spread yet.</td></tr></tbody>'; return; }
     const nmR = a => `${ranks[a]?`<span class="rkb">${ranks[a]}</span>`:''}${esc(nm(a))}`;
-    $('uTable').innerHTML = `<thead><tr class="cols"><th>Publish</th><th style="text-align:left">Game</th><th>Line</th><th>Model</th><th>Gap</th><th style="text-align:left">Note (optional)</th></tr></thead><tbody>${
+    $('uTable').innerHTML = `<thead><tr class="cols"><th>Publish</th><th style="text-align:left">Game</th><th>Line</th><th>Wolp+</th><th>Gap</th><th style="text-align:left">Note (optional)</th></tr></thead><tbody>${
       L.map(({g,dog,gap,cand})=>{ const on=!!S.uDraft[g.id];
         return `<tr class="${cand?'cand':''}"><td><input type="checkbox" data-up="${g.id}"${on?' checked':''} aria-label="Publish ${esc(nm(g.away))} at ${esc(nm(g.home))}"></td>
           <td class="l"><div class="gl-n" style="display:flex;align-items:center;gap:6px;font:700 16px var(--cond)">${logo(g.away)}${nmR(g.away)} <span class="dim" style="font:400 12px var(--body);color:var(--muted)">${g.neutral?'vs':'at'}</span> ${logo(g.home)}${nmR(g.home)}</div>
-            <div class="why${dog?'':' g'}">${dog?'Model favors the underdog':cand?'Model and line differ by 7+':''}</div></td>
+            <div class="why${dog?'':' g'}">${dog?'Wolp+ favors the underdog':cand?'Wolp+ and the line differ by 7+':''}</div></td>
           <td>${spread(g.line,g.home,g.away)}</td><td>${modelTxt(g.model,g.home,g.away)}</td><td>${typeof g.model==='number'&&typeof g.line==='number'?gap.toFixed(1):'–'}</td>
           <td class="l"><input type="text" data-note="${g.id}" maxlength="140" placeholder="Why this one?" value="${esc((S.uDraft[g.id]||{}).note||'')}"${on?'':' disabled'}></td></tr>`; }).join('')}</tbody>`;
   }
