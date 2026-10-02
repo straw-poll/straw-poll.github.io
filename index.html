@@ -356,8 +356,6 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 .cmpcol h4{font:800 24px/1 var(--cond);margin:0;display:flex;align-items:center;gap:8px}
 .cmpcol .sub{margin:4px 0 8px}
 .cmpbar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 14px);z-index:30;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px 10px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:8px 10px;box-shadow:0 10px 28px rgba(0,0,0,.5);width:max-content;max-width:calc(100vw - 24px)}
-#syncToken{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);font-family:ui-monospace,Menlo,monospace;font-size:13px}
-#syncMsg:empty{display:none}
 #tip{position:fixed;z-index:60;max-width:min(300px,calc(100vw - 24px));background:var(--ink);color:var(--bg);padding:8px 10px;border-radius:8px;font-size:12.5px;line-height:1.35;white-space:pre-line;pointer-events:none;box-shadow:0 4px 14px rgba(0,0,0,.4)}
 .toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 20px);transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:8px;font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s;z-index:70}
 .toast.show{opacity:1}
@@ -367,7 +365,9 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 .foot button{background:none;border:0;padding:0;color:var(--muted);text-decoration:underline;font-size:12.5px}
 
 /* visitors: read-only */
-.viewonly .owner-only{display:none!important}
+.viewonly .voter-only{display:none!important} body:not(.isowner) .boss-only{display:none!important}
+#view-work.ro .grip,#view-work.ro .x,#view-work.ro .add,#view-work.ro .wslot{display:none!important}
+.dl{font-size:13px;color:var(--muted)} .dl b{color:var(--text)}
 
 /* narrower screens */
 @media (max-width:1100px){
@@ -408,7 +408,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       <button class="tab" role="tab" id="tab-rank" aria-selected="false">Data</button>
       <button class="tab" role="tab" id="tab-history" aria-selected="false">Previous Rankings</button>
       <button class="tab" role="tab" id="tab-method" aria-selected="false">Methodology</button>
-      <button class="tab owner owner-only" role="tab" id="tab-work" aria-selected="false">Workspace</button>
+      <button class="tab owner voter-only" role="tab" id="tab-work" aria-selected="false">Workspace</button>
     </nav>
     <div class="tools">
       <details class="colmenu" id="fMenu"><summary class="pill" id="fSum">Conference Modifier ▾</summary>
@@ -583,20 +583,21 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     </div>
   </section>
 
-  <!-- WORKSPACE (owner only) -->
-  <section id="view-work" class="owner-only" hidden>
+  <!-- WORKSPACE (approved users: your own ballot; owner also gets Upset alerts) -->
+  <section id="view-work" class="voter-only" hidden>
     <div class="wbar">
       <span class="weeklabel">Week</span>
       <select id="weekSel" aria-label="Choose week"></select>
-      <input id="weekNum" type="number" min="0" max="20" aria-label="Week number" hidden>
-      <button class="btn" id="newWeek">Start next week</button>
+      <span class="dl" id="deadline"></span>
+      <select id="startFrom" class="fsel" aria-label="Start this ballot from" hidden><option value="">Start from…</option><option value="last">My last ballot</option><option value="wolp">Wolp+ Top 25</option><option value="ap">AP Top 25</option><option value="empty">Empty ballot</option></select>
+      <button class="btn quiet boss-only" id="openWeek" hidden>Open voting…</button>
       <span class="spacer"></span>
       <span class="status" id="status"></span>
-      <button class="btn quiet" id="delWeek" hidden>Delete week</button>
-      <button class="btn primary" id="save" disabled>Save ballot</button>
+      <button class="btn quiet" id="withdraw" hidden>Withdraw</button>
+      <button class="btn primary" id="save" disabled>Submit ballot</button>
     </div>
     <div class="wsub" role="group" aria-label="Workspace view">
-      <button class="pill" data-ws="map">Ballot map</button><button class="pill" data-ws="ballot">List</button><button class="pill" data-ws="ups">Upset alerts</button>
+      <button class="pill" data-ws="map">Ballot map</button><button class="pill" data-ws="ballot">List</button><button class="pill boss-only" data-ws="ups">Upset alerts</button>
     </div>
     <div id="ws-build" class="wgrid wbuild">
       <div>
@@ -604,7 +605,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
           <div class="row wmaphead"><div class="legend" id="legend2"></div><span class="spacer"></span><label class="xsel">X axis <select id="xAx2" class="fsel" aria-label="Ballot map x axis"><option value="wolp">Wolp+</option><option value="fpi">FPI</option><option value="sor">SOR</option><option value="qw">Quality wins</option></select></label></div>
           <div id="wMap" class="map drag"></div>
           <div id="wNotes"></div>
-          <p class="note">Drag a row's handle to reorder (or focus it and use the arrow keys). Drag a team in from the list, or tap +. Teams 1–25 are the Top 25; 26–35 are Also ranked. <b>H2H</b> marks a head-to-head result that disagrees with the order; <b>LOOP</b> marks teams that beat each other in a circle. Both are reminders only; tap one to see why.</p>
+          <p class="note">Drag a row's handle to reorder (or focus it and use the arrow keys). Drag a team in from the list, or tap +. Your ballot is exactly 25 teams; submit it before the deadline and change it as often as you like until then. Only you can see it until voting closes. <b>H2H</b> marks a head-to-head result that disagrees with the order; <b>LOOP</b> marks teams that beat each other in a circle. Both are reminders only; tap one to see why.</p>
         </div>
         <div id="ws-ballot" hidden>
           <div class="bscroll"><div class="bcols" id="bcols" aria-hidden="true"></div><div id="ballot" aria-label="Straw Poll ballot"></div><div id="slots"></div></div>
@@ -632,7 +633,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   </section>
 </main>
 
-<footer class="foot"><div class="wrapin"><span id="stamp">Loading team data…</span><span>Model spreads are the model’s predicted margin, written like a betting line; they never use betting lines. · <button id="privBtn">Privacy &amp; Terms</button> · <button id="syncBtn">Ballot sync</button></span></div></footer>
+<footer class="foot"><div class="wrapin"><span id="stamp">Loading team data…</span><span>Model spreads are the model’s predicted margin, written like a betting line; they never use betting lines. · <button id="privBtn">Privacy &amp; Terms</button></span></div></footer>
 
 <dialog id="dlg" aria-labelledby="dName">
   <h3 id="dName"></h3>
@@ -647,14 +648,6 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   <ul class="glog nextg" id="dNext"></ul>
   <div class="trail" id="dTrail"></div>
   <form method="dialog"><div class="dlgbtns"><button class="btn">Close</button></div></form>
-</dialog>
-<dialog id="syncDlg" aria-labelledby="syncTitle">
-  <h3 id="syncTitle">Ballot sync</h3>
-  <div class="sub" id="syncState"></div>
-  <p class="dnote">Ballots are saved in the GitHub repo <b>the-chili-king/cfb-ballots</b>. Anyone with this page's link can view them; only a device connected here can change them. Paste the fine-grained token made for that repo. It is stored only in this browser.</p>
-  <input type="password" id="syncToken" autocomplete="off" spellcheck="false" placeholder="github_pat_…" aria-label="GitHub token">
-  <p class="dnote" id="syncMsg" role="status"></p>
-  <div class="dlgbtns"><button class="btn quiet" id="syncOff">Disconnect</button><form method="dialog"><button class="btn">Cancel</button></form><button class="btn primary" id="syncSave">Connect</button></div>
 </dialog>
 <dialog id="acctDlg" aria-labelledby="acctTitle">
   <h3 id="acctTitle">Sign in</h3>
@@ -732,14 +725,14 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 <script>
 (function(){
   const MAX = 35, TOP = 25, MAXC = 4, FRAUD = 8, AP_NR = 36, BIG = 14, BIG_RANKED = 21;
-  const S = {db:null, teams:{}, teamsRaw:null, meta:null, model:null, schedule:null, ap:null, weeks:{}, cur:null, draft:[], dirty:false, newWeek:false,
-             canWrite:false, loadedWeeks:false, cmp:[], cmpOn:false, tab:'home', ws:'map',
+  const S = {teams:{}, teamsRaw:null, meta:null, model:null, schedule:null, ap:null, weeks:{}, cur:null, draft:[], dirty:false,
+             canWrite:false, cmp:[], cmpOn:false, tab:'home', ws:'map',
              r:{show:'top', confOff:[], q:'', ms:'wolp', col:'ms', rev:false, xax:'wolp'}, f:'off', pc:'', q:'', sort:'frank',
              settings:{}, upsets:{}, uDraft:null, uDirty:false, uAll:false, showAll:false};
   const $ = id => document.getElementById(id);
-  // Only a device connected with the ballot sync token can edit; everyone else gets a read-only site.
-  try{ S.canWrite = !!localStorage.getItem('cfb-gh-token'); }catch(e){ S.canWrite = false; }
-  document.body.classList.toggle('viewonly', !S.canWrite);
+  // Read-only until sign-in says otherwise. The old GitHub ballot sync is retired: forget its token and draft.
+  document.body.classList.add('viewonly');
+  try{ localStorage.removeItem('cfb-gh-token'); localStorage.removeItem('cfb-draft2'); }catch(e){}
   const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const rec = (w,l) => (w==null||l==null) ? '—' : w+'-'+l;
   const pct = t => (t.w+t.l) ? t.w/(t.w+t.l) : 0;
@@ -985,7 +978,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     return `<div class="mrow" data-abbr="${esc(a)}" style="--tc:${tc(a)}">${rk}${rank?moveOf(a,rank,prev):'<span class="mv"></span>'}${grip}${logo(a)}<button class="nm" data-open="${esc(a)}"><b>${esc(t.name)}</b><small>${rec(t.w,t.l)} · ${esc(t.conf||'')}</small></button><div class="track"><div class="din">${dots}</div></div>${drag ? wRight(a, rank) : noRight?'':`<span class="cr">${mdl().crank[a]?'#'+mdl().crank[a]:''}</span>`}${cmpBox(a)}</div>`;
   }
   const wRight = (a, rank) => { const an=S._an||{flags:{},loopOf:{}}, fl=an.flags[a], lp=an.loopOf[a], t=S.teams[a]||{name:a};
-    return `<span class="wx">${fl ? `<button class="flag" data-tip="${esc(fl.join('\n'))}" aria-label="${esc(fl.join(' '))}">H2H</button>` : ''}${lp ? `<button class="flag loop" data-tip="${esc(lp.text+'\n'+lp.games.join('\n'))}" aria-label="${esc(lp.text)}">LOOP</button>` : ''}<button class="x owner-only" data-rm="${rank-1}" aria-label="Remove ${esc(t.name)}">×</button></span>`; };
+    return `<span class="wx">${fl ? `<button class="flag" data-tip="${esc(fl.join('\n'))}" aria-label="${esc(fl.join(' '))}">H2H</button>` : ''}${lp ? `<button class="flag loop" data-tip="${esc(lp.text+'\n'+lp.games.join('\n'))}" aria-label="${esc(lp.text)}">LOOP</button>` : ''}<button class="x" data-rm="${rank-1}" aria-label="Remove ${esc(t.name)}">×</button></span>`; };
   const axis = (drag, rkLabel, noRight) => `<div class="axis"><span class="axrk">${rkLabel||''}</span><span></span>${drag?'<span></span>':''}<span></span><span></span><div class="ax"><span>#${mdl().n||''}</span><span>Opponent ${XAX[S.r.xax]} rank</span><span>#1</span></div>${noRight||drag?(drag?'<span></span>':''):'<span style="text-align:right">Wolp+</span>'}${S.cmpOn?'<span></span>':''}</div>`;
   const legend = dotLab => `<span><i class="dot W s2"></i>Win</span><span><i class="dot L s2"></i>Loss</span><span><i class="dot s1"></i><i class="dot s2"></i><i class="dot s3"></i>Margin 1–8 · 9–16 · 17+</span><span><i class="dot s2 close"></i>Close game</span><span><i class="dot s2 ot"></i>Overtime</span><span><b>6</b>${dotLab}</span>`;
   const SORTLAB = {wolp:'Straw', comp:'Wolp+', ap:'AP', fpi:'FPI', best:'#', worst:'#'};
@@ -1184,24 +1177,18 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     }
     return best.length ? best : c;
   }
-  function stashDraft(){ try{ if(S.dirty) localStorage.setItem('cfb-draft2', JSON.stringify({week:S.cur, draft:S.draft, isNew:S.newWeek})); else localStorage.removeItem('cfb-draft2'); }catch(e){} }
-  function readStash(){ try{ return JSON.parse(localStorage.getItem('cfb-draft2')||'null'); }catch(e){ return null; } }
-  function setDirty(v){ S.dirty=v; stashDraft(); renderStatus(); }
+  function setDirty(v){ S.dirty=v; renderStatus(); }
   function renderStatus(){
     const st=$('status'), sv=$('save');
     if(S.dirty){ st.textContent = S.draft.length<MAX ? `Unsaved: ${S.draft.length} of ${MAX} ranked` : 'Unsaved changes'; st.className='status warn'; }
     else { const w=S.weeks[S.cur]; st.textContent = w && w.savedAt ? 'Saved ' + new Date(w.savedAt).toLocaleString('en-US', {month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}) : ''; st.className='status'; }
     sv.disabled = !S.dirty || S.draft.length===0;
-    $('delWeek').hidden = !(S.weeks[S.cur] && !S.dirty);
   }
   function renderWeekBar(){
     const sel=$('weekSel'), opts=savedNums().slice();
     if(S.cur!=null && !opts.includes(S.cur)) opts.push(S.cur);
     opts.sort((a,b)=>a-b);
     sel.innerHTML = opts.map(n=>`<option value="${n}"${n===S.cur?' selected':''}>${n}${S.weeks[n]?'':' (new)'}</option>`).join('');
-    const isNew = S.cur!=null && !S.weeks[S.cur];
-    $('weekNum').hidden = !isNew; sel.hidden = isNew && opts.length===1;
-    if(isNew) $('weekNum').value = S.cur;
   }
   function renderHeads(){
     const b=[], p=shown('p');  // the compact list has no stat columns (team pop-up has them)
@@ -1233,7 +1220,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     const an = analyze(), cols = [];
     const row = (a,i) => { const t=S.teams[a]||{name:a,conf:''}, fl=an.flags[a], lp=an.loopOf[a];
       const marks = (fl ? `<button class="flag" data-tip="${esc(fl.join('\n'))}" aria-label="${esc(fl.join(' '))}">H2H</button>` : '') + (lp ? `<button class="flag loop" data-tip="${esc(lp.text+'\n'+lp.games.join('\n'))}" aria-label="${esc(lp.text)}">LOOP</button>` : '');
-      return `<div class="brow" data-abbr="${esc(a)}" style="--tc:${tc(a)}"><span class="rk">${i+1}</span>${moveOf(a,i+1,prev)}<button class="grip owner-only" aria-label="Move ${esc(t.name)}, rank ${i+1}. Use arrow keys." data-i="${i}">${GRIP}</button>${logo(a)}
+      return `<div class="brow" data-abbr="${esc(a)}" style="--tc:${tc(a)}"><span class="rk">${i+1}</span>${moveOf(a,i+1,prev)}<button class="grip" aria-label="Move ${esc(t.name)}, rank ${i+1}. Use arrow keys." data-i="${i}">${GRIP}</button>${logo(a)}
         <div class="tm"><button class="nmb" data-open="${esc(a)}">${esc(t.name)}</button><small>${marks}${esc(t.conf||'')}</small></div>${cols.map(c=>statCell(c,a,t,an.onB,false)).join('')}${cmpBox(a)}<button class="x" data-rm="${i}" aria-label="Remove ${esc(t.name)}">×</button></div>`; };
     $('ballot').innerHTML = S.draft.map((a,i)=> (i===TOP ? '<div class="cut" data-cut>Also ranked 26–35</div>' : '') + row(a,i)).join('');
     let h='';
@@ -1303,31 +1290,6 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     if(at==null || at>S.draft.length) at=S.draft.length;
     S.draft.splice(at,0,a); setDirty(true); refreshBuild();
   }
-  function loadWeek(n){ S.cur=n; S.newWeek=false; S.draft=eff(S.weeks[n]); setDirty(false); renderWork(); }
-  function confirmDiscard(){ return !S.dirty || confirm('Discard unsaved changes to this week?'); }
-  $('weekSel').addEventListener('change', e=>{ const n=Number(e.target.value); if(!confirmDiscard()){ e.target.value=S.cur; return; } loadWeek(n); });
-  $('weekNum').addEventListener('change', e=>{ const n=Math.max(0,Math.min(20,Number(e.target.value)||0)); if(S.weeks[n]){ toast(`Week ${n} already exists`); e.target.value=S.cur; return; } S.cur=n; stashDraft(); renderWeekBar(); renderBallot(); });
-  $('newWeek').addEventListener('click', ()=>{
-    if(!confirmDiscard()) return;
-    const latest=pubNum(); S.cur = latest==null ? 5 : latest+1; S.newWeek=true;
-    S.draft = latest==null ? [] : eff(S.weeks[latest]);
-    setDirty(true); renderWork(); toast(latest==null ? `Started week ${S.cur}` : `Week ${S.cur} started from week ${latest}`);
-  });
-  $('save').addEventListener('click', async ()=>{
-    if(!S.db || !S.dirty) return;
-    const snap={}; S.draft.forEach(a=>{ const t=S.teams[a]||{}; snap[a]={w:t.w??null,l:t.l??null,p4w:t.p4w??null,p4l:t.p4l??null}; });
-    const body={week:S.cur, ranking:S.draft.slice(), savedAt:new Date().toISOString(), records:snap};
-    $('save').disabled=true;
-    try{ await S.db.collection('weeks').doc(wkId(S.cur)).set(body); S.weeks[S.cur]=body; S.newWeek=false; setDirty(false); renderAll(); toast(`Week ${S.cur} saved`); }
-    catch(e){ toast(e&&e.code==='unauthenticated'?'GitHub rejected the ballot sync token. Open Ballot sync to reconnect.':'Couldn’t save. Check your connection and try again.'); renderStatus(); }
-  });
-  $('delWeek').addEventListener('click', async ()=>{
-    if(!S.db || !S.weeks[S.cur]) return;
-    if(!confirm(`Delete the week ${S.cur} ballot? This can’t be undone.`)) return;
-    const n=S.cur;
-    try{ await S.db.collection('weeks').doc(wkId(n)).delete(); delete S.weeks[n]; const nums=savedNums(); if(nums.length) loadWeek(nums[nums.length-1]); else { S.cur=n; S.draft=[]; setDirty(false); renderAll(); } toast(`Week ${n} deleted`); }
-    catch(e){ toast('Couldn’t delete. Try again.'); }
-  });
   $('ballot').addEventListener('click', e=>{
     const rm=e.target.closest('[data-rm]'); if(rm){ S.draft.splice(Number(rm.dataset.rm),1); setDirty(true); renderBallot(); renderPool(); return; }
   });
@@ -1388,15 +1350,6 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   });
   $('uTable').addEventListener('input', e=>{ const id=e.target.dataset.note; if(!id || !S.uDraft[id]) return; S.uDraft[id].note=e.target.value; S.uDirty=true; $('uSave').disabled=false; });
   $('uAll').addEventListener('change', e=>{ S.uAll=e.target.checked; renderUps(); });
-  $('uSave').addEventListener('click', async ()=>{
-    const wk=(S.schedule||{}).week; if(wk==null) return;
-    $('uSave').disabled=true;
-    try{
-      const saved = await S.db.saveSettings(cur => { const u=Object.assign({}, cur.upsets||{}); u[wk]=S.uDraft; return Object.assign({}, cur, {upsets:u}); });
-      S.settings=saved; S.upsets=saved.upsets||{}; S.uDirty=false; renderUps(); renderHome();
-      const n=Object.keys(S.uDraft).length; toast(n ? `${n} upset alert${n===1?'':'s'} published` : 'Upset alerts cleared');
-    }catch(e){ $('uSave').disabled=false; toast(e&&e.code==='unauthenticated' ? 'GitHub rejected the ballot sync token. Open Ballot sync to reconnect.' : 'Couldn’t publish. Try again.'); }
-  });
 
   // ---------- tooltips, menus ----------
   let tipFor=null, tipVia='';
@@ -1515,7 +1468,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   }
 
   // click outside a pop-up (on the dimmed background) to close it
-  ['dlg','cmpDlg','syncDlg','acctDlg','privDlg'].forEach(id=>$(id).addEventListener('click', e=>{
+  ['dlg','cmpDlg','acctDlg','privDlg'].forEach(id=>$(id).addEventListener('click', e=>{
     if(e.target!==e.currentTarget) return;
     const r=e.currentTarget.getBoundingClientRect();
     if(e.clientX<r.left || e.clientX>r.right || e.clientY<r.top || e.clientY>r.bottom) e.currentTarget.close();
@@ -1559,74 +1512,17 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 
   // ---------- storage (GitHub Pages) ----------
   //  - teams.json (published next to this page): teams, model, schedule, AP poll
-  //  - weeks.json (ballots) and settings.json (upset alerts) in the public repo SYNC.owner/SYNC.repo,
-  //    read without a token, written through GitHub's API with a fine-grained token kept only in this browser
-  const SYNC = {owner:'the-chili-king', repo:'cfb-ballots', path:'weeks.json', key:'cfb-gh-token'};
-  const syncToken = () => { try{ return localStorage.getItem(SYNC.key)||''; }catch(e){ return ''; } };
+  //  - weeks.json in the public repo the-chili-king/cfb-ballots: the owner's rankings from before the Straw Poll
+  //    (weeks 1-5), read-only, no token. Shown on Home and Previous Rankings until the first compiled Straw Poll.
+  //  - settings.json in the same repo: published upset alerts (read-only)
+  const ARCHIVE = 'https://raw.githubusercontent.com/the-chili-king/cfb-ballots/main/';
   function siteDb(){
-    const api = `https://api.github.com/repos/${SYNC.owner}/${SYNC.repo}/contents/${SYNC.path}`;
-    const clone = x => x==null ? x : JSON.parse(JSON.stringify(x));
-    const snap = (id, data) => ({id, exists:data!=null, data:()=>clone(data)});
-    const fail = (code, message) => Object.assign(new Error(message), {code});
-    const b64d = t => new TextDecoder().decode(Uint8Array.from(atob(t.replace(/\s/g,'')), c=>c.charCodeAt(0)));
-    const b64e = t => { let b=''; new TextEncoder().encode(t).forEach(x=>b+=String.fromCharCode(x)); return btoa(b); };
-    let weeks = {}, sha = null; const colL = [];
-    async function gh(method, body, token, url){
-      let r; const t = token || syncToken();
-      try{ r = await fetch(url || api, {method, cache:'no-store', headers:{...(t?{Authorization:'Bearer '+t}:{}), Accept:'application/vnd.github+json', ...(body?{'Content-Type':'application/json'}:{})}, body:body?JSON.stringify(body):undefined}); }
-      catch(e){ throw fail('unavailable', 'Couldn’t reach GitHub'); }
-      if(r.status===401) throw fail('unauthenticated', 'GitHub rejected the token');
-      if(r.status===403 || r.status===404) throw fail('not_found', 'The token can’t see the ballots repo');
-      return r;
-    }
-    async function pull(){
-      if(!syncToken()){
-        let r = await fetch(api, {cache:'no-store', headers:{Accept:'application/vnd.github+json'}}).catch(()=>null);
-        if(r && r.ok){ const j=await r.json(); weeks = JSON.parse(b64d(j.content) || '{}') || {}; return; }
-        r = await fetch(`https://raw.githubusercontent.com/${SYNC.owner}/${SYNC.repo}/main/${SYNC.path}`, {cache:'no-store'}).catch(()=>null);
-        if(r && r.ok){ weeks = await r.json() || {}; return; }
-        throw fail('unavailable', 'Couldn’t load the ballots');
-      }
-      const r = await gh('GET'); if(!r.ok) throw fail('unavailable', 'GitHub error '+r.status);
-      const j = await r.json(); sha = j.sha; weeks = JSON.parse(b64d(j.content) || '{}') || {};
-    }
-    const emit = () => { const docs = Object.keys(weeks).sort().map(id=>snap(id, weeks[id])); colL.forEach(f=>f({docs})); };
-    async function write(change, message){
-      for(let attempt=0; attempt<2; attempt++){
-        await pull(); change(weeks);
-        const r = await gh('PUT', {message, content:b64e(JSON.stringify(weeks, null, 1)+'\n'), sha});
-        if(r.ok){ sha = (await r.json()).content.sha; emit(); return; }
-        if(r.status!==409 && r.status!==422) throw fail('unavailable', 'GitHub error '+r.status);
-      }
-      throw fail('unavailable', 'Saved on another device at the same moment; try again');
-    }
-    const sapi = `https://api.github.com/repos/${SYNC.owner}/${SYNC.repo}/contents/settings.json`;
-    async function readSettings(){
-      const t = syncToken();
-      let r = await fetch(sapi, {cache:'no-store', headers:{...(t?{Authorization:'Bearer '+t}:{}), Accept:'application/vnd.github+json'}}).catch(()=>null);
-      if(r && r.ok){ const j=await r.json(); return {data:JSON.parse(b64d(j.content) || '{}') || {}, sha:j.sha}; }
-      if(r && r.status===404) return {data:{}, sha:null};
-      r = await fetch(`https://raw.githubusercontent.com/${SYNC.owner}/${SYNC.repo}/main/settings.json`, {cache:'no-store'}).catch(()=>null);
-      return {data: r && r.ok ? (await r.json() || {}) : {}, sha:null};
-    }
-    // change: a function from the latest saved settings to the new settings (so nothing saved elsewhere is lost)
-    async function saveSettings(change){
-      for(let attempt=0; attempt<2; attempt++){
-        const cur = await readSettings(), data = change(cur.data||{});
-        const r = await gh('PUT', {message:'Save page settings', content:b64e(JSON.stringify(data, null, 1)+'\n'), ...(cur.sha?{sha:cur.sha}:{})}, null, sapi);
-        if(r.ok) return data;
-        if(r.status!==409 && r.status!==422) throw fail('unavailable', 'GitHub error '+r.status);
-      }
-      throw fail('unavailable', 'Saved on another device at the same moment; try again');
-    }
-    const teams = fetch('teams.json', {cache:'no-cache'}).then(r=>{ if(!r.ok) throw fail('unavailable','teams.json '+r.status); return r.json(); });
-    const weeksCol = {
-      doc: id => ({ set: body => write(w=>{ w[id]=clone(body); }, `Save ballot ${id}`), delete: () => write(w=>{ delete w[id]; }, `Delete ballot ${id}`) }),
-      onSnapshot: (f, err) => { colL.push(f); pull().then(emit).catch(e=>err&&err(e)); return ()=>{}; }
+    const json = async path => { const r = await fetch(ARCHIVE + path, {cache:'no-cache'}); if(!r.ok) throw new Error(path + ' ' + r.status); return r.json(); };
+    return {
+      teams: fetch('teams.json', {cache:'no-cache'}).then(r=>{ if(!r.ok) throw new Error('teams.json ' + r.status); return r.json(); }),
+      archive: () => json('weeks.json').then(raw=>{ const w={}; Object.values(raw||{}).forEach(x=>{ if(x && typeof x.week==='number') w[x.week]=x; }); return w; }),
+      settings: () => json('settings.json').catch(()=>({}))
     };
-    document.addEventListener('visibilitychange', ()=>{ if(document.visibilityState==='visible' && colL.length && !S.dirty) pull().then(emit).catch(()=>{}); });
-    return { teams, collection: () => weeksCol, settings: () => readSettings().then(x=>x.data), saveSettings,
-      check: async token => { try{ const r=await gh('GET', null, token); return r.ok ? 'ok' : 'unavailable'; }catch(e){ return e.code; } } };
   }
 
 
@@ -1748,32 +1644,11 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     loadMe();
   }
 
-  // ---------- ballot sync dialog ----------
-  function openSync(){
-    $('syncState').textContent = syncToken() ? 'Connected on this device.' : 'Not connected on this device.';
-    $('syncToken').value=''; $('syncMsg').textContent=''; $('syncOff').hidden = !syncToken();
-    $('syncDlg').showModal();
-  }
-  $('syncBtn').addEventListener('click', openSync);
-  $('syncSave').addEventListener('click', async ()=>{
-    const t=$('syncToken').value.trim(); if(!t){ $('syncMsg').textContent='Paste the token first.'; return; }
-    $('syncMsg').textContent='Checking…';
-    const r = await S.db.check(t);
-    if(r!=='ok'){ $('syncMsg').textContent = r==='unauthenticated' ? 'GitHub rejected that token. Check that all of it was copied.' : r==='not_found' ? 'That token can’t see the cfb-ballots repo. Give it access to that repo, with Contents: Read and write.' : 'Couldn’t reach GitHub. Check the connection and try again.'; return; }
-    try{ localStorage.setItem(SYNC.key, t); }catch(e){ $('syncMsg').textContent='This browser won’t store the token (private browsing?).'; return; }
-    location.reload();
-  });
-  $('syncOff').addEventListener('click', ()=>{
-    if(!confirm('Disconnect ballot sync on this device? Saved ballots stay in GitHub.')) return;
-    try{ localStorage.removeItem(SYNC.key); }catch(e){}
-    location.reload();
-  });
-
   // ---------- start ----------
   const start = (location.hash||'').slice(1);
   showTab(TABS.includes(start) ? start : 'home');
   (async ()=>{
-    const db = siteDb(); S.db=db;
+    const db = siteDb();
     db.settings().then(st=>{ S.settings=st||{}; S.upsets=S.settings.upsets||{}; const f = (()=>{ try{ return JSON.parse(localStorage.getItem('cfb-dials')||'null'); }catch(e){ return null; } })();  /* each viewer's own what-if */ if(f && typeof f==='object'){ const g=Object.fromEntries(Object.entries(f).filter(([k])=>DIALS.includes(k))); S.adj={...g}; S.adjPub={...g}; S._mdl=null; } renderAll(); }).catch(()=>{});
     db.teams.then(d=>{
       S.meta = {through:d.through, updatedAt:d.updatedAt, season:d.season};
@@ -1781,18 +1656,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       S.teamsRaw = d.teams||{}; S.model = d.model||null; S.schedule = d.schedule||null; S.ap = d.ap||null; S.picks = d.picks||[];
       mergeModel(); renderConfs(); renderAll();
     }).catch(()=>{ $('stamp').textContent='Team data couldn’t load. Reload the page to try again.'; });
-    db.collection('weeks').onSnapshot(qs=>{
-      const w={}; qs.docs.forEach(d=>{ const x=d.data(); if(x && typeof x.week==='number') w[x.week]=x; });
-      S.weeks=w;
-      if(!S.loadedWeeks){
-        S.loadedWeeks=true;
-        const st=readStash(), nums=savedNums();
-        if(S.canWrite && st && Array.isArray(st.draft)){ S.cur=st.week; S.draft=st.draft.slice(0,MAX); S.newWeek=!!st.isNew; S.dirty=true; }
-        else if(nums.length){ S.cur=nums[nums.length-1]; S.draft=eff(w[S.cur]); }
-        else { S.cur=5; S.draft=[]; S.newWeek=true; }
-      } else if(!S.dirty && S.weeks[S.cur]) S.draft=eff(S.weeks[S.cur]);
-      renderAll();
-    }, e=>{ toast(e&&e.code==='unauthenticated' ? 'GitHub rejected the ballot sync token. Open Ballot sync to reconnect.' : 'Saved ballots couldn’t load. Reload to try again.'); });
+    db.archive().then(w=>{ S.weeks=w; renderAll(); }).catch(()=>toast('Earlier rankings couldn’t load. Reload to try again.'));
   })();
 })();
 </script>
