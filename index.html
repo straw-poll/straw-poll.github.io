@@ -237,7 +237,6 @@ td.c-mv{padding-left:0;width:30px}
 .x:hover{color:var(--loss)}
 .slot{display:grid;grid-template-columns:44px 1fr;column-gap:8px;align-items:center;padding:8px 6px;border-bottom:1px dashed var(--line2);color:var(--faint)}
 .slot .rk{color:#2a3b52;font-size:22px}
-.cut{font:700 16px var(--cond);color:var(--gold);padding:14px 6px 4px;border-bottom:1px solid var(--line);letter-spacing:.02em}
 .checks{margin-top:12px;border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:8px;padding:8px 12px;background:var(--panel);font-size:13px}
 .checks p{margin:0}.checks p+p{margin-top:8px}
 .checks small{display:block;color:var(--muted)}
@@ -1371,8 +1370,10 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   async function openVoting(){
     if(!S.isOwner || S.busy) return;
     const known = Object.keys(S.vote.weeks).map(Number), sched = (S.schedule && S.schedule.week) || 0;
-    const w = Number(prompt('Open voting for which week?', Math.max(sched, known.length ? Math.max(...known)+1 : 0)));
-    if(!Number.isInteger(w) || w<0 || w>20){ if(w) toast('Enter a week from 0 to 20.'); return; }
+    const raw = prompt('Open voting for which week?', Math.max(sched, known.length ? Math.max(...known)+1 : 0));
+    if(raw==null || !raw.trim()) return;  // canceled (Number(null) would be week 0)
+    const w = Number(raw);
+    if(!Number.isInteger(w) || w<0 || w>20){ toast('Enter a week from 0 to 20.'); return; }
     const d = nextTuesdayDeadline();
     if(!confirm(`Open week ${w} voting until ${etTime(d)}?`)) return;
     S.busy=true; renderStatus();
@@ -1428,9 +1429,9 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       const marks = (fl ? `<button class="flag" data-tip="${esc(fl.join('\n'))}" aria-label="${esc(fl.join(' '))}">H2H</button>` : '') + (lp ? `<button class="flag loop" data-tip="${esc(lp.text+'\n'+lp.games.join('\n'))}" aria-label="${esc(lp.text)}">LOOP</button>` : '');
       return `<div class="brow" data-abbr="${esc(a)}" style="--tc:${tc(a)}"><span class="rk">${i+1}</span>${moveOf(a,i+1,prev)}<button class="grip" aria-label="Move ${esc(t.name)}, rank ${i+1}. Use arrow keys." data-i="${i}">${GRIP}</button>${logo(a)}
         <div class="tm"><button class="nmb" data-open="${esc(a)}">${esc(t.name)}</button><small>${marks}${esc(t.conf||'')}</small></div>${cols.map(c=>statCell(c,a,t,an.onB,false)).join('')}${cmpBox(a)}<button class="x" data-rm="${i}" aria-label="Remove ${esc(t.name)}">×</button></div>`; };
-    $('ballot').innerHTML = S.draft.map((a,i)=> (i===TOP ? '<div class="cut" data-cut>Also ranked 26–35</div>' : '') + row(a,i)).join('');
+    $('ballot').innerHTML = S.draft.map(row).join('');
     let h='';
-    if(!S.draft.length) h += `<div class="empty"><strong>The ballot is empty</strong>Add teams from the list, or drag them in.</div>`;
+    if(!S.draft.length) h += editable(S.cur) ? `<div class="empty"><strong>The ballot is empty</strong>Add teams from the list, or drag them in.</div>` : `<div class="empty"><strong>No ballot for this week</strong></div>`;
     for(let i=S.draft.length;i<BMAX && S.draft.length;i++) h += `<div class="slot"><span class="rk">${i+1}</span><span>Open spot</span></div>`;
     $('slots').innerHTML = h + ballotNotes(an, prev);
   }
@@ -1471,7 +1472,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     if(wSortable){ wSortable.destroy(); wSortable=null; }
     S._an = an;  // mapRow (drag mode) reads the H2H / LOOP flags from here
     const n=S.draft.length, slot = n<BMAX ? `<div class="slot wslot"><span class="rk">${n+1}</span><span>${n ? 'Open spot: drag a team here, or tap + in the list' : 'Drag teams here from the list, or tap +'}</span></div>` : '';
-    el.innerHTML = axis(true, 'Straw') + `<div id="wTop">${S.draft.map((a,i)=>(i===TOP?'<div class="grp" data-cut>Also ranked 26–35</div>':'')+mapRow(a, i+1, prev, onB, true)).join('')}</div>` + slot;
+    el.innerHTML = axis(true, 'Straw') + `<div id="wTop">${S.draft.map((a,i)=>mapRow(a, i+1, prev, onB, true)).join('')}</div>` + slot;
     stackDots(el);
     $('wNotes').innerHTML = ballotNotes(an, prev);
     if(window.Sortable) wSortable = Sortable.create($('wTop'), { handle:'.grip', draggable:'.mrow', animation:150, disabled:!editable(S.cur),
@@ -1816,6 +1817,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     S.reqs = (p.data||[]).map(x=>Object.assign({}, x, info[x.id]||{}));
     // late ballots waiting for a decision, with their senders' usernames (one more request, only when there are any)
     const l = await sb.from('late_ballots').select('user_id,season,week,submitted_at').eq('status','pending').order('submitted_at');
+    S.lateErr = l.error || null;
     const late = l.data || [], ids = [...new Set(late.map(x=>x.user_id))];
     const names = ids.length ? (await sb.from('profiles').select('id,username').in('id', ids)).data || [] : [];
     const nameOf = Object.fromEntries(names.map(x=>[x.id, x.username]));
@@ -1844,7 +1846,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     $('acctReqs').innerHTML = pr && pr.is_owner ? `<div class="reqs"><h4>Requests to join${S.reqs.length?` (${S.reqs.length})`:''}</h4>${S.reqs.length ? S.reqs.map(x=>`<div class="req"><div>${esc(x.username||'(no username yet)')}<small>${esc(x.email||'')}${x.note?' · '+esc(x.note):''}</small></div><button class="btn primary" data-appr="${esc(x.id)}">Approve</button><button class="btn quiet" data-decl="${esc(x.id)}">Decline</button></div>`).join('') : '<p class="dnote">No pending requests.</p>'}</div>`
       + `<div class="reqs"><h4>Late ballots${S.lateReqs.length?` (${S.lateReqs.length})`:''}</h4>${S.lateReqs.length ? S.lateReqs.map(x=>{ const k=esc([x.user_id, x.season, x.week].join('|'));
           return `<div class="req"><div>${esc(x.username||'(no username)')}<small>Week ${esc(x.week)} · sent ${esc(atTime(x.submitted_at))}</small></div><button class="btn primary" data-lapp="${k}" aria-label="Approve ${esc(x.username||'')}'s late week ${esc(x.week)} ballot">Approve</button><button class="btn quiet" data-ldec="${k}" aria-label="Decline ${esc(x.username||'')}'s late week ${esc(x.week)} ballot">Decline</button></div>`; }).join('')
-        : '<p class="dnote">No late ballots waiting.</p>'}<p class="dnote">Approving makes it that person’s ballot for the week (replacing any on-time one). Declining is final for that week.</p></div>` : '';
+        : S.lateErr ? `<p class="dnote">${esc(sbErr(S.lateErr, 'Late ballots couldn’t load. Close and reopen this window to try again.'))}</p>` : '<p class="dnote">No late ballots waiting.</p>'}<p class="dnote">Approving makes it that person’s ballot for the week (replacing any on-time one). Declining is final for that week.</p></div>` : '';
   }
   $('acctBtn').addEventListener('click', ()=>{ acctMsg(''); renderAcct(); $('acctDlg').showModal(); if(S.me) loadMe(); else setupGoogle(); });
   // Google sign-in: Google's own button (popup on this site, so people see straw-poll.github.io, not the Supabase address).
