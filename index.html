@@ -986,7 +986,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   const SORTLAB = {wolp:'Straw', comp:'Wolp+', ap:'AP', fpi:'FPI', best:'#', worst:'#'};
   function renderRank(){
     const n=pubNum(), ranks=pubMap(), prev = n!=null && prevNum(n)!=null ? rankMap(prevNum(n)) : null, R=S.r, cr=mdl().crank;
-    $('rSub').textContent = stampText() + (n!=null && S.weeks[n].savedAt ? ` · ballot saved ${new Date(S.weeks[n].savedAt).toLocaleDateString('en-US',{month:'short',day:'numeric'})}` : '');
+    $('rSub').textContent = stampText() + (n!=null && S.weeks[n].savedAt ? ` · ballot saved ${new Date(S.weeks[n].savedAt).toLocaleDateString('en-US',{month:'short',day:'numeric',timeZone:'America/New_York'})}` : '');
     document.querySelectorAll('[data-show]').forEach(b=>b.classList.toggle('on', b.dataset.show===R.show));
     document.querySelectorAll('[data-ms]').forEach(b=>b.classList.toggle('on', b.dataset.ms===R.ms && (!b.closest('#stats') || R.col==='ms')));
     $('legend1').innerHTML = legend(`Opponent’s ${XAX[R.xax]} rank (top 25)`);
@@ -1200,7 +1200,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   function openWeekNum(){ const o=Object.keys(S.vote.weeks).map(Number).filter(isOpen).sort((a,b)=>a-b); return o.length ? o[0] : null; }
   // deadlines always shown in Eastern time (the IANA zone handles daylight saving)
   const etTime = d => d.toLocaleString('en-US', {timeZone:'America/New_York', weekday:'short', month:'short', day:'numeric', hour:'numeric', minute:'2-digit'}) + ' ET';
-  const atTime = t => new Date(t).toLocaleString('en-US', {weekday:'short', month:'short', day:'numeric', hour:'numeric', minute:'2-digit'});
+  const atTime = t => etTime(new Date(t));  // every time on the page is Eastern, labeled ET
   const sameList = (a, b) => !!a && !!b && a.length===b.length && a.every((x,i)=>x===b[i]);
   // what the draft is compared with: a pending late ballot, else the submitted ballot
   function baseOf(n){ const lt=S.vote.late[n]; return lt && lt.status==='pending' && phase(n)==='late' ? lt : S.vote.mine[n] || null; }
@@ -1667,7 +1667,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   privHash();
   window.addEventListener('beforeunload', e=>{ if(S.uDirty){ e.preventDefault(); e.returnValue=''; } });
 
-  const stampText = () => { if(!S.meta) return 'Loading team data…'; const d = S.meta.updatedAt ? new Date(S.meta.updatedAt).toLocaleDateString('en-US', {month:'short', day:'numeric'}) : ''; return `Updated ${d} · ${S.meta.through||''}`; };
+  const stampText = () => { if(!S.meta) return 'Loading team data…'; const d = S.meta.updatedAt ? new Date(S.meta.updatedAt).toLocaleDateString('en-US', {month:'short', day:'numeric', timeZone:'America/New_York'}) : ''; return `Updated ${d} · ${S.meta.through||''}`; };
   function renderAll(){ $('stamp').textContent = stampText(); if(!$('fDials').children.length || !$('fMenu').open) renderDials(); renderCurrent(); renderFormulaNote(); }
 
   // ---------- team dialog ----------
