@@ -1719,7 +1719,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     const had = S.me.profile && S.me.profile.username;
     if(!had && name && !confirm(`Use “${name}” as your username? It can’t be changed later.`)) return;
     const r1 = had ? {error:null} : await sb.from('profiles').update({username: name || null}).eq('id', S.me.user.id);
-    if(r1.error){ acctMsg(r1.error.code==='23505' ? 'That username is taken.' : /reserved/i.test(r1.error.message||'') ? 'That username is reserved. Please choose another.' : 'Couldn’t save. Try again.'); return; }
+    if(r1.error){ acctMsg(r1.error.code==='23505' ? 'That username is taken.' : /reserved|not allowed/i.test(r1.error.message||'') ? 'That username is reserved or not allowed. Please choose another.' : 'Couldn’t save. Try again.'); return; }
     if(!$('acctNoteRow').hidden){ const r2 = await sb.from('join_requests').update({note: note || null}).eq('user_id', S.me.user.id); if(r2.error){ acctMsg('Saved your username, but not the note. Try again.'); return; } }
     acctMsg('Saved.'); loadMe();
   });
