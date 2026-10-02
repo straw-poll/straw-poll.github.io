@@ -426,10 +426,11 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     <button class="brand" id="brand" aria-label="Straw Poll home"><b>Straw Poll <span id="brandYr">2026</span></b><small>College football rankings</small></button>
     <nav class="tabs" role="tablist">
       <button class="tab" role="tab" id="tab-home" aria-selected="true">Home</button>
-      <button class="tab" role="tab" id="tab-rank" aria-selected="false">Data</button>
-      <button class="tab" role="tab" id="tab-history" aria-selected="false">Previous Rankings</button>
-      <button class="tab" role="tab" id="tab-method" aria-selected="false">Methodology</button>
-      <button class="tab owner voter-only" role="tab" id="tab-work" aria-selected="false">Workspace</button>
+      <button class="tab owner voter-only" role="tab" id="tab-work" aria-selected="false">Vote</button>
+      <button class="tab" role="tab" id="tab-leagues" aria-selected="false">Leagues</button>
+      <button class="tab" role="tab" id="tab-rank" aria-selected="false">Research</button>
+      <button class="tab" role="tab" id="tab-history" aria-selected="false">History</button>
+      <button class="tab" role="tab" id="tab-method" aria-selected="false">How it works</button>
     </nav>
     <div class="tools">
       <details class="colmenu" id="fMenu"><summary class="pill" id="fSum">Conference Modifier ▾</summary>
@@ -463,7 +464,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 
   <!-- RANKINGS -->
   <section id="view-rank" hidden>
-    <div class="ph"><div><h1 id="rTitle">Data</h1><div class="sub" id="rSub"></div></div>
+    <div class="ph"><div><h1 id="rTitle">Research</h1><div class="sub" id="rSub"></div></div>
       <div class="row"><a class="pill on" href="#map">Results Map</a><a class="pill" href="#stats">Stats table ↓</a></div></div>
     <div class="filters">
      <div class="frow">
@@ -495,7 +496,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 
   <!-- PREVIOUS RANKINGS -->
   <section id="view-history" hidden>
-    <div class="ph"><div><h1>Previous Rankings</h1><div class="sub">Every saved Straw Poll ballot, week by week</div></div></div>
+    <div class="ph"><div><h1>History</h1><div class="sub">The Straw Poll, week by week</div></div></div>
     <div class="card" id="scoreCard" style="margin-bottom:22px"><div class="ch"><h2>Scorecard<small>Who picks more winners: the Straw Poll, the AP poll, or the model?</small></h2></div>
       <div class="tblw" id="scoreBody"></div>
       <p class="note">Games with a Straw Poll Top 25 or AP Top 25 team. The Straw Poll and AP pick the better-ranked team (that week's ballot and poll; outside the Straw Poll 35 or AP 25 counts as unranked, and a game with neither team ranked in a list gets no pick from it). Model and Line pick the favorite in the model's spread and the betting line, both as of the last update before kickoff.</p></div>
@@ -504,9 +505,9 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 
   <!-- METHODOLOGY -->
   <section id="view-method" hidden>
-    <div class="ph"><div><h1>Methodology</h1><div class="sub">How the ratings, the Results Map and the Home page are built</div></div></div>
+    <div class="ph"><div><h1>How it works</h1><div class="sub">How the ratings, the Results Map and the Home page are built</div></div></div>
     <div class="mwrap">
-      <nav class="toc" aria-label="Methodology sections">
+      <nav class="toc" aria-label="How it works sections">
         <a href="#m-overview">Overview</a><a href="#m-wolp">The Straw Poll</a><a href="#m-ratings">The rankings</a><a href="#m-power">Power rating</a>
         <a href="#m-qw">Quality wins</a><a href="#m-res">Strength of résumé (SOR)</a><a href="#m-proj">Win chances and projections</a><a href="#m-map">Results Map</a><a href="#m-home">Home page</a><a href="#m-cols">Columns and flags</a><a href="#m-data">Data and updates</a>
       </nav>
@@ -584,7 +585,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
         <ul>
           <li>Each row shows a team's games, placed left to right by the <b>opponent's rank</b> in the metric chosen under <b>X axis</b>: Wolp+ (the default), FPI, SOR or Quality wins (#1 at the far right; FCS opponents at the far left). Best and Worst follow the same choice.</li>
           <li>Green = win, red = loss. Dot size = margin (1–8, 9–16, 17+). Gold ring = close game; double ring = overtime.</li>
-          <li>A small number beside a dot is the opponent's rank in the X axis metric, shown only for opponents in that metric's top 25 (in the Workspace, it is the opponent's Straw Poll rank). <b>Best</b> marks the win over the highest-ranked opponent (the rightmost green dot) and <b>Worst</b> the loss to the lowest-ranked one (the leftmost red dot).</li>
+          <li>A small number beside a dot is the opponent's rank in the X axis metric, shown only for opponents in that metric's top 25 (on the Vote tab, it is the opponent's Straw Poll rank). <b>Best</b> marks the win over the highest-ranked opponent (the rightmost green dot) and <b>Worst</b> the loss to the lowest-ranked one (the leftmost red dot).</li>
           <li>Dots for similarly ranked opponents are stacked slightly above and below the line so none are hidden.</li>
         </ul>
 
@@ -595,7 +596,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
           <dt>Model spread</dt><dd>The model's predicted margin, written like a betting line (favorite −points, rounded to the half point). It never uses the betting line.</dd>
           <dt>Line</dt><dd>The median spread across sportsbooks, from CollegeFootballData.com.</dd>
           <dt>Upset watch</dt><dd>Games hand-picked each week, usually where the model favors the betting underdog or disagrees with the line by a touchdown or more.</dd>
-          <dt>Scorecard</dt><dd>On Previous Rankings: each week, how many winners the Straw Poll, the AP poll, the model and the betting line picked in games with a ranked team. Looking back at 2024–25, in games between two AP-ranked teams the better-ranked AP team won only 52% of the time; the model's pick won 66%, and the betting line's 64%.</dd>
+          <dt>Scorecard</dt><dd>On History: each week, how many winners the Straw Poll, the AP poll, the model and the betting line picked in games with a ranked team. Looking back at 2024–25, in games between two AP-ranked teams the better-ranked AP team won only 52% of the time; the model's pick won 66%, and the betting line's 64%.</dd>
           <dt>Big games</dt><dd>This week's games with a Straw Poll ranked (1–35) or AP Top 25 team where the favorite is giving 14 points or less (by the betting line, or the model spread when there's no line). When both teams are ranked (the Straw Poll or AP), the limit is 21 points.</dd>
         </dl>
 
@@ -609,13 +610,19 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
           <dt>Adj …</dt><dd>The same stats, adjusted for the opponents faced.</dd>
           <dt>Defs / Offs faced</dt><dd>Strength of schedule: the average adjusted EPA of the FBS defenses (lower = tougher) and offenses (higher = tougher) a team has played.</dd>
           <dt>▲ ▼ NEW</dt><dd>Movement since the previous week's Straw Poll ballot.</dd>
-          <dt>H2H, LOOP</dt><dd>Workspace reminders: a head-to-head result that disagrees with the order, or teams that beat each other in a circle.</dd>
+          <dt>H2H, LOOP</dt><dd>Vote tab reminders: a head-to-head result that disagrees with the order, or teams that beat each other in a circle.</dd>
         </dl>
 
         <h2 id="m-data">Data and updates</h2>
         <p>Team data comes from <a href="https://collegefootballdata.com" target="_blank" rel="noopener">CollegeFootballData.com</a>. Results, stats, ratings and the AP poll update every Sunday morning; the schedule and betting lines refresh again on Thursday. Only FBS teams are rated.</p>
       </article>
     </div>
+  </section>
+
+  <!-- LEAGUES (step 3 builds the real page) -->
+  <section id="view-leagues" hidden>
+    <div class="ph"><div><h1>Leagues</h1><div class="sub">Compete with friends</div></div></div>
+    <div class="card"><div class="empty"><strong>Coming soon</strong>Create a league with friends, see each other's ballots once voting closes, and play pick'em against the AP poll. Everyone who votes will be in the <b>All voters</b> league.</div></div>
   </section>
 
   <!-- WORKSPACE (approved users: your own ballot; owner also gets Upset watch) -->
@@ -632,7 +639,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       <button class="btn quiet" id="withdraw" hidden>Withdraw</button>
       <button class="btn primary" id="save" disabled>Submit ballot</button>
     </div>
-    <div class="wsub" role="group" aria-label="Workspace view">
+    <div class="wsub" role="group" aria-label="Vote view">
       <span class="lab">View</span><button class="pill" data-ws="ballot">List</button><button class="pill" data-ws="map">Results Map</button><button class="pill boss-only" data-ws="ups">Upset watch</button>
     </div>
     <div id="ws-build" class="wgrid wbuild">
@@ -1737,7 +1744,12 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   $('fReset').addEventListener('click', ()=>{ S.adj={}; S._mdl=null; renderDials(); renderCurrent(); renderFormulaNote(); });
 
   // ---------- tabs ----------
-  const TABS=['home','rank','history','method','work'];
+  const TABS=['home','work','leagues','rank','history','method'];
+  // address (#...) for each tab; older addresses and bookmarks still open the right tab
+  const HASH = {home:'', work:'vote', leagues:'leagues', rank:'research', history:'history', method:'how'};
+  const ALIAS = {vote:'work', workspace:'work', work:'work', leagues:'leagues', research:'rank', data:'rank', rank:'rank',
+                 history:'history', how:'method', method:'method', methodology:'method', home:'home'};
+  const tabFromHash = h => ALIAS[(h||'').replace(/^#/, '').toLowerCase()] || null;
   function showTab(v){
     if(v==='work' && !S.me){ S.wantWork = true; v='home'; }  // reopened once sign-in is known (setAccess)
     S.tab=v;
@@ -1746,7 +1758,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     $('fMenu').hidden = v!=='rank'; if(v!=='rank') $('fMenu').open = false;
     S._mdl = null;  // Wolp+ ranks include the Conference Modifier on the Data tab only
     if($('cmpMode').hidden && S.cmpOn){ S.cmpOn=false; S.cmp=[]; renderCmpBar(); }
-    try{ history.replaceState(null, '', v==='home' ? location.pathname + location.search : '#'+v); }catch(e){}
+    try{ history.replaceState(null, '', v==='home' ? location.pathname + location.search : '#'+HASH[v]); }catch(e){}
     renderCurrent(); window.scrollTo(0,0);
   }
   function renderCurrent(){
@@ -1757,7 +1769,12 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   $('brand').addEventListener('click', ()=>showTab('home'));
   // #privacy and #terms open the Privacy & Terms window (linked from Google's sign-in consent screen)
   const privHash = () => { if(/^#(privacy|terms)$/.test(location.hash) && !$('privDlg').open) $('privDlg').showModal(); };
-  window.addEventListener('hashchange', ()=>{ const h=(location.hash||'').slice(1); if(TABS.includes(h) && h!==S.tab) showTab(h); privHash(); });
+  window.addEventListener('hashchange', ()=>{
+    const t=tabFromHash(location.hash);
+    if(t && t!==S.tab) showTab(t);
+    else if(t && t!=='home' && location.hash.slice(1)!==HASH[t]) try{ history.replaceState(null, '', '#'+HASH[t]); }catch(e){}  // old address -> new
+    privHash();
+  });
   privHash();
   window.addEventListener('beforeunload', e=>{ if(S.uDirty){ e.preventDefault(); e.returnValue=''; } });
 
@@ -1927,7 +1944,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     const st = pr ? pr.status : 'pending';
     $('acctStatus').innerHTML = me.err ? esc(sbErr(me.err, 'Your account details couldn’t load. Reload the page to try again.'))
       : pr && pr.is_owner ? '<b>Owner.</b> You approve who can submit ballots and join leagues.'
-      : st==='approved' ? '<b>Approved.</b> Build and submit your ballot in the Workspace tab.'
+      : st==='approved' ? '<b>Approved.</b> Build and submit your ballot on the Vote tab.'
       : st==='declined' ? 'Your request wasn’t approved. You can still view everything on the site.'
       : '<b>Request sent.</b> The owner will approve you soon. Add a username (and a note so they know who you are).';
     if(document.activeElement!==$('acctName')) $('acctName').value = (pr&&pr.username) || '';
@@ -2030,8 +2047,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   }
 
   // ---------- start ----------
-  const start = (location.hash||'').slice(1);
-  showTab(TABS.includes(start) ? start : 'home');
+  showTab(tabFromHash(location.hash) || 'home');
   (async ()=>{
     const db = siteDb();
     const f = (()=>{ try{ return JSON.parse(localStorage.getItem('cfb-dials')||'null'); }catch(e){ return null; } })();  // each viewer's own what-if
