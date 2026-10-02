@@ -406,7 +406,6 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       <span class="lab">Show</span>
       <button class="pill" data-show="wolp">Chili Poll Top 25</button>
       <button class="pill" data-show="c25">Wolp+ Top 25</button>
-      <button class="pill" data-show="c50">Wolp+ Top 50</button>
       <button class="pill" data-show="all">All FBS</button>
       <select id="rConf" aria-label="Conference"></select>
       <input id="rQ" type="search" placeholder="Search teams" aria-label="Search teams">
@@ -845,7 +844,6 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       const t=S.teams[a];
       if(R.show==='wolp' && !ranks[a]) return false;
       if(R.show==='c25' && !(cr[a]<=25)) return false;
-      if(R.show==='c50' && !(cr[a]<=50)) return false;
       if(R.conf==='p4' && !t.p4) return false;
       if(R.conf==='g5' && (t.p4 || t.conf==='FBS Independents')) return false;
       if(R.conf && R.conf!=='p4' && R.conf!=='g5' && t.conf!==R.conf) return false;
