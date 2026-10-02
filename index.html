@@ -124,10 +124,10 @@ h2 small{font:400 13px var(--body);color:var(--muted);margin-left:10px}
 .legend .dot::after{content:none}
 .legend b{font:700 12px var(--cond);color:var(--ink)}
 .map{--mapcols:44px 30px 30px minmax(120px,190px) minmax(0,1fr) 56px}
-.map.drag{--mapcols:44px 30px 18px 30px minmax(120px,190px) minmax(0,1fr) 56px}
+.map.drag{--mapcols:44px 30px 18px 30px minmax(110px,170px) minmax(0,1fr) 78px}
 .mrow,.axis{display:grid;grid-template-columns:var(--mapcols);gap:10px;align-items:center}
 .cmp-on .map{--mapcols:44px 30px 30px minmax(120px,190px) minmax(0,1fr) 56px 22px}
-.cmp-on .map.drag{--mapcols:44px 30px 18px 30px minmax(120px,190px) minmax(0,1fr) 56px 22px}
+.cmp-on .map.drag{--mapcols:44px 30px 18px 30px minmax(110px,170px) minmax(0,1fr) 78px 22px}
 .map.norc{--mapcols:44px 30px 30px minmax(120px,190px) minmax(0,1fr)}
 .cmp-on .map.norc{--mapcols:44px 30px 30px minmax(120px,190px) minmax(0,1fr) 22px}
 .xsel{display:inline-flex;align-items:center;gap:6px;color:var(--muted);font-size:13px;margin-left:8px}
@@ -208,6 +208,12 @@ td.c-mv{padding-left:0;width:30px}
 .spacer{flex:1}
 .wsub{display:flex;gap:8px;margin-bottom:14px}
 .wgrid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:22px;align-items:start}
+.wbuild{grid-template-columns:minmax(0,1fr) minmax(290px,340px)}
+.map.drag .wx{display:flex;gap:4px;align-items:center;justify-content:flex-end}
+.wslot{grid-template-columns:44px 1fr;border:1px dashed var(--line);border-radius:8px;margin-top:6px}
+.wmaphead{align-items:center;margin-bottom:6px}
+.prow .psub{display:block;color:var(--muted);font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chips .fsel{padding:4px 10px}
 .brow,.bcols{display:grid;grid-template-columns:var(--bcols);column-gap:8px;align-items:center}
 .bcols{font-size:12px;color:var(--muted);padding:0 6px 6px;border-bottom:1px solid var(--line)}
 .bcols span:nth-child(n+6){text-align:center}
@@ -567,31 +573,32 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       <button class="btn primary" id="save" disabled>Save ballot</button>
     </div>
     <div class="wsub" role="group" aria-label="Workspace view">
-      <button class="pill" data-ws="ballot">Ballot</button><button class="pill" data-ws="map">Results Map</button><button class="pill" data-ws="ups">Upset alerts</button>
+      <button class="pill" data-ws="map">Ballot map</button><button class="pill" data-ws="ballot">List</button><button class="pill" data-ws="ups">Upset alerts</button>
     </div>
-    <div id="ws-ballot">
-      <div class="wgrid">
-        <div>
-          <div class="row" style="justify-content:flex-end;margin-bottom:6px"><details class="colmenu" id="colMenuB"><summary class="pill">Columns ▾</summary><div class="menu" id="colListB"></div></details></div>
-          <div class="bscroll"><div class="bcols" id="bcols" aria-hidden="true"></div><div id="ballot" aria-label="Chili Poll ballot"></div><div id="slots"></div></div>
-          <p class="note">Drag the handle to reorder, or focus it and use the arrow keys. Teams 1–25 are the Top 25; 26–35 are shown as Also ranked. <b>H2H</b> marks a head-to-head result that disagrees with the order; <b>LOOP</b> marks teams that beat each other in a circle. Both are reminders only; tap one to see why.</p>
+    <div id="ws-build" class="wgrid wbuild">
+      <div>
+        <div id="ws-map">
+          <div class="row wmaphead"><div class="legend" id="legend2"></div><span class="spacer"></span><label class="xsel">X axis <select id="xAx2" class="fsel" aria-label="Ballot map x axis"><option value="wolp">Wolp+</option><option value="fpi">FPI</option><option value="sor">SOR</option><option value="qw">Quality wins</option></select></label></div>
+          <div id="wMap" class="map drag"></div>
+          <div id="wNotes"></div>
+          <p class="note">Drag a row's handle to reorder (or focus it and use the arrow keys). Drag a team in from the list, or tap +. Teams 1–25 are the Top 25; 26–35 are Also ranked. <b>H2H</b> marks a head-to-head result that disagrees with the order; <b>LOOP</b> marks teams that beat each other in a circle. Both are reminders only; tap one to see why.</p>
         </div>
-        <aside class="pool" aria-label="All teams">
-          <div class="ch" style="margin-bottom:10px"><h2>Teams</h2><details class="colmenu" id="colMenuP"><summary class="pill">Columns ▾</summary><div class="menu" id="colListP"></div></details></div>
-          <input type="search" id="q" placeholder="Search teams or conferences" aria-label="Search teams">
-          <div class="chips" role="group" aria-label="Filter">
-            <button class="pill" data-f="all" aria-pressed="true">All</button>
-            <button class="pill" data-f="p4" aria-pressed="false">Power 4</button>
-            <button class="pill" data-f="g5" aria-pressed="false">Group of 5</button>
-            <button class="pill" data-f="off" aria-pressed="false">Not on ballot</button>
-          </div>
-          <div class="pscroll"><div class="phead" id="phead" role="group" aria-label="Sort teams by"></div><div class="plist" id="pool"></div></div>
-        </aside>
+        <div id="ws-ballot" hidden>
+          <div class="bscroll"><div class="bcols" id="bcols" aria-hidden="true"></div><div id="ballot" aria-label="Chili Poll ballot"></div><div id="slots"></div></div>
+          <p class="note">Compact list: drag the handle to reorder, or focus it and use the arrow keys. Same ballot as the map.</p>
+        </div>
       </div>
-    </div>
-    <div id="ws-map" hidden>
-      <section class="sec" style="margin-top:0"><div class="sh"><h2>Results Map<small>Your draft ballot; drag a handle to reorder</small></h2></div>
-        <div class="legend" id="legend2"></div><div id="wMap" class="map drag"></div></section>
+      <aside class="pool" aria-label="Add teams">
+        <div class="ch" style="margin-bottom:10px"><h2>Add teams</h2><details class="colmenu" id="colMenuP"><summary class="pill">Columns ▾</summary><div class="menu" id="colListP"></div></details></div>
+        <input type="search" id="q" placeholder="Search teams" aria-label="Search teams">
+        <div class="chips" role="group" aria-label="Filter">
+          <button class="pill" data-f="off" aria-pressed="true">Not ranked</button>
+          <button class="pill" data-f="all" aria-pressed="false">All teams</button>
+          <select id="pConf" class="fsel" aria-label="Conference"></select>
+        </div>
+        <div class="pscroll"><div class="phead" id="phead" role="group" aria-label="Sort teams by"></div><div class="plist" id="pool"></div></div>
+        <p class="note">Drag a team into the map or list, or tap + to add it to the first open spot. Click a column heading to sort.</p>
+      </aside>
     </div>
     <div id="ws-ups" hidden>
       <section class="sec" style="margin-top:0"><div class="sh"><h2 id="uTitle">Upset alerts</h2>
@@ -640,8 +647,8 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 (function(){
   const MAX = 35, TOP = 25, MAXC = 4, FRAUD = 8, AP_NR = 36, BIG = 14, BIG_RANKED = 21;
   const S = {db:null, teams:{}, teamsRaw:null, meta:null, model:null, schedule:null, ap:null, weeks:{}, cur:null, draft:[], dirty:false, newWeek:false,
-             canWrite:false, loadedWeeks:false, cmp:[], cmpOn:false, tab:'home', ws:'ballot',
-             r:{show:'top', confOff:[], q:'', ms:'wolp', col:'ms', rev:false, xax:'wolp'}, f:'all', q:'', sort:'rec',
+             canWrite:false, loadedWeeks:false, cmp:[], cmpOn:false, tab:'home', ws:'map',
+             r:{show:'top', confOff:[], q:'', ms:'wolp', col:'ms', rev:false, xax:'wolp'}, f:'off', pc:'', q:'', sort:'frank',
              settings:{}, upsets:{}, uDraft:null, uDirty:false, uAll:false, showAll:false};
   const $ = id => document.getElementById(id);
   // Only a device connected with the ballot sync token can edit; everyone else gets a read-only site.
@@ -702,8 +709,8 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       <tr><th>Defense</th><td>${advOf(t,'adjDefEpa')}</td><td>${advOf(t,'defEpa')}</td><td>${advOf(t,'defSr')}</td><td>${advOf(t,'defXpl')}</td></tr>
     </tbody><caption>Per play, garbage time excluded. Adj EPA is adjusted for the opponents faced; EPA, SR (success rate) and Expl (explosiveness) are raw season numbers. Defense: lower is better.</caption></table>`;
   // three independent column choices: Stats table (r), ballot (b), Teams list (p)
-  function loadVis(key, defOff){ const v={}; COLS.forEach(c=>v[c.k]=!c.off && !(defOff||[]).includes(c.k)); try{ const s=JSON.parse(localStorage.getItem(key)||'null'); if(s && typeof s==='object') COLS.forEach(c=>{ if(typeof s[c.k]==='boolean') v[c.k]=s[c.k]; }); }catch(e){} return v; }
-  S.vis = {r:loadVis('cfb2-cols'), b:loadVis('cfb2-cols-ballot',['ly','lyAp','resumeRank']), p:loadVis('cfb2-cols-teams',['ly','lyAp','t25','resumeRank'])};
+  function loadVis(key, defOff, onlyOn){ const v={}; COLS.forEach(c=>v[c.k]= onlyOn ? onlyOn.includes(c.k) : (!c.off && !(defOff||[]).includes(c.k))); try{ const s=JSON.parse(localStorage.getItem(key)||'null'); if(s && typeof s==='object') COLS.forEach(c=>{ if(typeof s[c.k]==='boolean') v[c.k]=s[c.k]; }); }catch(e){} return v; }
+  S.vis = {r:loadVis('cfb2-cols'), b:loadVis('cfb2-cols-ballot',['ly','lyAp','resumeRank']), p:loadVis('cfb2-cols-pool',null,['frank','resumeRank'])};  // Add teams panel: Wolp+ and Quality wins by default
   try{ const mg=localStorage.getItem('cfb2-cols-mig'); if(mg!=='2'){ if(mg!=='1'){ S.vis.r.q1=false; S.vis.r.proj=false; } S.vis.r.adjOffEpa=true; S.vis.r.adjDefEpa=true; S.vis.r.offEpa=false; S.vis.r.defEpa=false; localStorage.setItem('cfb2-cols', JSON.stringify(S.vis.r)); localStorage.setItem('cfb2-cols-mig','2'); } }catch(e){}
   const shown = w => COLS.filter(c=>S.vis[w][c.k]);
   const DEFS = {apNow:"This week's AP Top 25 rank (unranked teams sort last).",fpiRank:"ESPN's Football Power Index rank: ESPN's own predictive power rating, shown for comparison only (it never feeds into Wolp+).",adjOffEpa:'Expected points added per play on offense, adjusted for the defenses faced (garbage time excluded). Higher is better.',adjDefEpa:'Expected points added per play allowed on defense, adjusted for the offenses faced. Lower is better.',frank:"The formula ranking: the Model's power rating (points better than an average FBS team on a neutral field, built from scores only) plus any conference dials. With the dials at 0 it is the pure Model.",resumeRank:"A results-based metric, with influence from opponents' Model rank (Wolp+ without the conference dials).",resultsRank:'Strength of résumé: a purely results-based metric.',offEpa:'Expected points added per play on offense (garbage time excluded). Higher is better.',defEpa:'Expected points added per play allowed on defense. Lower is better.'};
@@ -890,9 +897,11 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     }).sort((p,q)=>(q.size-p.size) || ((p.lab?1:0)-(q.lab?1:0))).map(d=>d.html).join('');
     const rk = rank ? `<span class="rk">${rank}</span>` : '<span class="rk none">–</span>';
     const grip = drag ? `<button class="grip" aria-label="Move ${esc(t.name)}, rank ${rank}. Use arrow keys." data-i="${rank-1}">${GRIP}</button>` : '';
-    return `<div class="mrow" data-abbr="${esc(a)}" style="--tc:${tc(a)}">${rk}${rank?moveOf(a,rank,prev):'<span class="mv"></span>'}${grip}${logo(a)}<button class="nm" data-open="${esc(a)}"><b>${esc(t.name)}</b><small>${rec(t.w,t.l)} · ${esc(t.conf||'')}</small></button><div class="track"><div class="din">${dots}</div></div>${noRight?'':`<span class="cr">${mdl().crank[a]?'#'+mdl().crank[a]:''}</span>`}${cmpBox(a)}</div>`;
+    return `<div class="mrow" data-abbr="${esc(a)}" style="--tc:${tc(a)}">${rk}${rank?moveOf(a,rank,prev):'<span class="mv"></span>'}${grip}${logo(a)}<button class="nm" data-open="${esc(a)}"><b>${esc(t.name)}</b><small>${rec(t.w,t.l)} · ${esc(t.conf||'')}</small></button><div class="track"><div class="din">${dots}</div></div>${drag ? wRight(a, rank) : noRight?'':`<span class="cr">${mdl().crank[a]?'#'+mdl().crank[a]:''}</span>`}${cmpBox(a)}</div>`;
   }
-  const axis = (drag, rkLabel, noRight) => `<div class="axis"><span class="axrk">${rkLabel||''}</span><span></span>${drag?'<span></span>':''}<span></span><span></span><div class="ax"><span>#${mdl().n||''}</span><span>Opponent ${XAX[S.r.xax]} rank</span><span>#1</span></div>${noRight?'':'<span style="text-align:right">Wolp+</span>'}${S.cmpOn?'<span></span>':''}</div>`;
+  const wRight = (a, rank) => { const an=S._an||{flags:{},loopOf:{}}, fl=an.flags[a], lp=an.loopOf[a], t=S.teams[a]||{name:a};
+    return `<span class="wx">${fl ? `<button class="flag" data-tip="${esc(fl.join('\n'))}" aria-label="${esc(fl.join(' '))}">H2H</button>` : ''}${lp ? `<button class="flag loop" data-tip="${esc(lp.text+'\n'+lp.games.join('\n'))}" aria-label="${esc(lp.text)}">LOOP</button>` : ''}<button class="x owner-only" data-rm="${rank-1}" aria-label="Remove ${esc(t.name)}">×</button></span>`; };
+  const axis = (drag, rkLabel, noRight) => `<div class="axis"><span class="axrk">${rkLabel||''}</span><span></span>${drag?'<span></span>':''}<span></span><span></span><div class="ax"><span>#${mdl().n||''}</span><span>Opponent ${XAX[S.r.xax]} rank</span><span>#1</span></div>${noRight||drag?(drag?'<span></span>':''):'<span style="text-align:right">Wolp+</span>'}${S.cmpOn?'<span></span>':''}</div>`;
   const legend = dotLab => `<span><i class="dot W s2"></i>Win</span><span><i class="dot L s2"></i>Loss</span><span><i class="dot s1"></i><i class="dot s2"></i><i class="dot s3"></i>Margin 1–8 · 9–16 · 17+</span><span><i class="dot s2 close"></i>Close game</span><span><i class="dot s2 ot"></i>Overtime</span><span><b>6</b>${dotLab}</span>`;
   const SORTLAB = {wolp:'Chili', comp:'Wolp+', ap:'AP', fpi:'FPI', best:'#', worst:'#'};
   function renderRank(){
@@ -957,6 +966,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   $('xAx').addEventListener('change', e=>{ S.r.xax=e.target.value; saveR(); renderRank(); });
   try{ const v=JSON.parse(localStorage.getItem('cfb2-rank')||'null'); if(v && ['wolp','comp','ap','fpi','best','worst'].includes(v.ms)) S.r.ms=v.ms; if(v && XAX[v.xax]) S.r.xax=v.xax; }catch(e){}
   function renderConfs(){
+    $('pConf').innerHTML = `<option value="">All conferences</option>${DIALS.map(k=>`<option value="${esc(k)}"${S.pc===k?' selected':''}>${k==='FBS Independents'?'Independents':esc(k)}</option>`).join('')}`;
     // one checkbox per Power 4 conference, Independents, and the whole Group of 5 (same groups as the conference dials)
     const lab = k => k==='FBS Independents' ? 'Independents' : k, on = DIALS.filter(k=>!S.r.confOff.includes(k));
     $('rConfList').innerHTML = DIALS.map(k=>`<label><input type="checkbox" data-cf="${esc(k)}"${on.includes(k)?' checked':''}>${esc(lab(k))}</label>`).join('')
@@ -1109,14 +1119,14 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     if(isNew) $('weekNum').value = S.cur;
   }
   function renderHeads(){
-    const b=shown('b'), p=shown('p');
+    const b=[], p=shown('p');  // the compact list has no stat columns (team pop-up has them)
     const bc = `44px 34px 18px 24px minmax(7rem,1fr) ${b.map(c=>c.bw).join(' ')}${S.cmpOn?' 22px':''} 26px`;
     const pc = `minmax(8rem,1fr) ${p.map(c=>c.pw).join(' ')}${S.cmpOn?' 22px':''} 3.2rem`;
     $('dyncols').textContent = `.brow,.bcols{--bcols:${bc}}.phead,.prow{--pcols:${pc}}`;
     $('bcols').innerHTML = `<span style="text-align:right">Rank</span><span></span><span></span><span></span><span>Team</span>${b.map(c=>`<span>${c.h}</span>`).join('')}${S.cmpOn?'<span>Cmp</span>':''}<span></span>`;
-    if(S.sort!=='name' && !p.some(c=>c.k===S.sort)) S.sort = p.some(c=>c.k==='rec') ? 'rec' : 'name';
+    if(S.sort!=='name' && !p.some(c=>c.k===S.sort)) S.sort = p.length ? p[0].k : 'name';
     $('phead').innerHTML = `<button data-s="name" aria-pressed="${S.sort==='name'}">Team</button>${p.map(c=>`<button data-s="${c.k}" aria-pressed="${S.sort===c.k}">${c.h}</button>`).join('')}${S.cmpOn?'<span></span>':''}<span></span>`;
-    $('colListB').innerHTML = colMenu('b'); $('colListP').innerHTML = colMenu('p');
+    $('colListP').innerHTML = colMenu('p');
   }
   function statCell(c, a, t, onB, pool){
     let v, cls='';
@@ -1135,18 +1145,22 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   function renderBallot(){
     hideTip();
     const pn = prevNum(S.cur), prev = pn===null ? null : rankMap(pn);
-    const an = analyze(), cols = shown('b');
+    const an = analyze(), cols = [];
     const row = (a,i) => { const t=S.teams[a]||{name:a,conf:''}, fl=an.flags[a], lp=an.loopOf[a];
       const marks = (fl ? `<button class="flag" data-tip="${esc(fl.join('\n'))}" aria-label="${esc(fl.join(' '))}">H2H</button>` : '') + (lp ? `<button class="flag loop" data-tip="${esc(lp.text+'\n'+lp.games.join('\n'))}" aria-label="${esc(lp.text)}">LOOP</button>` : '');
       return `<div class="brow" data-abbr="${esc(a)}" style="--tc:${tc(a)}"><span class="rk">${i+1}</span>${moveOf(a,i+1,prev)}<button class="grip owner-only" aria-label="Move ${esc(t.name)}, rank ${i+1}. Use arrow keys." data-i="${i}">${GRIP}</button>${logo(a)}
         <div class="tm"><button class="nmb" data-open="${esc(a)}">${esc(t.name)}</button><small>${marks}${esc(t.conf||'')}</small></div>${cols.map(c=>statCell(c,a,t,an.onB,false)).join('')}${cmpBox(a)}<button class="x" data-rm="${i}" aria-label="Remove ${esc(t.name)}">×</button></div>`; };
     $('ballot').innerHTML = S.draft.map((a,i)=> (i===TOP ? '<div class="cut" data-cut>Also ranked 26–35</div>' : '') + row(a,i)).join('');
     let h='';
-    if(an.loops.length) h += `<div class="checks">${an.loops.map(L=>`<p>${esc(L.text)}<small>${L.games.map(esc).join(' · ')}</small></p>`).join('')}</div>`;
     if(!S.draft.length) h += `<div class="empty"><strong>The ballot is empty</strong>Add teams from the list, or drag them in.</div>`;
     for(let i=S.draft.length;i<MAX && S.draft.length;i++) h += (i===TOP && S.draft.length<=TOP ? '<div class="cut">Also ranked 26–35</div>' : '') + `<div class="slot"><span class="rk">${i+1}</span><span>Open spot</span></div>`;
+    $('slots').innerHTML = h + ballotNotes(an, prev);
+  }
+  function ballotNotes(an, prev){  // circular results and teams that dropped out (list and map)
+    let h='';
+    if(an.loops.length) h += `<div class="checks">${an.loops.map(L=>`<p>${esc(L.text)}<small>${L.games.map(esc).join(' · ')}</small></p>`).join('')}</div>`;
     if(prev){ const out = Object.keys(prev).filter(a=>!S.draft.includes(a)).sort((a,b)=>prev[a]-prev[b]); if(out.length) h += `<p class="note">Dropped out: ${out.map(a=>esc(nm(a))+' (#'+prev[a]+')').join(', ')}</p>`; }
-    $('slots').innerHTML=h;
+    return h;
   }
   const statSort = k => { const c=ADV.find(c=>c.k===k)||{k}, lo=!!c.lo; return (x,y)=>{
     const a=colVal(c,x[0],x[1]), b=colVal(c,y[0],y[1]), na=typeof a!=='number', nb=typeof b!=='number';
@@ -1154,7 +1168,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   function renderPool(){
     const onB = draftMap(), cols = shown('p'), q=S.q.trim().toLowerCase();
     let list = Object.entries(S.teams).filter(([a,t])=>{
-      if(S.f==='p4' && !t.p4) return false; if(S.f==='g5' && t.p4) return false; if(S.f==='off' && onB[a]) return false;
+      if(S.f==='off' && onB[a]) return false; if(S.pc && dialOf(t.conf)!==S.pc) return false;
       if(q && !(t.name.toLowerCase().includes(q) || (t.conf||'').toLowerCase().includes(q))) return false; return true; });
     const t25 = {}; list.forEach(([a])=>t25[a]=vsTop(a,onB));
     const cmp = { rec:(x,y)=> pct(y[1])-pct(x[1]) || (y[1].w-x[1].w) || ((y[1].p4?1:0)-(x[1].p4?1:0)) || x[1].name.localeCompare(y[1].name),
@@ -1169,24 +1183,29 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     list.sort(cmp);
     const full = S.draft.length>=MAX;
     $('pool').innerHTML = list.length ? list.map(([a,t])=>`<div class="prow${onB[a]?' onb':''}" data-abbr="${esc(a)}">
-        <div class="pn">${logo(a)}<div style="min-width:0"><button class="nm2" data-open="${esc(a)}">${esc(t.name)}</button></div></div>
+        <div class="pn">${logo(a)}<div style="min-width:0"><button class="nm2" data-open="${esc(a)}">${esc(t.name)}</button><small class="psub">${rec(t.w,t.l)} · ${esc(t.conf||'')}</small></div></div>
         ${cols.map(c=>statCell(c,a,t,onB,true)).join('')}${cmpBox(a)}
-        ${onB[a]?`<span class="on">#${onB[a]}</span>`:`<button class="add" data-add="${esc(a)}"${full?' disabled title="The ballot is full (35)"':''}>Add</button>`}</div>`).join('') : '<p class="note" style="padding:6px">No teams match.</p>';
+        ${onB[a]?`<span class="on">#${onB[a]}</span>`:`<button class="add" data-add="${esc(a)}" aria-label="Add ${esc(t.name)}"${full?' disabled title="The ballot is full (35)"':''}>+</button>`}</div>`).join('') : '<p class="note" style="padding:6px">No teams match.</p>';
   }
   function renderWMap(){
-    const onB=draftMap(), pn=prevNum(S.cur), prev = pn===null ? null : rankMap(pn), el=$('wMap');
-    $('legend2').innerHTML = legend('Opponent’s Chili Poll rank');
+    const onB=draftMap(), pn=prevNum(S.cur), prev = pn===null ? null : rankMap(pn), el=$('wMap'), an=analyze();
+    $('legend2').innerHTML = legend('Opponent’s Chili Poll rank'); $('xAx2').value = S.r.xax;
     if(wSortable){ wSortable.destroy(); wSortable=null; }
-    if(!S.draft.length){ el.innerHTML='<div class="empty"><strong>No teams yet</strong>Add teams on the Ballot view first.</div>'; return; }
-    el.innerHTML = axis(true) + `<div id="wTop">${S.draft.map((a,i)=>(i===TOP?'<div class="grp" data-cut>Also ranked 26–35</div>':'')+mapRow(a, i+1, prev, onB, true)).join('')}</div>`;
+    S._an = an;  // mapRow (drag mode) reads the H2H / LOOP flags from here
+    const n=S.draft.length, slot = n<MAX ? `<div class="slot wslot"><span class="rk">${n+1}</span><span>${n ? 'Open spot: drag a team here, or tap + in the list' : 'Drag teams here from the list, or tap +'}</span></div>` : '';
+    el.innerHTML = axis(true, 'Chili') + `<div id="wTop">${S.draft.map((a,i)=>(i===TOP?'<div class="grp" data-cut>Also ranked 26–35</div>':'')+mapRow(a, i+1, prev, onB, true)).join('')}</div>` + slot;
     stackDots(el);
-    if(window.Sortable) wSortable = Sortable.create($('wTop'), { handle:'.grip', draggable:'.mrow', animation:150,
-      onEnd:(ev)=>{ const order=[...$('wTop').querySelectorAll('.mrow')].map(r=>r.dataset.abbr); if(order.join()!==S.draft.join()){ S.draft=order; setDirty(true); } renderBallot(); renderPool(); renderWMap(); } });
+    $('wNotes').innerHTML = ballotNotes(an, prev);
+    if(window.Sortable) wSortable = Sortable.create($('wTop'), { handle:'.grip', draggable:'.mrow', animation:150, disabled:!S.canWrite,
+      group:{name:'b', pull:false, put:()=>S.draft.length<MAX},
+      onEnd:(ev)=>{ if(ev.to!==ev.from) return; const order=[...$('wTop').querySelectorAll('.mrow')].map(r=>r.dataset.abbr); if(order.join()!==S.draft.join()){ S.draft=order; setDirty(true); } refreshBuild(); },
+      onAdd:(ev)=>{ const a=ev.item.dataset.abbr; const at=[...$('wTop').children].filter(x=>x.classList.contains('mrow')||x===ev.item).indexOf(ev.item); ev.item.remove(); addTeam(a, at<0?null:at); } });
   }
+  function refreshBuild(){ renderBallot(); renderPool(); if(S.ws==='map') renderWMap(); }
   let wSortable=null;
   function renderWork(){
     document.querySelectorAll('[data-ws]').forEach(b=>b.classList.toggle('on', b.dataset.ws===S.ws));
-    ['ballot','map','ups'].forEach(k=>$('ws-'+k).hidden = k!==S.ws);
+    ['ballot','map','ups'].forEach(k=>$('ws-'+k).hidden = k!==S.ws); $('ws-build').hidden = S.ws==='ups';
     renderWeekBar(); renderHeads(); renderBallot(); renderPool(); renderStatus();
     if(S.ws==='map') renderWMap();
     if(S.ws==='ups') renderUps();
@@ -1197,7 +1216,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   function addTeam(a, at){
     if(S.draft.includes(a) || S.draft.length>=MAX) return;
     if(at==null || at>S.draft.length) at=S.draft.length;
-    S.draft.splice(at,0,a); setDirty(true); renderBallot(); renderPool();
+    S.draft.splice(at,0,a); setDirty(true); refreshBuild();
   }
   function loadWeek(n){ S.cur=n; S.newWeek=false; S.draft=eff(S.weeks[n]); setDirty(false); renderWork(); }
   function confirmDiscard(){ return !S.dirty || confirm('Discard unsaved changes to this week?'); }
@@ -1227,6 +1246,9 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   $('ballot').addEventListener('click', e=>{
     const rm=e.target.closest('[data-rm]'); if(rm){ S.draft.splice(Number(rm.dataset.rm),1); setDirty(true); renderBallot(); renderPool(); return; }
   });
+  $('wMap').addEventListener('click', e=>{ const rm=e.target.closest('[data-rm]'); if(rm){ S.draft.splice(Number(rm.dataset.rm),1); setDirty(true); refreshBuild(); } });
+  $('xAx2').addEventListener('change', e=>{ S.r.xax=e.target.value; saveR(); renderWMap(); });
+  $('pConf').addEventListener('change', e=>{ S.pc=e.target.value; renderPool(); });
   function arrowMove(e, sel, after){
     const g=e.target.closest(sel); if(!g) return;
     const i=Number(g.dataset.i); let j=null;
@@ -1303,7 +1325,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   function hideTip(){ const tip=$('tip'); if(tip) tip.hidden=true; tipFor=null; tipVia=''; }
   document.addEventListener('pointerover', e=>{ if(e.pointerType!=='mouse') return; const f=e.target.closest('[data-tip]'); if(f && f!==tipFor) showTip(f,'hover'); });
   document.addEventListener('pointerout', e=>{ if(e.pointerType!=='mouse' || tipVia!=='hover') return; const f=e.target.closest('[data-tip]'); if(f && !f.contains(e.relatedTarget)) hideTip(); });
-  const MENUS=['colMenu','colMenuB','colMenuP','fMenu'];
+  const MENUS=['colMenu','colMenuP','fMenu','rConfMenu'];
   document.addEventListener('click', e=>{
     const f=e.target.closest('[data-tip]');
     if(f){ if(tipFor===f && tipVia==='click') hideTip(); else showTip(f,'click'); } else if(tipFor) hideTip();
