@@ -64,6 +64,7 @@ h2 small{font:400 13px var(--body);color:var(--muted);margin-left:10px}
 .sdefs{display:grid;grid-template-columns:max-content 1fr;gap:4px 12px;margin:12px 0 0;font-size:12.5px;color:var(--muted)}
 .sdefs dt{font-weight:600;color:var(--ink)}
 .sdefs dd{margin:0}
+.sdefs .sdh{grid-column:1/-1;font:600 11px var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin:10px 0 0}
 .empty{padding:24px 18px;border:1px dashed var(--line);border-radius:12px;color:var(--muted)}
 .empty strong{color:var(--ink);display:block;font:700 20px var(--cond);margin-bottom:4px}
 .mv{font:700 13px var(--cond);text-align:center;white-space:nowrap}
@@ -175,7 +176,6 @@ td.c-mv{padding-left:0;width:30px}
 .colmenu .menu{position:absolute;right:0;top:calc(100% + 6px);z-index:30;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 14px;box-shadow:0 10px 28px rgba(0,0,0,.45);min-width:16rem;max-height:70vh;overflow:auto}
 .colmenu .mh{font:600 11px var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin:8px 0 2px}
 .colmenu label{display:flex;gap:10px;align-items:center;padding:5px 0;font-size:13px;cursor:pointer}
-.colmenu .cmh{color:var(--muted);font-size:12px}
 .cmpk{display:flex;align-items:center;justify-content:center}
 .confmenu .menu{left:0;right:auto;min-width:12rem}
 .confmenu input{width:16px;height:16px;margin:0;accent-color:var(--gold)}
@@ -427,13 +427,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       <details class="colmenu" id="colMenu"><summary class="pill">Columns ▾</summary><div class="menu" id="colList"></div></details></div></div>
       <div class="tblw"><table id="rTable"></table></div>
       <p class="note">The Sort buttons match the Results Map (choosing one sorts both). You can also click a column heading to sort (click again to reverse). Click any team for its full game log.</p>
-      <dl class="sdefs">
-        <dt>Wolp+</dt><dd>The formula ranking: the Model's power rating (points better than an average FBS team on a neutral field, built from scores only) plus any conference dials. With the dials at 0 it is the pure Model.</dd>
-        <dt>Quality wins</dt><dd>A results-based metric, with influence from opponents' Model rank (Wolp+ without the conference dials).</dd>
-        <dt>SOR</dt><dd>Strength of résumé: a purely results-based metric.</dd>
-        <dt>Off EPA</dt><dd>Expected points added per play on offense (garbage time excluded). Higher is better.</dd>
-        <dt>Def EPA</dt><dd>Expected points added per play allowed on defense. Lower is better.</dd>
-      </dl>
+      <div id="sdefs"></div>
     </section>
   </section>
 
@@ -661,7 +655,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   // ---------- columns ----------
   // g = group heading in the Stats table; fmt n = 2 decimals, p = percent, r = rank; lo = lower is better; off = hidden by default
   const COLS = [
-    {k:'rec',  h:'Record', menu:'this season', g:'This season', bw:'2.9rem', pw:'2.7rem'},
+    {k:'rec',  h:'Record', menu:'win-loss record this season', g:'This season', bw:'2.9rem', pw:'2.7rem'},
     {k:'p4',   h:'vs P4',  menu:'record vs Power 4', g:'This season', bw:'2.9rem', pw:'2.7rem'},
     {k:'t25',  h:'vs Chili 25', menu:'record vs the Chili Poll Top 25', g:'This season', bw:'3.4rem', pw:'3.2rem'},
     {k:'ly',   h:'2025',   menu:'last season\'s record', g:'Last season', bw:'2.9rem', pw:'2.7rem'},
@@ -699,7 +693,11 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   S.vis = {r:loadVis('cfb2-cols'), b:loadVis('cfb2-cols-ballot',['ly','lyAp','resumeRank']), p:loadVis('cfb2-cols-teams',['ly','lyAp','t25','resumeRank'])};
   try{ if(localStorage.getItem('cfb2-cols-mig')!=='1'){ S.vis.r.q1=false; S.vis.r.proj=false; localStorage.setItem('cfb2-cols', JSON.stringify(S.vis.r)); localStorage.setItem('cfb2-cols-mig','1'); } }catch(e){}
   const shown = w => COLS.filter(c=>S.vis[w][c.k]);
-  function colMenu(w){ let g=''; return COLS.map(c=>{ const h = c.g!==g ? `<div class="mh">${c.g}</div>` : ''; g=c.g; return h+`<label><input type="checkbox" data-col="${c.k}" data-w="${w}"${S.vis[w][c.k]?' checked':''}><span><b>${c.h}</b> <small class="cmh">${c.menu}</small></span></label>`; }).join(''); }
+  const DEFS = {frank:"The formula ranking: the Model's power rating (points better than an average FBS team on a neutral field, built from scores only) plus any conference dials. With the dials at 0 it is the pure Model.",resumeRank:"A results-based metric, with influence from opponents' Model rank (Wolp+ without the conference dials).",resultsRank:'Strength of résumé: a purely results-based metric.',offEpa:'Expected points added per play on offense (garbage time excluded). Higher is better.',defEpa:'Expected points added per play allowed on defense. Lower is better.'};
+  function renderDefs(){ let g='', h='<dl class="sdefs"><dt>Chili</dt><dd>Chili Poll rank (Top 25, then Also ranked 26–35).</dd>';
+    COLS.forEach(c=>{ if(c.g!==g){ h+=`<div class="sdh">${esc(c.g)}</div>`; g=c.g; } const d=DEFS[c.k]||(c.menu[0].toUpperCase()+c.menu.slice(1)+'.'); h+=`<dt>${esc(c.h)}</dt><dd>${d}</dd>`; });
+    $('sdefs').innerHTML = h+'</dl>'; }
+  function colMenu(w){ let g=''; return COLS.map(c=>{ const h = c.g!==g ? `<div class="mh">${c.g}</div>` : ''; g=c.g; return h+`<label><input type="checkbox" data-col="${c.k}" data-w="${w}"${S.vis[w][c.k]?' checked':''}>${c.h}</label>`; }).join(''); }
   document.addEventListener('change', e=>{
     const k=e.target.dataset && e.target.dataset.col, w=e.target.dataset && e.target.dataset.w; if(!k||!w) return;
     S.vis[w][k]=e.target.checked; try{ localStorage.setItem({r:'cfb2-cols',b:'cfb2-cols-ballot',p:'cfb2-cols-teams'}[w], JSON.stringify(S.vis[w])); }catch(err){}
@@ -922,6 +920,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       <tr class="cols">${th('wolp','Chili')}<th></th>${th('name','Team','" style="text-align:left')}${cols.map(c=>th(c.k,c.h,firstOf.has(c.k)?' g1':'')).join('')}${S.cmpOn?'<th>Cmp</th>':''}</tr></thead>
       <tbody>${T.map(a=>`<tr style="--tc:${tc(a)}"><td class="rkc${ranks[a]?'':' none'}">${ranks[a]||'–'}</td><td class="c-mv">${ranks[a]?moveOf(a,ranks[a],prev):''}</td><td class="tmc"><button class="tb" data-open="${esc(a)}">${logo(a)}<span>${esc(nm(a))}</span></button></td>${cols.map(c=>cell(c,a).replace('<td class="', `<td class="${firstOf.has(c.k)?'g1 ':''}`)).join('')}${S.cmpOn?`<td>${cmpBox(a)}</td>`:''}</tr>`).join('')}</tbody>`;
     $('colList').innerHTML = colMenu('r');
+    if(!$('sdefs').children.length) renderDefs();
   }
   document.querySelectorAll('[data-show]').forEach(b=>b.addEventListener('click',()=>{ S.r.show=b.dataset.show; saveR(); renderRank(); }));
   document.querySelectorAll('[data-ms]').forEach(b=>b.addEventListener('click',()=>{ S.r.ms=b.dataset.ms; S.r.col='ms'; S.r.rev=false; saveR(); renderRank(); }));
