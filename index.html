@@ -1726,16 +1726,16 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   S.clockSkew = 0;
   const serverFetch = (...args) => fetch(...args).then(r=>{ const d=Date.parse(r.headers.get('date')||''); if(!isNaN(d)) S.clockSkew = d - Date.now(); return r; });
   const sb = window.supabase ? window.supabase.createClient(SB_URL, SB_KEY, {auth:{flowType:'pkce', detectSessionInUrl:true, persistSession:true}, global:{fetch:serverFetch}}) : null;
-  S.reqs = [];
+  S.reqs = []; S.lateReqs = [];
   const acctMsg = t => { $('acctMsg').textContent = t || ''; };
   async function loadMe(){
     if(!sb) return;
     const { data:{ session } } = await sb.auth.getSession();
-    if(!session){ S.me=null; S.reqs=[]; renderAcct(); setAccess(); return; }
+    if(!session){ S.me=null; S.reqs=[]; S.lateReqs=[]; renderAcct(); setAccess(); return; }
     const uid=session.user.id;
     const [p, r] = await Promise.all([sb.from('profiles').select('*').eq('id',uid).maybeSingle(), sb.from('join_requests').select('*').eq('user_id',uid).maybeSingle()]);
     S.me = {user:session.user, profile:p.data||null, request:r.data||null};
-    if(S.me.profile && S.me.profile.is_owner) await loadReqs(); else S.reqs=[];
+    if(S.me.profile && S.me.profile.is_owner) await loadReqs(); else { S.reqs=[]; S.lateReqs=[]; }
     renderAcct(); setAccess();
   }
   // What the page shows each kind of visitor (the database enforces the same rules on every request):
@@ -1762,9 +1762,15 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     const [p, r] = await Promise.all([sb.from('profiles').select('id,username,status,created_at').eq('status','pending').order('created_at'), sb.from('join_requests').select('user_id,email,note')]);
     const info = Object.fromEntries((r.data||[]).map(x=>[x.user_id, x]));
     S.reqs = (p.data||[]).map(x=>Object.assign({}, x, info[x.id]||{}));
+    // late ballots waiting for a decision, with their senders' usernames (one more request, only when there are any)
+    const l = await sb.from('late_ballots').select('user_id,season,week,submitted_at').eq('status','pending').order('submitted_at');
+    const late = l.data || [], ids = [...new Set(late.map(x=>x.user_id))];
+    const names = ids.length ? (await sb.from('profiles').select('id,username').in('id', ids)).data || [] : [];
+    const nameOf = Object.fromEntries(names.map(x=>[x.id, x.username]));
+    S.lateReqs = late.map(x=>Object.assign({}, x, {username: nameOf[x.user_id]}));
   }
   function renderAcct(){
-    const me=S.me, pr=me&&me.profile, n=S.reqs.length;
+    const me=S.me, pr=me&&me.profile, n=S.reqs.length + S.lateReqs.length;
     $('acctBtn').textContent = !me ? 'Sign in' : ((pr&&pr.username) || 'Account') + (n ? ` (${n})` : '');
     $('acctOut').hidden = !!me; $('acctIn').hidden = !me; $('acctSignOut').hidden = !me;
     $('acctTitle').textContent = me ? 'Your account' : 'Sign in';
@@ -1782,7 +1788,10 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     $('acctNoteRow').hidden = st!=='pending';
     $('acctSaveMe').parentElement.hidden = locked && st!=='pending';  // nothing left to save
     $('acctDelRow').hidden = !!(pr && pr.is_owner);
-    $('acctReqs').innerHTML = pr && pr.is_owner ? `<div class="reqs"><h4>Requests to join${n?` (${n})`:''}</h4>${n ? S.reqs.map(x=>`<div class="req"><div>${esc(x.username||'(no username yet)')}<small>${esc(x.email||'')}${x.note?' · '+esc(x.note):''}</small></div><button class="btn primary" data-appr="${esc(x.id)}">Approve</button><button class="btn quiet" data-decl="${esc(x.id)}">Decline</button></div>`).join('') : '<p class="dnote">No pending requests.</p>'}</div>` : '';
+    $('acctReqs').innerHTML = pr && pr.is_owner ? `<div class="reqs"><h4>Requests to join${S.reqs.length?` (${S.reqs.length})`:''}</h4>${S.reqs.length ? S.reqs.map(x=>`<div class="req"><div>${esc(x.username||'(no username yet)')}<small>${esc(x.email||'')}${x.note?' · '+esc(x.note):''}</small></div><button class="btn primary" data-appr="${esc(x.id)}">Approve</button><button class="btn quiet" data-decl="${esc(x.id)}">Decline</button></div>`).join('') : '<p class="dnote">No pending requests.</p>'}</div>`
+      + `<div class="reqs"><h4>Late ballots${S.lateReqs.length?` (${S.lateReqs.length})`:''}</h4>${S.lateReqs.length ? S.lateReqs.map(x=>{ const k=esc([x.user_id, x.season, x.week].join('|'));
+          return `<div class="req"><div>${esc(x.username||'(no username)')}<small>Week ${esc(x.week)} · sent ${esc(atTime(x.submitted_at))}</small></div><button class="btn primary" data-lapp="${k}" aria-label="Approve ${esc(x.username||'')}'s late week ${esc(x.week)} ballot">Approve</button><button class="btn quiet" data-ldec="${k}" aria-label="Decline ${esc(x.username||'')}'s late week ${esc(x.week)} ballot">Decline</button></div>`; }).join('')
+        : '<p class="dnote">No late ballots waiting.</p>'}<p class="dnote">Approving makes it that person’s ballot for the week (replacing any on-time one). Declining is final for that week.</p></div>` : '';
   }
   $('acctBtn').addEventListener('click', ()=>{ acctMsg(''); renderAcct(); $('acctDlg').showModal(); if(S.me) loadMe(); else setupGoogle(); });
   // Google sign-in: Google's own button (popup on this site, so people see straw-poll.github.io, not the Supabase address).
@@ -1840,6 +1849,17 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     const id=(a||d).dataset.appr || (a||d).dataset.decl;
     const { error } = await sb.from('profiles').update({status: a ? 'approved' : 'declined'}).eq('id', id);
     acctMsg(error ? 'Couldn’t update that request. Try again.' : a ? 'Approved.' : 'Declined.'); loadMe();
+  });
+  $('acctReqs').addEventListener('click', async e=>{
+    const a=e.target.closest('[data-lapp]'), d=e.target.closest('[data-ldec]'); if(!a && !d) return;
+    const [who, season, week] = (a ? a.dataset.lapp : d.dataset.ldec).split('|'), s=Number(season), w=Number(week);
+    if(d && !confirm(`Decline this late week ${w} ballot? It can’t be sent again.`)) return;
+    (a||d).disabled = true;
+    const { error } = a ? await sb.rpc('approve_late_ballot', {who, s, w})
+      : await sb.from('late_ballots').update({status:'declined'}).eq('user_id', who).eq('season', s).eq('week', w);
+    acctMsg(error ? sbErr(error, 'Couldn’t update that late ballot. Try again.') : a ? 'Late ballot approved: it now counts for that week.' : 'Late ballot declined.');
+    if(!error && S.me && who===S.me.user.id) loadVoting();  // the owner decided on their own late ballot
+    loadMe();
   });
   document.addEventListener('click', e=>{ if(e.target.closest('[data-priv]') || e.target.id==='privBtn'){ e.preventDefault(); $('privDlg').showModal(); } });
   $('acctDel').addEventListener('click', async ()=>{
