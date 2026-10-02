@@ -389,9 +389,9 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       <button class="tab owner owner-only" role="tab" id="tab-work" aria-selected="false">Workspace</button>
     </nav>
     <div class="tools">
-      <details class="colmenu" id="fMenu"><summary class="pill" id="fSum">Conference dials ▾</summary>
-        <div class="menu fmix"><div class="mt">Conference adjustments</div>
-          <p class="mixhelp">Your private what-if: points added to every team in a conference (or the whole Group of 5). Only your screen changes (rankings, Results Map, Home cards); the real Wolp+ power rating is never affected, and no one else sees your dials. Spreads and win chances never change.</p>
+      <details class="colmenu" id="fMenu"><summary class="pill" id="fSum">Conference Modifier ▾</summary>
+        <div class="menu fmix"><div class="mt">Conference Modifier</div>
+          <p class="mixhelp">Add or subtract points for a conference to see how the rankings would change. Just for fun: only your screen changes, and the real Wolp+ ratings are never affected.</p>
           <div id="fDials"></div>
           <div class="mixsave"><button class="btn quiet" id="fReset">Reset to 0</button><small id="fNote"></small></div></div></details>
       <button class="pill" id="cmpMode" aria-pressed="false" title="Pick 2 to 4 teams to compare side by side" hidden>Compare</button>
@@ -474,7 +474,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
           <dt>Wolp+</dt><dd><b>The numbers.</b> Teams ranked by the Model's power rating: points better than an average FBS team on a neutral field. The difference between two teams' ratings, plus the home edge, is the model's predicted margin. It picks winners better than the AP poll (see the Scorecard on Previous Rankings) and comes close to the best computer ratings: on 2023–25 games it missed by about 0.15 points a game more than ESPN's FPI and Sagarin, and beat 24 of 33 tracked systems.</dd>
         </dl>
         <p><b>Quality wins</b> and <b>Strength of résumé (SOR)</b> are shown alongside as résumé stats, not rankings: every win and loss, each weighted by how good the opponent is. Quality wins judges opponents by Model rank; SOR judges them by their records alone.</p>
-        <p><b>Conference dials ▾</b> (top bar) are a what-if tool: add points to a conference and see how the rankings, Results Map and Home cards would change. They only change your own screen and never touch the real Wolp+ ratings, spreads or win chances.</p>
+        <p><b>Conference Modifier ▾</b> (top bar): a just-for-fun what-if. Add points to a conference to see how the rankings would change. It only changes your screen, never the real ratings.</p>
 
         <h2 id="m-power">Power rating, step by step</h2>
         <ol>
@@ -743,7 +743,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   }
 
   // ---------- model ----------
-  // Wolp+ = the Model's power rating. Any viewer can add what-if conference dials (their browser only, never published).
+  // Wolp+ = the Model's power rating. Any viewer can apply a what-if Conference Modifier (their browser only, never published).
   // mdl().crank = {team: Wolp+ rank}, n = number of rated teams. Spreads and win chances always use the pure Model.
   S.adj = {}; S.adjPub = {};
   const DIALS = ['SEC','Big Ten','Big 12','ACC','FBS Independents','Group of 5'];  // each Power 4 conference, Independents, all of the Group of 5
@@ -783,7 +783,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     S.teams=T; S._mdl=null;
   }
   const modelFacts = a => { const t=S.teams[a]||{}, c=mdl().crank[a], n=v=>typeof v==='number';
-    return `<dl class="facts"><dt>Wolp+</dt><dd>${t.powerRank?'#'+t.powerRank:'–'}${n(t.powerRating)?` · ${(t.powerRating>0?'+':'')+t.powerRating.toFixed(1)} pts`:''}${adjOf(a)&&c?` <span style="color:var(--muted);font-weight:500">(your dials: #${c})</span>`:''}</dd>
+    return `<dl class="facts"><dt>Wolp+</dt><dd>${t.powerRank?'#'+t.powerRank:'–'}${n(t.powerRating)?` · ${(t.powerRating>0?'+':'')+t.powerRating.toFixed(1)} pts`:''}${adjOf(a)&&c?` <span style="color:var(--muted);font-weight:500">(with your Conference Modifier: #${c})</span>`:''}</dd>
       <dt>Quality wins</dt><dd>${t.resumeRank?'#'+t.resumeRank:'–'}${n(t.resumeScore)?` · score ${t.resumeScore.toFixed(3)}`:''}</dd>
       <dt>SOR</dt><dd>${t.resultsRank?'#'+t.resultsRank:'–'}${n(t.resultsScore)?` · score ${t.resultsScore.toFixed(3)}`:''}</dd>
       <dt>ESPN FPI</dt><dd>${t.fpiRank?'#'+t.fpiRank:'–'}${n(t.fpi)?` · ${(t.fpi>0?'+':'')+t.fpi.toFixed(1)} pts`:''}</dd>
@@ -1344,8 +1344,8 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   }
   function dialStatus(){
     const same = JSON.stringify(cleanAdj(S.adj))===JSON.stringify(cleanAdj(S.adjPub)), any=Object.values(S.adj).some(v=>+v);
-    $('fSum').textContent = any ? 'Conference dials ▾ (adjusted)' : 'Conference dials ▾';
-    $('fNote').textContent = any ? 'Only your screen changes.' : 'Dials at 0: you see the real Wolp+.';
+    $('fSum').textContent = any ? 'Conference Modifier ▾ (on)' : 'Conference Modifier ▾';
+    $('fNote').textContent = any ? 'What-if only: real data unchanged.' : '';
     try{ localStorage.setItem('cfb-dials', JSON.stringify(cleanAdj(S.adj))); }catch(e){}
   }
   const cleanAdj = o => Object.fromEntries(Object.entries(o||{}).filter(([k,v])=>+v).sort());
