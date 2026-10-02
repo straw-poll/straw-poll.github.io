@@ -366,6 +366,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 
 /* visitors: read-only */
 .viewonly .voter-only{display:none!important} body:not(.isowner) .boss-only{display:none!important}
+#wsGate:empty{display:none} #view-work.gated>:not(#wsGate){display:none!important}
 #view-work.ro .grip,#view-work.ro .x,#view-work.ro .add,#view-work.ro .wslot{display:none!important}
 .dl{font-size:13px;color:var(--muted)} .dl b{color:var(--text)}
 
@@ -585,6 +586,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 
   <!-- WORKSPACE (approved users: your own ballot; owner also gets Upset alerts) -->
   <section id="view-work" class="voter-only" hidden>
+    <div class="empty" id="wsGate" role="status"></div>
     <div class="wbar">
       <span class="weeklabel">Week</span>
       <select id="weekSel" aria-label="Choose week"></select>
@@ -726,7 +728,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 (function(){
   const MAX = 35, TOP = 25, MAXC = 4, FRAUD = 8, AP_NR = 36, BIG = 14, BIG_RANKED = 21;
   const S = {teams:{}, teamsRaw:null, meta:null, model:null, schedule:null, ap:null, weeks:{}, cur:null, draft:[], dirty:false,
-             canWrite:false, cmp:[], cmpOn:false, tab:'home', ws:'map',
+             canWrite:false, isOwner:false, me:null, wantWork:false, accessFor:'', cmp:[], cmpOn:false, tab:'home', ws:'map',
              r:{show:'top', confOff:[], q:'', ms:'wolp', col:'ms', rev:false, xax:'wolp'}, f:'off', pc:'', q:'', sort:'frank',
              settings:{}, upsets:{}, uDraft:null, uDirty:false, uAll:false, showAll:false};
   const $ = id => document.getElementById(id);
@@ -932,10 +934,10 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
         <div class="nums"><div><small>Line</small><b>${spread(g.line,g.home,g.away)}</b></div><div><small>Wolp+</small><b class="${mFav && lFav && mFav!==lFav ? 'mup':''}">${modelTxt(g.model,g.home,g.away)}</b></div></div>
         ${up && up.note ? `<p class="gnote">${esc(up.note)}</p>` : ''}</div>`; };
     const ups = games.filter(g=>upW[g.id]);
-    $('hUpsWrap').hidden = !ups.length && !S.canWrite;
+    $('hUpsWrap').hidden = !ups.length && !S.isOwner;
     $('hUpsSub').textContent = sch.week!=null ? `Week ${sch.week}` : '';
-    const nCand = S.canWrite ? upsetCands().filter(x=>x.cand).length : 0;
-    const review = S.canWrite ? `<div class="game" style="display:flex;flex-direction:column;justify-content:center;gap:8px;border-style:dashed"><b style="font:700 18px var(--cond)">${ups.length ? 'Edit upset alerts' : 'No upset alerts published yet'}</b><span class="lead" style="margin:0">${nCand} candidate${nCand===1?'':'s'} this week. Only you see this box.</span><button class="btn primary" data-go="work" data-ws="ups" style="align-self:flex-start">Review and publish →</button></div>` : '';
+    const nCand = S.isOwner ? upsetCands().filter(x=>x.cand).length : 0;
+    const review = S.isOwner ? `<div class="game" style="display:flex;flex-direction:column;justify-content:center;gap:8px;border-style:dashed"><b style="font:700 18px var(--cond)">${ups.length ? 'Edit upset alerts' : 'No upset alerts published yet'}</b><span class="lead" style="margin:0">${nCand} candidate${nCand===1?'':'s'} this week. Only you see this box.</span><button class="btn primary" data-go="work" data-ws="ups" style="align-self:flex-start">Review and publish →</button></div>` : '';
     $('hUps').innerHTML = ups.map(card).join('') + review;
     const imp = g => Math.min(ranks[g.home]||99, ranks[g.away]||99, apR[g.home]||99, apR[g.away]||99);
     const fav = g => typeof g.line==='number' ? Math.abs(g.line) : typeof g.model==='number' ? Math.abs(g.model) : 0;  // spread: line, else model
@@ -1403,7 +1405,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   // ---------- tabs ----------
   const TABS=['home','rank','history','method','work'];
   function showTab(v){
-    if(v==='work' && !S.canWrite) v='home';
+    if(v==='work' && !S.me){ S.wantWork = true; v='home'; }  // reopened once sign-in is known (setAccess)
     S.tab=v;
     TABS.forEach(k=>{ $('tab-'+k).setAttribute('aria-selected', String(k===v)); $('view-'+k).hidden = k!==v; });
     $('cmpMode').hidden = !(v==='rank' || v==='work');
@@ -1530,17 +1532,36 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   // The publishable key is public by design; the database's row-level security decides what each person can do.
   const SB_URL='https://urbbhgyogfvuxfqzyzpd.supabase.co', SB_KEY='sb_publishable_pJhFlpFIadrLOzrqPxQR5A_kRuDmgjY';
   const sb = window.supabase ? window.supabase.createClient(SB_URL, SB_KEY, {auth:{flowType:'pkce', detectSessionInUrl:true, persistSession:true}}) : null;
-  S.me = null; S.reqs = [];
+  S.reqs = [];
   const acctMsg = t => { $('acctMsg').textContent = t || ''; };
   async function loadMe(){
     if(!sb) return;
     const { data:{ session } } = await sb.auth.getSession();
-    if(!session){ S.me=null; S.reqs=[]; renderAcct(); return; }
+    if(!session){ S.me=null; S.reqs=[]; renderAcct(); setAccess(); return; }
     const uid=session.user.id;
     const [p, r] = await Promise.all([sb.from('profiles').select('*').eq('id',uid).maybeSingle(), sb.from('join_requests').select('*').eq('user_id',uid).maybeSingle()]);
     S.me = {user:session.user, profile:p.data||null, request:r.data||null};
     if(S.me.profile && S.me.profile.is_owner) await loadReqs(); else S.reqs=[];
-    renderAcct();
+    renderAcct(); setAccess();
+  }
+  // What the page shows each kind of visitor (the database enforces the same rules on every request):
+  // signed out: no Workspace · signed in, not approved: the Workspace tab shows only their status ·
+  // approved: their own ballot · owner: also upset alerts and the "Open voting" fallback.
+  function setAccess(){
+    const pr = S.me && S.me.profile, owner = !!(pr && pr.is_owner), vote = owner || !!(pr && pr.status==='approved');
+    S.isOwner = owner; S.canWrite = vote;
+    document.body.classList.toggle('viewonly', !S.me); document.body.classList.toggle('isowner', owner);
+    $('view-work').classList.toggle('gated', !vote);
+    $('wsGate').innerHTML = !S.me || vote ? '' : pr && pr.status==='declined'
+      ? '<strong>Not approved</strong>Your request to join wasn’t approved, so you can’t submit ballots. You can still view everything on the site.'
+      : '<strong>Waiting for approval</strong>Your request to join has been sent. Once the owner approves it, you can build and submit your ballot here.';
+    if(!owner && S.ws==='ups') S.ws='map';
+    const who = S.me ? S.me.user.id + (vote ? ':voter' : '') : '';
+    if(who===S.accessFor) return;  // loadMe runs on every account-window open; only react to real changes
+    S.accessFor = who;
+    if(S.me && S.wantWork){ S.wantWork=false; showTab('work'); }
+    else if(!S.me && S.tab==='work') showTab('home');
+    else renderCurrent();
   }
   async function loadReqs(){
     const [p, r] = await Promise.all([sb.from('profiles').select('id,username,status,created_at').eq('status','pending').order('created_at'), sb.from('join_requests').select('user_id,email,note')]);
@@ -1556,7 +1577,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     $('acctSub').textContent = me.user.email || '';
     const st = pr ? pr.status : 'pending';
     $('acctStatus').innerHTML = pr && pr.is_owner ? '<b>Owner.</b> You approve who can submit ballots and join leagues.'
-      : st==='approved' ? '<b>Approved.</b> You can submit ballots and join leagues.'
+      : st==='approved' ? '<b>Approved.</b> Build and submit your ballot in the Workspace tab.'
       : st==='declined' ? 'Your request wasn’t approved. You can still view everything on the site.'
       : '<b>Request sent.</b> The owner will approve you soon. Add a username (and a note so they know who you are).';
     if(document.activeElement!==$('acctName')) $('acctName').value = (pr&&pr.username) || '';
