@@ -1357,6 +1357,31 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     S.draft = data.ranking.slice(); setDirty(); renderWork();
     toast(late ? `Late ballot sent for week ${n}. It counts once the owner approves it.` : `Week ${n} ballot submitted`);
   }
+  // the coming Tuesday 11:59:59 PM Eastern (today, if it's Tuesday), on the server's clock
+  function nextTuesdayDeadline(){
+    const parts = t => Object.fromEntries(new Intl.DateTimeFormat('en-US', {timeZone:'America/New_York', year:'numeric', month:'numeric', day:'numeric',
+      weekday:'short', hour:'numeric', minute:'numeric', second:'numeric', hourCycle:'h23'}).formatToParts(t).map(x=>[x.type, x.value]));
+    const p = parts(new Date(serverNow())), add = (2 - ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].indexOf(p.weekday) + 7) % 7;
+    // 23:59:59 that day read as UTC, then shifted by Eastern's offset on that day (handles daylight saving)
+    const guess = Date.UTC(+p.year, +p.month-1, +p.day + add, 23, 59, 59), g = parts(new Date(guess));
+    return new Date(guess + (guess - Date.UTC(+g.year, +g.month-1, +g.day, +g.hour, +g.minute, +g.second)));
+  }
+  // Owner fallback when the Mac didn't open the week (it normally does on Sunday): add one week's deadline.
+  // Only adds; an existing deadline is changed in the Supabase dashboard (and logged publicly).
+  async function openVoting(){
+    if(!S.isOwner || S.busy) return;
+    const known = Object.keys(S.vote.weeks).map(Number), sched = (S.schedule && S.schedule.week) || 0;
+    const w = Number(prompt('Open voting for which week?', Math.max(sched, known.length ? Math.max(...known)+1 : 0)));
+    if(!Number.isInteger(w) || w<0 || w>20){ if(w) toast('Enter a week from 0 to 20.'); return; }
+    const d = nextTuesdayDeadline();
+    if(!confirm(`Open week ${w} voting until ${etTime(d)}?`)) return;
+    S.busy=true; renderStatus();
+    const { error } = await sb.from('weeks').insert({season:S.vote.season, week:w, lock_at:d.toISOString()});
+    S.busy=false;
+    if(error){ toast(error.code==='23505' ? `Week ${w} already has a deadline.` : sbErr(error, 'Couldn’t open voting. Try again.')); renderStatus(); return; }
+    toast(`Week ${w} voting is open until ${etTime(d)}`);
+    loadVoting();
+  }
   async function withdrawBallot(){
     const n=S.cur, late=phase(n)==='late';
     if(S.busy || !editable(n)) return;
@@ -1469,6 +1494,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   $('weekSel').addEventListener('change', e=>loadWeek(Number(e.target.value)));
   $('save').addEventListener('click', submitBallot);
   $('withdraw').addEventListener('click', withdrawBallot);
+  $('openWeek').addEventListener('click', openVoting);
   $('startFrom').addEventListener('change', e=>{
     const kind=e.target.value; e.target.value='';
     if(!kind || !editable(S.cur)) return;
