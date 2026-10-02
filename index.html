@@ -1784,7 +1784,8 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     if(!session){ S.me=null; S.reqs=[]; S.lateReqs=[]; renderAcct(); setAccess(); return; }
     const uid=session.user.id;
     const [p, r] = await Promise.all([sb.from('profiles').select('*').eq('id',uid).maybeSingle(), sb.from('join_requests').select('*').eq('user_id',uid).maybeSingle()]);
-    S.me = {user:session.user, profile:p.data||null, request:r.data||null};
+    // a failed load must not look like "waiting for approval": keep the error and show it instead
+    S.me = {user:session.user, profile:p.data||null, request:r.data||null, err:p.error||null};
     if(S.me.profile && S.me.profile.is_owner) await loadReqs(); else { S.reqs=[]; S.lateReqs=[]; }
     renderAcct(); setAccess();
   }
@@ -1796,11 +1797,12 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     S.isOwner = owner; S.canWrite = vote;
     document.body.classList.toggle('viewonly', !S.me); document.body.classList.toggle('isowner', owner);
     $('view-work').classList.toggle('gated', !vote);
-    $('wsGate').innerHTML = !S.me || vote ? '' : pr && pr.status==='declined'
+    $('wsGate').innerHTML = !S.me || vote ? '' : S.me.err ? `<strong>Couldn’t load your account</strong>${esc(sbErr(S.me.err, 'Reload the page to try again.'))}`
+      : pr && pr.status==='declined'
       ? '<strong>Not approved</strong>Your request to join wasn’t approved, so you can’t submit ballots. You can still view everything on the site.'
       : '<strong>Waiting for approval</strong>Your request to join has been sent. Once the owner approves it, you can build and submit your ballot here.';
     if(!owner && S.ws==='ups') S.ws='map';
-    const who = S.me ? S.me.user.id + (vote ? ':voter' : '') : '';
+    const who = S.me ? S.me.user.id + (vote ? ':voter' : S.me.err ? ':error' : '') : '';
     if(who===S.accessFor) return;  // loadMe runs on every account-window open; only react to real changes
     S.accessFor = who;
     if(vote) loadVoting(); else clearVoting();
@@ -1827,7 +1829,8 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     if(!me){ $('acctSub').textContent=''; return; }
     $('acctSub').textContent = me.user.email || '';
     const st = pr ? pr.status : 'pending';
-    $('acctStatus').innerHTML = pr && pr.is_owner ? '<b>Owner.</b> You approve who can submit ballots and join leagues.'
+    $('acctStatus').innerHTML = me.err ? esc(sbErr(me.err, 'Your account details couldn’t load. Reload the page to try again.'))
+      : pr && pr.is_owner ? '<b>Owner.</b> You approve who can submit ballots and join leagues.'
       : st==='approved' ? '<b>Approved.</b> Build and submit your ballot in the Workspace tab.'
       : st==='declined' ? 'Your request wasn’t approved. You can still view everything on the site.'
       : '<b>Request sent.</b> The owner will approve you soon. Add a username (and a note so they know who you are).';
