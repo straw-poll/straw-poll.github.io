@@ -427,7 +427,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       <dl class="sdefs">
         <dt>Wolp+</dt><dd>The formula ranking: the Model's power rating (points better than an average FBS team on a neutral field, built from scores only) plus any conference dials. With the dials at 0 it is the pure Model.</dd>
         <dt>Quality wins</dt><dd>A results-based metric, with influence from opponents' Model rank (Wolp+ without the conference dials).</dd>
-        <dt>Résumé</dt><dd>A purely results-based metric.</dd>
+        <dt>SOR</dt><dd>Strength of résumé: a purely results-based metric.</dd>
         <dt>Off EPA</dt><dd>Expected points added per play on offense (garbage time excluded). Higher is better.</dd>
         <dt>Def EPA</dt><dd>Expected points added per play allowed on defense. Lower is better.</dd>
       </dl>
@@ -449,7 +449,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     <div class="mwrap">
       <nav class="toc" aria-label="Methodology sections">
         <a href="#m-overview">Overview</a><a href="#m-wolp">The Chili Poll</a><a href="#m-ratings">The rankings</a><a href="#m-power">Power rating</a>
-        <a href="#m-qw">Quality wins</a><a href="#m-res">Résumé</a><a href="#m-proj">Win chances and projections</a><a href="#m-quad">Quadrants</a><a href="#m-map">Results Map</a><a href="#m-home">Home page</a><a href="#m-cols">Columns and flags</a><a href="#m-data">Data and updates</a>
+        <a href="#m-qw">Quality wins</a><a href="#m-res">Strength of résumé (SOR)</a><a href="#m-proj">Win chances and projections</a><a href="#m-quad">Quadrants</a><a href="#m-map">Results Map</a><a href="#m-home">Home page</a><a href="#m-cols">Columns and flags</a><a href="#m-data">Data and updates</a>
       </nav>
       <article class="method">
         <h2 id="m-overview">Overview</h2>
@@ -465,7 +465,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
           <dt>Wolp+</dt><dd><b>The numbers, with a point of view.</b> The Model's power rating plus any conference adjustments set under <b>Conference dials ▾</b> (currently: <b class="fnote">none</b>). With no adjustments it is exactly the Model. The Results Map, Best/Worst, quadrants, Fraud watch and Under the radar use the Wolp+ rank; spreads, win chances, projections, Quality wins and the Scorecard always use the pure Model.</dd>
           <dt>Model</dt><dd><b>The numbers.</b> Teams ranked by power rating: points better than an average FBS team on a neutral field. The difference between two teams' ratings, plus the home edge, is the model's predicted margin. It picks winners better than the AP poll (see the Scorecard on Previous Rankings) and comes close to the best computer ratings: on 2023–25 games it missed by about 0.15 points a game more than ESPN's FPI and Sagarin, and beat 24 of 33 tracked systems.</dd>
         </dl>
-        <p><b>Quality wins</b> and <b>Résumé</b> are shown alongside as résumé stats, not rankings: every win and loss, each weighted by how good the opponent is. Quality wins judges opponents by Model rank; Résumé judges them by their records alone.</p>
+        <p><b>Quality wins</b> and <b>Strength of résumé (SOR)</b> are shown alongside as résumé stats, not rankings: every win and loss, each weighted by how good the opponent is. Quality wins judges opponents by Model rank; SOR judges them by their records alone.</p>
 
         <h2 id="m-power">Power rating, step by step</h2>
         <ol>
@@ -490,7 +490,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
           <li><b>Score</b> = the total value of the games that count, divided by <b data-set="QW_SEASON_GAMES">12</b> (a full regular season). Every win adds and every loss subtracts, so beating a weak team can never lower the score, and more good wins mean a higher score. Example: a decisive home win over a 0.70-strength team is worth 0.70 × 1.00 × 1.07 = 0.75.</li>
         </ul>
 
-        <h2 id="m-res">Résumé (purely results)</h2>
+        <h2 id="m-res">Strength of résumé (SOR)</h2>
         <ul>
           <li>Scored exactly like Quality wins (same win and loss values, location, close-loss and FCS rules, ÷ 12), with one difference: <b>opponent strength comes from results only</b>, never the power rating.</li>
           <li><b>Opponent strength (0 to 1):</b> each team gets a rating from its wins and losses alone, adjusted for who it played (the Colley method, one of the old BCS computers): no margins, no power rating, no preseason. An average team is about 0.5. After four weeks, 4–0 teams rate from about 0.6 to 0.9 depending on who they beat, 2–2 teams about 0.35 to 0.55, and 0–4 teams about 0.15.</li>
@@ -680,7 +680,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     {k:'proj', h:'Proj. record', menu:'Projected final record (10,000 simulated seasons)', g:'Model', bw:'4.6rem', pw:'4.4rem', off:true},
     {k:'powerRating', h:'Rating', menu:'Power rating (points vs. an average team)', g:'Model', bw:'3rem', pw:'2.9rem', fmt:'n1', off:true},
     {k:'resumeRank', h:'Quality wins', menu:'Quality wins rank (résumé stat)', g:'Résumé', bw:'3.6rem', pw:'2.9rem', fmt:'r', lo:true},
-    {k:'resultsRank', h:'Résumé', menu:'Résumé rank (purely results: wins and losses, opponents judged by their records)', g:'Résumé', bw:'3.4rem', pw:'2.9rem', fmt:'r', lo:true},
+    {k:'resultsRank', h:'SOR', menu:'Strength of résumé (SOR) rank: purely results', g:'Résumé', bw:'3.4rem', pw:'2.9rem', fmt:'r', lo:true},
     {k:'q1', h:'Q1', menu:'Quadrant 1 record (best opponents; see Methodology)', g:'Résumé', bw:'2.7rem', pw:'2.6rem', off:true},
     {k:'q2', h:'Q2', menu:'Quadrant 2 record', g:'Résumé', bw:'2.7rem', pw:'2.6rem', off:true}
   ];
@@ -762,7 +762,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   const modelFacts = a => { const t=S.teams[a]||{}, c=mdl().crank[a], n=v=>typeof v==='number';
     return `<dl class="facts"><dt>Power rating</dt><dd>${n(t.powerRating)?t.powerRating.toFixed(1):'–'}${t.powerRank?` · Model #${t.powerRank}`:''}${c?` · Wolp+ #${c}`:''}${adjOf(a)?` <span style="color:var(--muted);font-weight:500">(${esc(t.conf)} ${adjOf(a)>0?'+':''}${adjOf(a)})</span>`:''}</dd>
       <dt>Quality-wins score</dt><dd>${n(t.resumeScore)?t.resumeScore.toFixed(3):'–'}${t.resumeRank?` · Quality wins #${t.resumeRank}`:''}</dd>
-      <dt>Résumé (results only)</dt><dd>${n(t.resultsScore)?t.resultsScore.toFixed(3):'–'}${t.resultsRank?` · Résumé #${t.resultsRank}`:''}</dd>
+      <dt>Strength of résumé (SOR)</dt><dd>${n(t.resultsScore)?t.resultsScore.toFixed(3):'–'}${t.resultsRank?` · SOR #${t.resultsRank}`:''}</dd>
       <dt>Quadrants</dt><dd>${qStr(a)}</dd>
       ${t.proj?`<dt>Projected</dt><dd>${projTxt(t)}${t.proj.unb?` · unbeaten ${Math.round(t.proj.unb*100)}%`:''} · 10+ wins ${Math.round(t.proj.w10*100)}% · bowl eligible ${Math.round(t.proj.bowl*100)}%</dd>`:''}
 </dl>`; };
