@@ -10,6 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.2/Sortable.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.min.js"></script>
+<script src="https://accounts.google.com/gsi/client" async></script>
 <style>
 :root{
   --bg:#0e1622; --bar:#0b121c; --panel:#131e2d; --panel2:#16233a; --line:#22324a; --line2:#1a2738;
@@ -325,6 +326,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 #acctDlg input{width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:8px;background:var(--bg);margin:6px 0 2px}
 .acctf{display:block;font-size:13px;color:var(--muted);margin:12px 0 0}
 .acctstat{border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:14px}
+.gbox{min-height:44px;margin:12px 0 4px}
 .linkbtn{background:none;border:0;padding:0;color:var(--gold);text-decoration:underline;cursor:pointer;font:inherit}
 .linkbtn.danger{color:var(--loss)}
 .acctdel{margin-top:18px;border-top:1px solid var(--line);padding-top:12px;display:flex;flex-direction:column;gap:4px}
@@ -657,7 +659,8 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   <div class="sub" id="acctSub"></div>
   <div id="acctOut">
     <p class="dnote">Sign in to submit a Straw Poll ballot and join pick'em leagues. New accounts are approved by the site owner. Viewing the site never needs an account.</p>
-    <div class="dlgbtns" style="justify-content:flex-start"><button class="btn primary gbtn" id="acctGoogle">Continue with Google</button></div>
+    <div id="gBtn" class="gbox"></div>
+    <div class="dlgbtns" style="justify-content:flex-start"><button class="btn primary gbtn" id="acctGoogle" hidden>Continue with Google</button></div>
     <div id="acctEmailBox" hidden>
       <input type="email" id="acctEmail" autocomplete="email" placeholder="you@example.com" aria-label="Email">
       <div class="dlgbtns"><button class="btn" id="acctSend">Email me a sign-in link</button></div>
@@ -1664,8 +1667,30 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     $('acctDelRow').hidden = !!(pr && pr.is_owner);
     $('acctReqs').innerHTML = pr && pr.is_owner ? `<div class="reqs"><h4>Requests to join${n?` (${n})`:''}</h4>${n ? S.reqs.map(x=>`<div class="req"><div>${esc(x.username||'(no username yet)')}<small>${esc(x.email||'')}${x.note?' · '+esc(x.note):''}</small></div><button class="btn primary" data-appr="${esc(x.id)}">Approve</button><button class="btn quiet" data-decl="${esc(x.id)}">Decline</button></div>`).join('') : '<p class="dnote">No pending requests.</p>'}</div>` : '';
   }
-  $('acctBtn').addEventListener('click', ()=>{ acctMsg(''); renderAcct(); $('acctDlg').showModal(); if(S.me) loadMe(); });
-  // Google is the main sign-in (no email service needed). Email links stay in the code, hidden, until an email service is connected.
+  $('acctBtn').addEventListener('click', ()=>{ acctMsg(''); renderAcct(); $('acctDlg').showModal(); if(S.me) loadMe(); else setupGoogle(); });
+  // Google sign-in: Google's own button (popup on this site, so people see straw-poll.github.io, not the Supabase address).
+  // Its ID token is handed to Supabase with a one-time nonce. If Google's script can't load, the redirect button
+  // (#acctGoogle, through Supabase) is shown instead. Email links stay hidden until an email service is connected.
+  const G_CLIENT = '430070576677-n3vtotil8nl4ek056mfesnj43gq1cpsi.apps.googleusercontent.com';
+  let gNonce = null, gReady = false;
+  async function setupGoogle(){
+    const box=$('gBtn');
+    if(!(window.google && google.accounts && google.accounts.id)){ $('acctGoogle').hidden=false; box.hidden=true; return; }
+    $('acctGoogle').hidden=true; box.hidden=false;
+    if(gReady) return; gReady = true;
+    const raw = Array.from(crypto.getRandomValues(new Uint8Array(32)), b=>b.toString(16).padStart(2,'0')).join('');
+    const hash = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(raw))), b=>b.toString(16).padStart(2,'0')).join('');
+    gNonce = raw;
+    google.accounts.id.initialize({ client_id:G_CLIENT, nonce:hash, ux_mode:'popup', auto_select:false, cancel_on_tap_outside:true,
+      callback: async resp => {
+        acctMsg('Signing in…');
+        const { error } = await sb.auth.signInWithIdToken({ provider:'google', token:resp.credential, nonce:gNonce });
+        gReady = false;  // a fresh nonce for any later sign-in
+        if(error){ acctMsg('Google sign-in didn’t go through. Try again.'); setupGoogle(); return; }
+        acctMsg(''); loadMe();
+      } });
+    google.accounts.id.renderButton(box, { theme:'filled_black', size:'large', text:'continue_with', shape:'pill', logo_alignment:'left' });
+  }
   $('acctGoogle').addEventListener('click', async ()=>{
     if(!sb){ acctMsg('Sign-in couldn’t load. Check your connection and refresh.'); return; }
     acctMsg('Opening Google…');
