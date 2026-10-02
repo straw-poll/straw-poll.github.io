@@ -519,7 +519,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     <article class="method basics">
       <h2>What's on the site</h2>
       <dl>
-        <dt>Straw Poll</dt><dd>A weekly Top 25 combined from members' ballots, published Wednesday morning. Teams 26–35 are listed as also receiving votes.</dd>
+        <dt>Straw Poll</dt><dd>A weekly Top 25 combined from members' ballots, published Wednesday morning.</dd>
         <dt>Wolp+</dt><dd>A power rating for every FBS team, built only from game results: how many points better than an average FBS team a team would be on a neutral field. It never sees the Straw Poll, the AP poll or betting lines.</dd>
         <dt>Straw+</dt><dd>Wolp+, adjusted 30% of the way toward the Straw Poll's order.</dd>
         <dt>AP</dt><dd>The Associated Press Top 25, for comparison.</dd>
@@ -567,10 +567,10 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
         <h2 id="m-wolp">The Straw Poll</h2>
         <p>Every approved member submits a 25-team ballot each week, from Sunday morning (once the previous week's games are final) until Tuesday 11:59 PM ET. Nobody can see anyone else's ballot; only the combined poll is published, on Wednesday morning.</p>
         <ul>
-          <li><b>Combining:</b> each team gets its average rank across all ballots, counting a ballot that leaves it out as #26. To keep one extreme ballot from swinging a team, the highest and lowest 20% of its ranks are dropped first (once there are at least 3 ballots).</li>
-          <li><b>Who can appear:</b> a team must be on at least 2 ballots, and on at least a quarter of them, so a single voter can never put a team in the poll.</li>
-          <li><b>Ties:</b> the team on more ballots ranks higher, then the better average without dropping anything.</li>
-          <li><b>Also receiving votes:</b> the teams ranked 26–35 by the same method.</li>
+          <li><b>Combining:</b> each team's ranks across all ballots are averaged, with a team left off a ballot counting as #26. The most extreme ranks for each team are set aside first, so one unusual ballot can't swing a team.</li>
+          <li><b>Who can appear:</b> a team must be on at least 2 ballots, and on a reasonable share of them, so a single voter can never put a team in the poll.</li>
+          <li><b>Ties</b> go to the team on more ballots.</li>
+          <li><b>Also receiving votes:</b> the next ten teams by the same method.</li>
         </ul>
         <p>Weeks 1–5 are the site owner's own rankings from before ballots opened; those listed 35 teams, with 26–35 shown as <b>Also ranked</b>.</p>
 
@@ -598,25 +598,22 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 
         <h2 id="m-qw">Quality wins (résumé stat)</h2>
         <ul>
-          <li><b>Opponent strength (0 to 1):</b> from the opponent's Model rank: #1 is 1.0 and the last FBS team is 0.0. This is the same left-to-right position as the opponent's dot on the Results Map (Wolp+ x axis), so a row of dots far to the right means a high Quality wins score.</li>
-          <li><b>A win</b> is worth the opponent's strength × location (<b data-set="LOC_WIN">road 1.02, neutral 1.01, home 1.00</b>), × (1 + <b data-set="DECISIVE_WIN_BONUS">0.1</b> × strength) if it wasn't close.</li>
-          <li><b>A loss</b> costs <b data-set="LOSS_WEIGHT">0.5</b> × (1 − strength) × location (<b data-set="LOC_LOSS">home 1.05, neutral 1.00, road 0.95</b>), × <b data-set="CLOSE_LOSS_FACTOR">0.6</b> if it was close, and always at least <b data-set="MIN_LOSS">0.1</b>. Losses weigh less than wins.</li>
-          <li><b>FCS:</b> a win doesn't count; a loss counts <b data-set="FCS_LOSS_VALUE">-1.5</b>.</li>
-          <li><b>Score</b> = the total value of the games that count, divided by <b data-set="QW_SEASON_GAMES">12</b> (a full regular season). Every win adds and every loss subtracts, so beating a weak team can never lower the score, and more good wins mean a higher score. Example: a decisive home win over a 0.70-strength team is worth 0.70 × 1.00 × 1.07 = 0.75.</li>
+          <li>Adds up a team's wins, each worth more the better the opponent, and subtracts its losses, each costing more the weaker the opponent. Wins count for more than losses cost.</li>
+          <li>Opponent strength comes from the opponent's Wolp+ rank: the same left-to-right position as its dot on the Results Map (Wolp+ x axis), so a row of dots far to the right means a high score.</li>
+          <li>Road wins count slightly more, decisive wins slightly more, and close losses cost less. Wins over FCS teams don't count; losses to them cost a lot.</li>
+          <li>Beating a weak team can never lower the score.</li>
         </ul>
 
         <h2 id="m-res">Strength of résumé (SOR)</h2>
         <ul>
-          <li>Scored exactly like Quality wins (same win and loss values, location, close-loss and FCS rules, ÷ 12), with one difference: <b>opponent strength comes from results only</b>, never the power rating.</li>
-          <li><b>Opponent strength (0 to 1):</b> each team gets a rating from its wins and losses alone, adjusted for who it played (the Colley method, one of the old BCS computers): no margins, no power rating, no preseason. An average team is about 0.5. After four weeks, 4–0 teams rate from about 0.6 to 0.9 depending on who they beat, 2–2 teams about 0.35 to 0.55, and 0–4 teams about 0.15.</li>
-          <li><i>Example:</i> UConn lost at home to Maryland (2–2, strength 0.49): −0.5 × 0.51 × 1.05 = −0.27. Under Quality wins the same loss costs −0.26, because Maryland is Model #70 (strength 0.50). The two differ most for teams whose record and power rating disagree, for example a 4–0 team that won close games against weak opponents.</li>
+          <li>Scored the same way as Quality wins, with one difference: opponent strength comes from <b>results only</b> (each team's wins and losses, adjusted for who it played), never from the power rating.</li>
+          <li>The two differ most for teams whose record and power rating disagree, for example an unbeaten team that won close games against weak opponents.</li>
         </ul>
 
         <h2 id="m-proj">Win chances and projections</h2>
         <ul>
-          <li><b>Win chance:</b> a game's result typically lands about <b data-set="SIM_SIGMA">16</b> points from the model's spread in either direction, so the spread converts to a win chance on a normal curve: −3 is about 57%, −7 about 67%, −14 about 81%, −21 about 91%. These percentages were the best-calibrated on 2024–26 replays.</li>
-          <li><b>Projected records:</b> the rest of the regular season is simulated <b data-set="SIMS">10000</b> times using those win chances. In each simulated season, every team's true strength is also nudged by about <b data-set="SIM_TAU">5</b> points, because a rating after a few games is itself uncertain (this matched 2024–25 final records best). The results give each team's expected record, its chance to finish unbeaten, to win 10+ games, and to reach 6 wins (bowl eligible).</li>
-          <li>Tested and not used: giving each team its own "x-factor" for how much it swings. A team that over- or under-performed a lot early was no more likely to do so later (correlation about 0), and team-specific swings made the win chances slightly worse.</li>
+          <li><b>Win chance:</b> the model's spread is turned into a win chance based on how far real results usually land from it. A field goal favorite wins a bit more than half the time; a three-touchdown favorite almost always does.</li>
+          <li><b>Projected records:</b> the rest of the regular season is simulated thousands of times from those win chances, allowing for the fact that early-season ratings are themselves uncertain. That gives each team's expected record and its chances to finish unbeaten, win 10 games, or reach bowl eligibility.</li>
         </ul>
 
         <div id="m-quadwrap" hidden><!-- quadrants hidden for now (SHOW_QUADS) -->
