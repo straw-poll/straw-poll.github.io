@@ -176,6 +176,9 @@ td.c-mv{padding-left:0;width:30px}
 .colmenu .mh{font:600 11px var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin:8px 0 2px}
 .colmenu label{display:flex;gap:10px;align-items:center;padding:5px 0;font-size:13px;cursor:pointer}
 .cmpk{display:flex;align-items:center;justify-content:center}
+.confmenu .menu{left:0;right:auto;min-width:12rem}
+.confmenu input{width:16px;height:16px;margin:0;accent-color:var(--gold)}
+.cfall{display:flex;gap:14px;border-top:1px solid var(--line);margin-top:6px;padding-top:8px}
 .cmpk input{width:16px;height:16px;margin:0;accent-color:var(--gold);cursor:pointer}
 
 
@@ -407,10 +410,9 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       <div class="row"><a class="pill on" href="#map">Results Map</a><a class="pill" href="#stats">Stats table ↓</a></div></div>
     <div class="filters row">
       <span class="lab">Show</span>
-      <button class="pill" data-show="wolp">Chili Poll Top 25</button>
-      <button class="pill" data-show="c25">Wolp+ Top 25</button>
+      <button class="pill" data-show="top">Top 25</button>
       <button class="pill" data-show="all">All FBS</button>
-      <select id="rConf" aria-label="Conference"></select>
+      <details class="colmenu confmenu" id="rConfMenu"><summary class="pill" id="rConfSum">All conferences ▾</summary><div class="menu" id="rConfList"></div></details>
       <input id="rQ" type="search" placeholder="Search teams" aria-label="Search teams">
       <span class="count" id="rCount"></span>
     </div>
@@ -636,7 +638,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   const MAX = 35, TOP = 25, MAXC = 4, FRAUD = 8, AP_NR = 36, BIG = 14, BIG_RANKED = 21;
   const S = {db:null, teams:{}, teamsRaw:null, meta:null, model:null, schedule:null, ap:null, weeks:{}, cur:null, draft:[], dirty:false, newWeek:false,
              canWrite:false, loadedWeeks:false, cmp:[], cmpOn:false, tab:'home', ws:'ballot',
-             r:{show:'wolp', conf:'', q:'', ms:'wolp', col:'ms', rev:false}, f:'all', q:'', sort:'rec',
+             r:{show:'top', confOff:[], q:'', ms:'wolp', col:'ms', rev:false}, f:'all', q:'', sort:'rec',
              settings:{}, upsets:{}, uDraft:null, uDirty:false, uAll:false, showAll:false};
   const $ = id => document.getElementById(id);
   // Only a device connected with the ballot sync token can edit; everyone else gets a read-only site.
@@ -854,11 +856,9 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     const ranks=pubMap(), cr=mdl().crank, q=S.r.q.trim().toLowerCase(), R=S.r;
     return Object.keys(S.teams).filter(a=>{
       const t=S.teams[a];
-      if(R.show==='wolp' && !ranks[a]) return false;
-      if(R.show==='c25' && !(cr[a]<=25)) return false;
-      if(R.conf==='p4' && !t.p4) return false;
-      if(R.conf==='g5' && (t.p4 || t.conf==='FBS Independents')) return false;
-      if(R.conf && R.conf!=='p4' && R.conf!=='g5' && t.conf!==R.conf) return false;
+      // Top 25 follows the Sort: by Wolp+ = the Wolp+ Top 25; otherwise the Chili Poll (Top 25 + Also ranked 26-35)
+      if(R.show==='top' && (R.ms==='comp' ? !(cr[a]<=25) : !ranks[a])) return false;
+      if(R.confOff.includes(dialOf(t.conf))) return false;
       if(q && !(t.name.toLowerCase().includes(q))) return false;
       return true;
     });
@@ -893,7 +893,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     const M = L.slice().sort(ord);
     let h='';
     if(!M.length) h = '<p class="lead">No teams match these filters.</p>';
-    else if(R.ms==='wolp' && R.show==='wolp'){
+    else if(R.ms==='wolp' && R.show==='top'){
       const a=M.filter(x=>ranks[x]<=TOP), b=M.filter(x=>ranks[x]>TOP);
       h = axis(false) + a.map(x=>mapRow(x, ranks[x], prev, ranks)).join('') + (b.length ? `<div class="grp">Also ranked 26–35</div>${b.map(x=>mapRow(x, ranks[x], prev, ranks)).join('')}` : '');
     } else h = axis(false) + M.map(x=>mapRow(x, ranks[x], prev, ranks)).join('');
@@ -926,14 +926,17 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   document.querySelectorAll('[data-show]').forEach(b=>b.addEventListener('click',()=>{ S.r.show=b.dataset.show; saveR(); renderRank(); }));
   document.querySelectorAll('[data-ms]').forEach(b=>b.addEventListener('click',()=>{ S.r.ms=b.dataset.ms; S.r.col='ms'; S.r.rev=false; saveR(); renderRank(); }));
   $('rTable').addEventListener('click', e=>{ const th=e.target.closest('th[data-c]'); if(!th) return; const c=th.dataset.c; S.r.rev = c===S.r.col ? !S.r.rev : false; S.r.col=c; renderRank(); });
-  $('rConf').addEventListener('change', e=>{ S.r.conf=e.target.value; saveR(); renderRank(); });
+  $('rConfList').addEventListener('change', e=>{ const k=e.target.dataset.cf; if(!k) return; S.r.confOff = e.target.checked ? S.r.confOff.filter(x=>x!==k) : [...S.r.confOff, k]; renderConfs(); renderRank(); });
+  $('rConfList').addEventListener('click', e=>{ const b=e.target.closest('[data-cfall]'); if(!b) return; S.r.confOff = b.dataset.cfall==='1' ? [] : DIALS.slice(); renderConfs(); renderRank(); });
   $('rQ').addEventListener('input', e=>{ S.r.q=e.target.value; renderRank(); });
   function saveR(){ try{ localStorage.setItem('cfb2-rank', JSON.stringify({ms:S.r.ms})); }catch(e){} }
   try{ const v=JSON.parse(localStorage.getItem('cfb2-rank')||'null'); if(v && ['wolp','comp','best','worst'].includes(v.ms)) S.r.ms=v.ms; }catch(e){}
   function renderConfs(){
-    const confs=[...new Set(Object.values(S.teams).map(t=>t.conf).filter(Boolean))].sort();
-    $('rConf').innerHTML = `<option value="">All conferences</option><option value="p4">Power 4</option><option value="g5">Group of 5</option>${confs.map(c=>`<option${S.r.conf===c?' selected':''}>${esc(c)}</option>`).join('')}`;
-    $('rConf').value=S.r.conf;
+    // one checkbox per Power 4 conference, Independents, and the whole Group of 5 (same groups as the conference dials)
+    const lab = k => k==='FBS Independents' ? 'Independents' : k, on = DIALS.filter(k=>!S.r.confOff.includes(k));
+    $('rConfList').innerHTML = DIALS.map(k=>`<label><input type="checkbox" data-cf="${esc(k)}"${on.includes(k)?' checked':''}>${esc(lab(k))}</label>`).join('')
+      + `<div class="cfall"><button class="more" data-cfall="1">Select all</button><button class="more" data-cfall="0">Clear</button></div>`;
+    $('rConfSum').textContent = (on.length===DIALS.length ? 'All conferences' : on.length===0 ? 'No conferences' : on.length===1 ? lab(on[0]) : on.length+' conferences') + ' ▾';
   }
 
   // Dots for opponents rated about the same would sit on top of each other: nudge them above / below the line.
