@@ -325,6 +325,14 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 #acctDlg input{width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:8px;background:var(--bg);margin:6px 0 2px}
 .acctf{display:block;font-size:13px;color:var(--muted);margin:12px 0 0}
 .acctstat{border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:14px}
+.linkbtn{background:none;border:0;padding:0;color:var(--gold);text-decoration:underline;cursor:pointer;font:inherit}
+.linkbtn.danger{color:var(--loss)}
+.acctdel{margin-top:18px;border-top:1px solid var(--line);padding-top:12px;display:flex;flex-direction:column;gap:4px}
+.acctdel small{color:var(--muted);font-size:12px}
+.priv{font-size:14px}
+.priv h4{font:700 18px var(--cond);margin:14px 0 4px}
+.priv ul{margin:0;padding-left:18px}
+.priv li{margin:3px 0}
 .acctstat b{color:var(--gold)}
 .reqs{margin-top:18px;border-top:1px solid var(--line);padding-top:12px}
 .reqs h4{font:700 18px var(--cond);margin:0 0 8px}
@@ -619,7 +627,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   </section>
 </main>
 
-<footer class="foot"><div class="wrapin"><span id="stamp">Loading team data…</span><span>Model spreads are the model’s predicted margin, written like a betting line; they never use betting lines. · <button id="syncBtn">Ballot sync</button></span></div></footer>
+<footer class="foot"><div class="wrapin"><span id="stamp">Loading team data…</span><span>Model spreads are the model’s predicted margin, written like a betting line; they never use betting lines. · <button id="privBtn">Privacy &amp; Terms</button> · <button id="syncBtn">Ballot sync</button></span></div></footer>
 
 <dialog id="dlg" aria-labelledby="dName">
   <h3 id="dName"></h3>
@@ -647,9 +655,13 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   <h3 id="acctTitle">Sign in</h3>
   <div class="sub" id="acctSub"></div>
   <div id="acctOut">
-    <p class="dnote">Sign in to submit a Straw Poll ballot and join pick'em leagues. No password: we'll email you a sign-in link. Viewing the site never needs an account.</p>
-    <input type="email" id="acctEmail" autocomplete="email" placeholder="you@example.com" aria-label="Email">
-    <div class="dlgbtns"><button class="btn primary" id="acctSend">Email me a sign-in link</button></div>
+    <p class="dnote">Sign in to submit a Straw Poll ballot and join pick'em leagues. New accounts are approved by the site owner. Viewing the site never needs an account.</p>
+    <div class="dlgbtns" style="justify-content:flex-start"><button class="btn primary gbtn" id="acctGoogle">Continue with Google</button></div>
+    <div id="acctEmailBox" hidden>
+      <input type="email" id="acctEmail" autocomplete="email" placeholder="you@example.com" aria-label="Email">
+      <div class="dlgbtns"><button class="btn" id="acctSend">Email me a sign-in link</button></div>
+    </div>
+    <p class="dnote">By signing in you agree to the <button class="linkbtn" data-priv>Privacy &amp; Terms</button>.</p>
   </div>
   <div id="acctIn" hidden>
     <div class="acctstat" id="acctStatus"></div>
@@ -657,9 +669,40 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     <label class="acctf" id="acctNoteRow">Note for the owner (optional)<input id="acctNote" maxlength="120" placeholder="e.g. Mike's roommate"></label>
     <div class="dlgbtns"><button class="btn primary" id="acctSaveMe">Save</button></div>
     <div id="acctReqs"></div>
+    <div class="acctdel" id="acctDelRow"><button class="linkbtn danger" id="acctDel">Delete my account</button><small>Removes your account, ballots, league memberships and scores for good.</small></div>
   </div>
   <p class="dnote" id="acctMsg" role="status"></p>
   <div class="dlgbtns"><button class="btn quiet" id="acctSignOut" hidden>Sign out</button><form method="dialog"><button class="btn">Close</button></form></div>
+</dialog>
+<dialog id="privDlg" aria-labelledby="privTitle">
+  <h3 id="privTitle">Privacy &amp; Terms</h3>
+  <div class="sub">Short version: this is a free, friendly college football poll. We keep only what's needed to run it.</div>
+  <div class="priv">
+    <h4>What we collect</h4>
+    <ul>
+      <li><b>Viewing the site:</b> nothing is required. No account, no tracking or ads. Your display choices (columns, filters) are saved only in your own browser.</li>
+      <li><b>If you sign in:</b> your email address (to sign you in), the username you choose, an optional note to the site owner, your weekly ballots, league memberships and scores.</li>
+      <li><b>Automatically:</b> our sign-in provider (Supabase) and host (GitHub Pages) keep standard technical logs, such as IP addresses and times, for security.</li>
+    </ul>
+    <h4>Who sees what</h4>
+    <ul>
+      <li>Your email and note: only you and the site owner.</li>
+      <li>Your username: other approved players. Your scores: you and people in your leagues.</li>
+      <li>Your ballot: only you until the weekly deadline. After it, ballots are combined into the public Straw Poll, which shows totals, not who voted for what.</li>
+      <li>We never sell or share your information, and there's no advertising.</li>
+    </ul>
+    <h4>Deleting your account</h4>
+    <p>Use <b>Delete my account</b> in your account window. It removes your account, ballots, league memberships and scores right away. Published Straw Polls stay as they are, since they only contain combined totals.</p>
+    <h4>Terms of use</h4>
+    <ul>
+      <li>You must be 13 or older to make an account.</li>
+      <li>It's free, and there are no prizes: just friendly competition.</li>
+      <li>One account per person. Keep usernames and notes respectful; the site owner may decline, remove or delete accounts.</li>
+      <li>Ratings, predictions and data are for fun and may contain mistakes. Nothing here is betting advice.</li>
+      <li>The site may change, pause or end at any time. These terms may be updated; the latest version is always here.</li>
+    </ul>
+  </div>
+  <div class="dlgbtns"><form method="dialog"><button class="btn">Close</button></form></div>
 </dialog>
 <dialog id="cmpDlg" aria-labelledby="cmpTitle">
   <h3 id="cmpTitle">Compare</h3>
@@ -1406,7 +1449,10 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   }
   TABS.forEach(k=>$('tab-'+k).addEventListener('click', ()=>showTab(k)));
   $('brand').addEventListener('click', ()=>showTab('home'));
-  window.addEventListener('hashchange', ()=>{ const h=(location.hash||'').slice(1); if(TABS.includes(h) && h!==S.tab) showTab(h); });
+  // #privacy and #terms open the Privacy & Terms window (linked from Google's sign-in consent screen)
+  const privHash = () => { if(/^#(privacy|terms)$/.test(location.hash) && !$('privDlg').open) $('privDlg').showModal(); };
+  window.addEventListener('hashchange', ()=>{ const h=(location.hash||'').slice(1); if(TABS.includes(h) && h!==S.tab) showTab(h); privHash(); });
+  privHash();
   window.addEventListener('beforeunload', e=>{ if(S.dirty || S.uDirty){ e.preventDefault(); e.returnValue=''; } });
 
   const stampText = () => { if(!S.meta) return 'Loading team data…'; const d = S.meta.updatedAt ? new Date(S.meta.updatedAt).toLocaleDateString('en-US', {month:'short', day:'numeric'}) : ''; return `Updated ${d} · ${S.meta.through||''}`; };
@@ -1454,7 +1500,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   }
 
   // click outside a pop-up (on the dimmed background) to close it
-  ['dlg','cmpDlg','syncDlg','acctDlg'].forEach(id=>$(id).addEventListener('click', e=>{
+  ['dlg','cmpDlg','syncDlg','acctDlg','privDlg'].forEach(id=>$(id).addEventListener('click', e=>{
     if(e.target!==e.currentTarget) return;
     const r=e.currentTarget.getBoundingClientRect();
     if(e.clientX<r.left || e.clientX>r.right || e.clientY<r.top || e.clientY>r.bottom) e.currentTarget.close();
@@ -1605,9 +1651,17 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     if(document.activeElement!==$('acctName')) $('acctName').value = (pr&&pr.username) || '';
     if(document.activeElement!==$('acctNote')) $('acctNote').value = (me.request&&me.request.note) || '';
     $('acctNoteRow').hidden = st!=='pending';
+    $('acctDelRow').hidden = !!(pr && pr.is_owner);
     $('acctReqs').innerHTML = pr && pr.is_owner ? `<div class="reqs"><h4>Requests to join${n?` (${n})`:''}</h4>${n ? S.reqs.map(x=>`<div class="req"><div>${esc(x.username||'(no username yet)')}<small>${esc(x.email||'')}${x.note?' · '+esc(x.note):''}</small></div><button class="btn primary" data-appr="${esc(x.id)}">Approve</button><button class="btn quiet" data-decl="${esc(x.id)}">Decline</button></div>`).join('') : '<p class="dnote">No pending requests.</p>'}</div>` : '';
   }
   $('acctBtn').addEventListener('click', ()=>{ acctMsg(''); renderAcct(); $('acctDlg').showModal(); if(S.me) loadMe(); });
+  // Google is the main sign-in (no email service needed). Email links stay in the code, hidden, until an email service is connected.
+  $('acctGoogle').addEventListener('click', async ()=>{
+    if(!sb){ acctMsg('Sign-in couldn’t load. Check your connection and refresh.'); return; }
+    acctMsg('Opening Google…');
+    const { error } = await sb.auth.signInWithOAuth({ provider:'google', options:{ redirectTo: location.origin + location.pathname } });
+    if(error) acctMsg(/not enabled|unsupported/i.test(error.message||'') ? 'Google sign-in isn’t switched on yet.' : 'Couldn’t start Google sign-in. Try again.');
+  });
   $('acctSend').addEventListener('click', async ()=>{
     const email=$('acctEmail').value.trim();
     if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ acctMsg('Enter your email address.'); return; }
@@ -1632,6 +1686,16 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     const id=(a||d).dataset.appr || (a||d).dataset.decl;
     const { error } = await sb.from('profiles').update({status: a ? 'approved' : 'declined'}).eq('id', id);
     acctMsg(error ? 'Couldn’t update that request. Try again.' : a ? 'Approved.' : 'Declined.'); loadMe();
+  });
+  document.addEventListener('click', e=>{ if(e.target.closest('[data-priv]') || e.target.id==='privBtn'){ e.preventDefault(); $('privDlg').showModal(); } });
+  $('acctDel').addEventListener('click', async ()=>{
+    if(!S.me) return;
+    const typed = prompt('This permanently deletes your account, ballots, league memberships and scores. Type DELETE to confirm.');
+    if(typed !== 'DELETE'){ acctMsg('Not deleted.'); return; }
+    acctMsg('Deleting…');
+    const { error } = await sb.rpc('delete_my_account');
+    if(error){ acctMsg('Couldn’t delete the account. Try again, or ask the site owner.'); return; }
+    await sb.auth.signOut(); acctMsg('Your account and its data were deleted.'); loadMe();
   });
   $('acctSignOut').addEventListener('click', async ()=>{ await sb.auth.signOut(); acctMsg('Signed out.'); loadMe(); });
   if(sb){
