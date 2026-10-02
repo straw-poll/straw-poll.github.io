@@ -431,6 +431,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       <button class="tab" role="tab" id="tab-rank" aria-selected="false">Research</button>
       <button class="tab" role="tab" id="tab-history" aria-selected="false">History</button>
       <button class="tab" role="tab" id="tab-method" aria-selected="false">How it works</button>
+      <button class="tab owner boss-only" role="tab" id="tab-admin" aria-selected="false">Admin</button>
     </nav>
     <div class="tools">
       <details class="colmenu" id="fMenu"><summary class="pill" id="fSum">Conference Modifier ▾</summary>
@@ -633,14 +634,13 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       <select id="weekSel" aria-label="Choose week"></select>
       <span class="dl" id="deadline"></span>
       <select id="startFrom" class="fsel" aria-label="Start this ballot from" hidden><option value="">Start from…</option><option value="last">My last ballot</option><option value="wolp">Wolp+ Top 25</option><option value="ap">AP Top 25</option><option value="empty">Empty ballot</option></select>
-      <button class="btn quiet boss-only" id="openWeek" hidden>Open voting…</button>
       <span class="spacer"></span>
       <span class="status" id="status"></span>
       <button class="btn quiet" id="withdraw" hidden>Withdraw</button>
       <button class="btn primary" id="save" disabled>Submit ballot</button>
     </div>
     <div class="wsub" role="group" aria-label="Vote view">
-      <span class="lab">View</span><button class="pill" data-ws="ballot">List</button><button class="pill" data-ws="map">Results Map</button><button class="pill boss-only" data-ws="ups">Upset watch</button>
+      <span class="lab">View</span><button class="pill" data-ws="ballot">List</button><button class="pill" data-ws="map">Results Map</button>
     </div>
     <div id="ws-build" class="wgrid wbuild">
       <div>
@@ -668,12 +668,19 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
         <p class="note">Drag a team into the map or list, or tap + to add it to the first open spot. Click a column heading to sort.</p>
       </aside>
     </div>
-    <div id="ws-ups" hidden>
-      <section class="sec" style="margin-top:0"><div class="sh"><h2 id="uTitle">Upset watch</h2>
+  </section>
+
+  <!-- ADMIN (owner only). Hiding it is tidiness: the database enforces every rule whoever asks. -->
+  <section id="view-admin" class="boss-only" hidden>
+    <div class="ph"><div><h1>Admin</h1><div class="sub">Owner tools</div></div></div>
+    <section class="sec" style="margin-top:0"><div class="sh"><h2>Voting</h2><button class="btn" id="openWeek" hidden>Open voting…</button></div>
+      <p id="adminVote" style="margin:0 0 6px"></p>
+      <p class="note">The Mac opens each week on Sunday morning, once the previous week's games are final. Use Open voting only if it didn't. To change a deadline, edit it in the Supabase dashboard (changes are logged publicly).</p></section>
+    <section class="sec"><div id="adminReqs"></div></section>
+      <section class="sec"><div class="sh"><h2 id="uTitle">Upset watch</h2>
         <div class="row"><label style="font-size:13px;color:var(--muted)"><input type="checkbox" id="uAll"> Show all games</label><button class="btn primary" id="uSave" disabled>Publish upset watch</button></div></div>
         <p class="note" style="margin:0 0 10px">Candidates (gold edge) are games where the model favors the betting underdog, or differs from the line by 7+ points. Tick the ones to publish; add an optional one-line note. Only ticked games appear on Home.</p>
         <div class="tblw"><table class="ups" id="uTable"></table></div></section>
-    </div>
   </section>
 </main>
 
@@ -711,7 +718,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     <label class="acctf">Username<input id="acctName" maxlength="24" autocomplete="nickname" placeholder="2–24 letters, numbers, _ . -"><small class="lockednote" id="acctNameNote" hidden>Usernames can’t be changed. Ask the site owner if you need a new one.</small></label>
     <label class="acctf" id="acctNoteRow">Note for the owner (optional)<input id="acctNote" maxlength="120" placeholder="e.g. Mike's roommate"></label>
     <div class="dlgbtns"><button class="btn primary" id="acctSaveMe">Save</button></div>
-    <div id="acctReqs"></div>
+    <div id="acctAdminNote"></div>
     <div class="acctdel" id="acctDelRow"><button class="linkbtn danger" id="acctDel">Delete my account</button><small>Removes your account, ballots, league memberships and scores for good.</small></div>
   </div>
   <p class="dnote" id="acctMsg" role="status"></p>
@@ -770,7 +777,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 (function(){
   const MAX = 35, TOP = 25, MAXC = 4, FRAUD = 8, AP_NR = 36, BIG = 14, BIG_RANKED = 21;
   const S = {teams:{}, teamsRaw:null, meta:null, model:null, schedule:null, ap:null, weeks:{}, cur:null, draft:[], dirty:false,
-             canWrite:false, isOwner:false, me:null, wantWork:false, accessFor:'', cmp:[], cmpOn:false, tab:'home', ws:'ballot',
+             canWrite:false, isOwner:false, me:null, wantTab:null, accessKnown:false, accessFor:'', cmp:[], cmpOn:false, tab:'home', ws:'ballot',
              r:{show:'top', confOff:[], q:'', ms:'wolp', col:'ms', rev:false, xax:'wolp'}, f:'off', pc:'', q:'', sort:'frank',
              upsets:{}, uDraft:null, uDirty:false, uAll:false, showAll:false, more:{fraud:false, radar:false}};
   const $ = id => document.getElementById(id);
@@ -1024,7 +1031,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     $('hUpsWrap').hidden = !ups.length && !S.isOwner;
     $('hUpsSub').textContent = upWk==null ? (sch.week!=null ? `Week ${sch.week}` : '') : upWk===sch.week ? `Week ${upWk}` : `Week ${upWk} results`;
     const nCand = S.isOwner ? upsetCands().filter(x=>x.cand).length : 0;
-    const review = S.isOwner ? `<div class="game" style="display:flex;flex-direction:column;justify-content:center;gap:8px;border-style:dashed"><b style="font:700 18px var(--cond)">${Object.keys(upW).length ? 'Edit upset watch' : `No week ${sch.week} upset watch published yet`}</b><span class="lead" style="margin:0">${nCand} candidate${nCand===1?'':'s'} this week. Only you see this box.</span><button class="btn primary" data-go="work" data-ws="ups" style="align-self:flex-start">Review and publish →</button></div>` : '';
+    const review = S.isOwner ? `<div class="game" style="display:flex;flex-direction:column;justify-content:center;gap:8px;border-style:dashed"><b style="font:700 18px var(--cond)">${Object.keys(upW).length ? 'Edit upset watch' : `No week ${sch.week} upset watch published yet`}</b><span class="lead" style="margin:0">${nCand} candidate${nCand===1?'':'s'} this week. Only you see this box.</span><button class="btn primary" data-go="admin" style="align-self:flex-start">Review and publish →</button></div>` : '';
     $('hUps').innerHTML = ups.map(g=>card(g, upNow[g.id])).join('') + review;
     const imp = g => Math.min(ranks[g.home]||99, ranks[g.away]||99, apR[g.home]||99, apR[g.away]||99);
     const fav = g => typeof g.line==='number' ? Math.abs(g.line) : typeof g.model==='number' ? Math.abs(g.model) : 0;  // spread: line, else model
@@ -1369,7 +1376,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       if(keep){ draft = stash.ranking.slice(); kept = true; } else try{ localStorage.removeItem(draftKey(n)); }catch(e){}
     }
     if(!draft) draft = n!=null && editable(n) ? startList('last') : [];
-    S.draft = draft; refreshDirty(); armLockTimer(); renderWorkIfShown();
+    S.draft = draft; refreshDirty(); armLockTimer(); renderWorkIfShown(); if(S.tab==='admin') renderAdmin();
     if(kept) stashDraft();  // re-save against the latest submission, so the question isn't asked again
   }
   // re-render the moment the week locks or its late window ends, so the page never offers what the database refuses
@@ -1415,7 +1422,6 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     sv.disabled = S.busy || !can || ph==='soon' || S.draft.length!==BMAX || !S.dirty;
     wd.hidden = !can || !(pend || (ph==='open' && sub)); wd.disabled = S.busy;
     $('startFrom').hidden = !can;
-    $('openWeek').hidden = !(S.isOwner && S.vote.state==='ready' && openWeekNum()==null);
   }
   // weeks to choose from: ones I voted in or sent a late ballot for, the open week, and weeks still taking late ballots
   function weekMenu(){
@@ -1583,10 +1589,9 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   let wSortable=null;
   function renderWork(){
     document.querySelectorAll('[data-ws]').forEach(b=>b.classList.toggle('on', b.dataset.ws===S.ws));
-    ['ballot','map','ups'].forEach(k=>$('ws-'+k).hidden = k!==S.ws); $('ws-build').hidden = S.ws==='ups';
+    ['ballot','map'].forEach(k=>$('ws-'+k).hidden = k!==S.ws);
     renderWeekBar(); renderHeads(); renderBallot(); renderPool(); renderStatus();
     if(S.ws==='map') renderWMap();
-    if(S.ws==='ups') renderUps();
   }
   document.querySelectorAll('[data-ws]').forEach(b=>b.addEventListener('click',()=>{ S.ws=b.dataset.ws; renderWork(); }));
 
@@ -1744,14 +1749,15 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   $('fReset').addEventListener('click', ()=>{ S.adj={}; S._mdl=null; renderDials(); renderCurrent(); renderFormulaNote(); });
 
   // ---------- tabs ----------
-  const TABS=['home','work','leagues','rank','history','method'];
+  const TABS=['home','work','leagues','rank','history','method','admin'];
   // address (#...) for each tab; older addresses and bookmarks still open the right tab
-  const HASH = {home:'', work:'vote', leagues:'leagues', rank:'research', history:'history', method:'how'};
+  const HASH = {home:'', work:'vote', leagues:'leagues', rank:'research', history:'history', method:'how', admin:'admin'};
   const ALIAS = {vote:'work', workspace:'work', work:'work', leagues:'leagues', research:'rank', data:'rank', rank:'rank',
-                 history:'history', how:'method', method:'method', methodology:'method', home:'home'};
+                 history:'history', how:'method', method:'method', methodology:'method', admin:'admin', home:'home'};
   const tabFromHash = h => ALIAS[(h||'').replace(/^#/, '').toLowerCase()] || null;
   function showTab(v){
-    if(v==='work' && !S.me){ S.wantWork = true; v='home'; }  // reopened once sign-in is known (setAccess)
+    const allowed = v==='work' ? !!S.me : v==='admin' ? S.isOwner : true;
+    if(!allowed){ if(!S.accessKnown) S.wantTab = v; v = 'home'; }  // reopened once sign-in is known (setAccess)
     S.tab=v;
     TABS.forEach(k=>{ $('tab-'+k).setAttribute('aria-selected', String(k===v)); $('view-'+k).hidden = k!==v; });
     $('cmpMode').hidden = !(v==='rank' || v==='work');
@@ -1763,7 +1769,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   }
   function renderCurrent(){
     if(S.tab==='home') renderHome(); else if(S.tab==='rank') renderRank(); else if(S.tab==='history') renderHistory();
-    else if(S.tab==='method') renderMethod(); else if(S.tab==='work') renderWork();
+    else if(S.tab==='method') renderMethod(); else if(S.tab==='work') renderWork(); else if(S.tab==='admin') renderAdmin();
   }
   TABS.forEach(k=>$('tab-'+k).addEventListener('click', ()=>showTab(k)));
   $('brand').addEventListener('click', ()=>showTab('home'));
@@ -1900,6 +1906,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     S.me = {user:session.user, profile:p.data||null, request:r.data||null, err:p.error||null};
     if(S.me.profile && S.me.profile.is_owner) await loadReqs(); else { S.reqs=[]; S.lateReqs=[]; }
     renderAcct(); setAccess();
+    if(S.tab==='admin') renderAdmin();
   }
   // What the page shows each kind of visitor (the database enforces the same rules on every request):
   // signed out: no Workspace · signed in, not approved: the Workspace tab shows only their status ·
@@ -1913,13 +1920,14 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       : pr && pr.status==='declined'
       ? '<strong>Not approved</strong>Your request to join wasn’t approved, so you can’t submit ballots. You can still view everything on the site.'
       : '<strong>Waiting for approval</strong>Your request to join has been sent. Once the owner approves it, you can build and submit your ballot here.';
-    if(!owner && S.ws==='ups') S.ws='map';
-    const who = S.me ? S.me.user.id + (vote ? ':voter' : S.me.err ? ':error' : '') : '';
+    const who = S.me ? S.me.user.id + (vote ? ':voter' : S.me.err ? ':error' : '') + (owner ? ':owner' : '') : '';
+    S.accessKnown = true;
     if(who===S.accessFor) return;  // loadMe runs on every account-window open; only react to real changes
     S.accessFor = who;
     if(vote) loadVoting(); else clearVoting();
-    if(S.me && S.wantWork){ S.wantWork=false; showTab('work'); }
-    else if(!S.me && S.tab==='work') showTab('home');
+    const want = S.wantTab; S.wantTab = null;
+    if(want && (want==='work' ? S.me : owner)) showTab(want);
+    else if((S.tab==='work' && !S.me) || (S.tab==='admin' && !owner)) showTab('home');
     else renderCurrent();
   }
   async function loadReqs(){
@@ -1954,10 +1962,24 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     $('acctNoteRow').hidden = st!=='pending';
     $('acctSaveMe').parentElement.hidden = locked && st!=='pending';  // nothing left to save
     $('acctDelRow').hidden = !!(pr && pr.is_owner);
-    $('acctReqs').innerHTML = pr && pr.is_owner ? `<div class="reqs"><h4>Requests to join${S.reqs.length?` (${S.reqs.length})`:''}</h4>${S.reqs.length ? S.reqs.map(x=>`<div class="req"><div>${esc(x.username||'(no username yet)')}<small>${esc(x.email||'')}${x.note?' · '+esc(x.note):''}</small></div><button class="btn primary" data-appr="${esc(x.id)}">Approve</button><button class="btn quiet" data-decl="${esc(x.id)}">Decline</button></div>`).join('') : '<p class="dnote">No pending requests.</p>'}</div>`
+    $('acctAdminNote').innerHTML = !(pr && pr.is_owner) ? '' : n
+      ? `<p class="dnote">${n} waiting for you on the Admin tab. <button class="linkbtn" id="acctToAdmin">Open Admin</button></p>`
+      : '<p class="dnote">Approvals, late ballots, upset watch and Open voting are on the Admin tab.</p>';
+  }
+  $('acctAdminNote').addEventListener('click', e=>{ if(e.target.id==='acctToAdmin'){ $('acctDlg').close(); showTab('admin'); } });
+  // Admin tab (owner): voting status + Open voting fallback, join requests, late ballots, upset watch
+  function renderAdmin(){
+    if(!S.isOwner) return;
+    const o=openWeekNum(), nx=S.vote.next;
+    $('adminVote').innerHTML = S.vote.state==='loading' ? 'Loading…' : S.vote.state==='error' ? esc(sbErr(S.vote.err, 'Voting status couldn’t load. Reload the page to try again.'))
+      : o!=null ? `Week ${o} voting is open until <b>${esc(etTime(lockOf(o)))}</b>.`
+      : nx!=null ? `No week is open. Week ${nx} opens Sunday morning, once week ${nx-1}’s games are final.` : 'No week is open.';
+    $('openWeek').hidden = !(S.vote.state==='ready' && o==null);
+    $('adminReqs').innerHTML = `<div class="reqs"><h4>Requests to join${S.reqs.length?` (${S.reqs.length})`:''}</h4>${S.reqs.length ? S.reqs.map(x=>`<div class="req"><div>${esc(x.username||'(no username yet)')}<small>${esc(x.email||'')}${x.note?' · '+esc(x.note):''}</small></div><button class="btn primary" data-appr="${esc(x.id)}">Approve</button><button class="btn quiet" data-decl="${esc(x.id)}">Decline</button></div>`).join('') : '<p class="dnote">No pending requests.</p>'}</div>`
       + `<div class="reqs"><h4>Late ballots${S.lateReqs.length?` (${S.lateReqs.length})`:''}</h4>${S.lateReqs.length ? S.lateReqs.map(x=>{ const k=esc([x.user_id, x.season, x.week].join('|'));
           return `<div class="req"><div>${esc(x.username||'(no username)')}<small>Week ${esc(x.week)} · sent ${esc(atTime(x.submitted_at))}</small></div><button class="btn primary" data-lapp="${k}" aria-label="Approve ${esc(x.username||'')}'s late week ${esc(x.week)} ballot">Approve</button><button class="btn quiet" data-ldec="${k}" aria-label="Decline ${esc(x.username||'')}'s late week ${esc(x.week)} ballot">Decline</button></div>`; }).join('')
-        : S.lateErr ? `<p class="dnote">${esc(sbErr(S.lateErr, 'Late ballots couldn’t load. Close and reopen this window to try again.'))}</p>` : '<p class="dnote">No late ballots waiting.</p>'}<p class="dnote">Approving makes it that person’s ballot for the week (replacing any on-time one). Declining is final for that week.</p></div>` : '';
+        : S.lateErr ? `<p class="dnote">${esc(sbErr(S.lateErr, 'Late ballots couldn’t load. Reload the page to try again.'))}</p>` : '<p class="dnote">No late ballots waiting.</p>'}<p class="dnote">Approving makes it that person’s ballot for the week (replacing any on-time one). Declining is final for that week.</p></div>`;
+    renderUps();
   }
   $('acctBtn').addEventListener('click', ()=>{ acctMsg(''); renderAcct(); $('acctDlg').showModal(); if(S.me) loadMe(); else setupGoogle(); });
   // Google sign-in: Google's own button (popup on this site, so people see straw-poll.github.io, not the Supabase address).
@@ -2010,20 +2032,20 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     if(!$('acctNoteRow').hidden){ const r2 = await sb.from('join_requests').update({note: note || null}).eq('user_id', S.me.user.id); if(r2.error){ acctMsg('Saved your username, but not the note. Try again.'); return; } }
     acctMsg('Saved.'); loadMe();
   });
-  $('acctReqs').addEventListener('click', async e=>{
+  $('adminReqs').addEventListener('click', async e=>{
     const a=e.target.closest('[data-appr]'), d=e.target.closest('[data-decl]'); if(!a && !d) return;
     const id=(a||d).dataset.appr || (a||d).dataset.decl;
     const { error } = await sb.from('profiles').update({status: a ? 'approved' : 'declined'}).eq('id', id);
-    acctMsg(error ? 'Couldn’t update that request. Try again.' : a ? 'Approved.' : 'Declined.'); loadMe();
+    toast(error ? 'Couldn’t update that request. Try again.' : a ? 'Approved.' : 'Declined.'); loadMe();
   });
-  $('acctReqs').addEventListener('click', async e=>{
+  $('adminReqs').addEventListener('click', async e=>{
     const a=e.target.closest('[data-lapp]'), d=e.target.closest('[data-ldec]'); if(!a && !d) return;
     const [who, season, week] = (a ? a.dataset.lapp : d.dataset.ldec).split('|'), s=Number(season), w=Number(week);
     if(d && !confirm(`Decline this late week ${w} ballot? It can’t be sent again.`)) return;
     (a||d).disabled = true;
     const { error } = a ? await sb.rpc('approve_late_ballot', {who, s, w})
       : await sb.from('late_ballots').update({status:'declined'}).eq('user_id', who).eq('season', s).eq('week', w);
-    acctMsg(error ? sbErr(error, 'Couldn’t update that late ballot. Try again.') : a ? 'Late ballot approved: it now counts for that week.' : 'Late ballot declined.');
+    toast(error ? sbErr(error, 'Couldn’t update that late ballot. Try again.') : a ? 'Late ballot approved: it now counts for that week.' : 'Late ballot declined.');
     if(!error && S.me && who===S.me.user.id) loadVoting();  // the owner decided on their own late ballot
     loadMe();
   });
