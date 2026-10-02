@@ -442,7 +442,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 <div id="hRadar"></div></div>
       </div>
     </div>
-    <div class="hsec" id="hUpsWrap" hidden><div class="ch"><h2>Upset alerts<small id="hUpsSub"></small></h2></div><div class="games" id="hUps"></div></div>
+    <div class="hsec" id="hUpsWrap" hidden><div class="ch"><h2>Upset watch<small id="hUpsSub"></small></h2></div><div class="games" id="hUps"></div></div>
     <div class="hsec" id="hBigWrap"><div class="ch"><h2 id="hBigT">This week's big games</h2><button class="more" id="hAllBtn">All games →</button></div>
       <div class="games" id="hBig"></div><div class="glist card" id="hAll" hidden></div></div>
   </section>
@@ -462,7 +462,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
      </div>
      <div class="frow">
       <span class="lab">Sort</span>
-      <button class="pill" data-ms="wolp">Straw</button><button class="pill" data-ms="comp">Wolp+</button><button class="pill" data-ms="ap">AP</button><button class="pill" data-ms="fpi">FPI</button><button class="pill" data-ms="best">Best win</button><button class="pill" data-ms="worst">Worst loss</button>
+      <button class="pill" data-ms="wolp">Straw</button><button class="pill" data-ms="comp">Wolp+</button><button class="pill" data-ms="splus" hidden>Straw+</button><button class="pill" data-ms="ap">AP</button><button class="pill" data-ms="fpi">FPI</button><button class="pill" data-ms="best">Best win</button><button class="pill" data-ms="worst">Worst loss</button>
       <label class="xsel"><span class="lab">X axis</span><select id="xAx" class="fsel xpick" aria-label="Results Map x axis"><option value="wolp">Wolp+</option><option value="fpi">FPI</option><option value="sor">SOR</option><option value="qw">Quality wins</option></select></label>
      </div>
     </div>
@@ -471,7 +471,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       <div id="rMap" class="map norc"></div>
     </section>
     <section class="sec" id="stats"><div class="sh"><h2>Stats<small>Same teams as the Results Map</small></h2>
-      <div class="row"><span style="color:var(--muted);font-size:13px">Sort</span><button class="pill" data-ms="wolp">Straw</button><button class="pill" data-ms="comp">Wolp+</button><button class="pill" data-ms="ap">AP</button><button class="pill" data-ms="fpi">FPI</button><button class="pill" data-ms="best">Best win</button><button class="pill" data-ms="worst">Worst loss</button>
+      <div class="row"><span style="color:var(--muted);font-size:13px">Sort</span><button class="pill" data-ms="wolp">Straw</button><button class="pill" data-ms="comp">Wolp+</button><button class="pill" data-ms="splus" hidden>Straw+</button><button class="pill" data-ms="ap">AP</button><button class="pill" data-ms="fpi">FPI</button><button class="pill" data-ms="best">Best win</button><button class="pill" data-ms="worst">Worst loss</button>
       <details class="colmenu" id="colMenu"><summary class="pill">Columns ▾</summary><div class="menu" id="colList"></div></details></div></div>
       <div class="tblw"><table id="rTable"></table></div>
       <p class="note">The Sort buttons match the Results Map (choosing one sorts both). You can also click a column heading to sort (click again to reverse). Click any team for its full game log.</p>
@@ -498,14 +498,22 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       </nav>
       <article class="method">
         <h2 id="m-overview">Overview</h2>
-        <p>Straw Poll 2026 has two rankings of its own. <b>Wolp+</b> is a power rating for every FBS team, built from game results. <b>The Straw Poll</b> is a weekly Top 25, ranked by hand. The model also rates what each team has earned (quality wins). It never sees the Straw Poll, and the Straw Poll never feeds into it.</p>
+        <p>Straw Poll 2026 has two rankings of its own. <b>Wolp+</b> is a power rating for every FBS team, built from game results. <b>The Straw Poll</b> is a weekly Top 25 combined from members' ballots. The model also rates what each team has earned (quality wins). It never sees the Straw Poll, and the Straw Poll never feeds into it; <b>Straw+</b> is the one place the two are blended.</p>
 
         <h2 id="m-wolp">The Straw Poll</h2>
-        <p>Each week's ballot ranks 35 teams. The Top 25 is the headline; teams 26–35 are listed as <b>Also ranked</b>. Ranking 35 gives the comparisons on the Home page a real scale: a team at #31 is close to the Top 25, not simply "unranked". (Ballots before week 6 ranked 25 teams plus an unordered "just missed" list; those teams are shown as 26–30 in their saved order.)</p>
+        <p>Every approved member submits a 25-team ballot each week, from Sunday morning (once the previous week's games are final) until Tuesday 11:59 PM ET. Nobody can see anyone else's ballot; only the combined poll is published, on Wednesday morning.</p>
+        <ul>
+          <li><b>Combining:</b> each team gets its average rank across all ballots, counting a ballot that leaves it out as #26. To keep one extreme ballot from swinging a team, the highest and lowest 20% of its ranks are dropped first (once there are at least 3 ballots).</li>
+          <li><b>Who can appear:</b> a team must be on at least 2 ballots, and on at least a quarter of them, so a single voter can never put a team in the poll.</li>
+          <li><b>Ties:</b> the team on more ballots ranks higher, then the better average without dropping anything.</li>
+          <li><b>Also receiving votes:</b> the teams ranked 26–35 by the same method.</li>
+        </ul>
+        <p>Weeks 1–5 are the site owner's own rankings from before ballots opened; those listed 35 teams, with 26–35 shown as <b>Also ranked</b>.</p>
 
         <h2 id="m-ratings">The rankings</h2>
         <dl>
-          <dt>Straw Poll</dt><dd><b>An opinion.</b> The hand-made weekly ballot.</dd>
+          <dt>Straw Poll</dt><dd><b>An opinion.</b> Members' weekly ballots, combined.</dd>
+          <dt>Straw+</dt><dd><b>The numbers, nudged by opinion.</b> Each Straw Poll team's Wolp+ rating moved 30% of the way toward the rating that its Straw Poll rank would carry in Wolp+ (the rating of Wolp+'s team at that rank). The crowd sets the order it leans toward; the model keeps the spacing. Teams outside the Straw Poll keep their Wolp+ rating.</dd>
           <dt>AP</dt><dd><b>Public opinion.</b> The Associated Press Top 25.</dd>
           <dt>Wolp+</dt><dd><b>The numbers.</b> Teams ranked by the Model's power rating: points better than an average FBS team on a neutral field. The difference between two teams' ratings, plus the home edge, is the model's predicted margin. It picks winners better than the AP poll (see the Scorecard on Previous Rankings) and comes close to the best computer ratings: on 2023–25 games it missed by about 0.15 points a game more than ESPN's FPI and Sagarin, and beat 24 of 33 tracked systems.</dd>
         </dl>
@@ -572,7 +580,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
           <dt>Under the radar</dt><dd>Straw Poll teams that the Straw Poll ranks at least <b class="fthr">8</b> spots higher than the AP. A team outside the AP Top 25 counts as AP #36, the same as a team outside the Straw Poll 35 in Fraud watch.</dd>
           <dt>Model spread</dt><dd>The model's predicted margin, written like a betting line (favorite −points, rounded to the half point). It never uses the betting line.</dd>
           <dt>Line</dt><dd>The median spread across sportsbooks, from CollegeFootballData.com.</dd>
-          <dt>Upset alerts</dt><dd>Games hand-picked each week, usually where the model favors the betting underdog or disagrees with the line by a touchdown or more.</dd>
+          <dt>Upset watch</dt><dd>Games hand-picked each week, usually where the model favors the betting underdog or disagrees with the line by a touchdown or more.</dd>
           <dt>Scorecard</dt><dd>On Previous Rankings: each week, how many winners the Straw Poll, the AP poll, the model and the betting line picked in games with a ranked team. Looking back at 2024–25, in games between two AP-ranked teams the better-ranked AP team won only 52% of the time; the model's pick won 66%, and the betting line's 64%.</dd>
           <dt>Big games</dt><dd>This week's games with a Straw Poll ranked (1–35) or AP Top 25 team where the favorite is giving 14 points or less (by the betting line, or the model spread when there's no line). When both teams are ranked (the Straw Poll or AP), the limit is 21 points.</dd>
         </dl>
@@ -596,7 +604,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     </div>
   </section>
 
-  <!-- WORKSPACE (approved users: your own ballot; owner also gets Upset alerts) -->
+  <!-- WORKSPACE (approved users: your own ballot; owner also gets Upset watch) -->
   <section id="view-work" class="voter-only" hidden>
     <div class="empty" id="wsGate" role="status"></div>
     <div class="wbar">
@@ -611,7 +619,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       <button class="btn primary" id="save" disabled>Submit ballot</button>
     </div>
     <div class="wsub" role="group" aria-label="Workspace view">
-      <span class="lab">View</span><button class="pill" data-ws="ballot">List</button><button class="pill" data-ws="map">Results Map</button><button class="pill boss-only" data-ws="ups">Upset alerts</button>
+      <span class="lab">View</span><button class="pill" data-ws="ballot">List</button><button class="pill" data-ws="map">Results Map</button><button class="pill boss-only" data-ws="ups">Upset watch</button>
     </div>
     <div id="ws-build" class="wgrid wbuild">
       <div>
@@ -640,8 +648,8 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       </aside>
     </div>
     <div id="ws-ups" hidden>
-      <section class="sec" style="margin-top:0"><div class="sh"><h2 id="uTitle">Upset alerts</h2>
-        <div class="row"><label style="font-size:13px;color:var(--muted)"><input type="checkbox" id="uAll"> Show all games</label><button class="btn primary" id="uSave" disabled>Publish upset alerts</button></div></div>
+      <section class="sec" style="margin-top:0"><div class="sh"><h2 id="uTitle">Upset watch</h2>
+        <div class="row"><label style="font-size:13px;color:var(--muted)"><input type="checkbox" id="uAll"> Show all games</label><button class="btn primary" id="uSave" disabled>Publish upset watch</button></div></div>
         <p class="note" style="margin:0 0 10px">Candidates (gold edge) are games where the model favors the betting underdog, or differs from the line by 7+ points. Tick the ones to publish; add an optional one-line note. Only ticked games appear on Home.</p>
         <div class="tblw"><table class="ups" id="uTable"></table></div></section>
     </div>
@@ -786,6 +794,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     {k:'sosOff', h:'Offs faced', menu:'offenses faced (higher = tougher)', g:'Schedule', bw:'3.6rem', pw:'3.4rem', fmt:'n', off:true},
     {k:'apNow', h:'AP', menu:"this week's AP Top 25 rank", g:'Other rankings', bw:'2.7rem', pw:'2.6rem', fmt:'r', lo:true, val:a=>apRank(a)},
     {k:'fpiRank', h:'FPI', menu:'ESPN Football Power Index rank', g:'Other rankings', bw:'2.7rem', pw:'2.6rem', fmt:'r', lo:true},
+    {k:'splus', h:'Straw+', menu:'Wolp+ nudged toward the Straw Poll', g:'Model', bw:'3.4rem', pw:'3.2rem', fmt:'r', lo:true, val:a=>(strawPlusRank()||{})[a]},
     {k:'frank', h:'Wolp+', menu:'power rating rank', g:'Model', bw:'3.4rem', pw:'3.2rem', fmt:'r', lo:true, strong:true, val:a=>mdl().crank[a]},
     {k:'proj', h:'Proj. record', menu:'projected final record', g:'Model', bw:'4.6rem', pw:'4.4rem', off:true},
     {k:'powerRating', h:'Rating', menu:'points vs an average team', g:'Model', bw:'3rem', pw:'2.9rem', fmt:'n1', off:true},
@@ -808,8 +817,8 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   S.vis = {r:loadVis('cfb2-cols'), b:loadVis('cfb2-cols-list',null,['rec','p4','frank']), p:loadVis('cfb2-cols-add',null,['rec','p4','frank'])};  // Workspace list and Add teams: Record, vs P4, Wolp+ by default
   try{ const mg=localStorage.getItem('cfb2-cols-mig'); if(mg!=='2'){ if(mg!=='1'){ S.vis.r.q1=false; S.vis.r.proj=false; } S.vis.r.adjOffEpa=true; S.vis.r.adjDefEpa=true; S.vis.r.offEpa=false; S.vis.r.defEpa=false; localStorage.setItem('cfb2-cols', JSON.stringify(S.vis.r)); localStorage.setItem('cfb2-cols-mig','2'); } }catch(e){}
   const shown = w => COLS.filter(c=>S.vis[w][c.k]);
-  const DEFS = {apNow:"This week's AP Top 25 rank (unranked teams sort last).",fpiRank:"ESPN's Football Power Index rank: ESPN's own predictive power rating, shown for comparison only (it never feeds into Wolp+).",adjOffEpa:'Expected points added per play on offense, adjusted for the defenses faced (garbage time excluded). Higher is better.',adjDefEpa:'Expected points added per play allowed on defense, adjusted for the offenses faced. Lower is better.',frank:"The power rating rank: points better than an average FBS team on a neutral field, built from game scores only.",resumeRank:"A results-based metric, with influence from opponents' Wolp+ rank.",resultsRank:'Strength of résumé: a purely results-based metric.',offEpa:'Expected points added per play on offense (garbage time excluded). Higher is better.',defEpa:'Expected points added per play allowed on defense. Lower is better.'};
-  function renderDefs(){ let g='', h='<dl class="sdefs"><dt>Straw</dt><dd>Straw Poll rank (Top 25, then Also ranked 26–35).</dd>';
+  const DEFS = {splus:"Wolp+ nudged 30% toward the Straw Poll: each Straw Poll team's rating moves part of the way toward the Wolp+ rating that goes with its Straw Poll rank. Shown once a Straw Poll has been published.", apNow:"This week's AP Top 25 rank (unranked teams sort last).",fpiRank:"ESPN's Football Power Index rank: ESPN's own predictive power rating, shown for comparison only (it never feeds into Wolp+).",adjOffEpa:'Expected points added per play on offense, adjusted for the defenses faced (garbage time excluded). Higher is better.',adjDefEpa:'Expected points added per play allowed on defense, adjusted for the offenses faced. Lower is better.',frank:"The power rating rank: points better than an average FBS team on a neutral field, built from game scores only.",resumeRank:"A results-based metric, with influence from opponents' Wolp+ rank.",resultsRank:'Strength of résumé: a purely results-based metric.',offEpa:'Expected points added per play on offense (garbage time excluded). Higher is better.',defEpa:'Expected points added per play allowed on defense. Lower is better.'};
+  function renderDefs(){ let g='', h='<dl class="sdefs"><dt>Straw</dt><dd>Straw Poll rank (Top 25, then also receiving votes, 26–35).</dd>';
     COLS.forEach(c=>{ if(c.g!==g){ h+=`<div class="sdh">${esc(c.g)}</div>`; g=c.g; } const d=DEFS[c.k]||(c.menu[0].toUpperCase()+c.menu.slice(1)+'.'); h+=`<dt>${esc(c.h)}</dt><dd>${d}</dd>`; });
     $('sdefs').innerHTML = h+'</dl>'; }
   function colMenu(w){ let g=''; return COLS.map(c=>{ const h = c.g!==g ? `<div class="mh">${c.g}</div>` : ''; g=c.g; return h+`<label><input type="checkbox" data-col="${c.k}" data-w="${w}"${S.vis[w][c.k]?' checked':''}>${c.h}</label>`; }).join(''); }
@@ -821,6 +830,30 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 
   // ---------- ballots ----------
   // A week's ballot as one ordered list: ranking (up to 35), plus the old unordered "just missed" teams as 26-30.
+  // S.weeks = every week's Straw Poll ranking: the owner's archived weeks 1-5, then the published (compiled) polls,
+  // which carry {compiled:true, ballots, results}. Home, Data, Previous Rankings and the pop-ups all read S.weeks.
+  S.archive = {}; S.polls = {};
+  function mergeWeeks(){ S.weeks = Object.assign({}, S.archive, S.polls); S._sp = null; }
+  async function loadPolls(){
+    await teamsReady;
+    const season = S.meta && S.meta.season; if(!sb || !season) return;
+    const { data, error } = await sb.from('straw_poll').select('week,ballots,results,published_at').eq('season', season);
+    if(error){ toast('This season’s Straw Polls couldn’t load. Reload to try again.'); return; }
+    S.polls = Object.fromEntries(data.map(p=>[p.week, {week:p.week, ranking:(p.results||[]).map(r=>r.team), savedAt:p.published_at,
+      compiled:true, ballots:p.ballots, results:p.results||[]}]));
+    mergeWeeks(); renderAll();
+  }
+  const alsoLabel = n => S.weeks[n] && S.weeks[n].compiled ? 'Also receiving votes' : 'Also ranked';
+  // Straw+ rank for every team, from the latest published poll (null when there is none yet)
+  function strawPlusRank(){
+    if(S._sp !== null && S._sp !== undefined) return S._sp;
+    const n=pubNum(), w=n!=null && S.weeks[n];
+    if(!w || !w.compiled || !w.results.length) return (S._sp = null);
+    const plus = Object.fromEntries(w.results.filter(r=>typeof r.plus==='number').map(r=>[r.team, r.plus]));
+    const rating = a => a in plus ? plus[a] : S.teams[a].powerRating, rk = {};
+    Object.keys(S.teams).filter(a=>typeof rating(a)==='number').sort((a,b)=>rating(b)-rating(a)).forEach((a,i)=>rk[a]=i+1);
+    return (S._sp = rk);
+  }
   const eff = w => !w ? [] : (w.ranking||[]).concat((w.others||[]).filter(a=>!(w.ranking||[]).includes(a))).slice(0, MAX);
   const savedNums = () => Object.keys(S.weeks).map(Number).sort((a,b)=>a-b);
   const pubNum = () => { const n=savedNums(); return n.length ? n[n.length-1] : null; };
@@ -919,14 +952,16 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   function apRank(a){ return S.ap && S.ap.ranks ? S.ap.ranks[a] : undefined; }
   function renderHome(){
     const n=pubNum(), list=pub(), ranks=pubMap(), prev = n!=null && prevNum(n)!=null ? rankMap(prevNum(n)) : null;
-    $('hTitle').innerHTML = `Straw Poll Top 25${n!=null?`<small>Week ${n}</small>`:''}`;
-    if(!list.length){ $('hTop').innerHTML='<div class="empty"><strong>No ballot yet</strong>The first Straw Poll Top 25 will appear here.</div>'; $('hAlso').innerHTML=''; }
+    const wk = n!=null ? S.weeks[n] : null, nb = wk && wk.compiled ? wk.ballots : null;
+    $('hTitle').innerHTML = `Straw Poll Top 25${n!=null?`<small>Week ${n}${nb!=null?` · ${nb} ballot${nb===1?'':'s'}`:''}</small>`:''}`;
+    if(!list.length){ $('hTop').innerHTML = wk && wk.compiled ? '<div class="empty"><strong>Not enough ballots yet</strong>A team needs to be on at least 2 ballots to make the Straw Poll.</div>'
+      : '<div class="empty"><strong>No ballot yet</strong>The first Straw Poll Top 25 will appear here.</div>'; $('hAlso').innerHTML=''; }
     else {
       const top=list.slice(0,TOP), half=Math.ceil(top.length/2);
       const row=(a,i)=>`<button class="trow" data-open="${esc(a)}" style="--tc:${tc(a)}"><span class="rk">${i+1}</span>${moveOf(a,i+1,prev)}${logo(a)}<span class="tn">${esc(nm(a))}</span><span class="tr">${S.teams[a]?rec(S.teams[a].w,S.teams[a].l):''}</span></button>`;
       $('hTop').innerHTML = `<div>${top.slice(0,half).map((a,i)=>row(a,i)).join('')}</div><div>${top.slice(half).map((a,i)=>row(a,i+half)).join('')}</div>`;
       const rest=list.slice(TOP);
-      $('hAlso').innerHTML = rest.length ? `Also ranked: ${rest.map((a,i)=>`<b>${TOP+i+1}</b> ${esc(nm(a))}`).join(' · ')}` : '';
+      $('hAlso').innerHTML = rest.length ? `${alsoLabel(n)}: ${rest.map((a,i)=>`<b>${TOP+i+1}</b> ${esc(nm(a))}`).join(' · ')}` : '';
     }
     // fraud watch / under the radar (the Straw Poll vs the AP)
     const apR=(S.ap&&S.ap.ranks)||{}, hasAp=Object.keys(apR).length>0 && list.length>0;
@@ -950,7 +985,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       const result = !done || !lFav ? '' : won!==lFav ? '<span class="tag hit">Upset!</span>' : '<span class="tag miss">Favorite won</span>';
       const score = a => done ? `<span class="sc${a===won?'':' lost'}">${a===g.home ? g.hp : g.ap}</span>` : '';
       const side = a => `<button class="side${done?' scored':''}" data-open="${esc(a)}">${logo(a)}<div><b>${ranks[a]?`<span class="rkb">${ranks[a]}</span>`:''}${esc(nm(a))}</b><small>${S.teams[a]?rec(S.teams[a].w,S.teams[a].l):'FCS'}${apR[a]?' · AP #'+apR[a]:''}</small></div>${score(a)}</button>`;
-      return `<div class="game${up?' hot':''}"><div class="gtop"><span class="when">${done ? 'Final' : esc(kick(g.start))}</span>${result || (up?'<span class="tag up">Upset alert</span>':'')}</div>
+      return `<div class="game${up?' hot':''}"><div class="gtop"><span class="when">${done ? 'Final' : esc(kick(g.start))}</span>${result || (up?'<span class="tag up">Upset watch</span>':'')}</div>
         ${side(g.away)}<div class="at">${g.neutral?'vs':'at'}</div>${side(g.home)}
         <div class="nums"><div><small>Line</small><b>${spread(g.line,g.home,g.away)}</b></div><div><small>Wolp+</small><b class="${mFav && lFav && mFav!==lFav ? 'mup':''}">${modelTxt(g.model,g.home,g.away)}</b></div></div>
         ${up && up.note ? `<p class="gnote">${esc(up.note)}</p>` : ''}</div>`; };
@@ -965,7 +1000,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     $('hUpsWrap').hidden = !ups.length && !S.isOwner;
     $('hUpsSub').textContent = upWk==null ? (sch.week!=null ? `Week ${sch.week}` : '') : upWk===sch.week ? `Week ${upWk}` : `Week ${upWk} results`;
     const nCand = S.isOwner ? upsetCands().filter(x=>x.cand).length : 0;
-    const review = S.isOwner ? `<div class="game" style="display:flex;flex-direction:column;justify-content:center;gap:8px;border-style:dashed"><b style="font:700 18px var(--cond)">${Object.keys(upW).length ? 'Edit upset alerts' : `No week ${sch.week} upset alerts published yet`}</b><span class="lead" style="margin:0">${nCand} candidate${nCand===1?'':'s'} this week. Only you see this box.</span><button class="btn primary" data-go="work" data-ws="ups" style="align-self:flex-start">Review and publish →</button></div>` : '';
+    const review = S.isOwner ? `<div class="game" style="display:flex;flex-direction:column;justify-content:center;gap:8px;border-style:dashed"><b style="font:700 18px var(--cond)">${Object.keys(upW).length ? 'Edit upset watch' : `No week ${sch.week} upset watch published yet`}</b><span class="lead" style="margin:0">${nCand} candidate${nCand===1?'':'s'} this week. Only you see this box.</span><button class="btn primary" data-go="work" data-ws="ups" style="align-self:flex-start">Review and publish →</button></div>` : '';
     $('hUps').innerHTML = ups.map(g=>card(g, upNow[g.id])).join('') + review;
     const imp = g => Math.min(ranks[g.home]||99, ranks[g.away]||99, apR[g.home]||99, apR[g.away]||99);
     const fav = g => typeof g.line==='number' ? Math.abs(g.line) : typeof g.model==='number' ? Math.abs(g.model) : 0;  // spread: line, else model
@@ -985,11 +1020,11 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   // ---------- RANKINGS ----------
   const P4C = ['SEC','Big Ten','Big 12','ACC'];
   function rankList(){
-    const ranks=pubMap(), cr=mdl().crank, q=S.r.q.trim().toLowerCase(), R=S.r;
+    const ranks=pubMap(), cr=mdl().crank, sp=strawPlusRank()||{}, q=S.r.q.trim().toLowerCase(), R=S.r;
     return Object.keys(S.teams).filter(a=>{
       const t=S.teams[a];
       // Top 25 follows the Sort: Wolp+, AP or FPI = that Top 25; otherwise the Straw Poll (Top 25 + Also ranked 26-35)
-      if(R.show==='top' && (R.ms==='comp' ? !(cr[a]<=25) : R.ms==='ap' ? !apRank(a) : R.ms==='fpi' ? !(t.fpiRank<=25) : !ranks[a])) return false;
+      if(R.show==='top' && (R.ms==='comp' ? !(cr[a]<=25) : R.ms==='splus' ? !(sp[a]<=25) : R.ms==='ap' ? !apRank(a) : R.ms==='fpi' ? !(t.fpiRank<=25) : !ranks[a])) return false;
       if(R.confOff.includes(dialOf(t.conf))) return false;
       if(q && !(t.name.toLowerCase().includes(q))) return false;
       return true;
@@ -1012,10 +1047,13 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     return `<span class="wx">${fl ? `<button class="flag" data-tip="${esc(fl.join('\n'))}" aria-label="${esc(fl.join(' '))}">H2H</button>` : ''}${lp ? `<button class="flag loop" data-tip="${esc(lp.text+'\n'+lp.games.join('\n'))}" aria-label="${esc(lp.text)}">LOOP</button>` : ''}<button class="x" data-rm="${rank-1}" aria-label="Remove ${esc(t.name)}">×</button></span>`; };
   const axis = (drag, rkLabel, noRight) => `<div class="axis"><span class="axrk">${rkLabel||''}</span><span></span>${drag?'<span></span>':''}<span></span><span></span><div class="ax"><span>#${mdl().n||''}</span><span>Opponent ${XAX[S.r.xax]} rank</span><span>#1</span></div>${noRight||drag?(drag?'<span></span>':''):'<span style="text-align:right">Wolp+</span>'}${S.cmpOn?'<span></span>':''}</div>`;
   const legend = dotLab => `<span><i class="dot W s2"></i>Win</span><span><i class="dot L s2"></i>Loss</span><span><i class="dot s1"></i><i class="dot s2"></i><i class="dot s3"></i>Margin 1–8 · 9–16 · 17+</span><span><i class="dot s2 close"></i>Close game</span><span><i class="dot s2 ot"></i>Overtime</span><span><b>6</b>${dotLab}</span>`;
-  const SORTLAB = {wolp:'Straw', comp:'Wolp+', ap:'AP', fpi:'FPI', best:'#', worst:'#'};
+  const SORTLAB = {wolp:'Straw', comp:'Wolp+', splus:'Straw+', ap:'AP', fpi:'FPI', best:'#', worst:'#'};
   function renderRank(){
-    const n=pubNum(), ranks=pubMap(), prev = n!=null && prevNum(n)!=null ? rankMap(prevNum(n)) : null, R=S.r, cr=mdl().crank;
-    $('rSub').textContent = stampText() + (n!=null && S.weeks[n].savedAt ? ` · ballot saved ${new Date(S.weeks[n].savedAt).toLocaleDateString('en-US',{month:'short',day:'numeric',timeZone:'America/New_York'})}` : '');
+    const n=pubNum(), ranks=pubMap(), prev = n!=null && prevNum(n)!=null ? rankMap(prevNum(n)) : null, R=S.r, cr=mdl().crank, sp=strawPlusRank();
+    // Straw+ exists once a poll is published; until then its Sort pills are hidden
+    document.querySelectorAll('[data-ms="splus"]').forEach(b=>b.hidden=!sp);
+    if(R.ms==='splus' && !sp) R.ms='wolp';
+    $('rSub').textContent = stampText() + (n!=null && S.weeks[n].savedAt ? ` · ${S.weeks[n].compiled ? 'Straw Poll published' : 'ballot saved'} ${new Date(S.weeks[n].savedAt).toLocaleDateString('en-US',{month:'short',day:'numeric',timeZone:'America/New_York'})}` : '');
     document.querySelectorAll('[data-show]').forEach(b=>b.classList.toggle('on', b.dataset.show===R.show));
     document.querySelectorAll('[data-ms]').forEach(b=>b.classList.toggle('on', b.dataset.ms===R.ms && (!b.closest('#stats') || R.col==='ms')));
     $('legend1').innerHTML = legend(`Opponent’s ${XAX[R.xax]} rank (top 25)`);
@@ -1023,20 +1061,21 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     const L = rankList(); $('rCount').textContent = `${L.length} team${L.length===1?'':'s'}`;
     // Results Map
     const bwv = a => { const x=bestWorst(a); return x; };
-    const ord = {wolp:wsort(ranks), comp:(a,b)=>(cr[a]||999)-(cr[b]||999),
+    const ord = {wolp:wsort(ranks), comp:(a,b)=>(cr[a]||999)-(cr[b]||999), splus:(a,b)=>((sp||{})[a]||999)-((sp||{})[b]||999),
       ap:(a,b)=>(apRank(a)||999)-(apRank(b)||999) || (cr[a]||999)-(cr[b]||999), fpi:(a,b)=>(S.teams[a].fpiRank||999)-(S.teams[b].fpiRank||999),
       best:(a,b)=>{ const x=bwv(a).bw, y=bwv(b).bw; return (!x)-(!y) || (x&&y ? y.v-x.v : 0) || wsort(ranks)(a,b); },
       worst:(a,b)=>{ const x=bwv(a).wl, y=bwv(b).wl; return (!x)-(!y) || (x&&y ? x.v-y.v : 0) || wsort(ranks)(a,b); }}[R.ms];
     const M = L.slice().sort(ord);
     let h='';
     // the number on the left is the rank in whatever the map is sorted by (Best/Worst: position in that order)
-    const rkOf = {wolp:x=>ranks[x], comp:x=>cr[x], ap:x=>apRank(x), fpi:x=>S.teams[x].fpiRank}[R.ms] || (x=>M.indexOf(x)+1);
+    const rkOf = {wolp:x=>ranks[x], comp:x=>cr[x], splus:x=>(sp||{})[x], ap:x=>apRank(x), fpi:x=>S.teams[x].fpiRank}[R.ms] || (x=>M.indexOf(x)+1);
     const xr = {}; Object.keys(S.teams).forEach(o=>{ const r=xRank(o); if(r && r<=25) xr[o]=r; });  // dot numbers: x-axis rank, top 25 only
     const pv = R.ms==='wolp' ? prev : null, row = x=>mapRow(x, rkOf(x), pv, xr, false, true), lab = SORTLAB[R.ms];
-    if(!M.length) h = '<p class="lead">No teams match these filters.</p>';
+    const noPoll = R.ms==='wolp' && n!=null && S.weeks[n].compiled && !S.weeks[n].ranking.length;
+    if(!M.length) h = noPoll && R.show==='top' ? `<p class="lead">Not enough ballots for a week ${n} Straw Poll. Sort by Wolp+ or choose All FBS.</p>` : '<p class="lead">No teams match these filters.</p>';
     else if(R.ms==='wolp' && R.show==='top'){
       const a=M.filter(x=>ranks[x]<=TOP), b=M.filter(x=>ranks[x]>TOP);
-      h = axis(false, lab, true) + a.map(row).join('') + (b.length ? `<div class="grp">Also ranked 26–35</div>${b.map(row).join('')}` : '');
+      h = axis(false, lab, true) + a.map(row).join('') + (b.length ? `<div class="grp">${alsoLabel(n)} (26–35)</div>${b.map(row).join('')}` : '');
     } else h = axis(false, lab, true) + M.map(row).join('');
     $('rMap').innerHTML = h; stackDots($('rMap'));
     // Stats table
@@ -1585,7 +1624,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   function renderUps(){
     const sch=S.schedule||{}, wk=sch.week;
     if(S.uDraft==null) S.uDraft = JSON.parse(JSON.stringify((S.upsets||{})[wk]||{}));
-    $('uTitle').innerHTML = `Upset alerts${wk!=null?`<small>Week ${wk}</small>`:''}`;
+    $('uTitle').innerHTML = `Upset watch${wk!=null?`<small>Week ${wk}</small>`:''}`;
     $('uSave').disabled = !S.uDirty;
     const ranks=pubMap(), L = upsetCands().filter(x=>S.uAll || x.cand || S.uDraft[x.g.id]);
     if(!L.length){ $('uTable').innerHTML='<tbody><tr><td class="dim">No games with both a line and a model spread yet.</td></tr></tbody>'; return; }
@@ -1628,7 +1667,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     const error = del.error || up.error;
     if(error){ $('uSave').disabled=false; toast(sbErr(error, 'Couldn’t publish. Try again.')); return; }
     S.upsets = Object.assign({}, S.upsets, {[wk]: JSON.parse(JSON.stringify(S.uDraft))}); S.uDirty=false; renderUps(); renderHome();
-    toast(ids.length ? `${ids.length} upset alert${ids.length===1?'':'s'} published` : 'Upset alerts cleared');
+    toast(ids.length ? `${ids.length} game${ids.length===1?'':'s'} on upset watch` : 'Upset watch cleared');
   });
 
   // ---------- tooltips, menus ----------
@@ -1982,10 +2021,11 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     db.teams.then(d=>{
       S.meta = {through:d.through, updatedAt:d.updatedAt, season:d.season};
       if(d.season){ $('brandYr').textContent=d.season; document.title=`Straw Poll ${d.season}`; }
-      S.teamsRaw = d.teams||{}; S.model = d.model||null; S.schedule = d.schedule||null; S.ap = d.ap||null; S.picks = d.picks||[];
+      S._sp = null; S.teamsRaw = d.teams||{}; S.model = d.model||null; S.schedule = d.schedule||null; S.ap = d.ap||null; S.picks = d.picks||[];
       mergeModel(); renderConfs(); renderAll(); teamsLoaded();
     }).catch(()=>{ $('stamp').textContent='Team data couldn’t load. Reload the page to try again.'; teamsLoaded(); });
-    db.archive().then(w=>{ S.weeks=w; renderAll(); }).catch(()=>toast('Earlier rankings couldn’t load. Reload to try again.'));
+    db.archive().then(w=>{ S.archive=w; mergeWeeks(); renderAll(); }).catch(()=>toast('Earlier rankings couldn’t load. Reload to try again.'));
+    loadPolls();
   })();
 })();
 </script>
