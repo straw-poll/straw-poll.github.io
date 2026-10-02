@@ -389,9 +389,9 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       <button class="tab owner owner-only" role="tab" id="tab-work" aria-selected="false">Workspace</button>
     </nav>
     <div class="tools">
-      <details class="colmenu owner-only" id="fMenu"><summary class="pill" id="fSum">Conference dials ▾</summary>
+      <details class="colmenu" id="fMenu"><summary class="pill" id="fSum">Conference dials ▾</summary>
         <div class="menu fmix"><div class="mt">Conference adjustments</div>
-          <p class="mixhelp">Your private what-if: points added to every team in a conference (or the whole Group of 5). Only your screen changes (rankings, Results Map, Home cards); visitors always see the pure Wolp+ power rating. Spreads and win chances never change.</p>
+          <p class="mixhelp">Your private what-if: points added to every team in a conference (or the whole Group of 5). Only your screen changes (rankings, Results Map, Home cards); the real Wolp+ power rating is never affected, and no one else sees your dials. Spreads and win chances never change.</p>
           <div id="fDials"></div>
           <div class="mixsave"><button class="btn quiet" id="fReset">Reset to 0</button><small id="fNote"></small></div></div></details>
       <button class="pill" id="cmpMode" aria-pressed="false" title="Pick 2 to 4 teams to compare side by side" hidden>Compare</button>
@@ -474,6 +474,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
           <dt>Wolp+</dt><dd><b>The numbers.</b> Teams ranked by the Model's power rating: points better than an average FBS team on a neutral field. The difference between two teams' ratings, plus the home edge, is the model's predicted margin. It picks winners better than the AP poll (see the Scorecard on Previous Rankings) and comes close to the best computer ratings: on 2023–25 games it missed by about 0.15 points a game more than ESPN's FPI and Sagarin, and beat 24 of 33 tracked systems.</dd>
         </dl>
         <p><b>Quality wins</b> and <b>Strength of résumé (SOR)</b> are shown alongside as résumé stats, not rankings: every win and loss, each weighted by how good the opponent is. Quality wins judges opponents by Model rank; SOR judges them by their records alone.</p>
+        <p><b>Conference dials ▾</b> (top bar) are a what-if tool: add points to a conference and see how the rankings, Results Map and Home cards would change. They only change your own screen and never touch the real Wolp+ ratings, spreads or win chances.</p>
 
         <h2 id="m-power">Power rating, step by step</h2>
         <ol>
@@ -742,7 +743,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   }
 
   // ---------- model ----------
-  // Wolp+ = the Model's power rating. The owner can add private conference dials (this browser only, never published).
+  // Wolp+ = the Model's power rating. Any viewer can add what-if conference dials (their browser only, never published).
   // mdl().crank = {team: Wolp+ rank}, n = number of rated teams. Spreads and win chances always use the pure Model.
   S.adj = {}; S.adjPub = {};
   const DIALS = ['SEC','Big Ten','Big 12','ACC','FBS Independents','Group of 5'];  // each Power 4 conference, Independents, all of the Group of 5
@@ -1565,7 +1566,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   showTab(TABS.includes(start) ? start : 'home');
   (async ()=>{
     const db = siteDb(); S.db=db;
-    db.settings().then(st=>{ S.settings=st||{}; S.upsets=S.settings.upsets||{}; const f = S.canWrite ? (()=>{ try{ return JSON.parse(localStorage.getItem('cfb-dials')||'null'); }catch(e){ return null; } })() : null; if(f && typeof f==='object'){ const g=Object.fromEntries(Object.entries(f).filter(([k])=>DIALS.includes(k))); S.adj={...g}; S.adjPub={...g}; S._mdl=null; } renderAll(); }).catch(()=>{});
+    db.settings().then(st=>{ S.settings=st||{}; S.upsets=S.settings.upsets||{}; const f = (()=>{ try{ return JSON.parse(localStorage.getItem('cfb-dials')||'null'); }catch(e){ return null; } })();  /* each viewer's own what-if */ if(f && typeof f==='object'){ const g=Object.fromEntries(Object.entries(f).filter(([k])=>DIALS.includes(k))); S.adj={...g}; S.adjPub={...g}; S._mdl=null; } renderAll(); }).catch(()=>{});
     db.teams.then(d=>{
       S.meta = {through:d.through, updatedAt:d.updatedAt, season:d.season};
       S.teamsRaw = d.teams||{}; S.model = d.model||null; S.schedule = d.schedule||null; S.ap = d.ap||null; S.picks = d.picks||[];
