@@ -116,7 +116,11 @@ h2 small{font:400 13px var(--body);color:var(--muted);margin-left:10px}
 
 /* rankings: filters, results map, stats */
 .filters{position:sticky;top:calc(env(safe-area-inset-top,0px) + 55px);z-index:9;background:var(--bg);padding:10px 0 12px;border-bottom:1px solid var(--line2)}
-.filters .lab{color:var(--muted);font-size:13px;margin-right:2px}
+.filters .frow{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.filters .frow+.frow{margin-top:8px}
+.lab{font:600 11px var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);min-width:3.4rem}
+.xsel .lab{min-width:0}
+.fsel.xpick{border-color:var(--gold);color:var(--ink);font-weight:600}
 .filters select,.filters input,.fsel{background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:5px 12px;font-size:13px}
 .filters input{width:200px}
 .count{margin-left:auto;color:var(--muted);font-size:13px}
@@ -208,9 +212,9 @@ td.c-mv{padding-left:0;width:30px}
 .weeklabel{font:700 24px var(--cond)}
 .status{font-size:13px;color:var(--muted)} .status.warn{color:var(--loss)}
 .spacer{flex:1}
-.wsub{display:flex;gap:8px;margin-bottom:14px}
+.wsub{display:flex;align-items:center;gap:8px;margin-bottom:14px}
 .wgrid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:22px;align-items:start}
-.wbuild{grid-template-columns:minmax(0,1fr) minmax(290px,340px)}
+.wbuild{grid-template-columns:minmax(0,1fr) minmax(360px,400px)}  /* room for Record, vs P4, Wolp+ and the + button */
 .map.drag .wx{display:flex;gap:4px;align-items:center;justify-content:flex-end}
 .wslot{grid-template-columns:44px 1fr;border:1px dashed var(--line);border-radius:8px;margin-top:6px}
 .wmaphead{align-items:center;margin-bottom:6px}
@@ -244,7 +248,6 @@ td.c-mv{padding-left:0;width:30px}
 .pool{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 70px)}
 .pool input[type=search]{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg)}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
-.plist{max-height:62vh;overflow-y:auto}
 .phead,.prow{display:grid;grid-template-columns:var(--pcols);gap:6px;align-items:center;padding:6px}
 .prow{border-top:1px solid var(--line2)}
 .phead button{background:none;border:0;padding:2px 0;font-size:11.5px;color:var(--muted);text-align:center;white-space:nowrap}
@@ -257,7 +260,8 @@ td.c-mv{padding-left:0;width:30px}
 .prow .add{border:1px solid var(--gold);color:var(--gold);background:none;border-radius:6px;padding:3px 10px;font-weight:600;font-size:12px}
 .prow .on{font:700 14px var(--cond);color:var(--muted);text-align:center}
 .prow.sortable-chosen{background:var(--panel2)}
-.pscroll{overflow-x:auto}
+.pscroll{max-height:62vh;overflow:auto}
+.pscroll .phead{position:sticky;top:0;z-index:2;background:var(--panel)}
 .ups td{vertical-align:middle}
 .ups td.l{text-align:left}
 .ups input[type=text]{width:100%;min-width:14rem;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:5px 8px;font-size:13px}
@@ -444,16 +448,22 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   <section id="view-rank" hidden>
     <div class="ph"><div><h1 id="rTitle">Data</h1><div class="sub" id="rSub"></div></div>
       <div class="row"><a class="pill on" href="#map">Results Map</a><a class="pill" href="#stats">Stats table ↓</a></div></div>
-    <div class="filters row">
+    <div class="filters">
+     <div class="frow">
       <span class="lab">Filter</span>
       <button class="pill" data-show="top" id="topBtn">Top 25</button>
       <button class="pill" data-show="all">All FBS</button>
       <details class="colmenu confmenu" id="rConfMenu"><summary class="pill" id="rConfSum">All conferences ▾</summary><div class="menu" id="rConfList"></div></details>
       <input id="rQ" type="search" placeholder="Search teams" aria-label="Search teams">
       <span class="count" id="rCount"></span>
+     </div>
+     <div class="frow">
+      <span class="lab">Sort</span>
+      <button class="pill" data-ms="wolp">Straw</button><button class="pill" data-ms="comp">Wolp+</button><button class="pill" data-ms="ap">AP</button><button class="pill" data-ms="fpi">FPI</button><button class="pill" data-ms="best">Best win</button><button class="pill" data-ms="worst">Worst loss</button>
+      <label class="xsel"><span class="lab">X axis</span><select id="xAx" class="fsel xpick" aria-label="Results Map x axis"><option value="wolp">Wolp+</option><option value="fpi">FPI</option><option value="sor">SOR</option><option value="qw">Quality wins</option></select></label>
+     </div>
     </div>
-    <section class="sec" id="map"><div class="sh"><h2>Results Map<small id="mapSub">Every game, placed by the opponent’s Wolp+ rank</small></h2>
-      <div class="row"><span style="color:var(--muted);font-size:13px">Sort</span><button class="pill" data-ms="wolp">Straw</button><button class="pill" data-ms="comp">Wolp+</button><button class="pill" data-ms="ap">AP</button><button class="pill" data-ms="fpi">FPI</button><button class="pill" data-ms="best">Best win</button><button class="pill" data-ms="worst">Worst loss</button><label class="xsel">X axis <select id="xAx" class="fsel" aria-label="Results Map x axis"><option value="wolp">Wolp+</option><option value="fpi">FPI</option><option value="sor">SOR</option><option value="qw">Quality wins</option></select></label></div></div>
+    <section class="sec" id="map"><div class="sh"><h2>Results Map<small id="mapSub">Every game, placed by the opponent’s Wolp+ rank</small></h2></div>
       <div class="legend" id="legend1"></div>
       <div id="rMap" class="map norc"></div>
     </section>
@@ -598,19 +608,20 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       <button class="btn primary" id="save" disabled>Submit ballot</button>
     </div>
     <div class="wsub" role="group" aria-label="Workspace view">
-      <button class="pill" data-ws="map">Ballot map</button><button class="pill" data-ws="ballot">List</button><button class="pill boss-only" data-ws="ups">Upset alerts</button>
+      <span class="lab">View</span><button class="pill" data-ws="ballot">List</button><button class="pill" data-ws="map">Results Map</button><button class="pill boss-only" data-ws="ups">Upset alerts</button>
     </div>
     <div id="ws-build" class="wgrid wbuild">
       <div>
         <div id="ws-map">
-          <div class="row wmaphead"><div class="legend" id="legend2"></div><span class="spacer"></span><label class="xsel">X axis <select id="xAx2" class="fsel" aria-label="Ballot map x axis"><option value="wolp">Wolp+</option><option value="fpi">FPI</option><option value="sor">SOR</option><option value="qw">Quality wins</option></select></label></div>
+          <div class="row wmaphead"><div class="legend" id="legend2"></div><span class="spacer"></span><label class="xsel"><span class="lab">X axis</span><select id="xAx2" class="fsel xpick" aria-label="Results Map x axis"><option value="wolp">Wolp+</option><option value="fpi">FPI</option><option value="sor">SOR</option><option value="qw">Quality wins</option></select></label></div>
           <div id="wMap" class="map drag"></div>
           <div id="wNotes"></div>
           <p class="note">Drag a row's handle to reorder (or focus it and use the arrow keys). Drag a team in from the list, or tap +. Your ballot is exactly 25 teams; submit it before the deadline and change it as often as you like until then. Only you can see it until voting closes. <b>H2H</b> marks a head-to-head result that disagrees with the order; <b>LOOP</b> marks teams that beat each other in a circle. Both are reminders only; tap one to see why.</p>
         </div>
         <div id="ws-ballot" hidden>
+          <div class="row" style="justify-content:flex-end;margin-bottom:8px"><details class="colmenu" id="colMenuB"><summary class="pill">Columns ▾</summary><div class="menu" id="colListB"></div></details></div>
           <div class="bscroll"><div class="bcols" id="bcols" aria-hidden="true"></div><div id="ballot" aria-label="Straw Poll ballot"></div><div id="slots"></div></div>
-          <p class="note">Compact list: drag the handle to reorder, or focus it and use the arrow keys. Same ballot as the map.</p>
+          <p class="note">Drag the handle to reorder, or focus it and use the arrow keys. Add stat columns with Columns ▾. Same ballot as the Results Map.</p>
         </div>
       </div>
       <aside class="pool" aria-label="Add teams">
@@ -727,9 +738,9 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 (function(){
   const MAX = 35, TOP = 25, MAXC = 4, FRAUD = 8, AP_NR = 36, BIG = 14, BIG_RANKED = 21;
   const S = {teams:{}, teamsRaw:null, meta:null, model:null, schedule:null, ap:null, weeks:{}, cur:null, draft:[], dirty:false,
-             canWrite:false, isOwner:false, me:null, wantWork:false, accessFor:'', cmp:[], cmpOn:false, tab:'home', ws:'map',
+             canWrite:false, isOwner:false, me:null, wantWork:false, accessFor:'', cmp:[], cmpOn:false, tab:'home', ws:'ballot',
              r:{show:'top', confOff:[], q:'', ms:'wolp', col:'ms', rev:false, xax:'wolp'}, f:'off', pc:'', q:'', sort:'frank',
-             upsets:{}, uDraft:null, uDirty:false, uAll:false, showAll:false};
+             upsets:{}, uDraft:null, uDirty:false, uAll:false, showAll:false, more:{fraud:false, radar:false}};
   const $ = id => document.getElementById(id);
   let teamsLoaded; const teamsReady = new Promise(r=>teamsLoaded=r);  // season and team list, needed before ballots load
   // Read-only until sign-in says otherwise. The old GitHub ballot sync is retired: forget its token and draft.
@@ -791,7 +802,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     </tbody><caption>Per play, garbage time excluded. Adj EPA is adjusted for the opponents faced; EPA, SR (success rate) and Expl (explosiveness) are raw season numbers. Defense: lower is better.</caption></table>`;
   // three independent column choices: Stats table (r), ballot (b), Teams list (p)
   function loadVis(key, defOff, onlyOn){ const v={}; COLS.forEach(c=>v[c.k]= onlyOn ? onlyOn.includes(c.k) : (!c.off && !(defOff||[]).includes(c.k))); try{ const s=JSON.parse(localStorage.getItem(key)||'null'); if(s && typeof s==='object') COLS.forEach(c=>{ if(typeof s[c.k]==='boolean') v[c.k]=s[c.k]; }); }catch(e){} return v; }
-  S.vis = {r:loadVis('cfb2-cols'), b:loadVis('cfb2-cols-ballot',['ly','lyAp','resumeRank']), p:loadVis('cfb2-cols-pool',null,['frank','resumeRank'])};  // Add teams panel: Wolp+ and Quality wins by default
+  S.vis = {r:loadVis('cfb2-cols'), b:loadVis('cfb2-cols-list',null,['rec','p4','frank']), p:loadVis('cfb2-cols-add',null,['rec','p4','frank'])};  // Workspace list and Add teams: Record, vs P4, Wolp+ by default
   try{ const mg=localStorage.getItem('cfb2-cols-mig'); if(mg!=='2'){ if(mg!=='1'){ S.vis.r.q1=false; S.vis.r.proj=false; } S.vis.r.adjOffEpa=true; S.vis.r.adjDefEpa=true; S.vis.r.offEpa=false; S.vis.r.defEpa=false; localStorage.setItem('cfb2-cols', JSON.stringify(S.vis.r)); localStorage.setItem('cfb2-cols-mig','2'); } }catch(e){}
   const shown = w => COLS.filter(c=>S.vis[w][c.k]);
   const DEFS = {apNow:"This week's AP Top 25 rank (unranked teams sort last).",fpiRank:"ESPN's Football Power Index rank: ESPN's own predictive power rating, shown for comparison only (it never feeds into Wolp+).",adjOffEpa:'Expected points added per play on offense, adjusted for the defenses faced (garbage time excluded). Higher is better.',adjDefEpa:'Expected points added per play allowed on defense, adjusted for the offenses faced. Lower is better.',frank:"The power rating rank: points better than an average FBS team on a neutral field, built from game scores only.",resumeRank:"A results-based metric, with influence from opponents' Wolp+ rank.",resultsRank:'Strength of résumé: a purely results-based metric.',offEpa:'Expected points added per play on offense (garbage time excluded). Higher is better.',defEpa:'Expected points added per play allowed on defense. Lower is better.'};
@@ -801,7 +812,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   function colMenu(w){ let g=''; return COLS.map(c=>{ const h = c.g!==g ? `<div class="mh">${c.g}</div>` : ''; g=c.g; return h+`<label><input type="checkbox" data-col="${c.k}" data-w="${w}"${S.vis[w][c.k]?' checked':''}>${c.h}</label>`; }).join(''); }
   document.addEventListener('change', e=>{
     const k=e.target.dataset && e.target.dataset.col, w=e.target.dataset && e.target.dataset.w; if(!k||!w) return;
-    S.vis[w][k]=e.target.checked; try{ localStorage.setItem({r:'cfb2-cols',b:'cfb2-cols-ballot',p:'cfb2-cols-teams'}[w], JSON.stringify(S.vis[w])); }catch(err){}
+    S.vis[w][k]=e.target.checked; try{ localStorage.setItem({r:'cfb2-cols',b:'cfb2-cols-list',p:'cfb2-cols-add'}[w], JSON.stringify(S.vis[w])); }catch(err){}
     if(w==='r') renderRank(); else { renderHeads(); renderBallot(); renderPool(); }
   });
 
@@ -921,8 +932,11 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     const fraud = Object.keys(apR).filter(a=>S.teams[a] && (ranks[a]||MAX+1)-apR[a]>=FRAUD).sort((a,b)=>((ranks[b]||MAX+1)-apR[b])-((ranks[a]||MAX+1)-apR[a]) || apR[a]-apR[b]);
     const radar = list.filter(a=>(apR[a]||AP_NR)-ranks[a]>=FRAUD).sort((a,b)=>((apR[b]||AP_NR)-ranks[b])-((apR[a]||AP_NR)-ranks[a]));
     const none = '<p class="lead" style="margin:0">No one this week.</p>', wait='<p class="lead" style="margin:0">Waiting for the AP poll and a saved ballot.</p>';
-    $('hFraud').innerHTML = !hasAp ? wait : fraud.map(wrow).join('') || none;
-    $('hRadar').innerHTML = !hasAp ? wait : radar.map(wrow).join('') || none;
+    // the biggest gaps first; the rest behind a button, so this column stays about as tall as the Top 25 beside it
+    const FEW = 4, watchList = (L, k) => !L.length ? none : (S.more[k] ? L : L.slice(0, FEW)).map(wrow).join('')
+      + (L.length > FEW ? `<button class="more" style="margin-top:10px" data-more="${k}" aria-expanded="${S.more[k]}">${S.more[k] ? 'Show fewer' : `Show ${L.length-FEW} more`}</button>` : '');
+    $('hFraud').innerHTML = !hasAp ? wait : watchList(fraud, 'fraud');
+    $('hRadar').innerHTML = !hasAp ? wait : watchList(radar, 'radar');
     document.querySelectorAll('.fthr').forEach(el=>el.textContent=FRAUD);
     // this week's games
     const sch=S.schedule||{}, games=(sch.games||[]).filter(g=>S.teams[g.home]||S.teams[g.away]);
@@ -952,6 +966,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       games.map(g=>`<tr><td class="dim">${esc(kick(g.start))}</td><td><span class="gl-n">${logo(g.away)}${ranks[g.away]?`<span class="rkb">${ranks[g.away]}</span>`:''}${esc(nm(g.away))}</span></td><td class="dim">${g.neutral?'vs':'at'}</td><td><span class="gl-n">${logo(g.home)}${ranks[g.home]?`<span class="rkb">${ranks[g.home]}</span>`:''}${esc(nm(g.home))}</span></td><td style="text-align:center">${spread(g.line,g.home,g.away)}</td><td style="text-align:center">${modelTxt(g.model,g.home,g.away)}</td></tr>`).join('')}</tbody></table></div>`;
   }
   $('hAllBtn').addEventListener('click', ()=>{ S.showAll=!S.showAll; renderHome(); });
+  ['hFraud','hRadar'].forEach(id=>$(id).addEventListener('click', e=>{ const b=e.target.closest('[data-more]'); if(b){ S.more[b.dataset.more]=!S.more[b.dataset.more]; renderHome(); } }));
 
   // ---------- RANKINGS ----------
   const P4C = ['SEC','Big Ten','Big 12','ACC'];
@@ -1405,14 +1420,14 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     toast('Ballot withdrawn. Your teams are still here if you want to submit again.');
   }
   function renderHeads(){
-    const b=[], p=shown('p');  // the compact list has no stat columns (team pop-up has them)
+    const b=shown('b'), p=shown('p');
     const bc = `44px 34px 18px 24px minmax(7rem,1fr) ${b.map(c=>c.bw).join(' ')}${S.cmpOn?' 22px':''} 26px`;
-    const pc = `minmax(8rem,1fr) ${p.map(c=>c.pw).join(' ')}${S.cmpOn?' 22px':''} 3.2rem`;
+    const pc = `minmax(7rem,1fr) ${p.map(c=>c.pw).join(' ')}${S.cmpOn?' 22px':''} 2.8rem`;
     $('dyncols').textContent = `.brow,.bcols{--bcols:${bc}}.phead,.prow{--pcols:${pc}}`;
     $('bcols').innerHTML = `<span style="text-align:right">Rank</span><span></span><span></span><span></span><span>Team</span>${b.map(c=>`<span>${c.h}</span>`).join('')}${S.cmpOn?'<span>Cmp</span>':''}<span></span>`;
     if(S.sort!=='name' && !p.some(c=>c.k===S.sort)) S.sort = p.length ? p[0].k : 'name';
     $('phead').innerHTML = `<button data-s="name" aria-pressed="${S.sort==='name'}">Team</button>${p.map(c=>`<button data-s="${c.k}" aria-pressed="${S.sort===c.k}">${c.h}</button>`).join('')}${S.cmpOn?'<span></span>':''}<span></span>`;
-    $('colListP').innerHTML = colMenu('p');
+    $('colListP').innerHTML = colMenu('p'); $('colListB').innerHTML = colMenu('b');
   }
   function statCell(c, a, t, onB, pool){
     let v, cls='';
@@ -1431,7 +1446,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   function renderBallot(){
     hideTip();
     const prev = myPrevMap(S.cur);
-    const an = analyze(), cols = [];
+    const an = analyze(), cols = shown('b');
     const row = (a,i) => { const t=S.teams[a]||{name:a,conf:''}, fl=an.flags[a], lp=an.loopOf[a];
       const marks = (fl ? `<button class="flag" data-tip="${esc(fl.join('\n'))}" aria-label="${esc(fl.join(' '))}">H2H</button>` : '') + (lp ? `<button class="flag loop" data-tip="${esc(lp.text+'\n'+lp.games.join('\n'))}" aria-label="${esc(lp.text)}">LOOP</button>` : '');
       return `<div class="brow" data-abbr="${esc(a)}" style="--tc:${tc(a)}"><span class="rk">${i+1}</span>${moveOf(a,i+1,prev)}<button class="grip" aria-label="Move ${esc(t.name)}, rank ${i+1}. Use arrow keys." data-i="${i}">${GRIP}</button>${logo(a)}
@@ -1469,7 +1484,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     list.sort(cmp);
     const full = S.draft.length>=BMAX;
     $('pool').innerHTML = list.length ? list.map(([a,t])=>`<div class="prow${onB[a]?' onb':''}" data-abbr="${esc(a)}">
-        <div class="pn">${logo(a)}<div style="min-width:0"><button class="nm2" data-open="${esc(a)}">${esc(t.name)}</button><small class="psub">${rec(t.w,t.l)} · ${esc(t.conf||'')}</small></div></div>
+        <div class="pn">${logo(a)}<div style="min-width:0"><button class="nm2" data-open="${esc(a)}">${esc(t.name)}</button><small class="psub">${S.vis.p.rec ? '' : rec(t.w,t.l)+' · '}${esc(t.conf||'')}</small></div></div>
         ${cols.map(c=>statCell(c,a,t,onB,true)).join('')}${cmpBox(a)}
         ${onB[a]?`<span class="on">#${onB[a]}</span>`:`<button class="add" data-add="${esc(a)}" aria-label="Add ${esc(t.name)}"${full?' disabled title="The ballot is full (25)"':''}>+</button>`}</div>`).join('') : '<p class="note" style="padding:6px">No teams match.</p>';
   }
@@ -1614,7 +1629,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   function hideTip(){ const tip=$('tip'); if(tip) tip.hidden=true; tipFor=null; tipVia=''; }
   document.addEventListener('pointerover', e=>{ if(e.pointerType!=='mouse') return; const f=e.target.closest('[data-tip]'); if(f && f!==tipFor) showTip(f,'hover'); });
   document.addEventListener('pointerout', e=>{ if(e.pointerType!=='mouse' || tipVia!=='hover') return; const f=e.target.closest('[data-tip]'); if(f && !f.contains(e.relatedTarget)) hideTip(); });
-  const MENUS=['colMenu','colMenuP','fMenu','rConfMenu'];
+  const MENUS=['colMenu','colMenuP','colMenuB','fMenu','rConfMenu'];
   document.addEventListener('click', e=>{
     const f=e.target.closest('[data-tip]');
     if(f){ if(tipFor===f && tipVia==='click') hideTip(); else showTip(f,'click'); } else if(tipFor) hideTip();
