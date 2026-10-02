@@ -175,6 +175,7 @@ td.c-mv{padding-left:0;width:30px}
 .colmenu .menu{position:absolute;right:0;top:calc(100% + 6px);z-index:30;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 14px;box-shadow:0 10px 28px rgba(0,0,0,.45);min-width:16rem;max-height:70vh;overflow:auto}
 .colmenu .mh{font:600 11px var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin:8px 0 2px}
 .colmenu label{display:flex;gap:10px;align-items:center;padding:5px 0;font-size:13px;cursor:pointer}
+.colmenu .cmh{color:var(--muted);font-size:12px}
 .cmpk{display:flex;align-items:center;justify-content:center}
 .confmenu .menu{left:0;right:auto;min-width:12rem}
 .confmenu input{width:16px;height:16px;margin:0;accent-color:var(--gold)}
@@ -660,30 +661,29 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   // ---------- columns ----------
   // g = group heading in the Stats table; fmt n = 2 decimals, p = percent, r = rank; lo = lower is better; off = hidden by default
   const COLS = [
-    {k:'rec',  h:'Record', menu:'Record', g:'This season', bw:'2.9rem', pw:'2.7rem'},
-    {k:'p4',   h:'vs P4',  menu:'Record vs Power 4', g:'This season', bw:'2.9rem', pw:'2.7rem'},
-    {k:'t25',  h:'vs Chili 25', menu:'Record vs the Chili Poll Top 25', g:'This season', bw:'3.4rem', pw:'3.2rem'},
-    {k:'ly',   h:'2025',   menu:'2025 record', g:'Last season', bw:'2.9rem', pw:'2.7rem'},
+    {k:'rec',  h:'Record', menu:'this season', g:'This season', bw:'2.9rem', pw:'2.7rem'},
+    {k:'p4',   h:'vs P4',  menu:'record vs Power 4', g:'This season', bw:'2.9rem', pw:'2.7rem'},
+    {k:'t25',  h:'vs Chili 25', menu:'record vs the Chili Poll Top 25', g:'This season', bw:'3.4rem', pw:'3.2rem'},
+    {k:'ly',   h:'2025',   menu:'last season\'s record', g:'Last season', bw:'2.9rem', pw:'2.7rem'},
     {k:'lyAp', h:'Final AP', menu:'2025 final AP rank', g:'Last season', bw:'3rem', pw:'2.8rem'},
-    {k:'offEpa', h:'Off EPA',  menu:'Offense EPA per play', g:'Efficiency', bw:'3rem', pw:'2.9rem', fmt:'n'},
-    {k:'defEpa', h:'Def EPA',  menu:'Defense EPA per play allowed', g:'Efficiency', bw:'3rem', pw:'2.9rem', fmt:'n', lo:true},
-    {k:'offSr',  h:'Off SR',   menu:'Offense success rate', g:'Efficiency', bw:'3rem', pw:'2.9rem', fmt:'p', off:true},
-    {k:'defSr',  h:'Def SR',   menu:'Defense success rate allowed', g:'Efficiency', bw:'3rem', pw:'2.9rem', fmt:'p', lo:true, off:true},
-    {k:'offXpl', h:'Off Expl', menu:'Offense explosiveness', g:'Efficiency', bw:'3.2rem', pw:'3rem', fmt:'n', off:true},
-    {k:'defXpl', h:'Def Expl', menu:'Defense explosiveness allowed', g:'Efficiency', bw:'3.2rem', pw:'3rem', fmt:'n', lo:true, off:true},
-    {k:'adjOffEpa', h:'Adj Off EPA', menu:'Adjusted offense EPA', g:'Adjusted', bw:'3.6rem', pw:'3.4rem', fmt:'n', off:true},
-    {k:'adjDefEpa', h:'Adj Def EPA', menu:'Adjusted defense EPA allowed', g:'Adjusted', bw:'3.6rem', pw:'3.4rem', fmt:'n', lo:true, off:true},
-    {k:'adjOffSr',  h:'Adj Off SR',  menu:'Adjusted offense success rate', g:'Adjusted', bw:'3.6rem', pw:'3.4rem', fmt:'p', off:true},
-    {k:'adjDefSr',  h:'Adj Def SR',  menu:'Adjusted defense success rate allowed', g:'Adjusted', bw:'3.6rem', pw:'3.4rem', fmt:'p', lo:true, off:true},
-    {k:'sosDef', h:'Defs faced', menu:'Defenses faced (lower = tougher)', g:'Schedule', bw:'3.6rem', pw:'3.4rem', fmt:'n', lo:true, off:true},
-    {k:'sosOff', h:'Offs faced', menu:'Offenses faced (higher = tougher)', g:'Schedule', bw:'3.6rem', pw:'3.4rem', fmt:'n', off:true},
-    {k:'frank', h:'Wolp+', menu:'Wolp+ rank (Model + conference adjustments)', g:'Model', bw:'3.4rem', pw:'3.2rem', fmt:'r', lo:true, strong:true, val:a=>mdl().crank[a]},
-    {k:'powerRank',  h:'Model', menu:'Model rank (pure power rating)', g:'Model', bw:'2.9rem', pw:'2.7rem', fmt:'r', lo:true, off:true},
-    {k:'proj', h:'Proj. record', menu:'Projected final record (10,000 simulated seasons)', g:'Model', bw:'4.6rem', pw:'4.4rem', off:true},
-    {k:'powerRating', h:'Rating', menu:'Power rating (points vs. an average team)', g:'Model', bw:'3rem', pw:'2.9rem', fmt:'n1', off:true},
-    {k:'resumeRank', h:'Quality wins', menu:'Quality wins rank (résumé stat)', g:'Résumé', bw:'3.6rem', pw:'2.9rem', fmt:'r', lo:true},
-    {k:'resultsRank', h:'SOR', menu:'Strength of résumé (SOR) rank: purely results', g:'Résumé', bw:'3.4rem', pw:'2.9rem', fmt:'r', lo:true},
-    {k:'q1', h:'Q1', menu:'Quadrant 1 record (best opponents; see Methodology)', g:'Résumé', bw:'2.7rem', pw:'2.6rem', off:true},
+    {k:'offEpa', h:'Off EPA',  menu:'offense EPA per play', g:'Efficiency', bw:'3rem', pw:'2.9rem', fmt:'n'},
+    {k:'defEpa', h:'Def EPA',  menu:'defense EPA per play allowed', g:'Efficiency', bw:'3rem', pw:'2.9rem', fmt:'n', lo:true},
+    {k:'offSr',  h:'Off SR',   menu:'offense success rate', g:'Efficiency', bw:'3rem', pw:'2.9rem', fmt:'p', off:true},
+    {k:'defSr',  h:'Def SR',   menu:'defense success rate allowed', g:'Efficiency', bw:'3rem', pw:'2.9rem', fmt:'p', lo:true, off:true},
+    {k:'offXpl', h:'Off Expl', menu:'offense explosiveness', g:'Efficiency', bw:'3.2rem', pw:'3rem', fmt:'n', off:true},
+    {k:'defXpl', h:'Def Expl', menu:'defense explosiveness allowed', g:'Efficiency', bw:'3.2rem', pw:'3rem', fmt:'n', lo:true, off:true},
+    {k:'adjOffEpa', h:'Adj Off EPA', menu:'offense EPA, adjusted for opponents', g:'Adjusted', bw:'3.6rem', pw:'3.4rem', fmt:'n', off:true},
+    {k:'adjDefEpa', h:'Adj Def EPA', menu:'defense EPA allowed, adjusted for opponents', g:'Adjusted', bw:'3.6rem', pw:'3.4rem', fmt:'n', lo:true, off:true},
+    {k:'adjOffSr',  h:'Adj Off SR',  menu:'offense success rate, adjusted for opponents', g:'Adjusted', bw:'3.6rem', pw:'3.4rem', fmt:'p', off:true},
+    {k:'adjDefSr',  h:'Adj Def SR',  menu:'defense success rate allowed, adjusted for opponents', g:'Adjusted', bw:'3.6rem', pw:'3.4rem', fmt:'p', lo:true, off:true},
+    {k:'sosDef', h:'Defs faced', menu:'defenses faced (lower = tougher)', g:'Schedule', bw:'3.6rem', pw:'3.4rem', fmt:'n', lo:true, off:true},
+    {k:'sosOff', h:'Offs faced', menu:'offenses faced (higher = tougher)', g:'Schedule', bw:'3.6rem', pw:'3.4rem', fmt:'n', off:true},
+    {k:'frank', h:'Wolp+', menu:'rank: Model + conference dials', g:'Model', bw:'3.4rem', pw:'3.2rem', fmt:'r', lo:true, strong:true, val:a=>mdl().crank[a]},
+    {k:'proj', h:'Proj. record', menu:'projected final record', g:'Model', bw:'4.6rem', pw:'4.4rem', off:true},
+    {k:'powerRating', h:'Rating', menu:'points vs an average team', g:'Model', bw:'3rem', pw:'2.9rem', fmt:'n1', off:true},
+    {k:'resumeRank', h:'Quality wins', menu:'rank', g:'Résumé', bw:'3.6rem', pw:'2.9rem', fmt:'r', lo:true},
+    {k:'resultsRank', h:'SOR', menu:'strength of résumé rank, purely results', g:'Résumé', bw:'3.4rem', pw:'2.9rem', fmt:'r', lo:true},
+    {k:'q1', h:'Q1', menu:'Quadrant 1 record (best opponents)', g:'Résumé', bw:'2.7rem', pw:'2.6rem', off:true},
     {k:'q2', h:'Q2', menu:'Quadrant 2 record', g:'Résumé', bw:'2.7rem', pw:'2.6rem', off:true}
   ];
   const ADV = COLS.filter(c=>c.fmt);
@@ -699,7 +699,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   S.vis = {r:loadVis('cfb2-cols'), b:loadVis('cfb2-cols-ballot',['ly','lyAp','resumeRank']), p:loadVis('cfb2-cols-teams',['ly','lyAp','t25','resumeRank'])};
   try{ if(localStorage.getItem('cfb2-cols-mig')!=='1'){ S.vis.r.q1=false; S.vis.r.proj=false; localStorage.setItem('cfb2-cols', JSON.stringify(S.vis.r)); localStorage.setItem('cfb2-cols-mig','1'); } }catch(e){}
   const shown = w => COLS.filter(c=>S.vis[w][c.k]);
-  function colMenu(w){ let g=''; return COLS.map(c=>{ const h = c.g!==g ? `<div class="mh">${c.g}</div>` : ''; g=c.g; return h+`<label><input type="checkbox" data-col="${c.k}" data-w="${w}"${S.vis[w][c.k]?' checked':''}>${c.menu}</label>`; }).join(''); }
+  function colMenu(w){ let g=''; return COLS.map(c=>{ const h = c.g!==g ? `<div class="mh">${c.g}</div>` : ''; g=c.g; return h+`<label><input type="checkbox" data-col="${c.k}" data-w="${w}"${S.vis[w][c.k]?' checked':''}><span><b>${c.h}</b> <small class="cmh">${c.menu}</small></span></label>`; }).join(''); }
   document.addEventListener('change', e=>{
     const k=e.target.dataset && e.target.dataset.col, w=e.target.dataset && e.target.dataset.w; if(!k||!w) return;
     S.vis[w][k]=e.target.checked; try{ localStorage.setItem({r:'cfb2-cols',b:'cfb2-cols-ballot',p:'cfb2-cols-teams'}[w], JSON.stringify(S.vis[w])); }catch(err){}
