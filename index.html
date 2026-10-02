@@ -452,8 +452,8 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
         <dl>
           <dt>Wolp+</dt><dd><b>An opinion.</b> The hand-made weekly ballot.</dd>
           <dt>AP</dt><dd><b>Public opinion.</b> The Associated Press Top 25.</dd>
-          <dt>Formula</dt><dd><b>The numbers, with a point of view.</b> The Model's power rating plus any conference adjustments set under <b>Formula ▾</b> (currently: <b class="fnote">none</b>). With no adjustments it is exactly the Model. The Results Map, Best/Worst, Fraud watch and Under the radar use the Formula rank; spreads, win chances and the Scorecard always use the pure Model.</dd>
-          <dt>Model</dt><dd><b>The numbers.</b> Teams ranked by power rating: points better than an average FBS team on a neutral field. The difference between two teams' ratings, plus the home edge, is the model's predicted margin. It picks winners better than the AP poll (see the Scorecard on Previous Rankings) and about as well as established computer ratings such as ESPN's FPI and Sagarin.</dd>
+          <dt>Formula</dt><dd><b>The numbers, with a point of view.</b> The Model's power rating plus any conference adjustments set under <b>Formula ▾</b> (currently: <b class="fnote">none</b>). With no adjustments it is exactly the Model. The Results Map, Best/Worst, quadrants, Fraud watch and Under the radar use the Formula rank; spreads, win chances, projections, Quality wins and the Scorecard always use the pure Model.</dd>
+          <dt>Model</dt><dd><b>The numbers.</b> Teams ranked by power rating: points better than an average FBS team on a neutral field. The difference between two teams' ratings, plus the home edge, is the model's predicted margin. It picks winners better than the AP poll (see the Scorecard on Previous Rankings) and comes close to the best computer ratings: on 2023–25 games it missed by about 0.15 points a game more than ESPN's FPI and Sagarin, and beat 24 of 33 tracked systems.</dd>
         </dl>
         <p><b>Quality wins</b> is shown alongside as a résumé stat, not a ranking: every win and loss, each weighted by how good the opponent is by Model rank.</p>
 
@@ -469,11 +469,11 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
           <li><b>Recent games count a bit more:</b> each week further back, a game counts <b data-set="RECENCY">0.94</b> as much, so a team's current form outweighs September.</li>
           <li><b>Preseason start:</b> a mix of last season's rating, the share of production returning, and roster talent (weights fitted on earlier seasons), plus <b data-set="P4_START_BONUS">5</b> points for Power 4 teams (stats from weaker conferences tend to overrate teams). Teams new to FBS start at the <b data-set="NEW_FBS_PCT">10th</b> percentile. Army, Navy and Air Force count as average in roster talent: they rank last in recruiting every year but play far better than that (on 2024–26 replays they beat the model by about 3 points a game until this fix). The start counts as <b data-set="PRIOR_GAMES">3</b> games before the season and fades to nothing by week <b data-set="PRIOR_END_WEEK">18</b>.</li>
         </ol>
-        <div class="box">Not used: betting lines (kept out so the model can disagree with them), per-play efficiency (it didn't improve predictions), and the Wolp+ rankings. On a week-by-week replay of 2024–2026, the model's predicted margins were off by about 12.35 points per game on average; the closing betting line was off by about 12.0. That's in line with established computer ratings such as ESPN's FPI and Sagarin.</div>
+        <div class="box">Not used: betting lines (kept out so the model can disagree with them), per-play efficiency (it didn't improve predictions), and the Wolp+ rankings. On a week-by-week replay of 2024–2026, the model's predicted margins were off by about 12.35 points per game on average; the closing betting line was off by about 12.0. That's a little behind the best computer ratings, such as ESPN's FPI and Sagarin, and ahead of most others.</div>
 
         <h2 id="m-qw">Quality wins (résumé stat)</h2>
         <ul>
-          <li><b>Opponent strength (0 to 1):</b> from the opponent's Model rank: #1 is 1.0 and the last FBS team is 0.0, the same left-to-right position as its dot on the Results Map. So a row of dots far to the right means a high Quality wins score.</li>
+          <li><b>Opponent strength (0 to 1):</b> from the opponent's Model rank: #1 is 1.0 and the last FBS team is 0.0. It always uses the pure Model, so the Formula dials don't change it. With the dials at 0 this is the same left-to-right position as the opponent's dot on the Results Map, so a row of dots far to the right means a high Quality wins score.</li>
           <li><b>A win</b> is worth the opponent's strength × location (<b data-set="LOC_WIN">road 1.02, neutral 1.01, home 1.00</b>), × (1 + <b data-set="DECISIVE_WIN_BONUS">0.1</b> × strength) if it wasn't close.</li>
           <li><b>A loss</b> costs <b data-set="LOSS_WEIGHT">0.5</b> × (1 − strength) × location (<b data-set="LOC_LOSS">home 1.05, neutral 1.00, road 0.95</b>), × <b data-set="CLOSE_LOSS_FACTOR">0.6</b> if it was close, and always at least <b data-set="MIN_LOSS">0.1</b>. Losses weigh less than wins.</li>
           <li><b>FCS:</b> a win doesn't count; a loss counts <b data-set="FCS_LOSS_VALUE">-1.5</b>.</li>
@@ -488,7 +488,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
         </ul>
 
         <h2 id="m-quad">Quadrants</h2>
-        <p>Borrowed from college basketball's NET: every game is sorted by the opponent's Model rank and where it was played, scaled to the 138 FBS teams. FCS opponents are Quadrant 4.</p>
+        <p>Borrowed from college basketball's NET: every game is sorted by the opponent's Formula rank (the Model rank when the dials are at 0) and where it was played, scaled to the 138 FBS teams. FCS opponents are Quadrant 4.</p>
         <div class="tblw"><table style="width:auto;margin:0 0 14px"><thead><tr class="cols"><th></th><th>Home</th><th>Neutral</th><th>Away</th></tr></thead><tbody>
           <tr><td><b>Q1</b></td><td>#1–11</td><td>#1–19</td><td>#1–29</td></tr><tr><td><b>Q2</b></td><td>#12–29</td><td>#20–38</td><td>#30–51</td></tr>
           <tr><td><b>Q3</b></td><td>#30–61</td><td>#39–76</td><td>#52–91</td></tr><tr><td><b>Q4</b></td><td>#62+</td><td>#77+</td><td>#92+</td></tr></tbody></table></div>
@@ -767,7 +767,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   const erf = x => { const t=1/(1+0.3275911*Math.abs(x)), y=1-(((((1.061405429*t-1.453152027)*t)+1.421413741)*t-0.284496736)*t+0.254829592)*t*Math.exp(-x*x); return x>=0?y:-y; };
   const winPct = m => Math.round(100*0.5*(1+erf(Math.abs(m)/((((S.model&&S.model.settings)||{}).SIM_SIGMA)||16)/Math.SQRT2)));
   const modelTxt = (m, h, a) => typeof m!=='number' || Math.round(Math.abs(m)*2)===0 ? spread(m,h,a) : `${spread(m,h,a)} · ${winPct(m)}%`;
-  // NET-style quadrants: by the opponent's Model rank and where the game was played (FCS opponents = Q4)
+  // NET-style quadrants: by the opponent's Formula rank and where the game was played (FCS opponents = Q4)
   const QT = {home:[11,29,61], neutral:[19,38,76], away:[29,51,91]};
   function quads(a){ const q={1:[0,0],2:[0,0],3:[0,0],4:[0,0]};
     for(const g of gamesOf(a)){ const r=mdl().crank[g.opp], cut=QT[g.site]||QT.neutral; const k = r ? (r<=cut[0]?1:r<=cut[1]?2:r<=cut[2]?3:4) : 4; q[k][g.result==='W'?0:1]++; }
