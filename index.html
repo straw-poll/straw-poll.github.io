@@ -8,8 +8,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.2/Sortable.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.2/Sortable.min.js" integrity="sha512-TelkP3PCMJv+viMWynjKcvLsQzx6dJHvIGhfqzFtZKgAjKM1YPqcwzzDEoTc/BHjf43PcPzTQOjuTr4YdE8lNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.min.js" integrity="sha384-WgXwGL6fUsYJWNaKJgVbrJKGRQwc1vieh2oy4kw9nXqpNDz3tdSsqEYUgeHD/NuF" crossorigin="anonymous"></script>
 <script src="https://accounts.google.com/gsi/client" async></script>
 <style>
 :root{
@@ -1719,7 +1719,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     const had = S.me.profile && S.me.profile.username;
     if(!had && name && !confirm(`Use “${name}” as your username? It can’t be changed later.`)) return;
     const r1 = had ? {error:null} : await sb.from('profiles').update({username: name || null}).eq('id', S.me.user.id);
-    if(r1.error){ acctMsg(r1.error.code==='23505' ? 'That username is taken.' : 'Couldn’t save. Try again.'); return; }
+    if(r1.error){ acctMsg(r1.error.code==='23505' ? 'That username is taken.' : /reserved/i.test(r1.error.message||'') ? 'That username is reserved. Please choose another.' : 'Couldn’t save. Try again.'); return; }
     if(!$('acctNoteRow').hidden){ const r2 = await sb.from('join_requests').update({note: note || null}).eq('user_id', S.me.user.id); if(r2.error){ acctMsg('Saved your username, but not the note. Try again.'); return; } }
     acctMsg('Saved.'); loadMe();
   });
