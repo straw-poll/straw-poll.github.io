@@ -1183,20 +1183,21 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   // The database decides who may submit, until when, and what a valid ballot is. The page mirrors those rules so
   // people see the right controls, and shows the database's answer in plain English when it refuses.
   // A week is OPEN until its deadline, then LATE for 7 days (a ballot sent then waits for the owner's approval,
-  // backend/008_late_ballots.sql), then CLOSED.
+  // backend/008_late_ballots.sql), then CLOSED. Before it opens (the Mac opens it on Sunday morning, once the previous
+  // week's games are final) the coming week is SOON: people can build their ballot, kept in this browser, but not submit.
   const BMAX = 25;          // a Straw Poll ballot is exactly 25 teams (the archived weeks 1-5 ballots had up to 35)
   const LATE_MS = 7*864e5;  // must match the late window in backend/008_late_ballots.sql
-  S.vote = {season:null, state:'idle', weeks:{}, mine:{}, late:{}};  // weeks: {week: deadline}; mine/late: {week: ballot}
+  S.vote = {season:null, state:'idle', weeks:{}, mine:{}, late:{}, next:null};  // weeks: {week: deadline}; mine/late: {week: ballot}; next: the SOON week
   S.busy = false;
   const serverNow = () => Date.now() + (S.clockSkew||0);  // S.clockSkew: see the accounts section
   const lockOf = n => S.vote.weeks[n] ? new Date(S.vote.weeks[n]) : null;
   function phase(n){
-    const l = lockOf(n); if(!l) return 'none';
+    const l = lockOf(n); if(!l) return n!=null && Number(n)===S.vote.next ? 'soon' : 'none';
     const t = serverNow() - l.getTime();
     return t < 0 ? 'open' : t < LATE_MS ? 'late' : 'closed';
   }
   const isOpen = n => phase(n)==='open';
-  const editable = n => S.canWrite && (phase(n)==='open' || (phase(n)==='late' && !(S.vote.late[n] && S.vote.late[n].status==='declined')));
+  const editable = n => S.canWrite && (phase(n)==='open' || phase(n)==='soon' || (phase(n)==='late' && !(S.vote.late[n] && S.vote.late[n].status==='declined')));
   function openWeekNum(){ const o=Object.keys(S.vote.weeks).map(Number).filter(isOpen).sort((a,b)=>a-b); return o.length ? o[0] : null; }
   // deadlines always shown in Eastern time (the IANA zone handles daylight saving)
   const etTime = d => d.toLocaleString('en-US', {timeZone:'America/New_York', weekday:'short', month:'short', day:'numeric', hour:'numeric', minute:'2-digit'}) + ' ET';
@@ -1255,14 +1256,17 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     if(!S.me || S.me.user.id!==uid) return;  // signed out or switched accounts while loading
     const bad = w.error || b.error || l.error;
     if(bad){ S.vote.state='error'; S.vote.err=bad; renderWorkIfShown(); return; }
-    S.vote = {season, state:'ready',
+    S.vote = {season, state:'ready', next:null,
       weeks: Object.fromEntries(w.data.map(x=>[x.week, x.lock_at])),
       mine: Object.fromEntries(b.data.map(x=>[x.week, {ranking:x.ranking, at:x.submitted_at}])),
       late: Object.fromEntries(l.data.map(x=>[x.week, {ranking:x.ranking, at:x.submitted_at, status:x.status}]))};
-    const open=openWeekNum(), menu=weekMenu();
-    loadWeek(open!=null ? open : menu.length ? menu[menu.length-1] : null);
+    // with no week open yet, the coming week can be drafted: the one after this week's games
+    const open=openWeekNum(), sw=S.schedule && S.schedule.week;
+    if(open==null && sw!=null && !S.vote.weeks[sw+1]) S.vote.next = sw+1;
+    const menu=weekMenu();
+    loadWeek(open!=null ? open : S.vote.next!=null ? S.vote.next : menu.length ? menu[menu.length-1] : null);
   }
-  function clearVoting(){ S.vote = {season:null, state:'idle', weeks:{}, mine:{}, late:{}}; S.cur=null; S.draft=[]; S.dirty=false; clearTimeout(lockTimer); }
+  function clearVoting(){ S.vote = {season:null, state:'idle', weeks:{}, mine:{}, late:{}, next:null}; S.cur=null; S.draft=[]; S.dirty=false; clearTimeout(lockTimer); }
   function loadWeek(n){
     S.cur = n;
     const base = baseOf(n), stash = n!=null && editable(n) ? readStash(n) : null;
@@ -1299,7 +1303,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     const sub=S.vote.mine[n], lt=S.vote.late[n], pend = lt && lt.status==='pending' && ph==='late', declined = lt && lt.status==='declined';
     $('view-work').classList.toggle('ro', !can);
     [wSortable, S.sortBallot, S.sortPool].forEach(x=>{ if(x) x.option('disabled', !can); });
-    $('deadline').innerHTML = !L ? '' : ph==='open' ? `Voting closes <b>${esc(etTime(L))}</b>`
+    $('deadline').innerHTML = ph==='soon' ? `Voting opens Sunday morning, once week ${esc(n-1)}’s games are final` : !L ? '' : ph==='open' ? `Voting closes <b>${esc(etTime(L))}</b>`
       : ph==='late' && !declined ? `Voting closed ${esc(etTime(L))} · late ballots need the owner’s approval` : `Voting closed ${esc(etTime(L))}`;
     let msg, warn=false, btn='Submit ballot';
     if(S.vote.state==='loading') msg='Loading your ballots…';
@@ -1307,6 +1311,8 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     else if(n==null) msg='No week is open for voting yet. Voting opens after the weekend’s games.';
     else if(declined) msg = 'Your late ballot wasn’t accepted' + (sub ? `; your on-time ballot (${atTime(sub.at)}) counts.` : '.');
     else if(!can) msg = sub ? 'Submitted ' + atTime(sub.at) : 'No ballot submitted';
+    else if(ph==='soon') msg = S.draft.length<BMAX ? `${S.draft.length} of ${BMAX} ranked · saved in this browser until voting opens`
+      : 'Ready. Saved in this browser; submit it once voting opens Sunday morning.';
     else if(S.draft.length<BMAX){ msg=`${S.draft.length} of ${BMAX} ranked`; warn=true; }
     else if(S.dirty && ph==='late'){ msg = sub && !pend ? `Your on-time ballot (${atTime(sub.at)}) counts. Changes now go in as a late ballot for the owner to approve.` : 'Ready to send as a late ballot'; warn=true; }
     else if(S.dirty){ msg = sub ? 'Changes not submitted' : 'Ready to submit'; warn=true; }
@@ -1314,7 +1320,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     else { msg = 'Submitted ' + atTime(sub.at); btn='Submitted'; }
     st.textContent=msg; st.className='status'+(warn?' warn':'');
     sv.hidden = !can; sv.textContent = S.busy ? 'Sending…' : btn;
-    sv.disabled = S.busy || !can || S.draft.length!==BMAX || !S.dirty;
+    sv.disabled = S.busy || !can || ph==='soon' || S.draft.length!==BMAX || !S.dirty;
     wd.hidden = !can || !(pend || (ph==='open' && sub)); wd.disabled = S.busy;
     $('startFrom').hidden = !can;
     $('openWeek').hidden = !(S.isOwner && S.vote.state==='ready' && openWeekNum()==null);
@@ -1322,12 +1328,13 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   // weeks to choose from: ones I voted in or sent a late ballot for, the open week, and weeks still taking late ballots
   function weekMenu(){
     const ws = Object.keys(S.vote.mine).concat(Object.keys(S.vote.late), Object.keys(S.vote.weeks).filter(n=>{ const p=phase(n); return p==='open' || p==='late'; }));
+    if(S.vote.next!=null) ws.push(S.vote.next);
     if(S.cur!=null) ws.push(S.cur);
     return [...new Set(ws.map(Number))].sort((a,b)=>a-b);
   }
   function renderWeekBar(){
     const sel=$('weekSel'), weeks=weekMenu();
-    const tag = n => isOpen(n) ? ' (open)' : phase(n)==='late' && editable(n) ? ' (late)' : '';
+    const tag = n => isOpen(n) ? ' (open)' : phase(n)==='soon' ? ' (next)' : phase(n)==='late' && editable(n) ? ' (late)' : '';
     sel.innerHTML = weeks.map(n=>`<option value="${n}"${n===S.cur?' selected':''}>${n}${tag(n)}</option>`).join('');
     sel.hidden = !weeks.length;
   }
@@ -1335,7 +1342,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   // in the late window it waits for the owner's approval.
   async function submitBallot(){
     const n=S.cur, ph=phase(n);
-    if(S.busy || !editable(n) || S.draft.length!==BMAX || !S.dirty) return;
+    if(S.busy || !(ph==='open' || ph==='late') || !editable(n) || S.draft.length!==BMAX || !S.dirty) return;
     const late = ph==='late', table = late ? 'late_ballots' : 'ballots';
     S.busy=true; renderStatus();
     const row = {user_id:S.me.user.id, season:S.vote.season, week:n, ranking:S.draft.slice()};
@@ -1385,7 +1392,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   }
   async function withdrawBallot(){
     const n=S.cur, late=phase(n)==='late';
-    if(S.busy || !editable(n)) return;
+    if(S.busy || !editable(n) || phase(n)==='soon') return;
     if(!confirm(late ? `Withdraw your late ballot for week ${n}?` : `Withdraw your week ${n} ballot? It won’t count unless you submit again before the deadline.`)) return;
     S.busy=true; renderStatus();
     const { data, error } = await sb.from(late ? 'late_ballots' : 'ballots').delete()
