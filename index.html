@@ -890,7 +890,8 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   S.adj = {}; S.adjPub = {};
   const DIALS = ['SEC','Big Ten','Big 12','ACC','FBS Independents','Group of 5'];  // each Power 4 conference, Independents, all of the Group of 5
   const dialOf = conf => DIALS.includes(conf) ? conf : 'Group of 5';
-  const adjOf = a => +(S.adj[dialOf((S.teams[a]||{}).conf)]||0);
+  // the Conference Modifier is a Data-tab what-if: everywhere else Wolp+ is the pure rating
+  const adjOf = a => S.tab==='rank' ? +(S.adj[dialOf((S.teams[a]||{}).conf)]||0) : 0;
   const fRating = a => S.teams[a].powerRating + adjOf(a);
   function mdl(){
     if(S._mdl) return S._mdl;
@@ -1740,6 +1741,8 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     S.tab=v;
     TABS.forEach(k=>{ $('tab-'+k).setAttribute('aria-selected', String(k===v)); $('view-'+k).hidden = k!==v; });
     $('cmpMode').hidden = !(v==='rank' || v==='work');
+    $('fMenu').hidden = v!=='rank'; if(v!=='rank') $('fMenu').open = false;
+    S._mdl = null;  // Wolp+ ranks include the Conference Modifier on the Data tab only
     if($('cmpMode').hidden && S.cmpOn){ S.cmpOn=false; S.cmp=[]; renderCmpBar(); }
     try{ history.replaceState(null, '', v==='home' ? location.pathname + location.search : '#'+v); }catch(e){}
     renderCurrent(); window.scrollTo(0,0);
