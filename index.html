@@ -410,7 +410,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     <div class="ph"><div><h1 id="rTitle">Data</h1><div class="sub" id="rSub"></div></div>
       <div class="row"><a class="pill on" href="#map">Results Map</a><a class="pill" href="#stats">Stats table ↓</a></div></div>
     <div class="filters row">
-      <span class="lab">Show</span>
+      <span class="lab">Filter</span>
       <button class="pill" data-show="top">Top 25</button>
       <button class="pill" data-show="all">All FBS</button>
       <details class="colmenu confmenu" id="rConfMenu"><summary class="pill" id="rConfSum">All conferences ▾</summary><div class="menu" id="rConfList"></div></details>
@@ -418,12 +418,12 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       <span class="count" id="rCount"></span>
     </div>
     <section class="sec" id="map"><div class="sh"><h2>Results Map<small>Every game, placed by the opponent’s Wolp+ rank</small></h2>
-      <div class="row"><span style="color:var(--muted);font-size:13px">Sort</span><button class="pill" data-ms="wolp">Chili</button><button class="pill" data-ms="comp">Wolp+</button><button class="pill" data-ms="best">Best win</button><button class="pill" data-ms="worst">Worst loss</button></div></div>
+      <div class="row"><span style="color:var(--muted);font-size:13px">Sort</span><button class="pill" data-ms="wolp">Chili</button><button class="pill" data-ms="comp">Wolp+</button><button class="pill" data-ms="ap">AP</button><button class="pill" data-ms="fpi">FPI</button><button class="pill" data-ms="best">Best win</button><button class="pill" data-ms="worst">Worst loss</button></div></div>
       <div class="legend" id="legend1"></div>
       <div id="rMap" class="map"></div>
     </section>
     <section class="sec" id="stats"><div class="sh"><h2>Stats<small>Same teams as the Results Map</small></h2>
-      <div class="row"><span style="color:var(--muted);font-size:13px">Sort</span><button class="pill" data-ms="wolp">Chili</button><button class="pill" data-ms="comp">Wolp+</button><button class="pill" data-ms="best">Best win</button><button class="pill" data-ms="worst">Worst loss</button>
+      <div class="row"><span style="color:var(--muted);font-size:13px">Sort</span><button class="pill" data-ms="wolp">Chili</button><button class="pill" data-ms="comp">Wolp+</button><button class="pill" data-ms="ap">AP</button><button class="pill" data-ms="fpi">FPI</button><button class="pill" data-ms="best">Best win</button><button class="pill" data-ms="worst">Worst loss</button>
       <details class="colmenu" id="colMenu"><summary class="pill">Columns ▾</summary><div class="menu" id="colList"></div></details></div></div>
       <div class="tblw"><table id="rTable"></table></div>
       <p class="note">The Sort buttons match the Results Map (choosing one sorts both). You can also click a column heading to sort (click again to reverse). Click any team for its full game log.</p>
@@ -672,6 +672,8 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     {k:'defXpl', h:'Def Expl', menu:'defense explosiveness allowed', g:'Efficiency', bw:'3.2rem', pw:'3rem', fmt:'n', lo:true, off:true},
     {k:'sosDef', h:'Defs faced', menu:'defenses faced (lower = tougher)', g:'Schedule', bw:'3.6rem', pw:'3.4rem', fmt:'n', lo:true, off:true},
     {k:'sosOff', h:'Offs faced', menu:'offenses faced (higher = tougher)', g:'Schedule', bw:'3.6rem', pw:'3.4rem', fmt:'n', off:true},
+    {k:'apNow', h:'AP', menu:"this week's AP Top 25 rank", g:'Other rankings', bw:'2.7rem', pw:'2.6rem', fmt:'r', lo:true, val:a=>apRank(a)},
+    {k:'fpiRank', h:'FPI', menu:'ESPN Football Power Index rank', g:'Other rankings', bw:'2.7rem', pw:'2.6rem', fmt:'r', lo:true},
     {k:'frank', h:'Wolp+', menu:'rank: Model + conference dials', g:'Model', bw:'3.4rem', pw:'3.2rem', fmt:'r', lo:true, strong:true, val:a=>mdl().crank[a]},
     {k:'proj', h:'Proj. record', menu:'projected final record', g:'Model', bw:'4.6rem', pw:'4.4rem', off:true},
     {k:'powerRating', h:'Rating', menu:'points vs an average team', g:'Model', bw:'3rem', pw:'2.9rem', fmt:'n1', off:true},
@@ -693,7 +695,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   S.vis = {r:loadVis('cfb2-cols'), b:loadVis('cfb2-cols-ballot',['ly','lyAp','resumeRank']), p:loadVis('cfb2-cols-teams',['ly','lyAp','t25','resumeRank'])};
   try{ const mg=localStorage.getItem('cfb2-cols-mig'); if(mg!=='2'){ if(mg!=='1'){ S.vis.r.q1=false; S.vis.r.proj=false; } S.vis.r.adjOffEpa=true; S.vis.r.adjDefEpa=true; S.vis.r.offEpa=false; S.vis.r.defEpa=false; localStorage.setItem('cfb2-cols', JSON.stringify(S.vis.r)); localStorage.setItem('cfb2-cols-mig','2'); } }catch(e){}
   const shown = w => COLS.filter(c=>S.vis[w][c.k]);
-  const DEFS = {adjOffEpa:'Expected points added per play on offense, adjusted for the defenses faced (garbage time excluded). Higher is better.',adjDefEpa:'Expected points added per play allowed on defense, adjusted for the offenses faced. Lower is better.',frank:"The formula ranking: the Model's power rating (points better than an average FBS team on a neutral field, built from scores only) plus any conference dials. With the dials at 0 it is the pure Model.",resumeRank:"A results-based metric, with influence from opponents' Model rank (Wolp+ without the conference dials).",resultsRank:'Strength of résumé: a purely results-based metric.',offEpa:'Expected points added per play on offense (garbage time excluded). Higher is better.',defEpa:'Expected points added per play allowed on defense. Lower is better.'};
+  const DEFS = {apNow:"This week's AP Top 25 rank (unranked teams sort last).",fpiRank:"ESPN's Football Power Index rank: ESPN's own predictive power rating, shown for comparison only (it never feeds into Wolp+).",adjOffEpa:'Expected points added per play on offense, adjusted for the defenses faced (garbage time excluded). Higher is better.',adjDefEpa:'Expected points added per play allowed on defense, adjusted for the offenses faced. Lower is better.',frank:"The formula ranking: the Model's power rating (points better than an average FBS team on a neutral field, built from scores only) plus any conference dials. With the dials at 0 it is the pure Model.",resumeRank:"A results-based metric, with influence from opponents' Model rank (Wolp+ without the conference dials).",resultsRank:'Strength of résumé: a purely results-based metric.',offEpa:'Expected points added per play on offense (garbage time excluded). Higher is better.',defEpa:'Expected points added per play allowed on defense. Lower is better.'};
   function renderDefs(){ let g='', h='<dl class="sdefs"><dt>Chili</dt><dd>Chili Poll rank (Top 25, then Also ranked 26–35).</dd>';
     COLS.forEach(c=>{ if(c.g!==g){ h+=`<div class="sdh">${esc(c.g)}</div>`; g=c.g; } const d=DEFS[c.k]||(c.menu[0].toUpperCase()+c.menu.slice(1)+'.'); h+=`<dt>${esc(c.h)}</dt><dd>${d}</dd>`; });
     $('sdefs').innerHTML = h+'</dl>'; }
@@ -854,8 +856,8 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     const ranks=pubMap(), cr=mdl().crank, q=S.r.q.trim().toLowerCase(), R=S.r;
     return Object.keys(S.teams).filter(a=>{
       const t=S.teams[a];
-      // Top 25 follows the Sort: by Wolp+ = the Wolp+ Top 25; otherwise the Chili Poll (Top 25 + Also ranked 26-35)
-      if(R.show==='top' && (R.ms==='comp' ? !(cr[a]<=25) : !ranks[a])) return false;
+      // Top 25 follows the Sort: Wolp+, AP or FPI = that Top 25; otherwise the Chili Poll (Top 25 + Also ranked 26-35)
+      if(R.show==='top' && (R.ms==='comp' ? !(cr[a]<=25) : R.ms==='ap' ? !apRank(a) : R.ms==='fpi' ? !(t.fpiRank<=25) : !ranks[a])) return false;
       if(R.confOff.includes(dialOf(t.conf))) return false;
       if(q && !(t.name.toLowerCase().includes(q))) return false;
       return true;
@@ -886,6 +888,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     // Results Map
     const bwv = a => { const x=bestWorst(a); return x; };
     const ord = {wolp:wsort(ranks), comp:(a,b)=>(cr[a]||999)-(cr[b]||999),
+      ap:(a,b)=>(apRank(a)||999)-(apRank(b)||999) || (cr[a]||999)-(cr[b]||999), fpi:(a,b)=>(S.teams[a].fpiRank||999)-(S.teams[b].fpiRank||999),
       best:(a,b)=>{ const x=bwv(a).bw, y=bwv(b).bw; return (!x)-(!y) || (x&&y ? y.v-x.v : 0) || wsort(ranks)(a,b); },
       worst:(a,b)=>{ const x=bwv(a).wl, y=bwv(b).wl; return (!x)-(!y) || (x&&y ? x.v-y.v : 0) || wsort(ranks)(a,b); }}[R.ms];
     const M = L.slice().sort(ord);
@@ -929,7 +932,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   $('rConfList').addEventListener('click', e=>{ const b=e.target.closest('[data-cfall]'); if(!b) return; S.r.confOff = b.dataset.cfall==='1' ? [] : DIALS.slice(); renderConfs(); renderRank(); });
   $('rQ').addEventListener('input', e=>{ S.r.q=e.target.value; renderRank(); });
   function saveR(){ try{ localStorage.setItem('cfb2-rank', JSON.stringify({ms:S.r.ms})); }catch(e){} }
-  try{ const v=JSON.parse(localStorage.getItem('cfb2-rank')||'null'); if(v && ['wolp','comp','best','worst'].includes(v.ms)) S.r.ms=v.ms; }catch(e){}
+  try{ const v=JSON.parse(localStorage.getItem('cfb2-rank')||'null'); if(v && ['wolp','comp','ap','fpi','best','worst'].includes(v.ms)) S.r.ms=v.ms; }catch(e){}
   function renderConfs(){
     // one checkbox per Power 4 conference, Independents, and the whole Group of 5 (same groups as the conference dials)
     const lab = k => k==='FBS Independents' ? 'Independents' : k, on = DIALS.filter(k=>!S.r.confOff.includes(k));

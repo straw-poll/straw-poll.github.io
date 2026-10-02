@@ -50,7 +50,9 @@
    "offXpl": 1.1007239232442236,
    "defXpl": 1.4388985150661295,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/2005.png",
-   "color": "#003594"
+   "color": "#003594",
+   "fpi": -5.34,
+   "fpiRank": 89
   },
   "Akron": {
    "name": "Akron",
@@ -108,7 +110,9 @@
    "offXpl": 1.0048788692407047,
    "defXpl": 1.422678780004243,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/2006.png",
-   "color": "#041e42"
+   "color": "#041e42",
+   "fpi": -20.103,
+   "fpiRank": 132
   },
   "Alabama": {
    "name": "Alabama",
@@ -166,7 +170,9 @@
    "offXpl": 1.349617884702211,
    "defXpl": 1.4825947022052899,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/333.png",
-   "color": "#9e1b32"
+   "color": "#9e1b32",
+   "fpi": 24.643,
+   "fpiRank": 6
   },
   "App State": {
    "name": "App State",
@@ -224,7 +230,9 @@
    "offXpl": 1.3431838683877844,
    "defXpl": 1.1107116525322527,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/2026.png",
-   "color": "#000000"
+   "color": "#000000",
+   "fpi": -5.571,
+   "fpiRank": 90
   },
   "Arizona": {
    "name": "Arizona",
@@ -282,7 +290,9 @@
    "offXpl": 1.196337028881022,
    "defXpl": 1.3965789087254679,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/12.png",
-   "color": "#cc0033"
+   "color": "#cc0033",
+   "fpi": 5.563,
+   "fpiRank": 50
   },
   "Arizona State": {
    "name": "Arizona State",
@@ -331,7 +341,9 @@
    "offXpl": 1.3213101236071345,
    "defXpl": 1.202630767231941,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/9.png",
-   "color": "#ffc627"
+   "color": "#ffc627",
+   "fpi": 3.044,
+   "fpiRank": 57
   },
   "Arkansas": {
    "name": "Arkansas",
@@ -389,7 +401,9 @@
    "offXpl": 1.0628789558186653,
    "defXpl": 1.0976560923074639,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/8.png",
-   "color": "#a32136"
+   "color": "#a32136",
+   "fpi": 2.16,
+   "fpiRank": 60
   },
   "Arkansas State": {
    "name": "Arkansas State",
@@ -447,7 +461,9 @@
    "offXpl": 1.1475245250229325,
    "defXpl": 1.2898131023815567,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/2032.png",
-   "color": "#cc092f"
+   "color": "#cc092f",
+   "fpi": -9.898,
+   "fpiRank": 109
   },
   "Army": {
    "name": "Army",
@@ -496,7 +512,9 @@
    "offXpl": 1.0450912172665376,
    "defXpl": 1.3009681976384324,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/349.png",
-   "color": "#000000"
+   "color": "#000000",
+   "fpi": -2.324,
+   "fpiRank": 79
   },
   "Auburn": {
    "name": "Auburn",
@@ -554,7 +572,9 @@
    "offXpl": 1.2780760492788135,
    "defXpl": 1.2341471114657923,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/2.png",
-   "color": "#0c2340"
+   "color": "#0c2340",
+   "fpi": 13.039,
+   "fpiRank": 24
   },
   "BYU": {
    "name": "BYU",
@@ -603,7 +623,9 @@
    "offXpl": 1.2197808116682167,
    "defXpl": 1.2619008104612157,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/252.png",
-   "color": "#003da5"
+   "color": "#003da5",
+   "fpi": 14.915,
+   "fpiRank": 17
   },
   "Ball State": {
    "name": "Ball State",
@@ -661,7 +683,9 @@
    "offXpl": 1.486646038628749,
    "defXpl": 1.4902099159483382,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/2050.png",
-   "color": "#ba0c2f"
+   "color": "#ba0c2f",
+   "fpi": -23.271,
+   "fpiRank": 136
   },
   "Baylor": {
    "name": "Baylor",
@@ -719,7 +743,9 @@
    "offXpl": 1.262282795033135,
    "defXpl": 1.1420690126952717,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/239.png",
-   "color": "#154734"
+   "color": "#154734",
+   "fpi": 7.712,
+   "fpiRank": 39
   },
   "Boise State": {
    "name": "Boise State",
@@ -777,7 +803,9 @@
    "offXpl": 1.1752582075197362,
    "defXpl": 1.6945404345136668,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/68.png",
-   "color": "#0033a0"
+   "color": "#0033a0",
+   "fpi": 11.096,
+   "fpiRank": 29
   },
   "Boston College": {
    "name": "Boston College",
@@ -835,7 +863,9 @@
    "offXpl": 1.1528637296047326,
    "defXpl": 1.2373410366856836,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/103.png",
-   "color": "#8c2232"
+   "color": "#8c2232",
+   "fpi": -4.807,
+   "fpiRank": 86
   },
   "Bowling Green": {
    "name": "Bowling Green",
@@ -893,7 +923,9 @@
    "offXpl": 0.9013020134938761,
    "defXpl": 1.3372507255142976,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/189.png",
-   "color": "#fd5000"
+   "color": "#fd5000",
+   "fpi": -21.411,
+   "fpiRank": 134
   },
   "Buffalo": {
    "name": "Buffalo",
@@ -951,7 +983,9 @@
    "offXpl": 1.2543810350726496,
    "defXpl": 1.479777214488511,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/2084.png",
-   "color": "#005bbb"
+   "color": "#005bbb",
+   "fpi": -18.619,
+   "fpiRank": 130
   },
   "California": {
    "name": "California",
@@ -1009,7 +1043,9 @@
    "offXpl": 1.237693227099813,
    "defXpl": 1.3571719029133062,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/25.png",
-   "color": "#041e42"
+   "color": "#041e42",
+   "fpi": -2.133,
+   "fpiRank": 76
   },
   "Central Michigan": {
    "name": "Central Michigan",
@@ -1067,7 +1103,9 @@
    "offXpl": 1.1151878219473623,
    "defXpl": 1.0956174778848309,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/2117.png",
-   "color": "#6a0032"
+   "color": "#6a0032",
+   "fpi": -16.405,
+   "fpiRank": 127
   },
   "Charlotte": {
    "name": "Charlotte",
@@ -1125,7 +1163,9 @@
    "offXpl": 1.0423339480666034,
    "defXpl": 1.1855885619817152,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/2429.png",
-   "color": "#005035"
+   "color": "#005035",
+   "fpi": -18.565,
+   "fpiRank": 129
   },
   "Cincinnati": {
    "name": "Cincinnati",
@@ -1183,7 +1223,9 @@
    "offXpl": 1.3362049303439774,
    "defXpl": 1.1960843591500052,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/2132.png",
-   "color": "#000000"
+   "color": "#000000",
+   "fpi": 7.055,
+   "fpiRank": 42
   },
   "Clemson": {
    "name": "Clemson",
@@ -1241,7 +1283,9 @@
    "offXpl": 1.199816377159491,
    "defXpl": 1.1311235985644492,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/228.png",
-   "color": "#f56600"
+   "color": "#f56600",
+   "fpi": 7.389,
+   "fpiRank": 40
   },
   "Coastal Carolina": {
    "name": "Coastal Carolina",
@@ -1299,7 +1343,9 @@
    "offXpl": 1.4749889567430348,
    "defXpl": 0.9481096464636102,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/324.png",
-   "color": "#006f71"
+   "color": "#006f71",
+   "fpi": -11.766,
+   "fpiRank": 114
   },
   "Colorado": {
    "name": "Colorado",
@@ -1357,7 +1403,9 @@
    "offXpl": 1.2426580677422463,
    "defXpl": 1.1815313581787075,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/38.png",
-   "color": "#cfb87c"
+   "color": "#cfb87c",
+   "fpi": -0.633,
+   "fpiRank": 71
   },
   "Colorado State": {
    "name": "Colorado State",
@@ -1415,7 +1463,9 @@
    "offXpl": 1.5508215047052791,
    "defXpl": 1.2216106785358403,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/36.png",
-   "color": "#1e4d2b"
+   "color": "#1e4d2b",
+   "fpi": -6.612,
+   "fpiRank": 93
   },
   "Delaware": {
    "name": "Delaware",
@@ -1473,7 +1523,9 @@
    "offXpl": 1.2836877909405784,
    "defXpl": 1.2368562310880375,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/48.png",
-   "color": "#00539f"
+   "color": "#00539f",
+   "fpi": -8.945,
+   "fpiRank": 108
   },
   "Duke": {
    "name": "Duke",
@@ -1531,7 +1583,9 @@
    "offXpl": 1.3077930147594785,
    "defXpl": 1.0812460235435832,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/150.png",
-   "color": "#00539b"
+   "color": "#00539b",
+   "fpi": 10.899,
+   "fpiRank": 30
   },
   "East Carolina": {
    "name": "East Carolina",
@@ -1589,7 +1643,9 @@
    "offXpl": 1.2737874112744616,
    "defXpl": 1.3725789282443812,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/151.png",
-   "color": "#592a8a"
+   "color": "#592a8a",
+   "fpi": -4.112,
+   "fpiRank": 85
   },
   "Eastern Michigan": {
    "name": "Eastern Michigan",
@@ -1656,7 +1712,9 @@
    "offXpl": 1.1544573979138653,
    "defXpl": 1.260521888582874,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/2199.png",
-   "color": "#046a38"
+   "color": "#046a38",
+   "fpi": -18.688,
+   "fpiRank": 131
   },
   "Florida": {
    "name": "Florida",
@@ -1714,7 +1772,9 @@
    "offXpl": 1.2806635195505691,
    "defXpl": 1.190277380570462,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/57.png",
-   "color": "#0021a5"
+   "color": "#0021a5",
+   "fpi": 19.25,
+   "fpiRank": 10
   },
   "Florida Atlantic": {
    "name": "Florida Atlantic",
@@ -1772,7 +1832,9 @@
    "offXpl": 1.2324106297478767,
    "defXpl": 1.5895388410715339,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/2226.png",
-   "color": "#003366"
+   "color": "#003366",
+   "fpi": -8.242,
+   "fpiRank": 102
   },
   "Florida International": {
    "name": "Florida International",
@@ -1830,7 +1892,9 @@
    "offXpl": 1.2069907538933642,
    "defXpl": 1.1588398912972853,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/2229.png",
-   "color": "#091f3f"
+   "color": "#091f3f",
+   "fpi": -11.821,
+   "fpiRank": 116
   },
   "Florida State": {
    "name": "Florida State",
@@ -1888,7 +1952,9 @@
    "offXpl": 1.5206293242891817,
    "defXpl": 1.3860548368856032,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/52.png",
-   "color": "#782f40"
+   "color": "#782f40",
+   "fpi": 6.593,
+   "fpiRank": 45
   },
   "Fresno State": {
    "name": "Fresno State",
@@ -1946,7 +2012,9 @@
    "offXpl": 1.4301474481682026,
    "defXpl": 1.1300031877306127,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/278.png",
-   "color": "#c41230"
+   "color": "#c41230",
+   "fpi": -0.884,
+   "fpiRank": 72
   },
   "Georgia": {
    "name": "Georgia",
@@ -2004,7 +2072,9 @@
    "offXpl": 1.190870146149247,
    "defXpl": 1.1005910705210753,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/61.png",
-   "color": "#ba0c2f"
+   "color": "#ba0c2f",
+   "fpi": 28.296,
+   "fpiRank": 1
   },
   "Georgia Southern": {
    "name": "Georgia Southern",
@@ -2062,7 +2132,9 @@
    "offXpl": 1.165267179629211,
    "defXpl": 1.1273440774457184,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/290.png",
-   "color": "#041e42"
+   "color": "#041e42",
+   "fpi": -7.372,
+   "fpiRank": 100
   },
   "Georgia State": {
    "name": "Georgia State",
@@ -2120,7 +2192,9 @@
    "offXpl": 1.3483840209560656,
    "defXpl": 1.3308383092019398,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/2247.png",
-   "color": "#0039a6"
+   "color": "#0039a6",
+   "fpi": -7.358,
+   "fpiRank": 99
   },
   "Georgia Tech": {
    "name": "Georgia Tech",
@@ -2178,7 +2252,9 @@
    "offXpl": 1.2448184290948532,
    "defXpl": 1.2766579312382424,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/59.png",
-   "color": "#b3a369"
+   "color": "#b3a369",
+   "fpi": 0.004,
+   "fpiRank": 66
   },
   "Hawai'i": {
    "name": "Hawai'i",
@@ -2236,7 +2312,9 @@
    "offXpl": 1.1248847728792668,
    "defXpl": 1.2265552991957558,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/62.png",
-   "color": "#024731"
+   "color": "#024731",
+   "fpi": -11.142,
+   "fpiRank": 112
   },
   "Houston": {
    "name": "Houston",
@@ -2294,7 +2372,9 @@
    "offXpl": 1.1358491642191983,
    "defXpl": 1.3083546638985355,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/248.png",
-   "color": "#c8102e"
+   "color": "#c8102e",
+   "fpi": 11.459,
+   "fpiRank": 27
   },
   "Illinois": {
    "name": "Illinois",
@@ -2352,7 +2432,9 @@
    "offXpl": 1.3121677849906273,
    "defXpl": 1.2838335601221191,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/356.png",
-   "color": "#ff5f05"
+   "color": "#ff5f05",
+   "fpi": 6.768,
+   "fpiRank": 44
   },
   "Indiana": {
    "name": "Indiana",
@@ -2410,7 +2492,9 @@
    "offXpl": 1.3961514869428315,
    "defXpl": 1.4279162576395634,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/84.png",
-   "color": "#990000"
+   "color": "#990000",
+   "fpi": 24.412,
+   "fpiRank": 7
   },
   "Iowa": {
    "name": "Iowa",
@@ -2468,7 +2552,9 @@
    "offXpl": 1.2418662759561556,
    "defXpl": 1.10355346520786,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/2294.png",
-   "color": "#000000"
+   "color": "#000000",
+   "fpi": 12.754,
+   "fpiRank": 25
   },
   "Iowa State": {
    "name": "Iowa State",
@@ -2526,7 +2612,9 @@
    "offXpl": 1.3630402619455417,
    "defXpl": 1.1007549630354105,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/66.png",
-   "color": "#c8102e"
+   "color": "#c8102e",
+   "fpi": 3.988,
+   "fpiRank": 55
   },
   "Jacksonville State": {
    "name": "Jacksonville State",
@@ -2593,7 +2681,9 @@
    "offXpl": 1.206591455665459,
    "defXpl": 1.094007671797357,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/55.png",
-   "color": "#cc0000"
+   "color": "#cc0000",
+   "fpi": -8.486,
+   "fpiRank": 105
   },
   "James Madison": {
    "name": "James Madison",
@@ -2651,7 +2741,9 @@
    "offXpl": 1.1908000069620057,
    "defXpl": 1.3738195154059716,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/256.png",
-   "color": "#450084"
+   "color": "#450084",
+   "fpi": 5.899,
+   "fpiRank": 49
   },
   "Kansas": {
    "name": "Kansas",
@@ -2700,7 +2792,9 @@
    "offXpl": 1.4866868709564534,
    "defXpl": 1.3263920573360948,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/2305.png",
-   "color": "#0051ba"
+   "color": "#0051ba",
+   "fpi": -0.443,
+   "fpiRank": 70
   },
   "Kansas State": {
    "name": "Kansas State",
@@ -2758,7 +2852,9 @@
    "offXpl": 1.2573389363640015,
    "defXpl": 1.4864998670813523,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/2306.png",
-   "color": "#512888"
+   "color": "#512888",
+   "fpi": 9.664,
+   "fpiRank": 34
   },
   "Kennesaw State": {
    "name": "Kennesaw State",
@@ -2816,7 +2912,9 @@
    "offXpl": 1.1105760597467467,
    "defXpl": 1.0867047200573554,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/338.png",
-   "color": "#fdbb30"
+   "color": "#fdbb30",
+   "fpi": -11.164,
+   "fpiRank": 113
   },
   "Kent State": {
    "name": "Kent State",
@@ -2874,7 +2972,9 @@
    "offXpl": 1.4622568214134155,
    "defXpl": 1.2692633933017186,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/2309.png",
-   "color": "#002664"
+   "color": "#002664",
+   "fpi": -21.591,
+   "fpiRank": 135
   },
   "Kentucky": {
    "name": "Kentucky",
@@ -2932,7 +3032,9 @@
    "offXpl": 1.2287266959330783,
    "defXpl": 1.2045981252349465,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/96.png",
-   "color": "#0033a0"
+   "color": "#0033a0",
+   "fpi": 9.445,
+   "fpiRank": 36
   },
   "LSU": {
    "name": "LSU",
@@ -2990,7 +3092,9 @@
    "offXpl": 1.299842046541327,
    "defXpl": 1.281284113004443,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/99.png",
-   "color": "#461d7c"
+   "color": "#461d7c",
+   "fpi": 22.113,
+   "fpiRank": 8
   },
   "Liberty": {
    "name": "Liberty",
@@ -3048,7 +3152,9 @@
    "offXpl": 1.1329721185634072,
    "defXpl": 1.435484494917125,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/2335.png",
-   "color": "#0a254e"
+   "color": "#0a254e",
+   "fpi": -2.142,
+   "fpiRank": 77
   },
   "Louisiana": {
    "name": "Louisiana",
@@ -3106,7 +3212,9 @@
    "offXpl": 1.222420188261776,
    "defXpl": 0.9828763407921342,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/309.png",
-   "color": "#ce181e"
+   "color": "#ce181e",
+   "fpi": -3.043,
+   "fpiRank": 82
   },
   "Louisiana Tech": {
    "name": "Louisiana Tech",
@@ -3155,7 +3263,9 @@
    "offXpl": 1.4240353445698544,
    "defXpl": 1.4600506687796213,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/2348.png",
-   "color": "#003087"
+   "color": "#003087",
+   "fpi": -6.747,
+   "fpiRank": 94
   },
   "Louisville": {
    "name": "Louisville",
@@ -3213,7 +3323,9 @@
    "offXpl": 1.3878221074903756,
    "defXpl": 1.2270264133303201,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/97.png",
-   "color": "#c9001f"
+   "color": "#c9001f",
+   "fpi": 10.798,
+   "fpiRank": 31
   },
   "Marshall": {
    "name": "Marshall",
@@ -3271,7 +3383,9 @@
    "offXpl": 1.2428040827604332,
    "defXpl": 1.373441433219082,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/276.png",
-   "color": "#00b140"
+   "color": "#00b140",
+   "fpi": -13.075,
+   "fpiRank": 120
   },
   "Maryland": {
    "name": "Maryland",
@@ -3329,7 +3443,9 @@
    "offXpl": 1.3065438113289978,
    "defXpl": 1.2727392632779395,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/120.png",
-   "color": "#ce1126"
+   "color": "#ce1126",
+   "fpi": -1.69,
+   "fpiRank": 74
   },
   "Massachusetts": {
    "name": "Massachusetts",
@@ -3387,7 +3503,9 @@
    "offXpl": 1.297359913397289,
    "defXpl": 0.9929791612920048,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/113.png",
-   "color": "#881c1c"
+   "color": "#881c1c",
+   "fpi": -8.345,
+   "fpiRank": 103
   },
   "Memphis": {
    "name": "Memphis",
@@ -3445,7 +3563,9 @@
    "offXpl": 1.369827052932887,
    "defXpl": 1.4407045616073875,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/235.png",
-   "color": "#00498f"
+   "color": "#00498f",
+   "fpi": 0.021,
+   "fpiRank": 65
   },
   "Miami": {
    "name": "Miami",
@@ -3503,7 +3623,9 @@
    "offXpl": 1.257798434132894,
    "defXpl": 1.1412844108042235,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/2390.png",
-   "color": "#f47321"
+   "color": "#f47321",
+   "fpi": 25.673,
+   "fpiRank": 5
   },
   "Miami (OH)": {
    "name": "Miami (OH)",
@@ -3561,7 +3683,9 @@
    "offXpl": 1.5105760922765403,
    "defXpl": 1.3809406243930884,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/193.png",
-   "color": "#c41230"
+   "color": "#c41230",
+   "fpi": -7.681,
+   "fpiRank": 101
   },
   "Michigan": {
    "name": "Michigan",
@@ -3619,7 +3743,9 @@
    "offXpl": 1.1764363288571758,
    "defXpl": 1.197651033554882,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/130.png",
-   "color": "#00274c"
+   "color": "#00274c",
+   "fpi": 13.275,
+   "fpiRank": 23
   },
   "Michigan State": {
    "name": "Michigan State",
@@ -3677,7 +3803,9 @@
    "offXpl": 1.0653832953739268,
    "defXpl": 1.2431027964858987,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/127.png",
-   "color": "#173f35"
+   "color": "#173f35",
+   "fpi": 3.598,
+   "fpiRank": 56
   },
   "Middle Tennessee": {
    "name": "Middle Tennessee",
@@ -3735,7 +3863,9 @@
    "offXpl": 1.1708755822401458,
    "defXpl": 1.1340870451578597,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/2393.png",
-   "color": "#036eb7"
+   "color": "#036eb7",
+   "fpi": -13.965,
+   "fpiRank": 124
   },
   "Minnesota": {
    "name": "Minnesota",
@@ -3793,7 +3923,9 @@
    "offXpl": 1.1395637350281027,
    "defXpl": 1.227120559610332,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/135.png",
-   "color": "#7a0019"
+   "color": "#7a0019",
+   "fpi": 1.787,
+   "fpiRank": 61
   },
   "Mississippi State": {
    "name": "Mississippi State",
@@ -3851,7 +3983,9 @@
    "offXpl": 1.2997484046173433,
    "defXpl": 1.1295484024060147,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/344.png",
-   "color": "#5d1725"
+   "color": "#5d1725",
+   "fpi": 14.258,
+   "fpiRank": 20
   },
   "Missouri": {
    "name": "Missouri",
@@ -3909,7 +4043,9 @@
    "offXpl": 1.2566091423509287,
    "defXpl": 1.429545342770189,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/142.png",
-   "color": "#f1b82d"
+   "color": "#f1b82d",
+   "fpi": 9.605,
+   "fpiRank": 35
   },
   "Missouri State": {
    "name": "Missouri State",
@@ -3967,7 +4103,9 @@
    "offXpl": 1.1986493636102649,
    "defXpl": 1.0643385296151482,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/2623.png",
-   "color": "#5e0009"
+   "color": "#5e0009",
+   "fpi": -12.219,
+   "fpiRank": 118
   },
   "NC State": {
    "name": "NC State",
@@ -4025,7 +4163,9 @@
    "offXpl": 1.2443035795278081,
    "defXpl": 1.2746521615541744,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/152.png",
-   "color": "#cc0000"
+   "color": "#cc0000",
+   "fpi": 2.744,
+   "fpiRank": 58
   },
   "Navy": {
    "name": "Navy",
@@ -4074,7 +4214,9 @@
    "offXpl": 1.1609667587440184,
    "defXpl": 1.4799092393298459,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/2426.png",
-   "color": "#00225b"
+   "color": "#00225b",
+   "fpi": -7.079,
+   "fpiRank": 96
   },
   "Nebraska": {
    "name": "Nebraska",
@@ -4132,7 +4274,9 @@
    "offXpl": 1.4791186106154257,
    "defXpl": 1.2280320841435732,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/158.png",
-   "color": "#d00000"
+   "color": "#d00000",
+   "fpi": 15.952,
+   "fpiRank": 14
   },
   "Nevada": {
    "name": "Nevada",
@@ -4190,7 +4334,9 @@
    "offXpl": 1.3064861076504735,
    "defXpl": 1.1311026487932019,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/2440.png",
-   "color": "#041e42"
+   "color": "#041e42",
+   "fpi": -8.475,
+   "fpiRank": 104
   },
   "New Mexico": {
    "name": "New Mexico",
@@ -4248,7 +4394,9 @@
    "offXpl": 1.3200312115280268,
    "defXpl": 1.4291351422130036,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/167.png",
-   "color": "#ba0c2f"
+   "color": "#ba0c2f",
+   "fpi": 4.748,
+   "fpiRank": 53
   },
   "New Mexico State": {
    "name": "New Mexico State",
@@ -4306,7 +4454,9 @@
    "offXpl": 1.4010002634965335,
    "defXpl": 1.2689295740666762,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/166.png",
-   "color": "#8c0b42"
+   "color": "#8c0b42",
+   "fpi": -15.458,
+   "fpiRank": 125
   },
   "North Carolina": {
    "name": "North Carolina",
@@ -4355,7 +4505,9 @@
    "offXpl": 1.0086517656881575,
    "defXpl": 1.0487743840300097,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/153.png",
-   "color": "#7bafd4"
+   "color": "#7bafd4",
+   "fpi": 5.278,
+   "fpiRank": 52
   },
   "North Dakota State": {
    "name": "North Dakota State",
@@ -4413,7 +4565,9 @@
    "offXpl": 1.4457824756828719,
    "defXpl": 1.0205775387143998,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/2449.png",
-   "color": "#00583d"
+   "color": "#00583d",
+   "fpi": -0.384,
+   "fpiRank": 69
   },
   "North Texas": {
    "name": "North Texas",
@@ -4471,7 +4625,9 @@
    "offXpl": 1.357646550273057,
    "defXpl": 1.1904318622796424,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/249.png",
-   "color": "#00853e"
+   "color": "#00853e",
+   "fpi": 0.116,
+   "fpiRank": 64
   },
   "Northern Illinois": {
    "name": "Northern Illinois",
@@ -4529,7 +4685,9 @@
    "offXpl": 1.1220427431633353,
    "defXpl": 1.367652009296862,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/2459.png",
-   "color": "#c8102e"
+   "color": "#c8102e",
+   "fpi": -18.102,
+   "fpiRank": 128
   },
   "Northwestern": {
    "name": "Northwestern",
@@ -4578,7 +4736,9 @@
    "offXpl": 1.2818597555317655,
    "defXpl": 1.1281852095627818,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/77.png",
-   "color": "#582c83"
+   "color": "#582c83",
+   "fpi": 11.24,
+   "fpiRank": 28
   },
   "Notre Dame": {
    "name": "Notre Dame",
@@ -4636,7 +4796,9 @@
    "offXpl": 1.0795817310622187,
    "defXpl": 1.0887351966058985,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/87.png",
-   "color": "#0c2340"
+   "color": "#0c2340",
+   "fpi": 27.822,
+   "fpiRank": 2
   },
   "Ohio": {
    "name": "Ohio",
@@ -4694,7 +4856,9 @@
    "offXpl": 1.2369182087202133,
    "defXpl": 1.3883955966473507,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/195.png",
-   "color": "#024230"
+   "color": "#024230",
+   "fpi": -9.993,
+   "fpiRank": 111
   },
   "Ohio State": {
    "name": "Ohio State",
@@ -4752,7 +4916,9 @@
    "offXpl": 1.2773494976988984,
    "defXpl": 1.2914769528820993,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/194.png",
-   "color": "#ba0c2f"
+   "color": "#ba0c2f",
+   "fpi": 27.814,
+   "fpiRank": 3
   },
   "Oklahoma": {
    "name": "Oklahoma",
@@ -4810,7 +4976,9 @@
    "offXpl": 1.1505453203691758,
    "defXpl": 1.1652475312143808,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/201.png",
-   "color": "#841617"
+   "color": "#841617",
+   "fpi": 13.859,
+   "fpiRank": 21
   },
   "Oklahoma State": {
    "name": "Oklahoma State",
@@ -4868,7 +5036,9 @@
    "offXpl": 1.123858653710285,
    "defXpl": 1.1827090674288199,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/197.png",
-   "color": "#fe5c00"
+   "color": "#fe5c00",
+   "fpi": 6.898,
+   "fpiRank": 43
   },
   "Old Dominion": {
    "name": "Old Dominion",
@@ -4926,7 +5096,9 @@
    "offXpl": 1.5677470013605648,
    "defXpl": 1.2172963711128388,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/295.png",
-   "color": "#043657"
+   "color": "#043657",
+   "fpi": -9.977,
+   "fpiRank": 110
   },
   "Ole Miss": {
    "name": "Ole Miss",
@@ -4984,7 +5156,9 @@
    "offXpl": 1.1659455795730518,
    "defXpl": 1.1462836134219392,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/145.png",
-   "color": "#13294b"
+   "color": "#13294b",
+   "fpi": 14.409,
+   "fpiRank": 19
   },
   "Oregon": {
    "name": "Oregon",
@@ -5042,7 +5216,9 @@
    "offXpl": 1.5255963575040195,
    "defXpl": 1.205082022641194,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/2483.png",
-   "color": "#007030"
+   "color": "#007030",
+   "fpi": 21.729,
+   "fpiRank": 9
   },
   "Oregon State": {
    "name": "Oregon State",
@@ -5100,7 +5276,9 @@
    "offXpl": 1.5049344328465097,
    "defXpl": 1.1624080843097353,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/204.png",
-   "color": "#dc4405"
+   "color": "#dc4405",
+   "fpi": -0.097,
+   "fpiRank": 67
   },
   "Penn State": {
    "name": "Penn State",
@@ -5158,7 +5336,9 @@
    "offXpl": 1.3758663911241935,
    "defXpl": 1.2708219809657126,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/213.png",
-   "color": "#001e44"
+   "color": "#001e44",
+   "fpi": 15.646,
+   "fpiRank": 15
   },
   "Pittsburgh": {
    "name": "Pittsburgh",
@@ -5216,7 +5396,9 @@
    "offXpl": 1.3444757851519367,
    "defXpl": 1.4176179073613173,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/221.png",
-   "color": "#003594"
+   "color": "#003594",
+   "fpi": 13.455,
+   "fpiRank": 22
   },
   "Purdue": {
    "name": "Purdue",
@@ -5274,7 +5456,9 @@
    "offXpl": 1.2496493298617257,
    "defXpl": 1.3171482242973056,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/2509.png",
-   "color": "#ceb888"
+   "color": "#ceb888",
+   "fpi": -3.132,
+   "fpiRank": 83
   },
   "Rice": {
    "name": "Rice",
@@ -5332,7 +5516,9 @@
    "offXpl": 1.1053460688506282,
    "defXpl": 1.3066420295104988,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/242.png",
-   "color": "#00205b"
+   "color": "#00205b",
+   "fpi": -13.954,
+   "fpiRank": 123
   },
   "Rutgers": {
    "name": "Rutgers",
@@ -5390,7 +5576,9 @@
    "offXpl": 1.3728665514074723,
    "defXpl": 1.2002191676689686,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/164.png",
-   "color": "#ce0e2d"
+   "color": "#ce0e2d",
+   "fpi": -3.653,
+   "fpiRank": 84
   },
   "SMU": {
    "name": "SMU",
@@ -5448,7 +5636,9 @@
    "offXpl": 1.2420803759064267,
    "defXpl": 1.3652730401369122,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/2567.png",
-   "color": "#d70000"
+   "color": "#d70000",
+   "fpi": 9.093,
+   "fpiRank": 37
   },
   "Sacramento State": {
    "name": "Sacramento State",
@@ -5515,7 +5705,9 @@
    "offXpl": 0.9727203027610062,
    "defXpl": 1.4481860028959224,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/16.png",
-   "color": "#00573c"
+   "color": "#00573c",
+   "fpi": -27.65,
+   "fpiRank": 138
   },
   "Sam Houston": {
    "name": "Sam Houston",
@@ -5573,7 +5765,9 @@
    "offXpl": 1.2819511761432152,
    "defXpl": 1.2734092432327273,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/2534.png",
-   "color": "#f56423"
+   "color": "#f56423",
+   "fpi": -11.924,
+   "fpiRank": 117
   },
   "San Diego State": {
    "name": "San Diego State",
@@ -5631,7 +5825,9 @@
    "offXpl": 1.3606600207035755,
    "defXpl": 1.118922918814462,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/21.png",
-   "color": "#a6192e"
+   "color": "#a6192e",
+   "fpi": -5.577,
+   "fpiRank": 91
   },
   "San Jos\u00e9 State": {
    "name": "San Jos\u00e9 State",
@@ -5689,7 +5885,9 @@
    "offXpl": 1.224274497371684,
    "defXpl": 1.0816271516529277,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/23.png",
-   "color": "#0055a2"
+   "color": "#0055a2",
+   "fpi": -13.233,
+   "fpiRank": 121
   },
   "South Alabama": {
    "name": "South Alabama",
@@ -5747,7 +5945,9 @@
    "offXpl": 1.3380859677562769,
    "defXpl": 1.5137316913158525,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/6.png",
-   "color": "#00205b"
+   "color": "#00205b",
+   "fpi": -8.826,
+   "fpiRank": 107
   },
   "South Carolina": {
    "name": "South Carolina",
@@ -5805,7 +6005,9 @@
    "offXpl": 1.2860060897054628,
    "defXpl": 1.5396486484342282,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/2579.png",
-   "color": "#73000a"
+   "color": "#73000a",
+   "fpi": 9.85,
+   "fpiRank": 33
   },
   "South Florida": {
    "name": "South Florida",
@@ -5863,7 +6065,9 @@
    "offXpl": 1.1235283712247397,
    "defXpl": 0.9605929824280347,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/58.png",
-   "color": "#006747"
+   "color": "#006747",
+   "fpi": -1.452,
+   "fpiRank": 73
   },
   "Southern Miss": {
    "name": "Southern Miss",
@@ -5921,7 +6125,9 @@
    "offXpl": 1.1560589132033754,
    "defXpl": 1.3883050756440223,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/2572.png",
-   "color": "#ffc72c"
+   "color": "#ffc72c",
+   "fpi": -11.774,
+   "fpiRank": 115
   },
   "Stanford": {
    "name": "Stanford",
@@ -5979,7 +6185,9 @@
    "offXpl": 1.285684789550792,
    "defXpl": 1.3713321221533126,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/24.png",
-   "color": "#8c1515"
+   "color": "#8c1515",
+   "fpi": -5.727,
+   "fpiRank": 92
   },
   "Syracuse": {
    "name": "Syracuse",
@@ -6028,7 +6236,9 @@
    "offXpl": 1.3427709527882197,
    "defXpl": 1.079129326987594,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/183.png",
-   "color": "#f76900"
+   "color": "#f76900",
+   "fpi": 0.564,
+   "fpiRank": 63
   },
   "TCU": {
    "name": "TCU",
@@ -6086,7 +6296,9 @@
    "offXpl": 1.2875342103702332,
    "defXpl": 0.9205534915331528,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/2628.png",
-   "color": "#4d1979"
+   "color": "#4d1979",
+   "fpi": 6.255,
+   "fpiRank": 47
   },
   "Temple": {
    "name": "Temple",
@@ -6144,7 +6356,9 @@
    "offXpl": 1.3181039465890263,
    "defXpl": 1.2533805110845189,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/218.png",
-   "color": "#a41e35"
+   "color": "#a41e35",
+   "fpi": -5.158,
+   "fpiRank": 88
   },
   "Tennessee": {
    "name": "Tennessee",
@@ -6202,7 +6416,9 @@
    "offXpl": 1.211814826862723,
    "defXpl": 1.0655682155442898,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/2633.png",
-   "color": "#ff8200"
+   "color": "#ff8200",
+   "fpi": 18.208,
+   "fpiRank": 11
   },
   "Texas": {
    "name": "Texas",
@@ -6260,7 +6476,9 @@
    "offXpl": 1.1342887567999824,
    "defXpl": 1.1154123753150122,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/251.png",
-   "color": "#bf5700"
+   "color": "#bf5700",
+   "fpi": 26.907,
+   "fpiRank": 4
   },
   "Texas A&M": {
    "name": "Texas A&M",
@@ -6318,7 +6536,9 @@
    "offXpl": 1.108740737670145,
    "defXpl": 1.3409627812295213,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/245.png",
-   "color": "#500000"
+   "color": "#500000",
+   "fpi": 15.085,
+   "fpiRank": 16
   },
   "Texas State": {
    "name": "Texas State",
@@ -6376,7 +6596,9 @@
    "offXpl": 1.3535845513546854,
    "defXpl": 1.255960970750729,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/326.png",
-   "color": "#501214"
+   "color": "#501214",
+   "fpi": -2.015,
+   "fpiRank": 75
   },
   "Texas Tech": {
    "name": "Texas Tech",
@@ -6434,7 +6656,9 @@
    "offXpl": 1.1417552862238527,
    "defXpl": 1.372304030756937,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/2641.png",
-   "color": "#c30020"
+   "color": "#c30020",
+   "fpi": 16.977,
+   "fpiRank": 13
   },
   "Toledo": {
    "name": "Toledo",
@@ -6492,7 +6716,9 @@
    "offXpl": 1.5134968094334131,
    "defXpl": 1.3445089915415196,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/2649.png",
-   "color": "#0b2240"
+   "color": "#0b2240",
+   "fpi": 0.878,
+   "fpiRank": 62
   },
   "Troy": {
    "name": "Troy",
@@ -6550,7 +6776,9 @@
    "offXpl": 1.3132704234201762,
    "defXpl": 1.3182035990042773,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/2653.png",
-   "color": "#862633"
+   "color": "#862633",
+   "fpi": -8.591,
+   "fpiRank": 106
   },
   "Tulane": {
    "name": "Tulane",
@@ -6608,7 +6836,9 @@
    "offXpl": 1.5134249575371927,
    "defXpl": 1.3057172965646036,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/2655.png",
-   "color": "#006747"
+   "color": "#006747",
+   "fpi": -2.184,
+   "fpiRank": 78
   },
   "Tulsa": {
    "name": "Tulsa",
@@ -6666,7 +6896,9 @@
    "offXpl": 1.1380072289348748,
    "defXpl": 1.0460492481676924,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/202.png",
-   "color": "#003595"
+   "color": "#003595",
+   "fpi": -4.884,
+   "fpiRank": 87
   },
   "UAB": {
    "name": "UAB",
@@ -6724,7 +6956,9 @@
    "offXpl": 1.1965602381933724,
    "defXpl": 1.0443123071326579,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/5.png",
-   "color": "#1a5632"
+   "color": "#1a5632",
+   "fpi": -13.337,
+   "fpiRank": 122
   },
   "UCF": {
    "name": "UCF",
@@ -6782,7 +7016,9 @@
    "offXpl": 1.1113776886961986,
    "defXpl": 1.3034986693835824,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/2116.png",
-   "color": "#000000"
+   "color": "#000000",
+   "fpi": 6.469,
+   "fpiRank": 46
   },
   "UCLA": {
    "name": "UCLA",
@@ -6840,7 +7076,9 @@
    "offXpl": 1.255899998770486,
    "defXpl": 1.37415754809175,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/26.png",
-   "color": "#2774ae"
+   "color": "#2774ae",
+   "fpi": 10.353,
+   "fpiRank": 32
   },
   "UConn": {
    "name": "UConn",
@@ -6898,7 +7136,9 @@
    "offXpl": 1.4151140860770575,
    "defXpl": 1.2913628238147505,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/41.png",
-   "color": "#000e2f"
+   "color": "#000e2f",
+   "fpi": -7.171,
+   "fpiRank": 97
   },
   "UL Monroe": {
    "name": "UL Monroe",
@@ -6956,7 +7196,9 @@
    "offXpl": 1.1084787897816744,
    "defXpl": 1.1839011895527016,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/2433.png",
-   "color": "#840029"
+   "color": "#840029",
+   "fpi": -24.568,
+   "fpiRank": 137
   },
   "UNLV": {
    "name": "UNLV",
@@ -7014,7 +7256,9 @@
    "offXpl": 1.214744558981256,
    "defXpl": 1.1570545729017723,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/2439.png",
-   "color": "#cf0a2c"
+   "color": "#cf0a2c",
+   "fpi": -2.901,
+   "fpiRank": 81
   },
   "USC": {
    "name": "USC",
@@ -7081,7 +7325,9 @@
    "offXpl": 1.1925178063485748,
    "defXpl": 1.4017176136252,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/30.png",
-   "color": "#990000"
+   "color": "#990000",
+   "fpi": 14.792,
+   "fpiRank": 18
   },
   "UTEP": {
    "name": "UTEP",
@@ -7139,7 +7385,9 @@
    "offXpl": 1.242891939703507,
    "defXpl": 1.2768213240037956,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/2638.png",
-   "color": "#ff8200"
+   "color": "#ff8200",
+   "fpi": -20.424,
+   "fpiRank": 133
   },
   "UTSA": {
    "name": "UTSA",
@@ -7197,7 +7445,9 @@
    "offXpl": 1.069571957164914,
    "defXpl": 1.1513494810274287,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/2636.png",
-   "color": "#0c2340"
+   "color": "#0c2340",
+   "fpi": -0.181,
+   "fpiRank": 68
   },
   "Utah": {
    "name": "Utah",
@@ -7255,7 +7505,9 @@
    "offXpl": 1.3304925412674786,
    "defXpl": 1.2786688189257798,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/254.png",
-   "color": "#be0000"
+   "color": "#be0000",
+   "fpi": 18.167,
+   "fpiRank": 12
   },
   "Utah State": {
    "name": "Utah State",
@@ -7313,7 +7565,9 @@
    "offXpl": 1.299853035872112,
    "defXpl": 1.1365562031472631,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/328.png",
-   "color": "#0f2439"
+   "color": "#0f2439",
+   "fpi": -6.961,
+   "fpiRank": 95
   },
   "Vanderbilt": {
    "name": "Vanderbilt",
@@ -7371,7 +7625,9 @@
    "offXpl": 1.1804248820976369,
    "defXpl": 1.335704318735286,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/238.png",
-   "color": "#000000"
+   "color": "#000000",
+   "fpi": 5.536,
+   "fpiRank": 51
   },
   "Virginia": {
    "name": "Virginia",
@@ -7429,7 +7685,9 @@
    "offXpl": 1.161180033399441,
    "defXpl": 0.9859417916797172,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/258.png",
-   "color": "#232d4b"
+   "color": "#232d4b",
+   "fpi": 11.806,
+   "fpiRank": 26
   },
   "Virginia Tech": {
    "name": "Virginia Tech",
@@ -7487,7 +7745,9 @@
    "offXpl": 1.2574065160948136,
    "defXpl": 1.3050253438023713,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/259.png",
-   "color": "#861f41"
+   "color": "#861f41",
+   "fpi": 8.885,
+   "fpiRank": 38
   },
   "Wake Forest": {
    "name": "Wake Forest",
@@ -7545,7 +7805,9 @@
    "offXpl": 1.3266463736139267,
    "defXpl": 1.1139879639184103,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/154.png",
-   "color": "#ceb888"
+   "color": "#ceb888",
+   "fpi": 5.989,
+   "fpiRank": 48
   },
   "Washington": {
    "name": "Washington",
@@ -7603,7 +7865,9 @@
    "offXpl": 1.1943910829598499,
    "defXpl": 1.1677209663048467,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/264.png",
-   "color": "#33006f"
+   "color": "#33006f",
+   "fpi": 4.353,
+   "fpiRank": 54
   },
   "Washington State": {
    "name": "Washington State",
@@ -7661,7 +7925,9 @@
    "offXpl": 1.2564624307700956,
    "defXpl": 1.2816266455441299,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/265.png",
-   "color": "#a60f2d"
+   "color": "#a60f2d",
+   "fpi": -7.306,
+   "fpiRank": 98
   },
   "West Virginia": {
    "name": "West Virginia",
@@ -7719,7 +7985,9 @@
    "offXpl": 1.2194447647224043,
    "defXpl": 1.206512511603475,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/277.png",
-   "color": "#eaaa00"
+   "color": "#eaaa00",
+   "fpi": 2.523,
+   "fpiRank": 59
   },
   "Western Kentucky": {
    "name": "Western Kentucky",
@@ -7777,7 +8045,9 @@
    "offXpl": 1.2525736991337821,
    "defXpl": 1.5581002828587809,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/98.png",
-   "color": "#c60c30"
+   "color": "#c60c30",
+   "fpi": -12.784,
+   "fpiRank": 119
   },
   "Western Michigan": {
    "name": "Western Michigan",
@@ -7835,7 +8105,9 @@
    "offXpl": 1.1695285791036323,
    "defXpl": 1.0855827354910268,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/2711.png",
-   "color": "#532e1f"
+   "color": "#532e1f",
+   "fpi": -2.793,
+   "fpiRank": 80
   },
   "Wisconsin": {
    "name": "Wisconsin",
@@ -7893,7 +8165,9 @@
    "offXpl": 1.4577263268212237,
    "defXpl": 1.048348373538514,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/275.png",
-   "color": "#a00000"
+   "color": "#a00000",
+   "fpi": 7.37,
+   "fpiRank": 41
   },
   "Wyoming": {
    "name": "Wyoming",
@@ -7951,7 +8225,9 @@
    "offXpl": 1.0884041679703076,
    "defXpl": 1.0905242728591087,
    "logo": "https://cdn.collegefootballdata.com/logos-dark/64/2751.png",
-   "color": "#492f24"
+   "color": "#492f24",
+   "fpi": -16.111,
+   "fpiRank": 126
   }
  },
  "schedule": {
