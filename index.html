@@ -389,11 +389,11 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       <button class="tab owner owner-only" role="tab" id="tab-work" aria-selected="false">Workspace</button>
     </nav>
     <div class="tools">
-      <details class="colmenu" id="fMenu"><summary class="pill" id="fSum">Conference dials ▾</summary>
+      <details class="colmenu owner-only" id="fMenu"><summary class="pill" id="fSum">Conference dials ▾</summary>
         <div class="menu fmix"><div class="mt">Conference adjustments</div>
-          <p class="mixhelp">Points added to every team in a conference (or in the whole Group of 5) on top of the Model's rating. 0 = pure data. They change the Wolp+ ranking, the Results Map and the Home cards; spreads and win chances always stay pure Model.</p>
+          <p class="mixhelp">Your private what-if: points added to every team in a conference (or the whole Group of 5). Only your screen changes (rankings, Results Map, Home cards); visitors always see the pure Wolp+ power rating. Spreads and win chances never change.</p>
           <div id="fDials"></div>
-          <div class="mixsave"><button class="btn quiet" id="fReset">Reset to 0</button><small id="fNote"></small><button class="btn primary owner-only" id="fSave">Save for everyone</button></div></div></details>
+          <div class="mixsave"><button class="btn quiet" id="fReset">Reset to 0</button><small id="fNote"></small></div></div></details>
       <button class="pill" id="cmpMode" aria-pressed="false" title="Pick 2 to 4 teams to compare side by side" hidden>Compare</button>
     </div>
   </div>
@@ -462,7 +462,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       </nav>
       <article class="method">
         <h2 id="m-overview">Overview</h2>
-        <p>Wolp+ 2026 has two rankings of its own. <b>Wolp+</b> is the formula ranking: a model's power rating for every FBS team, plus any conference dials. <b>The Chili Poll</b> is a weekly Top 25, ranked by hand. The model also rates what each team has earned (quality wins). It never sees the Chili Poll, and the Chili Poll never feeds into it.</p>
+        <p>Wolp+ 2026 has two rankings of its own. <b>Wolp+</b> is a power rating for every FBS team, built from game results. <b>The Chili Poll</b> is a weekly Top 25, ranked by hand. The model also rates what each team has earned (quality wins). It never sees the Chili Poll, and the Chili Poll never feeds into it.</p>
 
         <h2 id="m-wolp">The Chili Poll</h2>
         <p>Each week's ballot ranks 35 teams. The Top 25 is the headline; teams 26–35 are listed as <b>Also ranked</b>. Ranking 35 gives the comparisons on the Home page a real scale: a team at #31 is close to the Top 25, not simply "unranked". (Ballots before week 6 ranked 25 teams plus an unordered "just missed" list; those teams are shown as 26–30 in their saved order.)</p>
@@ -471,8 +471,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
         <dl>
           <dt>Chili Poll</dt><dd><b>An opinion.</b> The hand-made weekly ballot.</dd>
           <dt>AP</dt><dd><b>Public opinion.</b> The Associated Press Top 25.</dd>
-          <dt>Wolp+</dt><dd><b>The numbers, with a point of view.</b> The Model's power rating plus any conference adjustments set under <b>Conference dials ▾</b> (currently: <b class="fnote">none</b>). With no adjustments it is exactly the Model. The Results Map, Best/Worst, Fraud watch and Under the radar use the Wolp+ rank; spreads, win chances, projections, Quality wins and the Scorecard always use the pure Model.</dd>
-          <dt>Model</dt><dd><b>The numbers.</b> Teams ranked by power rating: points better than an average FBS team on a neutral field. The difference between two teams' ratings, plus the home edge, is the model's predicted margin. It picks winners better than the AP poll (see the Scorecard on Previous Rankings) and comes close to the best computer ratings: on 2023–25 games it missed by about 0.15 points a game more than ESPN's FPI and Sagarin, and beat 24 of 33 tracked systems.</dd>
+          <dt>Wolp+</dt><dd><b>The numbers.</b> Teams ranked by the Model's power rating: points better than an average FBS team on a neutral field. The difference between two teams' ratings, plus the home edge, is the model's predicted margin. It picks winners better than the AP poll (see the Scorecard on Previous Rankings) and comes close to the best computer ratings: on 2023–25 games it missed by about 0.15 points a game more than ESPN's FPI and Sagarin, and beat 24 of 33 tracked systems.</dd>
         </dl>
         <p><b>Quality wins</b> and <b>Strength of résumé (SOR)</b> are shown alongside as résumé stats, not rankings: every win and loss, each weighted by how good the opponent is. Quality wins judges opponents by Model rank; SOR judges them by their records alone.</p>
 
@@ -492,7 +491,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 
         <h2 id="m-qw">Quality wins (résumé stat)</h2>
         <ul>
-          <li><b>Opponent strength (0 to 1):</b> from the opponent's Model rank: #1 is 1.0 and the last FBS team is 0.0. It always uses the pure Model, so the conference dials don't change it. With the dials at 0 this is the same left-to-right position as the opponent's dot on the Results Map, so a row of dots far to the right means a high Quality wins score.</li>
+          <li><b>Opponent strength (0 to 1):</b> from the opponent's Model rank: #1 is 1.0 and the last FBS team is 0.0. This is the same left-to-right position as the opponent's dot on the Results Map (Wolp+ x axis), so a row of dots far to the right means a high Quality wins score.</li>
           <li><b>A win</b> is worth the opponent's strength × location (<b data-set="LOC_WIN">road 1.02, neutral 1.01, home 1.00</b>), × (1 + <b data-set="DECISIVE_WIN_BONUS">0.1</b> × strength) if it wasn't close.</li>
           <li><b>A loss</b> costs <b data-set="LOSS_WEIGHT">0.5</b> × (1 − strength) × location (<b data-set="LOC_LOSS">home 1.05, neutral 1.00, road 0.95</b>), × <b data-set="CLOSE_LOSS_FACTOR">0.6</b> if it was close, and always at least <b data-set="MIN_LOSS">0.1</b>. Losses weigh less than wins.</li>
           <li><b>FCS:</b> a win doesn't count; a loss counts <b data-set="FCS_LOSS_VALUE">-1.5</b>.</li>
@@ -515,7 +514,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 
         <div id="m-quadwrap" hidden><!-- quadrants hidden for now (SHOW_QUADS) -->
         <h2 id="m-quad">Quadrants</h2>
-        <p>Borrowed from college basketball's NET: every game is sorted by the opponent's Wolp+ rank (the Model rank when the dials are at 0) and where it was played, scaled to the 138 FBS teams. FCS opponents are Quadrant 4.</p>
+        <p>Borrowed from college basketball's NET: every game is sorted by the opponent's Wolp+ rank and where it was played, scaled to the 138 FBS teams. FCS opponents are Quadrant 4.</p>
         <div class="tblw"><table style="width:auto;margin:0 0 14px"><thead><tr class="cols"><th></th><th>Home</th><th>Neutral</th><th>Away</th></tr></thead><tbody>
           <tr><td><b>Q1</b></td><td>#1–11</td><td>#1–19</td><td>#1–29</td></tr><tr><td><b>Q2</b></td><td>#12–29</td><td>#20–38</td><td>#30–51</td></tr>
           <tr><td><b>Q3</b></td><td>#30–61</td><td>#39–76</td><td>#52–91</td></tr><tr><td><b>Q4</b></td><td>#62+</td><td>#77+</td><td>#92+</td></tr></tbody></table></div>
@@ -691,7 +690,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     {k:'sosOff', h:'Offs faced', menu:'offenses faced (higher = tougher)', g:'Schedule', bw:'3.6rem', pw:'3.4rem', fmt:'n', off:true},
     {k:'apNow', h:'AP', menu:"this week's AP Top 25 rank", g:'Other rankings', bw:'2.7rem', pw:'2.6rem', fmt:'r', lo:true, val:a=>apRank(a)},
     {k:'fpiRank', h:'FPI', menu:'ESPN Football Power Index rank', g:'Other rankings', bw:'2.7rem', pw:'2.6rem', fmt:'r', lo:true},
-    {k:'frank', h:'Wolp+', menu:'rank: Model + conference dials', g:'Model', bw:'3.4rem', pw:'3.2rem', fmt:'r', lo:true, strong:true, val:a=>mdl().crank[a]},
+    {k:'frank', h:'Wolp+', menu:'power rating rank', g:'Model', bw:'3.4rem', pw:'3.2rem', fmt:'r', lo:true, strong:true, val:a=>mdl().crank[a]},
     {k:'proj', h:'Proj. record', menu:'projected final record', g:'Model', bw:'4.6rem', pw:'4.4rem', off:true},
     {k:'powerRating', h:'Rating', menu:'points vs an average team', g:'Model', bw:'3rem', pw:'2.9rem', fmt:'n1', off:true},
     {k:'resumeRank', h:'Quality wins', menu:'rank', g:'Résumé', bw:'3.6rem', pw:'2.9rem', fmt:'r', lo:true},
@@ -713,7 +712,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   S.vis = {r:loadVis('cfb2-cols'), b:loadVis('cfb2-cols-ballot',['ly','lyAp','resumeRank']), p:loadVis('cfb2-cols-pool',null,['frank','resumeRank'])};  // Add teams panel: Wolp+ and Quality wins by default
   try{ const mg=localStorage.getItem('cfb2-cols-mig'); if(mg!=='2'){ if(mg!=='1'){ S.vis.r.q1=false; S.vis.r.proj=false; } S.vis.r.adjOffEpa=true; S.vis.r.adjDefEpa=true; S.vis.r.offEpa=false; S.vis.r.defEpa=false; localStorage.setItem('cfb2-cols', JSON.stringify(S.vis.r)); localStorage.setItem('cfb2-cols-mig','2'); } }catch(e){}
   const shown = w => COLS.filter(c=>S.vis[w][c.k]);
-  const DEFS = {apNow:"This week's AP Top 25 rank (unranked teams sort last).",fpiRank:"ESPN's Football Power Index rank: ESPN's own predictive power rating, shown for comparison only (it never feeds into Wolp+).",adjOffEpa:'Expected points added per play on offense, adjusted for the defenses faced (garbage time excluded). Higher is better.',adjDefEpa:'Expected points added per play allowed on defense, adjusted for the offenses faced. Lower is better.',frank:"The formula ranking: the Model's power rating (points better than an average FBS team on a neutral field, built from scores only) plus any conference dials. With the dials at 0 it is the pure Model.",resumeRank:"A results-based metric, with influence from opponents' Model rank (Wolp+ without the conference dials).",resultsRank:'Strength of résumé: a purely results-based metric.',offEpa:'Expected points added per play on offense (garbage time excluded). Higher is better.',defEpa:'Expected points added per play allowed on defense. Lower is better.'};
+  const DEFS = {apNow:"This week's AP Top 25 rank (unranked teams sort last).",fpiRank:"ESPN's Football Power Index rank: ESPN's own predictive power rating, shown for comparison only (it never feeds into Wolp+).",adjOffEpa:'Expected points added per play on offense, adjusted for the defenses faced (garbage time excluded). Higher is better.',adjDefEpa:'Expected points added per play allowed on defense, adjusted for the offenses faced. Lower is better.',frank:"The power rating rank: points better than an average FBS team on a neutral field, built from game scores only.",resumeRank:"A results-based metric, with influence from opponents' Wolp+ rank.",resultsRank:'Strength of résumé: a purely results-based metric.',offEpa:'Expected points added per play on offense (garbage time excluded). Higher is better.',defEpa:'Expected points added per play allowed on defense. Lower is better.'};
   function renderDefs(){ let g='', h='<dl class="sdefs"><dt>Chili</dt><dd>Chili Poll rank (Top 25, then Also ranked 26–35).</dd>';
     COLS.forEach(c=>{ if(c.g!==g){ h+=`<div class="sdh">${esc(c.g)}</div>`; g=c.g; } const d=DEFS[c.k]||(c.menu[0].toUpperCase()+c.menu.slice(1)+'.'); h+=`<dt>${esc(c.h)}</dt><dd>${d}</dd>`; });
     $('sdefs').innerHTML = h+'</dl>'; }
@@ -743,7 +742,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   }
 
   // ---------- model ----------
-  // Wolp+ (the formula ranking) = the Model's power rating + the conference adjustments set under Conference dials ▾ (points; all 0 = pure Model).
+  // Wolp+ = the Model's power rating. The owner can add private conference dials (this browser only, never published).
   // mdl().crank = {team: Wolp+ rank}, n = number of rated teams. Spreads and win chances always use the pure Model.
   S.adj = {}; S.adjPub = {};
   const DIALS = ['SEC','Big Ten','Big 12','ACC','FBS Independents','Group of 5'];  // each Power 4 conference, Independents, all of the Group of 5
@@ -783,8 +782,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     S.teams=T; S._mdl=null;
   }
   const modelFacts = a => { const t=S.teams[a]||{}, c=mdl().crank[a], n=v=>typeof v==='number';
-    return `<dl class="facts"><dt>Wolp+</dt><dd>${c?'#'+c:'–'}${adjOf(a)?` <span style="color:var(--muted);font-weight:500">(includes ${esc(t.conf)} dial ${adjOf(a)>0?'+':''}${adjOf(a)})</span>`:''}</dd>
-      <dt>Power rating</dt><dd>${n(t.powerRating)?(t.powerRating>0?'+':'')+t.powerRating.toFixed(1)+' pts':'–'}${t.powerRank?` · Model #${t.powerRank}`:''}</dd>
+    return `<dl class="facts"><dt>Wolp+</dt><dd>${t.powerRank?'#'+t.powerRank:'–'}${n(t.powerRating)?` · ${(t.powerRating>0?'+':'')+t.powerRating.toFixed(1)} pts`:''}${adjOf(a)&&c?` <span style="color:var(--muted);font-weight:500">(your dials: #${c})</span>`:''}</dd>
       <dt>Quality wins</dt><dd>${t.resumeRank?'#'+t.resumeRank:'–'}${n(t.resumeScore)?` · score ${t.resumeScore.toFixed(3)}`:''}</dd>
       <dt>SOR</dt><dd>${t.resultsRank?'#'+t.resultsRank:'–'}${n(t.resultsScore)?` · score ${t.resultsScore.toFixed(3)}`:''}</dd>
       <dt>ESPN FPI</dt><dd>${t.fpiRank?'#'+t.fpiRank:'–'}${n(t.fpi)?` · ${(t.fpi>0?'+':'')+t.fpi.toFixed(1)} pts`:''}</dd>
@@ -1346,8 +1344,8 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   function dialStatus(){
     const same = JSON.stringify(cleanAdj(S.adj))===JSON.stringify(cleanAdj(S.adjPub)), any=Object.values(S.adj).some(v=>+v);
     $('fSum').textContent = any ? 'Conference dials ▾ (adjusted)' : 'Conference dials ▾';
-    $('fSave').disabled = same;
-    $('fNote').textContent = same ? (S.canWrite ? 'Everyone sees these.' : 'The site’s saved settings.') : (S.canWrite ? 'Only you see this until you save.' : 'Only your view changes.');
+    $('fNote').textContent = any ? 'Only your screen changes.' : 'Dials at 0: you see the real Wolp+.';
+    try{ localStorage.setItem('cfb-dials', JSON.stringify(cleanAdj(S.adj))); }catch(e){}
   }
   const cleanAdj = o => Object.fromEntries(Object.entries(o||{}).filter(([k,v])=>+v).sort());
   // while dragging: update the number right away; redraw the page at most once per frame (sliders are never rebuilt mid-drag)
@@ -1361,11 +1359,6 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   }
   $('fDials').addEventListener('input', e=>{ const k=e.target.dataset.conf; if(k!=null && e.target.type==='range') setAdj(k, +e.target.value); });
   $('fReset').addEventListener('click', ()=>{ S.adj={}; S._mdl=null; renderDials(); renderCurrent(); renderFormulaNote(); });
-  $('fSave').addEventListener('click', async ()=>{
-    $('fSave').disabled=true;
-    try{ const saved=await S.db.saveSettings(cur=>Object.assign({}, cur, {formula:cleanAdj(S.adj)})); S.settings=saved; S.adjPub={...cleanAdj(S.adj)}; dialStatus(); toast('Conference adjustments saved for everyone'); }
-    catch(e){ dialStatus(); toast(e&&e.code==='unauthenticated' ? 'GitHub rejected the ballot sync token. Open Ballot sync to reconnect.' : 'Couldn’t save. Try again.'); }
-  });
 
   // ---------- tabs ----------
   const TABS=['home','rank','history','method','work'];
@@ -1572,7 +1565,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   showTab(TABS.includes(start) ? start : 'home');
   (async ()=>{
     const db = siteDb(); S.db=db;
-    db.settings().then(st=>{ S.settings=st||{}; S.upsets=S.settings.upsets||{}; const f=S.settings.formula; if(f && typeof f==='object'){ const g=Object.fromEntries(Object.entries(f).filter(([k])=>DIALS.includes(k))); S.adj={...g}; S.adjPub={...g}; S._mdl=null; } renderAll(); }).catch(()=>{});
+    db.settings().then(st=>{ S.settings=st||{}; S.upsets=S.settings.upsets||{}; const f = S.canWrite ? (()=>{ try{ return JSON.parse(localStorage.getItem('cfb-dials')||'null'); }catch(e){ return null; } })() : null; if(f && typeof f==='object'){ const g=Object.fromEntries(Object.entries(f).filter(([k])=>DIALS.includes(k))); S.adj={...g}; S.adjPub={...g}; S._mdl=null; } renderAll(); }).catch(()=>{});
     db.teams.then(d=>{
       S.meta = {through:d.through, updatedAt:d.updatedAt, season:d.season};
       S.teamsRaw = d.teams||{}; S.model = d.model||null; S.schedule = d.schedule||null; S.ap = d.ap||null; S.picks = d.picks||[];
