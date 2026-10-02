@@ -68,6 +68,10 @@ h2 small{font:400 13px var(--body);color:var(--muted);margin-left:10px}
 .sdefs dd{margin:0}
 .sdefs .sdh{grid-column:1/-1;font:600 11px var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin:10px 0 0}
 .empty{padding:24px 18px;border:1px dashed var(--line);border-radius:12px;color:var(--muted)}
+.method.basics{max-width:780px;margin-bottom:22px}
+.faq dt{font-weight:600;color:var(--ink);margin-top:10px} .faq dd{margin:2px 0 0;color:var(--muted)}
+.mfull{border-top:1px solid var(--line);padding-top:14px}
+.mfull>summary{cursor:pointer;font:700 20px var(--cond);color:var(--gold);margin-bottom:14px}
 .steps{margin:8px 0 12px;padding-left:20px;color:var(--ink)} .steps li{margin:3px 0}
 .guide{display:flex;gap:14px;align-items:flex-start;justify-content:space-between;background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:12px;padding:12px 16px;margin-bottom:14px}
 .guide .steps{margin-bottom:0}
@@ -511,7 +515,46 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 
   <!-- METHODOLOGY -->
   <section id="view-method" hidden>
-    <div class="ph"><div><h1>How it works</h1><div class="sub">How the ratings, the Results Map and the Home page are built</div></div></div>
+    <div class="ph"><div><h1>How it works</h1><div class="sub">The poll, the ratings, and how voting works</div></div></div>
+    <article class="method basics">
+      <h2>What's on the site</h2>
+      <dl>
+        <dt>Straw Poll</dt><dd>A weekly Top 25 combined from members' ballots, published Wednesday morning. Teams 26–35 are listed as also receiving votes.</dd>
+        <dt>Wolp+</dt><dd>A power rating for every FBS team, built only from game results: how many points better than an average FBS team a team would be on a neutral field. It never sees the Straw Poll, the AP poll or betting lines.</dd>
+        <dt>Straw+</dt><dd>Wolp+, adjusted 30% of the way toward the Straw Poll's order.</dd>
+        <dt>AP</dt><dd>The Associated Press Top 25, for comparison.</dd>
+      </dl>
+
+      <h2>Voting</h2>
+      <ul>
+        <li>Anyone can sign in with Google; the site owner approves who can vote.</li>
+        <li>Each week, rank exactly 25 teams on the Vote tab. A team you leave off counts as #26.</li>
+        <li>Voting opens Sunday morning, once the previous week's games are final, and closes <b>Tuesday at 11:59 PM ET</b>. You can change your ballot as often as you like until then.</li>
+        <li>A ballot sent after the deadline (within 7 days) counts only if the owner approves it.</li>
+        <li>The poll averages everyone's ranks after dropping the most extreme ones for each team, and a team must be on at least 2 ballots (and a quarter of them) to appear. <a href="#m-wolp" data-full>Full rules</a></li>
+      </ul>
+
+      <h2>Who sees your ballot</h2>
+      <ul>
+        <li><b>Before the deadline:</b> only you.</li>
+        <li><b>After the deadline:</b> the site owner, who compiles the poll, and (once leagues open) the members of your leagues. Nobody else; only the combined poll is public.</li>
+      </ul>
+
+      <h2>Pick'em</h2>
+      <p>Coming with leagues. Your ballot doubles as a set of picks: in every game involving an AP Top 25 team, it picks the team you ranked higher. Each week you're scored against the AP poll's own picks on the same games, and the standings show how far ahead of or behind the AP you are. A confident pick (two teams far apart on your ballot) gains more when right and costs more when wrong. The exact scoring isn't published.</p>
+
+      <h2>FAQ</h2>
+      <dl class="faq">
+        <dt>Can I change my ballot after submitting?</dt><dd>Yes, as often as you like until Tuesday 11:59 PM ET.</dd>
+        <dt>What if I miss the deadline?</dt><dd>You can still send it for up to 7 days afterward; it counts once the owner approves it.</dd>
+        <dt>Can I start my ballot before voting opens?</dt><dd>Yes. It's saved in your browser, and you can submit it once voting opens Sunday morning.</dd>
+        <dt>Why doesn't Wolp+ match the Straw Poll?</dt><dd>Wolp+ only knows scores and where games were played; the Straw Poll is people's judgment. Straw+ blends the two.</dd>
+        <dt>What's the Conference Modifier?</dt><dd>A what-if on the Research tab: add points to a conference and see how Wolp+ would reorder. It only changes your own screen.</dd>
+        <dt>Where does the data come from?</dt><dd>CollegeFootballData.com. Results, stats and the AP poll update Sunday morning; the schedule and betting lines refresh Thursday.</dd>
+      </dl>
+    </article>
+
+    <details class="mfull" id="mFull"><summary>The full methodology: Wolp+, résumé stats, projections and the Research tools</summary>
     <div class="mwrap">
       <nav class="toc" aria-label="How it works sections">
         <a href="#m-overview">Overview</a><a href="#m-wolp">The Straw Poll</a><a href="#m-ratings">The rankings</a><a href="#m-power">Power rating</a>
@@ -533,26 +576,24 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 
         <h2 id="m-ratings">The rankings</h2>
         <dl>
-          <dt>Straw Poll</dt><dd><b>An opinion.</b> Members' weekly ballots, combined.</dd>
-          <dt>Straw+</dt><dd><b>The numbers, nudged by opinion.</b> Each Straw Poll team's Wolp+ rating moved 30% of the way toward the rating that its Straw Poll rank would carry in Wolp+ (the rating of Wolp+'s team at that rank). The crowd sets the order it leans toward; the model keeps the spacing. Teams outside the Straw Poll keep their Wolp+ rating.</dd>
-          <dt>AP</dt><dd><b>Public opinion.</b> The Associated Press Top 25.</dd>
-          <dt>Wolp+</dt><dd><b>The numbers.</b> Teams ranked by the Model's power rating: points better than an average FBS team on a neutral field. The difference between two teams' ratings, plus the home edge, is the model's predicted margin. It picks winners better than the AP poll (see the Scorecard on Previous Rankings) and comes close to the best computer ratings: on 2023–25 games it missed by about 0.15 points a game more than ESPN's FPI and Sagarin, and beat 24 of 33 tracked systems.</dd>
+          <dt>Straw Poll</dt><dd>Members' weekly ballots, combined.</dd>
+          <dt>Straw+</dt><dd>Each Straw Poll team's Wolp+ rating moved 30% of the way toward the rating that its Straw Poll rank would carry in Wolp+ (the rating of Wolp+'s team at that rank). The crowd sets the order it leans toward; the model keeps the spacing. Teams outside the Straw Poll keep their Wolp+ rating.</dd>
+          <dt>AP</dt><dd>The Associated Press Top 25.</dd>
+          <dt>Wolp+</dt><dd>Teams ranked by the Model's power rating: points better than an average FBS team on a neutral field. The difference between two teams' ratings, plus the home edge, is the model's predicted margin. It picks winners better than the AP poll (see the Scorecard on Previous Rankings) and comes close to the best computer ratings: on 2023–25 games it missed by about 0.15 points a game more than ESPN's FPI and Sagarin, and beat 24 of 33 tracked systems.</dd>
         </dl>
         <p><b>Quality wins</b> and <b>Strength of résumé (SOR)</b> are shown alongside as résumé stats, not rankings: every win and loss, each weighted by how good the opponent is. Quality wins judges opponents by Model rank; SOR judges them by their records alone.</p>
-        <p><b>Conference Modifier ▾</b> (top bar): a just-for-fun what-if. Add points to a conference to see how the rankings would change. It only changes your screen, never the real ratings.</p>
+        <p><b>Conference Modifier ▾</b> (Research tab): a just-for-fun what-if. Add points to a conference to see how the rankings would change. It only changes your screen, never the real ratings.</p>
 
-        <h2 id="m-power">Power rating, step by step</h2>
-        <ol>
-          <li><b>Margins have diminishing returns.</b> A win counts as <b data-set="DIMINISH_SCALE">50</b> × tanh(margin ÷ <b data-set="DIMINISH_SCALE">50</b>) points, so a 14-point win counts about 14, a 28-point win about 25, and a 50-point win about 38.</li>
-          <li><b>Close games count as narrow results.</b> A game is <i>close</i> if it ended within <b data-set="ONE_SCORE">8</b> points <i>unless</i> the winner led by <b data-set="FAKE_LEAD">17</b>+ going into the 4th quarter (more than two scores). Close games count as a <b data-set="CLOSE_MARGIN">3</b>-point result whatever the final margin. A one-score game that wasn't really in doubt (a late rally against a big lead) counts as its final margin + <b data-set="FAKE_BUMP">2</b>; for example, leading 31–14 after three quarters and winning 31–24 counts as 9.</li>
-          <li><b>Win bonus:</b> every win gets <b data-set="WIN_BONUS">0.75</b> extra points (and the loser loses them).</li>
-          <li><b>Each game is judged against expectations.</b> Ratings are fitted so the margins they predict match the credited results. A blowout a team was expected to win barely moves it; a close loss to a much better team can raise it.</li>
-          <li><b>Location:</b> home teams get <b data-set="HOME_FIELD">2.5</b> points. At a neutral site, the team closer to the stadium gets part of that edge (<b data-set="NEUTRAL_SHARE">1.0</b> × home edge × how much shorter its trip is). Any team traveling farther than its opponent gives up <b data-set="TRAVEL_PER_1000">1.0</b> point per 1,000 extra miles.</li>
-          <li><b>FCS games count too:</b> an FCS opponent is treated as a team rated <b data-set="FCS_BELOW">18</b> points below the FBS average. A comfortable win over an FCS team barely moves a rating, but a narrow one lowers it, and a loss lowers it a lot.</li>
-          <li><b>Openers count a bit less:</b> each team's first game counts <b data-set="FIRST_GAME_WEIGHT">0.8</b> of a game.</li>
-          <li><b>Recent games count a bit more:</b> each week further back, a game counts <b data-set="RECENCY">0.94</b> as much, so a team's current form outweighs September.</li>
-          <li><b>Preseason start:</b> a mix of last season's rating, the share of production returning, and roster talent (weights fitted on earlier seasons), plus <b data-set="P4_START_BONUS">5</b> points for Power 4 teams (stats from weaker conferences tend to overrate teams). Teams new to FBS start at the <b data-set="NEW_FBS_PCT">10th</b> percentile. Army, Navy and Air Force count as average in roster talent: they rank last in recruiting every year but play far better than that (on 2024–26 replays they beat the model by about 3 points a game until this fix). The start counts as <b data-set="PRIOR_GAMES">3</b> games before the season and fades to nothing by week <b data-set="PRIOR_END_WEEK">18</b>.</li>
-        </ol>
+        <h2 id="m-power">Power rating</h2>
+        <p>Wolp+ rates each team by how many points better or worse than an average FBS team it would be on a neutral field. The ratings are fitted to every result this season, so each game is judged against what was expected given both teams' strength. It accounts for:</p>
+        <ul>
+          <li><b>The opponent:</b> beating a strong team counts for more than beating a weak one, and a close loss to a much better team can raise a rating.</li>
+          <li><b>The margin:</b> bigger wins count for more, with less and less extra credit for running up the score. Close games, and late scores in games that weren't really close, are treated with care.</li>
+          <li><b>Where it was played:</b> home field, neutral sites and travel.</li>
+          <li><b>Games against FCS teams:</b> they count, but a comfortable win barely moves a rating.</li>
+          <li><b>Recent form:</b> recent games count somewhat more than early-season ones.</li>
+          <li><b>A preseason starting point:</b> based on last season, returning players and roster talent, which fades out as the season's results come in.</li>
+        </ul>
         <div class="box">Not used: betting lines (kept out so the model can disagree with them), per-play efficiency (it didn't improve predictions), and the Straw Poll. On a week-by-week replay of 2024–2026, the model's predicted margins were off by about 12.35 points per game on average; the closing betting line was off by about 12.0. That's a little behind the best computer ratings, such as ESPN's FPI and Sagarin, and ahead of most others.</div>
 
         <h2 id="m-qw">Quality wins (résumé stat)</h2>
@@ -615,7 +656,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
           <dt>SR, Expl</dt><dd>Success rate (share of plays that keep a drive on schedule) and explosiveness (size of successful plays).</dd>
           <dt>Adj …</dt><dd>The same stats, adjusted for the opponents faced.</dd>
           <dt>Defs / Offs faced</dt><dd>Strength of schedule: the average adjusted EPA of the FBS defenses (lower = tougher) and offenses (higher = tougher) a team has played.</dd>
-          <dt>▲ ▼ NEW</dt><dd>Movement since the previous week's Straw Poll ballot.</dd>
+          <dt>▲ ▼ NEW</dt><dd>Movement since the previous week's Straw Poll.</dd>
           <dt>H2H, LOOP</dt><dd>Vote tab reminders: a head-to-head result that disagrees with the order, or teams that beat each other in a circle.</dd>
         </dl>
 
@@ -623,6 +664,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
         <p>Team data comes from <a href="https://collegefootballdata.com" target="_blank" rel="noopener">CollegeFootballData.com</a>. Results, stats, ratings and the AP poll update every Sunday morning; the schedule and betting lines refresh again on Thursday. Only FBS teams are rated.</p>
       </article>
     </div>
+    </details>
   </section>
 
   <!-- LEAGUES (step 3 builds the real page) -->
@@ -2000,6 +2042,12 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       : '<p class="dnote">Approvals, late ballots, upset watch and Open voting are on the Admin tab.</p>';
   }
   document.addEventListener('click', e=>{ if(e.target.closest('[data-signin]')) $('acctBtn').click(); });
+  // links to a methodology section (inside the collapsed "full methodology") open it, then scroll there
+  document.addEventListener('click', e=>{
+    const a=e.target.closest('#view-method a[href^="#m-"]'); if(!a) return;
+    e.preventDefault(); $('mFull').open = true;
+    const t=document.getElementById(a.getAttribute('href').slice(1)); if(t) t.scrollIntoView({block:'start'});
+  });
   $('acctAdminNote').addEventListener('click', e=>{ if(e.target.id==='acctToAdmin'){ $('acctDlg').close(); showTab('admin'); } });
   // Admin tab (owner): voting status + Open voting fallback, join requests, late ballots, upset watch
   function renderAdmin(){
