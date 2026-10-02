@@ -333,6 +333,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 .priv h4{font:700 18px var(--cond);margin:14px 0 4px}
 .priv ul{margin:0;padding-left:18px}
 .priv li{margin:3px 0}
+.priv p{margin:6px 0}
 .acctstat b{color:var(--gold)}
 .reqs{margin-top:18px;border-top:1px solid var(--line);padding-top:12px}
 .reqs h4{font:700 18px var(--cond);margin:0 0 8px}
@@ -675,32 +676,41 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   <div class="dlgbtns"><button class="btn quiet" id="acctSignOut" hidden>Sign out</button><form method="dialog"><button class="btn">Close</button></form></div>
 </dialog>
 <dialog id="privDlg" aria-labelledby="privTitle">
-  <h3 id="privTitle">Privacy &amp; Terms</h3>
-  <div class="sub">Short version: this is a free, friendly college football poll. We keep only what's needed to run it.</div>
+  <h3 id="privTitle">Privacy Policy &amp; Terms of Use</h3>
+  <div class="sub">Last updated October 2, 2026</div>
   <div class="priv">
-    <h4>What we collect</h4>
+    <p>Straw Poll ("the Site") is a free, non-commercial college football rankings website operated by an individual site administrator. This page explains what information the Site collects, how it is used, and the terms that apply when you use the Site.</p>
+
+    <h4>Privacy Policy</h4>
+    <p><b>Information we collect.</b></p>
     <ul>
-      <li><b>Viewing the site:</b> nothing is required. No account, no tracking or ads. Your display choices (columns, filters) are saved only in your own browser.</li>
-      <li><b>If you sign in:</b> your email address (to sign you in), the username you choose, an optional note to the site owner, your weekly ballots, league memberships and scores.</li>
-      <li><b>Automatically:</b> our sign-in provider (Supabase) and host (GitHub Pages) keep standard technical logs, such as IP addresses and times, for security.</li>
+      <li><b>Browsing.</b> No account is required to view the Site. Display preferences (such as selected columns and filters) are stored only in your own browser and are never sent to us.</li>
+      <li><b>Account information.</b> If you sign in with Google, we receive your email address. Google also provides your name and profile picture to our authentication provider; the Site displays only the username you choose.</li>
+      <li><b>Content you provide.</b> Your username, an optional note to the administrator, your weekly ballots, your league memberships, and the scores calculated from your ballots.</li>
+      <li><b>Technical data.</b> Our service providers automatically record standard technical information, such as IP addresses and request times, for security and reliability.</li>
     </ul>
-    <h4>Who sees what</h4>
+    <p><b>How we use information.</b> To sign you in, review requests to join, run the weekly Straw Poll and league standings, and keep the Site secure. We do not sell, rent, or share personal information for marketing, and the Site does not use advertising or third-party tracking.</p>
+    <p><b>Who can see your information.</b></p>
     <ul>
-      <li>Your email and note: only you and the site owner.</li>
-      <li>Your username: other approved players. Your scores: you and people in your leagues.</li>
-      <li>Your ballot: only you until the weekly deadline. After it, ballots are combined into the public Straw Poll, which shows totals, not who voted for what.</li>
-      <li>We never sell or share your information, and there's no advertising.</li>
+      <li>Your email address and note are visible only to you and the administrator.</li>
+      <li>Your username is visible to other approved members. Your scores are visible to you and to members of your leagues.</li>
+      <li>Your ballot is private until the weekly deadline. After the deadline, ballots are combined into the public Straw Poll, which shows aggregate results only, not individual votes.</li>
     </ul>
-    <h4>Deleting your account</h4>
-    <p>Use <b>Delete my account</b> in your account window. It removes your account, ballots, league memberships and scores right away. Published Straw Polls stay as they are, since they only contain combined totals.</p>
-    <h4>Terms of use</h4>
+    <p><b>Service providers.</b> The Site is hosted on GitHub Pages. Accounts and ballots are stored with Supabase. Sign-in is provided by Google. Football data comes from CollegeFootballData.com. Each provider handles data under its own privacy policy.</p>
+    <p><b>Retention and deletion.</b> Your information is kept while your account is active. You may delete your account at any time with <b>Delete my account</b> in your account window, which permanently removes your account, ballots, league memberships, and scores. Previously published Straw Polls, which contain only aggregate results, are not affected. Service providers may keep technical logs for a limited period.</p>
+    <p><b>Children.</b> The Site is not intended for children under 13, and we do not knowingly collect information from them. If you believe a child under 13 has created an account, contact the administrator and it will be deleted.</p>
+
+    <h4>Terms of Use</h4>
     <ul>
-      <li>You must be 13 or older to make an account.</li>
-      <li>It's free, and there are no prizes: just friendly competition.</li>
-      <li>One account per person. Keep usernames and notes respectful; the site owner may decline, remove or delete accounts.</li>
-      <li>Ratings, predictions and data are for fun and may contain mistakes. Nothing here is betting advice.</li>
-      <li>The site may change, pause or end at any time. These terms may be updated; the latest version is always here.</li>
+      <li><b>Eligibility.</b> You must be at least 13 years old to create an account.</li>
+      <li><b>Accounts.</b> One account per person. New accounts require administrator approval, which may be declined or withdrawn at any time.</li>
+      <li><b>Acceptable use.</b> Usernames and notes must be respectful and must not impersonate others. Do not attempt to interfere with the Site, its data, or other members' accounts.</li>
+      <li><b>No prizes or wagering.</b> The Straw Poll and leagues are free, for entertainment only, and offer no prizes. The Site must not be used for gambling.</li>
+      <li><b>Information "as is."</b> Ratings, rankings, projections, and statistics are provided for entertainment and may contain errors. Nothing on the Site is betting, financial, or other professional advice.</li>
+      <li><b>Availability.</b> The Site may be changed, suspended, or discontinued at any time without notice.</li>
+      <li><b>Changes to this page.</b> This policy and these terms may be updated. Continued use of the Site after an update means you accept the revised version.</li>
     </ul>
+    <p><b>Questions.</b> Contact the Site administrator with any questions or requests about your information.</p>
   </div>
   <div class="dlgbtns"><form method="dialog"><button class="btn">Close</button></form></div>
 </dialog>
