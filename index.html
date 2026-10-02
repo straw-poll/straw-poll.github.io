@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.2/Sortable.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.min.js"></script>
 <style>
 :root{
   --bg:#0e1622; --bar:#0b121c; --panel:#131e2d; --panel2:#16233a; --line:#22324a; --line2:#1a2738;
@@ -321,6 +322,14 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 .trail{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
 .trail span{border:1px solid var(--line);border-radius:6px;padding:2px 8px;font-size:12.5px}
 .trail .trl{border:0;padding-left:0;color:var(--muted)}
+#acctDlg input{width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:8px;background:var(--bg);margin:6px 0 2px}
+.acctf{display:block;font-size:13px;color:var(--muted);margin:12px 0 0}
+.acctstat{border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:14px}
+.acctstat b{color:var(--gold)}
+.reqs{margin-top:18px;border-top:1px solid var(--line);padding-top:12px}
+.reqs h4{font:700 18px var(--cond);margin:0 0 8px}
+.req{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line2)}
+.req small{display:block;color:var(--muted)}
 .trail b{font-family:var(--cond);font-size:15px}
 .adv{width:auto;margin:0 0 14px;font-size:13px}
 .adv th,.adv td{padding:2px 14px 2px 0;border:0;text-align:right;box-shadow:none}
@@ -395,6 +404,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
           <div id="fDials"></div>
           <div class="mixsave"><button class="btn quiet" id="fReset">Reset to 0</button><small id="fNote"></small></div></div></details>
       <button class="pill" id="cmpMode" aria-pressed="false" title="Pick 2 to 4 teams to compare side by side" hidden>Compare</button>
+      <button class="pill" id="acctBtn">Sign in</button>
     </div>
   </div>
 </header>
@@ -632,6 +642,24 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   <input type="password" id="syncToken" autocomplete="off" spellcheck="false" placeholder="github_pat_…" aria-label="GitHub token">
   <p class="dnote" id="syncMsg" role="status"></p>
   <div class="dlgbtns"><button class="btn quiet" id="syncOff">Disconnect</button><form method="dialog"><button class="btn">Cancel</button></form><button class="btn primary" id="syncSave">Connect</button></div>
+</dialog>
+<dialog id="acctDlg" aria-labelledby="acctTitle">
+  <h3 id="acctTitle">Sign in</h3>
+  <div class="sub" id="acctSub"></div>
+  <div id="acctOut">
+    <p class="dnote">Sign in to submit a Straw Poll ballot and join pick'em leagues. No password: we'll email you a sign-in link. Viewing the site never needs an account.</p>
+    <input type="email" id="acctEmail" autocomplete="email" placeholder="you@example.com" aria-label="Email">
+    <div class="dlgbtns"><button class="btn primary" id="acctSend">Email me a sign-in link</button></div>
+  </div>
+  <div id="acctIn" hidden>
+    <div class="acctstat" id="acctStatus"></div>
+    <label class="acctf">Username<input id="acctName" maxlength="24" autocomplete="nickname" placeholder="2–24 letters, numbers, _ . -"></label>
+    <label class="acctf" id="acctNoteRow">Note for the owner (optional)<input id="acctNote" maxlength="120" placeholder="e.g. Mike's roommate"></label>
+    <div class="dlgbtns"><button class="btn primary" id="acctSaveMe">Save</button></div>
+    <div id="acctReqs"></div>
+  </div>
+  <p class="dnote" id="acctMsg" role="status"></p>
+  <div class="dlgbtns"><button class="btn quiet" id="acctSignOut" hidden>Sign out</button><form method="dialog"><button class="btn">Close</button></form></div>
 </dialog>
 <dialog id="cmpDlg" aria-labelledby="cmpTitle">
   <h3 id="cmpTitle">Compare</h3>
@@ -1426,7 +1454,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   }
 
   // click outside a pop-up (on the dimmed background) to close it
-  ['dlg','cmpDlg','syncDlg'].forEach(id=>$(id).addEventListener('click', e=>{
+  ['dlg','cmpDlg','syncDlg','acctDlg'].forEach(id=>$(id).addEventListener('click', e=>{
     if(e.target!==e.currentTarget) return;
     const r=e.currentTarget.getBoundingClientRect();
     if(e.clientX<r.left || e.clientX>r.right || e.clientY<r.top || e.clientY>r.bottom) e.currentTarget.close();
@@ -1538,6 +1566,80 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     document.addEventListener('visibilitychange', ()=>{ if(document.visibilityState==='visible' && colL.length && !S.dirty) pull().then(emit).catch(()=>{}); });
     return { teams, collection: () => weeksCol, settings: () => readSettings().then(x=>x.data), saveSettings,
       check: async token => { try{ const r=await gh('GET', null, token); return r.ok ? 'ok' : 'unavailable'; }catch(e){ return e.code; } } };
+  }
+
+
+  // ---------- accounts (Supabase): sign-in, profile, owner approvals ----------
+  // The publishable key is public by design; the database's row-level security decides what each person can do.
+  const SB_URL='https://urbbhgyogfvuxfqzyzpd.supabase.co', SB_KEY='sb_publishable_pJhFlpFIadrLOzrqPxQR5A_kRuDmgjY';
+  const sb = window.supabase ? window.supabase.createClient(SB_URL, SB_KEY, {auth:{flowType:'pkce', detectSessionInUrl:true, persistSession:true}}) : null;
+  S.me = null; S.reqs = [];
+  const acctMsg = t => { $('acctMsg').textContent = t || ''; };
+  async function loadMe(){
+    if(!sb) return;
+    const { data:{ session } } = await sb.auth.getSession();
+    if(!session){ S.me=null; S.reqs=[]; renderAcct(); return; }
+    const uid=session.user.id;
+    const [p, r] = await Promise.all([sb.from('profiles').select('*').eq('id',uid).maybeSingle(), sb.from('join_requests').select('*').eq('user_id',uid).maybeSingle()]);
+    S.me = {user:session.user, profile:p.data||null, request:r.data||null};
+    if(S.me.profile && S.me.profile.is_owner) await loadReqs(); else S.reqs=[];
+    renderAcct();
+  }
+  async function loadReqs(){
+    const [p, r] = await Promise.all([sb.from('profiles').select('id,username,status,created_at').eq('status','pending').order('created_at'), sb.from('join_requests').select('user_id,email,note')]);
+    const info = Object.fromEntries((r.data||[]).map(x=>[x.user_id, x]));
+    S.reqs = (p.data||[]).map(x=>Object.assign({}, x, info[x.id]||{}));
+  }
+  function renderAcct(){
+    const me=S.me, pr=me&&me.profile, n=S.reqs.length;
+    $('acctBtn').textContent = !me ? 'Sign in' : ((pr&&pr.username) || 'Account') + (n ? ` (${n})` : '');
+    $('acctOut').hidden = !!me; $('acctIn').hidden = !me; $('acctSignOut').hidden = !me;
+    $('acctTitle').textContent = me ? 'Your account' : 'Sign in';
+    if(!me){ $('acctSub').textContent=''; return; }
+    $('acctSub').textContent = me.user.email || '';
+    const st = pr ? pr.status : 'pending';
+    $('acctStatus').innerHTML = pr && pr.is_owner ? '<b>Owner.</b> You approve who can submit ballots and join leagues.'
+      : st==='approved' ? '<b>Approved.</b> You can submit ballots and join leagues.'
+      : st==='declined' ? 'Your request wasn’t approved. You can still view everything on the site.'
+      : '<b>Request sent.</b> The owner will approve you soon. Add a username (and a note so they know who you are).';
+    if(document.activeElement!==$('acctName')) $('acctName').value = (pr&&pr.username) || '';
+    if(document.activeElement!==$('acctNote')) $('acctNote').value = (me.request&&me.request.note) || '';
+    $('acctNoteRow').hidden = st!=='pending';
+    $('acctReqs').innerHTML = pr && pr.is_owner ? `<div class="reqs"><h4>Requests to join${n?` (${n})`:''}</h4>${n ? S.reqs.map(x=>`<div class="req"><div>${esc(x.username||'(no username yet)')}<small>${esc(x.email||'')}${x.note?' · '+esc(x.note):''}</small></div><button class="btn primary" data-appr="${esc(x.id)}">Approve</button><button class="btn quiet" data-decl="${esc(x.id)}">Decline</button></div>`).join('') : '<p class="dnote">No pending requests.</p>'}</div>` : '';
+  }
+  $('acctBtn').addEventListener('click', ()=>{ acctMsg(''); renderAcct(); $('acctDlg').showModal(); if(S.me) loadMe(); });
+  $('acctSend').addEventListener('click', async ()=>{
+    const email=$('acctEmail').value.trim();
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ acctMsg('Enter your email address.'); return; }
+    if(!sb){ acctMsg('Sign-in couldn’t load. Check your connection and refresh.'); return; }
+    $('acctSend').disabled=true; acctMsg('Sending…');
+    const { error } = await sb.auth.signInWithOtp({ email, options:{ emailRedirectTo: location.origin + location.pathname } });
+    $('acctSend').disabled=false;
+    acctMsg(error ? (error.status===429 ? 'Too many tries. Wait a minute and try again.' : 'Couldn’t send the link. Try again.') : `Check ${email} for a sign-in link. Open it in this same browser.`);
+  });
+  $('acctSaveMe').addEventListener('click', async ()=>{
+    if(!S.me) return;
+    const name=$('acctName').value.trim(), note=$('acctNote').value.trim();
+    if(name && !/^[A-Za-z0-9_.-]{2,24}$/.test(name)){ acctMsg('Usernames are 2–24 letters, numbers, _ . or -'); return; }
+    acctMsg('Saving…');
+    const r1 = await sb.from('profiles').update({username: name || null}).eq('id', S.me.user.id);
+    if(r1.error){ acctMsg(r1.error.code==='23505' ? 'That username is taken.' : 'Couldn’t save. Try again.'); return; }
+    if(!$('acctNoteRow').hidden){ const r2 = await sb.from('join_requests').update({note: note || null}).eq('user_id', S.me.user.id); if(r2.error){ acctMsg('Saved your username, but not the note. Try again.'); return; } }
+    acctMsg('Saved.'); loadMe();
+  });
+  $('acctReqs').addEventListener('click', async e=>{
+    const a=e.target.closest('[data-appr]'), d=e.target.closest('[data-decl]'); if(!a && !d) return;
+    const id=(a||d).dataset.appr || (a||d).dataset.decl;
+    const { error } = await sb.from('profiles').update({status: a ? 'approved' : 'declined'}).eq('id', id);
+    acctMsg(error ? 'Couldn’t update that request. Try again.' : a ? 'Approved.' : 'Declined.'); loadMe();
+  });
+  $('acctSignOut').addEventListener('click', async ()=>{ await sb.auth.signOut(); acctMsg('Signed out.'); loadMe(); });
+  if(sb){
+    sb.auth.onAuthStateChange((ev)=>{
+      if(ev==='SIGNED_IN' && /[?&]code=/.test(location.search)) history.replaceState(null, '', location.pathname + location.hash);  // tidy the sign-in link
+      setTimeout(loadMe, 0);
+    });
+    loadMe();
   }
 
   // ---------- ballot sync dialog ----------
