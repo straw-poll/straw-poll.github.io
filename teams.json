@@ -1,6 +1,6 @@
 {
  "season": 2026,
- "updatedAt": "2026-10-01T20:05:46.879829+00:00",
+ "updatedAt": "2026-10-02T02:09:08.440146+00:00",
  "through": "games through Sat, Sep 26",
  "teams": {
   "Air Force": {
@@ -7963,7 +7963,7 @@
     "home": "New Mexico State",
     "away": "Western Kentucky",
     "neutral": false,
-    "line": 2.5,
+    "line": 1.5,
     "model": -1.0
    },
    {
@@ -7972,7 +7972,7 @@
     "home": "Tulsa",
     "away": "North Texas",
     "neutral": false,
-    "line": -1.75,
+    "line": -2.0,
     "model": -6.3
    },
    {
@@ -7990,7 +7990,7 @@
     "home": "Delaware",
     "away": "Liberty",
     "neutral": false,
-    "line": -6.5,
+    "line": -6.75,
     "model": -5.6
    },
    {
@@ -7999,35 +7999,8 @@
     "home": "Northwestern",
     "away": "Penn State",
     "neutral": false,
-    "line": -3.0,
+    "line": -2.75,
     "model": 2.6
-   },
-   {
-    "id": 401858251,
-    "start": "2026-10-03T16:00:00.000Z",
-    "home": "Wake Forest",
-    "away": "Stanford",
-    "neutral": false,
-    "line": 13.75,
-    "model": 15.2
-   },
-   {
-    "id": 401858250,
-    "start": "2026-10-03T16:00:00.000Z",
-    "home": "North Carolina",
-    "away": "Notre Dame",
-    "neutral": false,
-    "line": -21.75,
-    "model": -21.2
-   },
-   {
-    "id": 401858246,
-    "start": "2026-10-03T16:00:00.000Z",
-    "home": "SMU",
-    "away": "Boston College",
-    "neutral": false,
-    "line": 21.5,
-    "model": 17.7
    },
    {
     "id": 401856822,
@@ -8048,31 +8021,13 @@
     "model": 0.1
    },
    {
-    "id": 401856819,
+    "id": 401862791,
     "start": "2026-10-03T16:00:00.000Z",
-    "home": "Houston",
-    "away": "UCF",
+    "home": "Air Force",
+    "away": "Navy",
     "neutral": false,
-    "line": 11.25,
-    "model": 7.6
-   },
-   {
-    "id": 401856707,
-    "start": "2026-10-03T16:00:00.000Z",
-    "home": "Mississippi State",
-    "away": "Alabama",
-    "neutral": false,
-    "line": -6.0,
-    "model": -9.2
-   },
-   {
-    "id": 401856807,
-    "start": "2026-10-03T16:00:00.000Z",
-    "home": "Kansas",
-    "away": "Middle Tennessee",
-    "neutral": false,
-    "line": 19.5,
-    "model": 21.0
+    "line": 3.25,
+    "model": 3.8
    },
    {
     "id": 401858474,
@@ -8084,13 +8039,58 @@
     "model": -3.6
    },
    {
-    "id": 401862791,
+    "id": 401858246,
     "start": "2026-10-03T16:00:00.000Z",
-    "home": "Air Force",
-    "away": "Navy",
+    "home": "SMU",
+    "away": "Boston College",
     "neutral": false,
-    "line": 3.5,
-    "model": 3.8
+    "line": 21.5,
+    "model": 17.7
+   },
+   {
+    "id": 401856707,
+    "start": "2026-10-03T16:00:00.000Z",
+    "home": "Mississippi State",
+    "away": "Alabama",
+    "neutral": false,
+    "line": -5.75,
+    "model": -9.2
+   },
+   {
+    "id": 401858251,
+    "start": "2026-10-03T16:00:00.000Z",
+    "home": "Wake Forest",
+    "away": "Stanford",
+    "neutral": false,
+    "line": 14.0,
+    "model": 15.2
+   },
+   {
+    "id": 401856807,
+    "start": "2026-10-03T16:00:00.000Z",
+    "home": "Kansas",
+    "away": "Middle Tennessee",
+    "neutral": false,
+    "line": 19.75,
+    "model": 21.0
+   },
+   {
+    "id": 401856819,
+    "start": "2026-10-03T16:00:00.000Z",
+    "home": "Houston",
+    "away": "UCF",
+    "neutral": false,
+    "line": 11.25,
+    "model": 7.6
+   },
+   {
+    "id": 401858250,
+    "start": "2026-10-03T16:00:00.000Z",
+    "home": "North Carolina",
+    "away": "Notre Dame",
+    "neutral": false,
+    "line": -22.0,
+    "model": -21.2
    },
    {
     "id": 401858479,
@@ -8129,42 +8129,6 @@
     "model": -17.2
    },
    {
-    "id": 401866433,
-    "start": "2026-10-03T19:30:00.000Z",
-    "home": "Massachusetts",
-    "away": "Eastern Michigan",
-    "neutral": false,
-    "line": 5.75,
-    "model": 12.6
-   },
-   {
-    "id": 401864515,
-    "start": "2026-10-03T19:30:00.000Z",
-    "home": "North Dakota State",
-    "away": "Wyoming",
-    "neutral": false,
-    "line": 17.5,
-    "model": 16.4
-   },
-   {
-    "id": 401866430,
-    "start": "2026-10-03T19:30:00.000Z",
-    "home": "Central Michigan",
-    "away": "Akron",
-    "neutral": false,
-    "line": 6.5,
-    "model": 6.7
-   },
-   {
-    "id": 401856710,
-    "start": "2026-10-03T19:30:00.000Z",
-    "home": "Tennessee",
-    "away": "Auburn",
-    "neutral": false,
-    "line": 7.0,
-    "model": 8.6
-   },
-   {
     "id": 401858473,
     "start": "2026-10-03T19:30:00.000Z",
     "home": "Iowa",
@@ -8174,22 +8138,13 @@
     "model": -10.0
    },
    {
-    "id": 401858248,
+    "id": 401866433,
     "start": "2026-10-03T19:30:00.000Z",
-    "home": "NC State",
-    "away": "Louisville",
+    "home": "Massachusetts",
+    "away": "Eastern Michigan",
     "neutral": false,
-    "line": -3.5,
-    "model": -0.0
-   },
-   {
-    "id": 401858253,
-    "start": "2026-10-03T19:30:00.000Z",
-    "home": "Florida State",
-    "away": "Virginia",
-    "neutral": false,
-    "line": -2.75,
-    "model": 0.2
+    "line": 5.75,
+    "model": 12.6
    },
    {
     "id": 401866434,
@@ -8201,22 +8156,31 @@
     "model": -4.3
    },
    {
-    "id": 401862787,
+    "id": 401864515,
     "start": "2026-10-03T19:30:00.000Z",
-    "home": "Charlotte",
-    "away": "Memphis",
+    "home": "North Dakota State",
+    "away": "Wyoming",
     "neutral": false,
-    "line": -20.5,
-    "model": -19.8
+    "line": 17.25,
+    "model": 16.4
    },
    {
-    "id": 401866477,
+    "id": 401858248,
     "start": "2026-10-03T19:30:00.000Z",
-    "home": "Miami (OH)",
-    "away": "Bowling Green",
+    "home": "NC State",
+    "away": "Louisville",
     "neutral": false,
-    "line": 13.5,
-    "model": 16.5
+    "line": -3.5,
+    "model": -0.0
+   },
+   {
+    "id": 401856710,
+    "start": "2026-10-03T19:30:00.000Z",
+    "home": "Tennessee",
+    "away": "Auburn",
+    "neutral": false,
+    "line": 7.0,
+    "model": 8.6
    },
    {
     "id": 401856708,
@@ -8226,6 +8190,15 @@
     "neutral": false,
     "line": -5.5,
     "model": -2.5
+   },
+   {
+    "id": 401862787,
+    "start": "2026-10-03T19:30:00.000Z",
+    "home": "Charlotte",
+    "away": "Memphis",
+    "neutral": false,
+    "line": -20.5,
+    "model": -19.8
    },
    {
     "id": 401858247,
@@ -8255,22 +8228,40 @@
     "model": 6.1
    },
    {
+    "id": 401858253,
+    "start": "2026-10-03T19:30:00.000Z",
+    "home": "Florida State",
+    "away": "Virginia",
+    "neutral": false,
+    "line": -2.75,
+    "model": 0.2
+   },
+   {
+    "id": 401866477,
+    "start": "2026-10-03T19:30:00.000Z",
+    "home": "Miami (OH)",
+    "away": "Bowling Green",
+    "neutral": false,
+    "line": 13.5,
+    "model": 16.5
+   },
+   {
+    "id": 401866430,
+    "start": "2026-10-03T19:30:00.000Z",
+    "home": "Central Michigan",
+    "away": "Akron",
+    "neutral": false,
+    "line": 6.5,
+    "model": 6.7
+   },
+   {
     "id": 401869962,
     "start": "2026-10-03T19:45:00.000Z",
     "home": "James Madison",
     "away": "Marshall",
     "neutral": false,
-    "line": 19.25,
+    "line": 18.75,
     "model": 23.3
-   },
-   {
-    "id": 401864514,
-    "start": "2026-10-03T20:00:00.000Z",
-    "home": "New Mexico",
-    "away": "UTEP",
-    "neutral": false,
-    "line": 22.75,
-    "model": 23.8
    },
    {
     "id": 401858475,
@@ -8280,6 +8271,15 @@
     "neutral": false,
     "line": 14.5,
     "model": 16.0
+   },
+   {
+    "id": 401864514,
+    "start": "2026-10-03T20:00:00.000Z",
+    "home": "New Mexico",
+    "away": "UTEP",
+    "neutral": false,
+    "line": 22.5,
+    "model": 23.8
    },
    {
     "id": 401858472,
@@ -8318,6 +8318,24 @@
     "model": -0.9
    },
    {
+    "id": 401856818,
+    "start": "2026-10-03T23:00:00.000Z",
+    "home": "TCU",
+    "away": "BYU",
+    "neutral": false,
+    "line": -6.25,
+    "model": -3.0
+   },
+   {
+    "id": 401856711,
+    "start": "2026-10-03T23:00:00.000Z",
+    "home": "Texas A&M",
+    "away": "Arkansas",
+    "neutral": false,
+    "line": 13.75,
+    "model": 12.7
+   },
+   {
     "id": 401869942,
     "start": "2026-10-03T23:00:00.000Z",
     "home": "Coastal Carolina",
@@ -8332,17 +8350,8 @@
     "home": "Rice",
     "away": "UTSA",
     "neutral": false,
-    "line": -11.75,
+    "line": -12.5,
     "model": -10.6
-   },
-   {
-    "id": 401856711,
-    "start": "2026-10-03T23:00:00.000Z",
-    "home": "Texas A&M",
-    "away": "Arkansas",
-    "neutral": false,
-    "line": 14.0,
-    "model": 12.7
    },
    {
     "id": 401871089,
@@ -8354,22 +8363,13 @@
     "model": 17.0
    },
    {
-    "id": 401856818,
-    "start": "2026-10-03T23:00:00.000Z",
-    "home": "TCU",
-    "away": "BYU",
-    "neutral": false,
-    "line": -6.25,
-    "model": -3.0
-   },
-   {
-    "id": 401869842,
+    "id": 401856821,
     "start": "2026-10-03T23:30:00.000Z",
-    "home": "Louisiana Tech",
-    "away": "Army",
+    "home": "Colorado",
+    "away": "Texas Tech",
     "neutral": false,
-    "line": -1.5,
-    "model": 0.0
+    "line": -13.25,
+    "model": -15.1
    },
    {
     "id": 401858478,
@@ -8377,7 +8377,7 @@
     "home": "USC",
     "away": "Washington",
     "neutral": false,
-    "line": 9.5,
+    "line": 8.75,
     "model": 10.7
    },
    {
@@ -8386,17 +8386,17 @@
     "home": "Boise State",
     "away": "Utah State",
     "neutral": false,
-    "line": 20.25,
+    "line": 18.5,
     "model": 17.9
    },
    {
-    "id": 401858249,
+    "id": 401869842,
     "start": "2026-10-03T23:30:00.000Z",
-    "home": "Clemson",
-    "away": "Miami",
+    "home": "Louisiana Tech",
+    "away": "Army",
     "neutral": false,
-    "line": -16.75,
-    "model": -13.5
+    "line": -2.0,
+    "model": 0.0
    },
    {
     "id": 401862792,
@@ -8408,13 +8408,13 @@
     "model": 13.7
    },
    {
-    "id": 401856821,
+    "id": 401858249,
     "start": "2026-10-03T23:30:00.000Z",
-    "home": "Colorado",
-    "away": "Texas Tech",
+    "home": "Clemson",
+    "away": "Miami",
     "neutral": false,
-    "line": -12.5,
-    "model": -15.1
+    "line": -16.5,
+    "model": -13.5
    },
    {
     "id": 401856706,
@@ -8426,15 +8426,6 @@
     "model": null
    },
    {
-    "id": 401858477,
-    "start": "2026-10-04T00:00:00.000Z",
-    "home": "Rutgers",
-    "away": "Indiana",
-    "neutral": false,
-    "line": -24.5,
-    "model": -17.5
-   },
-   {
     "id": 401869932,
     "start": "2026-10-04T00:00:00.000Z",
     "home": "Louisiana",
@@ -8442,6 +8433,15 @@
     "neutral": false,
     "line": 6.5,
     "model": 4.0
+   },
+   {
+    "id": 401858477,
+    "start": "2026-10-04T00:00:00.000Z",
+    "home": "Rutgers",
+    "away": "Indiana",
+    "neutral": false,
+    "line": -24.5,
+    "model": -17.5
    },
    {
     "id": 401860921,
@@ -8453,6 +8453,15 @@
     "model": 3.6
    },
    {
+    "id": 401860900,
+    "start": "2026-10-04T02:30:00.000Z",
+    "home": "San Diego State",
+    "away": "Texas State",
+    "neutral": false,
+    "line": -8.0,
+    "model": -2.1
+   },
+   {
     "id": 401856817,
     "start": "2026-10-04T02:30:00.000Z",
     "home": "Arizona State",
@@ -8460,15 +8469,6 @@
     "neutral": false,
     "line": 3.75,
     "model": 1.4
-   },
-   {
-    "id": 401860900,
-    "start": "2026-10-04T02:30:00.000Z",
-    "home": "San Diego State",
-    "away": "Texas State",
-    "neutral": false,
-    "line": -7.5,
-    "model": -2.1
    },
    {
     "id": 401856820,
@@ -8579,7 +8579,7 @@
      "neutral": false,
      "start": "2026-10-02T23:00:00.000Z",
      "model": -5.6,
-     "line": -6.5,
+     "line": -6.75,
      "id": 401871050,
      "hp": null,
      "ap": null
@@ -8601,7 +8601,7 @@
      "neutral": false,
      "start": "2026-10-03T00:00:00.000Z",
      "model": 2.6,
-     "line": -3.0,
+     "line": -2.75,
      "id": 401858476,
      "hp": null,
      "ap": null
@@ -8634,7 +8634,7 @@
      "neutral": false,
      "start": "2026-10-03T16:00:00.000Z",
      "model": 21.0,
-     "line": 19.5,
+     "line": 19.75,
      "id": 401856807,
      "hp": null,
      "ap": null
@@ -8645,7 +8645,7 @@
      "neutral": false,
      "start": "2026-10-03T16:00:00.000Z",
      "model": 15.2,
-     "line": 13.75,
+     "line": 14.0,
      "id": 401858251,
      "hp": null,
      "ap": null
@@ -8656,7 +8656,7 @@
      "neutral": false,
      "start": "2026-10-03T16:00:00.000Z",
      "model": -9.2,
-     "line": -6.0,
+     "line": -5.75,
      "id": 401856707,
      "hp": null,
      "ap": null
@@ -8667,7 +8667,7 @@
      "neutral": false,
      "start": "2026-10-03T16:00:00.000Z",
      "model": 3.8,
-     "line": 3.5,
+     "line": 3.25,
      "id": 401862791,
      "hp": null,
      "ap": null
@@ -8711,7 +8711,7 @@
      "neutral": false,
      "start": "2026-10-03T16:00:00.000Z",
      "model": -21.2,
-     "line": -21.75,
+     "line": -22.0,
      "id": 401858250,
      "hp": null,
      "ap": null
@@ -8766,7 +8766,7 @@
      "neutral": false,
      "start": "2026-10-03T19:30:00.000Z",
      "model": 16.4,
-     "line": 17.5,
+     "line": 17.25,
      "id": 401864515,
      "hp": null,
      "ap": null
@@ -8920,7 +8920,7 @@
      "neutral": false,
      "start": "2026-10-03T19:45:00.000Z",
      "model": 23.3,
-     "line": 19.25,
+     "line": 18.75,
      "id": 401869962,
      "hp": null,
      "ap": null
@@ -8931,7 +8931,7 @@
      "neutral": false,
      "start": "2026-10-03T20:00:00.000Z",
      "model": 23.8,
-     "line": 22.75,
+     "line": 22.5,
      "id": 401864514,
      "hp": null,
      "ap": null
@@ -9008,7 +9008,7 @@
      "neutral": false,
      "start": "2026-10-03T23:00:00.000Z",
      "model": -10.6,
-     "line": -11.75,
+     "line": -12.5,
      "id": 401862788,
      "hp": null,
      "ap": null
@@ -9030,7 +9030,7 @@
      "neutral": false,
      "start": "2026-10-03T23:00:00.000Z",
      "model": 12.7,
-     "line": 14.0,
+     "line": 13.75,
      "id": 401856711,
      "hp": null,
      "ap": null
@@ -9052,7 +9052,7 @@
      "neutral": false,
      "start": "2026-10-03T23:30:00.000Z",
      "model": 17.9,
-     "line": 20.25,
+     "line": 18.5,
      "id": 401860898,
      "hp": null,
      "ap": null
@@ -9074,7 +9074,7 @@
      "neutral": false,
      "start": "2026-10-03T23:30:00.000Z",
      "model": 10.7,
-     "line": 9.5,
+     "line": 8.75,
      "id": 401858478,
      "hp": null,
      "ap": null
@@ -9085,7 +9085,7 @@
      "neutral": false,
      "start": "2026-10-03T23:30:00.000Z",
      "model": -13.5,
-     "line": -16.75,
+     "line": -16.5,
      "id": 401858249,
      "hp": null,
      "ap": null
@@ -9096,7 +9096,7 @@
      "neutral": false,
      "start": "2026-10-03T23:30:00.000Z",
      "model": -15.1,
-     "line": -12.5,
+     "line": -13.25,
      "id": 401856821,
      "hp": null,
      "ap": null
@@ -9107,7 +9107,7 @@
      "neutral": false,
      "start": "2026-10-03T23:30:00.000Z",
      "model": 0.0,
-     "line": -1.5,
+     "line": -2.0,
      "id": 401869842,
      "hp": null,
      "ap": null
@@ -9162,7 +9162,7 @@
      "neutral": false,
      "start": "2026-10-04T02:30:00.000Z",
      "model": -2.1,
-     "line": -7.5,
+     "line": -8.0,
      "id": 401860900,
      "hp": null,
      "ap": null
@@ -9205,7 +9205,7 @@
  ],
  "model": {
   "season": 2026,
-  "updatedAt": "2026-10-01T20:05:46.879829+00:00",
+  "updatedAt": "2026-10-02T02:09:08.440146+00:00",
   "teams": {
    "Air Force": {
     "powerRating": -8.3633,
@@ -9246,7 +9246,7 @@
      "l": 5.2,
      "unb": 0.0,
      "w10": 0.046,
-     "bowl": 0.795
+     "bowl": 0.796
     },
     "upcoming": [
      {
@@ -9312,7 +9312,9 @@
       "site": "away",
       "spread": -15.1
      }
-    ]
+    ],
+    "resultsScore": 0.0041,
+    "resultsRank": 92
    },
    "Akron": {
     "powerRating": -18.7609,
@@ -9420,7 +9422,9 @@
       "site": "home",
       "spread": 2.6
      }
-    ]
+    ],
+    "resultsScore": -0.0541,
+    "resultsRank": 128
    },
    "Alabama": {
     "powerRating": 25.524,
@@ -9471,8 +9475,8 @@
     "proj": {
      "w": 9.8,
      "l": 2.2,
-     "unb": 0.095,
-     "w10": 0.611,
+     "unb": 0.09,
+     "w10": 0.615,
      "bowl": 0.999
     },
     "upcoming": [
@@ -9532,7 +9536,9 @@
       "site": "home",
       "spread": 17.2
      }
-    ]
+    ],
+    "resultsScore": 0.1804,
+    "resultsRank": 2
    },
    "App State": {
     "powerRating": -7.9711,
@@ -9580,8 +9586,8 @@
      "w": 7.4,
      "l": 4.6,
      "unb": 0.0,
-     "w10": 0.086,
-     "bowl": 0.894
+     "w10": 0.089,
+     "bowl": 0.89
     },
     "upcoming": [
      {
@@ -9640,7 +9646,9 @@
       "site": "away",
       "spread": 0.2
      }
-    ]
+    ],
+    "resultsScore": 0.0278,
+    "resultsRank": 65
    },
    "Arizona": {
     "powerRating": 8.0439,
@@ -9688,8 +9696,8 @@
      "w": 6.9,
      "l": 5.1,
      "unb": 0.0,
-     "w10": 0.046,
-     "bowl": 0.8
+     "w10": 0.043,
+     "bowl": 0.796
     },
     "upcoming": [
      {
@@ -9748,7 +9756,9 @@
       "site": "home",
       "spread": 5.3
      }
-    ]
+    ],
+    "resultsScore": 0.0238,
+    "resultsRank": 69
    },
    "Arizona State": {
     "powerRating": 5.3681,
@@ -9788,8 +9798,8 @@
      "w": 6.4,
      "l": 5.6,
      "unb": 0.0,
-     "w10": 0.024,
-     "bowl": 0.714
+     "w10": 0.02,
+     "bowl": 0.707
     },
     "upcoming": [
      {
@@ -9855,7 +9865,9 @@
       "site": "away",
       "spread": -5.3
      }
-    ]
+    ],
+    "resultsScore": 0.0077,
+    "resultsRank": 85
    },
    "Arkansas": {
     "powerRating": 3.876,
@@ -9904,7 +9916,7 @@
      "l": 7.7,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.192
+     "bowl": 0.195
     },
     "upcoming": [
      {
@@ -9963,7 +9975,9 @@
       "site": "home",
       "spread": -14.1
      }
-    ]
+    ],
+    "resultsScore": 0.0275,
+    "resultsRank": 67
    },
    "Arkansas State": {
     "powerRating": -8.942,
@@ -10012,7 +10026,7 @@
      "l": 5.6,
      "unb": 0.0,
      "w10": 0.017,
-     "bowl": 0.717
+     "bowl": 0.722
     },
     "upcoming": [
      {
@@ -10071,7 +10085,9 @@
       "site": "home",
       "spread": 4.0
      }
-    ]
+    ],
+    "resultsScore": -0.0186,
+    "resultsRank": 103
    },
    "Army": {
     "powerRating": -2.4065,
@@ -10111,8 +10127,8 @@
      "w": 7.4,
      "l": 4.6,
      "unb": 0.0,
-     "w10": 0.11,
-     "bowl": 0.865
+     "w10": 0.108,
+     "bowl": 0.866
     },
     "upcoming": [
      {
@@ -10178,7 +10194,9 @@
       "site": "neutral",
       "spread": 7.5
      }
-    ]
+    ],
+    "resultsScore": 0.016,
+    "resultsRank": 75
    },
    "Auburn": {
     "powerRating": 10.9969,
@@ -10290,7 +10308,9 @@
       "site": "away",
       "spread": -17.2
      }
-    ]
+    ],
+    "resultsScore": 0.1148,
+    "resultsRank": 14
    },
    "BYU": {
     "powerRating": 14.9193,
@@ -10329,9 +10349,9 @@
     "proj": {
      "w": 8.5,
      "l": 3.5,
-     "unb": 0.021,
-     "w10": 0.277,
-     "bowl": 0.967
+     "unb": 0.019,
+     "w10": 0.285,
+     "bowl": 0.968
     },
     "upcoming": [
      {
@@ -10397,7 +10417,9 @@
       "site": "home",
       "spread": 13.2
      }
-    ]
+    ],
+    "resultsScore": 0.0869,
+    "resultsRank": 32
    },
    "Ball State": {
     "powerRating": -19.9142,
@@ -10442,11 +10464,11 @@
      ]
     ],
     "proj": {
-     "w": 3.7,
-     "l": 8.3,
+     "w": 3.6,
+     "l": 8.4,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.098
+     "bowl": 0.089
     },
     "upcoming": [
      {
@@ -10505,7 +10527,9 @@
       "site": "home",
       "spread": -2.3
      }
-    ]
+    ],
+    "resultsScore": -0.0536,
+    "resultsRank": 126
    },
    "Baylor": {
     "powerRating": 7.3018,
@@ -10553,8 +10577,8 @@
      "w": 6.5,
      "l": 5.5,
      "unb": 0.0,
-     "w10": 0.032,
-     "bowl": 0.725
+     "w10": 0.033,
+     "bowl": 0.722
     },
     "upcoming": [
      {
@@ -10613,7 +10637,9 @@
       "site": "away",
       "spread": -5.6
      }
-    ]
+    ],
+    "resultsScore": 0.058,
+    "resultsRank": 46
    },
    "Boise State": {
     "powerRating": 5.7538,
@@ -10714,7 +10740,9 @@
       "site": "home",
       "spread": 16.1
      }
-    ]
+    ],
+    "resultsScore": 0.0815,
+    "resultsRank": 33
    },
    "Boston College": {
     "powerRating": -6.2592,
@@ -10763,7 +10791,7 @@
      "l": 8.4,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.061
+     "bowl": 0.06
     },
     "upcoming": [
      {
@@ -10822,7 +10850,9 @@
       "site": "away",
       "spread": -34.0
      }
-    ]
+    ],
+    "resultsScore": 0.008,
+    "resultsRank": 84
    },
    "Bowling Green": {
     "powerRating": -19.114,
@@ -10871,7 +10901,7 @@
      "l": 9.1,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.04
+     "bowl": 0.039
     },
     "upcoming": [
      {
@@ -10930,7 +10960,9 @@
       "site": "home",
       "spread": -9.0
      }
-    ]
+    ],
+    "resultsScore": -0.1678,
+    "resultsRank": 136
    },
    "Buffalo": {
     "powerRating": -18.7053,
@@ -10975,7 +11007,7 @@
      "l": 7.2,
      "unb": 0.0,
      "w10": 0.001,
-     "bowl": 0.327
+     "bowl": 0.32
     },
     "upcoming": [
      {
@@ -11034,7 +11066,9 @@
       "site": "away",
       "spread": -2.6
      }
-    ]
+    ],
+    "resultsScore": -0.0359,
+    "resultsRank": 112
    },
    "California": {
     "powerRating": -0.5802,
@@ -11082,8 +11116,8 @@
      "w": 5.2,
      "l": 6.8,
      "unb": 0.0,
-     "w10": 0.001,
-     "bowl": 0.407
+     "w10": 0.002,
+     "bowl": 0.413
     },
     "upcoming": [
      {
@@ -11142,7 +11176,9 @@
       "site": "home",
       "spread": -7.2
      }
-    ]
+    ],
+    "resultsScore": 0.0057,
+    "resultsRank": 89
    },
    "Central Michigan": {
     "powerRating": -14.8438,
@@ -11191,7 +11227,7 @@
      "l": 6.0,
      "unb": 0.0,
      "w10": 0.009,
-     "bowl": 0.617
+     "bowl": 0.622
     },
     "upcoming": [
      {
@@ -11250,7 +11286,9 @@
       "site": "away",
       "spread": 2.3
      }
-    ]
+    ],
+    "resultsScore": 0.0045,
+    "resultsRank": 91
    },
    "Charlotte": {
     "powerRating": -23.8117,
@@ -11358,7 +11396,9 @@
       "site": "home",
       "spread": -12.8
      }
-    ]
+    ],
+    "resultsScore": -0.1682,
+    "resultsRank": 137
    },
    "Cincinnati": {
     "powerRating": 5.661,
@@ -11405,9 +11445,9 @@
     "proj": {
      "w": 7.1,
      "l": 4.9,
-     "unb": 0.001,
-     "w10": 0.058,
-     "bowl": 0.853
+     "unb": 0.002,
+     "w10": 0.06,
+     "bowl": 0.849
     },
     "upcoming": [
      {
@@ -11466,7 +11506,9 @@
       "site": "away",
       "spread": -13.2
      }
-    ]
+    ],
+    "resultsScore": 0.1317,
+    "resultsRank": 9
    },
    "Clemson": {
     "powerRating": 7.4298,
@@ -11518,8 +11560,8 @@
      "w": 7.5,
      "l": 4.5,
      "unb": 0.0,
-     "w10": 0.083,
-     "bowl": 0.907
+     "w10": 0.082,
+     "bowl": 0.909
     },
     "upcoming": [
      {
@@ -11578,7 +11620,9 @@
       "site": "home",
       "spread": 0.9
      }
-    ]
+    ],
+    "resultsScore": 0.0995,
+    "resultsRank": 25
    },
    "Coastal Carolina": {
     "powerRating": -12.3648,
@@ -11627,7 +11671,7 @@
      "l": 7.8,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.204
+     "bowl": 0.207
     },
     "upcoming": [
      {
@@ -11686,7 +11730,9 @@
       "site": "away",
       "spread": -21.7
      }
-    ]
+    ],
+    "resultsScore": -0.05,
+    "resultsRank": 123
    },
    "Colorado": {
     "powerRating": -0.3914,
@@ -11735,7 +11781,7 @@
      "l": 7.6,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.209
+     "bowl": 0.217
     },
     "upcoming": [
      {
@@ -11794,7 +11840,9 @@
       "site": "home",
       "spread": -2.3
      }
-    ]
+    ],
+    "resultsScore": -0.0135,
+    "resultsRank": 101
    },
    "Colorado State": {
     "powerRating": -7.7254,
@@ -11843,7 +11891,7 @@
      "l": 6.3,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.289
+     "bowl": 0.292
     },
     "upcoming": [
      {
@@ -11895,7 +11943,9 @@
       "site": "away",
       "spread": -7.1
      }
-    ]
+    ],
+    "resultsScore": 0.0049,
+    "resultsRank": 90
    },
    "Delaware": {
     "powerRating": -13.1021,
@@ -12003,7 +12053,9 @@
       "site": "home",
       "spread": -0.3
      }
-    ]
+    ],
+    "resultsScore": -0.0102,
+    "resultsRank": 99
    },
    "Duke": {
     "powerRating": 9.4207,
@@ -12050,9 +12102,9 @@
     "proj": {
      "w": 8.5,
      "l": 3.5,
-     "unb": 0.012,
-     "w10": 0.256,
-     "bowl": 0.979
+     "unb": 0.01,
+     "w10": 0.257,
+     "bowl": 0.976
     },
     "upcoming": [
      {
@@ -12111,7 +12163,9 @@
       "site": "away",
       "spread": 2.1
      }
-    ]
+    ],
+    "resultsScore": 0.1299,
+    "resultsRank": 10
    },
    "East Carolina": {
     "powerRating": -4.1591,
@@ -12159,8 +12213,8 @@
      "w": 6.8,
      "l": 5.2,
      "unb": 0.0,
-     "w10": 0.026,
-     "bowl": 0.807
+     "w10": 0.024,
+     "bowl": 0.806
     },
     "upcoming": [
      {
@@ -12219,7 +12273,9 @@
       "site": "home",
       "spread": 8.4
      }
-    ]
+    ],
+    "resultsScore": 0.006,
+    "resultsRank": 88
    },
    "Eastern Michigan": {
     "powerRating": -16.5478,
@@ -12328,7 +12384,9 @@
       "site": "home",
       "spread": 2.4
      }
-    ]
+    ],
+    "resultsScore": -0.0232,
+    "resultsRank": 106
    },
    "Florida": {
     "powerRating": 18.2305,
@@ -12375,9 +12433,9 @@
     "proj": {
      "w": 8.7,
      "l": 3.3,
-     "unb": 0.018,
-     "w10": 0.305,
-     "bowl": 0.984
+     "unb": 0.017,
+     "w10": 0.308,
+     "bowl": 0.986
     },
     "upcoming": [
      {
@@ -12436,7 +12494,9 @@
       "site": "away",
       "spread": 9.1
      }
-    ]
+    ],
+    "resultsScore": 0.1786,
+    "resultsRank": 3
    },
    "Florida Atlantic": {
     "powerRating": -9.4005,
@@ -12485,11 +12545,11 @@
      ]
     ],
     "proj": {
-     "w": 6.3,
-     "l": 5.7,
+     "w": 6.2,
+     "l": 5.8,
      "unb": 0.0,
-     "w10": 0.016,
-     "bowl": 0.682
+     "w10": 0.015,
+     "bowl": 0.68
     },
     "upcoming": [
      {
@@ -12548,7 +12608,9 @@
       "site": "away",
       "spread": -8.4
      }
-    ]
+    ],
+    "resultsScore": 0.0692,
+    "resultsRank": 39
    },
    "Florida International": {
     "powerRating": -10.2298,
@@ -12596,8 +12658,8 @@
      "w": 6.3,
      "l": 5.7,
      "unb": 0.0,
-     "w10": 0.017,
-     "bowl": 0.699
+     "w10": 0.016,
+     "bowl": 0.696
     },
     "upcoming": [
      {
@@ -12656,7 +12718,9 @@
       "site": "home",
       "spread": 6.0
      }
-    ]
+    ],
+    "resultsScore": 0.0099,
+    "resultsRank": 83
    },
    "Florida State": {
     "powerRating": 6.4869,
@@ -12704,8 +12768,8 @@
      "w": 5.5,
      "l": 6.5,
      "unb": 0.0,
-     "w10": 0.002,
-     "bowl": 0.489
+     "w10": 0.003,
+     "bowl": 0.492
     },
     "upcoming": [
      {
@@ -12764,7 +12828,9 @@
       "site": "home",
       "spread": -9.1
      }
-    ]
+    ],
+    "resultsScore": -0.0025,
+    "resultsRank": 95
    },
    "Fresno State": {
     "powerRating": -3.9226,
@@ -12816,8 +12882,8 @@
      "w": 6.4,
      "l": 4.6,
      "unb": 0.0,
-     "w10": 0.014,
-     "bowl": 0.721
+     "w10": 0.013,
+     "bowl": 0.723
     },
     "upcoming": [
      {
@@ -12869,7 +12935,9 @@
       "site": "home",
       "spread": 7.1
      }
-    ]
+    ],
+    "resultsScore": 0.08,
+    "resultsRank": 34
    },
    "Georgia": {
     "powerRating": 28.7333,
@@ -12916,8 +12984,8 @@
     "proj": {
      "w": 10.5,
      "l": 1.5,
-     "unb": 0.208,
-     "w10": 0.818,
+     "unb": 0.213,
+     "w10": 0.823,
      "bowl": 1.0
     },
     "upcoming": [
@@ -12977,7 +13045,9 @@
       "site": "home",
       "spread": 30.6
      }
-    ]
+    ],
+    "resultsScore": 0.1161,
+    "resultsRank": 13
    },
    "Georgia Southern": {
     "powerRating": -9.1629,
@@ -13026,7 +13096,7 @@
      "l": 7.2,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.331
+     "bowl": 0.326
     },
     "upcoming": [
      {
@@ -13085,7 +13155,9 @@
       "site": "home",
       "spread": 0.0
      }
-    ]
+    ],
+    "resultsScore": -0.0439,
+    "resultsRank": 119
    },
    "Georgia State": {
     "powerRating": -7.7245,
@@ -13133,8 +13205,8 @@
      "w": 7.1,
      "l": 4.9,
      "unb": 0.0,
-     "w10": 0.057,
-     "bowl": 0.841
+     "w10": 0.056,
+     "bowl": 0.837
     },
     "upcoming": [
      {
@@ -13193,7 +13265,9 @@
       "site": "home",
       "spread": 3.1
      }
-    ]
+    ],
+    "resultsScore": 0.0175,
+    "resultsRank": 74
    },
    "Georgia Tech": {
     "powerRating": 0.7368,
@@ -13242,7 +13316,7 @@
      "l": 8.2,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.123
+     "bowl": 0.124
     },
     "upcoming": [
      {
@@ -13301,7 +13375,9 @@
       "site": "away",
       "spread": -30.6
      }
-    ]
+    ],
+    "resultsScore": -0.0461,
+    "resultsRank": 120
    },
    "Hawai'i": {
     "powerRating": -15.8666,
@@ -13354,7 +13430,7 @@
      "l": 7.8,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.184
+     "bowl": 0.191
     },
     "upcoming": [
      {
@@ -13413,7 +13489,9 @@
       "site": "home",
       "spread": 10.4
      }
-    ]
+    ],
+    "resultsScore": -0.0518,
+    "resultsRank": 124
    },
    "Houston": {
     "powerRating": 10.2211,
@@ -13461,8 +13539,8 @@
      "w": 7.6,
      "l": 4.4,
      "unb": 0.0,
-     "w10": 0.103,
-     "bowl": 0.91
+     "w10": 0.097,
+     "bowl": 0.904
     },
     "upcoming": [
      {
@@ -13521,7 +13599,9 @@
       "site": "home",
       "spread": 5.6
      }
-    ]
+    ],
+    "resultsScore": 0.0553,
+    "resultsRank": 48
    },
    "Illinois": {
     "powerRating": 6.9424,
@@ -13569,7 +13649,7 @@
      "w": 5.6,
      "l": 6.4,
      "unb": 0.0,
-     "w10": 0.003,
+     "w10": 0.005,
      "bowl": 0.521
     },
     "upcoming": [
@@ -13629,7 +13709,9 @@
       "site": "away",
       "spread": -6.5
      }
-    ]
+    ],
+    "resultsScore": 0.0151,
+    "resultsRank": 76
    },
    "Indiana": {
     "powerRating": 21.0713,
@@ -13676,9 +13758,9 @@
     "proj": {
      "w": 9.8,
      "l": 2.2,
-     "unb": 0.091,
-     "w10": 0.629,
-     "bowl": 0.998
+     "unb": 0.102,
+     "w10": 0.624,
+     "bowl": 0.999
     },
     "upcoming": [
      {
@@ -13737,7 +13819,9 @@
       "site": "home",
       "spread": 25.0
      }
-    ]
+    ],
+    "resultsScore": 0.107,
+    "resultsRank": 19
    },
    "Iowa": {
     "powerRating": 14.7299,
@@ -13782,11 +13866,11 @@
      ]
     ],
     "proj": {
-     "w": 8.8,
-     "l": 3.2,
-     "unb": 0.028,
-     "w10": 0.356,
-     "bowl": 0.985
+     "w": 8.9,
+     "l": 3.1,
+     "unb": 0.03,
+     "w10": 0.359,
+     "bowl": 0.986
     },
     "upcoming": [
      {
@@ -13845,7 +13929,9 @@
       "site": "home",
       "spread": 5.5
      }
-    ]
+    ],
+    "resultsScore": 0.103,
+    "resultsRank": 22
    },
    "Iowa State": {
     "powerRating": 7.9838,
@@ -13893,8 +13979,8 @@
      "w": 6.1,
      "l": 5.9,
      "unb": 0.0,
-     "w10": 0.009,
-     "bowl": 0.631
+     "w10": 0.01,
+     "bowl": 0.637
     },
     "upcoming": [
      {
@@ -13953,7 +14039,9 @@
       "site": "home",
       "spread": 1.2
      }
-    ]
+    ],
+    "resultsScore": -0.0091,
+    "resultsRank": 98
    },
    "Jacksonville State": {
     "powerRating": -9.6535,
@@ -14009,8 +14097,8 @@
      "w": 6.8,
      "l": 5.2,
      "unb": 0.0,
-     "w10": 0.029,
-     "bowl": 0.81
+     "w10": 0.031,
+     "bowl": 0.807
     },
     "upcoming": [
      {
@@ -14062,7 +14150,9 @@
       "site": "away",
       "spread": 0.3
      }
-    ]
+    ],
+    "resultsScore": 0.0324,
+    "resultsRank": 63
    },
    "James Madison": {
     "powerRating": 6.5461,
@@ -14109,8 +14199,8 @@
     "proj": {
      "w": 10.5,
      "l": 1.5,
-     "unb": 0.237,
-     "w10": 0.808,
+     "unb": 0.228,
+     "w10": 0.813,
      "bowl": 1.0
     },
     "upcoming": [
@@ -14170,7 +14260,9 @@
       "site": "home",
       "spread": 21.7
      }
-    ]
+    ],
+    "resultsScore": 0.1038,
+    "resultsRank": 21
    },
    "Kansas": {
     "powerRating": 2.1591,
@@ -14211,7 +14303,7 @@
      "l": 7.4,
      "unb": 0.0,
      "w10": 0.001,
-     "bowl": 0.269
+     "bowl": 0.273
     },
     "upcoming": [
      {
@@ -14277,7 +14369,9 @@
       "site": "away",
       "spread": -6.1
      }
-    ]
+    ],
+    "resultsScore": -0.0312,
+    "resultsRank": 111
    },
    "Kansas State": {
     "powerRating": 9.5471,
@@ -14325,8 +14419,8 @@
      "w": 7.6,
      "l": 4.4,
      "unb": 0.0,
-     "w10": 0.12,
-     "bowl": 0.898
+     "w10": 0.122,
+     "bowl": 0.903
     },
     "upcoming": [
      {
@@ -14385,7 +14479,9 @@
       "site": "away",
       "spread": -1.2
      }
-    ]
+    ],
+    "resultsScore": 0.0606,
+    "resultsRank": 43
    },
    "Kennesaw State": {
     "powerRating": -11.2641,
@@ -14434,7 +14530,7 @@
      "l": 7.0,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.381
+     "bowl": 0.386
     },
     "upcoming": [
      {
@@ -14493,7 +14589,9 @@
       "site": "away",
       "spread": -2.8
      }
-    ]
+    ],
+    "resultsScore": -0.0532,
+    "resultsRank": 125
    },
    "Kent State": {
     "powerRating": -16.2727,
@@ -14541,8 +14639,8 @@
      "w": 5.1,
      "l": 6.9,
      "unb": 0.0,
-     "w10": 0.002,
-     "bowl": 0.401
+     "w10": 0.001,
+     "bowl": 0.402
     },
     "upcoming": [
      {
@@ -14601,7 +14699,9 @@
       "site": "away",
       "spread": -2.4
      }
-    ]
+    ],
+    "resultsScore": -0.0077,
+    "resultsRank": 97
    },
    "Kentucky": {
     "powerRating": 8.6304,
@@ -14649,8 +14749,8 @@
      "w": 6.2,
      "l": 5.8,
      "unb": 0.0,
-     "w10": 0.02,
-     "bowl": 0.659
+     "w10": 0.022,
+     "bowl": 0.66
     },
     "upcoming": [
      {
@@ -14709,7 +14809,9 @@
       "site": "home",
       "spread": 3.2
      }
-    ]
+    ],
+    "resultsScore": 0.0758,
+    "resultsRank": 36
    },
    "LSU": {
     "powerRating": 20.9197,
@@ -14761,8 +14863,8 @@
      "w": 8.3,
      "l": 3.7,
      "unb": 0.0,
-     "w10": 0.22,
-     "bowl": 0.971
+     "w10": 0.221,
+     "bowl": 0.974
     },
     "upcoming": [
      {
@@ -14821,7 +14923,9 @@
       "site": "away",
       "spread": 14.1
      }
-    ]
+    ],
+    "resultsScore": 0.1277,
+    "resultsRank": 11
    },
    "Liberty": {
     "powerRating": -4.8017,
@@ -14869,8 +14973,8 @@
      "w": 8.4,
      "l": 3.6,
      "unb": 0.0,
-     "w10": 0.247,
-     "bowl": 0.964
+     "w10": 0.241,
+     "bowl": 0.963
     },
     "upcoming": [
      {
@@ -14929,7 +15033,9 @@
       "site": "away",
       "spread": 3.2
      }
-    ]
+    ],
+    "resultsScore": 0.0387,
+    "resultsRank": 56
    },
    "Louisiana": {
     "powerRating": -7.8501,
@@ -14977,7 +15083,7 @@
      "w": 7.7,
      "l": 4.3,
      "unb": 0.0,
-     "w10": 0.119,
+     "w10": 0.127,
      "bowl": 0.917
     },
     "upcoming": [
@@ -15037,7 +15143,9 @@
       "site": "away",
       "spread": -3.1
      }
-    ]
+    ],
+    "resultsScore": 0.0355,
+    "resultsRank": 60
    },
    "Louisiana Tech": {
     "powerRating": -6.0716,
@@ -15078,7 +15186,7 @@
      "l": 5.5,
      "unb": 0.0,
      "w10": 0.026,
-     "bowl": 0.735
+     "bowl": 0.733
     },
     "upcoming": [
      {
@@ -15144,7 +15252,9 @@
       "site": "away",
       "spread": -0.0
      }
-    ]
+    ],
+    "resultsScore": -0.0279,
+    "resultsRank": 109
    },
    "Louisville": {
     "powerRating": 8.0053,
@@ -15193,7 +15303,7 @@
      "l": 5.4,
      "unb": 0.0,
      "w10": 0.026,
-     "bowl": 0.765
+     "bowl": 0.759
     },
     "upcoming": [
      {
@@ -15252,7 +15362,9 @@
       "site": "away",
       "spread": -3.2
      }
-    ]
+    ],
+    "resultsScore": 0.03,
+    "resultsRank": 64
    },
    "Marshall": {
     "powerRating": -14.0765,
@@ -15300,7 +15412,7 @@
      "w": 6.3,
      "l": 5.7,
      "unb": 0.0,
-     "w10": 0.017,
+     "w10": 0.018,
      "bowl": 0.693
     },
     "upcoming": [
@@ -15360,7 +15472,9 @@
       "site": "away",
       "spread": 8.2
      }
-    ]
+    ],
+    "resultsScore": 0.0405,
+    "resultsRank": 54
    },
    "Maryland": {
     "powerRating": -0.4511,
@@ -15405,11 +15519,11 @@
      ]
     ],
     "proj": {
-     "w": 4.4,
-     "l": 7.6,
+     "w": 4.5,
+     "l": 7.5,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.22
+     "bowl": 0.225
     },
     "upcoming": [
      {
@@ -15468,7 +15582,9 @@
       "site": "home",
       "spread": -9.1
      }
-    ]
+    ],
+    "resultsScore": 0.0117,
+    "resultsRank": 81
    },
    "Massachusetts": {
     "powerRating": -7.0323,
@@ -15512,8 +15628,8 @@
      "w": 9.0,
      "l": 3.0,
      "unb": 0.028,
-     "w10": 0.373,
-     "bowl": 0.988
+     "w10": 0.372,
+     "bowl": 0.99
     },
     "upcoming": [
      {
@@ -15572,7 +15688,9 @@
       "site": "away",
       "spread": 9.0
      }
-    ]
+    ],
+    "resultsScore": 0.0498,
+    "resultsRank": 51
    },
    "Memphis": {
     "powerRating": -0.9968,
@@ -15621,7 +15739,7 @@
      "l": 3.8,
      "unb": 0.0,
      "w10": 0.19,
-     "bowl": 0.955
+     "bowl": 0.96
     },
     "upcoming": [
      {
@@ -15680,7 +15798,9 @@
       "site": "home",
       "spread": 10.5
      }
-    ]
+    ],
+    "resultsScore": 0.0543,
+    "resultsRank": 49
    },
    "Miami": {
     "powerRating": 24.0247,
@@ -15727,8 +15847,8 @@
     "proj": {
      "w": 10.4,
      "l": 1.6,
-     "unb": 0.144,
-     "w10": 0.796,
+     "unb": 0.154,
+     "w10": 0.794,
      "bowl": 1.0
     },
     "upcoming": [
@@ -15788,7 +15908,9 @@
       "site": "home",
       "spread": 34.0
      }
-    ]
+    ],
+    "resultsScore": 0.1439,
+    "resultsRank": 8
    },
    "Miami (OH)": {
     "powerRating": -5.281,
@@ -15836,8 +15958,8 @@
      "w": 7.4,
      "l": 4.6,
      "unb": 0.0,
-     "w10": 0.062,
-     "bowl": 0.899
+     "w10": 0.061,
+     "bowl": 0.905
     },
     "upcoming": [
      {
@@ -15896,7 +16018,9 @@
       "site": "away",
       "spread": -0.7
      }
-    ]
+    ],
+    "resultsScore": 0.0134,
+    "resultsRank": 79
    },
    "Michigan": {
     "powerRating": 11.0966,
@@ -15945,11 +16069,11 @@
      ]
     ],
     "proj": {
-     "w": 6.8,
-     "l": 5.2,
+     "w": 6.7,
+     "l": 5.3,
      "unb": 0.0,
      "w10": 0.028,
-     "bowl": 0.801
+     "bowl": 0.797
     },
     "upcoming": [
      {
@@ -16008,7 +16132,9 @@
       "site": "away",
       "spread": -19.2
      }
-    ]
+    ],
+    "resultsScore": 0.0965,
+    "resultsRank": 26
    },
    "Michigan State": {
     "powerRating": 1.573,
@@ -16060,8 +16186,8 @@
      "w": 4.6,
      "l": 7.4,
      "unb": 0.0,
-     "w10": 0.001,
-     "bowl": 0.269
+     "w10": 0.0,
+     "bowl": 0.268
     },
     "upcoming": [
      {
@@ -16120,7 +16246,9 @@
       "site": "away",
       "spread": -1.9
      }
-    ]
+    ],
+    "resultsScore": 0.0561,
+    "resultsRank": 47
    },
    "Middle Tennessee": {
     "powerRating": -15.7682,
@@ -16169,7 +16297,7 @@
      "l": 7.0,
      "unb": 0.0,
      "w10": 0.001,
-     "bowl": 0.359
+     "bowl": 0.364
     },
     "upcoming": [
      {
@@ -16228,7 +16356,9 @@
       "site": "home",
       "spread": 3.9
      }
-    ]
+    ],
+    "resultsScore": -0.0148,
+    "resultsRank": 102
    },
    "Minnesota": {
     "powerRating": 4.4442,
@@ -16277,7 +16407,7 @@
      "l": 6.1,
      "unb": 0.0,
      "w10": 0.011,
-     "bowl": 0.568
+     "bowl": 0.574
     },
     "upcoming": [
      {
@@ -16336,7 +16466,9 @@
       "site": "away",
       "spread": -7.0
      }
-    ]
+    ],
+    "resultsScore": 0.0617,
+    "resultsRank": 42
    },
    "Mississippi State": {
     "powerRating": 13.719,
@@ -16388,7 +16520,7 @@
      "w": 8.2,
      "l": 3.8,
      "unb": 0.006,
-     "w10": 0.177,
+     "w10": 0.176,
      "bowl": 0.978
     },
     "upcoming": [
@@ -16448,7 +16580,9 @@
       "site": "away",
       "spread": -1.5
      }
-    ]
+    ],
+    "resultsScore": 0.1607,
+    "resultsRank": 5
    },
    "Missouri": {
     "powerRating": 12.3754,
@@ -16496,8 +16630,8 @@
      "w": 6.7,
      "l": 5.3,
      "unb": 0.0,
-     "w10": 0.03,
-     "bowl": 0.781
+     "w10": 0.033,
+     "bowl": 0.772
     },
     "upcoming": [
      {
@@ -16556,7 +16690,9 @@
       "site": "home",
       "spread": 3.4
      }
-    ]
+    ],
+    "resultsScore": 0.0511,
+    "resultsRank": 50
    },
    "Missouri State": {
     "powerRating": -11.2741,
@@ -16601,11 +16737,11 @@
      ]
     ],
     "proj": {
-     "w": 5.0,
-     "l": 7.0,
+     "w": 4.9,
+     "l": 7.1,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.371
+     "bowl": 0.37
     },
     "upcoming": [
      {
@@ -16664,7 +16800,9 @@
       "site": "home",
       "spread": -3.2
      }
-    ]
+    ],
+    "resultsScore": -0.0491,
+    "resultsRank": 121
    },
    "NC State": {
     "powerRating": 5.0678,
@@ -16712,8 +16850,8 @@
      "w": 6.5,
      "l": 5.5,
      "unb": 0.0,
-     "w10": 0.024,
-     "bowl": 0.73
+     "w10": 0.019,
+     "bowl": 0.738
     },
     "upcoming": [
      {
@@ -16772,7 +16910,9 @@
       "site": "away",
       "spread": -0.8
      }
-    ]
+    ],
+    "resultsScore": 0.0189,
+    "resultsRank": 73
    },
    "Navy": {
     "powerRating": -8.1801,
@@ -16813,7 +16953,7 @@
      "l": 7.3,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.293
+     "bowl": 0.291
     },
     "upcoming": [
      {
@@ -16879,7 +17019,9 @@
       "site": "neutral",
       "spread": -7.5
      }
-    ]
+    ],
+    "resultsScore": -0.0286,
+    "resultsRank": 110
    },
    "Nebraska": {
     "powerRating": 12.0229,
@@ -16924,11 +17066,11 @@
      ]
     ],
     "proj": {
-     "w": 8.0,
-     "l": 4.0,
-     "unb": 0.006,
-     "w10": 0.149,
-     "bowl": 0.955
+     "w": 7.9,
+     "l": 4.1,
+     "unb": 0.005,
+     "w10": 0.146,
+     "bowl": 0.954
     },
     "upcoming": [
      {
@@ -16987,7 +17129,9 @@
       "site": "away",
       "spread": -5.5
      }
-    ]
+    ],
+    "resultsScore": 0.1015,
+    "resultsRank": 24
    },
    "Nevada": {
     "powerRating": -15.6463,
@@ -17036,7 +17180,7 @@
      "l": 8.3,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.1
+     "bowl": 0.101
     },
     "upcoming": [
      {
@@ -17095,7 +17239,9 @@
       "site": "away",
       "spread": -14.3
      }
-    ]
+    ],
+    "resultsScore": -0.1293,
+    "resultsRank": 134
    },
    "New Mexico": {
     "powerRating": 3.9719,
@@ -17143,8 +17289,8 @@
      "w": 9.5,
      "l": 2.5,
      "unb": 0.0,
-     "w10": 0.541,
-     "bowl": 0.997
+     "w10": 0.538,
+     "bowl": 0.996
     },
     "upcoming": [
      {
@@ -17203,7 +17349,9 @@
       "site": "home",
       "spread": 15.1
      }
-    ]
+    ],
+    "resultsScore": 0.0466,
+    "resultsRank": 53
    },
    "New Mexico State": {
     "powerRating": -15.9504,
@@ -17311,7 +17459,9 @@
       "site": "away",
       "spread": -3.9
      }
-    ]
+    ],
+    "resultsScore": -0.0721,
+    "resultsRank": 132
    },
    "North Carolina": {
     "powerRating": 3.3409,
@@ -17351,8 +17501,8 @@
      "w": 5.4,
      "l": 6.6,
      "unb": 0.0,
-     "w10": 0.006,
-     "bowl": 0.469
+     "w10": 0.005,
+     "bowl": 0.473
     },
     "upcoming": [
      {
@@ -17418,7 +17568,9 @@
       "site": "home",
       "spread": 0.8
      }
-    ]
+    ],
+    "resultsScore": 0.0276,
+    "resultsRank": 66
    },
    "North Dakota State": {
     "powerRating": -3.8922,
@@ -17465,9 +17617,9 @@
     "proj": {
      "w": 9.3,
      "l": 2.7,
-     "unb": 0.038,
+     "unb": 0.04,
      "w10": 0.472,
-     "bowl": 0.996
+     "bowl": 0.997
     },
     "upcoming": [
      {
@@ -17526,7 +17678,9 @@
       "site": "away",
       "spread": 6.4
      }
-    ]
+    ],
+    "resultsScore": 0.1083,
+    "resultsRank": 18
    },
    "North Texas": {
     "powerRating": 2.3103,
@@ -17574,7 +17728,7 @@
      "w": 7.9,
      "l": 4.1,
      "unb": 0.0,
-     "w10": 0.112,
+     "w10": 0.105,
      "bowl": 0.954
     },
     "upcoming": [
@@ -17634,7 +17788,9 @@
       "site": "home",
       "spread": 20.3
      }
-    ]
+    ],
+    "resultsScore": 0.0063,
+    "resultsRank": 87
    },
    "Northern Illinois": {
     "powerRating": -20.9558,
@@ -17742,7 +17898,9 @@
       "site": "home",
       "spread": -0.1
      }
-    ]
+    ],
+    "resultsScore": -0.1749,
+    "resultsRank": 138
    },
    "Northwestern": {
     "powerRating": 10.854,
@@ -17782,7 +17940,7 @@
      "w": 7.0,
      "l": 5.0,
      "unb": 0.0,
-     "w10": 0.037,
+     "w10": 0.036,
      "bowl": 0.835
     },
     "upcoming": [
@@ -17849,7 +18007,9 @@
       "site": "home",
       "spread": 6.5
      }
-    ]
+    ],
+    "resultsScore": 0.0264,
+    "resultsRank": 68
    },
    "Notre Dame": {
     "powerRating": 27.5837,
@@ -17900,7 +18060,7 @@
     "proj": {
      "w": 11.0,
      "l": 1.0,
-     "unb": 0.354,
+     "unb": 0.351,
      "w10": 0.935,
      "bowl": 1.0
     },
@@ -17961,7 +18121,9 @@
       "site": "away",
       "spread": 26.1
      }
-    ]
+    ],
+    "resultsScore": 0.1686,
+    "resultsRank": 4
    },
    "Ohio": {
     "powerRating": -9.3673,
@@ -18009,8 +18171,8 @@
      "w": 6.8,
      "l": 5.2,
      "unb": 0.0,
-     "w10": 0.028,
-     "bowl": 0.798
+     "w10": 0.026,
+     "bowl": 0.796
     },
     "upcoming": [
      {
@@ -18069,7 +18231,9 @@
       "site": "home",
       "spread": -6.6
      }
-    ]
+    ],
+    "resultsScore": 0.0147,
+    "resultsRank": 77
    },
    "Ohio State": {
     "powerRating": 27.6854,
@@ -18122,7 +18286,7 @@
      "l": 2.8,
      "unb": 0.0,
      "w10": 0.452,
-     "bowl": 0.995
+     "bowl": 0.994
     },
     "upcoming": [
      {
@@ -18181,7 +18345,9 @@
       "site": "home",
       "spread": 19.2
      }
-    ]
+    ],
+    "resultsScore": 0.0941,
+    "resultsRank": 29
    },
    "Oklahoma": {
     "powerRating": 11.8905,
@@ -18233,8 +18399,8 @@
      "w": 5.7,
      "l": 6.3,
      "unb": 0.0,
-     "w10": 0.005,
-     "bowl": 0.548
+     "w10": 0.006,
+     "bowl": 0.546
     },
     "upcoming": [
      {
@@ -18293,7 +18459,9 @@
       "site": "away",
       "spread": -3.4
      }
-    ]
+    ],
+    "resultsScore": 0.0495,
+    "resultsRank": 52
    },
    "Oklahoma State": {
     "powerRating": 5.4909,
@@ -18341,8 +18509,8 @@
      "w": 6.7,
      "l": 5.3,
      "unb": 0.0,
-     "w10": 0.035,
-     "bowl": 0.767
+     "w10": 0.039,
+     "bowl": 0.765
     },
     "upcoming": [
      {
@@ -18401,7 +18569,9 @@
       "site": "home",
       "spread": 6.1
      }
-    ]
+    ],
+    "resultsScore": 0.0922,
+    "resultsRank": 30
    },
    "Old Dominion": {
     "powerRating": -10.8609,
@@ -18450,7 +18620,7 @@
      "l": 7.4,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.29
+     "bowl": 0.291
     },
     "upcoming": [
      {
@@ -18509,7 +18679,9 @@
       "site": "home",
       "spread": 5.7
      }
-    ]
+    ],
+    "resultsScore": -0.0383,
+    "resultsRank": 116
    },
    "Ole Miss": {
     "powerRating": 12.6154,
@@ -18561,8 +18733,8 @@
      "w": 7.1,
      "l": 4.9,
      "unb": 0.0,
-     "w10": 0.048,
-     "bowl": 0.871
+     "w10": 0.047,
+     "bowl": 0.865
     },
     "upcoming": [
      {
@@ -18621,7 +18793,9 @@
       "site": "home",
       "spread": 1.5
      }
-    ]
+    ],
+    "resultsScore": 0.1028,
+    "resultsRank": 23
    },
    "Oregon": {
     "powerRating": 22.6618,
@@ -18669,8 +18843,8 @@
      "w": 8.9,
      "l": 3.1,
      "unb": 0.0,
-     "w10": 0.359,
-     "bowl": 0.99
+     "w10": 0.362,
+     "bowl": 0.991
     },
     "upcoming": [
      {
@@ -18729,7 +18903,9 @@
       "site": "home",
       "spread": 19.5
      }
-    ]
+    ],
+    "resultsScore": 0.11,
+    "resultsRank": 17
    },
    "Oregon State": {
     "powerRating": -3.3295,
@@ -18778,7 +18954,7 @@
      "l": 5.3,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.552
+     "bowl": 0.554
     },
     "upcoming": [
      {
@@ -18830,7 +19006,9 @@
       "site": "home",
       "spread": 9.2
      }
-    ]
+    ],
+    "resultsScore": -0.0045,
+    "resultsRank": 96
    },
    "Penn State": {
     "powerRating": 11.3113,
@@ -18882,8 +19060,8 @@
      "w": 8.0,
      "l": 4.0,
      "unb": 0.0,
-     "w10": 0.161,
-     "bowl": 0.946
+     "w10": 0.162,
+     "bowl": 0.941
     },
     "upcoming": [
      {
@@ -18942,7 +19120,9 @@
       "site": "away",
       "spread": 9.1
      }
-    ]
+    ],
+    "resultsScore": 0.0955,
+    "resultsRank": 27
    },
    "Pittsburgh": {
     "powerRating": 11.3722,
@@ -18989,9 +19169,9 @@
     "proj": {
      "w": 8.9,
      "l": 3.1,
-     "unb": 0.023,
-     "w10": 0.362,
-     "bowl": 0.989
+     "unb": 0.021,
+     "w10": 0.366,
+     "bowl": 0.987
     },
     "upcoming": [
      {
@@ -19050,7 +19230,9 @@
       "site": "away",
       "spread": 7.2
      }
-    ]
+    ],
+    "resultsScore": 0.1246,
+    "resultsRank": 12
    },
    "Purdue": {
     "powerRating": -1.3079,
@@ -19099,7 +19281,7 @@
      "l": 8.6,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.074
+     "bowl": 0.072
     },
     "upcoming": [
      {
@@ -19158,7 +19340,9 @@
       "site": "away",
       "spread": -25.0
      }
-    ]
+    ],
+    "resultsScore": -0.0261,
+    "resultsRank": 108
    },
    "Rice": {
     "powerRating": -13.6293,
@@ -19207,7 +19391,7 @@
      "l": 8.6,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.082
+     "bowl": 0.086
     },
     "upcoming": [
      {
@@ -19266,7 +19450,9 @@
       "site": "home",
       "spread": -7.3
      }
-    ]
+    ],
+    "resultsScore": -0.0378,
+    "resultsRank": 114
    },
    "Rutgers": {
     "powerRating": 0.437,
@@ -19315,7 +19501,7 @@
      "l": 8.5,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.096
+     "bowl": 0.093
     },
     "upcoming": [
      {
@@ -19374,7 +19560,9 @@
       "site": "home",
       "spread": 1.9
      }
-    ]
+    ],
+    "resultsScore": -0.0381,
+    "resultsRank": 115
    },
    "SMU": {
     "powerRating": 7.4394,
@@ -19422,8 +19610,8 @@
      "w": 7.8,
      "l": 4.2,
      "unb": 0.0,
-     "w10": 0.107,
-     "bowl": 0.939
+     "w10": 0.11,
+     "bowl": 0.937
     },
     "upcoming": [
      {
@@ -19482,7 +19670,9 @@
       "site": "away",
       "spread": 9.1
      }
-    ]
+    ],
+    "resultsScore": 0.0404,
+    "resultsRank": 55
    },
    "Sacramento State": {
     "powerRating": -21.309,
@@ -19535,11 +19725,11 @@
      ]
     ],
     "proj": {
-     "w": 3.2,
-     "l": 8.8,
+     "w": 3.3,
+     "l": 8.7,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.059
+     "bowl": 0.065
     },
     "upcoming": [
      {
@@ -19591,7 +19781,9 @@
       "site": "away",
       "spread": -10.4
      }
-    ]
+    ],
+    "resultsScore": -0.0702,
+    "resultsRank": 131
    },
    "Sam Houston": {
     "powerRating": -12.7019,
@@ -19640,7 +19832,7 @@
      "l": 7.2,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.32
+     "bowl": 0.319
     },
     "upcoming": [
      {
@@ -19699,7 +19891,9 @@
       "site": "away",
       "spread": -6.0
      }
-    ]
+    ],
+    "resultsScore": -0.0372,
+    "resultsRank": 113
    },
    "San Diego State": {
     "powerRating": -7.0802,
@@ -19748,7 +19942,7 @@
      "l": 7.0,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.159
+     "bowl": 0.163
     },
     "upcoming": [
      {
@@ -19800,7 +19994,9 @@
       "site": "away",
       "spread": -16.1
      }
-    ]
+    ],
+    "resultsScore": -0.0397,
+    "resultsRank": 117
    },
    "San Jos\u00e9 State": {
     "powerRating": -14.2604,
@@ -19848,8 +20044,8 @@
      "w": 5.9,
      "l": 7.1,
      "unb": 0.0,
-     "w10": 0.016,
-     "bowl": 0.594
+     "w10": 0.017,
+     "bowl": 0.589
     },
     "upcoming": [
      {
@@ -19915,7 +20111,9 @@
       "site": "home",
       "spread": -6.4
      }
-    ]
+    ],
+    "resultsScore": 0.003,
+    "resultsRank": 93
    },
    "South Alabama": {
     "powerRating": -11.2293,
@@ -19964,7 +20162,7 @@
      "l": 5.9,
      "unb": 0.0,
      "w10": 0.01,
-     "bowl": 0.632
+     "bowl": 0.631
     },
     "upcoming": [
      {
@@ -20023,7 +20221,9 @@
       "site": "home",
       "spread": -0.2
      }
-    ]
+    ],
+    "resultsScore": 0.0109,
+    "resultsRank": 82
    },
    "South Carolina": {
     "powerRating": 9.1699,
@@ -20068,11 +20268,11 @@
      ]
     ],
     "proj": {
-     "w": 5.3,
-     "l": 6.7,
+     "w": 5.2,
+     "l": 6.8,
      "unb": 0.0,
-     "w10": 0.003,
-     "bowl": 0.425
+     "w10": 0.002,
+     "bowl": 0.419
     },
     "upcoming": [
      {
@@ -20131,7 +20331,9 @@
       "site": "away",
       "spread": -0.9
      }
-    ]
+    ],
+    "resultsScore": 0.0197,
+    "resultsRank": 72
    },
    "South Florida": {
     "powerRating": 2.1536,
@@ -20178,7 +20380,7 @@
     "proj": {
      "w": 9.7,
      "l": 2.3,
-     "unb": 0.082,
+     "unb": 0.084,
      "w10": 0.58,
      "bowl": 0.997
     },
@@ -20239,7 +20441,9 @@
       "site": "home",
       "spread": 10.6
      }
-    ]
+    ],
+    "resultsScore": 0.0941,
+    "resultsRank": 28
    },
    "Southern Miss": {
     "powerRating": -13.1885,
@@ -20284,11 +20488,11 @@
      ]
     ],
     "proj": {
-     "w": 4.3,
-     "l": 7.7,
+     "w": 4.4,
+     "l": 7.6,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.227
+     "bowl": 0.232
     },
     "upcoming": [
      {
@@ -20347,7 +20551,9 @@
       "site": "away",
       "spread": -5.7
      }
-    ]
+    ],
+    "resultsScore": -0.0499,
+    "resultsRank": 122
    },
    "Stanford": {
     "powerRating": -5.5919,
@@ -20400,7 +20606,7 @@
      "l": 7.6,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.179
+     "bowl": 0.188
     },
     "upcoming": [
      {
@@ -20459,7 +20665,9 @@
       "site": "home",
       "spread": -9.1
      }
-    ]
+    ],
+    "resultsScore": 0.023,
+    "resultsRank": 70
    },
    "Syracuse": {
     "powerRating": -1.551,
@@ -20499,8 +20707,8 @@
      "w": 4.1,
      "l": 7.9,
      "unb": 0.0,
-     "w10": 0.0,
-     "bowl": 0.186
+     "w10": 0.001,
+     "bowl": 0.184
     },
     "upcoming": [
      {
@@ -20566,7 +20774,9 @@
       "site": "home",
       "spread": -26.1
      }
-    ]
+    ],
+    "resultsScore": -0.0238,
+    "resultsRank": 107
    },
    "TCU": {
     "powerRating": 8.4969,
@@ -20611,11 +20821,11 @@
      ]
     ],
     "proj": {
-     "w": 5.9,
-     "l": 6.1,
+     "w": 5.8,
+     "l": 6.2,
      "unb": 0.0,
      "w10": 0.006,
-     "bowl": 0.587
+     "bowl": 0.582
     },
     "upcoming": [
      {
@@ -20674,7 +20884,9 @@
       "site": "away",
       "spread": -12.0
      }
-    ]
+    ],
+    "resultsScore": 0.0121,
+    "resultsRank": 80
    },
    "Temple": {
     "powerRating": -8.143,
@@ -20723,7 +20935,7 @@
      "l": 7.0,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.38
+     "bowl": 0.375
     },
     "upcoming": [
      {
@@ -20782,7 +20994,9 @@
       "site": "away",
       "spread": -10.5
      }
-    ]
+    ],
+    "resultsScore": -0.0398,
+    "resultsRank": 118
    },
    "Tennessee": {
     "powerRating": 16.8062,
@@ -20830,8 +21044,8 @@
      "w": 7.7,
      "l": 4.3,
      "unb": 0.0,
-     "w10": 0.127,
-     "bowl": 0.918
+     "w10": 0.13,
+     "bowl": 0.919
     },
     "upcoming": [
      {
@@ -20890,7 +21104,9 @@
       "site": "away",
       "spread": 7.0
      }
-    ]
+    ],
+    "resultsScore": 0.0349,
+    "resultsRank": 61
    },
    "Texas": {
     "powerRating": 23.5301,
@@ -20941,9 +21157,9 @@
     "proj": {
      "w": 9.7,
      "l": 2.3,
-     "unb": 0.098,
-     "w10": 0.595,
-     "bowl": 0.998
+     "unb": 0.094,
+     "w10": 0.594,
+     "bowl": 0.997
     },
     "upcoming": [
      {
@@ -21002,7 +21218,9 @@
       "site": "away",
       "spread": 7.3
      }
-    ]
+    ],
+    "resultsScore": 0.2074,
+    "resultsRank": 1
    },
    "Texas A&M": {
     "powerRating": 13.6886,
@@ -21054,8 +21272,8 @@
      "w": 6.3,
      "l": 5.7,
      "unb": 0.0,
-     "w10": 0.009,
-     "bowl": 0.697
+     "w10": 0.008,
+     "bowl": 0.69
     },
     "upcoming": [
      {
@@ -21114,7 +21332,9 @@
       "site": "home",
       "spread": -7.3
      }
-    ]
+    ],
+    "resultsScore": 0.0374,
+    "resultsRank": 57
    },
    "Texas State": {
     "powerRating": -1.3187,
@@ -21163,7 +21383,7 @@
      "l": 5.0,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.649
+     "bowl": 0.645
     },
     "upcoming": [
      {
@@ -21215,7 +21435,9 @@
       "site": "home",
       "spread": 6.3
      }
-    ]
+    ],
+    "resultsScore": 0.0214,
+    "resultsRank": 71
    },
    "Texas Tech": {
     "powerRating": 17.7163,
@@ -21262,9 +21484,9 @@
     "proj": {
      "w": 10.1,
      "l": 1.9,
-     "unb": 0.146,
-     "w10": 0.69,
-     "bowl": 0.999
+     "unb": 0.144,
+     "w10": 0.685,
+     "bowl": 0.998
     },
     "upcoming": [
      {
@@ -21323,7 +21545,9 @@
       "site": "home",
       "spread": 12.0
      }
-    ]
+    ],
+    "resultsScore": 0.1114,
+    "resultsRank": 15
    },
    "Toledo": {
     "powerRating": -0.1206,
@@ -21371,8 +21595,8 @@
      "w": 9.3,
      "l": 2.7,
      "unb": 0.0,
-     "w10": 0.494,
-     "bowl": 0.995
+     "w10": 0.495,
+     "bowl": 0.996
     },
     "upcoming": [
      {
@@ -21431,7 +21655,9 @@
       "site": "away",
       "spread": 6.6
      }
-    ]
+    ],
+    "resultsScore": 0.0363,
+    "resultsRank": 59
    },
    "Troy": {
     "powerRating": -10.0508,
@@ -21480,7 +21706,7 @@
      "l": 6.1,
      "unb": 0.0,
      "w10": 0.004,
-     "bowl": 0.605
+     "bowl": 0.601
     },
     "upcoming": [
      {
@@ -21539,7 +21765,9 @@
       "site": "away",
       "spread": -4.0
      }
-    ]
+    ],
+    "resultsScore": -0.0215,
+    "resultsRank": 104
    },
    "Tulane": {
     "powerRating": -5.456,
@@ -21588,11 +21816,11 @@
      ]
     ],
     "proj": {
-     "w": 5.9,
-     "l": 6.1,
+     "w": 6.0,
+     "l": 6.0,
      "unb": 0.0,
-     "w10": 0.005,
-     "bowl": 0.61
+     "w10": 0.007,
+     "bowl": 0.617
     },
     "upcoming": [
      {
@@ -21651,7 +21879,9 @@
       "site": "away",
       "spread": -10.6
      }
-    ]
+    ],
+    "resultsScore": 0.0338,
+    "resultsRank": 62
    },
    "Tulsa": {
     "powerRating": -6.6793,
@@ -21700,7 +21930,7 @@
      "l": 4.9,
      "unb": 0.0,
      "w10": 0.058,
-     "bowl": 0.853
+     "bowl": 0.85
     },
     "upcoming": [
      {
@@ -21759,7 +21989,9 @@
       "site": "away",
       "spread": -9.3
      }
-    ]
+    ],
+    "resultsScore": 0.0619,
+    "resultsRank": 41
    },
    "UAB": {
     "powerRating": -14.865,
@@ -21812,7 +22044,7 @@
      "l": 7.3,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.264
+     "bowl": 0.262
     },
     "upcoming": [
      {
@@ -21871,7 +22103,9 @@
       "site": "away",
       "spread": -20.3
      }
-    ]
+    ],
+    "resultsScore": 0.0075,
+    "resultsRank": 86
    },
    "UCF": {
     "powerRating": 5.9843,
@@ -21919,8 +22153,8 @@
      "w": 6.9,
      "l": 5.1,
      "unb": 0.0,
-     "w10": 0.054,
-     "bowl": 0.796
+     "w10": 0.055,
+     "bowl": 0.8
     },
     "upcoming": [
      {
@@ -21979,7 +22213,9 @@
       "site": "away",
       "spread": 2.3
      }
-    ]
+    ],
+    "resultsScore": 0.0715,
+    "resultsRank": 38
    },
    "UCLA": {
     "powerRating": 13.8989,
@@ -22028,11 +22264,11 @@
      ]
     ],
     "proj": {
-     "w": 9.2,
-     "l": 2.8,
+     "w": 9.1,
+     "l": 2.9,
      "unb": 0.032,
-     "w10": 0.42,
-     "bowl": 0.996
+     "w10": 0.418,
+     "bowl": 0.994
     },
     "upcoming": [
      {
@@ -22091,7 +22327,9 @@
       "site": "home",
       "spread": 3.3
      }
-    ]
+    ],
+    "resultsScore": 0.148,
+    "resultsRank": 7
    },
    "UConn": {
     "powerRating": -4.1319,
@@ -22140,7 +22378,7 @@
      "l": 5.7,
      "unb": 0.0,
      "w10": 0.014,
-     "bowl": 0.683
+     "bowl": 0.682
     },
     "upcoming": [
      {
@@ -22199,7 +22437,9 @@
       "site": "away",
       "spread": 8.9
      }
-    ]
+    ],
+    "resultsScore": -0.0107,
+    "resultsRank": 100
    },
    "UL Monroe": {
     "powerRating": -25.4684,
@@ -22307,7 +22547,9 @@
       "site": "home",
       "spread": -8.2
      }
-    ]
+    ],
+    "resultsScore": -0.1635,
+    "resultsRank": 135
    },
    "UNLV": {
     "powerRating": -4.2152,
@@ -22360,7 +22602,7 @@
      "l": 5.0,
      "unb": 0.0,
      "w10": 0.027,
-     "bowl": 0.85
+     "bowl": 0.849
     },
     "upcoming": [
      {
@@ -22419,7 +22661,9 @@
       "site": "home",
       "spread": 14.3
      }
-    ]
+    ],
+    "resultsScore": 0.0142,
+    "resultsRank": 78
    },
    "USC": {
     "powerRating": 13.1413,
@@ -22479,8 +22723,8 @@
      "w": 7.5,
      "l": 4.5,
      "unb": 0.0,
-     "w10": 0.064,
-     "bowl": 0.931
+     "w10": 0.065,
+     "bowl": 0.935
     },
     "upcoming": [
      {
@@ -22532,7 +22776,9 @@
       "site": "away",
       "spread": -3.3
      }
-    ]
+    ],
+    "resultsScore": 0.1559,
+    "resultsRank": 6
    },
    "UTEP": {
     "powerRating": -17.1099,
@@ -22581,7 +22827,7 @@
      "l": 7.8,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.194
+     "bowl": 0.202
     },
     "upcoming": [
      {
@@ -22640,7 +22886,9 @@
       "site": "away",
       "spread": 0.1
      }
-    ]
+    ],
+    "resultsScore": -0.0566,
+    "resultsRank": 130
    },
    "UTSA": {
     "powerRating": -0.3641,
@@ -22689,7 +22937,7 @@
      "l": 3.9,
      "unb": 0.0,
      "w10": 0.191,
-     "bowl": 0.951
+     "bowl": 0.947
     },
     "upcoming": [
      {
@@ -22748,7 +22996,9 @@
       "site": "home",
       "spread": 9.3
      }
-    ]
+    ],
+    "resultsScore": 0.0747,
+    "resultsRank": 37
    },
    "Utah": {
     "powerRating": 21.0251,
@@ -22795,8 +23045,8 @@
     "proj": {
      "w": 10.3,
      "l": 1.7,
-     "unb": 0.196,
-     "w10": 0.755,
+     "unb": 0.184,
+     "w10": 0.752,
      "bowl": 0.999
     },
     "upcoming": [
@@ -22856,7 +23106,9 @@
       "site": "home",
       "spread": 23.0
      }
-    ]
+    ],
+    "resultsScore": 0.1062,
+    "resultsRank": 20
    },
    "Utah State": {
     "powerRating": -9.4028,
@@ -22905,7 +23157,7 @@
      "l": 7.5,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.085
+     "bowl": 0.079
     },
     "upcoming": [
      {
@@ -22957,7 +23209,9 @@
       "site": "away",
       "spread": -9.2
      }
-    ]
+    ],
+    "resultsScore": -0.1163,
+    "resultsRank": 133
    },
    "Vanderbilt": {
     "powerRating": 7.1634,
@@ -23005,7 +23259,7 @@
      "w": 5.6,
      "l": 6.4,
      "unb": 0.0,
-     "w10": 0.004,
+     "w10": 0.005,
      "bowl": 0.507
     },
     "upcoming": [
@@ -23065,7 +23319,9 @@
       "site": "home",
       "spread": -7.0
      }
-    ]
+    ],
+    "resultsScore": 0.0656,
+    "resultsRank": 40
    },
    "Virginia": {
     "powerRating": 9.3895,
@@ -23114,7 +23370,7 @@
      "l": 4.1,
      "unb": 0.0,
      "w10": 0.149,
-     "bowl": 0.931
+     "bowl": 0.934
     },
     "upcoming": [
      {
@@ -23173,7 +23429,9 @@
       "site": "away",
       "spread": 1.3
      }
-    ]
+    ],
+    "resultsScore": 0.0585,
+    "resultsRank": 45
    },
    "Virginia Tech": {
     "powerRating": 5.4643,
@@ -23220,9 +23478,9 @@
     "proj": {
      "w": 7.8,
      "l": 4.2,
-     "unb": 0.002,
-     "w10": 0.13,
-     "bowl": 0.944
+     "unb": 0.003,
+     "w10": 0.135,
+     "bowl": 0.939
     },
     "upcoming": [
      {
@@ -23281,7 +23539,9 @@
       "site": "home",
       "spread": -1.3
      }
-    ]
+    ],
+    "resultsScore": 0.1107,
+    "resultsRank": 16
    },
    "Wake Forest": {
     "powerRating": 4.7611,
@@ -23333,8 +23593,8 @@
      "w": 7.5,
      "l": 4.5,
      "unb": 0.0,
-     "w10": 0.087,
-     "bowl": 0.908
+     "w10": 0.094,
+     "bowl": 0.909
     },
     "upcoming": [
      {
@@ -23393,7 +23653,9 @@
       "site": "home",
       "spread": -2.1
      }
-    ]
+    ],
+    "resultsScore": 0.0887,
+    "resultsRank": 31
    },
    "Washington": {
     "powerRating": 5.9145,
@@ -23501,7 +23763,9 @@
       "site": "away",
       "spread": -19.5
      }
-    ]
+    ],
+    "resultsScore": 0.0368,
+    "resultsRank": 58
    },
    "Washington State": {
     "powerRating": -3.5604,
@@ -23550,7 +23814,7 @@
      "l": 6.5,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.253
+     "bowl": 0.255
     },
     "upcoming": [
      {
@@ -23602,7 +23866,9 @@
       "site": "away",
       "spread": -6.3
      }
-    ]
+    ],
+    "resultsScore": -0.0551,
+    "resultsRank": 129
    },
    "West Virginia": {
     "powerRating": 2.192,
@@ -23650,8 +23916,8 @@
      "w": 5.7,
      "l": 6.3,
      "unb": 0.0,
-     "w10": 0.007,
-     "bowl": 0.55
+     "w10": 0.005,
+     "bowl": 0.543
     },
     "upcoming": [
      {
@@ -23710,7 +23976,9 @@
       "site": "away",
       "spread": -23.0
      }
-    ]
+    ],
+    "resultsScore": 0.0589,
+    "resultsRank": 44
    },
    "Western Kentucky": {
     "powerRating": -11.2405,
@@ -23759,7 +24027,7 @@
      "l": 6.9,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.402
+     "bowl": 0.411
     },
     "upcoming": [
      {
@@ -23818,7 +24086,9 @@
       "site": "home",
       "spread": 2.8
      }
-    ]
+    ],
+    "resultsScore": -0.0539,
+    "resultsRank": 127
    },
    "Western Michigan": {
     "powerRating": -7.2641,
@@ -23866,8 +24136,8 @@
      "w": 7.1,
      "l": 4.9,
      "unb": 0.0,
-     "w10": 0.036,
-     "bowl": 0.865
+     "w10": 0.038,
+     "bowl": 0.86
     },
     "upcoming": [
      {
@@ -23926,7 +24196,9 @@
       "site": "home",
       "spread": 0.7
      }
-    ]
+    ],
+    "resultsScore": 0.0023,
+    "resultsRank": 94
    },
    "Wisconsin": {
     "powerRating": 8.7134,
@@ -23974,8 +24246,8 @@
      "w": 7.5,
      "l": 4.5,
      "unb": 0.0,
-     "w10": 0.094,
-     "bowl": 0.903
+     "w10": 0.091,
+     "bowl": 0.9
     },
     "upcoming": [
      {
@@ -24034,7 +24306,9 @@
       "site": "home",
       "spread": 7.0
      }
-    ]
+    ],
+    "resultsScore": 0.0765,
+    "resultsRank": 35
    },
    "Wyoming": {
     "powerRating": -17.2504,
@@ -24142,7 +24416,9 @@
       "site": "home",
       "spread": -8.9
      }
-    ]
+    ],
+    "resultsScore": -0.0216,
+    "resultsRank": 105
    }
   },
   "settings": {
