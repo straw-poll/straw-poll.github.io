@@ -732,6 +732,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
              r:{show:'top', confOff:[], q:'', ms:'wolp', col:'ms', rev:false, xax:'wolp'}, f:'off', pc:'', q:'', sort:'frank',
              settings:{}, upsets:{}, uDraft:null, uDirty:false, uAll:false, showAll:false};
   const $ = id => document.getElementById(id);
+  let teamsLoaded; const teamsReady = new Promise(r=>teamsLoaded=r);  // season and team list, needed before ballots load
   // Read-only until sign-in says otherwise. The old GitHub ballot sync is retired: forget its token and draft.
   document.body.classList.add('viewonly');
   try{ localStorage.removeItem('cfb-gh-token'); localStorage.removeItem('cfb-draft2'); }catch(e){}
@@ -1179,18 +1180,92 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     }
     return best.length ? best : c;
   }
-  function setDirty(v){ S.dirty=v; renderStatus(); }
+  // ---------- my ballots (Supabase) ----------
+  // The database decides who may submit, until when, and what a valid ballot is. The page mirrors those rules so
+  // people see the right controls, and shows the database's answer in plain English when it refuses.
+  const BMAX = 25;  // a Straw Poll ballot is exactly 25 teams (the archived weeks 1-5 ballots had up to 35)
+  S.vote = {season:null, state:'idle', weeks:{}, mine:{}};  // weeks: {week: lock time}; mine: {week: {ranking, at}}
+  const serverNow = () => Date.now() + (S.clockSkew||0);  // S.clockSkew: see the accounts section
+  const lockOf = n => S.vote.weeks[n] ? new Date(S.vote.weeks[n]) : null;
+  const isOpen = n => { const l=lockOf(n); return !!l && serverNow() < l.getTime(); };
+  function openWeekNum(){ const o=Object.keys(S.vote.weeks).map(Number).filter(isOpen).sort((a,b)=>a-b); return o.length ? o[0] : null; }
+  // deadlines always shown in Eastern time (the IANA zone handles daylight saving)
+  const etTime = d => d.toLocaleString('en-US', {timeZone:'America/New_York', weekday:'short', month:'short', day:'numeric', hour:'numeric', minute:'2-digit'}) + ' ET';
+  const atTime = t => new Date(t).toLocaleString('en-US', {weekday:'short', month:'short', day:'numeric', hour:'numeric', minute:'2-digit'});
+  const sameList = (a, b) => !!a && !!b && a.length===b.length && a.every((x,i)=>x===b[i]);
+  // my ballots by week; the owner's archived weeks 1-5 rankings count as theirs (cut to 25)
+  function myBallots(){
+    const b = {};
+    if(S.isOwner) savedNums().forEach(n=>b[n]=eff(S.weeks[n]).slice(0, BMAX));
+    Object.entries(S.vote.mine).forEach(([n, x])=>b[n]=x.ranking);
+    return b;
+  }
+  function myPrevMap(n){
+    const b=myBallots(), w=Object.keys(b).map(Number).filter(x=>x<n).sort((x,y)=>x-y);
+    if(!w.length) return null;
+    const m={}; b[w[w.length-1]].forEach((a,i)=>m[a]=i+1); return m;
+  }
+  const renderWorkIfShown = () => { if(S.tab==='work') renderWork(); };
+  async function loadVoting(){
+    S.vote = {season:null, state:'loading', weeks:{}, mine:{}}; S.cur=null; S.draft=[]; S.dirty=false; renderWorkIfShown();
+    await teamsReady;
+    const season = S.meta && S.meta.season, uid = S.me && S.me.user.id;
+    if(!season || !uid){ S.vote.state='error'; renderWorkIfShown(); return; }
+    const [w, b] = await Promise.all([
+      sb.from('weeks').select('week,lock_at').eq('season', season),
+      // only my own: after a lock the owner's account may read everyone's
+      sb.from('ballots').select('week,ranking,submitted_at').eq('season', season).eq('user_id', uid)
+    ]);
+    if(!S.me || S.me.user.id!==uid) return;  // signed out or switched accounts while loading
+    if(w.error || b.error){ S.vote.state='error'; S.vote.err=w.error||b.error; renderWorkIfShown(); return; }
+    S.vote = {season, state:'ready',
+      weeks: Object.fromEntries(w.data.map(x=>[x.week, x.lock_at])),
+      mine: Object.fromEntries(b.data.map(x=>[x.week, {ranking:x.ranking, at:x.submitted_at}]))};
+    const open=openWeekNum(), have=Object.keys(S.vote.mine).map(Number);
+    loadWeek(open!=null ? open : have.length ? Math.max(...have) : null);
+  }
+  function clearVoting(){ S.vote = {season:null, state:'idle', weeks:{}, mine:{}}; S.cur=null; S.draft=[]; S.dirty=false; clearTimeout(lockTimer); }
+  function loadWeek(n){
+    S.cur = n;
+    const sub = S.vote.mine[n];
+    S.draft = sub ? sub.ranking.slice() : [];
+    setDirty(); armLockTimer(); renderWorkIfShown();
+  }
+  // re-render the moment the open week locks, so the page never offers a submit the database will refuse
+  let lockTimer = null;
+  function armLockTimer(){
+    clearTimeout(lockTimer);
+    const l = lockOf(S.cur), ms = l ? l.getTime() - serverNow() : -1;
+    if(ms > 0 && ms < 2**31 - 1) lockTimer = setTimeout(()=>{ renderStatus(); renderWorkIfShown(); }, ms + 1000);
+  }
+  // Supabase errors in plain English (never raw codes)
+  function sbErr(e, fallback){
+    const m = (e && e.message) || '';
+    if(/failed to fetch|networkerror|load failed/i.test(m)) return 'Couldn’t reach the server. Check your connection and try again.';
+    if(e && (e.code==='PGRST301' || /jwt/i.test(m))) return 'Your sign-in has expired. Sign in again; your unsubmitted changes stay in this browser.';
+    return fallback;
+  }
+  function setDirty(){ S.dirty = !sameList(S.draft, (S.vote.mine[S.cur]||{}).ranking); renderStatus(); }
   function renderStatus(){
-    const st=$('status'), sv=$('save');
-    if(S.dirty){ st.textContent = S.draft.length<MAX ? `Unsaved: ${S.draft.length} of ${MAX} ranked` : 'Unsaved changes'; st.className='status warn'; }
-    else { const w=S.weeks[S.cur]; st.textContent = w && w.savedAt ? 'Saved ' + new Date(w.savedAt).toLocaleString('en-US', {month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}) : ''; st.className='status'; }
-    sv.disabled = !S.dirty || S.draft.length===0;
+    const st=$('status'), sv=$('save'), n=S.cur, L=lockOf(n), open=isOpen(n), sub=S.vote.mine[n];
+    $('view-work').classList.toggle('ro', !open);
+    $('deadline').innerHTML = !L ? '' : open ? `Voting closes <b>${esc(etTime(L))}</b>` : `Voting closed ${esc(etTime(L))}`;
+    let msg, warn=false;
+    if(S.vote.state==='loading') msg='Loading your ballots…';
+    else if(S.vote.state==='error'){ msg=sbErr(S.vote.err, 'Your ballots couldn’t load. Reload the page to try again.'); warn=true; }
+    else if(n==null) msg='No week is open for voting yet. Voting opens after the weekend’s games.';
+    else if(!open) msg = sub ? 'Submitted ' + atTime(sub.at) : 'No ballot submitted';
+    else msg = sub ? 'Submitted ' + atTime(sub.at) : `${S.draft.length} of ${BMAX} ranked`;
+    st.textContent=msg; st.className='status'+(warn?' warn':'');
+    sv.hidden = !open; sv.disabled = true;
+    $('withdraw').hidden = true; $('startFrom').hidden = true;
+    $('openWeek').hidden = !(S.isOwner && S.vote.state==='ready' && openWeekNum()==null);
   }
   function renderWeekBar(){
-    const sel=$('weekSel'), opts=savedNums().slice();
-    if(S.cur!=null && !opts.includes(S.cur)) opts.push(S.cur);
-    opts.sort((a,b)=>a-b);
-    sel.innerHTML = opts.map(n=>`<option value="${n}"${n===S.cur?' selected':''}>${n}${S.weeks[n]?'':' (new)'}</option>`).join('');
+    const sel=$('weekSel'), open=openWeekNum();
+    const weeks=[...new Set(Object.keys(S.vote.mine).map(Number).concat(open==null?[]:[open], S.cur==null?[]:[S.cur]))].sort((a,b)=>a-b);
+    sel.innerHTML = weeks.map(n=>`<option value="${n}"${n===S.cur?' selected':''}>${n}${isOpen(n)?' (open)':''}</option>`).join('');
+    sel.hidden = !weeks.length;
   }
   function renderHeads(){
     const b=[], p=shown('p');  // the compact list has no stat columns (team pop-up has them)
@@ -1218,7 +1293,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   }
   function renderBallot(){
     hideTip();
-    const pn = prevNum(S.cur), prev = pn===null ? null : rankMap(pn);
+    const prev = myPrevMap(S.cur);
     const an = analyze(), cols = [];
     const row = (a,i) => { const t=S.teams[a]||{name:a,conf:''}, fl=an.flags[a], lp=an.loopOf[a];
       const marks = (fl ? `<button class="flag" data-tip="${esc(fl.join('\n'))}" aria-label="${esc(fl.join(' '))}">H2H</button>` : '') + (lp ? `<button class="flag loop" data-tip="${esc(lp.text+'\n'+lp.games.join('\n'))}" aria-label="${esc(lp.text)}">LOOP</button>` : '');
@@ -1262,7 +1337,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
         ${onB[a]?`<span class="on">#${onB[a]}</span>`:`<button class="add" data-add="${esc(a)}" aria-label="Add ${esc(t.name)}"${full?' disabled title="The ballot is full (35)"':''}>+</button>`}</div>`).join('') : '<p class="note" style="padding:6px">No teams match.</p>';
   }
   function renderWMap(){
-    const onB=draftMap(), pn=prevNum(S.cur), prev = pn===null ? null : rankMap(pn), el=$('wMap'), an=analyze();
+    const onB=draftMap(), prev = myPrevMap(S.cur), el=$('wMap'), an=analyze();
     $('legend2').innerHTML = legend('Opponent’s Straw Poll rank'); $('xAx2').value = S.r.xax;
     if(wSortable){ wSortable.destroy(); wSortable=null; }
     S._an = an;  // mapRow (drag mode) reads the H2H / LOOP flags from here
@@ -1272,7 +1347,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     $('wNotes').innerHTML = ballotNotes(an, prev);
     if(window.Sortable) wSortable = Sortable.create($('wTop'), { handle:'.grip', draggable:'.mrow', animation:150, disabled:!S.canWrite,
       group:{name:'b', pull:false, put:()=>S.draft.length<MAX},
-      onEnd:(ev)=>{ if(ev.to!==ev.from) return; const order=[...$('wTop').querySelectorAll('.mrow')].map(r=>r.dataset.abbr); if(order.join()!==S.draft.join()){ S.draft=order; setDirty(true); } refreshBuild(); },
+      onEnd:(ev)=>{ if(ev.to!==ev.from) return; const order=[...$('wTop').querySelectorAll('.mrow')].map(r=>r.dataset.abbr); if(order.join()!==S.draft.join()){ S.draft=order; setDirty(); } refreshBuild(); },
       onAdd:(ev)=>{ const a=ev.item.dataset.abbr; const at=[...$('wTop').children].filter(x=>x.classList.contains('mrow')||x===ev.item).indexOf(ev.item); ev.item.remove(); addTeam(a, at<0?null:at); } });
   }
   function refreshBuild(){ renderBallot(); renderPool(); if(S.ws==='map') renderWMap(); }
@@ -1287,15 +1362,16 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   document.querySelectorAll('[data-ws]').forEach(b=>b.addEventListener('click',()=>{ S.ws=b.dataset.ws; renderWork(); }));
 
   // ballot actions
+  $('weekSel').addEventListener('change', e=>loadWeek(Number(e.target.value)));
   function addTeam(a, at){
     if(S.draft.includes(a) || S.draft.length>=MAX) return;
     if(at==null || at>S.draft.length) at=S.draft.length;
-    S.draft.splice(at,0,a); setDirty(true); refreshBuild();
+    S.draft.splice(at,0,a); setDirty(); refreshBuild();
   }
   $('ballot').addEventListener('click', e=>{
-    const rm=e.target.closest('[data-rm]'); if(rm){ S.draft.splice(Number(rm.dataset.rm),1); setDirty(true); renderBallot(); renderPool(); return; }
+    const rm=e.target.closest('[data-rm]'); if(rm){ S.draft.splice(Number(rm.dataset.rm),1); setDirty(); renderBallot(); renderPool(); return; }
   });
-  $('wMap').addEventListener('click', e=>{ const rm=e.target.closest('[data-rm]'); if(rm){ S.draft.splice(Number(rm.dataset.rm),1); setDirty(true); refreshBuild(); } });
+  $('wMap').addEventListener('click', e=>{ const rm=e.target.closest('[data-rm]'); if(rm){ S.draft.splice(Number(rm.dataset.rm),1); setDirty(); refreshBuild(); } });
   $('xAx2').addEventListener('change', e=>{ S.r.xax=e.target.value; saveR(); renderWMap(); });
   $('pConf').addEventListener('change', e=>{ S.pc=e.target.value; renderPool(); });
   function arrowMove(e, sel, after){
@@ -1303,7 +1379,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     const i=Number(g.dataset.i); let j=null;
     if(e.key==='ArrowUp') j=i-1; else if(e.key==='ArrowDown') j=i+1; else return;
     e.preventDefault(); if(j<0||j>=S.draft.length) return;
-    const [a]=S.draft.splice(i,1); S.draft.splice(j,0,a); setDirty(true); renderBallot(); renderPool(); if(after) after();
+    const [a]=S.draft.splice(i,1); S.draft.splice(j,0,a); setDirty(); renderBallot(); renderPool(); if(after) after();
     const ng=document.querySelector(`${sel.split(' ')[0]} .grip[data-i="${j}"]`); if(ng) ng.focus();
   }
   $('ballot').addEventListener('keydown', e=>arrowMove(e, '#ballot .grip'));
@@ -1314,7 +1390,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   document.querySelectorAll('[data-f]').forEach(c=>c.addEventListener('click', ()=>{ S.f=c.dataset.f; document.querySelectorAll('[data-f]').forEach(x=>x.setAttribute('aria-pressed', x===c?'true':'false')); renderPool(); }));
   if(window.Sortable){
     Sortable.create($('ballot'), { handle:'.grip', draggable:'.brow', animation:150, disabled:!S.canWrite, group:{name:'b', pull:true, put:()=>S.draft.length<MAX},
-      onEnd:(ev)=>{ if(ev.to!==ev.from) return; const order=[...$('ballot').querySelectorAll('.brow')].map(r=>r.dataset.abbr); if(order.join()!==S.draft.join()){ S.draft=order; setDirty(true); } renderBallot(); renderPool(); },
+      onEnd:(ev)=>{ if(ev.to!==ev.from) return; const order=[...$('ballot').querySelectorAll('.brow')].map(r=>r.dataset.abbr); if(order.join()!==S.draft.join()){ S.draft=order; setDirty(); } renderBallot(); renderPool(); },
       onAdd:(ev)=>{ const a=ev.item.dataset.abbr; const at=[...$('ballot').children].filter(x=>x.classList.contains('brow')||x===ev.item).indexOf(ev.item); ev.item.remove(); addTeam(a, at<0?null:at); } });
     Sortable.create($('pool'), { group:{name:'b', pull:'clone', put:false}, sort:false, disabled:!S.canWrite, animation:150, delay:180, delayOnTouchOnly:true, draggable:'.prow:not(.onb)' });
   }
@@ -1531,7 +1607,11 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   // ---------- accounts (Supabase): sign-in, profile, owner approvals ----------
   // The publishable key is public by design; the database's row-level security decides what each person can do.
   const SB_URL='https://urbbhgyogfvuxfqzyzpd.supabase.co', SB_KEY='sb_publishable_pJhFlpFIadrLOzrqPxQR5A_kRuDmgjY';
-  const sb = window.supabase ? window.supabase.createClient(SB_URL, SB_KEY, {auth:{flowType:'pkce', detectSessionInUrl:true, persistSession:true}}) : null;
+  // Deadlines follow the SERVER's clock, not this device's: every Supabase response carries the server time (Date
+  // header), and the difference is kept so open/closed is right even when a device clock is off.
+  S.clockSkew = 0;
+  const serverFetch = (...args) => fetch(...args).then(r=>{ const d=Date.parse(r.headers.get('date')||''); if(!isNaN(d)) S.clockSkew = d - Date.now(); return r; });
+  const sb = window.supabase ? window.supabase.createClient(SB_URL, SB_KEY, {auth:{flowType:'pkce', detectSessionInUrl:true, persistSession:true}, global:{fetch:serverFetch}}) : null;
   S.reqs = [];
   const acctMsg = t => { $('acctMsg').textContent = t || ''; };
   async function loadMe(){
@@ -1559,6 +1639,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     const who = S.me ? S.me.user.id + (vote ? ':voter' : '') : '';
     if(who===S.accessFor) return;  // loadMe runs on every account-window open; only react to real changes
     S.accessFor = who;
+    if(vote) loadVoting(); else clearVoting();
     if(S.me && S.wantWork){ S.wantWork=false; showTab('work'); }
     else if(!S.me && S.tab==='work') showTab('home');
     else renderCurrent();
@@ -1675,8 +1756,8 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       S.meta = {through:d.through, updatedAt:d.updatedAt, season:d.season};
       if(d.season){ $('brandYr').textContent=d.season; document.title=`Straw Poll ${d.season}`; }
       S.teamsRaw = d.teams||{}; S.model = d.model||null; S.schedule = d.schedule||null; S.ap = d.ap||null; S.picks = d.picks||[];
-      mergeModel(); renderConfs(); renderAll();
-    }).catch(()=>{ $('stamp').textContent='Team data couldn’t load. Reload the page to try again.'; });
+      mergeModel(); renderConfs(); renderAll(); teamsLoaded();
+    }).catch(()=>{ $('stamp').textContent='Team data couldn’t load. Reload the page to try again.'; teamsLoaded(); });
     db.archive().then(w=>{ S.weeks=w; renderAll(); }).catch(()=>toast('Earlier rankings couldn’t load. Reload to try again.'));
   })();
 })();
