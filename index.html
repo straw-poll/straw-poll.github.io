@@ -370,9 +370,9 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       <button class="tab owner owner-only" role="tab" id="tab-work" aria-selected="false">Workspace</button>
     </nav>
     <div class="tools">
-      <details class="colmenu" id="fMenu"><summary class="pill" id="fSum">Formula ▾</summary>
+      <details class="colmenu" id="fMenu"><summary class="pill" id="fSum">Wolp+ dials ▾</summary>
         <div class="menu fmix"><div class="mt">Conference adjustments</div>
-          <p class="mixhelp">Points added to every team in a conference (or in the whole Group of 5) on top of the Model's rating. 0 = pure data. They change the Formula ranking, the Results Map and the Home cards; spreads and win chances always stay pure Model.</p>
+          <p class="mixhelp">Points added to every team in a conference (or in the whole Group of 5) on top of the Model's rating. 0 = pure data. They change the Wolp+ ranking, the Results Map and the Home cards; spreads and win chances always stay pure Model.</p>
           <div id="fDials"></div>
           <div class="mixsave"><button class="btn quiet" id="fReset">Reset to 0</button><small id="fNote"></small><button class="btn primary owner-only" id="fSave">Save for everyone</button></div></div></details>
       <button class="pill" id="cmpMode" aria-pressed="false" title="Pick 2 to 4 teams to compare side by side" hidden>Compare</button>
@@ -384,7 +384,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   <!-- HOME -->
   <section id="view-home">
     <div class="hero">
-      <div class="card"><div class="ch"><h2 id="hTitle">Wolp+ Top 25</h2><button class="more" data-go="rank">Results Map and stats →</button></div>
+      <div class="card"><div class="ch"><h2 id="hTitle">Chili Poll Top 25</h2><button class="more" data-go="rank">Results Map and stats →</button></div>
         <div class="t25" id="hTop"></div><div class="also" id="hAlso"></div></div>
       <div class="side-col">
         <div class="card fraud"><div class="ch"><h2>Fraud watch</h2><span class="badge f">Overrated?</span></div>
@@ -400,20 +400,20 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 
   <!-- RANKINGS -->
   <section id="view-rank" hidden>
-    <div class="ph"><div><h1 id="rTitle">Wolp+ Top 25</h1><div class="sub" id="rSub"></div></div>
+    <div class="ph"><div><h1 id="rTitle">Chili Poll Top 25</h1><div class="sub" id="rSub"></div></div>
       <div class="row"><a class="pill on" href="#map">Results Map</a><a class="pill" href="#stats">Stats table ↓</a></div></div>
     <div class="filters row">
       <span class="lab">Show</span>
-      <button class="pill" data-show="wolp">Wolp+ Top 25</button>
-      <button class="pill" data-show="c25">Formula Top 25</button>
-      <button class="pill" data-show="c50">Formula Top 50</button>
+      <button class="pill" data-show="wolp">Chili Poll Top 25</button>
+      <button class="pill" data-show="c25">Wolp+ Top 25</button>
+      <button class="pill" data-show="c50">Wolp+ Top 50</button>
       <button class="pill" data-show="all">All FBS</button>
       <select id="rConf" aria-label="Conference"></select>
       <input id="rQ" type="search" placeholder="Search teams" aria-label="Search teams">
       <span class="count" id="rCount"></span>
     </div>
-    <section class="sec" id="map"><div class="sh"><h2>Results Map<small>Every game, placed by the opponent’s Formula rank</small></h2>
-      <div class="row"><span style="color:var(--muted);font-size:13px">Sort</span><button class="pill" data-ms="wolp">Wolp+</button><button class="pill" data-ms="comp">Formula</button><button class="pill" data-ms="best">Best win</button><button class="pill" data-ms="worst">Worst loss</button></div></div>
+    <section class="sec" id="map"><div class="sh"><h2>Results Map<small>Every game, placed by the opponent’s Wolp+ rank</small></h2>
+      <div class="row"><span style="color:var(--muted);font-size:13px">Sort</span><button class="pill" data-ms="wolp">Chili</button><button class="pill" data-ms="comp">Wolp+</button><button class="pill" data-ms="best">Best win</button><button class="pill" data-ms="worst">Worst loss</button></div></div>
       <div class="legend" id="legend1"></div>
       <div id="rMap" class="map"></div>
     </section>
@@ -426,10 +426,10 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 
   <!-- PREVIOUS RANKINGS -->
   <section id="view-history" hidden>
-    <div class="ph"><div><h1>Previous Rankings</h1><div class="sub">Every saved Wolp+ ballot, week by week</div></div></div>
-    <div class="card" id="scoreCard" style="margin-bottom:22px"><div class="ch"><h2>Scorecard<small>Who picks more winners: Wolp+, the AP poll, or the model?</small></h2></div>
+    <div class="ph"><div><h1>Previous Rankings</h1><div class="sub">Every saved Chili Poll ballot, week by week</div></div></div>
+    <div class="card" id="scoreCard" style="margin-bottom:22px"><div class="ch"><h2>Scorecard<small>Who picks more winners: the Chili Poll, the AP poll, or the model?</small></h2></div>
       <div class="tblw" id="scoreBody"></div>
-      <p class="note">Games with a Wolp+ Top 25 or AP Top 25 team. Wolp+ and AP pick the better-ranked team (that week's ballot and poll; outside the Wolp+ 35 or AP 25 counts as unranked, and a game with neither team ranked in a list gets no pick from it). Model and Line pick the favorite in the model's spread and the betting line, both as of the last update before kickoff.</p></div>
+      <p class="note">Games with a Chili Poll Top 25 or AP Top 25 team. The Chili Poll and AP pick the better-ranked team (that week's ballot and poll; outside the Chili Poll 35 or AP 25 counts as unranked, and a game with neither team ranked in a list gets no pick from it). Model and Line pick the favorite in the model's spread and the betting line, both as of the last update before kickoff.</p></div>
     <div class="card hist"><div class="tblw" id="histBody"></div></div>
   </section>
 
@@ -438,21 +438,21 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     <div class="ph"><div><h1>Methodology</h1><div class="sub">How the ratings, the Results Map and the Home page are built</div></div></div>
     <div class="mwrap">
       <nav class="toc" aria-label="Methodology sections">
-        <a href="#m-overview">Overview</a><a href="#m-wolp">The Wolp+ rankings</a><a href="#m-ratings">The rankings</a><a href="#m-power">Power rating</a>
+        <a href="#m-overview">Overview</a><a href="#m-wolp">The Chili Poll</a><a href="#m-ratings">The rankings</a><a href="#m-power">Power rating</a>
         <a href="#m-qw">Quality wins</a><a href="#m-proj">Win chances and projections</a><a href="#m-quad">Quadrants</a><a href="#m-map">Results Map</a><a href="#m-home">Home page</a><a href="#m-cols">Columns and flags</a><a href="#m-data">Data and updates</a>
       </nav>
       <article class="method">
         <h2 id="m-overview">Overview</h2>
-        <p>Wolp+ is a weekly college football Top 25, ranked by hand. Alongside it, a model rates every FBS team two ways: how good a team is (the power rating) and what it has earned (quality wins). The model is a reference: it never sees the Wolp+ rankings, and the Wolp+ rankings never feed into it.</p>
+        <p>Wolp+ 2026 has two rankings of its own. <b>Wolp+</b> is the formula ranking: a model's power rating for every FBS team, plus any conference dials. <b>The Chili Poll</b> is a weekly Top 25, ranked by hand. The model also rates what each team has earned (quality wins). It never sees the Chili Poll, and the Chili Poll never feeds into it.</p>
 
-        <h2 id="m-wolp">The Wolp+ rankings</h2>
+        <h2 id="m-wolp">The Chili Poll</h2>
         <p>Each week's ballot ranks 35 teams. The Top 25 is the headline; teams 26–35 are listed as <b>Also ranked</b>. Ranking 35 gives the comparisons on the Home page a real scale: a team at #31 is close to the Top 25, not simply "unranked". (Ballots before week 6 ranked 25 teams plus an unordered "just missed" list; those teams are shown as 26–30 in their saved order.)</p>
 
         <h2 id="m-ratings">The rankings</h2>
         <dl>
-          <dt>Wolp+</dt><dd><b>An opinion.</b> The hand-made weekly ballot.</dd>
+          <dt>Chili Poll</dt><dd><b>An opinion.</b> The hand-made weekly ballot.</dd>
           <dt>AP</dt><dd><b>Public opinion.</b> The Associated Press Top 25.</dd>
-          <dt>Formula</dt><dd><b>The numbers, with a point of view.</b> The Model's power rating plus any conference adjustments set under <b>Formula ▾</b> (currently: <b class="fnote">none</b>). With no adjustments it is exactly the Model. The Results Map, Best/Worst, quadrants, Fraud watch and Under the radar use the Formula rank; spreads, win chances, projections, Quality wins and the Scorecard always use the pure Model.</dd>
+          <dt>Wolp+</dt><dd><b>The numbers, with a point of view.</b> The Model's power rating plus any conference adjustments set under <b>Wolp+ dials ▾</b> (currently: <b class="fnote">none</b>). With no adjustments it is exactly the Model. The Results Map, Best/Worst, quadrants, Fraud watch and Under the radar use the Wolp+ rank; spreads, win chances, projections, Quality wins and the Scorecard always use the pure Model.</dd>
           <dt>Model</dt><dd><b>The numbers.</b> Teams ranked by power rating: points better than an average FBS team on a neutral field. The difference between two teams' ratings, plus the home edge, is the model's predicted margin. It picks winners better than the AP poll (see the Scorecard on Previous Rankings) and comes close to the best computer ratings: on 2023–25 games it missed by about 0.15 points a game more than ESPN's FPI and Sagarin, and beat 24 of 33 tracked systems.</dd>
         </dl>
         <p><b>Quality wins</b> is shown alongside as a résumé stat, not a ranking: every win and loss, each weighted by how good the opponent is by Model rank.</p>
@@ -469,11 +469,11 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
           <li><b>Recent games count a bit more:</b> each week further back, a game counts <b data-set="RECENCY">0.94</b> as much, so a team's current form outweighs September.</li>
           <li><b>Preseason start:</b> a mix of last season's rating, the share of production returning, and roster talent (weights fitted on earlier seasons), plus <b data-set="P4_START_BONUS">5</b> points for Power 4 teams (stats from weaker conferences tend to overrate teams). Teams new to FBS start at the <b data-set="NEW_FBS_PCT">10th</b> percentile. Army, Navy and Air Force count as average in roster talent: they rank last in recruiting every year but play far better than that (on 2024–26 replays they beat the model by about 3 points a game until this fix). The start counts as <b data-set="PRIOR_GAMES">3</b> games before the season and fades to nothing by week <b data-set="PRIOR_END_WEEK">18</b>.</li>
         </ol>
-        <div class="box">Not used: betting lines (kept out so the model can disagree with them), per-play efficiency (it didn't improve predictions), and the Wolp+ rankings. On a week-by-week replay of 2024–2026, the model's predicted margins were off by about 12.35 points per game on average; the closing betting line was off by about 12.0. That's a little behind the best computer ratings, such as ESPN's FPI and Sagarin, and ahead of most others.</div>
+        <div class="box">Not used: betting lines (kept out so the model can disagree with them), per-play efficiency (it didn't improve predictions), and the Chili Poll. On a week-by-week replay of 2024–2026, the model's predicted margins were off by about 12.35 points per game on average; the closing betting line was off by about 12.0. That's a little behind the best computer ratings, such as ESPN's FPI and Sagarin, and ahead of most others.</div>
 
         <h2 id="m-qw">Quality wins (résumé stat)</h2>
         <ul>
-          <li><b>Opponent strength (0 to 1):</b> from the opponent's Model rank: #1 is 1.0 and the last FBS team is 0.0. It always uses the pure Model, so the Formula dials don't change it. With the dials at 0 this is the same left-to-right position as the opponent's dot on the Results Map, so a row of dots far to the right means a high Quality wins score.</li>
+          <li><b>Opponent strength (0 to 1):</b> from the opponent's Model rank: #1 is 1.0 and the last FBS team is 0.0. It always uses the pure Model, so the Wolp+ dials don't change it. With the dials at 0 this is the same left-to-right position as the opponent's dot on the Results Map, so a row of dots far to the right means a high Quality wins score.</li>
           <li><b>A win</b> is worth the opponent's strength × location (<b data-set="LOC_WIN">road 1.02, neutral 1.01, home 1.00</b>), × (1 + <b data-set="DECISIVE_WIN_BONUS">0.1</b> × strength) if it wasn't close.</li>
           <li><b>A loss</b> costs <b data-set="LOSS_WEIGHT">0.5</b> × (1 − strength) × location (<b data-set="LOC_LOSS">home 1.05, neutral 1.00, road 0.95</b>), × <b data-set="CLOSE_LOSS_FACTOR">0.6</b> if it was close, and always at least <b data-set="MIN_LOSS">0.1</b>. Losses weigh less than wins.</li>
           <li><b>FCS:</b> a win doesn't count; a loss counts <b data-set="FCS_LOSS_VALUE">-1.5</b>.</li>
@@ -488,7 +488,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
         </ul>
 
         <h2 id="m-quad">Quadrants</h2>
-        <p>Borrowed from college basketball's NET: every game is sorted by the opponent's Formula rank (the Model rank when the dials are at 0) and where it was played, scaled to the 138 FBS teams. FCS opponents are Quadrant 4.</p>
+        <p>Borrowed from college basketball's NET: every game is sorted by the opponent's Wolp+ rank (the Model rank when the dials are at 0) and where it was played, scaled to the 138 FBS teams. FCS opponents are Quadrant 4.</p>
         <div class="tblw"><table style="width:auto;margin:0 0 14px"><thead><tr class="cols"><th></th><th>Home</th><th>Neutral</th><th>Away</th></tr></thead><tbody>
           <tr><td><b>Q1</b></td><td>#1–11</td><td>#1–19</td><td>#1–29</td></tr><tr><td><b>Q2</b></td><td>#12–29</td><td>#20–38</td><td>#30–51</td></tr>
           <tr><td><b>Q3</b></td><td>#30–61</td><td>#39–76</td><td>#52–91</td></tr><tr><td><b>Q4</b></td><td>#62+</td><td>#77+</td><td>#92+</td></tr></tbody></table></div>
@@ -496,33 +496,33 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 
         <h2 id="m-map">Results Map</h2>
         <ul>
-          <li>Each row shows a team's games, placed left to right by the <b>opponent's Formula rank</b> (#1 at the far right; FCS opponents at the far left).</li>
+          <li>Each row shows a team's games, placed left to right by the <b>opponent's Wolp+ rank</b> (#1 at the far right; FCS opponents at the far left).</li>
           <li>Green = win, red = loss. Dot size = margin (1–8, 9–16, 17+). Gold ring = close game; double ring = overtime.</li>
-          <li>A small number beside a dot is the opponent's Wolp+ rank. <b>Best</b> marks the win over the highest-ranked opponent (the rightmost green dot) and <b>Worst</b> the loss to the lowest-ranked one (the leftmost red dot).</li>
+          <li>A small number beside a dot is the opponent's Chili Poll rank. <b>Best</b> marks the win over the highest-ranked opponent (the rightmost green dot) and <b>Worst</b> the loss to the lowest-ranked one (the leftmost red dot).</li>
           <li>Dots for similarly ranked opponents are stacked slightly above and below the line so none are hidden.</li>
         </ul>
 
         <h2 id="m-home">Home page</h2>
         <dl>
-          <dt>Fraud watch</dt><dd>Teams in the AP Top 25 that both Wolp+ and the Formula rank at least <b class="fthr">8</b> spots lower. A team outside the Wolp+ 35 counts as #36. Sorted by the size of the gap.</dd>
-          <dt>Under the radar</dt><dd>Wolp+ teams that both Wolp+ and the Formula rank at least <b class="fthr">8</b> spots higher than the AP. A team outside the AP Top 25 counts as AP #36, the same as a team outside the Wolp+ 35 in Fraud watch.</dd>
+          <dt>Fraud watch</dt><dd>Teams in the AP Top 25 that both the Chili Poll and Wolp+ rank at least <b class="fthr">8</b> spots lower. A team outside the Chili Poll 35 counts as #36. Sorted by the size of the gap.</dd>
+          <dt>Under the radar</dt><dd>Chili Poll teams that both the Chili Poll and Wolp+ rank at least <b class="fthr">8</b> spots higher than the AP. A team outside the AP Top 25 counts as AP #36, the same as a team outside the Chili Poll 35 in Fraud watch.</dd>
           <dt>Model spread</dt><dd>The model's predicted margin, written like a betting line (favorite −points, rounded to the half point). It never uses the betting line.</dd>
           <dt>Line</dt><dd>The median spread across sportsbooks, from CollegeFootballData.com.</dd>
           <dt>Upset alerts</dt><dd>Games hand-picked each week, usually where the model favors the betting underdog or disagrees with the line by a touchdown or more.</dd>
-          <dt>Scorecard</dt><dd>On Previous Rankings: each week, how many winners Wolp+, the AP poll, the model and the betting line picked in games with a ranked team. Looking back at 2024–25, in games between two AP-ranked teams the better-ranked AP team won only 52% of the time; the model's pick won 66%, and the betting line's 64%.</dd>
-          <dt>Big games</dt><dd>This week's games with a Wolp+ ranked (1–35) or AP Top 25 team where the favorite is giving 14 points or less (by the betting line, or the model spread when there's no line). When both teams are ranked (Wolp+ or AP), the limit is 21 points.</dd>
+          <dt>Scorecard</dt><dd>On Previous Rankings: each week, how many winners the Chili Poll, the AP poll, the model and the betting line picked in games with a ranked team. Looking back at 2024–25, in games between two AP-ranked teams the better-ranked AP team won only 52% of the time; the model's pick won 66%, and the betting line's 64%.</dd>
+          <dt>Big games</dt><dd>This week's games with a Chili Poll ranked (1–35) or AP Top 25 team where the favorite is giving 14 points or less (by the betting line, or the model spread when there's no line). When both teams are ranked (the Chili Poll or AP), the limit is 21 points.</dd>
         </dl>
 
         <h2 id="m-cols">Columns and flags</h2>
         <dl>
           <dt>vs P4</dt><dd>Record against SEC, Big Ten, Big 12 and ACC teams, plus Notre Dame.</dd>
-          <dt>vs Wolp+ 25</dt><dd>Record against teams in the Wolp+ Top 25.</dd>
+          <dt>vs Chili 25</dt><dd>Record against teams in the Chili Poll Top 25.</dd>
           <dt>2025, Final AP</dt><dd>Last season's regular-season record and final AP rank.</dd>
           <dt>Off / Def EPA</dt><dd>Expected points added per play on offense, and allowed on defense (garbage time excluded). Defense: lower is better.</dd>
           <dt>SR, Expl</dt><dd>Success rate (share of plays that keep a drive on schedule) and explosiveness (size of successful plays).</dd>
           <dt>Adj …</dt><dd>The same stats, adjusted for the opponents faced.</dd>
           <dt>Defs / Offs faced</dt><dd>Strength of schedule: the average adjusted EPA of the FBS defenses (lower = tougher) and offenses (higher = tougher) a team has played.</dd>
-          <dt>▲ ▼ NEW</dt><dd>Movement since the previous week's Wolp+ ballot.</dd>
+          <dt>▲ ▼ NEW</dt><dd>Movement since the previous week's Chili Poll ballot.</dd>
           <dt>H2H, LOOP</dt><dd>Workspace reminders: a head-to-head result that disagrees with the order, or teams that beat each other in a circle.</dd>
         </dl>
 
@@ -551,7 +551,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       <div class="wgrid">
         <div>
           <div class="row" style="justify-content:flex-end;margin-bottom:6px"><details class="colmenu" id="colMenuB"><summary class="pill">Columns ▾</summary><div class="menu" id="colListB"></div></details></div>
-          <div class="bscroll"><div class="bcols" id="bcols" aria-hidden="true"></div><div id="ballot" aria-label="Wolp+ ballot"></div><div id="slots"></div></div>
+          <div class="bscroll"><div class="bcols" id="bcols" aria-hidden="true"></div><div id="ballot" aria-label="Chili Poll ballot"></div><div id="slots"></div></div>
           <p class="note">Drag the handle to reorder, or focus it and use the arrow keys. Teams 1–25 are the Top 25; 26–35 are shown as Also ranked. <b>H2H</b> marks a head-to-head result that disagrees with the order; <b>LOOP</b> marks teams that beat each other in a circle. Both are reminders only; tap one to see why.</p>
         </div>
         <aside class="pool" aria-label="All teams">
@@ -607,7 +607,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 <dialog id="cmpDlg" aria-labelledby="cmpTitle">
   <h3 id="cmpTitle">Compare</h3>
   <div class="cmpgrid" id="cmpGrid"></div>
-  <p class="dnote">Shaded games were close (one score, and in doubt late). Opponent ranks are Wolp+ ranks; records are current.</p>
+  <p class="dnote">Shaded games were close (one score, and in doubt late). Opponent ranks are Chili Poll ranks; records are current.</p>
   <div class="dlgbtns"><button class="btn quiet" id="cmpClear2">Clear selection</button><form method="dialog"><button class="btn">Close</button></form></div>
 </dialog>
 <div class="cmpbar" id="cmpBar" hidden><span id="cmpWho"></span><button class="btn primary" id="cmpGo">Compare</button><button class="btn quiet" id="cmpClear">Clear</button><button class="btn quiet" id="cmpDone">Done</button></div>
@@ -643,7 +643,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   const COLS = [
     {k:'rec',  h:'Record', menu:'Record', g:'This season', bw:'2.9rem', pw:'2.7rem'},
     {k:'p4',   h:'vs P4',  menu:'Record vs Power 4', g:'This season', bw:'2.9rem', pw:'2.7rem'},
-    {k:'t25',  h:'vs Wolp+ 25', menu:'Record vs the Wolp+ Top 25', g:'This season', bw:'3.4rem', pw:'3.2rem'},
+    {k:'t25',  h:'vs Chili 25', menu:'Record vs the Chili Poll Top 25', g:'This season', bw:'3.4rem', pw:'3.2rem'},
     {k:'ly',   h:'2025',   menu:'2025 record', g:'Last season', bw:'2.9rem', pw:'2.7rem'},
     {k:'lyAp', h:'Final AP', menu:'2025 final AP rank', g:'Last season', bw:'3rem', pw:'2.8rem'},
     {k:'offEpa', h:'Off EPA',  menu:'Offense EPA per play', g:'Efficiency', bw:'3rem', pw:'2.9rem', fmt:'n'},
@@ -658,7 +658,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     {k:'adjDefSr',  h:'Adj Def SR',  menu:'Adjusted defense success rate allowed', g:'Adjusted', bw:'3.6rem', pw:'3.4rem', fmt:'p', lo:true, off:true},
     {k:'sosDef', h:'Defs faced', menu:'Defenses faced (lower = tougher)', g:'Schedule', bw:'3.6rem', pw:'3.4rem', fmt:'n', lo:true, off:true},
     {k:'sosOff', h:'Offs faced', menu:'Offenses faced (higher = tougher)', g:'Schedule', bw:'3.6rem', pw:'3.4rem', fmt:'n', off:true},
-    {k:'frank', h:'Formula', menu:'Formula rank (Model + conference adjustments)', g:'Model', bw:'3.4rem', pw:'3.2rem', fmt:'r', lo:true, strong:true, val:a=>mdl().crank[a]},
+    {k:'frank', h:'Wolp+', menu:'Wolp+ rank (Model + conference adjustments)', g:'Model', bw:'3.4rem', pw:'3.2rem', fmt:'r', lo:true, strong:true, val:a=>mdl().crank[a]},
     {k:'powerRank',  h:'Model', menu:'Model rank (pure power rating)', g:'Model', bw:'2.9rem', pw:'2.7rem', fmt:'r', lo:true, off:true},
     {k:'proj', h:'Proj. record', menu:'Projected final record (10,000 simulated seasons)', g:'Model', bw:'4.6rem', pw:'4.4rem'},
     {k:'powerRating', h:'Rating', menu:'Power rating (points vs. an average team)', g:'Model', bw:'3rem', pw:'2.9rem', fmt:'n1', off:true},
@@ -704,8 +704,8 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   }
 
   // ---------- model ----------
-  // The Formula = the Model's power rating + the conference adjustments set under Formula ▾ (points; all 0 = pure Model).
-  // mdl().crank = {team: Formula rank}, n = number of rated teams. Spreads and win chances always use the pure Model.
+  // Wolp+ (the formula ranking) = the Model's power rating + the conference adjustments set under Wolp+ dials ▾ (points; all 0 = pure Model).
+  // mdl().crank = {team: Wolp+ rank}, n = number of rated teams. Spreads and win chances always use the pure Model.
   S.adj = {}; S.adjPub = {};
   const DIALS = ['SEC','Big Ten','Big 12','ACC','FBS Independents','Group of 5'];  // each Power 4 conference, Independents, all of the Group of 5
   const dialOf = conf => DIALS.includes(conf) ? conf : 'Group of 5';
@@ -741,7 +741,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     S.teams=T; S._mdl=null;
   }
   const modelFacts = a => { const t=S.teams[a]||{}, c=mdl().crank[a], n=v=>typeof v==='number';
-    return `<dl class="facts"><dt>Power rating</dt><dd>${n(t.powerRating)?t.powerRating.toFixed(1):'–'}${t.powerRank?` · Model #${t.powerRank}`:''}${c?` · Formula #${c}`:''}${adjOf(a)?` <span style="color:var(--muted);font-weight:500">(${esc(t.conf)} ${adjOf(a)>0?'+':''}${adjOf(a)})</span>`:''}</dd>
+    return `<dl class="facts"><dt>Power rating</dt><dd>${n(t.powerRating)?t.powerRating.toFixed(1):'–'}${t.powerRank?` · Model #${t.powerRank}`:''}${c?` · Wolp+ #${c}`:''}${adjOf(a)?` <span style="color:var(--muted);font-weight:500">(${esc(t.conf)} ${adjOf(a)>0?'+':''}${adjOf(a)})</span>`:''}</dd>
       <dt>Quality-wins score</dt><dd>${n(t.resumeScore)?t.resumeScore.toFixed(3):'–'}${t.resumeRank?` · Quality wins #${t.resumeRank}`:''}</dd>
       <dt>Quadrants</dt><dd>${qStr(a)}</dd>
       ${t.proj?`<dt>Projected</dt><dd>${projTxt(t)}${t.proj.unb?` · unbeaten ${Math.round(t.proj.unb*100)}%`:''} · 10+ wins ${Math.round(t.proj.w10*100)}% · bowl eligible ${Math.round(t.proj.bowl*100)}%</dd>`:''}
@@ -767,7 +767,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   const erf = x => { const t=1/(1+0.3275911*Math.abs(x)), y=1-(((((1.061405429*t-1.453152027)*t)+1.421413741)*t-0.284496736)*t+0.254829592)*t*Math.exp(-x*x); return x>=0?y:-y; };
   const winPct = m => Math.round(100*0.5*(1+erf(Math.abs(m)/((((S.model&&S.model.settings)||{}).SIM_SIGMA)||16)/Math.SQRT2)));
   const modelTxt = (m, h, a) => typeof m!=='number' || Math.round(Math.abs(m)*2)===0 ? spread(m,h,a) : `${spread(m,h,a)} · ${winPct(m)}%`;
-  // NET-style quadrants: by the opponent's Formula rank and where the game was played (FCS opponents = Q4)
+  // NET-style quadrants: by the opponent's Wolp+ rank and where the game was played (FCS opponents = Q4)
   const QT = {home:[11,29,61], neutral:[19,38,76], away:[29,51,91]};
   function quads(a){ const q={1:[0,0],2:[0,0],3:[0,0],4:[0,0]};
     for(const g of gamesOf(a)){ const r=mdl().crank[g.opp], cut=QT[g.site]||QT.neutral; const k = r ? (r<=cut[0]?1:r<=cut[1]?2:r<=cut[2]?3:4) : 4; q[k][g.result==='W'?0:1]++; }
@@ -780,8 +780,8 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   function apRank(a){ return S.ap && S.ap.ranks ? S.ap.ranks[a] : undefined; }
   function renderHome(){
     const n=pubNum(), list=pub(), ranks=pubMap(), prev = n!=null && prevNum(n)!=null ? rankMap(prevNum(n)) : null;
-    $('hTitle').innerHTML = `Wolp+ Top 25${n!=null?`<small>Week ${n}</small>`:''}`;
-    if(!list.length){ $('hTop').innerHTML='<div class="empty"><strong>No ballot yet</strong>The first Wolp+ Top 25 will appear here.</div>'; $('hAlso').innerHTML=''; }
+    $('hTitle').innerHTML = `Chili Poll Top 25${n!=null?`<small>Week ${n}</small>`:''}`;
+    if(!list.length){ $('hTop').innerHTML='<div class="empty"><strong>No ballot yet</strong>The first Chili Poll Top 25 will appear here.</div>'; $('hAlso').innerHTML=''; }
     else {
       const top=list.slice(0,TOP), half=Math.ceil(top.length/2);
       const row=(a,i)=>`<button class="trow" data-open="${esc(a)}" style="--tc:${tc(a)}"><span class="rk">${i+1}</span>${moveOf(a,i+1,prev)}${logo(a)}<span class="tn">${esc(nm(a))}</span><span class="tr">${S.teams[a]?rec(S.teams[a].w,S.teams[a].l):''}</span></button>`;
@@ -789,10 +789,10 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       const rest=list.slice(TOP);
       $('hAlso').innerHTML = rest.length ? `Also ranked: ${rest.map((a,i)=>`<b>${TOP+i+1}</b> ${esc(nm(a))}`).join(' · ')}` : '';
     }
-    // fraud watch / under the radar (both Wolp+ and the Model must disagree with the AP)
+    // fraud watch / under the radar (both the Chili Poll and the Model must disagree with the AP)
     const cr=mdl().crank, apR=(S.ap&&S.ap.ranks)||{}, hasAp=Object.keys(apR).length>0 && list.length>0;
     const wrow = a => `<button class="wrow" data-open="${esc(a)}">${logo(a)}<div class="wn"><b>${esc(nm(a))}</b><small>${S.teams[a]?rec(S.teams[a].w,S.teams[a].l)+' · '+esc(S.teams[a].conf||''):''}</small></div>
-      <div class="wk"><span><small>AP</small>${apR[a]?'#'+apR[a]:'NR'}</span><span><small>Wolp+</small>${ranks[a]?'#'+ranks[a]:'NR'}</span><span><small>Formula</small>${cr[a]?'#'+cr[a]:'–'}</span></div></button>`;
+      <div class="wk"><span><small>AP</small>${apR[a]?'#'+apR[a]:'NR'}</span><span><small>Chili</small>${ranks[a]?'#'+ranks[a]:'NR'}</span><span><small>Wolp+</small>${cr[a]?'#'+cr[a]:'–'}</span></div></button>`;
     const fraud = Object.keys(apR).filter(a=>S.teams[a] && (ranks[a]||MAX+1)-apR[a]>=FRAUD && (cr[a]||999)-apR[a]>=FRAUD).sort((a,b)=>((ranks[b]||MAX+1)-apR[b])-((ranks[a]||MAX+1)-apR[a]) || apR[a]-apR[b]);
     const radar = list.filter(a=>(apR[a]||AP_NR)-ranks[a]>=FRAUD && (apR[a]||AP_NR)-(cr[a]||999)>=FRAUD).sort((a,b)=>((apR[b]||AP_NR)-ranks[b])-((apR[a]||AP_NR)-ranks[a]));
     const none = '<p class="lead" style="margin:0">No one this week.</p>', wait='<p class="lead" style="margin:0">Waiting for the AP poll and a saved ballot.</p>';
@@ -850,18 +850,18 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     const dots = gamesOf(a).map(g=>{
       const m=Math.abs(g.pf-g.pa), size = m<=8 ? 1 : m<=16 ? 2 : 3;
       const lab = bw.bw && bw.bw.g===g ? 'Best' : bw.wl && bw.wl.g===g ? 'Worst' : '';
-      const tip = `${g.result} ${gScore(g).replace('-','–')}${g.ot?' (OT)':''} ${gAt(g)} ${gOppName(g.opp,ranksForDots)}, ${gOppRec(g.opp)}${mdl().crank[g.opp]?', Formula #'+mdl().crank[g.opp]:''}`;
+      const tip = `${g.result} ${gScore(g).replace('-','–')}${g.ot?' (OT)':''} ${gAt(g)} ${gOppName(g.opp,ranksForDots)}, ${gOppRec(g.opp)}${mdl().crank[g.opp]?', Wolp+ #'+mdl().crank[g.opp]:''}`;
       return {size, lab, html:`<button class="dot ${g.result} s${size}${g.ot?' ot':isClose(g)?' close':''}" style="left:${(oppPos(g.opp)*100).toFixed(2)}%" data-tip="${esc(tip)}" aria-label="${esc(tip)}">${ranksForDots[g.opp]?`<span class="drk">${ranksForDots[g.opp]}</span>`:''}${lab?`<span class="dlb${lab==='Worst'?' up':''}">${lab}</span>`:''}</button>`};
     }).sort((p,q)=>(q.size-p.size) || ((p.lab?1:0)-(q.lab?1:0))).map(d=>d.html).join('');
     const rk = rank ? `<span class="rk">${rank}</span>` : '<span class="rk none">–</span>';
     const grip = drag ? `<button class="grip" aria-label="Move ${esc(t.name)}, rank ${rank}. Use arrow keys." data-i="${rank-1}">${GRIP}</button>` : '';
     return `<div class="mrow" data-abbr="${esc(a)}" style="--tc:${tc(a)}">${rk}${rank?moveOf(a,rank,prev):'<span class="mv"></span>'}${grip}${logo(a)}<button class="nm" data-open="${esc(a)}"><b>${esc(t.name)}</b><small>${rec(t.w,t.l)} · ${esc(t.conf||'')}</small></button><div class="track"><div class="din">${dots}</div></div><span class="cr">${mdl().crank[a]?'#'+mdl().crank[a]:''}</span>${cmpBox(a)}</div>`;
   }
-  const axis = drag => `<div class="axis"><span></span><span></span>${drag?'<span></span>':''}<span></span><span></span><div class="ax"><span>#${mdl().n||''}</span><span>Opponent Formula rank</span><span>#1</span></div><span style="text-align:right">Formula</span>${S.cmpOn?'<span></span>':''}</div>`;
-  const legend = () => `<span><i class="dot W s2"></i>Win</span><span><i class="dot L s2"></i>Loss</span><span><i class="dot s1"></i><i class="dot s2"></i><i class="dot s3"></i>Margin 1–8 · 9–16 · 17+</span><span><i class="dot s2 close"></i>Close game</span><span><i class="dot s2 ot"></i>Overtime</span><span><b>6</b>Opponent’s Wolp+ rank</span>`;
+  const axis = drag => `<div class="axis"><span></span><span></span>${drag?'<span></span>':''}<span></span><span></span><div class="ax"><span>#${mdl().n||''}</span><span>Opponent Wolp+ rank</span><span>#1</span></div><span style="text-align:right">Wolp+</span>${S.cmpOn?'<span></span>':''}</div>`;
+  const legend = () => `<span><i class="dot W s2"></i>Win</span><span><i class="dot L s2"></i>Loss</span><span><i class="dot s1"></i><i class="dot s2"></i><i class="dot s3"></i>Margin 1–8 · 9–16 · 17+</span><span><i class="dot s2 close"></i>Close game</span><span><i class="dot s2 ot"></i>Overtime</span><span><b>6</b>Opponent’s Chili Poll rank</span>`;
   function renderRank(){
     const n=pubNum(), ranks=pubMap(), prev = n!=null && prevNum(n)!=null ? rankMap(prevNum(n)) : null, R=S.r, cr=mdl().crank;
-    $('rTitle').textContent = `Wolp+ Top 25${n!=null?' · Week '+n:''}`;
+    $('rTitle').textContent = `Chili Poll Top 25${n!=null?' · Week '+n:''}`;
     $('rSub').textContent = stampText() + (n!=null && S.weeks[n].savedAt ? ` · ballot saved ${new Date(S.weeks[n].savedAt).toLocaleDateString('en-US',{month:'short',day:'numeric'})}` : '');
     document.querySelectorAll('[data-show]').forEach(b=>b.classList.toggle('on', b.dataset.show===R.show));
     document.querySelectorAll('[data-ms]').forEach(b=>b.classList.toggle('on', b.dataset.ms===R.ms));
@@ -901,7 +901,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     const firstOf = new Set(); { let g=''; cols.forEach(c=>{ if(c.g!==g) firstOf.add(c.k); g=c.g; }); }
     const th = (c,label,extra='') => `<th data-c="${c}" class="${R.col===c?'on':''}${R.col===c&&R.rev?' rev':''}${extra}">${label}</th>`;
     $('rTable').innerHTML = `<thead><tr class="grph"><th colspan="3"></th>${groups.map(g=>`<th class="g1" colspan="${g.n}">${esc(g.g)}</th>`).join('')}${S.cmpOn?'<th></th>':''}</tr>
-      <tr class="cols">${th('wolp','Wolp+')}<th></th>${th('name','Team','" style="text-align:left')}${cols.map(c=>th(c.k,c.h,firstOf.has(c.k)?' g1':'')).join('')}${S.cmpOn?'<th>Cmp</th>':''}</tr></thead>
+      <tr class="cols">${th('wolp','Chili')}<th></th>${th('name','Team','" style="text-align:left')}${cols.map(c=>th(c.k,c.h,firstOf.has(c.k)?' g1':'')).join('')}${S.cmpOn?'<th>Cmp</th>':''}</tr></thead>
       <tbody>${T.map(a=>`<tr style="--tc:${tc(a)}"><td class="rkc${ranks[a]?'':' none'}">${ranks[a]||'–'}</td><td class="c-mv">${ranks[a]?moveOf(a,ranks[a],prev):''}</td><td class="tmc"><button class="tb" data-open="${esc(a)}">${logo(a)}<span>${esc(nm(a))}</span></button></td>${cols.map(c=>cell(c,a).replace('<td class="', `<td class="${firstOf.has(c.k)?'g1 ':''}`)).join('')}${S.cmpOn?`<td>${cmpBox(a)}</td>`:''}</tr>`).join('')}</tbody>`;
     $('colList').innerHTML = colMenu('r');
   }
@@ -943,7 +943,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   function renderScore(){
     const P=(S.picks||[]).filter(w=>w.games.some(g=>g.hp!=null)), el=$('scoreBody');
     if(!P.length){ el.innerHTML='<p class="lead" style="margin:0">The first week is graded once its games are final.</p>'; return; }
-    const SYS=['Wolp+','AP','Model','Line'], tot={}; SYS.forEach(k=>tot[k]=[0,0]); let totN=0;
+    const SYS=['Chili Poll','AP','Model','Line'], tot={}; SYS.forEach(k=>tot[k]=[0,0]); let totN=0;
     const fmt = r => r[0]+r[1] ? `${r[0]}-${r[1]} <span class="dim" style="color:var(--muted)">(${Math.round(100*r[0]/(r[0]+r[1]))}%)</span>` : '—';
     const rows = P.map(w=>{
       const rm = S.weeks[w.week] ? rankMap(w.week) : null, ap = w.ap || null, rec2={}; SYS.forEach(k=>rec2[k]=[0,0]); let n=0;
@@ -953,7 +953,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
         if(!inW && !inA) return;
         n++; const homeWon = g.hp>g.ap;
         const pick = (h,a,none) => (h===none && a===none) ? null : h<a;   // true = home
-        const picks = {'Wolp+': rm ? pick(rm[g.home]||MAX+1, rm[g.away]||MAX+1, MAX+1) : null,
+        const picks = {'Chili Poll': rm ? pick(rm[g.home]||MAX+1, rm[g.away]||MAX+1, MAX+1) : null,
                        'AP': ap ? pick(ap[g.home]||26, ap[g.away]||26, 26) : null,
                        'Model': typeof g.model==='number' && g.model!==0 ? g.model>0 : null,
                        'Line': typeof g.line==='number' && g.line!==0 ? g.line>0 : null};
@@ -969,7 +969,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   function renderHistory(){
     renderScore();
     const nums=savedNums(), el=$('histBody');
-    if(!nums.length){ el.innerHTML='<div class="empty"><strong>No saved weeks yet</strong>Each saved Wolp+ ballot will line up here.</div>'; return; }
+    if(!nums.length){ el.innerHTML='<div class="empty"><strong>No saved weeks yet</strong>Each saved Chili Poll ballot will line up here.</div>'; return; }
     const maps = nums.map(rankMap), last = maps[maps.length-1];
     const all = new Set(); maps.forEach(m=>Object.keys(m).forEach(a=>all.add(a)));
     const best = a => Math.min(...maps.map(m=>m[a]||99));
@@ -1277,7 +1277,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   }
   function dialStatus(){
     const same = JSON.stringify(cleanAdj(S.adj))===JSON.stringify(cleanAdj(S.adjPub)), any=Object.values(S.adj).some(v=>+v);
-    $('fSum').textContent = any ? 'Formula ▾ (adjusted)' : 'Formula ▾';
+    $('fSum').textContent = any ? 'Wolp+ dials ▾ (adjusted)' : 'Wolp+ dials ▾';
     $('fSave').disabled = same;
     $('fNote').textContent = same ? (S.canWrite ? 'Everyone sees these.' : 'The site’s saved settings.') : (S.canWrite ? 'Only you see this until you save.' : 'Only your view changes.');
   }
@@ -1329,7 +1329,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     const t=S.teams[a]; if(!t) return;
     const ranks = S.tab==='work' ? draftMap() : pubMap(), apR=apRank(a);
     $('dName').innerHTML = logo(a) + esc(t.name);
-    $('dSub').textContent = `${t.conf}${t.p4?', Power 4':''}${ranks[a]?` · Wolp+ #${ranks[a]}`:''}${apR?` · AP #${apR}`:''}`;
+    $('dSub').textContent = `${t.conf}${t.p4?', Power 4':''}${ranks[a]?` · Chili Poll #${ranks[a]}`:''}${apR?` · AP #${apR}`:''}`;
     $('dFacts').innerHTML = `<dt>2026 record</dt><dd>${rec(t.w,t.l)}</dd><dt>vs P4</dt><dd>${rec(t.p4w,t.p4l)}</dd><dt>2025 record</dt><dd>${rec(t.lyW,t.lyL)}</dd><dt>2025 final AP</dt><dd>${t.lyAp?'#'+t.lyAp:'Not ranked'}</dd>`;
     $('dAdv').innerHTML = advTable(t) + modelFacts(a);
     const games=gamesOf(a), bwl=bestWorst(a), bw=bwl.bw&&bwl.bw.g, wl=bwl.wl&&bwl.wl.g;
@@ -1342,12 +1342,12 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     $('dSumm').innerHTML = games.length ? [
       `<i>Best win</i> ${bw ? esc(oppDesc(bw.opp))+' '+gScore(bw) : 'none'}`,
       `<i>Worst loss</i> ${wl ? esc(oppDesc(wl.opp))+' '+gScore(wl) : 'none'}`,
-      `<i>vs Wolp+ 25</i> ${t25.w}-${t25.l}`,
+      `<i>vs Chili 25</i> ${t25.w}-${t25.l}`,
       `<i>One-score games</i> ${one.w}-${one.l}`].map(x=>`<span>${x}</span>`).join('') : '';
     $('dGames').innerHTML = games.map(g=>{ const c=isClose(g);
       return `<li class="${c?'close':''}"><span class="res ${g.result}">${g.result}</span><span class="sc">${gScore(g)}${g.ot?' OT':''}</span><span class="op">${gAt(g)} ${esc(gOppName(g.opp,ranks))}${g.site==='neutral'?' <span class="dt">(neutral)</span>':''}</span><span class="dt">${fmtDate(g.date)}</span>${gEpa(g)}</li>`; }).join('');
     $('dGames').hidden = !games.length;
-    $('dNote').textContent = games.length ? 'Shaded games were close (one score, and in doubt late). Ranks are Wolp+ ranks.' : 'No games played yet.';
+    $('dNote').textContent = games.length ? 'Shaded games were close (one score, and in doubt late). Ranks are Chili Poll ranks.' : 'No games played yet.';
     // remaining schedule: date, opponent, model spread and win chance from this team's side
     const up = Array.isArray(t.upcoming) ? t.upcoming : [], sch=S.schedule||{};
     $('dNextH').hidden = $('dNext').hidden = !up.length;
@@ -1386,8 +1386,8 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     const ranks = S.tab==='work' ? draftMap() : pubMap();
     $('cmpGrid').innerHTML = S.cmp.map(a=>{
       const t=S.teams[a]||{name:a,conf:''}, r=vsTop(a,ranks), games=gamesOf(a);
-      return `<div class="cmpcol"><h4>${logo(a)}${esc(t.name)}</h4><div class="sub">${esc(t.conf||'')} · ${ranks[a]?'Wolp+ #'+ranks[a]:'Not in the Wolp+ 35'}</div>
-        <dl class="facts"><dt>Record</dt><dd>${rec(t.w,t.l)}</dd><dt>vs P4</dt><dd>${rec(t.p4w,t.p4l)}</dd><dt>vs Wolp+ 25</dt><dd>${r.w}-${r.l}</dd></dl>
+      return `<div class="cmpcol"><h4>${logo(a)}${esc(t.name)}</h4><div class="sub">${esc(t.conf||'')} · ${ranks[a]?'Chili Poll #'+ranks[a]:'Not in the Chili Poll 35'}</div>
+        <dl class="facts"><dt>Record</dt><dd>${rec(t.w,t.l)}</dd><dt>vs P4</dt><dd>${rec(t.p4w,t.p4l)}</dd><dt>vs Chili 25</dt><dd>${r.w}-${r.l}</dd></dl>
         ${advTable(t)}${modelFacts(a)}
         <ul class="glog">${games.map(g=>`<li class="${isClose(g)?'close':''}"><span class="res ${g.result}">${g.result}</span><span class="sc">${gScore(g)}</span><span class="op">${gAt(g)} ${esc(gOppName(g.opp,ranks))}</span><span class="dt">${gOppRec(g.opp)}</span></li>`).join('')}</ul>
         ${games.length?'':'<p class="dnote">No games yet.</p>'}</div>`;
