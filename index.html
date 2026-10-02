@@ -1183,16 +1183,28 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   // ---------- my ballots (Supabase) ----------
   // The database decides who may submit, until when, and what a valid ballot is. The page mirrors those rules so
   // people see the right controls, and shows the database's answer in plain English when it refuses.
-  const BMAX = 25;  // a Straw Poll ballot is exactly 25 teams (the archived weeks 1-5 ballots had up to 35)
-  S.vote = {season:null, state:'idle', weeks:{}, mine:{}};  // weeks: {week: lock time}; mine: {week: {ranking, at}}
+  // A week is OPEN until its deadline, then LATE for 7 days (a ballot sent then waits for the owner's approval,
+  // backend/008_late_ballots.sql), then CLOSED.
+  const BMAX = 25;          // a Straw Poll ballot is exactly 25 teams (the archived weeks 1-5 ballots had up to 35)
+  const LATE_MS = 7*864e5;  // must match the late window in backend/008_late_ballots.sql
+  S.vote = {season:null, state:'idle', weeks:{}, mine:{}, late:{}};  // weeks: {week: deadline}; mine/late: {week: ballot}
+  S.busy = false;
   const serverNow = () => Date.now() + (S.clockSkew||0);  // S.clockSkew: see the accounts section
   const lockOf = n => S.vote.weeks[n] ? new Date(S.vote.weeks[n]) : null;
-  const isOpen = n => { const l=lockOf(n); return !!l && serverNow() < l.getTime(); };
+  function phase(n){
+    const l = lockOf(n); if(!l) return 'none';
+    const t = serverNow() - l.getTime();
+    return t < 0 ? 'open' : t < LATE_MS ? 'late' : 'closed';
+  }
+  const isOpen = n => phase(n)==='open';
+  const editable = n => S.canWrite && (phase(n)==='open' || (phase(n)==='late' && !(S.vote.late[n] && S.vote.late[n].status==='declined')));
   function openWeekNum(){ const o=Object.keys(S.vote.weeks).map(Number).filter(isOpen).sort((a,b)=>a-b); return o.length ? o[0] : null; }
   // deadlines always shown in Eastern time (the IANA zone handles daylight saving)
   const etTime = d => d.toLocaleString('en-US', {timeZone:'America/New_York', weekday:'short', month:'short', day:'numeric', hour:'numeric', minute:'2-digit'}) + ' ET';
   const atTime = t => new Date(t).toLocaleString('en-US', {weekday:'short', month:'short', day:'numeric', hour:'numeric', minute:'2-digit'});
   const sameList = (a, b) => !!a && !!b && a.length===b.length && a.every((x,i)=>x===b[i]);
+  // what the draft is compared with: a pending late ballot, else the submitted ballot
+  function baseOf(n){ const lt=S.vote.late[n]; return lt && lt.status==='pending' && phase(n)==='late' ? lt : S.vote.mine[n] || null; }
   // my ballots by week; the owner's archived weeks 1-5 rankings count as theirs (cut to 25)
   function myBallots(){
     const b = {};
@@ -1205,38 +1217,73 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     if(!w.length) return null;
     const m={}; b[w[w.length-1]].forEach((a,i)=>m[a]=i+1); return m;
   }
+  // starting points for a new ballot; only this season's FBS teams, at most 25
+  function startList(kind){
+    const keep = L => L.filter(a=>S.teams[a]).slice(0, BMAX);
+    if(kind==='wolp'){ const cr=mdl().crank; return keep(Object.keys(S.teams).filter(a=>cr[a]).sort((a,b)=>cr[a]-cr[b])); }
+    if(kind==='ap'){ const r=(S.ap&&S.ap.ranks)||{}; return keep(Object.keys(r).sort((a,b)=>r[a]-r[b])); }
+    if(kind==='last'){ const b=myBallots(), w=Object.keys(b).map(Number).filter(x=>x<S.cur).sort((x,y)=>x-y); return w.length ? keep(b[w[w.length-1]]) : []; }
+    return [];
+  }
+
+  // Unsubmitted work is kept in this browser, per user, season and week, with the time of the ballot it was based on,
+  // so a newer submission from another device is never silently overwritten.
+  const draftKey = n => S.me && S.vote.season ? `sp-draft:${S.me.user.id}:${S.vote.season}:${n}` : null;
+  function stashDraft(){
+    const k=draftKey(S.cur); if(!k) return;
+    const base=baseOf(S.cur);
+    try{ if(S.dirty && editable(S.cur)) localStorage.setItem(k, JSON.stringify({ranking:S.draft, base: base ? base.at : null}));
+         else localStorage.removeItem(k); }catch(e){}
+  }
+  function readStash(n){
+    const k=draftKey(n); if(!k) return null;
+    try{ const x=JSON.parse(localStorage.getItem(k)||'null'); return x && Array.isArray(x.ranking) ? {ranking:x.ranking.filter(a=>S.teams[a]).slice(0, BMAX), base:x.base||null} : null; }
+    catch(e){ return null; }
+  }
+
   const renderWorkIfShown = () => { if(S.tab==='work') renderWork(); };
   async function loadVoting(){
-    S.vote = {season:null, state:'loading', weeks:{}, mine:{}}; S.cur=null; S.draft=[]; S.dirty=false; renderWorkIfShown();
+    clearVoting(); S.vote.state='loading'; renderWorkIfShown();
     await teamsReady;
     const season = S.meta && S.meta.season, uid = S.me && S.me.user.id;
     if(!season || !uid){ S.vote.state='error'; renderWorkIfShown(); return; }
-    const [w, b] = await Promise.all([
+    // only my own ballots: after a deadline the owner's account may read everyone's
+    const [w, b, l] = await Promise.all([
       sb.from('weeks').select('week,lock_at').eq('season', season),
-      // only my own: after a lock the owner's account may read everyone's
-      sb.from('ballots').select('week,ranking,submitted_at').eq('season', season).eq('user_id', uid)
+      sb.from('ballots').select('week,ranking,submitted_at').eq('season', season).eq('user_id', uid),
+      sb.from('late_ballots').select('week,ranking,submitted_at,status').eq('season', season).eq('user_id', uid)
     ]);
     if(!S.me || S.me.user.id!==uid) return;  // signed out or switched accounts while loading
-    if(w.error || b.error){ S.vote.state='error'; S.vote.err=w.error||b.error; renderWorkIfShown(); return; }
+    const bad = w.error || b.error || l.error;
+    if(bad){ S.vote.state='error'; S.vote.err=bad; renderWorkIfShown(); return; }
     S.vote = {season, state:'ready',
       weeks: Object.fromEntries(w.data.map(x=>[x.week, x.lock_at])),
-      mine: Object.fromEntries(b.data.map(x=>[x.week, {ranking:x.ranking, at:x.submitted_at}]))};
-    const open=openWeekNum(), have=Object.keys(S.vote.mine).map(Number);
-    loadWeek(open!=null ? open : have.length ? Math.max(...have) : null);
+      mine: Object.fromEntries(b.data.map(x=>[x.week, {ranking:x.ranking, at:x.submitted_at}])),
+      late: Object.fromEntries(l.data.map(x=>[x.week, {ranking:x.ranking, at:x.submitted_at, status:x.status}]))};
+    const open=openWeekNum(), menu=weekMenu();
+    loadWeek(open!=null ? open : menu.length ? menu[menu.length-1] : null);
   }
-  function clearVoting(){ S.vote = {season:null, state:'idle', weeks:{}, mine:{}}; S.cur=null; S.draft=[]; S.dirty=false; clearTimeout(lockTimer); }
+  function clearVoting(){ S.vote = {season:null, state:'idle', weeks:{}, mine:{}, late:{}}; S.cur=null; S.draft=[]; S.dirty=false; clearTimeout(lockTimer); }
   function loadWeek(n){
     S.cur = n;
-    const sub = S.vote.mine[n];
-    S.draft = sub ? sub.ranking.slice() : [];
-    setDirty(); armLockTimer(); renderWorkIfShown();
+    const base = baseOf(n), stash = n!=null && editable(n) ? readStash(n) : null;
+    let draft = base ? base.ranking.slice() : null, kept = false;
+    if(stash){
+      const newer = base && base.at!==stash.base;  // submitted again elsewhere after this draft was started
+      const keep = !sameList(stash.ranking, draft) && (!newer || confirm(`This browser has unsubmitted changes to your week ${n} ballot, made before the one you submitted ${atTime(base.at)}. Keep those changes?\n\nOK keeps the changes; Cancel shows your submitted ballot.`));
+      if(keep){ draft = stash.ranking.slice(); kept = true; } else try{ localStorage.removeItem(draftKey(n)); }catch(e){}
+    }
+    if(!draft) draft = n!=null && editable(n) ? startList('last') : [];
+    S.draft = draft; refreshDirty(); armLockTimer(); renderWorkIfShown();
+    if(kept) stashDraft();  // re-save against the latest submission, so the question isn't asked again
   }
-  // re-render the moment the open week locks, so the page never offers a submit the database will refuse
+  // re-render the moment the week locks or its late window ends, so the page never offers what the database refuses
   let lockTimer = null;
   function armLockTimer(){
     clearTimeout(lockTimer);
-    const l = lockOf(S.cur), ms = l ? l.getTime() - serverNow() : -1;
-    if(ms > 0 && ms < 2**31 - 1) lockTimer = setTimeout(()=>{ renderStatus(); renderWorkIfShown(); }, ms + 1000);
+    const l = lockOf(S.cur); if(!l) return;
+    const next = [l.getTime(), l.getTime()+LATE_MS].map(t=>t-serverNow()).find(ms=>ms>0);
+    if(next && next < 2**31 - 1) lockTimer = setTimeout(()=>{ refreshDirty(); renderWorkIfShown(); armLockTimer(); }, next + 1000);
   }
   // Supabase errors in plain English (never raw codes)
   function sbErr(e, fallback){
@@ -1245,27 +1292,84 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     if(e && (e.code==='PGRST301' || /jwt/i.test(m))) return 'Your sign-in has expired. Sign in again; your unsubmitted changes stay in this browser.';
     return fallback;
   }
-  function setDirty(){ S.dirty = !sameList(S.draft, (S.vote.mine[S.cur]||{}).ranking); renderStatus(); }
+  // after an edit: remember it in this browser. refreshDirty alone is for re-checks that aren't edits (loading, deadlines).
+  function refreshDirty(){ S.dirty = !sameList(S.draft, (baseOf(S.cur)||{}).ranking); renderStatus(); }
+  function setDirty(){ refreshDirty(); stashDraft(); }
   function renderStatus(){
-    const st=$('status'), sv=$('save'), n=S.cur, L=lockOf(n), open=isOpen(n), sub=S.vote.mine[n];
-    $('view-work').classList.toggle('ro', !open);
-    $('deadline').innerHTML = !L ? '' : open ? `Voting closes <b>${esc(etTime(L))}</b>` : `Voting closed ${esc(etTime(L))}`;
-    let msg, warn=false;
+    const st=$('status'), sv=$('save'), wd=$('withdraw'), n=S.cur, L=lockOf(n), ph=phase(n), can=editable(n);
+    const sub=S.vote.mine[n], lt=S.vote.late[n], pend = lt && lt.status==='pending' && ph==='late', declined = lt && lt.status==='declined';
+    $('view-work').classList.toggle('ro', !can);
+    [wSortable, S.sortBallot, S.sortPool].forEach(x=>{ if(x) x.option('disabled', !can); });
+    $('deadline').innerHTML = !L ? '' : ph==='open' ? `Voting closes <b>${esc(etTime(L))}</b>`
+      : ph==='late' && !declined ? `Voting closed ${esc(etTime(L))} · late ballots need the owner’s approval` : `Voting closed ${esc(etTime(L))}`;
+    let msg, warn=false, btn='Submit ballot';
     if(S.vote.state==='loading') msg='Loading your ballots…';
     else if(S.vote.state==='error'){ msg=sbErr(S.vote.err, 'Your ballots couldn’t load. Reload the page to try again.'); warn=true; }
     else if(n==null) msg='No week is open for voting yet. Voting opens after the weekend’s games.';
-    else if(!open) msg = sub ? 'Submitted ' + atTime(sub.at) : 'No ballot submitted';
-    else msg = sub ? 'Submitted ' + atTime(sub.at) : `${S.draft.length} of ${BMAX} ranked`;
+    else if(declined) msg = 'Your late ballot wasn’t accepted' + (sub ? `; your on-time ballot (${atTime(sub.at)}) counts.` : '.');
+    else if(!can) msg = sub ? 'Submitted ' + atTime(sub.at) : 'No ballot submitted';
+    else if(S.draft.length<BMAX){ msg=`${S.draft.length} of ${BMAX} ranked`; warn=true; }
+    else if(S.dirty && ph==='late'){ msg = sub && !pend ? `Your on-time ballot (${atTime(sub.at)}) counts. Changes now go in as a late ballot for the owner to approve.` : 'Ready to send as a late ballot'; warn=true; }
+    else if(S.dirty){ msg = sub ? 'Changes not submitted' : 'Ready to submit'; warn=true; }
+    else if(pend){ msg = `Late ballot sent ${atTime(lt.at)}. It counts once the owner approves it.`; btn='Pending'; }
+    else { msg = 'Submitted ' + atTime(sub.at); btn='Submitted'; }
     st.textContent=msg; st.className='status'+(warn?' warn':'');
-    sv.hidden = !open; sv.disabled = true;
-    $('withdraw').hidden = true; $('startFrom').hidden = true;
+    sv.hidden = !can; sv.textContent = S.busy ? 'Sending…' : btn;
+    sv.disabled = S.busy || !can || S.draft.length!==BMAX || !S.dirty;
+    wd.hidden = !can || !(pend || (ph==='open' && sub)); wd.disabled = S.busy;
+    $('startFrom').hidden = !can;
     $('openWeek').hidden = !(S.isOwner && S.vote.state==='ready' && openWeekNum()==null);
   }
+  // weeks to choose from: ones I voted in or sent a late ballot for, the open week, and weeks still taking late ballots
+  function weekMenu(){
+    const ws = Object.keys(S.vote.mine).concat(Object.keys(S.vote.late), Object.keys(S.vote.weeks).filter(n=>{ const p=phase(n); return p==='open' || p==='late'; }));
+    if(S.cur!=null) ws.push(S.cur);
+    return [...new Set(ws.map(Number))].sort((a,b)=>a-b);
+  }
   function renderWeekBar(){
-    const sel=$('weekSel'), open=openWeekNum();
-    const weeks=[...new Set(Object.keys(S.vote.mine).map(Number).concat(open==null?[]:[open], S.cur==null?[]:[S.cur]))].sort((a,b)=>a-b);
-    sel.innerHTML = weeks.map(n=>`<option value="${n}"${n===S.cur?' selected':''}>${n}${isOpen(n)?' (open)':''}</option>`).join('');
+    const sel=$('weekSel'), weeks=weekMenu();
+    const tag = n => isOpen(n) ? ' (open)' : phase(n)==='late' && editable(n) ? ' (late)' : '';
+    sel.innerHTML = weeks.map(n=>`<option value="${n}"${n===S.cur?' selected':''}>${n}${tag(n)}</option>`).join('');
     sel.hidden = !weeks.length;
+  }
+  // Submit or resubmit: one ballot per user per week (upsert), so retries can't duplicate. On time it counts as is;
+  // in the late window it waits for the owner's approval.
+  async function submitBallot(){
+    const n=S.cur, ph=phase(n);
+    if(S.busy || !editable(n) || S.draft.length!==BMAX || !S.dirty) return;
+    const late = ph==='late', table = late ? 'late_ballots' : 'ballots';
+    S.busy=true; renderStatus();
+    const row = {user_id:S.me.user.id, season:S.vote.season, week:n, ranking:S.draft.slice()};
+    const { data, error } = await sb.from(table).upsert(row, {onConflict:'user_id,season,week'}).select('ranking,submitted_at' + (late ? ',status' : '')).single();
+    S.busy=false;
+    if(error){
+      const was=ph; refreshDirty();  // the server's time came back with the error, so the phase may have moved on
+      const now=phase(n);
+      toast(error.code==='P0001' && /teams?/i.test(error.message||'') ? error.message
+        : error.code==='42501' && was==='open' && now==='late' ? `Voting for week ${n} closed at ${etTime(lockOf(n))}. You can still send it as a late ballot for the owner to approve.`
+        : error.code==='42501' && now==='closed' ? `Week ${n} is no longer taking ballots.`
+        : error.code==='42501' ? 'This ballot can’t be submitted. Reload the page and try again.'
+        : sbErr(error, 'Couldn’t submit. Try again; your changes stay in this browser.'));
+      renderWorkIfShown(); return;
+    }
+    if(late) S.vote.late[n] = {ranking:data.ranking, at:data.submitted_at, status:data.status};
+    else S.vote.mine[n] = {ranking:data.ranking, at:data.submitted_at};
+    S.draft = data.ranking.slice(); setDirty(); renderWork();
+    toast(late ? `Late ballot sent for week ${n}. It counts once the owner approves it.` : `Week ${n} ballot submitted`);
+  }
+  async function withdrawBallot(){
+    const n=S.cur, late=phase(n)==='late';
+    if(S.busy || !editable(n)) return;
+    if(!confirm(late ? `Withdraw your late ballot for week ${n}?` : `Withdraw your week ${n} ballot? It won’t count unless you submit again before the deadline.`)) return;
+    S.busy=true; renderStatus();
+    const { data, error } = await sb.from(late ? 'late_ballots' : 'ballots').delete()
+      .eq('user_id', S.me.user.id).eq('season', S.vote.season).eq('week', n).select('week');
+    S.busy=false;
+    if(error){ toast(sbErr(error, 'Couldn’t withdraw. Try again.')); renderStatus(); return; }
+    if(!data.length){ refreshDirty(); toast(`Week ${n} has closed, so the ballot can’t be withdrawn.`); renderWorkIfShown(); return; }
+    if(late) delete S.vote.late[n]; else delete S.vote.mine[n];
+    setDirty(); renderWork();
+    toast('Ballot withdrawn. Your teams are still here if you want to submit again.');
   }
   function renderHeads(){
     const b=[], p=shown('p');  // the compact list has no stat columns (team pop-up has them)
@@ -1302,7 +1406,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     $('ballot').innerHTML = S.draft.map((a,i)=> (i===TOP ? '<div class="cut" data-cut>Also ranked 26–35</div>' : '') + row(a,i)).join('');
     let h='';
     if(!S.draft.length) h += `<div class="empty"><strong>The ballot is empty</strong>Add teams from the list, or drag them in.</div>`;
-    for(let i=S.draft.length;i<MAX && S.draft.length;i++) h += (i===TOP && S.draft.length<=TOP ? '<div class="cut">Also ranked 26–35</div>' : '') + `<div class="slot"><span class="rk">${i+1}</span><span>Open spot</span></div>`;
+    for(let i=S.draft.length;i<BMAX && S.draft.length;i++) h += `<div class="slot"><span class="rk">${i+1}</span><span>Open spot</span></div>`;
     $('slots').innerHTML = h + ballotNotes(an, prev);
   }
   function ballotNotes(an, prev){  // circular results and teams that dropped out (list and map)
@@ -1330,23 +1434,23 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       q2:(x,y)=> { const a=quads(x[0])[2], b=quads(y[0])[2]; return (b[0]-a[0]) || (a[1]-b[1]) || x[1].name.localeCompare(y[1].name); },
       name:(x,y)=> x[1].name.localeCompare(y[1].name) }[S.sort] || statSort(S.sort);
     list.sort(cmp);
-    const full = S.draft.length>=MAX;
+    const full = S.draft.length>=BMAX;
     $('pool').innerHTML = list.length ? list.map(([a,t])=>`<div class="prow${onB[a]?' onb':''}" data-abbr="${esc(a)}">
         <div class="pn">${logo(a)}<div style="min-width:0"><button class="nm2" data-open="${esc(a)}">${esc(t.name)}</button><small class="psub">${rec(t.w,t.l)} · ${esc(t.conf||'')}</small></div></div>
         ${cols.map(c=>statCell(c,a,t,onB,true)).join('')}${cmpBox(a)}
-        ${onB[a]?`<span class="on">#${onB[a]}</span>`:`<button class="add" data-add="${esc(a)}" aria-label="Add ${esc(t.name)}"${full?' disabled title="The ballot is full (35)"':''}>+</button>`}</div>`).join('') : '<p class="note" style="padding:6px">No teams match.</p>';
+        ${onB[a]?`<span class="on">#${onB[a]}</span>`:`<button class="add" data-add="${esc(a)}" aria-label="Add ${esc(t.name)}"${full?' disabled title="The ballot is full (25)"':''}>+</button>`}</div>`).join('') : '<p class="note" style="padding:6px">No teams match.</p>';
   }
   function renderWMap(){
     const onB=draftMap(), prev = myPrevMap(S.cur), el=$('wMap'), an=analyze();
     $('legend2').innerHTML = legend('Opponent’s Straw Poll rank'); $('xAx2').value = S.r.xax;
     if(wSortable){ wSortable.destroy(); wSortable=null; }
     S._an = an;  // mapRow (drag mode) reads the H2H / LOOP flags from here
-    const n=S.draft.length, slot = n<MAX ? `<div class="slot wslot"><span class="rk">${n+1}</span><span>${n ? 'Open spot: drag a team here, or tap + in the list' : 'Drag teams here from the list, or tap +'}</span></div>` : '';
+    const n=S.draft.length, slot = n<BMAX ? `<div class="slot wslot"><span class="rk">${n+1}</span><span>${n ? 'Open spot: drag a team here, or tap + in the list' : 'Drag teams here from the list, or tap +'}</span></div>` : '';
     el.innerHTML = axis(true, 'Straw') + `<div id="wTop">${S.draft.map((a,i)=>(i===TOP?'<div class="grp" data-cut>Also ranked 26–35</div>':'')+mapRow(a, i+1, prev, onB, true)).join('')}</div>` + slot;
     stackDots(el);
     $('wNotes').innerHTML = ballotNotes(an, prev);
-    if(window.Sortable) wSortable = Sortable.create($('wTop'), { handle:'.grip', draggable:'.mrow', animation:150, disabled:!S.canWrite,
-      group:{name:'b', pull:false, put:()=>S.draft.length<MAX},
+    if(window.Sortable) wSortable = Sortable.create($('wTop'), { handle:'.grip', draggable:'.mrow', animation:150, disabled:!editable(S.cur),
+      group:{name:'b', pull:false, put:()=>S.draft.length<BMAX},
       onEnd:(ev)=>{ if(ev.to!==ev.from) return; const order=[...$('wTop').querySelectorAll('.mrow')].map(r=>r.dataset.abbr); if(order.join()!==S.draft.join()){ S.draft=order; setDirty(); } refreshBuild(); },
       onAdd:(ev)=>{ const a=ev.item.dataset.abbr; const at=[...$('wTop').children].filter(x=>x.classList.contains('mrow')||x===ev.item).indexOf(ev.item); ev.item.remove(); addTeam(a, at<0?null:at); } });
   }
@@ -1363,19 +1467,29 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 
   // ballot actions
   $('weekSel').addEventListener('change', e=>loadWeek(Number(e.target.value)));
+  $('save').addEventListener('click', submitBallot);
+  $('withdraw').addEventListener('click', withdrawBallot);
+  $('startFrom').addEventListener('change', e=>{
+    const kind=e.target.value; e.target.value='';
+    if(!kind || !editable(S.cur)) return;
+    const L=startList(kind);
+    if(kind!=='empty' && !L.length){ toast(kind==='last' ? 'You don’t have an earlier ballot yet.' : 'That list isn’t available yet.'); return; }
+    if(S.draft.length && !confirm('Replace the teams on this ballot?')) return;
+    S.draft=L; setDirty(); refreshBuild();
+  });
   function addTeam(a, at){
-    if(S.draft.includes(a) || S.draft.length>=MAX) return;
+    if(!editable(S.cur) || S.draft.includes(a) || S.draft.length>=BMAX) return;
     if(at==null || at>S.draft.length) at=S.draft.length;
     S.draft.splice(at,0,a); setDirty(); refreshBuild();
   }
   $('ballot').addEventListener('click', e=>{
-    const rm=e.target.closest('[data-rm]'); if(rm){ S.draft.splice(Number(rm.dataset.rm),1); setDirty(); renderBallot(); renderPool(); return; }
+    const rm=e.target.closest('[data-rm]'); if(rm && editable(S.cur)){ S.draft.splice(Number(rm.dataset.rm),1); setDirty(); renderBallot(); renderPool(); return; }
   });
-  $('wMap').addEventListener('click', e=>{ const rm=e.target.closest('[data-rm]'); if(rm){ S.draft.splice(Number(rm.dataset.rm),1); setDirty(); refreshBuild(); } });
+  $('wMap').addEventListener('click', e=>{ const rm=e.target.closest('[data-rm]'); if(rm && editable(S.cur)){ S.draft.splice(Number(rm.dataset.rm),1); setDirty(); refreshBuild(); } });
   $('xAx2').addEventListener('change', e=>{ S.r.xax=e.target.value; saveR(); renderWMap(); });
   $('pConf').addEventListener('change', e=>{ S.pc=e.target.value; renderPool(); });
   function arrowMove(e, sel, after){
-    const g=e.target.closest(sel); if(!g) return;
+    const g=e.target.closest(sel); if(!g || !editable(S.cur)) return;
     const i=Number(g.dataset.i); let j=null;
     if(e.key==='ArrowUp') j=i-1; else if(e.key==='ArrowDown') j=i+1; else return;
     e.preventDefault(); if(j<0||j>=S.draft.length) return;
@@ -1389,10 +1503,10 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   $('phead').addEventListener('click', e=>{ const b=e.target.closest('[data-s]'); if(!b) return; S.sort=b.dataset.s; renderHeads(); renderPool(); });
   document.querySelectorAll('[data-f]').forEach(c=>c.addEventListener('click', ()=>{ S.f=c.dataset.f; document.querySelectorAll('[data-f]').forEach(x=>x.setAttribute('aria-pressed', x===c?'true':'false')); renderPool(); }));
   if(window.Sortable){
-    Sortable.create($('ballot'), { handle:'.grip', draggable:'.brow', animation:150, disabled:!S.canWrite, group:{name:'b', pull:true, put:()=>S.draft.length<MAX},
+    S.sortBallot = Sortable.create($('ballot'), { handle:'.grip', draggable:'.brow', animation:150, disabled:true, group:{name:'b', pull:true, put:()=>S.draft.length<BMAX},
       onEnd:(ev)=>{ if(ev.to!==ev.from) return; const order=[...$('ballot').querySelectorAll('.brow')].map(r=>r.dataset.abbr); if(order.join()!==S.draft.join()){ S.draft=order; setDirty(); } renderBallot(); renderPool(); },
       onAdd:(ev)=>{ const a=ev.item.dataset.abbr; const at=[...$('ballot').children].filter(x=>x.classList.contains('brow')||x===ev.item).indexOf(ev.item); ev.item.remove(); addTeam(a, at<0?null:at); } });
-    Sortable.create($('pool'), { group:{name:'b', pull:'clone', put:false}, sort:false, disabled:!S.canWrite, animation:150, delay:180, delayOnTouchOnly:true, draggable:'.prow:not(.onb)' });
+    S.sortPool = Sortable.create($('pool'), { group:{name:'b', pull:'clone', put:false}, sort:false, disabled:true, animation:150, delay:180, delayOnTouchOnly:true, draggable:'.prow:not(.onb)' });
   }
 
   // ---------- WORKSPACE: upset alerts ----------
@@ -1499,7 +1613,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   const privHash = () => { if(/^#(privacy|terms)$/.test(location.hash) && !$('privDlg').open) $('privDlg').showModal(); };
   window.addEventListener('hashchange', ()=>{ const h=(location.hash||'').slice(1); if(TABS.includes(h) && h!==S.tab) showTab(h); privHash(); });
   privHash();
-  window.addEventListener('beforeunload', e=>{ if(S.dirty || S.uDirty){ e.preventDefault(); e.returnValue=''; } });
+  window.addEventListener('beforeunload', e=>{ if(S.uDirty){ e.preventDefault(); e.returnValue=''; } });
 
   const stampText = () => { if(!S.meta) return 'Loading team data…'; const d = S.meta.updatedAt ? new Date(S.meta.updatedAt).toLocaleDateString('en-US', {month:'short', day:'numeric'}) : ''; return `Updated ${d} · ${S.meta.through||''}`; };
   function renderAll(){ $('stamp').textContent = stampText(); if(!$('fDials').children.length || !$('fMenu').open) renderDials(); renderCurrent(); renderFormulaNote(); }
