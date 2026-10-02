@@ -730,7 +730,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   const S = {teams:{}, teamsRaw:null, meta:null, model:null, schedule:null, ap:null, weeks:{}, cur:null, draft:[], dirty:false,
              canWrite:false, isOwner:false, me:null, wantWork:false, accessFor:'', cmp:[], cmpOn:false, tab:'home', ws:'map',
              r:{show:'top', confOff:[], q:'', ms:'wolp', col:'ms', rev:false, xax:'wolp'}, f:'off', pc:'', q:'', sort:'frank',
-             settings:{}, upsets:{}, uDraft:null, uDirty:false, uAll:false, showAll:false};
+             upsets:{}, uDraft:null, uDirty:false, uAll:false, showAll:false};
   const $ = id => document.getElementById(id);
   let teamsLoaded; const teamsReady = new Promise(r=>teamsLoaded=r);  // season and team list, needed before ballots load
   // Read-only until sign-in says otherwise. The old GitHub ballot sync is retired: forget its token and draft.
@@ -1568,6 +1568,31 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   });
   $('uTable').addEventListener('input', e=>{ const id=e.target.dataset.note; if(!id || !S.uDraft[id]) return; S.uDraft[id].note=e.target.value; S.uDirty=true; $('uSave').disabled=false; });
   $('uAll').addEventListener('change', e=>{ S.uAll=e.target.checked; renderUps(); });
+  // published upset alerts (everyone can read them; Home shows this week's). If they can't load, Home shows none.
+  async function loadUpsets(){
+    await teamsReady;
+    const season = S.meta && S.meta.season; if(!sb || !season) return;
+    const { data, error } = await sb.from('upset_alerts').select('week,game_id,note').eq('season', season);
+    if(error) return;
+    const u = {}; data.forEach(x=>{ (u[x.week]=u[x.week]||{})[x.game_id] = {note:x.note||''}; });
+    S.upsets = u; if(!S.uDirty) S.uDraft = null;
+    renderCurrent();
+  }
+  // Publish (owner): remove the games no longer ticked, then save the ticked ones with their notes. Both steps are
+  // safe to repeat, so after a failure publishing again finishes the job.
+  $('uSave').addEventListener('click', async ()=>{
+    const wk=(S.schedule||{}).week, season=S.meta && S.meta.season;
+    if(wk==null || !season || !S.isOwner) return;
+    $('uSave').disabled=true;
+    const ids = Object.keys(S.uDraft).map(Number);
+    const del = await sb.from('upset_alerts').delete().eq('season', season).eq('week', wk).not('game_id', 'in', `(${ids.join(',') || 0})`);
+    const up = del.error || !ids.length ? {error:null} : await sb.from('upset_alerts')
+      .upsert(ids.map(id=>({season, week:wk, game_id:id, note:(S.uDraft[id].note||'').trim() || null})), {onConflict:'season,week,game_id'});
+    const error = del.error || up.error;
+    if(error){ $('uSave').disabled=false; toast(sbErr(error, 'Couldn’t publish. Try again.')); return; }
+    S.upsets = Object.assign({}, S.upsets, {[wk]: JSON.parse(JSON.stringify(S.uDraft))}); S.uDirty=false; renderUps(); renderHome();
+    toast(ids.length ? `${ids.length} upset alert${ids.length===1?'':'s'} published` : 'Upset alerts cleared');
+  });
 
   // ---------- tooltips, menus ----------
   let tipFor=null, tipVia='';
@@ -1732,14 +1757,13 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   //  - teams.json (published next to this page): teams, model, schedule, AP poll
   //  - weeks.json in the public repo the-chili-king/cfb-ballots: the owner's rankings from before the Straw Poll
   //    (weeks 1-5), read-only, no token. Shown on Home and Previous Rankings until the first compiled Straw Poll.
-  //  - settings.json in the same repo: published upset alerts (read-only)
+  //  - ballots, deadlines and upset alerts: Supabase (see the accounts section)
   const ARCHIVE = 'https://raw.githubusercontent.com/the-chili-king/cfb-ballots/main/';
   function siteDb(){
     const json = async path => { const r = await fetch(ARCHIVE + path, {cache:'no-cache'}); if(!r.ok) throw new Error(path + ' ' + r.status); return r.json(); };
     return {
       teams: fetch('teams.json', {cache:'no-cache'}).then(r=>{ if(!r.ok) throw new Error('teams.json ' + r.status); return r.json(); }),
-      archive: () => json('weeks.json').then(raw=>{ const w={}; Object.values(raw||{}).forEach(x=>{ if(x && typeof x.week==='number') w[x.week]=x; }); return w; }),
-      settings: () => json('settings.json').catch(()=>({}))
+      archive: () => json('weeks.json').then(raw=>{ const w={}; Object.values(raw||{}).forEach(x=>{ if(x && typeof x.week==='number') w[x.week]=x; }); return w; })
     };
   }
 
@@ -1911,7 +1935,9 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   showTab(TABS.includes(start) ? start : 'home');
   (async ()=>{
     const db = siteDb();
-    db.settings().then(st=>{ S.settings=st||{}; S.upsets=S.settings.upsets||{}; const f = (()=>{ try{ return JSON.parse(localStorage.getItem('cfb-dials')||'null'); }catch(e){ return null; } })();  /* each viewer's own what-if */ if(f && typeof f==='object'){ const g=Object.fromEntries(Object.entries(f).filter(([k])=>DIALS.includes(k))); S.adj={...g}; S.adjPub={...g}; S._mdl=null; } renderAll(); }).catch(()=>{});
+    const f = (()=>{ try{ return JSON.parse(localStorage.getItem('cfb-dials')||'null'); }catch(e){ return null; } })();  // each viewer's own what-if
+    if(f && typeof f==='object'){ const g=Object.fromEntries(Object.entries(f).filter(([k])=>DIALS.includes(k))); S.adj={...g}; S.adjPub={...g}; S._mdl=null; }
+    loadUpsets();
     db.teams.then(d=>{
       S.meta = {through:d.through, updatedAt:d.updatedAt, season:d.season};
       if(d.season){ $('brandYr').textContent=d.season; document.title=`Straw Poll ${d.season}`; }
