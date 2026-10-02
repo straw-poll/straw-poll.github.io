@@ -314,6 +314,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 .dflags.loop{border-color:var(--gold)}
 .trail{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
 .trail span{border:1px solid var(--line);border-radius:6px;padding:2px 8px;font-size:12.5px}
+.trail .trl{border:0;padding-left:0;color:var(--muted)}
 .trail b{font-family:var(--cond);font-size:15px}
 .adv{width:auto;margin:0 0 14px;font-size:13px}
 .adv th,.adv td{padding:2px 14px 2px 0;border:0;text-align:right;box-shadow:none}
@@ -519,7 +520,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
         <ul>
           <li>Each row shows a team's games, placed left to right by the <b>opponent's rank</b> in the metric chosen under <b>X axis</b>: Wolp+ (the default), FPI, SOR or Quality wins (#1 at the far right; FCS opponents at the far left). Best and Worst follow the same choice.</li>
           <li>Green = win, red = loss. Dot size = margin (1–8, 9–16, 17+). Gold ring = close game; double ring = overtime.</li>
-          <li>A small number beside a dot is the opponent's Chili Poll rank. <b>Best</b> marks the win over the highest-ranked opponent (the rightmost green dot) and <b>Worst</b> the loss to the lowest-ranked one (the leftmost red dot).</li>
+          <li>A small number beside a dot is the opponent's rank in the X axis metric, shown only for opponents in that metric's top 25 (in the Workspace, it is the opponent's Chili Poll rank). <b>Best</b> marks the win over the highest-ranked opponent (the rightmost green dot) and <b>Worst</b> the loss to the lowest-ranked one (the leftmost red dot).</li>
           <li>Dots for similarly ranked opponents are stacked slightly above and below the line so none are hidden.</li>
         </ul>
 
@@ -696,10 +697,10 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   const colVal = (c, a, t) => c.val ? c.val(a, t) : t[c.k];
   const fmtStat = (c, v) => typeof v!=='number' ? null : c.fmt==='r' ? '#'+v : c.fmt==='p' ? Math.round(v*100)+'%' : c.fmt==='n1' ? (v>0?'+':'')+v.toFixed(1) : (Math.abs(v)<0.005 ? 0 : v).toFixed(2);
   const advOf = (t, k) => { const c=ADV.find(x=>x.k===k); return fmtStat(c, t[k]) ?? '–'; };
-  const advTable = t => `<table class="adv"><thead><tr><th></th><th>EPA</th><th>SR</th><th>Expl</th></tr></thead><tbody>
-      <tr><th>Offense</th><td>${advOf(t,'offEpa')}</td><td>${advOf(t,'offSr')}</td><td>${advOf(t,'offXpl')}</td></tr>
-      <tr><th>Defense</th><td>${advOf(t,'defEpa')}</td><td>${advOf(t,'defSr')}</td><td>${advOf(t,'defXpl')}</td></tr>
-    </tbody><caption>Per play, garbage time excluded. Defense: lower is better.</caption></table>`;
+  const advTable = t => `<table class="adv"><thead><tr><th></th><th>Adj EPA</th><th>EPA</th><th>SR</th><th>Expl</th></tr></thead><tbody>
+      <tr><th>Offense</th><td>${advOf(t,'adjOffEpa')}</td><td>${advOf(t,'offEpa')}</td><td>${advOf(t,'offSr')}</td><td>${advOf(t,'offXpl')}</td></tr>
+      <tr><th>Defense</th><td>${advOf(t,'adjDefEpa')}</td><td>${advOf(t,'defEpa')}</td><td>${advOf(t,'defSr')}</td><td>${advOf(t,'defXpl')}</td></tr>
+    </tbody><caption>Per play, garbage time excluded. Adj EPA is adjusted for the opponents faced; EPA, SR (success rate) and Expl (explosiveness) are raw season numbers. Defense: lower is better.</caption></table>`;
   // three independent column choices: Stats table (r), ballot (b), Teams list (p)
   function loadVis(key, defOff){ const v={}; COLS.forEach(c=>v[c.k]=!c.off && !(defOff||[]).includes(c.k)); try{ const s=JSON.parse(localStorage.getItem(key)||'null'); if(s && typeof s==='object') COLS.forEach(c=>{ if(typeof s[c.k]==='boolean') v[c.k]=s[c.k]; }); }catch(e){} return v; }
   S.vis = {r:loadVis('cfb2-cols'), b:loadVis('cfb2-cols-ballot',['ly','lyAp','resumeRank']), p:loadVis('cfb2-cols-teams',['ly','lyAp','t25','resumeRank'])};
@@ -775,9 +776,11 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     S.teams=T; S._mdl=null;
   }
   const modelFacts = a => { const t=S.teams[a]||{}, c=mdl().crank[a], n=v=>typeof v==='number';
-    return `<dl class="facts"><dt>Power rating</dt><dd>${n(t.powerRating)?t.powerRating.toFixed(1):'–'}${t.powerRank?` · Model #${t.powerRank}`:''}${c?` · Wolp+ #${c}`:''}${adjOf(a)?` <span style="color:var(--muted);font-weight:500">(${esc(t.conf)} ${adjOf(a)>0?'+':''}${adjOf(a)})</span>`:''}</dd>
-      <dt>Quality-wins score</dt><dd>${n(t.resumeScore)?t.resumeScore.toFixed(3):'–'}${t.resumeRank?` · Quality wins #${t.resumeRank}`:''}</dd>
-      <dt>Strength of résumé (SOR)</dt><dd>${n(t.resultsScore)?t.resultsScore.toFixed(3):'–'}${t.resultsRank?` · SOR #${t.resultsRank}`:''}</dd>
+    return `<dl class="facts"><dt>Wolp+</dt><dd>${c?'#'+c:'–'}${adjOf(a)?` <span style="color:var(--muted);font-weight:500">(includes ${esc(t.conf)} dial ${adjOf(a)>0?'+':''}${adjOf(a)})</span>`:''}</dd>
+      <dt>Power rating</dt><dd>${n(t.powerRating)?(t.powerRating>0?'+':'')+t.powerRating.toFixed(1)+' pts':'–'}${t.powerRank?` · Model #${t.powerRank}`:''}</dd>
+      <dt>Quality wins</dt><dd>${t.resumeRank?'#'+t.resumeRank:'–'}${n(t.resumeScore)?` · score ${t.resumeScore.toFixed(3)}`:''}</dd>
+      <dt>SOR</dt><dd>${t.resultsRank?'#'+t.resultsRank:'–'}${n(t.resultsScore)?` · score ${t.resultsScore.toFixed(3)}`:''}</dd>
+      <dt>ESPN FPI</dt><dd>${t.fpiRank?'#'+t.fpiRank:'–'}${n(t.fpi)?` · ${(t.fpi>0?'+':'')+t.fpi.toFixed(1)} pts`:''}</dd>
       ${SHOW_QUADS?`<dt>Quadrants</dt><dd>${qStr(a)}</dd>`:''}
       ${t.proj?`<dt>Projected</dt><dd>${projTxt(t)}${t.proj.unb?` · unbeaten ${Math.round(t.proj.unb*100)}%`:''} · 10+ wins ${Math.round(t.proj.w10*100)}% · bowl eligible ${Math.round(t.proj.bowl*100)}%</dd>`:''}
 </dl>`; };
@@ -882,7 +885,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     const dots = gamesOf(a).map(g=>{
       const m=Math.abs(g.pf-g.pa), size = m<=8 ? 1 : m<=16 ? 2 : 3;
       const lab = bw.bw && bw.bw.g===g ? 'Best' : bw.wl && bw.wl.g===g ? 'Worst' : '';
-      const tip = `${g.result} ${gScore(g).replace('-','–')}${g.ot?' (OT)':''} ${gAt(g)} ${gOppName(g.opp,ranksForDots)}, ${gOppRec(g.opp)}${xRank(g.opp)?`, ${XAX[S.r.xax]} #`+xRank(g.opp):''}`;
+      const tip = `${g.result} ${gScore(g).replace('-','–')}${g.ot?' (OT)':''} ${gAt(g)} ${nm(g.opp)}, ${gOppRec(g.opp)}${xRank(g.opp)?`, ${XAX[S.r.xax]} #`+xRank(g.opp):''}`;
       return {size, lab, html:`<button class="dot ${g.result} s${size}${g.ot?' ot':isClose(g)?' close':''}" style="left:${(oppPos(g.opp)*100).toFixed(2)}%" data-tip="${esc(tip)}" aria-label="${esc(tip)}">${ranksForDots[g.opp]?`<span class="drk">${ranksForDots[g.opp]}</span>`:''}${lab?`<span class="dlb${lab==='Worst'?' up':''}">${lab}</span>`:''}</button>`};
     }).sort((p,q)=>(q.size-p.size) || ((p.lab?1:0)-(q.lab?1:0))).map(d=>d.html).join('');
     const rk = rank ? `<span class="rk">${rank}</span>` : '<span class="rk none">–</span>';
@@ -890,14 +893,14 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     return `<div class="mrow" data-abbr="${esc(a)}" style="--tc:${tc(a)}">${rk}${rank?moveOf(a,rank,prev):'<span class="mv"></span>'}${grip}${logo(a)}<button class="nm" data-open="${esc(a)}"><b>${esc(t.name)}</b><small>${rec(t.w,t.l)} · ${esc(t.conf||'')}</small></button><div class="track"><div class="din">${dots}</div></div>${noRight?'':`<span class="cr">${mdl().crank[a]?'#'+mdl().crank[a]:''}</span>`}${cmpBox(a)}</div>`;
   }
   const axis = (drag, rkLabel, noRight) => `<div class="axis"><span class="axrk">${rkLabel||''}</span><span></span>${drag?'<span></span>':''}<span></span><span></span><div class="ax"><span>#${mdl().n||''}</span><span>Opponent ${XAX[S.r.xax]} rank</span><span>#1</span></div>${noRight?'':'<span style="text-align:right">Wolp+</span>'}${S.cmpOn?'<span></span>':''}</div>`;
-  const legend = () => `<span><i class="dot W s2"></i>Win</span><span><i class="dot L s2"></i>Loss</span><span><i class="dot s1"></i><i class="dot s2"></i><i class="dot s3"></i>Margin 1–8 · 9–16 · 17+</span><span><i class="dot s2 close"></i>Close game</span><span><i class="dot s2 ot"></i>Overtime</span><span><b>6</b>Opponent’s Chili Poll rank</span>`;
+  const legend = dotLab => `<span><i class="dot W s2"></i>Win</span><span><i class="dot L s2"></i>Loss</span><span><i class="dot s1"></i><i class="dot s2"></i><i class="dot s3"></i>Margin 1–8 · 9–16 · 17+</span><span><i class="dot s2 close"></i>Close game</span><span><i class="dot s2 ot"></i>Overtime</span><span><b>6</b>${dotLab}</span>`;
   const SORTLAB = {wolp:'Chili', comp:'Wolp+', ap:'AP', fpi:'FPI', best:'#', worst:'#'};
   function renderRank(){
     const n=pubNum(), ranks=pubMap(), prev = n!=null && prevNum(n)!=null ? rankMap(prevNum(n)) : null, R=S.r, cr=mdl().crank;
     $('rSub').textContent = stampText() + (n!=null && S.weeks[n].savedAt ? ` · ballot saved ${new Date(S.weeks[n].savedAt).toLocaleDateString('en-US',{month:'short',day:'numeric'})}` : '');
     document.querySelectorAll('[data-show]').forEach(b=>b.classList.toggle('on', b.dataset.show===R.show));
     document.querySelectorAll('[data-ms]').forEach(b=>b.classList.toggle('on', b.dataset.ms===R.ms && (!b.closest('#stats') || R.col==='ms')));
-    $('legend1').innerHTML = legend();
+    $('legend1').innerHTML = legend(`Opponent’s ${XAX[R.xax]} rank (top 25)`);
     $('xAx').value = R.xax; $('mapSub').textContent = `Every game, placed by the opponent’s ${XAX[R.xax]} rank`;
     const L = rankList(); $('rCount').textContent = `${L.length} team${L.length===1?'':'s'}`;
     // Results Map
@@ -910,7 +913,8 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     let h='';
     // the number on the left is the rank in whatever the map is sorted by (Best/Worst: position in that order)
     const rkOf = {wolp:x=>ranks[x], comp:x=>cr[x], ap:x=>apRank(x), fpi:x=>S.teams[x].fpiRank}[R.ms] || (x=>M.indexOf(x)+1);
-    const pv = R.ms==='wolp' ? prev : null, row = x=>mapRow(x, rkOf(x), pv, ranks, false, true), lab = SORTLAB[R.ms];
+    const xr = {}; Object.keys(S.teams).forEach(o=>{ const r=xRank(o); if(r && r<=25) xr[o]=r; });  // dot numbers: x-axis rank, top 25 only
+    const pv = R.ms==='wolp' ? prev : null, row = x=>mapRow(x, rkOf(x), pv, xr, false, true), lab = SORTLAB[R.ms];
     if(!M.length) h = '<p class="lead">No teams match these filters.</p>';
     else if(R.ms==='wolp' && R.show==='top'){
       const a=M.filter(x=>ranks[x]<=TOP), b=M.filter(x=>ranks[x]>TOP);
@@ -1171,7 +1175,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   }
   function renderWMap(){
     const onB=draftMap(), pn=prevNum(S.cur), prev = pn===null ? null : rankMap(pn), el=$('wMap');
-    $('legend2').innerHTML = legend();
+    $('legend2').innerHTML = legend('Opponent’s Chili Poll rank');
     if(wSortable){ wSortable.destroy(); wSortable=null; }
     if(!S.draft.length){ el.innerHTML='<div class="empty"><strong>No teams yet</strong>Add teams on the Ballot view first.</div>'; return; }
     el.innerHTML = axis(true) + `<div id="wTop">${S.draft.map((a,i)=>(i===TOP?'<div class="grp" data-cut>Also ranked 26–35</div>':'')+mapRow(a, i+1, prev, onB, true)).join('')}</div>`;
@@ -1366,7 +1370,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 
   // ---------- team dialog ----------
   const gEpa = g => { const f=v=>typeof v==='number' ? (Math.abs(v)<0.005?0:v).toFixed(2) : '–';
-    return typeof g.offEpa==='number' ? `<span class="gepa">Off EPA <b>${f(g.offEpa)}</b> (their D allows ${f(g.oppDefEpa)}) · Def EPA <b>${f(g.defEpa)}</b> (their O gains ${f(g.oppOffEpa)})</span>` : ''; };
+    return typeof g.offEpa==='number' ? `<span class="gepa">Off EPA <b>${f(g.offEpa)}</b> (their D usually allows ${f(g.oppDefEpa)}) · Def EPA <b>${f(g.defEpa)}</b> (their O usually gains ${f(g.oppOffEpa)})</span>` : ''; };
   function openTeam(a){
     const t=S.teams[a]; if(!t) return;
     const ranks = S.tab==='work' ? draftMap() : pubMap(), apR=apRank(a);
@@ -1384,12 +1388,12 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     $('dSumm').innerHTML = games.length ? [
       `<i>Best win</i> ${bw ? esc(oppDesc(bw.opp))+' '+gScore(bw) : 'none'}`,
       `<i>Worst loss</i> ${wl ? esc(oppDesc(wl.opp))+' '+gScore(wl) : 'none'}`,
-      `<i>vs Chili 25</i> ${t25.w}-${t25.l}`,
+      `<i>vs Chili Top 25</i> ${t25.w}-${t25.l}`,
       `<i>One-score games</i> ${one.w}-${one.l}`].map(x=>`<span>${x}</span>`).join('') : '';
     $('dGames').innerHTML = games.map(g=>{ const c=isClose(g);
       return `<li class="${c?'close':''}"><span class="res ${g.result}">${g.result}</span><span class="sc">${gScore(g)}${g.ot?' OT':''}</span><span class="op">${gAt(g)} ${esc(gOppName(g.opp,ranks))}${g.site==='neutral'?' <span class="dt">(neutral)</span>':''}</span><span class="dt">${fmtDate(g.date)}</span>${gEpa(g)}</li>`; }).join('');
     $('dGames').hidden = !games.length;
-    $('dNote').textContent = games.length ? 'Shaded games were close (one score, and in doubt late). Ranks are Chili Poll ranks.' : 'No games played yet.';
+    $('dNote').textContent = games.length ? 'Shaded games were close (one score, and in doubt late). # = opponent’s current Chili Poll rank. “Usually” = the opponent’s per-play average in its other games, adjusted for its schedule.' : 'No games played yet.';
     // remaining schedule: date, opponent, model spread and win chance from this team's side
     const up = Array.isArray(t.upcoming) ? t.upcoming : [], sch=S.schedule||{};
     $('dNextH').hidden = $('dNext').hidden = !up.length;
@@ -1401,7 +1405,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       return `<li class="${win>=50?'fav':'dog'}"><span class="dt">${fmtDate(x.date)}</span><span class="op">${x.site==='away'?'at':'vs'} ${esc(oppDesc(o))}${x.site==='neutral'?' <span class="dt">(neutral)</span>':''}<span class="gepa">Model: ${sp}${ln}</span></span><span class="pc">${win}%<small>win chance</small></span></li>`;
     }).join('');
     const nums=savedNums();
-    $('dTrail').innerHTML = nums.length ? nums.map(n=>{ const r=rankMap(n)[a]; return `<span>Wk ${n}: <b>${r?'#'+r:'NR'}</b></span>`; }).join('') : '';
+    $('dTrail').innerHTML = nums.length ? '<span class="trl">Chili Poll by week</span>' + nums.map(n=>{ const r=rankMap(n)[a]; return `<span>Wk ${n}: <b>${r?'#'+r:'NR'}</b></span>`; }).join('') : '';
     $('dlg').showModal();
   }
 
