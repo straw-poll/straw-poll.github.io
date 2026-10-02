@@ -995,9 +995,9 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   function renderBanner(){
     const el=$('hBanner'), pr=S.me && S.me.profile, link = (go, t) => ` <button class="more" data-go="${go}">${t} →</button>`;
     let h='';
-    if(!S.me) h = 'What is this? A weekly college football poll by friends, plus a power rating built from game results.' + link('method', 'How it works');
+    if(!S.me) h = 'A weekly college football Top 25 from members’ ballots, alongside Wolp+, a power rating built from game results.' + link('method', 'How it works');
     else if(S.me.err) h = '';
-    else if(!S.canWrite) h = pr && pr.status==='declined' ? '' : 'Your account is awaiting approval. You can explore everything in the meantime.';
+    else if(!S.canWrite) h = pr && pr.status==='declined' ? '' : 'Your account is awaiting approval.';
     else if(S.vote.state==='ready'){
       const o=openWeekNum(), nx=S.vote.next;
       if(o!=null) h = S.vote.mine[o] ? `Week ${o} ballot submitted ✓ You can change it until ${esc(etTime(lockOf(o)))}.` + link('work', 'Your ballot')
