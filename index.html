@@ -128,6 +128,9 @@ h2 small{font:400 13px var(--body);color:var(--muted);margin-left:10px}
 .mrow,.axis{display:grid;grid-template-columns:var(--mapcols);gap:10px;align-items:center}
 .cmp-on .map{--mapcols:44px 30px 30px minmax(120px,190px) minmax(0,1fr) 56px 22px}
 .cmp-on .map.drag{--mapcols:44px 30px 18px 30px minmax(120px,190px) minmax(0,1fr) 56px 22px}
+.map.norc{--mapcols:44px 30px 30px minmax(120px,190px) minmax(0,1fr)}
+.cmp-on .map.norc{--mapcols:44px 30px 30px minmax(120px,190px) minmax(0,1fr) 22px}
+.axis .axrk{font-weight:600;color:var(--gold);text-align:center}
 .axis{color:var(--muted);font-size:12px;padding:0 0 6px;border-bottom:1px solid var(--line)}
 .axis .ax{display:flex;justify-content:space-between;padding:0 12px}
 .mrow{min-height:52px;border-bottom:1px solid var(--line2);box-shadow:inset 3px 0 var(--tc,transparent);padding-left:6px}
@@ -352,6 +355,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   .filters input{width:100%}
   .map{--mapcols:30px 0 24px minmax(0,1fr) 44px}
   .map .mrow,.map .axis{grid-template-columns:30px 24px minmax(0,1fr) 40px;row-gap:0}
+  .map.norc .mrow,.map.norc .axis{grid-template-columns:30px 24px minmax(0,1fr)}
   .map .mrow>.mv,.map .axis>span:nth-child(2){display:none}
   .map .mrow .track,.map .axis .ax{grid-column:1 / -1;grid-row:2}
   .map .mrow .grip{display:none}
@@ -411,7 +415,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       <div class="row"><a class="pill on" href="#map">Results Map</a><a class="pill" href="#stats">Stats table ↓</a></div></div>
     <div class="filters row">
       <span class="lab">Filter</span>
-      <button class="pill" data-show="top">Top 25</button>
+      <button class="pill" data-show="top" id="topBtn">Chili Top 25</button>
       <button class="pill" data-show="all">All FBS</button>
       <details class="colmenu confmenu" id="rConfMenu"><summary class="pill" id="rConfSum">All conferences ▾</summary><div class="menu" id="rConfList"></div></details>
       <input id="rQ" type="search" placeholder="Search teams" aria-label="Search teams">
@@ -420,7 +424,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     <section class="sec" id="map"><div class="sh"><h2>Results Map<small>Every game, placed by the opponent’s Wolp+ rank</small></h2>
       <div class="row"><span style="color:var(--muted);font-size:13px">Sort</span><button class="pill" data-ms="wolp">Chili</button><button class="pill" data-ms="comp">Wolp+</button><button class="pill" data-ms="ap">AP</button><button class="pill" data-ms="fpi">FPI</button><button class="pill" data-ms="best">Best win</button><button class="pill" data-ms="worst">Worst loss</button></div></div>
       <div class="legend" id="legend1"></div>
-      <div id="rMap" class="map"></div>
+      <div id="rMap" class="map norc"></div>
     </section>
     <section class="sec" id="stats"><div class="sh"><h2>Stats<small>Same teams as the Results Map</small></h2>
       <div class="row"><span style="color:var(--muted);font-size:13px">Sort</span><button class="pill" data-ms="wolp">Chili</button><button class="pill" data-ms="comp">Wolp+</button><button class="pill" data-ms="ap">AP</button><button class="pill" data-ms="fpi">FPI</button><button class="pill" data-ms="best">Best win</button><button class="pill" data-ms="worst">Worst loss</button>
@@ -864,7 +868,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     });
   }
   const wsort = ranks => (a,b) => ((ranks[a]||99)-(ranks[b]||99)) || ((mdl().crank[a]||999)-(mdl().crank[b]||999));
-  function mapRow(a, rank, prev, ranksForDots, drag){
+  function mapRow(a, rank, prev, ranksForDots, drag, noRight){
     const t=S.teams[a]||{name:a,conf:''}, bw=bestWorst(a);
     const dots = gamesOf(a).map(g=>{
       const m=Math.abs(g.pf-g.pa), size = m<=8 ? 1 : m<=16 ? 2 : 3;
@@ -874,14 +878,17 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     }).sort((p,q)=>(q.size-p.size) || ((p.lab?1:0)-(q.lab?1:0))).map(d=>d.html).join('');
     const rk = rank ? `<span class="rk">${rank}</span>` : '<span class="rk none">–</span>';
     const grip = drag ? `<button class="grip" aria-label="Move ${esc(t.name)}, rank ${rank}. Use arrow keys." data-i="${rank-1}">${GRIP}</button>` : '';
-    return `<div class="mrow" data-abbr="${esc(a)}" style="--tc:${tc(a)}">${rk}${rank?moveOf(a,rank,prev):'<span class="mv"></span>'}${grip}${logo(a)}<button class="nm" data-open="${esc(a)}"><b>${esc(t.name)}</b><small>${rec(t.w,t.l)} · ${esc(t.conf||'')}</small></button><div class="track"><div class="din">${dots}</div></div><span class="cr">${mdl().crank[a]?'#'+mdl().crank[a]:''}</span>${cmpBox(a)}</div>`;
+    return `<div class="mrow" data-abbr="${esc(a)}" style="--tc:${tc(a)}">${rk}${rank?moveOf(a,rank,prev):'<span class="mv"></span>'}${grip}${logo(a)}<button class="nm" data-open="${esc(a)}"><b>${esc(t.name)}</b><small>${rec(t.w,t.l)} · ${esc(t.conf||'')}</small></button><div class="track"><div class="din">${dots}</div></div>${noRight?'':`<span class="cr">${mdl().crank[a]?'#'+mdl().crank[a]:''}</span>`}${cmpBox(a)}</div>`;
   }
-  const axis = drag => `<div class="axis"><span></span><span></span>${drag?'<span></span>':''}<span></span><span></span><div class="ax"><span>#${mdl().n||''}</span><span>Opponent Wolp+ rank</span><span>#1</span></div><span style="text-align:right">Wolp+</span>${S.cmpOn?'<span></span>':''}</div>`;
+  const axis = (drag, rkLabel, noRight) => `<div class="axis"><span class="axrk">${rkLabel||''}</span><span></span>${drag?'<span></span>':''}<span></span><span></span><div class="ax"><span>#${mdl().n||''}</span><span>Opponent Wolp+ rank</span><span>#1</span></div>${noRight?'':'<span style="text-align:right">Wolp+</span>'}${S.cmpOn?'<span></span>':''}</div>`;
   const legend = () => `<span><i class="dot W s2"></i>Win</span><span><i class="dot L s2"></i>Loss</span><span><i class="dot s1"></i><i class="dot s2"></i><i class="dot s3"></i>Margin 1–8 · 9–16 · 17+</span><span><i class="dot s2 close"></i>Close game</span><span><i class="dot s2 ot"></i>Overtime</span><span><b>6</b>Opponent’s Chili Poll rank</span>`;
+  const SORTLAB = {wolp:'Chili', comp:'Wolp+', ap:'AP', fpi:'FPI', best:'#', worst:'#'};
+  const TOPLAB = {wolp:'Chili Top 25', comp:'Wolp+ Top 25', ap:'AP Top 25', fpi:'FPI Top 25'};
   function renderRank(){
     const n=pubNum(), ranks=pubMap(), prev = n!=null && prevNum(n)!=null ? rankMap(prevNum(n)) : null, R=S.r, cr=mdl().crank;
     $('rSub').textContent = stampText() + (n!=null && S.weeks[n].savedAt ? ` · ballot saved ${new Date(S.weeks[n].savedAt).toLocaleDateString('en-US',{month:'short',day:'numeric'})}` : '');
     document.querySelectorAll('[data-show]').forEach(b=>b.classList.toggle('on', b.dataset.show===R.show));
+    $('topBtn').textContent = TOPLAB[R.ms] || 'Chili Top 25';  // Top 25 filters by the current Sort
     document.querySelectorAll('[data-ms]').forEach(b=>b.classList.toggle('on', b.dataset.ms===R.ms && (!b.closest('#stats') || R.col==='ms')));
     $('legend1').innerHTML = legend();
     const L = rankList(); $('rCount').textContent = `${L.length} team${L.length===1?'':'s'}`;
@@ -893,11 +900,14 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       worst:(a,b)=>{ const x=bwv(a).wl, y=bwv(b).wl; return (!x)-(!y) || (x&&y ? x.v-y.v : 0) || wsort(ranks)(a,b); }}[R.ms];
     const M = L.slice().sort(ord);
     let h='';
+    // the number on the left is the rank in whatever the map is sorted by (Best/Worst: position in that order)
+    const rkOf = {wolp:x=>ranks[x], comp:x=>cr[x], ap:x=>apRank(x), fpi:x=>S.teams[x].fpiRank}[R.ms] || (x=>M.indexOf(x)+1);
+    const pv = R.ms==='wolp' ? prev : null, row = x=>mapRow(x, rkOf(x), pv, ranks, false, true), lab = SORTLAB[R.ms];
     if(!M.length) h = '<p class="lead">No teams match these filters.</p>';
     else if(R.ms==='wolp' && R.show==='top'){
       const a=M.filter(x=>ranks[x]<=TOP), b=M.filter(x=>ranks[x]>TOP);
-      h = axis(false) + a.map(x=>mapRow(x, ranks[x], prev, ranks)).join('') + (b.length ? `<div class="grp">Also ranked 26–35</div>${b.map(x=>mapRow(x, ranks[x], prev, ranks)).join('')}` : '');
-    } else h = axis(false) + M.map(x=>mapRow(x, ranks[x], prev, ranks)).join('');
+      h = axis(false, lab, true) + a.map(row).join('') + (b.length ? `<div class="grp">Also ranked 26–35</div>${b.map(row).join('')}` : '');
+    } else h = axis(false, lab, true) + M.map(row).join('');
     $('rMap').innerHTML = h; stackDots($('rMap'));
     // Stats table
     const cols = shown('r'), key = c => c==='wolp' ? (a=>-(ranks[a]||99)*1000-(cr[a]||999)) : c==='name' ? (a=>nm(a)) : (()=>{
