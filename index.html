@@ -61,6 +61,9 @@ h2 small{font:400 13px var(--body);color:var(--muted);margin-left:10px}
 .lg{display:block;width:22px;height:22px;object-fit:contain;flex:none}
 .lg.ph0{border-radius:50%;background:var(--line)}
 .note{color:var(--muted);font-size:12.5px;margin:10px 0 0}
+.sdefs{display:grid;grid-template-columns:max-content 1fr;gap:4px 12px;margin:12px 0 0;font-size:12.5px;color:var(--muted)}
+.sdefs dt{font-weight:600;color:var(--ink)}
+.sdefs dd{margin:0}
 .empty{padding:24px 18px;border:1px dashed var(--line);border-radius:12px;color:var(--muted)}
 .empty strong{color:var(--ink);display:block;font:700 20px var(--cond);margin-bottom:4px}
 .mv{font:700 13px var(--cond);text-align:center;white-space:nowrap}
@@ -417,9 +420,17 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       <div id="rMap" class="map"></div>
     </section>
     <section class="sec" id="stats"><div class="sh"><h2>Stats<small>Same teams as the Results Map</small></h2>
-      <details class="colmenu" id="colMenu"><summary class="pill">Columns ▾</summary><div class="menu" id="colList"></div></details></div>
+      <div class="row"><span style="color:var(--muted);font-size:13px">Sort</span><button class="pill" data-ms="wolp">Chili</button><button class="pill" data-ms="comp">Wolp+</button><button class="pill" data-ms="best">Best win</button><button class="pill" data-ms="worst">Worst loss</button>
+      <details class="colmenu" id="colMenu"><summary class="pill">Columns ▾</summary><div class="menu" id="colList"></div></details></div></div>
       <div class="tblw"><table id="rTable"></table></div>
-      <p class="note">Click a column heading to sort (click again to reverse). Click any team for its full game log.</p>
+      <p class="note">The Sort buttons match the Results Map (choosing one sorts both). You can also click a column heading to sort (click again to reverse). Click any team for its full game log.</p>
+      <dl class="sdefs">
+        <dt>Wolp+</dt><dd>The formula ranking: the Model's power rating (points better than an average FBS team on a neutral field, built from scores only) plus any conference dials. With the dials at 0 it is the pure Model.</dd>
+        <dt>Quality wins</dt><dd>A résumé rank: every win adds and every loss subtracts, each valued by how good the opponent is by Model rank and where the game was played.</dd>
+        <dt>Résumé</dt><dd>Scored the same way as Quality wins, but purely on results: opponents are judged by their own wins and losses, never the power rating.</dd>
+        <dt>Off EPA</dt><dd>Expected points added per play on offense (garbage time excluded). Higher is better.</dd>
+        <dt>Def EPA</dt><dd>Expected points added per play allowed on defense. Lower is better.</dd>
+      </dl>
     </section>
   </section>
 
@@ -625,7 +636,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   const MAX = 35, TOP = 25, MAXC = 4, FRAUD = 8, AP_NR = 36, BIG = 14, BIG_RANKED = 21;
   const S = {db:null, teams:{}, teamsRaw:null, meta:null, model:null, schedule:null, ap:null, weeks:{}, cur:null, draft:[], dirty:false, newWeek:false,
              canWrite:false, loadedWeeks:false, cmp:[], cmpOn:false, tab:'home', ws:'ballot',
-             r:{show:'wolp', conf:'', q:'', ms:'wolp', col:'wolp', rev:false}, f:'all', q:'', sort:'rec',
+             r:{show:'wolp', conf:'', q:'', ms:'wolp', col:'ms', rev:false}, f:'all', q:'', sort:'rec',
              settings:{}, upsets:{}, uDraft:null, uDirty:false, uAll:false, showAll:false};
   const $ = id => document.getElementById(id);
   // Only a device connected with the ballot sync token can edit; everyone else gets a read-only site.
@@ -666,11 +677,11 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     {k:'sosOff', h:'Offs faced', menu:'Offenses faced (higher = tougher)', g:'Schedule', bw:'3.6rem', pw:'3.4rem', fmt:'n', off:true},
     {k:'frank', h:'Wolp+', menu:'Wolp+ rank (Model + conference adjustments)', g:'Model', bw:'3.4rem', pw:'3.2rem', fmt:'r', lo:true, strong:true, val:a=>mdl().crank[a]},
     {k:'powerRank',  h:'Model', menu:'Model rank (pure power rating)', g:'Model', bw:'2.9rem', pw:'2.7rem', fmt:'r', lo:true, off:true},
-    {k:'proj', h:'Proj. record', menu:'Projected final record (10,000 simulated seasons)', g:'Model', bw:'4.6rem', pw:'4.4rem'},
+    {k:'proj', h:'Proj. record', menu:'Projected final record (10,000 simulated seasons)', g:'Model', bw:'4.6rem', pw:'4.4rem', off:true},
     {k:'powerRating', h:'Rating', menu:'Power rating (points vs. an average team)', g:'Model', bw:'3rem', pw:'2.9rem', fmt:'n1', off:true},
     {k:'resumeRank', h:'Quality wins', menu:'Quality wins rank (résumé stat)', g:'Résumé', bw:'3.6rem', pw:'2.9rem', fmt:'r', lo:true},
     {k:'resultsRank', h:'Résumé', menu:'Résumé rank (purely results: wins and losses, opponents judged by their records)', g:'Résumé', bw:'3.4rem', pw:'2.9rem', fmt:'r', lo:true},
-    {k:'q1', h:'Q1', menu:'Quadrant 1 record (best opponents; see Methodology)', g:'Résumé', bw:'2.7rem', pw:'2.6rem'},
+    {k:'q1', h:'Q1', menu:'Quadrant 1 record (best opponents; see Methodology)', g:'Résumé', bw:'2.7rem', pw:'2.6rem', off:true},
     {k:'q2', h:'Q2', menu:'Quadrant 2 record', g:'Résumé', bw:'2.7rem', pw:'2.6rem', off:true}
   ];
   const ADV = COLS.filter(c=>c.fmt);
@@ -684,6 +695,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   // three independent column choices: Stats table (r), ballot (b), Teams list (p)
   function loadVis(key, defOff){ const v={}; COLS.forEach(c=>v[c.k]=!c.off && !(defOff||[]).includes(c.k)); try{ const s=JSON.parse(localStorage.getItem(key)||'null'); if(s && typeof s==='object') COLS.forEach(c=>{ if(typeof s[c.k]==='boolean') v[c.k]=s[c.k]; }); }catch(e){} return v; }
   S.vis = {r:loadVis('cfb2-cols'), b:loadVis('cfb2-cols-ballot',['ly','lyAp','resumeRank']), p:loadVis('cfb2-cols-teams',['ly','lyAp','t25','resumeRank'])};
+  try{ if(localStorage.getItem('cfb2-cols-mig')!=='1'){ S.vis.r.q1=false; S.vis.r.proj=false; localStorage.setItem('cfb2-cols', JSON.stringify(S.vis.r)); localStorage.setItem('cfb2-cols-mig','1'); } }catch(e){}
   const shown = w => COLS.filter(c=>S.vis[w][c.k]);
   function colMenu(w){ let g=''; return COLS.map(c=>{ const h = c.g!==g ? `<div class="mh">${c.g}</div>` : ''; g=c.g; return h+`<label><input type="checkbox" data-col="${c.k}" data-w="${w}"${S.vis[w][c.k]?' checked':''}>${c.menu}</label>`; }).join(''); }
   document.addEventListener('change', e=>{
@@ -870,7 +882,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     const n=pubNum(), ranks=pubMap(), prev = n!=null && prevNum(n)!=null ? rankMap(prevNum(n)) : null, R=S.r, cr=mdl().crank;
     $('rSub').textContent = stampText() + (n!=null && S.weeks[n].savedAt ? ` · ballot saved ${new Date(S.weeks[n].savedAt).toLocaleDateString('en-US',{month:'short',day:'numeric'})}` : '');
     document.querySelectorAll('[data-show]').forEach(b=>b.classList.toggle('on', b.dataset.show===R.show));
-    document.querySelectorAll('[data-ms]').forEach(b=>b.classList.toggle('on', b.dataset.ms===R.ms));
+    document.querySelectorAll('[data-ms]').forEach(b=>b.classList.toggle('on', b.dataset.ms===R.ms && (!b.closest('#stats') || R.col==='ms')));
     $('legend1').innerHTML = legend();
     const L = rankList(); $('rCount').textContent = `${L.length} team${L.length===1?'':'s'}`;
     // Results Map
@@ -893,8 +905,8 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       if(c==='lyAp') return a=>-(t(a).lyAp||99); if(c==='proj') return a=>t(a).proj?t(a).proj.w:-1; if(c==='q1'||c==='q2') return a=>{ const q=quads(a)[c==='q1'?1:2]; return q[0]-q[1]/100; }; if(c==='t25') return a=>{ const r=vsTop(a,ranks); return r.w-r.l/100; };
       return a=>{ const v=colVal(C,a,t(a)); return typeof v!=='number' ? -1e9 : C.lo ? -v : v; };
     })();
-    if(R.col!=='wolp' && R.col!=='name' && !cols.some(c=>c.k===R.col)) { R.col='wolp'; R.rev=false; }
-    const k=key(R.col), T = L.slice().sort((a,b)=>{ const x=k(a), y=k(b); const d = typeof x==='string' ? x.localeCompare(y) : y-x; return (R.rev?-d:d) || wsort(ranks)(a,b); });
+    if(R.col!=='ms' && R.col!=='wolp' && R.col!=='name' && !cols.some(c=>c.k===R.col)) { R.col='ms'; R.rev=false; }
+    const k=R.col==='ms' ? null : key(R.col), T = R.col==='ms' ? M.slice() : L.slice().sort((a,b)=>{ const x=k(a), y=k(b); const d = typeof x==='string' ? x.localeCompare(y) : y-x; return (R.rev?-d:d) || wsort(ranks)(a,b); });
     const groups=[]; cols.forEach(c=>{ const g=groups[groups.length-1]; if(g && g.g===c.g) g.n++; else groups.push({g:c.g, n:1}); });
     const cell = (c,a) => { const t=S.teams[a]; let v, cls='';
       switch(c.k){ case 'rec': v=rec(t.w,t.l); break; case 'p4': v=rec(t.p4w,t.p4l); if(t.p4w==null) cls='dim'; break;
@@ -912,7 +924,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     $('colList').innerHTML = colMenu('r');
   }
   document.querySelectorAll('[data-show]').forEach(b=>b.addEventListener('click',()=>{ S.r.show=b.dataset.show; saveR(); renderRank(); }));
-  document.querySelectorAll('[data-ms]').forEach(b=>b.addEventListener('click',()=>{ S.r.ms=b.dataset.ms; saveR(); renderRank(); }));
+  document.querySelectorAll('[data-ms]').forEach(b=>b.addEventListener('click',()=>{ S.r.ms=b.dataset.ms; S.r.col='ms'; S.r.rev=false; saveR(); renderRank(); }));
   $('rTable').addEventListener('click', e=>{ const th=e.target.closest('th[data-c]'); if(!th) return; const c=th.dataset.c; S.r.rev = c===S.r.col ? !S.r.rev : false; S.r.col=c; renderRank(); });
   $('rConf').addEventListener('change', e=>{ S.r.conf=e.target.value; saveR(); renderRank(); });
   $('rQ').addEventListener('input', e=>{ S.r.q=e.target.value; renderRank(); });
