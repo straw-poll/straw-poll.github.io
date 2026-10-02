@@ -660,16 +660,16 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     {k:'t25',  h:'vs Chili 25', menu:'record vs the Chili Poll Top 25', g:'This season', bw:'3.4rem', pw:'3.2rem'},
     {k:'ly',   h:'2025',   menu:'last season\'s record', g:'Last season', bw:'2.9rem', pw:'2.7rem'},
     {k:'lyAp', h:'Final AP', menu:'2025 final AP rank', g:'Last season', bw:'3rem', pw:'2.8rem'},
-    {k:'offEpa', h:'Off EPA',  menu:'offense EPA per play', g:'Efficiency', bw:'3rem', pw:'2.9rem', fmt:'n'},
-    {k:'defEpa', h:'Def EPA',  menu:'defense EPA per play allowed', g:'Efficiency', bw:'3rem', pw:'2.9rem', fmt:'n', lo:true},
+    {k:'adjOffEpa', h:'Adj Off EPA', menu:'offense EPA, adjusted for opponents', g:'Efficiency', bw:'3.6rem', pw:'3.4rem', fmt:'n'},
+    {k:'adjDefEpa', h:'Adj Def EPA', menu:'defense EPA allowed, adjusted for opponents', g:'Efficiency', bw:'3.6rem', pw:'3.4rem', fmt:'n', lo:true},
+    {k:'offEpa', h:'Off EPA',  menu:'offense EPA per play', g:'Efficiency', bw:'3rem', pw:'2.9rem', fmt:'n', off:true},
+    {k:'defEpa', h:'Def EPA',  menu:'defense EPA per play allowed', g:'Efficiency', bw:'3rem', pw:'2.9rem', fmt:'n', lo:true, off:true},
     {k:'offSr',  h:'Off SR',   menu:'offense success rate', g:'Efficiency', bw:'3rem', pw:'2.9rem', fmt:'p', off:true},
     {k:'defSr',  h:'Def SR',   menu:'defense success rate allowed', g:'Efficiency', bw:'3rem', pw:'2.9rem', fmt:'p', lo:true, off:true},
+    {k:'adjOffSr',  h:'Adj Off SR',  menu:'offense success rate, adjusted for opponents', g:'Efficiency', bw:'3.6rem', pw:'3.4rem', fmt:'p', off:true},
+    {k:'adjDefSr',  h:'Adj Def SR',  menu:'defense success rate allowed, adjusted for opponents', g:'Efficiency', bw:'3.6rem', pw:'3.4rem', fmt:'p', lo:true, off:true},
     {k:'offXpl', h:'Off Expl', menu:'offense explosiveness', g:'Efficiency', bw:'3.2rem', pw:'3rem', fmt:'n', off:true},
     {k:'defXpl', h:'Def Expl', menu:'defense explosiveness allowed', g:'Efficiency', bw:'3.2rem', pw:'3rem', fmt:'n', lo:true, off:true},
-    {k:'adjOffEpa', h:'Adj Off EPA', menu:'offense EPA, adjusted for opponents', g:'Adjusted', bw:'3.6rem', pw:'3.4rem', fmt:'n', off:true},
-    {k:'adjDefEpa', h:'Adj Def EPA', menu:'defense EPA allowed, adjusted for opponents', g:'Adjusted', bw:'3.6rem', pw:'3.4rem', fmt:'n', lo:true, off:true},
-    {k:'adjOffSr',  h:'Adj Off SR',  menu:'offense success rate, adjusted for opponents', g:'Adjusted', bw:'3.6rem', pw:'3.4rem', fmt:'p', off:true},
-    {k:'adjDefSr',  h:'Adj Def SR',  menu:'defense success rate allowed, adjusted for opponents', g:'Adjusted', bw:'3.6rem', pw:'3.4rem', fmt:'p', lo:true, off:true},
     {k:'sosDef', h:'Defs faced', menu:'defenses faced (lower = tougher)', g:'Schedule', bw:'3.6rem', pw:'3.4rem', fmt:'n', lo:true, off:true},
     {k:'sosOff', h:'Offs faced', menu:'offenses faced (higher = tougher)', g:'Schedule', bw:'3.6rem', pw:'3.4rem', fmt:'n', off:true},
     {k:'frank', h:'Wolp+', menu:'rank: Model + conference dials', g:'Model', bw:'3.4rem', pw:'3.2rem', fmt:'r', lo:true, strong:true, val:a=>mdl().crank[a]},
@@ -691,9 +691,9 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   // three independent column choices: Stats table (r), ballot (b), Teams list (p)
   function loadVis(key, defOff){ const v={}; COLS.forEach(c=>v[c.k]=!c.off && !(defOff||[]).includes(c.k)); try{ const s=JSON.parse(localStorage.getItem(key)||'null'); if(s && typeof s==='object') COLS.forEach(c=>{ if(typeof s[c.k]==='boolean') v[c.k]=s[c.k]; }); }catch(e){} return v; }
   S.vis = {r:loadVis('cfb2-cols'), b:loadVis('cfb2-cols-ballot',['ly','lyAp','resumeRank']), p:loadVis('cfb2-cols-teams',['ly','lyAp','t25','resumeRank'])};
-  try{ if(localStorage.getItem('cfb2-cols-mig')!=='1'){ S.vis.r.q1=false; S.vis.r.proj=false; localStorage.setItem('cfb2-cols', JSON.stringify(S.vis.r)); localStorage.setItem('cfb2-cols-mig','1'); } }catch(e){}
+  try{ const mg=localStorage.getItem('cfb2-cols-mig'); if(mg!=='2'){ if(mg!=='1'){ S.vis.r.q1=false; S.vis.r.proj=false; } S.vis.r.adjOffEpa=true; S.vis.r.adjDefEpa=true; S.vis.r.offEpa=false; S.vis.r.defEpa=false; localStorage.setItem('cfb2-cols', JSON.stringify(S.vis.r)); localStorage.setItem('cfb2-cols-mig','2'); } }catch(e){}
   const shown = w => COLS.filter(c=>S.vis[w][c.k]);
-  const DEFS = {frank:"The formula ranking: the Model's power rating (points better than an average FBS team on a neutral field, built from scores only) plus any conference dials. With the dials at 0 it is the pure Model.",resumeRank:"A results-based metric, with influence from opponents' Model rank (Wolp+ without the conference dials).",resultsRank:'Strength of résumé: a purely results-based metric.',offEpa:'Expected points added per play on offense (garbage time excluded). Higher is better.',defEpa:'Expected points added per play allowed on defense. Lower is better.'};
+  const DEFS = {adjOffEpa:'Expected points added per play on offense, adjusted for the defenses faced (garbage time excluded). Higher is better.',adjDefEpa:'Expected points added per play allowed on defense, adjusted for the offenses faced. Lower is better.',frank:"The formula ranking: the Model's power rating (points better than an average FBS team on a neutral field, built from scores only) plus any conference dials. With the dials at 0 it is the pure Model.",resumeRank:"A results-based metric, with influence from opponents' Model rank (Wolp+ without the conference dials).",resultsRank:'Strength of résumé: a purely results-based metric.',offEpa:'Expected points added per play on offense (garbage time excluded). Higher is better.',defEpa:'Expected points added per play allowed on defense. Lower is better.'};
   function renderDefs(){ let g='', h='<dl class="sdefs"><dt>Chili</dt><dd>Chili Poll rank (Top 25, then Also ranked 26–35).</dd>';
     COLS.forEach(c=>{ if(c.g!==g){ h+=`<div class="sdh">${esc(c.g)}</div>`; g=c.g; } const d=DEFS[c.k]||(c.menu[0].toUpperCase()+c.menu.slice(1)+'.'); h+=`<dt>${esc(c.h)}</dt><dd>${d}</dd>`; });
     $('sdefs').innerHTML = h+'</dl>'; }
