@@ -150,10 +150,7 @@ h2 small{font:400 13px var(--body);color:var(--muted);margin-left:10px}
 .map{--mapcols:44px 30px 30px minmax(120px,190px) minmax(0,1fr) 56px}
 .map.drag{--mapcols:44px 30px 18px 30px minmax(110px,170px) minmax(0,1fr) 78px}
 .mrow,.axis{display:grid;grid-template-columns:var(--mapcols);gap:10px;align-items:center}
-.cmp-on .map{--mapcols:44px 30px 30px minmax(120px,190px) minmax(0,1fr) 56px 22px}
-.cmp-on .map.drag{--mapcols:44px 30px 18px 30px minmax(110px,170px) minmax(0,1fr) 78px 22px}
 .map.norc{--mapcols:44px 30px 30px minmax(120px,190px) minmax(0,1fr)}
-.cmp-on .map.norc{--mapcols:44px 30px 30px minmax(120px,190px) minmax(0,1fr) 22px}
 .xsel{display:inline-flex;align-items:center;gap:6px;color:var(--muted);font-size:13px;margin-left:8px}
 .axis .axrk{font-weight:700;color:var(--ink);text-align:right}
 .axis{color:var(--muted);font-size:12px;padding:0 0 6px;border-bottom:1px solid var(--line)}
@@ -204,11 +201,9 @@ td.c-mv{padding-left:0;width:30px}
 .colmenu .menu{position:absolute;right:0;top:calc(100% + 6px);z-index:30;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 14px;box-shadow:0 10px 28px rgba(0,0,0,.45);min-width:16rem;max-height:70vh;overflow:auto}
 .colmenu .mh{font:600 11px var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin:8px 0 2px}
 .colmenu label{display:flex;gap:10px;align-items:center;padding:5px 0;font-size:13px;cursor:pointer}
-.cmpk{display:flex;align-items:center;justify-content:center}
 .confmenu .menu{left:0;right:auto;min-width:12rem}
 .confmenu input{width:16px;height:16px;margin:0;accent-color:var(--gold)}
 .cfall{display:flex;gap:14px;border-top:1px solid var(--line);margin-top:6px;padding-top:8px}
-.cmpk input{width:16px;height:16px;margin:0;accent-color:var(--gold);cursor:pointer}
 
 
 /* formula dials */
@@ -385,6 +380,11 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 .cmpgrid{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(220px,1fr);gap:18px;overflow-x:auto;margin:12px 0 6px;padding-bottom:4px}
 .cmpcol h4{font:800 24px/1 var(--cond);margin:0;display:flex;align-items:center;gap:8px}
 .cmpcol .sub{margin:4px 0 8px}
+.sel>*:first-child{box-shadow:inset 3px 0 var(--gold)} .mrow.sel,.brow.sel,.prow.sel,#rTable tr.sel td{background:#22314a}
+#rMap .mrow,#wMap .mrow,#rTable tbody tr,#ballot .brow,#pool .prow{cursor:pointer}
+.cchip{display:inline-flex;align-items:center;gap:5px;background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:3px 4px 3px 8px;margin:2px;font:600 13px var(--cond)}
+.cchip .lg{width:18px;height:18px} .cx{background:none;border:0;color:var(--muted);font-size:15px;line-height:1;padding:0 4px;min-width:24px;min-height:24px}
+.fright .menu{right:auto;left:0}
 .cmpbar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 14px);z-index:30;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px 10px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:8px 10px;box-shadow:0 10px 28px rgba(0,0,0,.5);width:max-content;max-width:calc(100vw - 24px)}
 #tip{position:fixed;z-index:60;max-width:min(300px,calc(100vw - 24px));background:var(--ink);color:var(--bg);padding:8px 10px;border-radius:8px;font-size:12.5px;line-height:1.35;white-space:pre-line;pointer-events:none;box-shadow:0 4px 14px rgba(0,0,0,.4)}
 .toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 20px);transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:8px;font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s;z-index:70}
@@ -425,7 +425,6 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   .map .mrow>.mv,.map .axis>span:nth-child(2){display:none}
   .map .mrow .track,.map .axis .ax{grid-column:1 / -1;grid-row:2}
   .map .mrow .grip{display:none}
-  .map .mrow>.cmpk{display:none}
   /* Results Map on a phone: one compact line per team (record beside the name), a shorter track, smaller dots and
      labels, and more room at the ends so dots near #1 or #138 and their numbers stay on screen */
   .mrow{min-height:0;padding:6px 0 2px 6px}
@@ -463,12 +462,6 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       <button class="tab owner boss-only" role="tab" id="tab-admin" aria-selected="false">Admin</button>
     </nav>
     <div class="tools">
-      <details class="colmenu" id="fMenu"><summary class="pill" id="fSum">Conference Modifier ▾</summary>
-        <div class="menu fmix"><div class="mt">Conference Modifier</div>
-          <p class="mixhelp">Add or subtract points for a conference to see how the rankings would change. Just for fun: only your screen changes, and the real Wolp+ ratings are never affected.</p>
-          <div id="fDials"></div>
-          <div class="mixsave"><button class="btn quiet" id="fReset">Reset to 0</button><small id="fNote"></small></div></div></details>
-      <button class="pill" id="cmpMode" aria-pressed="false" title="Pick 2 to 4 teams to compare side by side" hidden>Compare</button>
       <button class="pill" id="acctBtn">Sign in</button>
     </div>
   </div>
@@ -509,7 +502,13 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
      <div class="frow">
       <span class="lab">Sort</span>
       <button class="pill" data-ms="wolp">Straw</button><button class="pill" data-ms="comp">Wolp+</button><button class="pill" data-ms="splus" hidden>Straw+</button><button class="pill" data-ms="ap">AP</button><button class="pill" data-ms="fpi">FPI</button><button class="pill" data-ms="best">Best win</button><button class="pill" data-ms="worst">Worst loss</button>
+
       <label class="xsel"><span class="lab">X axis</span><select id="xAx" class="fsel xpick" aria-label="Results Map x axis"><option value="wolp">Wolp+</option><option value="fpi">FPI</option><option value="sor">SOR</option><option value="qw">Quality wins</option></select></label>
+      <details class="colmenu fright" id="fMenu"><summary class="pill" id="fSum">Conference Modifier ▾</summary>
+        <div class="menu fmix"><div class="mt">Conference Modifier</div>
+          <p class="mixhelp">Add or subtract points for a conference to see how the rankings would change. Just for fun: only your screen changes, and the real Wolp+ ratings are never affected.</p>
+          <div id="fDials"></div>
+          <div class="mixsave"><button class="btn quiet" id="fReset">Reset to 0</button><small id="fNote"></small></div></div></details>
      </div>
     </div>
     <section class="sec" id="map"><div class="sh"><h2>Results Map<small id="mapSub">Every game, placed by the opponent’s Wolp+ rank</small></h2></div>
@@ -520,7 +519,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       <div class="row"><span style="color:var(--muted);font-size:13px">Sort</span><button class="pill" data-ms="wolp">Straw</button><button class="pill" data-ms="comp">Wolp+</button><button class="pill" data-ms="splus" hidden>Straw+</button><button class="pill" data-ms="ap">AP</button><button class="pill" data-ms="fpi">FPI</button><button class="pill" data-ms="best">Best win</button><button class="pill" data-ms="worst">Worst loss</button>
       <details class="colmenu" id="colMenu"><summary class="pill">Columns ▾</summary><div class="menu" id="colList"></div></details></div></div>
       <div class="tblw"><table id="rTable"></table></div>
-      <p class="note">The Sort buttons match the Results Map (choosing one sorts both). You can also click a column heading to sort (click again to reverse). Click any team for its full game log.</p>
+      <p class="note">Tip: click a team's row (not its name) here or on the Results Map to select it, then Compare up to 4 side by side. The Sort buttons match the Results Map (choosing one sorts both). You can also click a column heading to sort (click again to reverse). Click any team for its full game log.</p>
       <div id="sdefs"></div>
     </section>
   </section>
@@ -786,7 +785,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 <footer class="foot"><div class="wrapin"><span id="stamp">Loading team data…</span><span>Model spreads are the model’s predicted margin, written like a betting line; they never use betting lines. · <button id="privBtn">Privacy &amp; Terms</button></span></div></footer>
 
 <dialog id="dlg" aria-labelledby="dName">
-  <h3 id="dName"></h3>
+  <h3 id="dName" tabindex="-1"></h3>
   <div class="sub" id="dSub"></div>
   <dl class="facts" id="dFacts"></dl>
   <div id="dAdv"></div>
@@ -863,12 +862,12 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   <div class="dlgbtns"><form method="dialog"><button class="btn">Close</button></form></div>
 </dialog>
 <dialog id="cmpDlg" aria-labelledby="cmpTitle">
-  <h3 id="cmpTitle">Compare</h3>
+  <h3 id="cmpTitle" tabindex="-1">Compare</h3>
   <div class="cmpgrid" id="cmpGrid"></div>
   <p class="dnote">Shaded games were close (one score, and in doubt late). Opponent ranks are Straw Poll ranks; records are current.</p>
   <div class="dlgbtns"><button class="btn quiet" id="cmpClear2">Clear selection</button><form method="dialog"><button class="btn">Close</button></form></div>
 </dialog>
-<div class="cmpbar" id="cmpBar" hidden><span id="cmpWho"></span><button class="btn primary" id="cmpGo">Compare</button><button class="btn quiet" id="cmpClear">Clear</button><button class="btn quiet" id="cmpDone">Done</button></div>
+<div class="cmpbar" id="cmpBar" role="region" aria-label="Teams to compare" hidden><span id="cmpWho"></span><button class="btn primary" id="cmpGo">Compare</button><button class="btn quiet" id="cmpClear">Clear</button></div>
 <div id="tip" role="tooltip" hidden></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
@@ -876,7 +875,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 (function(){
   const MAX = 35, TOP = 25, MAXC = 4, FRAUD = 8, AP_NR = 36, BIG = 14, BIG_RANKED = 21;
   const S = {teams:{}, teamsRaw:null, meta:null, model:null, schedule:null, ap:null, weeks:{}, cur:null, draft:[], dirty:false,
-             canWrite:false, isOwner:false, me:null, wantTab:null, accessKnown:false, accessFor:'', cmp:[], cmpOn:false, tab:'home', ws:'ballot',
+             canWrite:false, isOwner:false, me:null, wantTab:null, accessKnown:false, accessFor:'', cmp:[], tab:'home', ws:'ballot',
              r:{show:'top', confOff:[], q:'', ms:'wolp', col:'ms', rev:false, xax:'wolp'}, f:'off', pc:'', q:'', sort:'frank',
              upsets:{}, uDraft:null, uDirty:false, uAll:false, showAll:false, more:{fraud:false, radar:false}};
   const $ = id => document.getElementById(id);
@@ -1052,11 +1051,6 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   const gScore = g => g.result==='W' ? `${g.pf}-${g.pa}` : `${g.pa}-${g.pf}`;
   const gOppName = (o, ranks) => (ranks[o] ? '#'+ranks[o]+' ' : '') + nm(o);
   const gOppRec = o => S.teams[o] ? rec(S.teams[o].w, S.teams[o].l) : 'FCS';
-  function cmpBox(a){
-    if(!S.cmpOn) return '';
-    const on=S.cmp.includes(a);
-    return `<label class="cmpk" title="Compare"><input type="checkbox" data-cmp="${esc(a)}" aria-label="Compare ${esc(nm(a))}"${on?' checked':''}${!on&&S.cmp.length>=MAXC?' disabled':''}></label>`;
-  }
 
   // ---------- spreads ----------
   // home margin (positive = home favored) → "Team −3.5", rounded to the half point like a betting line
@@ -1226,11 +1220,11 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     }).sort((p,q)=>(q.size-p.size) || ((p.lab?1:0)-(q.lab?1:0))).map(d=>d.html).join('');
     const rk = rank ? `<span class="rk">${rank}</span>` : '<span class="rk none">–</span>';
     const grip = drag ? `<button class="grip" aria-label="Move ${esc(t.name)}, rank ${rank}. Use arrow keys." data-i="${rank-1}">${GRIP}</button>` : '';
-    return `<div class="mrow" data-abbr="${esc(a)}" style="--tc:${tc(a)}">${rk}${rank?moveOf(a,rank,prev):'<span class="mv"></span>'}${grip}${logo(a)}<button class="nm" data-open="${esc(a)}"><b>${esc(t.name)}</b><small>${rec(t.w,t.l)} · ${esc(t.conf||'')}</small></button><div class="track"><div class="din">${dots}</div></div>${drag ? wRight(a, rank) : noRight?'':`<span class="cr">${mdl().crank[a]?'#'+mdl().crank[a]:''}</span>`}${cmpBox(a)}</div>`;
+    return `<div class="mrow${S.cmp.includes(a)?' sel':''}" data-abbr="${esc(a)}" style="--tc:${tc(a)}">${rk}${rank?moveOf(a,rank,prev):'<span class="mv"></span>'}${grip}${logo(a)}<button class="nm" data-open="${esc(a)}"><b>${esc(t.name)}</b><small>${rec(t.w,t.l)} · ${esc(t.conf||'')}</small></button><div class="track"><div class="din">${dots}</div></div>${drag ? wRight(a, rank) : noRight?'':`<span class="cr">${mdl().crank[a]?'#'+mdl().crank[a]:''}</span>`}</div>`;
   }
   const wRight = (a, rank) => { const an=S._an||{flags:{},loopOf:{}}, fl=an.flags[a], lp=an.loopOf[a], t=S.teams[a]||{name:a};
     return `<span class="wx">${fl ? `<button class="flag" data-tip="${esc(fl.join('\n'))}" aria-label="${esc(fl.join(' '))}">H2H</button>` : ''}${lp ? `<button class="flag loop" data-tip="${esc(lp.text+'\n'+lp.games.join('\n'))}" aria-label="${esc(lp.text)}">LOOP</button>` : ''}<button class="x" data-rm="${rank-1}" aria-label="Remove ${esc(t.name)}">×</button></span>`; };
-  const axis = (drag, rkLabel, noRight) => `<div class="axis"><span class="axrk">${rkLabel||''}</span><span></span>${drag?'<span></span>':''}<span></span><span></span><div class="ax"><span>#${mdl().n||''}</span><span>Opponent ${XAX[S.r.xax]} rank</span><span>#1</span></div>${noRight||drag?(drag?'<span></span>':''):'<span style="text-align:right">Wolp+</span>'}${S.cmpOn?'<span></span>':''}</div>`;
+  const axis = (drag, rkLabel, noRight) => `<div class="axis"><span class="axrk">${rkLabel||''}</span><span></span>${drag?'<span></span>':''}<span></span><span></span><div class="ax"><span>#${mdl().n||''}</span><span>Opponent ${XAX[S.r.xax]} rank</span><span>#1</span></div>${noRight||drag?(drag?'<span></span>':''):'<span style="text-align:right">Wolp+</span>'}</div>`;
   const legend = dotLab => `<span><i class="dot W s2"></i>Win</span><span><i class="dot L s2"></i>Loss</span><span><i class="dot s1"></i><i class="dot s2"></i><i class="dot s3"></i>Margin 1–8 · 9–16 · 17+</span><span><i class="dot s2 close"></i>Close game</span><span><i class="dot s2 ot"></i>Overtime</span><span><b>6</b>${dotLab}</span>`;
   const SORTLAB = {wolp:'Straw', comp:'Wolp+', splus:'Straw+', ap:'AP', fpi:'FPI', best:'#', worst:'#'};
   function renderRank(){
@@ -1283,9 +1277,9 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       return `<td class="${cls}">${v}</td>`; };
     const firstOf = new Set(); { let g=''; cols.forEach(c=>{ if(c.g!==g) firstOf.add(c.k); g=c.g; }); }
     const th = (c,label,extra='') => `<th data-c="${c}" class="${R.col===c?'on':''}${R.col===c&&R.rev?' rev':''}${extra}">${label}</th>`;
-    $('rTable').innerHTML = `<thead><tr class="grph"><th colspan="3"></th>${groups.map(g=>`<th class="g1" colspan="${g.n}">${esc(g.g)}</th>`).join('')}${S.cmpOn?'<th></th>':''}</tr>
-      <tr class="cols">${th('wolp','Straw')}<th></th>${th('name','Team','" style="text-align:left')}${cols.map(c=>th(c.k,c.h,firstOf.has(c.k)?' g1':'')).join('')}${S.cmpOn?'<th>Cmp</th>':''}</tr></thead>
-      <tbody>${T.map(a=>`<tr style="--tc:${tc(a)}"><td class="rkc${ranks[a]?'':' none'}">${ranks[a]||'–'}</td><td class="c-mv">${ranks[a]?moveOf(a,ranks[a],prev):''}</td><td class="tmc"><button class="tb" data-open="${esc(a)}">${logo(a)}<span>${esc(nm(a))}</span></button></td>${cols.map(c=>cell(c,a).replace('<td class="', `<td class="${firstOf.has(c.k)?'g1 ':''}`)).join('')}${S.cmpOn?`<td>${cmpBox(a)}</td>`:''}</tr>`).join('')}</tbody>`;
+    $('rTable').innerHTML = `<thead><tr class="grph"><th colspan="3"></th>${groups.map(g=>`<th class="g1" colspan="${g.n}">${esc(g.g)}</th>`).join('')}</tr>
+      <tr class="cols">${th('wolp','Straw')}<th></th>${th('name','Team','" style="text-align:left')}${cols.map(c=>th(c.k,c.h,firstOf.has(c.k)?' g1':'')).join('')}</tr></thead>
+      <tbody>${T.map(a=>`<tr class="${S.cmp.includes(a)?'sel':''}" data-abbr="${esc(a)}" style="--tc:${tc(a)}"><td class="rkc${ranks[a]?'':' none'}">${ranks[a]||'–'}</td><td class="c-mv">${ranks[a]?moveOf(a,ranks[a],prev):''}</td><td class="tmc"><button class="tb" data-open="${esc(a)}">${logo(a)}<span>${esc(nm(a))}</span></button></td>${cols.map(c=>cell(c,a).replace('<td class="', `<td class="${firstOf.has(c.k)?'g1 ':''}`)).join('')}</tr>`).join('')}</tbody>`;
     $('colList').innerHTML = colMenu('r');
     if(!$('sdefs').children.length) renderDefs();
   }
@@ -1692,12 +1686,12 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   }
   function renderHeads(){
     const b=shown('b'), p=shown('p');
-    const bc = `44px 34px 18px 24px minmax(7rem,1fr) ${b.map(c=>c.bw).join(' ')}${S.cmpOn?' 22px':''} 26px`;
-    const pc = `minmax(7rem,1fr) ${p.map(c=>c.pw).join(' ')}${S.cmpOn?' 22px':''} 2.8rem`;
+    const bc = `44px 34px 18px 24px minmax(7rem,1fr) ${b.map(c=>c.bw).join(' ')} 26px`;
+    const pc = `minmax(7rem,1fr) ${p.map(c=>c.pw).join(' ')} 2.8rem`;
     $('dyncols').textContent = `.brow,.bcols{--bcols:${bc}}.phead,.prow{--pcols:${pc}}`;
-    $('bcols').innerHTML = `<span style="text-align:right">Rank</span><span></span><span></span><span></span><span>Team</span>${b.map(c=>`<span>${c.h}</span>`).join('')}${S.cmpOn?'<span>Cmp</span>':''}<span></span>`;
+    $('bcols').innerHTML = `<span style="text-align:right">Rank</span><span></span><span></span><span></span><span>Team</span>${b.map(c=>`<span>${c.h}</span>`).join('')}<span></span>`;
     if(S.sort!=='name' && !p.some(c=>c.k===S.sort)) S.sort = p.length ? p[0].k : 'name';
-    $('phead').innerHTML = `<button data-s="name" aria-pressed="${S.sort==='name'}">Team</button>${p.map(c=>`<button data-s="${c.k}" aria-pressed="${S.sort===c.k}">${c.h}</button>`).join('')}${S.cmpOn?'<span></span>':''}<span></span>`;
+    $('phead').innerHTML = `<button data-s="name" aria-pressed="${S.sort==='name'}">Team</button>${p.map(c=>`<button data-s="${c.k}" aria-pressed="${S.sort===c.k}">${c.h}</button>`).join('')}<span></span>`;
     $('colListP').innerHTML = colMenu('p'); $('colListB').innerHTML = colMenu('b');
   }
   function statCell(c, a, t, onB, pool){
@@ -1720,8 +1714,8 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     const an = analyze(), cols = shown('b');
     const row = (a,i) => { const t=S.teams[a]||{name:a,conf:''}, fl=an.flags[a], lp=an.loopOf[a];
       const marks = (fl ? `<button class="flag" data-tip="${esc(fl.join('\n'))}" aria-label="${esc(fl.join(' '))}">H2H</button>` : '') + (lp ? `<button class="flag loop" data-tip="${esc(lp.text+'\n'+lp.games.join('\n'))}" aria-label="${esc(lp.text)}">LOOP</button>` : '');
-      return `<div class="brow" data-abbr="${esc(a)}" style="--tc:${tc(a)}"><span class="rk">${i+1}</span>${moveOf(a,i+1,prev)}<button class="grip" aria-label="Move ${esc(t.name)}, rank ${i+1}. Use arrow keys." data-i="${i}">${GRIP}</button>${logo(a)}
-        <div class="tm"><button class="nmb" data-open="${esc(a)}">${esc(t.name)}</button><small>${marks}${esc(t.conf||'')}</small></div>${cols.map(c=>statCell(c,a,t,an.onB,false)).join('')}${cmpBox(a)}<button class="x" data-rm="${i}" aria-label="Remove ${esc(t.name)}">×</button></div>`; };
+      return `<div class="brow${S.cmp.includes(a)?' sel':''}" data-abbr="${esc(a)}" style="--tc:${tc(a)}"><span class="rk">${i+1}</span>${moveOf(a,i+1,prev)}<button class="grip" aria-label="Move ${esc(t.name)}, rank ${i+1}. Use arrow keys." data-i="${i}">${GRIP}</button>${logo(a)}
+        <div class="tm"><button class="nmb" data-open="${esc(a)}">${esc(t.name)}</button><small>${marks}${esc(t.conf||'')}</small></div>${cols.map(c=>statCell(c,a,t,an.onB,false)).join('')}<button class="x" data-rm="${i}" aria-label="Remove ${esc(t.name)}">×</button></div>`; };
     $('ballot').innerHTML = S.draft.map(row).join('');
     let h='';
     if(!S.draft.length) h += editable(S.cur) ? `<div class="empty"><strong>The ballot is empty</strong>Add teams from the list, or drag them in.</div>` : `<div class="empty"><strong>No ballot for this week</strong></div>`;
@@ -1754,9 +1748,9 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       name:(x,y)=> x[1].name.localeCompare(y[1].name) }[S.sort] || statSort(S.sort);
     list.sort(cmp);
     const full = S.draft.length>=BMAX;
-    $('pool').innerHTML = list.length ? list.map(([a,t])=>`<div class="prow${onB[a]?' onb':''}" data-abbr="${esc(a)}">
+    $('pool').innerHTML = list.length ? list.map(([a,t])=>`<div class="prow${onB[a]?' onb':''}${S.cmp.includes(a)?' sel':''}" data-abbr="${esc(a)}">
         <div class="pn">${logo(a)}<div style="min-width:0"><button class="nm2" data-open="${esc(a)}">${esc(t.name)}</button><small class="psub">${S.vis.p.rec ? '' : rec(t.w,t.l)+' · '}${esc(t.conf||'')}</small></div></div>
-        ${cols.map(c=>statCell(c,a,t,onB,true)).join('')}${cmpBox(a)}
+        ${cols.map(c=>statCell(c,a,t,onB,true)).join('')}
         ${onB[a]?`<span class="on">#${onB[a]}</span>`:`<button class="add" data-add="${esc(a)}" aria-label="Add ${esc(t.name)}"${full?' disabled title="The ballot is full (25)"':''}>+</button>`}</div>`).join('') : '<p class="note" style="padding:6px">No teams match.</p>';
   }
   function renderWMap(){
@@ -2096,10 +2090,9 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     if(!allowed){ if(!S.accessKnown) S.wantTab = v; v = 'home'; }  // reopened once sign-in is known (setAccess)
     S.tab=v;
     TABS.forEach(k=>{ $('tab-'+k).setAttribute('aria-selected', String(k===v)); $('view-'+k).hidden = k!==v; });
-    $('cmpMode').hidden = !(v==='rank' || v==='work');
-    $('fMenu').hidden = v!=='rank'; if(v!=='rank') $('fMenu').open = false;
+    if(v!=='rank') $('fMenu').open = false;
     S._mdl = null;  // Wolp+ ranks include the Conference Modifier on the Data tab only
-    if($('cmpMode').hidden && S.cmpOn){ S.cmpOn=false; S.cmp=[]; renderCmpBar(); }
+    renderCmpBar();
     try{ history.replaceState(null, '', v==='home' ? location.pathname + location.search : '#'+HASH[v]); }catch(e){}
     document.querySelectorAll('#bnav [data-tab]').forEach(b=>{ if(b.dataset.tab===v) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current'); });
     if(['history','method','admin'].includes(v)) $('bMoreBtn').setAttribute('aria-current','page'); else $('bMoreBtn').removeAttribute('aria-current');
@@ -2169,7 +2162,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     }).join('');
     const nums=savedNums();
     $('dTrail').innerHTML = nums.length ? '<span class="trl">Straw Poll by week</span>' + nums.map(n=>{ const r=rankMap(n)[a]; return `<span>Wk ${n}: <b>${r?'#'+r:'NR'}</b></span>`; }).join('') : '';
-    $('dlg').showModal();
+    $('dlg').showModal(); $('dName').focus(); $('dlg').scrollTop = 0;
   }
 
   // click outside a pop-up (on the dimmed background) to close it
@@ -2180,15 +2173,31 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   }));
 
   // ---------- compare ----------
-  function syncCmp(){ document.querySelectorAll('input[data-cmp]').forEach(i=>{ const on=S.cmp.includes(i.dataset.cmp); i.checked=on; i.disabled=!on && S.cmp.length>=MAXC; }); renderCmpBar(); }
-  function renderCmpBar(){
-    const n=S.cmp.length;
-    document.body.classList.toggle('cmp-on', S.cmpOn);
-    $('cmpMode').setAttribute('aria-pressed', String(S.cmpOn));
-    $('cmpBar').hidden = !S.cmpOn;
-    $('cmpWho').textContent = n ? `Compare: ${S.cmp.map(nm).join(', ')}` : 'Tick 2 to 4 teams';
-    $('cmpClear').hidden = !n; $('cmpGo').disabled = n<2; $('cmpGo').textContent = n<2 ? 'Pick 2 to 4' : `Compare ${n}`;
+  // Compare: click a team's row (anywhere but its name, a dot or a button) on Research or Vote to select it, up to 4;
+  // the selected teams sit in a bar at the bottom with a Compare button.
+  function syncCmp(){
+    document.querySelectorAll('#view-rank [data-abbr], #view-work [data-abbr]').forEach(r=>r.classList.toggle('sel', S.cmp.includes(r.dataset.abbr)));
+    renderCmpBar();
   }
+  function renderCmpBar(){
+    const n=S.cmp.length, here = S.tab==='rank' || S.tab==='work';
+    $('cmpBar').hidden = !n || !here;
+    $('cmpWho').innerHTML = S.cmp.map(a=>`<span class="cchip">${logo(a)}${esc(nm(a))}<button class="cx" data-uncmp="${esc(a)}" aria-label="Remove ${esc(nm(a))} from Compare">×</button></span>`).join('');
+    $('cmpGo').disabled = n<2; $('cmpGo').textContent = n<2 ? 'Select one more' : `Compare ${n}`;
+  }
+  function toggleCmp(a){
+    if(S.cmp.includes(a)) S.cmp = S.cmp.filter(x=>x!==a);
+    else if(S.cmp.length>=MAXC){ toast(`Compare up to ${MAXC} teams`); return; }
+    else S.cmp.push(a);
+    syncCmp();
+  }
+  document.addEventListener('click', e=>{
+    if(S.tab!=='rank' && S.tab!=='work') return;
+    const row = e.target.closest('#rMap .mrow, #wMap .mrow, #rTable tbody tr, #ballot .brow, #pool .prow');
+    if(!row || !row.dataset.abbr || e.target.closest('button, a, input, select, label, .dot')) return;
+    toggleCmp(row.dataset.abbr);
+  });
+  $('cmpBar').addEventListener('click', e=>{ const b=e.target.closest('[data-uncmp]'); if(b) toggleCmp(b.dataset.uncmp); });
   function clearCmp(){ S.cmp=[]; syncCmp(); if($('cmpDlg').open) $('cmpDlg').close(); }
   function openCompare(){
     if(S.cmp.length<2) return;
@@ -2201,16 +2210,8 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
         <ul class="glog">${games.map(g=>`<li class="${isClose(g)?'close':''}"><span class="res ${g.result}">${g.result}</span><span class="sc">${gScore(g)}</span><span class="op">${gAt(g)} ${esc(gOppName(g.opp,ranks))}</span><span class="dt">${gOppRec(g.opp)}</span></li>`).join('')}</ul>
         ${games.length?'':'<p class="dnote">No games yet.</p>'}</div>`;
     }).join('');
-    $('cmpDlg').showModal();
+    $('cmpDlg').showModal(); $('cmpTitle').focus(); $('cmpDlg').scrollTop = 0;
   }
-  document.addEventListener('change', e=>{
-    const k=e.target.dataset && e.target.dataset.cmp; if(k==null) return;
-    if(e.target.checked){ if(!S.cmp.includes(k) && S.cmp.length<MAXC) S.cmp.push(k); } else S.cmp=S.cmp.filter(x=>x!==k);
-    syncCmp();
-  });
-  function setCmpMode(on){ S.cmpOn=on; if(!on){ S.cmp=[]; if($('cmpDlg').open) $('cmpDlg').close(); } renderCmpBar(); renderCurrent(); }
-  $('cmpMode').addEventListener('click', ()=>setCmpMode(!S.cmpOn));
-  $('cmpDone').addEventListener('click', ()=>setCmpMode(false));
   $('cmpGo').addEventListener('click', openCompare);
   $('cmpClear').addEventListener('click', clearCmp);
   $('cmpClear2').addEventListener('click', clearCmp);
