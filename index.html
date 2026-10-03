@@ -78,6 +78,7 @@ h2 small{font:400 13px var(--body);color:var(--muted);margin-left:10px}
 .faq dt{font-weight:600;color:var(--ink);margin-top:10px} .faq dd{margin:2px 0 0;color:var(--muted)}
 .mfull{border-top:1px solid var(--line);padding-top:14px}
 .mfull>summary{cursor:pointer;font:700 20px var(--cond);color:var(--gold);margin-bottom:14px}
+#dNote:empty{display:none}
 .steps{margin:8px 0 12px;padding-left:20px;color:var(--ink)} .steps li{margin:3px 0}
 .guide{display:flex;gap:14px;align-items:flex-start;justify-content:space-between;background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:12px;padding:12px 16px;margin-bottom:14px}
 .guide .steps{margin-bottom:0}
@@ -939,7 +940,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   const advTable = t => `<table class="adv"><thead><tr><th></th><th>Adj EPA</th><th>EPA</th><th>SR</th><th>Expl</th></tr></thead><tbody>
       <tr><th>Offense</th><td>${advOf(t,'adjOffEpa')}</td><td>${advOf(t,'offEpa')}</td><td>${advOf(t,'offSr')}</td><td>${advOf(t,'offXpl')}</td></tr>
       <tr><th>Defense</th><td>${advOf(t,'adjDefEpa')}</td><td>${advOf(t,'defEpa')}</td><td>${advOf(t,'defSr')}</td><td>${advOf(t,'defXpl')}</td></tr>
-    </tbody><caption>Per play, garbage time excluded. Adj EPA is adjusted for the opponents faced; EPA, SR (success rate) and Expl (explosiveness) are raw season numbers. Defense: lower is better.</caption></table>`;
+    </tbody></table>`;
   // three independent column choices: Stats table (r), ballot (b), Teams list (p)
   function loadVis(key, defOff, onlyOn){ const v={}; COLS.forEach(c=>v[c.k]= onlyOn ? onlyOn.includes(c.k) : (!c.off && !(defOff||[]).includes(c.k))); try{ const s=JSON.parse(localStorage.getItem(key)||'null'); if(s && typeof s==='object') COLS.forEach(c=>{ if(typeof s[c.k]==='boolean') v[c.k]=s[c.k]; }); }catch(e){} return v; }
   S.vis = {r:loadVis('cfb2-cols'), b:loadVis('cfb2-cols-list',null,['rec','p4','frank']), p:loadVis('cfb2-cols-add',null,['rec','p4','frank'])};  // Workspace list and Add teams: Record, vs P4, Wolp+ by default
@@ -1039,13 +1040,13 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     }
     S.teams=T; S._mdl=null;
   }
-  const modelFacts = a => { const t=S.teams[a]||{}, c=mdl().crank[a], n=v=>typeof v==='number';
-    return `<dl class="facts"><dt>Wolp+</dt><dd>${t.powerRank?'#'+t.powerRank:'–'}${n(t.powerRating)?` · ${(t.powerRating>0?'+':'')+t.powerRating.toFixed(1)} pts`:''}${adjOf(a)&&c?` <span style="color:var(--muted);font-weight:500">(with your Conference Modifier: #${c})</span>`:''}</dd>
-      <dt>Quality wins</dt><dd>${t.resumeRank?'#'+t.resumeRank:'–'}${n(t.resumeScore)?` · score ${t.resumeScore.toFixed(3)}`:''}</dd>
-      <dt>SOR</dt><dd>${t.resultsRank?'#'+t.resultsRank:'–'}${n(t.resultsScore)?` · score ${t.resultsScore.toFixed(3)}`:''}</dd>
-      <dt>ESPN FPI</dt><dd>${t.fpiRank?'#'+t.fpiRank:'–'}${n(t.fpi)?` · ${(t.fpi>0?'+':'')+t.fpi.toFixed(1)} pts`:''}</dd>
+  const modelFacts = a => { const t=S.teams[a]||{}, c=mdl().crank[a];
+    return `<dl class="facts"><dt>Wolp+</dt><dd>${t.powerRank?'#'+t.powerRank:'–'}${adjOf(a)&&c?` <span style="color:var(--muted);font-weight:500">(with your Conference Modifier: #${c})</span>`:''}</dd>
+      <dt>Quality wins</dt><dd>${t.resumeRank?'#'+t.resumeRank:'–'}</dd>
+      <dt>SOR</dt><dd>${t.resultsRank?'#'+t.resultsRank:'–'}</dd>
+      <dt>ESPN FPI</dt><dd>${t.fpiRank?'#'+t.fpiRank:'–'}</dd>
       ${SHOW_QUADS?`<dt>Quadrants</dt><dd>${qStr(a)}</dd>`:''}
-      ${t.proj?`<dt>Projected</dt><dd>${projTxt(t)}${t.proj.unb?` · unbeaten ${Math.round(t.proj.unb*100)}%`:''} · 10+ wins ${Math.round(t.proj.w10*100)}% · bowl eligible ${Math.round(t.proj.bowl*100)}%</dd>`:''}
+      ${t.proj?`<dt>Projected</dt><dd>${projTxt(t)}</dd>`:''}
 </dl>`; };
   const gAt = g => g.site==='away' ? 'at' : 'vs';
   const gScore = g => g.result==='W' ? `${g.pf}-${g.pa}` : `${g.pa}-${g.pf}`;
@@ -2149,7 +2150,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     $('dGames').innerHTML = games.map(g=>{ const c=isClose(g);
       return `<li class="${c?'close':''}"><span class="res ${g.result}">${g.result}</span><span class="sc">${gScore(g)}${g.ot?' OT':''}</span><span class="op">${gAt(g)} ${esc(gOppName(g.opp,ranks))}${g.site==='neutral'?' <span class="dt">(neutral)</span>':''}</span><span class="dt">${fmtDate(g.date)}</span>${gEpa(g)}</li>`; }).join('');
     $('dGames').hidden = !games.length;
-    $('dNote').textContent = games.length ? 'Shaded games were close (one score, and in doubt late). # = opponent’s current Straw Poll rank. “Usually” = the opponent’s per-play average in its other games, adjusted for its schedule.' : 'No games played yet.';
+    $('dNote').textContent = games.length ? '' : 'No games played yet.';
     // remaining schedule: date, opponent, model spread and win chance from this team's side
     const up = Array.isArray(t.upcoming) ? t.upcoming : [], sch=S.schedule||{};
     $('dNextH').hidden = $('dNext').hidden = !up.length;
@@ -2158,7 +2159,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       const line = x.week===sch.week ? (sch.games||[]).find(g=>(g.home===a&&g.away===o) || (g.away===a&&g.home===o)) : null;
       const ln = line && typeof line.line==='number' ? ` · line ${spread(line.line,line.home,line.away)}` : '';
       const sp = r===0 ? 'Pick’em' : `${esc(nm(m>0?a:o))} −${r.toFixed(1)}`;
-      return `<li class="${win>=50?'fav':'dog'}"><span class="dt">${fmtDate(x.date)}</span><span class="op">${x.site==='away'?'at':'vs'} ${esc(oppDesc(o))}${x.site==='neutral'?' <span class="dt">(neutral)</span>':''}<span class="gepa">Model: ${sp}${ln}</span></span><span class="pc">${win}%<small>win chance</small></span></li>`;
+      return `<li class="${win>=50?'fav':'dog'}"><span class="dt">${fmtDate(x.date)}</span><span class="op">${x.site==='away'?'at':'vs'} ${esc(oppDesc(o))}${x.site==='neutral'?' <span class="dt">(neutral)</span>':''}<span class="gepa">Wolp+: ${sp}${ln}</span></span><span class="pc">${win}%<small>win chance</small></span></li>`;
     }).join('');
     const nums=savedNums();
     $('dTrail').innerHTML = nums.length ? '<span class="trl">Straw Poll by week</span>' + nums.map(n=>{ const r=rankMap(n)[a]; return `<span>Wk ${n}: <b>${r?'#'+r:'NR'}</b></span>`; }).join('') : '';
