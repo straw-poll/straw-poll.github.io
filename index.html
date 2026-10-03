@@ -282,6 +282,11 @@ td.c-mv{padding-left:0;width:30px}
 .ups .why.g{color:#9fb7d8}
 
 /* previous rankings */
+.wkgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px 18px}
+.wkcol h3{font:700 17px var(--cond);color:var(--gold);margin:0 0 6px;border-bottom:1px solid var(--line);padding-bottom:4px}
+.wkrow{display:grid;grid-template-columns:24px 30px 20px minmax(0,1fr);gap:6px;align-items:center;width:100%;background:none;border:0;border-bottom:1px solid var(--line2);box-shadow:inset 3px 0 var(--tc,transparent);padding:4px 0 4px 6px;text-align:left;color:var(--ink)}
+.wkrow .rk{font:700 15px var(--cond);text-align:right} .wkrow .lg{width:20px;height:20px}
+.wkrow .tn{font:600 14px var(--cond);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .hist td.t,.hist th.t{text-align:left;position:sticky;left:0;background:var(--panel)}
 .hist td.t{font:700 16px var(--cond)}
 .hist td.t span{display:flex;align-items:center;gap:8px}
@@ -507,10 +512,14 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   <!-- PREVIOUS RANKINGS -->
   <section id="view-history" hidden>
     <div class="ph"><div><h1>History</h1><div class="sub">The Straw Poll, week by week</div></div></div>
+    <div class="card" style="margin-bottom:22px"><div class="ch"><h2>Week by week<small id="wkSub"></small></h2>
+      <label class="xsel"><span class="lab">Week</span><select id="wkSel" class="fsel xpick" aria-label="Choose a week"></select></label></div>
+      <div class="wkgrid" id="wkGrid"></div>
+      <p class="note">Each list is the Top 25 going into that week's games. Straw+ and Wolp+ are saved from week 6 of 2026 on; weeks 1–5 are the site owner's own rankings from before ballots opened. Arrows show movement from the previous week.</p></div>
     <div class="card" id="scoreCard" style="margin-bottom:22px"><div class="ch"><h2>Scorecard<small>Who picks more winners: the Straw Poll, the AP poll, or the model?</small></h2></div>
       <div class="tblw" id="scoreBody"></div>
       <p class="note">Games with a Straw Poll Top 25 or AP Top 25 team. The Straw Poll and AP pick the better-ranked team (that week's ballot and poll; outside the Straw Poll 35 or AP 25 counts as unranked, and a game with neither team ranked in a list gets no pick from it). Model and Line pick the favorite in the model's spread and the betting line, both as of the last update before kickoff.</p></div>
-    <div class="card hist"><div class="tblw" id="histBody"></div></div>
+    <div class="card hist"><div class="ch"><h2>Straw Poll by week</h2></div><div class="tblw" id="histBody"></div></div>
   </section>
 
   <!-- METHODOLOGY -->
@@ -1267,10 +1276,43 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     el.innerHTML = `<table><thead><tr class="cols"><th style="text-align:left">Week</th><th>Games</th>${SYS.map(k=>`<th>${k}</th>`).join('')}</tr></thead><tbody>${rows.join('')}
       <tr style="font-weight:600"><td style="text-align:left">Season</td><td>${totN}</td>${SYS.map(k=>{ const r=tot[k], p=r[0]+r[1]?r[0]/(r[0]+r[1]):0; return `<td${p===best&&p>0?' class="strong"':''}>${fmt(r)}</td>`; }).join('')}</tr></tbody></table>`;
   }
+  // History > Week by week: the Straw Poll, Straw+, Wolp+, the AP and (for voters) your own ballot, side by side
+  const pickWeek = w => (S.picks||[]).find(p=>p.week===w) || null;
+  const ranksFromRatings = r => { const m={}; Object.keys(r).filter(t=>typeof r[t]==='number').sort((a,b)=>r[b]-r[a]).forEach((t,i)=>m[t]=i+1); return m; };
+  function wolpWeek(w){ const p=pickWeek(w); return p && p.wolp ? ranksFromRatings(p.wolp) : null; }
+  function strawPlusWeek(w){
+    const wk=S.weeks[w]; if(!wk || !wk.compiled || !wk.results.length) return null;
+    const p=pickWeek(w), base = Object.assign({}, (p && p.wolp) || {});
+    wk.results.forEach(r=>{ if(typeof r.plus==='number') base[r.team]=r.plus; });
+    return ranksFromRatings(base);
+  }
+  function apWeek(w){ const p=pickWeek(w); return p && p.ap ? p.ap : null; }
+  const strawWeek = w => S.weeks[w] ? rankMap(w) : null;
+  // your own submitted ballot that week (not the owner's archived weeks 1-5: those ARE the Straw Poll)
+  const myWeek = w => { const b = S.canWrite && S.vote.mine[w] ? S.vote.mine[w].ranking : null; if(!b) return null; const m={}; b.forEach((a,i)=>m[a]=i+1); return m; };
+  function historyWeeks(){ return [...new Set(savedNums().concat((S.picks||[]).map(p=>p.week)))].sort((a,b)=>a-b); }
+  function renderWeekGrid(){
+    const weeks=historyWeeks(), sel=$('wkSel');
+    if(!weeks.length){ $('wkGrid').innerHTML='<p class="lead">No weeks yet.</p>'; sel.innerHTML=''; return; }
+    if(!weeks.includes(S.hw)) S.hw = weeks[weeks.length-1];
+    sel.innerHTML = weeks.map(n=>`<option value="${n}"${n===S.hw?' selected':''}>${n}</option>`).join('');
+    const w=S.hw, before=weeks.filter(x=>x<w), pw = before.length ? before[before.length-1] : null;
+    const cols = [['Straw Poll', strawWeek], ['Straw+', strawPlusWeek], ['Wolp+', wolpWeek], ['AP', apWeek]];
+    if(myWeek(w)) cols.push(['Your ballot', myWeek]);
+    $('wkSub').textContent = S.weeks[w] && S.weeks[w].compiled ? `Week ${w} · ${S.weeks[w].ballots} ballot${S.weeks[w].ballots===1?'':'s'}` : `Week ${w}`;
+    $('wkGrid').innerHTML = cols.map(([name, f])=>{
+      const m=f(w), prev = pw!=null ? f(pw) : null;
+      const top = m ? Object.keys(m).filter(a=>m[a]<=TOP).sort((a,b)=>m[a]-m[b]) : [];
+      return `<div class="wkcol"><h3>${esc(name)}</h3>${top.length ? top.map(a=>`<button class="wkrow" data-open="${esc(a)}" style="--tc:${tc(a)}"><span class="rk">${m[a]}</span>${moveOf(a, m[a], prev)}${logo(a)}<span class="tn">${esc(nm(a))}</span></button>`).join('')
+        : `<p class="note">Not available for week ${w}.</p>`}</div>`;
+    }).join('');
+  }
+  $('wkSel').addEventListener('change', e=>{ S.hw=Number(e.target.value); renderWeekGrid(); });
   function renderHistory(){
+    renderWeekGrid();
     renderScore();
     const nums=savedNums(), el=$('histBody');
-    if(!nums.length){ el.innerHTML='<div class="empty"><strong>No saved weeks yet</strong>Each saved Straw Poll ballot will line up here.</div>'; return; }
+    if(!nums.length){ el.innerHTML='<div class="empty"><strong>No weeks yet</strong>Each week\'s Straw Poll will line up here.</div>'; return; }
     const maps = nums.map(rankMap), last = maps[maps.length-1];
     const all = new Set(); maps.forEach(m=>Object.keys(m).forEach(a=>all.add(a)));
     const best = a => Math.min(...maps.map(m=>m[a]||99));
@@ -1442,7 +1484,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       if(keep){ draft = stash.ranking.slice(); kept = true; } else try{ localStorage.removeItem(draftKey(n)); }catch(e){}
     }
     if(!draft) draft = n!=null && editable(n) ? startList('last') : [];
-    S.draft = draft; refreshDirty(); armLockTimer(); renderWorkIfShown(); if(S.tab==='admin') renderAdmin(); if(S.tab==='home') renderBanner();
+    S.draft = draft; refreshDirty(); armLockTimer(); renderWorkIfShown(); if(S.tab==='admin') renderAdmin(); if(S.tab==='home') renderBanner(); if(S.tab==='history') renderWeekGrid();
     if(kept) stashDraft();  // re-save against the latest submission, so the question isn't asked again
   }
   // re-render the moment the week locks or its late window ends, so the page never offers what the database refuses
