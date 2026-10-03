@@ -2127,7 +2127,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 
   // ---------- team dialog ----------
   const gEpa = g => { const f=v=>typeof v==='number' ? (Math.abs(v)<0.005?0:v).toFixed(2) : '–';
-    return typeof g.offEpa==='number' ? `<span class="gepa">Off EPA <b>${f(g.offEpa)}</b> (their D usually allows ${f(g.oppDefEpa)}) · Def EPA <b>${f(g.defEpa)}</b> (their O usually gains ${f(g.oppOffEpa)})</span>` : ''; };
+    return typeof g.offEpa==='number' ? `<span class="gepa">Off EPA <b>${f(g.offEpa)}</b> (opp D usually allows ${f(g.oppDefEpa)}) · Def EPA <b>${f(g.defEpa)}</b> (opp O usually gains ${f(g.oppOffEpa)})</span>` : ''; };
   function openTeam(a){
     const t=S.teams[a]; if(!t) return;
     const ranks = S.tab==='work' ? draftMap() : pubMap(), apR=apRank(a);
