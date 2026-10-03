@@ -388,6 +388,8 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 .fright .menu{right:auto;left:0}
 .cmpbar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 14px);z-index:30;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px 10px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:8px 10px;box-shadow:0 10px 28px rgba(0,0,0,.5);width:max-content;max-width:calc(100vw - 24px)}
 #tip{position:fixed;z-index:60;max-width:min(300px,calc(100vw - 24px));background:var(--ink);color:var(--bg);padding:8px 10px;border-radius:8px;font-size:12.5px;line-height:1.35;white-space:pre-line;pointer-events:none;box-shadow:0 4px 14px rgba(0,0,0,.4)}
+.bugbtn{position:fixed;right:16px;bottom:16px;z-index:39;background:var(--panel2);color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:7px 14px;font:600 13px var(--body);cursor:pointer}
+.bugbtn:hover{color:var(--gold);border-color:var(--gold)}
 .toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 20px);transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:8px;font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s;z-index:70}
 .toast.show{opacity:1}
 @media (prefers-reduced-motion: reduce){.toast{transition:none}}
@@ -414,6 +416,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   .bnav{display:grid}
   body{padding-bottom:calc(env(safe-area-inset-bottom,0px) + 60px)}
   .toast{bottom:calc(env(safe-area-inset-bottom,0px) + 72px)}
+  .bugbtn{display:none!important}  /* on phones it's in the More menu */
   .cmpbar{bottom:calc(env(safe-area-inset-bottom,0px) + 66px)}
   .tools{margin-left:0}
   h1{font-size:32px}
@@ -781,9 +784,10 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 <nav class="bnav" id="bnav" aria-label="Sections">
   <button data-tab="home">Home</button><button data-tab="work">Vote</button><button data-tab="leagues">Leagues</button><button data-tab="rank">Research</button>
   <button id="bMoreBtn" aria-expanded="false" aria-controls="bMore">More</button>
-  <div class="bmore" id="bMore" hidden><button data-tab="history">History</button><button data-tab="method">How it works</button><button data-tab="admin" class="boss-only">Admin</button></div>
+  <div class="bmore" id="bMore" hidden><button data-tab="history">History</button><button data-tab="method">How it works</button><button data-tab="admin" class="boss-only">Admin</button><button data-bug class="boss-only">Report a bug</button></div>
 </nav>
 <footer class="foot"><div class="wrapin"><span id="stamp">Loading team data…</span><span>Model spreads are the model’s predicted margin, written like a betting line; they never use betting lines. · <button id="privBtn">Privacy &amp; Terms</button></span></div></footer>
+<button class="bugbtn boss-only" id="bugBtn" type="button">Report a bug</button>
 
 <dialog id="dlg" aria-labelledby="dName">
   <h3 id="dName" tabindex="-1"></h3>
@@ -874,6 +878,10 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 
 <script>
 (function(){
+  // the last few page errors, added to bug reports
+  const ERRS = [], keepErr = t => { ERRS.push(t); if(ERRS.length>5) ERRS.shift(); };
+  window.addEventListener('error', e => keepErr(`${e.message} (${String(e.filename||'').split('/').pop()}:${e.lineno||'?'})`));
+  window.addEventListener('unhandledrejection', e => keepErr('Unhandled: '+String((e.reason && e.reason.message) || e.reason)));
   const MAX = 35, TOP = 25, MAXC = 4, FRAUD = 8, AP_NR = 36, BIG = 14, BIG_RANKED = 21;
   const S = {teams:{}, teamsRaw:null, meta:null, model:null, schedule:null, ap:null, weeks:{}, cur:null, draft:[], dirty:false,
              canWrite:false, isOwner:false, me:null, wantTab:null, accessKnown:false, accessFor:'', cmp:[], tab:'home', ws:'ballot',
@@ -2405,6 +2413,22 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     loadMe();
   });
   document.addEventListener('click', e=>{ if(e.target.closest('[data-priv]') || e.target.id==='privBtn'){ e.preventDefault(); $('privDlg').showModal(); } });
+  // Report a bug (owner only): a new issue in the private code repo, filled in with what the page knows
+  const reportBug = ()=>{
+    const tab = document.querySelector('.tab[aria-selected="true"]'), when = new Date().toLocaleString('en-US', {timeZone:'America/New_York', dateStyle:'medium', timeStyle:'short'});
+    const body = ['**What happened:**', '', '', '**What I expected:**', '', '', '---',
+      `Page: ${location.origin}${location.pathname}${location.hash}`,
+      `Tab: ${tab ? tab.textContent.trim() : S.tab}${S.tab==='work' && S.ws ? ' ('+S.ws+' view)' : ''}`,
+      `Team data: ${stampText()}`,
+      `Screen: ${innerWidth}x${innerHeight} (${devicePixelRatio}x)`,
+      `Browser: ${navigator.userAgent}`,
+      `Time: ${when} ET`,
+      `Recent page errors: ${ERRS.length ? '\n- '+ERRS.join('\n- ') : 'none'}`].join('\n');
+    const url = 'https://github.com/straw-poll/straw-poll-engine/issues/new?labels=bug&title='+encodeURIComponent('Bug: ')+'&body='+encodeURIComponent(body.slice(0,6000));
+    window.open(url, '_blank', 'noopener');
+  };
+  $('bugBtn').addEventListener('click', reportBug);
+  document.addEventListener('click', e=>{ if(e.target.closest('[data-bug]')){ $('bMore').hidden=true; $('bMoreBtn').setAttribute('aria-expanded','false'); reportBug(); } });
   $('acctDel').addEventListener('click', async ()=>{
     if(!S.me) return;
     const typed = prompt('This permanently deletes your account, ballots, league memberships and scores. Type DELETE to confirm.');
