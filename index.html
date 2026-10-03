@@ -288,6 +288,10 @@ td.c-mv{padding-left:0;width:30px}
 .ups .why.g{color:#9fb7d8}
 
 /* previous rankings */
+.lgbar{margin-bottom:10px}
+.lgform{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px} .lgform input{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:6px 10px;min-width:14rem}
+#lgStand tr.me td{color:var(--gold)} .code{font-family:ui-monospace,Menlo,monospace;letter-spacing:.04em}
+.btn.danger{color:var(--loss)}
 .wkgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px 18px}
 .wkcol h3{font:700 17px var(--cond);color:var(--gold);margin:0 0 6px;border-bottom:1px solid var(--line);padding-bottom:4px}
 .wkrow{display:grid;grid-template-columns:24px 30px 20px minmax(0,1fr);gap:6px;align-items:center;width:100%;background:none;border:0;border-bottom:1px solid var(--line2);box-shadow:inset 3px 0 var(--tc,transparent);padding:4px 0 4px 6px;text-align:left;color:var(--ink)}
@@ -684,10 +688,29 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     </details>
   </section>
 
-  <!-- LEAGUES (step 3 builds the real page) -->
+  <!-- LEAGUES: friends' leagues plus "All voters" (everyone approved); pick'em standings vs the AP (scored privately on
+       the Mac), each league's poll, and league-mates' ballots once voting has closed. The database decides who sees what. -->
   <section id="view-leagues" hidden>
-    <div class="ph"><div><h1>Leagues</h1><div class="sub">Compete with friends</div></div></div>
-    <div class="card"><div class="empty"><strong>Coming soon</strong>Create a league with friends, see each other's ballots once voting closes, and play pick'em against the AP poll. Everyone who votes will be in the <b>All voters</b> league.</div></div>
+    <div class="ph"><div><h1>Leagues</h1><div class="sub">Pick'em against the AP poll, with friends</div></div></div>
+    <div class="empty" id="lgGate" role="status"></div>
+    <div id="lgMain" hidden>
+      <div class="row lgbar">
+        <label class="xsel" style="margin-left:0"><span class="lab">League</span><select id="lgSel" class="fsel xpick" aria-label="Choose a league"></select></label>
+        <span class="spacer"></span>
+        <button class="btn" id="lgJoinBtn">Join with a code</button><button class="btn primary" id="lgNewBtn">Create a league</button>
+      </div>
+      <form class="lgform" id="lgForm" hidden><input id="lgInput" maxlength="40" autocomplete="off"><button class="btn primary" id="lgFormOk" type="submit"></button><button class="btn quiet" id="lgFormCancel" type="button">Cancel</button></form>
+      <section class="sec"><div class="sh"><h2>Standings<small id="lgStSub"></small></h2></div>
+        <div class="tblw"><table id="lgStand"></table></div>
+        <p class="note">Each ballot is scored on the games involving AP Top 25 teams, and so is the AP poll. Your number is how far ahead (+) or behind (−) the AP you are; the record is correct and wrong picks. Scores update after each weekend's games.</p></section>
+      <section class="sec" id="lgPollSec"><div class="sh"><h2>League poll<small id="lgPollSub"></small></h2>
+        <label class="xsel"><span class="lab">Week</span><select id="lgPollWk" class="fsel xpick" aria-label="League poll week"></select></label></div>
+        <div id="lgPoll"></div></section>
+      <section class="sec" id="lgBalSec"><div class="sh"><h2>Ballots<small>shown once voting closes</small></h2>
+        <label class="xsel"><span class="lab">Week</span><select id="lgBalWk" class="fsel xpick" aria-label="Ballots week"></select></label></div>
+        <div class="wkgrid" id="lgBal"></div></section>
+      <section class="sec" id="lgManage"></section>
+    </div>
   </section>
 
   <!-- WORKSPACE (approved users: your own ballot; owner also gets Upset watch) -->
@@ -1307,7 +1330,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   const strawWeek = w => S.weeks[w] ? rankMap(w) : null;
   // your own submitted ballot that week (not the owner's archived weeks 1-5: those ARE the Straw Poll)
   const myWeek = w => { const b = S.canWrite && S.vote.mine[w] ? S.vote.mine[w].ranking : null; if(!b) return null; const m={}; b.forEach((a,i)=>m[a]=i+1); return m; };
-  function historyWeeks(){ return [...new Set(savedNums().concat((S.picks||[]).map(p=>p.week)))].sort((a,b)=>a-b); }
+  function historyWeeks(){ return [...new Set(savedNums().concat((S.picks||[]).map(p=>p.week), S.canWrite ? Object.keys(S.vote.mine).map(Number) : []))].sort((a,b)=>a-b); }
   function renderWeekGrid(){
     const weeks=historyWeeks(), sel=$('wkSel');
     if(!weeks.length){ $('wkGrid').innerHTML='<p class="lead">No weeks yet.</p>'; sel.innerHTML=''; return; }
@@ -1315,7 +1338,8 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     sel.innerHTML = weeks.map(n=>`<option value="${n}"${n===S.hw?' selected':''}>${n}</option>`).join('');
     const w=S.hw, before=weeks.filter(x=>x<w), pw = before.length ? before[before.length-1] : null;
     const cols = [['Straw Poll', strawWeek], ['Straw+', strawPlusWeek], ['Wolp+', wolpWeek], ['AP', apWeek]];
-    if(myWeek(w)) cols.push(['Your ballot', myWeek]);
+    const myScore = S.me && (S.lg.totals||[]).find(t=>t.user_id===S.me.user.id && t.week===w);
+    if(myWeek(w)) cols.push([myScore ? `Your ballot · ${signed(myScore.vs_ap)} vs AP (${myScore.picks_right}-${myScore.picks_wrong})` : 'Your ballot', myWeek]);
     $('wkSub').textContent = S.weeks[w] && S.weeks[w].compiled ? `Week ${w} · ${S.weeks[w].ballots} ballot${S.weeks[w].ballots===1?'':'s'}` : `Week ${w}`;
     $('wkGrid').innerHTML = cols.map(([name, f])=>{
       const m=f(w), prev = pw!=null ? f(pw) : null;
@@ -1769,6 +1793,150 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     S.sortPool = Sortable.create($('pool'), { group:{name:'b', pull:'clone', put:false}, sort:false, disabled:true, animation:150, delay:180, delayOnTouchOnly:true, draggable:'.prow:not(.onb)' });
   }
 
+  // ---------- LEAGUES ----------
+  S.lg = {state:'idle', leagues:[], members:{}, names:{}, totals:[], cur:null, polls:{}, ballots:{}, form:null};
+  const curLeague = () => S.lg.leagues.find(l=>l.id===S.lg.cur) || null;
+  const renderLeaguesIfShown = () => { if(S.tab==='leagues') renderLeagues(); if(S.tab==='history') renderWeekGrid(); };
+  const lgName = id => S.lg.names[id] || 'Unnamed voter';
+  async function loadLeagues(){
+    if(!sb || !S.canWrite || !S.me) return;
+    await teamsReady;
+    const season = S.meta && S.meta.season, uid = S.me && S.me.user.id; if(!season || !uid) return;
+    S.lg.state='loading'; renderLeaguesIfShown();
+    const [L, M, T] = await Promise.all([
+      sb.from('leagues').select('id,name,owner_id,invite_code,everyone,shares_ballots'),
+      sb.from('league_members').select('league_id,user_id'),
+      sb.from('pickem_totals').select('*').eq('season', season)]);
+    if(!S.me || S.me.user.id!==uid) return;
+    const bad = L.error || M.error || T.error;
+    if(bad){ S.lg.state='error'; S.lg.err=bad; renderLeaguesIfShown(); return; }
+    const members = {}; M.data.forEach(m=>(members[m.league_id]=members[m.league_id]||[]).push(m.user_id));
+    const ids = [...new Set(M.data.map(m=>m.user_id))];
+    const P = ids.length ? await sb.from('profiles').select('id,username').in('id', ids) : {data:[]};
+    Object.assign(S.lg, {state:'ready', season, members, totals:T.data, polls:{}, ballots:{},
+      leagues: L.data.sort((a,b)=>(b.everyone-a.everyone) || a.name.localeCompare(b.name)),
+      names: Object.fromEntries((P.data||[]).map(p=>[p.id, p.username]))});
+    if(!curLeague()) S.lg.cur = (S.lg.leagues[0]||{}).id || null;
+    await loadLeagueDetail();
+  }
+  // the selected league's poll and (for leagues that share them) members' ballots; one request each
+  async function loadLeagueDetail(){
+    const l=curLeague(); if(!l){ renderLeaguesIfShown(); return; }
+    const ids = S.lg.members[l.id] || [], season = S.lg.season;
+    const [P, B] = await Promise.all([
+      l.everyone ? {data:[]} : sb.from('league_polls').select('week,ballots,results').eq('league_id', l.id).eq('season', season),
+      l.everyone || !l.shares_ballots || !ids.length ? {data:[]} : sb.from('ballots').select('user_id,week,ranking').eq('season', season).in('user_id', ids)]);
+    if(P.error || B.error) toast(sbErr(P.error || B.error, 'Part of this league couldn’t load. Reload the page to try again.'));
+    S.lg.polls[l.id] = Object.fromEntries((P.data||[]).map(p=>[p.week, p]));
+    const byWeek = {}; (B.data||[]).forEach(b=>{ (byWeek[b.week]=byWeek[b.week]||{})[b.user_id]=b.ranking; });
+    S.lg.ballots[l.id] = byWeek;
+    renderLeaguesIfShown();
+  }
+  function clearLeagues(){ Object.assign(S.lg, {state:'idle', leagues:[], members:{}, names:{}, totals:[], cur:null, polls:{}, ballots:{}, form:null}); }
+  const signed = v => v==null ? '–' : (v>0 ? '+' : v<0 ? '−' : '') + Math.abs(v).toFixed(1);
+  const teamList = (ranks, prev) => Object.keys(ranks).filter(a=>ranks[a]<=TOP).sort((a,b)=>ranks[a]-ranks[b])
+    .map(a=>`<button class="wkrow" data-open="${esc(a)}" style="--tc:${tc(a)}"><span class="rk">${ranks[a]}</span>${moveOf(a, ranks[a], prev)}${logo(a)}<span class="tn">${esc(nm(a))}</span></button>`).join('');
+  function renderLeagues(){
+    const pr = S.me && S.me.profile;
+    const gate = !S.me ? `<strong>Sign in to join leagues</strong>Leagues are for approved voters: pick'em against the AP poll, your league's own poll, and each other's ballots once voting closes.<br><br><button class="btn primary" data-signin>Sign in</button>`
+      : S.me.err ? `<strong>Couldn’t load your account</strong>${esc(sbErr(S.me.err, 'Reload the page to try again.'))}`
+      : !S.canWrite ? (pr && pr.status==='declined' ? '<strong>Not approved</strong>Leagues are for approved voters.' : '<strong>Waiting for approval</strong>Once the owner approves your account, you’ll be in the All voters league automatically.')
+      : S.lg.state==='error' ? `<strong>Leagues couldn’t load</strong>${esc(sbErr(S.lg.err, 'Reload the page to try again.'))}`
+      : S.lg.state!=='ready' ? '<strong>Loading leagues…</strong>' : '';
+    $('lgGate').innerHTML = gate; $('lgGate').hidden = !gate; $('lgMain').hidden = !!gate;
+    if(gate) return;
+    const l=curLeague(), uid=S.me.user.id;
+    $('lgSel').innerHTML = S.lg.leagues.map(x=>`<option value="${esc(x.id)}"${x.id===S.lg.cur?' selected':''}>${esc(x.name)}</option>`).join('');
+    const f=S.lg.form; $('lgForm').hidden = !f;
+    if(f){ $('lgInput').placeholder = f==='join' ? 'Invite code' : 'League name'; $('lgInput').setAttribute('aria-label', f==='join' ? 'Invite code' : 'League name'); $('lgFormOk').textContent = f==='join' ? 'Join' : f==='rename' ? 'Rename' : 'Create'; }
+    if(!l){ $('lgStand').innerHTML='<tbody><tr><td class="dim">You’re not in a league yet.</td></tr></tbody>'; ['lgPollSec','lgBalSec'].forEach(id=>$(id).hidden=true); $('lgManage').innerHTML=''; return; }
+    // standings: everyone in the league, by season points vs the AP
+    const ids = S.lg.members[l.id] || [], scored = [...new Set(S.lg.totals.map(t=>t.week))].sort((a,b)=>a-b), last = scored[scored.length-1];
+    const latest = id => S.lg.totals.filter(t=>t.user_id===id).sort((a,b)=>b.week-a.week)[0];
+    const rows = ids.map(id=>({id, t:latest(id), w:S.lg.totals.find(t=>t.user_id===id && t.week===last)}))
+      .sort((a,b)=>((b.t?b.t.season_vs_ap:-1e9)-(a.t?a.t.season_vs_ap:-1e9)) || lgName(a.id).localeCompare(lgName(b.id)));
+    $('lgStSub').textContent = last!=null ? `through week ${last}` : 'scoring starts after the first closed week’s games';
+    $('lgStand').innerHTML = `<thead><tr class="cols"><th>#</th><th style="text-align:left">Voter</th><th>Season vs AP</th><th>${last!=null?`Week ${last}`:'Last week'} vs AP</th><th>Record</th></tr></thead><tbody>${
+      rows.map((r,i)=>`<tr class="${r.id===uid?'me':''}"><td>${r.t?i+1:'–'}</td><td style="text-align:left">${esc(lgName(r.id))}${r.id===uid?' (you)':''}</td><td class="strong">${signed(r.t&&r.t.season_vs_ap)}</td><td>${signed(r.w&&r.w.vs_ap)}</td><td>${r.t?`${r.t.season_right}-${r.t.season_wrong}`:'–'}</td></tr>`).join('')}</tbody>`;
+    // league poll (All voters' poll is the Straw Poll)
+    const polls = S.lg.polls[l.id] || {}, pw = Object.keys(polls).map(Number).sort((a,b)=>a-b);
+    $('lgPollSec').hidden = l.everyone;
+    if(!pw.includes(S.lg.pollWk)) S.lg.pollWk = pw[pw.length-1];
+    $('lgPollWk').innerHTML = pw.map(n=>`<option value="${n}"${n===S.lg.pollWk?' selected':''}>${n}</option>`).join(''); $('lgPollWk').hidden = !pw.length;
+    const P = polls[S.lg.pollWk], prevP = pw.filter(n=>n<S.lg.pollWk).pop();
+    const toRanks = p => p ? Object.fromEntries(p.results.map(r=>[r.team, r.rank])) : null;
+    $('lgPollSub').textContent = P ? `Week ${P.week} · ${P.ballots} ballot${P.ballots===1?'':'s'}` : '';
+    $('lgPoll').innerHTML = P ? `<div class="wkcol">${teamList(toRanks(P), toRanks(polls[prevP]))}</div>` : '<p class="lead">No league poll yet: it appears the morning after voting closes.</p>';
+    // members' ballots for closed weeks
+    const byWeek = S.lg.ballots[l.id] || {}, bw = Object.keys(byWeek).map(Number).filter(n=>lockOf(n) && phase(n)!=='open').sort((a,b)=>a-b);
+    $('lgBalSec').hidden = l.everyone || !l.shares_ballots;
+    if(!bw.includes(S.lg.balWk)) S.lg.balWk = bw[bw.length-1];
+    $('lgBalWk').innerHTML = bw.map(n=>`<option value="${n}"${n===S.lg.balWk?' selected':''}>${n}</option>`).join(''); $('lgBalWk').hidden = !bw.length;
+    const W = byWeek[S.lg.balWk] || {};
+    $('lgBal').innerHTML = bw.length ? Object.keys(W).sort((a,b)=>lgName(a).localeCompare(lgName(b))).map(id=>{ const m={}; W[id].forEach((a,i)=>m[a]=i+1);
+      return `<div class="wkcol"><h3>${esc(lgName(id))}${id===uid?' (you)':''}</h3>${teamList(m, null)}</div>`; }).join('')
+      : '<p class="lead">Members’ ballots appear here once a week’s voting closes.</p>';
+    // manage
+    const mine = l.owner_id===uid;
+    $('lgManage').innerHTML = l.everyone ? '<p class="note">Every approved voter is in All voters automatically, so everyone can compare standings. It doesn’t share ballots.</p>'
+      : `<div class="sh"><h2>${mine ? 'Manage league' : 'League'}</h2></div>
+        <p>Invite code: <b class="code">${esc(l.invite_code)}</b> <button class="linkbtn" data-lg="copy">Copy</button> <span class="dim">· share it with friends; they join with “Join with a code”.</span></p>
+        ${mine ? `<div class="reqs" style="margin-top:6px">${ids.map(id=>`<div class="req"><div>${esc(lgName(id))}${id===uid?' (you, creator)':''}</div>${id===uid?'':`<button class="btn quiet" data-lg="remove" data-id="${esc(id)}">Remove</button>`}<span></span></div>`).join('')}</div>
+          <p><button class="btn" data-lg="rename">Rename</button> <button class="btn quiet danger" data-lg="delete">Delete league</button></p>`
+        : `<p><button class="btn quiet" data-lg="leave">Leave league</button></p>`}`;
+  }
+  // league actions: one request each; the database refuses anything not allowed, and the message says so
+  async function leagueAction(kind, arg){
+    const l=curLeague(), uid=S.me && S.me.user.id; if(!uid) return;
+    const fail = (e, msg) => { toast(e && e.code==='P0001' ? e.message : sbErr(e, msg)); };
+    let r;
+    if(kind==='create'){
+      r = await sb.from('leagues').insert({name:arg, owner_id:uid}).select('id').single();
+      if(r.error) return fail(r.error, 'Couldn’t create the league. Try again.');
+      S.lg.cur = r.data.id; toast('League created. Share its invite code with friends.');
+    } else if(kind==='join'){
+      r = await sb.rpc('join_league', {code:arg});
+      if(r.error) return fail(r.error, 'Couldn’t join. Check the code and try again.');
+      S.lg.cur = r.data; toast('You joined the league.');
+    } else if(kind==='rename'){
+      r = await sb.from('leagues').update({name:arg}).eq('id', l.id).select('id');
+      if(r.error || !r.data.length) return fail(r.error, 'Couldn’t rename the league.');
+      toast('League renamed.');
+    } else if(kind==='delete'){
+      if(!confirm(`Delete “${l.name}”? Its standings stay in All voters, but the league, its poll and its members list are removed.`)) return;
+      r = await sb.from('leagues').delete().eq('id', l.id).select('id');
+      if(r.error || !r.data.length) return fail(r.error, 'Couldn’t delete the league.');
+      S.lg.cur = null; toast('League deleted.');
+    } else if(kind==='leave' || kind==='remove'){
+      const who = kind==='leave' ? uid : arg;
+      if(!confirm(kind==='leave' ? `Leave “${l.name}”?` : `Remove ${lgName(who)} from “${l.name}”?`)) return;
+      r = await sb.from('league_members').delete().eq('league_id', l.id).eq('user_id', who).select('user_id');
+      if(r.error || !r.data.length) return fail(r.error, 'Couldn’t update the league.');
+      if(kind==='leave') S.lg.cur = null;
+      toast(kind==='leave' ? 'You left the league.' : 'Member removed.');
+    } else if(kind==='copy'){
+      try{ await navigator.clipboard.writeText(l.invite_code); toast('Invite code copied.'); }catch(e){ toast(`Invite code: ${l.invite_code}`); }
+      return;
+    }
+    S.lg.form=null; loadLeagues();
+  }
+  $('lgSel').addEventListener('change', e=>{ S.lg.cur=e.target.value; S.lg.form=null; renderLeagues(); loadLeagueDetail(); });
+  $('lgNewBtn').addEventListener('click', ()=>{ S.lg.form='create'; renderLeagues(); $('lgInput').value=''; $('lgInput').focus(); });
+  $('lgJoinBtn').addEventListener('click', ()=>{ S.lg.form='join'; renderLeagues(); $('lgInput').value=''; $('lgInput').focus(); });
+  $('lgFormCancel').addEventListener('click', ()=>{ S.lg.form=null; renderLeagues(); });
+  $('lgForm').addEventListener('submit', e=>{
+    e.preventDefault(); const v=$('lgInput').value.trim(), f=S.lg.form;
+    if(f==='join' ? !v : v.length<2){ toast(f==='join' ? 'Enter the invite code.' : 'League names are 2–40 characters.'); return; }
+    leagueAction(f, v);
+  });
+  $('lgPollWk').addEventListener('change', e=>{ S.lg.pollWk=Number(e.target.value); renderLeagues(); });
+  $('lgBalWk').addEventListener('change', e=>{ S.lg.balWk=Number(e.target.value); renderLeagues(); });
+  $('lgManage').addEventListener('click', e=>{
+    const b=e.target.closest('[data-lg]'); if(!b) return;
+    if(b.dataset.lg==='rename'){ S.lg.form='rename'; renderLeagues(); $('lgInput').value=curLeague().name; $('lgInput').focus(); return; }
+    leagueAction(b.dataset.lg, b.dataset.id);
+  });
+
   // ---------- WORKSPACE: upset alerts ----------
   function upsetCands(){
     const sch=S.schedule||{};
@@ -1901,7 +2069,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   }
   function renderCurrent(){
     if(S.tab==='home') renderHome(); else if(S.tab==='rank') renderRank(); else if(S.tab==='history') renderHistory();
-    else if(S.tab==='method') renderMethod(); else if(S.tab==='work') renderWork(); else if(S.tab==='admin') renderAdmin();
+    else if(S.tab==='method') renderMethod(); else if(S.tab==='work') renderWork(); else if(S.tab==='admin') renderAdmin(); else if(S.tab==='leagues') renderLeagues();
   }
   TABS.forEach(k=>$('tab-'+k).addEventListener('click', ()=>showTab(k)));
   // phone bottom bar: the first four tabs, the rest under More
@@ -2062,7 +2230,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     S.accessKnown = true;
     if(who===S.accessFor) return;  // loadMe runs on every account-window open; only react to real changes
     S.accessFor = who;
-    if(vote) loadVoting(); else clearVoting();
+    if(vote){ loadVoting(); loadLeagues(); } else { clearVoting(); clearLeagues(); }
     const want = S.wantTab; S.wantTab = null;
     if(want && owner) showTab(want);
     else if(S.tab==='admin' && !owner) showTab('home');
