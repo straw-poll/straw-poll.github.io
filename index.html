@@ -114,6 +114,7 @@ h2 small{font:400 13px var(--body);color:var(--muted);margin-left:10px}
 .when{color:var(--muted);font-size:12.5px}
 .tag{font:600 10.5px var(--body);letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:999px;white-space:nowrap}
 .tag.up{background:#3d3115;color:var(--gold)}
+.when.live,td.live{color:var(--loss);font-weight:600}
 .tag.hit{background:#163a26;color:var(--win)} .tag.miss{background:var(--panel2);color:var(--muted)}
 .side.scored{grid-template-columns:32px minmax(0,1fr) auto}
 .side .sc{font:800 24px var(--cond);color:var(--ink);font-variant-numeric:tabular-nums} .side .sc.lost{color:var(--muted)}
@@ -841,9 +842,9 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     <ul>
       <li>Your email address and note are visible only to you and the administrator.</li>
       <li>Your username is visible to other approved members. Your scores are visible to you and to members of your leagues.</li>
-      <li>Your ballot is private until the weekly deadline. After the deadline, ballots are combined into the public Straw Poll, which shows aggregate results only, not individual votes.</li>
+      <li>Your ballot is private until the weekly deadline. After the deadline, the administrator and members of your leagues (other than the All voters league) can see it, and ballots are combined into the public Straw Poll, which shows aggregate results only, not individual votes.</li>
     </ul>
-    <p><b>Service providers.</b> The Site is hosted on GitHub Pages. Accounts and ballots are stored with Supabase. Sign-in is provided by Google. Football data comes from CollegeFootballData.com. Each provider handles data under its own privacy policy.</p>
+    <p><b>Service providers and outside services.</b> The Site is hosted on GitHub Pages. Accounts and ballots are stored with Supabase. Sign-in is provided by Google. Football data and team logos come from CollegeFootballData.com. When you open the Site, your browser also loads fonts from Google Fonts and code libraries from cdnjs and jsDelivr, and, while games are in progress, live scores from ESPN. Like any website, each of these services receives your IP address and basic browser information when your browser contacts it. Each provider handles data under its own privacy policy.</p>
     <p><b>Retention and deletion.</b> Your information is kept while your account is active. You may delete your account at any time with <b>Delete my account</b> in your account window, which permanently removes your account, ballots, league memberships, and scores. Previously published Straw Polls, which contain only aggregate results, are not affected. Service providers may keep technical logs for a limited period.</p>
     <p><b>Children.</b> The Site is not intended for children under 13, and we do not knowingly collect information from them. If you believe a child under 13 has created an account, contact the administrator and it will be deleted.</p>
 
@@ -1095,6 +1096,43 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     }
     el.innerHTML = h; el.hidden = !h;
   }
+  // ---------- live scores ----------
+  // ESPN's public scoreboard (the same game ids as ours), read by this browser every 2 minutes, only while the Home tab
+  // is open and visible and one of this week's games has kicked off without a final score in the site's data. If ESPN
+  // can't be reached the cards keep the scores from the last site update. (Listed under Privacy & Terms.)
+  S.live = {};
+  const LIVE_MS = 120000, LIVE_WINDOW = 6*3600*1000;
+  const etDay = t => new Date(t).toLocaleDateString('en-CA', {timeZone:'America/New_York'}).replace(/-/g, '');
+  // a game's score: the site's final if it has one, otherwise ESPN's live or final score
+  function gameScore(g){
+    if(g.hp!=null && g.ap!=null) return {state:'final', hp:g.hp, ap:g.ap};
+    const lv = S.live[g.id];
+    if(lv && (lv.state==='in' || lv.state==='post')) return {state: lv.state==='post' ? 'final' : 'live', hp:lv.hp, ap:lv.ap, detail:lv.detail};
+    return {state:'pre'};
+  }
+  let liveTimer = null;
+  async function pollLive(){
+    clearTimeout(liveTimer);
+    if(document.visibilityState!=='visible' || S.tab!=='home') return;
+    const now = Date.now();
+    const due = ((S.schedule||{}).games||[]).filter(g=>{ const t=Date.parse(g.start), lv=S.live[g.id]; return t<=now && now-t<LIVE_WINDOW && !(lv && lv.state==='post'); });
+    if(due.length){
+      for(const day of [...new Set(due.map(g=>etDay(g.start)))]){
+        try{
+          const r = await fetch(`https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard?dates=${day}&groups=80&limit=300`);
+          if(!r.ok) continue;
+          ((await r.json()).events || []).forEach(e=>{
+            const c = (e.competitions||[])[0], st = (e.status||{}).type || {}; if(!c) return;
+            const side = k => c.competitors.find(x=>x.homeAway===k) || {};
+            S.live[e.id] = {state:st.state, detail:st.shortDetail||'', hp:Number(side('home').score), ap:Number(side('away').score)};
+          });
+        }catch(e){}
+      }
+      if(S.tab==='home') renderHome();
+    }
+    liveTimer = setTimeout(pollLive, LIVE_MS);
+  }
+  document.addEventListener('visibilitychange', ()=>{ if(document.visibilityState==='visible') pollLive(); else clearTimeout(liveTimer); });
   function renderHome(){
     renderBanner();
     const n=pubNum(), list=pub(), ranks=pubMap(), prev = n!=null && prevNum(n)!=null ? rankMap(prevNum(n)) : null;
@@ -1127,11 +1165,11 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     const upW = (S.upsets||{})[sch.week] || {};
     // a game card; a finished game (final score from picks: hp/ap) shows the score and whether the betting underdog won
     const card = (g, up) => { const mFav = typeof g.model==='number' ? (g.model>0?g.home:g.away) : null, lFav = typeof g.line==='number' ? (g.line>0?g.home:g.away) : null;
-      const done = g.hp!=null && g.ap!=null, won = done ? (g.hp>g.ap ? g.home : g.away) : null;
+      const sc = gameScore(g), done = sc.state==='final', live = sc.state==='live', won = done ? (sc.hp>sc.ap ? g.home : g.away) : null;
       const result = !done || !lFav ? '' : won!==lFav ? '<span class="tag hit">Upset!</span>' : '<span class="tag miss">Favorite won</span>';
-      const score = a => done ? `<span class="sc${a===won?'':' lost'}">${a===g.home ? g.hp : g.ap}</span>` : '';
-      const side = a => `<button class="side${done?' scored':''}" data-open="${esc(a)}">${logo(a)}<div><b>${rkBadge(ranks[a])}${esc(nm(a))}</b><small>${S.teams[a]?rec(S.teams[a].w,S.teams[a].l):'FCS'}${apR[a]?' · AP #'+apR[a]:''}</small></div>${score(a)}</button>`;
-      return `<div class="game${up?' hot':''}"><div class="gtop"><span class="when">${done ? 'Final' : esc(kick(g.start))}</span>${result || (up?'<span class="tag up">Upset watch</span>':'')}</div>
+      const score = a => done || live ? `<span class="sc${done && a!==won ? ' lost' : ''}">${a===g.home ? sc.hp : sc.ap}</span>` : '';
+      const side = a => `<button class="side${done||live?' scored':''}" data-open="${esc(a)}">${logo(a)}<div><b>${rkBadge(ranks[a])}${esc(nm(a))}</b><small>${S.teams[a]?rec(S.teams[a].w,S.teams[a].l):'FCS'}${apR[a]?' · AP #'+apR[a]:''}</small></div>${score(a)}</button>`;
+      return `<div class="game${up?' hot':''}"><div class="gtop"><span class="when${live?' live':''}">${done ? 'Final' : live ? `Live · ${esc(sc.detail)}` : esc(kick(g.start))}</span>${result || (up?'<span class="tag up">Upset watch</span>':'')}</div>
         ${side(g.away)}<div class="at">${g.neutral?'vs':'at'}</div>${side(g.home)}
         <div class="nums"><div><small>Line</small><b>${spread(g.line,g.home,g.away)}</b></div><div><small>Wolp+</small><b class="${mFav && lFav && mFav!==lFav ? 'mup':''}">${modelTxt(g.model,g.home,g.away)}</b></div></div>
         ${up && up.note ? `<p class="gnote">${esc(up.note)}</p>` : ''}</div>`; };
@@ -1158,7 +1196,8 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     $('hAllBtn').textContent = S.showAll ? 'Hide all games' : `All ${games.length} games →`;
     $('hAll').hidden = !S.showAll;
     if(S.showAll) $('hAll').innerHTML = `<div class="tblw"><table><thead><tr class="cols"><th style="text-align:left">Kickoff</th><th style="text-align:left">Away</th><th></th><th style="text-align:left">Home</th><th>Line</th><th>Wolp+</th></tr></thead><tbody>${
-      games.map(g=>`<tr><td class="dim">${esc(kick(g.start))}</td><td><span class="gl-n">${logo(g.away)}${rkBadge(ranks[g.away])}${esc(nm(g.away))}</span></td><td class="dim">${g.neutral?'vs':'at'}</td><td><span class="gl-n">${logo(g.home)}${rkBadge(ranks[g.home])}${esc(nm(g.home))}</span></td><td style="text-align:center">${spread(g.line,g.home,g.away)}</td><td style="text-align:center">${modelTxt(g.model,g.home,g.away)}</td></tr>`).join('')}</tbody></table></div>`;
+      games.map(g=>{ const sc=gameScore(g), st = sc.state==='final' ? `Final ${sc.ap}–${sc.hp}` : sc.state==='live' ? `${sc.detail} · ${sc.ap}–${sc.hp}` : kick(g.start);
+        return `<tr><td class="dim${sc.state==='live'?' live':''}">${esc(st)}</td><td><span class="gl-n">${logo(g.away)}${rkBadge(ranks[g.away])}${esc(nm(g.away))}</span></td><td class="dim">${g.neutral?'vs':'at'}</td><td><span class="gl-n">${logo(g.home)}${rkBadge(ranks[g.home])}${esc(nm(g.home))}</span></td><td style="text-align:center">${spread(g.line,g.home,g.away)}</td><td style="text-align:center">${modelTxt(g.model,g.home,g.away)}</td></tr>`; }).join('')}</tbody></table></div>`;
   }
   $('hAllBtn').addEventListener('click', ()=>{ S.showAll=!S.showAll; renderHome(); });
   ['hFraud','hRadar'].forEach(id=>$(id).addEventListener('click', e=>{ const b=e.target.closest('[data-more]'); if(b){ S.more[b.dataset.more]=!S.more[b.dataset.more]; renderHome(); } }));
@@ -2066,6 +2105,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     if(['history','method','admin'].includes(v)) $('bMoreBtn').setAttribute('aria-current','page'); else $('bMoreBtn').removeAttribute('aria-current');
     $('bMore').hidden = true; $('bMoreBtn').setAttribute('aria-expanded','false');
     renderCurrent(); window.scrollTo(0,0);
+    if(v==='home' && S.schedule) pollLive();
   }
   function renderCurrent(){
     if(S.tab==='home') renderHome(); else if(S.tab==='rank') renderRank(); else if(S.tab==='history') renderHistory();
@@ -2392,7 +2432,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       S.meta = {through:d.through, updatedAt:d.updatedAt, season:d.season};
       if(d.season){ $('brandYr').textContent=d.season; document.title=`Straw Poll ${d.season}`; }
       S._sp = null; S.teamsRaw = d.teams||{}; S.model = d.model||null; S.schedule = d.schedule||null; S.ap = d.ap||null; S.picks = d.picks||[];
-      mergeModel(); renderConfs(); renderAll(); teamsLoaded();
+      mergeModel(); renderConfs(); renderAll(); teamsLoaded(); pollLive();
     }).catch(()=>{ $('stamp').textContent='Team data couldn’t load. Reload the page to try again.'; teamsLoaded(); });
     db.archive().then(w=>{ S.archive=w; mergeWeeks(); renderAll(); }).catch(()=>toast('Earlier rankings couldn’t load. Reload to try again.'));
     loadPolls();
