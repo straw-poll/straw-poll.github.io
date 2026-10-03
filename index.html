@@ -35,6 +35,12 @@ a{color:inherit}
 .brand b{font:800 28px/1 var(--cond)} .brand b span{color:var(--gold)}
 .brand small{color:var(--muted);font-size:11px;letter-spacing:.04em;margin-top:3px}
 .tabs{display:flex;gap:4px 20px;flex-wrap:wrap}
+.bnav{display:none;grid-template-columns:repeat(5,1fr);position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--bar);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+.bnav>button,.bmore button{background:none;border:0;color:var(--muted);font:600 13px var(--body);padding:13px 0;min-height:48px}
+.bnav>button[aria-current="page"]{color:var(--gold)}
+.bmore{position:absolute;right:8px;bottom:calc(100% + 6px);display:flex;flex-direction:column;min-width:11rem;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:4px 0;box-shadow:0 10px 28px rgba(0,0,0,.5)}
+.bmore[hidden]{display:none}
+.bmore button{text-align:left;padding:12px 16px;color:var(--ink)} .bmore button[aria-current="page"]{color:var(--gold)}
 .tab{background:none;border:0;padding:4px 0;font-weight:500;color:var(--muted)}
 .tab:hover{color:var(--ink)}
 .tab[aria-selected="true"]{color:var(--ink);box-shadow:0 2px 0 var(--gold)}
@@ -398,6 +404,11 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 @media (max-width:700px){
   .bar .inner,.wrap,.foot{padding-left:16px;padding-right:16px}
   .bar{position:static}
+  .tabs{display:none}
+  .bnav{display:grid}
+  body{padding-bottom:calc(env(safe-area-inset-bottom,0px) + 60px)}
+  .toast{bottom:calc(env(safe-area-inset-bottom,0px) + 72px)}
+  .cmpbar{bottom:calc(env(safe-area-inset-bottom,0px) + 66px)}
   .tools{margin-left:0}
   h1{font-size:32px}
   .games,.t25{grid-template-columns:1fr}
@@ -742,6 +753,12 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   </section>
 </main>
 
+<!-- phones: bottom bar (the top tabs are hidden at phone widths) -->
+<nav class="bnav" id="bnav" aria-label="Sections">
+  <button data-tab="home">Home</button><button data-tab="work">Vote</button><button data-tab="leagues">Leagues</button><button data-tab="rank">Research</button>
+  <button id="bMoreBtn" aria-expanded="false" aria-controls="bMore">More</button>
+  <div class="bmore" id="bMore" hidden><button data-tab="history">History</button><button data-tab="method">How it works</button><button data-tab="admin" class="boss-only">Admin</button></div>
+</nav>
 <footer class="foot"><div class="wrapin"><span id="stamp">Loading team data…</span><span>Model spreads are the model’s predicted margin, written like a betting line; they never use betting lines. · <button id="privBtn">Privacy &amp; Terms</button></span></div></footer>
 
 <dialog id="dlg" aria-labelledby="dName">
@@ -1877,6 +1894,9 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     S._mdl = null;  // Wolp+ ranks include the Conference Modifier on the Data tab only
     if($('cmpMode').hidden && S.cmpOn){ S.cmpOn=false; S.cmp=[]; renderCmpBar(); }
     try{ history.replaceState(null, '', v==='home' ? location.pathname + location.search : '#'+HASH[v]); }catch(e){}
+    document.querySelectorAll('#bnav [data-tab]').forEach(b=>{ if(b.dataset.tab===v) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current'); });
+    if(['history','method','admin'].includes(v)) $('bMoreBtn').setAttribute('aria-current','page'); else $('bMoreBtn').removeAttribute('aria-current');
+    $('bMore').hidden = true; $('bMoreBtn').setAttribute('aria-expanded','false');
     renderCurrent(); window.scrollTo(0,0);
   }
   function renderCurrent(){
@@ -1884,6 +1904,10 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     else if(S.tab==='method') renderMethod(); else if(S.tab==='work') renderWork(); else if(S.tab==='admin') renderAdmin();
   }
   TABS.forEach(k=>$('tab-'+k).addEventListener('click', ()=>showTab(k)));
+  // phone bottom bar: the first four tabs, the rest under More
+  $('bnav').addEventListener('click', e=>{ const b=e.target.closest('[data-tab]'); if(b) showTab(b.dataset.tab); });
+  $('bMoreBtn').addEventListener('click', ()=>{ const open=$('bMore').hidden; $('bMore').hidden=!open; $('bMoreBtn').setAttribute('aria-expanded', String(open)); });
+  document.addEventListener('click', e=>{ if(!$('bMore').hidden && !e.target.closest('#bnav')){ $('bMore').hidden=true; $('bMoreBtn').setAttribute('aria-expanded','false'); } });
   $('brand').addEventListener('click', ()=>showTab('home'));
   // #privacy and #terms open the Privacy & Terms window (linked from Google's sign-in consent screen)
   const privHash = () => { if(/^#(privacy|terms)$/.test(location.hash) && !$('privDlg').open) $('privDlg').showModal(); };
