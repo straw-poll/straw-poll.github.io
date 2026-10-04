@@ -379,6 +379,30 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 .adv caption{caption-side:bottom;text-align:left;font-size:12px;color:var(--muted);padding-top:2px}
 .adv tbody tr{box-shadow:none} .adv tbody tr:hover{background:none}
 #cmpDlg{width:min(1100px,calc(100vw - 16px))}
+#gameDlg{width:min(680px,calc(100vw - 16px))}
+#gameDlg h3{flex-wrap:wrap;font-size:26px}
+#gameDlg h3 .gat{font:600 15px var(--body);color:var(--muted)}
+.gbar{display:flex;height:10px;border-radius:5px;overflow:hidden;background:var(--faint);margin:6px 0 4px}
+.gbar span{display:block;height:100%;flex:none;background:var(--neutral)} .gbar span.fav{background:var(--gold)}
+.wlab{display:flex;justify-content:space-between;font-size:13px;color:var(--muted)} .wlab b{color:var(--ink);font-size:16px}
+.gwin{margin:0 0 16px} .gwin .wl2{font-size:12px;color:var(--muted);margin-top:4px}
+.gcmp{width:100%;font-size:14px;margin:0 0 16px}
+.gcmp th,.gcmp td{padding:6px 8px;border:0;border-bottom:1px solid var(--line);box-shadow:none;text-align:center;background:none}
+.gcmp thead th{font:700 15px var(--cond);color:var(--ink)}
+.gcmp tbody th{text-align:left;font:500 13px var(--body);color:var(--muted)}
+.gcmp tr.gsec th{font:700 12px var(--body);color:var(--gold);text-transform:uppercase;letter-spacing:.04em;padding-top:12px}
+.gcmp td.edge{color:var(--win);font-weight:700}
+.gcmp td small{display:block;color:var(--muted);font-weight:400;font-size:11px}
+.game[data-game]{cursor:pointer} .game[data-game]:hover{border-color:var(--neutral)}
+.gov{background:none;border:0;padding:0;color:var(--gold);font:600 12px var(--body);cursor:pointer;margin-top:8px}
+.gov:hover{text-decoration:underline}
+#hAll tr[data-game]{cursor:pointer} #hAll tr[data-game]:hover td{background:var(--panel2)}
+#hAll .gov{margin:0;font:inherit;color:inherit;text-align:left}
+@media (max-width:700px){
+  .gcmp{font-size:13px} .gcmp th,.gcmp td{padding:5px 3px;white-space:normal} .gcmp tbody th{width:30%}
+  .gcmp td small{font-size:10px} #gameDlg h3{font-size:22px}
+  #gRes{grid-auto-flow:row;grid-auto-columns:auto}
+}
 .cmpgrid{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(220px,1fr);gap:18px;overflow-x:auto;margin:12px 0 6px;padding-bottom:4px}
 .cmpcol h4{font:800 24px/1 var(--cond);margin:0;display:flex;align-items:center;gap:8px}
 .cmpcol .sub{margin:4px 0 8px}
@@ -809,6 +833,16 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   <div class="trail" id="dTrail"></div>
   <form method="dialog"><div class="dlgbtns"><button class="btn">Close</button></div></form>
 </dialog>
+<dialog id="gameDlg" aria-labelledby="gTitle">
+  <h3 id="gTitle" tabindex="-1"></h3>
+  <div class="sub" id="gSub"></div>
+  <div class="gwin" id="gWin"></div>
+  <table class="gcmp" id="gCmp"></table>
+  <h4 class="dh">Results so far</h4>
+  <div class="cmpgrid" id="gRes"></div>
+  <p class="dnote">Stat ranks are out of all FBS teams (#1 = best; for defense, the fewest allowed). EPA = expected points added per play; success rate = share of plays that kept the offense on schedule. Run and pass numbers are not adjusted for opponents. Shaded games were close.</p>
+  <form method="dialog"><div class="dlgbtns"><button class="btn">Close</button></div></form>
+</dialog>
 <dialog id="acctDlg" aria-labelledby="acctTitle">
   <h3 id="acctTitle">Sign in</h3>
   <div class="sub" id="acctSub"></div>
@@ -1178,10 +1212,11 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       const result = !done || !lFav ? '' : won!==lFav ? '<span class="tag hit">Upset!</span>' : '<span class="tag miss">Favorite won</span>';
       const score = a => done || live ? `<span class="sc${done && a!==won ? ' lost' : ''}">${a===g.home ? sc.hp : sc.ap}</span>` : '';
       const side = a => `<button class="side${done||live?' scored':''}" data-open="${esc(a)}">${logo(a)}<div><b>${rkBadge(ranks[a])}${esc(nm(a))}</b><small>${S.teams[a]?rec(S.teams[a].w,S.teams[a].l):'FCS'}${apR[a]?' · AP #'+apR[a]:''}</small></div>${score(a)}</button>`;
-      return `<div class="game${up?' hot':''}${up && result ? (won!==lFav?' hit':' miss') : ''}"><div class="gtop"><span class="when${live?' live':''}">${done ? 'Final' : live ? `Live · ${esc(sc.detail)}` : esc(kick(g.start))}</span>${result || (up?'<span class="tag up">Upset watch</span>':'')}</div>
+      S.gmap[g.id] = g;
+      return `<div class="game${up?' hot':''}${up && result ? (won!==lFav?' hit':' miss') : ''}" data-game="${esc(g.id)}"><div class="gtop"><span class="when${live?' live':''}">${done ? 'Final' : live ? `Live · ${esc(sc.detail)}` : esc(kick(g.start))}</span>${result || (up?'<span class="tag up">Upset watch</span>':'')}</div>
         ${side(g.away)}<div class="at">${g.neutral?'vs':'at'}</div>${side(g.home)}
         <div class="nums"><div><small>Line</small><b>${spread(g.line,g.home,g.away)}</b></div><div><small>Wolp+</small><b class="${mFav && lFav && mFav!==lFav ? 'mup':''}">${modelTxt(g.model,g.home,g.away)}</b></div></div>
-        ${up && up.note ? `<p class="gnote">${esc(up.note)}</p>` : ''}</div>`; };
+        ${up && up.note ? `<p class="gnote">${esc(up.note)}</p>` : ''}<button class="gov" data-game="${esc(g.id)}">Game overview →</button></div>`; };
     // Upset alerts: this week's; until this week's are published, last week's with final scores. (Saturday's results
     // arrive with Sunday's update, the same run that moves the site on to the next week.)
     const weekPicks = w => Object.fromEntries((((S.picks||[]).find(p=>p.week===w)) || {games:[]}).games.map(g=>[String(g.id), g]));
@@ -1206,7 +1241,8 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     $('hAll').hidden = !S.showAll;
     if(S.showAll) $('hAll').innerHTML = `<div class="tblw"><table><thead><tr class="cols"><th style="text-align:left">Kickoff</th><th style="text-align:left">Away</th><th></th><th style="text-align:left">Home</th><th>Line</th><th>Wolp+</th></tr></thead><tbody>${
       games.map(g=>{ const sc=gameScore(g), st = sc.state==='final' ? `Final ${sc.ap}–${sc.hp}` : sc.state==='live' ? `${sc.detail} · ${sc.ap}–${sc.hp}` : kick(g.start);
-        return `<tr><td class="dim${sc.state==='live'?' live':''}">${esc(st)}</td><td><span class="gl-n">${logo(g.away)}${rkBadge(ranks[g.away])}${esc(nm(g.away))}</span></td><td class="dim">${g.neutral?'vs':'at'}</td><td><span class="gl-n">${logo(g.home)}${rkBadge(ranks[g.home])}${esc(nm(g.home))}</span></td><td style="text-align:center">${spread(g.line,g.home,g.away)}</td><td style="text-align:center">${modelTxt(g.model,g.home,g.away)}</td></tr>`; }).join('')}</tbody></table></div>`;
+        S.gmap[g.id] = g;
+        return `<tr data-game="${esc(g.id)}"><td class="dim${sc.state==='live'?' live':''}"><button class="gov" data-game="${esc(g.id)}" aria-label="Game overview: ${esc(nm(g.away))} ${g.neutral?'vs':'at'} ${esc(nm(g.home))}">${esc(st)}</button></td><td><span class="gl-n">${logo(g.away)}${rkBadge(ranks[g.away])}${esc(nm(g.away))}</span></td><td class="dim">${g.neutral?'vs':'at'}</td><td><span class="gl-n">${logo(g.home)}${rkBadge(ranks[g.home])}${esc(nm(g.home))}</span></td><td style="text-align:center">${spread(g.line,g.home,g.away)}</td><td style="text-align:center">${modelTxt(g.model,g.home,g.away)}</td></tr>`; }).join('')}</tbody></table></div>`;
   }
   $('hAllBtn').addEventListener('click', ()=>{ S.showAll=!S.showAll; renderHome(); });
   ['hFraud','hRadar'].forEach(id=>$(id).addEventListener('click', e=>{ const b=e.target.closest('[data-more]'); if(b){ S.more[b.dataset.more]=!S.more[b.dataset.more]; renderHome(); } }));
@@ -2066,6 +2102,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     if(f){ if(tipFor===f && tipVia==='click') hideTip(); else showTip(f,'click'); } else if(tipFor) hideTip();
     MENUS.forEach(id=>{ const m=$(id); if(m.open && !m.contains(e.target)) m.open=false; });
     const op=e.target.closest('[data-open]'); if(op && !e.target.closest('.dot')) openTeam(op.dataset.open);
+    const gm=e.target.closest('[data-game]'); if(gm && !op && !e.target.closest('dialog')) openGame(gm.dataset.game);
     const go=e.target.closest('[data-go]'); if(go){ if(go.dataset.ws) S.ws=go.dataset.ws; showTab(go.dataset.go); }
   });
   document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ hideTip(); MENUS.forEach(id=>$(id).open=false); } });
@@ -2184,8 +2221,62 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     $('dlg').showModal(); $('dName').focus(); $('dlg').scrollTop = 0;
   }
 
+  // ---------- game overview ----------
+  // Click a game (Home: upset watch, big games, all games): the two teams side by side. Win chances come from the
+  // Wolp+ spread (and what the betting line implies); stats are national ranks among FBS teams.
+  S.gmap = {};
+  const GSTATS = [  // [label, key, lower is better, how to show the raw value]
+    ['Offense (adjusted EPA)', 'adjOffEpa', false, 'e'], ['Run offense', 'offRunEpa', false, 'rs'], ['Pass offense', 'offPassEpa', false, 'ps'],
+    ['Defense (adjusted EPA)', 'adjDefEpa', true, 'e'], ['Run defense', 'defRunEpa', true, 'rs'], ['Pass defense', 'defPassEpa', true, 'ps']];
+  function statRank(k, low){
+    const v = Object.keys(S.teams).filter(a=>typeof S.teams[a][k]==='number').sort((a,b)=>low ? S.teams[a][k]-S.teams[b][k] : S.teams[b][k]-S.teams[a][k]);
+    return Object.fromEntries(v.map((a,i)=>[a, i+1]));
+  }
+  function openGame(id){
+    const g = S.gmap[id]; if(!g) return;
+    const A=g.away, H=g.home, ta=S.teams[A]||{}, th=S.teams[H]||{}, ranks=pubMap();
+    const sc=gameScore(g), done=sc.state==='final', live=sc.state==='live';
+    $('gTitle').innerHTML = `${logo(A)}${esc(nm(A))} <span class="gat">${g.neutral?'vs':'at'}</span> ${logo(H)}${esc(nm(H))}`;
+    $('gSub').textContent = (done ? `Final: ${nm(A)} ${sc.ap}, ${nm(H)} ${sc.hp}` : live ? `Live · ${sc.detail} · ${sc.ap}–${sc.hp}` : kick(g.start)) + (g.neutral ? ' · neutral site' : '');
+    // win chances (home margin m: positive = home favored)
+    const bar = (m, label) => { const ph = m>0 ? winPct(m) : 100-winPct(m), pa = 100-ph;
+      return `<div class="wlab"><span><b>${pa}%</b> ${esc(nm(A))}</span><span>${label}</span><span>${esc(nm(H))} <b>${ph}%</b></span></div>
+        <div class="gbar" role="img" aria-label="${label}: ${esc(nm(A))} ${pa}%, ${esc(nm(H))} ${ph}%"><span class="${pa>ph?'fav':''}" style="width:${pa}%"></span><span class="${ph>pa?'fav':''}" style="width:${ph}%"></span></div>`; };
+    const hasM = typeof g.model==='number', hasL = typeof g.line==='number';
+    $('gWin').innerHTML = (hasM ? bar(g.model, done ? 'Wolp+ win chance before kickoff' : 'Wolp+ win chance') : '<p class="dnote">No Wolp+ spread for this game.</p>')
+      + `<div class="wl2">Wolp+: ${spread(g.model,H,A)}${hasL ? ` · Line: ${spread(g.line,H,A)} (implies ${g.line>0?winPct(g.line):100-winPct(g.line)}% ${esc(nm(H))})` : ' · no betting line'}</div>`;
+    // side by side
+    const rk = v => v ? '#'+v : '–';
+    const row = (label, va, vh, better) => { const e = better ? better(va, vh) : 0;
+      return `<tr><th>${label}</th><td class="${e<0?'edge':''}">${va}</td><td class="${e>0?'edge':''}">${vh}</td></tr>`; };
+    const lowWins = (x, y) => { const a=parseInt(String(x).replace(/\D/g,''))||999, h=parseInt(String(y).replace(/\D/g,''))||999; return a===h ? 0 : a<h ? -1 : 1; };
+    const grp = t => `<tr class="gsec"><th colspan="3">${t}</th></tr>`;
+    const f2 = v => typeof v==='number' ? (Math.abs(v)<0.005?0:v).toFixed(2) : '–', pc = v => typeof v==='number' ? Math.round(v*100)+'%' : '–';
+    const raw = (t, k, how) => how==='e' ? `${f2(t[k])} EPA` : `${f2(t[k])} EPA · ${pc(t[k.replace('Epa','Sr')])} SR`;
+    const stat = ([label, k, low, how]) => { const r=statRank(k, low), ra=r[A], rh=r[H];
+      const cell = (a, t, v) => v ? `#${v}<small>${raw(t, k, how)}</small>` : '–';
+      const e = ra && rh && ra!==rh ? (ra<rh ? -1 : 1) : 0;
+      return `<tr><th>${label}</th><td class="${e<0?'edge':''}">${cell(A, ta, ra)}</td><td class="${e>0?'edge':''}">${cell(H, th, rh)}</td></tr>`; };
+    $('gCmp').innerHTML = `<thead><tr><th></th><th>${esc(nm(A))}</th><th>${esc(nm(H))}</th></tr></thead><tbody>
+      ${row('Record', S.teams[A]?rec(ta.w,ta.l):'FCS', S.teams[H]?rec(th.w,th.l):'FCS')}
+      ${row('vs Power 4', rec(ta.p4w,ta.p4l), rec(th.p4w,th.p4l))}
+      ${grp('Rankings')}
+      ${row('Straw Poll', rk(ranks[A]), rk(ranks[H]), lowWins)}
+      ${row('AP', rk(apRank(A)), rk(apRank(H)), lowWins)}
+      ${row('Wolp+', rk(ta.powerRank), rk(th.powerRank), lowWins)}
+      ${row('ESPN FPI', rk(ta.fpiRank), rk(th.fpiRank), lowWins)}
+      ${row('Quality wins', rk(ta.resumeRank), rk(th.resumeRank), lowWins)}
+      ${row('SOR', rk(ta.resultsRank), rk(th.resultsRank), lowWins)}
+      ${grp('Offense and defense')}
+      ${GSTATS.map(stat).join('')}</tbody>`;
+    // results so far (no upcoming games)
+    $('gRes').innerHTML = [A, H].map(a=>{ const games=gamesOf(a);
+      return `<div class="cmpcol"><h4>${logo(a)}${esc(nm(a))}</h4><ul class="glog">${games.map(x=>`<li class="${isClose(x)?'close':''}"><span class="res ${x.result}">${x.result}</span><span class="sc">${gScore(x)}${x.ot?' OT':''}</span><span class="op">${gAt(x)} ${esc(gOppName(x.opp,ranks))}</span><span class="dt">${gOppRec(x.opp)}</span></li>`).join('')}</ul>${games.length?'':'<p class="dnote">No games yet.</p>'}</div>`; }).join('');
+    $('gameDlg').showModal(); $('gTitle').focus(); $('gameDlg').scrollTop = 0;
+  }
+
   // click outside a pop-up (on the dimmed background) to close it
-  ['dlg','cmpDlg','acctDlg','privDlg'].forEach(id=>$(id).addEventListener('click', e=>{
+  ['dlg','cmpDlg','gameDlg','acctDlg','privDlg'].forEach(id=>$(id).addEventListener('click', e=>{
     if(e.target!==e.currentTarget) return;
     const r=e.currentTarget.getBoundingClientRect();
     if(e.clientX<r.left || e.clientX>r.right || e.clientY<r.top || e.clientY>r.bottom) e.currentTarget.close();
