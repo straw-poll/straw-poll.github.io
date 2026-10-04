@@ -581,18 +581,16 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       <h2>What's on the site</h2>
       <dl>
         <dt>Straw Poll</dt><dd>A weekly Top 25 combined from members' ballots, published Wednesday morning.</dd>
-        <dt>Wolp+</dt><dd>A power rating for every FBS team, built only from game results: how many points better than an average FBS team a team would be on a neutral field. It never sees the Straw Poll, the AP poll or betting lines.</dd>
+        <dt>Wolp+</dt><dd>A power rating for every FBS team, built from game results: how many points better than an average FBS team a team would be on a neutral field. It never sees the Straw Poll, the AP poll or betting lines, so it's an independent check on all three.</dd>
         <dt class="sp-only">Straw+</dt><dd class="sp-only">Wolp+, adjusted 30% of the way toward the Straw Poll's order.</dd>
         <dt>AP</dt><dd>The Associated Press Top 25, for comparison.</dd>
       </dl>
 
       <h2>Voting</h2>
       <ul>
-        <li>Anyone can sign in with Google; the site owner approves who can vote.</li>
-        <li>Each week, rank exactly 25 teams on the Vote tab. A team you leave off counts as #26.</li>
-        <li>Voting opens Sunday morning, once the previous week's games are final, and closes <b>Tuesday at 11:59 PM ET</b>. You can change your ballot as often as you like until then.</li>
-        <li>A ballot sent after the deadline (within 7 days) counts only if the owner approves it.</li>
-        <li>The poll averages everyone's ranks after dropping the most extreme ones for each team, and a team must be on at least 2 ballots (and a quarter of them) to appear. <a href="#m-wolp" data-full>Full rules</a></li>
+        <li>Anyone with an approved account can submit a ballot to the Straw Poll.</li>
+        <li>Voting opens Sunday at 7 AM and closes <b>Tuesday at 11:59 PM ET</b>. You can change your ballot as often as you like until then.</li>
+        <li>The Straw Poll is released Wednesday at 6 AM ET. <a href="#m-wolp" data-full>See Straw Poll</a> for how ballots are combined.</li>
       </ul>
 
       <h2>Who sees your ballot</h2>
@@ -616,11 +614,10 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       <h2>FAQ</h2>
       <dl class="faq">
         <dt>Can I change my ballot after submitting?</dt><dd>Yes, as often as you like until Tuesday 11:59 PM ET.</dd>
-        <dt>What if I miss the deadline?</dt><dd>You can still send it for up to 7 days afterward; it counts once the owner approves it.</dd>
         <dt>Can I start my ballot before voting opens?</dt><dd>Yes. It's saved in your browser, and you can submit it once voting opens Sunday morning.</dd>
-        <dt>Why doesn't Wolp+ match the Straw Poll?</dt><dd>Wolp+ only knows scores and where games were played; the Straw Poll is people's judgment.<span class="sp-only"> Straw+ blends the two.</span></dd>
-        <dt>What's the Conference Modifier?</dt><dd>A what-if on the Research tab: add points to a conference and see how Wolp+ would reorder. It only changes your own screen.</dd>
-        <dt>Where does the data come from?</dt><dd>CollegeFootballData.com. Results, stats and the AP poll update Sunday morning; the schedule and betting lines refresh Thursday.</dd>
+        <dt>Why doesn't Wolp+ match the Straw Poll?</dt><dd>Wolp+ only knows results, plus a preseason estimate that fades out as games are played. The Straw Poll is voters' judgment.<span class="sp-only"> Straw+ blends the two.</span></dd>
+        <dt>What's the Conference Modifier?</dt><dd>A what-if on the Research tab: add points to a conference and see how Wolp+ would reorder.</dd>
+        <dt>Where does the data come from?</dt><dd>CollegeFootballData.com: scores, stats, schedules, betting lines, the AP poll and ESPN's FPI. It refreshes at 7 AM Thursday through Sunday. Live scores come from ESPN.</dd>
       </dl>
     </article>
 
@@ -658,11 +655,12 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
         <p>Wolp+ rates each team by how many points better or worse than an average FBS team it would be on a neutral field. The ratings are fitted to every result this season, so each game is judged against what was expected given both teams' strength. It accounts for:</p>
         <ul>
           <li><b>The opponent:</b> beating a strong team counts for more than beating a weak one, and a close loss to a much better team can raise a rating.</li>
-          <li><b>The margin:</b> bigger wins count for more, with less and less extra credit for running up the score. Close games, and late scores in games that weren't really close, are treated with care.</li>
+          <li><b>The margin:</b> bigger wins count for more, with less and less extra credit for running up the score. Winning itself earns a little credit beyond the margin.</li>
+          <li><b>Close games:</b> a one-score game counts as a narrow result either way, except when the winner was in control going into the 4th quarter; then the final margin counts.</li>
           <li><b>Where it was played:</b> home field, neutral sites and travel.</li>
           <li><b>Games against FCS teams:</b> they count, but a comfortable win barely moves a rating.</li>
           <li><b>Recent form:</b> recent games count somewhat more than early-season ones.</li>
-          <li><b>A preseason starting point:</b> based on last season, returning players and roster talent, which fades out as the season's results come in.</li>
+          <li><b>A preseason starting point:</b> based on last season, returning players and roster talent, with Power 4 teams starting a bit higher. It fades out as the season's results come in.</li>
         </ul>
         <div class="box">Not used: betting lines (kept out so Wolp+ can disagree with them), per-play efficiency (it didn't improve predictions), and the Straw Poll. On a week-by-week replay of 2024–2026, Wolp+'s predicted margins were off by about 12.35 points per game on average; the closing betting line was off by about 12.0. That's a little behind the best computer ratings, such as ESPN's FPI and Sagarin, and ahead of most others.</div>
 
