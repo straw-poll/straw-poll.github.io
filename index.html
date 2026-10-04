@@ -1844,7 +1844,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   }
 
   // ---------- LEAGUES ----------
-  S.lg = {state:'idle', leagues:[], members:{}, names:{}, totals:[], cur:null, polls:{}, ballots:{}, form:null};
+  S.lg = {state:'idle', leagues:[], members:{}, names:{}, totals:[], voters:new Set(), cur:null, polls:{}, ballots:{}, form:null};
   const curLeague = () => S.lg.leagues.find(l=>l.id===S.lg.cur) || null;
   const renderLeaguesIfShown = () => { if(S.tab==='leagues') renderLeagues(); if(S.tab==='history') renderWeekGrid(); };
   const lgName = id => S.lg.names[id] || (S.me && id===S.me.user.id && S.me.profile && S.me.profile.username) || 'Unnamed voter';
@@ -1853,17 +1853,18 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     await teamsReady;
     const season = S.meta && S.meta.season, uid = S.me && S.me.user.id; if(!season || !uid) return;
     S.lg.state='loading'; renderLeaguesIfShown();
-    const [L, M, T] = await Promise.all([
+    const [L, M, T, V] = await Promise.all([
       sb.from('leagues').select('id,name,owner_id,invite_code,everyone,shares_ballots'),
       sb.from('league_members').select('league_id,user_id'),
-      sb.from('pickem_totals').select('*').eq('season', season)]);
+      sb.from('pickem_totals').select('*').eq('season', season),
+      sb.rpc('league_voters', {s: season})]);  // ids of league-mates who have submitted a ballot (no contents)
     if(!S.me || S.me.user.id!==uid) return;
     const bad = L.error || M.error || T.error;
     if(bad){ S.lg.state='error'; S.lg.err=bad; renderLeaguesIfShown(); return; }
     const members = {}; M.data.forEach(m=>(members[m.league_id]=members[m.league_id]||[]).push(m.user_id));
     const ids = [...new Set(M.data.map(m=>m.user_id))];
     const P = ids.length ? await sb.from('profiles').select('id,username').in('id', ids) : {data:[]};
-    Object.assign(S.lg, {state:'ready', season, members, totals:T.data, polls:{}, ballots:{},
+    Object.assign(S.lg, {state:'ready', season, members, totals:T.data, voters:new Set(V.error ? [] : V.data), polls:{}, ballots:{},
       leagues: L.data.sort((a,b)=>(b.everyone-a.everyone) || a.name.localeCompare(b.name)),
       names: Object.fromEntries((P.data||[]).map(p=>[p.id, p.username]))});
     if(!curLeague()) S.lg.cur = (S.lg.leagues[0]||{}).id || null;
@@ -1900,8 +1901,8 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     const f=S.lg.form; $('lgForm').hidden = !f;
     if(f){ $('lgInput').placeholder = f==='join' ? 'Invite code' : 'League name'; $('lgInput').setAttribute('aria-label', f==='join' ? 'Invite code' : 'League name'); $('lgFormOk').textContent = f==='join' ? 'Join' : f==='rename' ? 'Rename' : 'Create'; }
     if(!l){ $('lgStand').innerHTML='<tbody><tr><td class="dim">You’re not in a league yet.</td></tr></tbody>'; ['lgPollSec','lgBalSec'].forEach(id=>$(id).hidden=true); $('lgManage').innerHTML=''; return; }
-    // standings: league members who have voted (a score, or my own submitted ballot), by season points vs the AP
-    const ids = (S.lg.members[l.id] || []).filter(id=>S.lg.totals.some(t=>t.user_id===id) || (id===uid && Object.keys(S.vote.mine).length)), scored = [...new Set(S.lg.totals.map(t=>t.week))].sort((a,b)=>a-b), last = scored[scored.length-1];
+    // standings: league members who have submitted a ballot this season, by season points vs the AP
+    const ids = (S.lg.members[l.id] || []).filter(id=>S.lg.voters.has(id) || S.lg.totals.some(t=>t.user_id===id) || (id===uid && Object.keys(S.vote.mine).length)), scored = [...new Set(S.lg.totals.map(t=>t.week))].sort((a,b)=>a-b), last = scored[scored.length-1];
     const latest = id => S.lg.totals.filter(t=>t.user_id===id).sort((a,b)=>b.week-a.week)[0];
     const rows = ids.map(id=>({id, t:latest(id), w:S.lg.totals.find(t=>t.user_id===id && t.week===last)}))
       .sort((a,b)=>((b.t?b.t.season_vs_ap:-1e9)-(a.t?a.t.season_vs_ap:-1e9)) || lgName(a.id).localeCompare(lgName(b.id)));
