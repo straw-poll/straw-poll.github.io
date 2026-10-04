@@ -76,8 +76,6 @@ h2 small{font:400 13px var(--body);color:var(--muted);margin-left:10px}
 .empty{padding:24px 18px;border:1px dashed var(--line);border-radius:12px;color:var(--muted)}
 .method.basics{max-width:780px;margin-bottom:22px}
 .faq dt{font-weight:600;color:var(--ink);margin-top:10px} .faq dd{margin:2px 0 0;color:var(--muted)}
-.mfull{border-top:1px solid var(--line);padding-top:14px}
-.mfull>summary{cursor:pointer;font:700 20px var(--cond);color:var(--gold);margin-bottom:14px}
 #dNote:empty{display:none}
 .steps{margin:8px 0 12px;padding-left:20px;color:var(--ink)} .steps li{margin:3px 0}
 .guide{display:flex;gap:14px;align-items:flex-start;justify-content:space-between;background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:12px;padding:12px 16px;margin-bottom:14px}
@@ -496,7 +494,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       <button class="tab owner" role="tab" id="tab-work" aria-selected="false">Vote</button>
       <button class="tab lg-only" role="tab" id="tab-leagues" aria-selected="false">Leagues</button>
       <button class="tab" role="tab" id="tab-history" aria-selected="false">History</button>
-      <button class="tab" role="tab" id="tab-method" aria-selected="false">How it works</button>
+      <button class="tab" role="tab" id="tab-method" aria-selected="false">Methodology</button>
       <button class="tab owner boss-only" role="tab" id="tab-admin" aria-selected="false">Admin</button>
     </nav>
     <div class="tools">
@@ -576,55 +574,11 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
 
   <!-- METHODOLOGY -->
   <section id="view-method" hidden>
-    <div class="ph"><div><h1>How it works</h1><div class="sub">The poll, the ratings, and how voting works</div></div></div>
-    <article class="method basics">
-      <h2>What's on the site</h2>
-      <dl>
-        <dt>Straw Poll</dt><dd>A weekly Top 25 combined from members' ballots, published Wednesday morning.</dd>
-        <dt>Wolp+</dt><dd>A power rating for every FBS team, built from game results: how many points better than an average FBS team a team would be on a neutral field. It never sees the Straw Poll, the AP poll or betting lines, so it's an independent check on all three.</dd>
-        <dt class="sp-only">Straw+</dt><dd class="sp-only">Wolp+, adjusted 30% of the way toward the Straw Poll's order.</dd>
-      </dl>
-
-      <h2>Voting</h2>
-      <ul>
-        <li>Anyone with an approved account can submit a ballot to the Straw Poll.</li>
-        <li>Voting opens Sunday at 7 AM and closes <b>Tuesday at 11:59 PM ET</b>. You can change your ballot as often as you like until then.</li>
-        <li>The Straw Poll is released Wednesday at 6 AM ET. <a href="#m-wolp" data-full>See Straw Poll</a> for how ballots are combined.</li>
-      </ul>
-
-      <h2>Who sees your ballot</h2>
-      <ul>
-        <li><b>Before the deadline:</b> only you.</li>
-        <li><b>After the deadline:</b> the site owner, who compiles the poll, and the members of your private leagues.</li>
-        <li><b>Once the Straw Poll is published (Wednesday morning):</b> everyone. Ballots are shown with their voter's username.</li>
-      </ul>
-
-      <h2 class="lg-only">Pick'em</h2>
-      <div class="lg-only">
-      <p>Your ballot doubles as your picks. Every regular-season week, each game one of your 25 teams plays is a pick for the team you ranked higher (a team not on your ballot counts as #26).</p>
-      <ul>
-        <li><b>Right:</b> +3 if the loser is in that week's AP top 10, +2 if it's AP 11–25, +1 otherwise.</li>
-        <li><b>Wrong:</b> the further apart the two teams were on your ballot, the more it costs. Your #1 losing to a team you ranked 2–5: −1; 6–10: −2; 11–15: −3; 16–20: −4; 21–25: −5; a team you didn't rank: −6. The same steps apply from any spot: your #16 losing to your #18 is −1.</li>
-        <li><b>Byes don't hurt:</b> each week's points are scaled to 25 games (points ÷ games × 25). Your season is the sum of your weeks.</li>
-        <li>The AP poll is scored exactly the same way, so you can see whether you're beating it.</li>
-      </ul>
-      </div>
-
-      <h2>FAQ</h2>
-      <dl class="faq">
-        <dt>Can I change my ballot after submitting?</dt><dd>Yes, as often as you like until Tuesday 11:59 PM ET.</dd>
-        <dt>Can I start my ballot before voting opens?</dt><dd>Yes. It's saved in your browser, and you can submit it once voting opens Sunday morning.</dd>
-        <dt>Why doesn't Wolp+ match the Straw Poll?</dt><dd>Wolp+ only knows results, plus a preseason estimate that fades out as games are played. The Straw Poll is voters' judgment.<span class="sp-only"> Straw+ blends the two.</span></dd>
-        <dt>What's the Conference Modifier?</dt><dd>A what-if on the Research tab: add points to a conference and see how Wolp+ would reorder.</dd>
-        <dt>Where does the data come from?</dt><dd>CollegeFootballData.com: scores, stats, schedules, betting lines, the AP poll and ESPN's FPI. It refreshes at 7 AM Thursday through Sunday. Live scores come from ESPN.</dd>
-      </dl>
-    </article>
-
-    <details class="mfull" id="mFull"><summary>The full methodology: Wolp+, Quality wins, projections and the Research tools</summary>
+    <div class="ph"><div><h1>Methodology</h1><div class="sub">How the Straw Poll, Wolp+ and the stats work</div></div></div>
     <div class="mwrap">
-      <nav class="toc" aria-label="How it works sections">
+      <nav class="toc" aria-label="Methodology sections">
         <a href="#m-wolp">The Straw Poll</a><a href="#m-power">Wolp+</a>
-        <a href="#m-qw">Quality wins</a><a href="#m-proj">Win chances and projections</a><a href="#m-map">Results Map</a><a href="#m-home">Home page</a><a href="#m-cols">Columns and flags</a><a href="#m-data">Data and updates</a>
+        <a href="#m-qw">Quality wins</a><a href="#m-proj">Win chances and projections</a><a href="#m-map">Results Map</a><a href="#m-home">Home page</a><a href="#m-cols">Columns and flags</a><a href="#m-data">Data and updates</a><a href="#m-pickem" class="lg-only">Pick'em</a><a href="#m-faq">FAQ</a>
       </nav>
       <article class="method">
         <h2 id="m-wolp">The Straw Poll</h2>
@@ -719,9 +673,28 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
 
         <h2 id="m-data">Data and updates</h2>
         <p>Team data comes from <a href="https://collegefootballdata.com" target="_blank" rel="noopener">CollegeFootballData.com</a> and refreshes at 7 AM ET Thursday through Sunday: results, stats, ratings, the AP poll, ESPN's FPI, the schedule and betting lines. The Straw Poll is released Wednesday at 6 AM ET. Live scores come from ESPN while games are on. Only FBS teams are rated.</p>
+
+        <h2 class="lg-only" id="m-pickem">Pick'em</h2>
+        <div class="lg-only">
+        <p>Your ballot doubles as your picks. Every regular-season week, each game one of your 25 teams plays is a pick for the team you ranked higher (a team not on your ballot counts as #26).</p>
+        <ul>
+          <li><b>Right:</b> +3 if the loser is in that week's AP top 10, +2 if it's AP 11–25, +1 otherwise.</li>
+          <li><b>Wrong:</b> the further apart the two teams were on your ballot, the more it costs. Your #1 losing to a team you ranked 2–5: −1; 6–10: −2; 11–15: −3; 16–20: −4; 21–25: −5; a team you didn't rank: −6. The same steps apply from any spot: your #16 losing to your #18 is −1.</li>
+          <li><b>Byes don't hurt:</b> each week's points are scaled to 25 games (points ÷ games × 25). Your season is the sum of your weeks.</li>
+          <li>The AP poll is scored exactly the same way, so you can see whether you're beating it.</li>
+        </ul>
+        </div>
+
+        <h2 id="m-faq">FAQ</h2>
+        <dl class="faq">
+          <dt>Can I change my ballot after submitting?</dt><dd>Yes, as often as you like until Tuesday 11:59 PM ET.</dd>
+          <dt>Can I start my ballot before voting opens?</dt><dd>Yes. It's saved in your browser, and you can submit it once voting opens Sunday morning.</dd>
+          <dt>Why doesn't Wolp+ match the Straw Poll?</dt><dd>Wolp+ only knows results, plus a preseason estimate that fades out as games are played. The Straw Poll is voters' judgment.<span class="sp-only"> Straw+ blends the two.</span></dd>
+          <dt>What's the Conference Modifier?</dt><dd>A what-if on the Research tab: add points to a conference and see how Wolp+ would reorder.</dd>
+          <dt>Where does the data come from?</dt><dd>CollegeFootballData.com: scores, stats, schedules, betting lines, the AP poll and ESPN's FPI. It refreshes at 7 AM Thursday through Sunday. Live scores come from ESPN.</dd>
+        </dl>
       </article>
     </div>
-    </details>
   </section>
 
   <!-- LEAGUES: friends' leagues plus "All voters" (everyone approved); pick'em standings (points, scored on
@@ -752,7 +725,8 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     <div class="guide" id="wsGuide" hidden><div><strong>How voting works</strong>
       <ol class="steps"><li>Pick a starting point with <b>Start from…</b> (your last ballot, Wolp+, the AP, or empty).</li>
       <li>Drag teams to rank exactly 25, or tap + in Add teams.</li>
-      <li>Submit before Tuesday 11:59 PM ET. You can change it until then; nobody sees it before voting closes.</li></ol></div>
+      <li>Voting opens Sunday at 7 AM and closes Tuesday at 11:59 PM ET. Submit before then; you can change your ballot until the deadline.</li>
+      <li>The Straw Poll is released Wednesday at 6 AM ET. Until then your ballot is private; after that, ballots are public with usernames.</li></ol></div>
       <button class="btn quiet" id="wsGuideOk">Got it</button></div>
     <div class="wbar">
       <span class="weeklabel">Week</span>
@@ -764,7 +738,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       <button class="btn quiet" id="withdraw" hidden>Withdraw</button>
       <button class="btn primary" id="save" disabled>Submit ballot</button>
     </div>
-    <p class="dnote voter-only">Your ballot is private until that week's Straw Poll is published (Wednesday morning). After that, ballots are public, shown with usernames.</p>
+    <p class="dnote voter-only">Voting opens Sunday at 7 AM and closes Tuesday at 11:59 PM ET. Your ballot is private until the Straw Poll is released (Wednesday at 6 AM ET); after that, ballots are public, shown with usernames.</p>
     <div class="wsub" role="group" aria-label="Vote view">
       <span class="lab">View</span><button class="pill" data-ws="ballot">List</button><button class="pill" data-ws="map">Results Map</button>
     </div>
@@ -814,7 +788,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
 <nav class="bnav" id="bnav" aria-label="Sections">
   <button data-tab="home">Home</button><button data-tab="rank">Research</button><button data-tab="work">Vote</button><button data-tab="leagues" class="lg-only">Leagues</button>
   <button id="bMoreBtn" aria-expanded="false" aria-controls="bMore">More</button>
-  <div class="bmore" id="bMore" hidden><button data-tab="history">History</button><button data-tab="method">How it works</button><button data-tab="admin" class="boss-only">Admin</button><button data-fb="bug" class="boss-only">Report a bug</button><button data-fb="idea" class="boss-only">Suggest an idea</button></div>
+  <div class="bmore" id="bMore" hidden><button data-tab="history">History</button><button data-tab="method">Methodology</button><button data-tab="admin" class="boss-only">Admin</button><button data-fb="bug" class="boss-only">Report a bug</button><button data-fb="idea" class="boss-only">Suggest an idea</button></div>
 </nav>
 <footer class="foot"><div class="wrapin"><span id="stamp">Loading team data…</span><span><button id="privBtn">Privacy &amp; Terms</button></span></div></footer>
 <button class="bugbtn boss-only" id="bugBtn" type="button" aria-expanded="false" aria-controls="fbMenu">Bug or idea</button>
@@ -1140,7 +1114,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   function renderBanner(){
     const el=$('hBanner'), pr=S.me && S.me.profile, link = (go, t) => ` <button class="more" data-go="${go}">${t} →</button>`;
     let h='';
-    if(!S.me) h = 'A weekly college football Top 25 from members’ ballots, alongside Wolp+, a power rating built from game results.' + link('method', 'How it works');
+    if(!S.me) h = 'A weekly college football Top 25 from members’ ballots, alongside Wolp+, a power rating built from game results.' + link('method', 'Methodology');
     else if(S.me.err) h = '';
     else if(!S.canWrite) h = pr && pr.status==='declined' ? '' : 'Your account is awaiting approval.';
     else if(S.vote.state==='ready'){
@@ -2198,7 +2172,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   // ---------- tabs ----------
   const TABS=['home','rank','work','leagues','history','method','admin'];
   // address (#...) for each tab; older addresses and bookmarks still open the right tab
-  const HASH = {home:'', work:'vote', leagues:'leagues', rank:'research', history:'history', method:'how', admin:'admin'};
+  const HASH = {home:'', work:'vote', leagues:'leagues', rank:'research', history:'history', method:'methodology', admin:'admin'};
   const ALIAS = {vote:'work', workspace:'work', work:'work', leagues:'leagues', research:'rank', data:'rank', rank:'rank',
                  history:'history', how:'method', method:'method', methodology:'method', admin:'admin', home:'home'};
   const tabFromHash = h => ALIAS[(h||'').replace(/^#/, '').toLowerCase()] || null;
@@ -2433,7 +2407,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     document.body.classList.toggle('see-lg', seeLg()); document.body.classList.toggle('see-sp', seeSp());
     $('view-work').classList.toggle('gated', !vote);
     $('wsGate').innerHTML = vote ? '' : !S.me
-      ? `<strong>How to join</strong><ol class="steps"><li>Sign in with Google.</li><li>The site owner approves your account.</li><li>Rank your 25 teams here each week and submit by Tuesday 11:59 PM ET.</li></ol><button class="btn primary" data-signin>Sign in</button> <button class="linkbtn" data-go="method">How it works</button>`
+      ? `<strong>How to join</strong><ol class="steps"><li>Sign in with Google.</li><li>The site owner approves your account.</li><li>Rank your 25 teams here each week and submit by Tuesday 11:59 PM ET.</li></ol><button class="btn primary" data-signin>Sign in</button> <button class="linkbtn" data-go="method">Methodology</button>`
       : S.me.err ? `<strong>Couldn’t load your account</strong>${esc(sbErr(S.me.err, 'Reload the page to try again.'))}`
       : pr && pr.status==='declined'
       ? '<strong>Not approved</strong>Your request to join wasn’t approved, so you can’t submit ballots. You can still view everything on the site.'
@@ -2486,10 +2460,10 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       : '<p class="dnote">Approvals, late ballots, upset watch and Open voting are on the Admin tab.</p>';
   }
   document.addEventListener('click', e=>{ if(e.target.closest('[data-signin]')) $('acctBtn').click(); });
-  // links to a methodology section (inside the collapsed "full methodology") open it, then scroll there
+  // links to a methodology section scroll there (without changing the page address)
   document.addEventListener('click', e=>{
     const a=e.target.closest('#view-method a[href^="#m-"]'); if(!a) return;
-    e.preventDefault(); $('mFull').open = true;
+    e.preventDefault();
     const t=document.getElementById(a.getAttribute('href').slice(1)); if(t) t.scrollIntoView({block:'start'});
   });
   $('acctAdminNote').addEventListener('click', e=>{ if(e.target.id==='acctToAdmin'){ $('acctDlg').close(); showTab('admin'); } });
