@@ -1437,7 +1437,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     const w=S.hw, before=weeks.filter(x=>x<w), pw = before.length ? before[before.length-1] : null;
     const cols = [['Straw Poll', strawWeek]].concat(seeSp() ? [['Straw+', strawPlusWeek]] : [], [['Wolp+', wolpWeek], ['AP', apWeek]]);
     const myScore = S.me && seeLg() && (S.lg.totals||[]).find(t=>t.user_id===S.me.user.id && t.week===w);
-    if(myWeek(w)) cols.push([myScore ? `Your ballot · ${signed(myScore.points)} pick'em (${myScore.picks_right}-${myScore.picks_wrong})` : 'Your ballot', myWeek]);
+    if(myWeek(w)) cols.push([myScore ? `Your ballot · ${ptsTxt(myScore.points)} pick'em points (${myScore.picks_right}-${myScore.picks_wrong})` : 'Your ballot', myWeek]);
     $('wkSub').textContent = S.weeks[w] && S.weeks[w].compiled ? `Week ${w} · ${S.weeks[w].ballots} ballot${S.weeks[w].ballots===1?'':'s'}` : `Week ${w}`;
     $('wkGrid').innerHTML = cols.map(([name, f])=>{
       const m=f(w), prev = pw!=null ? f(pw) : null;
@@ -1935,7 +1935,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     renderLeaguesIfShown();
   }
   function clearLeagues(){ Object.assign(S.lg, {state:'idle', leagues:[], members:{}, names:{}, totals:[], cur:null, polls:{}, ballots:{}, form:null}); }
-  const signed = v => v==null ? '–' : (v>0 ? '+' : v<0 ? '−' : '') + Math.abs(v).toFixed(1);
+  const ptsTxt = v => v==null ? '–' : (v<0 ? '−' : '') + Math.abs(v).toFixed(1);  // pick'em points: no + on positives
   // Pick'em (published rule, same as pickem.py): the AP poll's score for a week, scored like any ballot
   function apPickem(w){
     const p = pickWeek(w); if(!p || !p.ap || w>14) return null;
@@ -1972,9 +1972,9 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       .sort((a,b)=>((b.t?b.t.season_points:-1e9)-(a.t?a.t.season_points:-1e9)) || lgName(a.id).localeCompare(lgName(b.id)));
     const apS = scored.map(w=>apPickem(w)).filter(Boolean), apSeason = apS.reduce((x,y)=>x+y.pts,0), apLast = last!=null ? apPickem(last) : null;
     $('lgStSub').textContent = last!=null ? `through week ${last}` : 'scoring starts after the first closed week’s games';
-    $('lgStand').innerHTML = `<thead><tr class="cols"><th>#</th><th style="text-align:left">Voter</th><th>Season</th><th>${last!=null?`Week ${last}`:'Last week'}</th><th>Record</th></tr></thead><tbody>${
-      rows.length ? rows.map((r,i)=>`<tr class="${r.id===uid?'me':''}"><td>${r.t?i+1:'–'}</td><td style="text-align:left">${esc(lgName(r.id))}${r.id===uid?' (you)':''}</td><td class="strong">${signed(r.t&&r.t.season_points)}</td><td>${signed(r.w&&r.w.points)}</td><td>${r.t?`${r.t.season_right}-${r.t.season_wrong}`:'–'}</td></tr>`).join('') : '<tr><td colspan="5" class="dim">Voters appear here after their first ballot.</td></tr>'}${
-      apS.length ? `<tr class="dim"><td></td><td style="text-align:left">AP poll <small>(reference, scored the same way)</small></td><td>${signed(apSeason)}</td><td>${signed(apLast&&apLast.pts)}</td><td>${apS.reduce((x,y)=>x+y.right,0)}-${apS.reduce((x,y)=>x+y.wrong,0)}</td></tr>` : ''}</tbody>`;
+    $('lgStand').innerHTML = `<thead><tr class="cols"><th>#</th><th style="text-align:left">Voter</th><th>Total Points</th><th>${last!=null?`Week ${last}`:'Last Week'} Points</th><th>Record</th></tr></thead><tbody>${
+      rows.length ? rows.map((r,i)=>`<tr class="${r.id===uid?'me':''}"><td>${r.t?i+1:'–'}</td><td style="text-align:left">${esc(lgName(r.id))}${r.id===uid?' (you)':''}</td><td class="strong">${ptsTxt(r.t&&r.t.season_points)}</td><td>${ptsTxt(r.w&&r.w.points)}</td><td>${r.t?`${r.t.season_right}-${r.t.season_wrong}`:'–'}</td></tr>`).join('') : '<tr><td colspan="5" class="dim">Voters appear here after their first ballot.</td></tr>'}${
+      apS.length ? `<tr class="dim"><td></td><td style="text-align:left">AP poll <small>(reference, scored the same way)</small></td><td>${ptsTxt(apSeason)}</td><td>${ptsTxt(apLast&&apLast.pts)}</td><td>${apS.reduce((x,y)=>x+y.right,0)}-${apS.reduce((x,y)=>x+y.wrong,0)}</td></tr>` : ''}</tbody>`;
     // league poll (All voters' poll is the Straw Poll)
     const polls = S.lg.polls[l.id] || {}, pw = Object.keys(polls).map(Number).sort((a,b)=>a-b);
     $('lgPollSec').hidden = l.everyone;
