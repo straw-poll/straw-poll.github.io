@@ -629,24 +629,25 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       </nav>
       <article class="method">
         <h2 id="m-overview">Overview</h2>
-        <p>Straw Poll 2026 has two rankings of its own. <b>Wolp+</b> is a power rating for every FBS team, built from game results. <b>The Straw Poll</b> is a weekly Top 25 combined from members' ballots. Wolp+ also rates what each team has earned (quality wins). It never sees the Straw Poll, and the Straw Poll never feeds into it<span class="sp-only">; <b>Straw+</b> is the one place the two are blended</span>.</p>
+        <p>Straw Poll 2026 has two rankings of its own. <b>The Straw Poll:</b> voters individually rank 25 teams every week, and the ballots are combined into a Top 25. <b>Wolp+:</b> a power rating based on game results. Wolp+ never sees the Straw Poll, the AP poll or betting lines, and the Straw Poll never feeds into Wolp+.</p>
 
         <h2 id="m-wolp">The Straw Poll</h2>
-        <p>Every approved member submits a 25-team ballot each week, from Sunday morning (once the previous week's games are final) until Tuesday 11:59 PM ET. Nobody can see anyone else's ballot; only the combined poll is published, on Wednesday morning.</p>
+        <p>From Sunday 7 AM to Tuesday 11:59 PM ET, approved members each rank 25 teams. On Wednesday morning the ballots are combined:</p>
         <ul>
-          <li><b>Combining:</b> each team's ranks across all ballots are averaged, with a team left off a ballot counting as #26. The most extreme ranks for each team are set aside first, so one unusual ballot can't swing a team.</li>
-          <li><b>Who can appear:</b> a team must be on at least 2 ballots, and on a reasonable share of them, so a single voter can never put a team in the poll.</li>
-          <li><b>Ties</b> go to the team on more ballots.</li>
-          <li><b>Also receiving votes:</b> the next ten teams by the same method.</li>
+          <li>Each team's average rank across all ballots.</li>
+          <li>The most extreme ranks for each team are set aside first, so one unusual ballot can't swing a team.</li>
+          <li>A team must be on at least 2 ballots, and on a reasonable share of them, so no single voter can put a team in the poll.</li>
+          <li>Ties go to the team on more ballots.</li>
+          <li>The top 25 are ranked; the next ten are listed as <b>Also receiving votes</b>.</li>
         </ul>
-        <p>Weeks 1–5 are the site owner's own rankings from before ballots opened; those listed 35 teams, with 26–35 shown as <b>Also ranked</b>.</p>
+        <p>Ballots stay private until the poll is published; then every ballot is shown with its voter's username. Weeks 1–5 of 2026 are the site owner's own rankings, from before ballots opened.</p>
 
         <h2 id="m-ratings">The rankings</h2>
         <dl>
           <dt>Straw Poll</dt><dd>Members' weekly ballots, combined.</dd>
           <dt class="sp-only">Straw+</dt><dd class="sp-only">Each Straw Poll team's Wolp+ rating moved 30% of the way toward the rating that its Straw Poll rank would carry in Wolp+ (the rating of Wolp+'s team at that rank). The crowd sets the order it leans toward; Wolp+ keeps the spacing. Teams outside the Straw Poll keep their Wolp+ rating.</dd>
           <dt>AP</dt><dd>The Associated Press Top 25.</dd>
-          <dt>Wolp+</dt><dd>Teams ranked by their power rating: points better than an average FBS team on a neutral field. The difference between two teams' ratings, plus the home edge, is Wolp+'s predicted margin. It picks winners better than the AP poll (see the Scorecard on Previous Rankings) and comes close to the best computer ratings: on 2023–25 games it missed by about 0.15 points a game more than ESPN's FPI and Sagarin, and beat 24 of 33 tracked systems.</dd>
+          <dt>Wolp+</dt><dd>Teams ranked by their power rating; see <a href="#m-power" data-full>Power rating</a>.</dd>
         </dl>
         <p><b>Quality wins</b> and <b>Strength of résumé (SOR)</b> are shown alongside as résumé stats, not rankings: every win and loss, each weighted by how good the opponent is. Quality wins judges opponents by Model rank; SOR judges them by their records alone.</p>
         <p><b>Conference Modifier ▾</b> (Research tab): a just-for-fun what-if. Add points to a conference to see how the rankings would change. It only changes your screen, never the real ratings.</p>
@@ -662,7 +663,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
           <li><b>Recent form:</b> recent games count somewhat more than early-season ones.</li>
           <li><b>A preseason starting point:</b> based on last season, returning players and roster talent, with Power 4 teams starting a bit higher. It fades out as the season's results come in.</li>
         </ul>
-        <div class="box">Not used: betting lines (kept out so Wolp+ can disagree with them), per-play efficiency (it didn't improve predictions), and the Straw Poll. On a week-by-week replay of 2024–2026, Wolp+'s predicted margins were off by about 12.35 points per game on average; the closing betting line was off by about 12.0. That's a little behind the best computer ratings, such as ESPN's FPI and Sagarin, and ahead of most others.</div>
+        <div class="box">Not used: betting lines (kept out so Wolp+ can disagree with them), per-play efficiency (it didn't improve predictions), and the Straw Poll. On a week-by-week replay of 2024–26, Wolp+'s predictions missed by about 12.35 points a game; the closing betting line by about 12.0. Against 33 computer rating systems tracked on 2023–25 games, Wolp+ was more accurate than 24 of them, about 0.15 points a game behind the best (ESPN's FPI and Sagarin).</div>
 
         <h2 id="m-qw">Quality wins (résumé stat)</h2>
         <ul>
@@ -1041,7 +1042,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       compiled:true, ballots:p.ballots, results:p.results||[]}]));
     mergeWeeks(); renderAll();
   }
-  const alsoLabel = n => S.weeks[n] && S.weeks[n].compiled ? 'Also receiving votes' : 'Also ranked';
+  const alsoLabel = () => 'Also receiving votes';
   // Straw+ rank for every team, from the latest published poll (null when there is none yet)
   function strawPlusRank(){
     if(!seeSp()) return null;
@@ -1211,9 +1212,9 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       const row=(a,i)=>`<div class="trow${S.cmp.includes(a)?' sel':''}" data-abbr="${esc(a)}" style="--tc:${tc(a)}"><span class="rk">${i<TOP?i+1:''}</span>${moveOf(a,i+1,prev)}${logo(a)}<button class="tn tname" data-open="${esc(a)}">${esc(nm(a))}</button><span class="tr">${S.teams[a]?rec(S.teams[a].w,S.teams[a].l):''}</span></div>`;
       $('hTop').innerHTML = `<div>${top.slice(0,half).map((a,i)=>row(a,i)).join('')}</div><div>${top.slice(half).map((a,i)=>row(a,i+half)).join('')}</div>`;
       const rest=list.slice(TOP);
-      // Just missed: 26-35 in order, like the Top 25 but without a rank number (only the Top 25 are ranked)
+      // Also receiving votes: 26-35 in order, like the Top 25 but without a rank number (only the Top 25 are ranked)
       const rh=Math.ceil(rest.length/2);
-      $('hAlso').innerHTML = rest.length ? `<h3>Just missed</h3><div class="t25"><div>${rest.slice(0,rh).map((a,i)=>row(a,TOP+i)).join('')}</div><div>${rest.slice(rh).map((a,i)=>row(a,TOP+rh+i)).join('')}</div></div>` : '';
+      $('hAlso').innerHTML = rest.length ? `<h3>Also receiving votes</h3><div class="t25"><div>${rest.slice(0,rh).map((a,i)=>row(a,TOP+i)).join('')}</div><div>${rest.slice(rh).map((a,i)=>row(a,TOP+rh+i)).join('')}</div></div>` : '';
     }
     // fraud watch / under the radar (the Straw Poll vs the AP)
     const apR=(S.ap&&S.ap.ranks)||{}, hasAp=Object.keys(apR).length>0 && list.length>0;
