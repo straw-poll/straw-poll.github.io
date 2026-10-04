@@ -124,6 +124,10 @@ h2 small{font:400 13px var(--body);color:var(--muted);margin-left:10px}
 .side .lg{width:30px;height:30px}
 .side b{font:700 20px/1.05 var(--cond);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .side small{color:var(--muted);font-size:12px}
+.side .tname{background:none;border:0;padding:0;font:inherit;color:inherit;cursor:pointer;text-align:left;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.side .tname:hover,.gl-n.tname:hover{text-decoration:underline}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.sr-only:focus{position:static;width:auto;height:auto;margin:8px 0 0;clip:auto;overflow:visible}
 .rkb{font:800 15px var(--cond);color:var(--gold);margin-right:6px}
 .at{color:var(--muted);font-size:12px;margin:2px 0 2px 42px}
 .nums{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;padding-top:10px;border-top:1px solid var(--line2)}
@@ -1110,6 +1114,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     return `<dl class="facts"><dt>Wolp+</dt><dd>${t.powerRank?'#'+t.powerRank:'–'}${adjOf(a)&&c?` <span style="color:var(--muted);font-weight:500">(with your Conference Modifier: #${c})</span>`:''}</dd>
       <dt>Quality wins</dt><dd>${t.resumeRank?'#'+t.resumeRank:'–'}</dd>
       <dt>SOR</dt><dd>${t.resultsRank?'#'+t.resultsRank:'–'}</dd>
+      <dt>AP</dt><dd>${apRank(a)?'#'+apRank(a):'Not ranked'}</dd>
       <dt>ESPN FPI</dt><dd>${t.fpiRank?'#'+t.fpiRank:'–'}</dd>
       ${SHOW_QUADS?`<dt>Quadrants</dt><dd>${qStr(a)}</dd>`:''}
       ${t.proj?`<dt>Projected</dt><dd>${projTxt(t)}</dd>`:''}
@@ -1229,12 +1234,12 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       const sc = gameScore(g), done = sc.state==='final', live = sc.state==='live', won = done ? (sc.hp>sc.ap ? g.home : g.away) : null;
       const result = !done || !lFav ? '' : won!==lFav ? '<span class="tag hit">Upset!</span>' : '<span class="tag miss">Favorite won</span>';
       const score = a => done || live ? `<span class="sc${done && a!==won ? ' lost' : ''}">${a===g.home ? sc.hp : sc.ap}</span>` : '';
-      const side = a => `<button class="side${done||live?' scored':''}" data-open="${esc(a)}">${logo(a)}<div><b>${rkBadge(ranks[a])}${esc(nm(a))}</b><small>${S.teams[a]?rec(S.teams[a].w,S.teams[a].l):'FCS'}${apR[a]?' · AP #'+apR[a]:''}</small></div>${score(a)}</button>`;
+      const side = a => `<div class="side${done||live?' scored':''}">${logo(a)}<div><b><button class="tname" data-open="${esc(a)}">${rkBadge(ranks[a])}${esc(nm(a))}</button></b><small>${S.teams[a]?rec(S.teams[a].w,S.teams[a].l):'FCS'}${apR[a]?' · AP #'+apR[a]:''}</small></div>${score(a)}</div>`;
       S.gmap[g.id] = g;
       return `<div class="game${up?' hot':''}${up && result ? (won!==lFav?' hit':' miss') : ''}" data-game="${esc(g.id)}"><div class="gtop"><span class="when${live?' live':''}">${done ? 'Final' : live ? `Live · ${esc(sc.detail)}` : esc(kick(g.start))}</span>${result || (up?'<span class="tag up">Upset watch</span>':'')}</div>
         ${side(g.away)}<div class="at">${g.neutral?'vs':'at'}</div>${side(g.home)}
         <div class="nums"><div><small>Line</small><b>${spread(g.line,g.home,g.away)}</b></div><div><small>Wolp+</small><b class="${mFav && lFav && mFav!==lFav ? 'mup':''}">${modelTxt(g.model,g.home,g.away)}</b></div></div>
-        ${up && up.note ? `<p class="gnote">${esc(up.note)}</p>` : ''}<button class="gov" data-game="${esc(g.id)}">Game overview →</button></div>`; };
+        ${up && up.note ? `<p class="gnote">${esc(up.note)}</p>` : ''}<button class="gov sr-only" data-game="${esc(g.id)}">Game overview: ${esc(nm(g.away))} ${g.neutral?'vs':'at'} ${esc(nm(g.home))}</button></div>`; };
     // Upset alerts: this week's; until this week's are published, last week's with final scores. (Saturday's results
     // arrive with Sunday's update, the same run that moves the site on to the next week.)
     const weekPicks = w => Object.fromEntries((((S.picks||[]).find(p=>p.week===w)) || {games:[]}).games.map(g=>[String(g.id), g]));
@@ -1260,7 +1265,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     if(S.showAll) $('hAll').innerHTML = `<div class="tblw"><table><thead><tr class="cols"><th style="text-align:left">Kickoff</th><th style="text-align:left">Away</th><th></th><th style="text-align:left">Home</th><th>Line</th><th>Wolp+</th></tr></thead><tbody>${
       games.map(g=>{ const sc=gameScore(g), st = sc.state==='final' ? `Final ${sc.ap}–${sc.hp}` : sc.state==='live' ? `${sc.detail} · ${sc.ap}–${sc.hp}` : kick(g.start);
         S.gmap[g.id] = g;
-        return `<tr data-game="${esc(g.id)}"><td class="dim${sc.state==='live'?' live':''}"><button class="gov" data-game="${esc(g.id)}" aria-label="Game overview: ${esc(nm(g.away))} ${g.neutral?'vs':'at'} ${esc(nm(g.home))}">${esc(st)}</button></td><td><span class="gl-n">${logo(g.away)}${rkBadge(ranks[g.away])}${esc(nm(g.away))}</span></td><td class="dim">${g.neutral?'vs':'at'}</td><td><span class="gl-n">${logo(g.home)}${rkBadge(ranks[g.home])}${esc(nm(g.home))}</span></td><td style="text-align:center">${spread(g.line,g.home,g.away)}</td><td style="text-align:center">${modelTxt(g.model,g.home,g.away)}</td></tr>`; }).join('')}</tbody></table></div>`;
+        return `<tr data-game="${esc(g.id)}"><td class="dim${sc.state==='live'?' live':''}"><button class="gov" data-game="${esc(g.id)}" aria-label="Game overview: ${esc(nm(g.away))} ${g.neutral?'vs':'at'} ${esc(nm(g.home))}">${esc(st)}</button></td><td><button class="gl-n tname linkbtn" style="color:inherit;text-decoration:none" data-open="${esc(g.away)}">${logo(g.away)}${rkBadge(ranks[g.away])}${esc(nm(g.away))}</button></td><td class="dim">${g.neutral?'vs':'at'}</td><td><button class="gl-n tname linkbtn" style="color:inherit;text-decoration:none" data-open="${esc(g.home)}">${logo(g.home)}${rkBadge(ranks[g.home])}${esc(nm(g.home))}</button></td><td style="text-align:center">${spread(g.line,g.home,g.away)}</td><td style="text-align:center">${modelTxt(g.model,g.home,g.away)}</td></tr>`; }).join('')}</tbody></table></div>`;
   }
   $('hAllBtn').addEventListener('click', ()=>{ S.showAll=!S.showAll; renderHome(); });
   ['hFraud','hRadar'].forEach(id=>$(id).addEventListener('click', e=>{ const b=e.target.closest('[data-more]'); if(b){ S.more[b.dataset.more]=!S.more[b.dataset.more]; renderHome(); } }));
