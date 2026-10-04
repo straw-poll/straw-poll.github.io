@@ -700,19 +700,27 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
 
         <h2 id="m-home">Home page</h2>
         <dl>
-          <dt>Fraud watch</dt><dd>Teams in the AP Top 25 that the Straw Poll ranks at least <b class="fthr">8</b> spots lower. A team outside the Straw Poll 35 counts as #36. Sorted by the size of the gap.</dd>
-          <dt>Under the radar</dt><dd>Straw Poll teams that the Straw Poll ranks at least <b class="fthr">8</b> spots higher than the AP. A team outside the AP Top 25 counts as AP #36, the same as a team outside the Straw Poll 35 in Fraud watch.</dd>
+          <dt>Fraud watch</dt><dd>AP Top 25 teams that the Straw Poll ranks at least <b class="fthr">8</b> spots lower. A team outside the Straw Poll Top 25 counts as #26. Biggest gaps first.</dd>
+          <dt>Under the radar</dt><dd>Straw Poll Top 25 teams ranked at least <b class="fthr">8</b> spots higher than the AP has them. A team outside the AP Top 25 counts as #26. Biggest gaps first.</dd>
           <dt>Wolp+ spread</dt><dd>Wolp+'s predicted margin, written like a betting line (favorite −points, rounded to the half point). It never uses the betting line.</dd>
           <dt>Line</dt><dd>The median spread across sportsbooks, from CollegeFootballData.com.</dd>
           <dt>Upset watch</dt><dd>Games hand-picked each week, usually where Wolp+ favors the betting underdog or disagrees with the line by a touchdown or more.</dd>
           <dt>Scorecard</dt><dd>On History: each week, the share of winners Wolp+, ESPN's FPI and the betting line picked correctly, in FBS games with a Straw Poll or AP Top 25 team. Wolp+ and FPI pick the team with the higher rating going into the week; the line picks the betting favorite.</dd>
-          <dt>Big games</dt><dd>This week's games with a Straw Poll ranked (1–35) or AP Top 25 team where the favorite is giving 14 points or less (by the betting line, or the Wolp+ spread when there's no line). When both teams are ranked (the Straw Poll or AP), the limit is 21 points.</dd>
+          <dt>Big games</dt><dd>This week's games with a Straw Poll Top 25 or AP Top 25 team where the favorite is giving 14 points or less (by the betting line, or the Wolp+ spread when there's no line). When both teams are ranked, the limit is 21 points.</dd>
         </dl>
 
         <h2 id="m-cols">Columns and flags</h2>
         <dl>
+          <dt>Straw</dt><dd>Straw Poll rank (Top 25; Also receiving votes after).</dd>
+          <dt>AP</dt><dd>This week's AP rank.</dd>
+          <dt>Wolp+</dt><dd>Power-rating rank.</dd>
+          <dt>Rating</dt><dd>Wolp+ points better than an average FBS team.</dd>
+          <dt>Proj. record</dt><dd>Expected final regular-season record.</dd>
+          <dt>Quality wins</dt><dd>Résumé rank (see Quality wins).</dd>
+          <dt>FPI</dt><dd>ESPN's Football Power Index rank, for comparison only.</dd>
+          <dt>Run / pass</dt><dd>On the Game overview: EPA per play and success rate on runs and passes, offense and defense, not adjusted for opponents.</dd>
           <dt>vs P4</dt><dd>Record against SEC, Big Ten, Big 12 and ACC teams, plus Notre Dame.</dd>
-          <dt>vs Straw 25</dt><dd>Record against teams in the Straw Poll Top 25.</dd>
+          <dt>vs Straw 25</dt><dd>Record against teams in the current Straw Poll Top 25.</dd>
           <dt>2025, Final AP</dt><dd>Last season's regular-season record and final AP rank.</dd>
           <dt>Off / Def EPA</dt><dd>Expected points added per play on offense, and allowed on defense (garbage time excluded). Defense: lower is better.</dd>
           <dt>SR, Expl</dt><dd>Success rate (share of plays that keep a drive on schedule) and explosiveness (size of successful plays).</dd>
@@ -936,7 +944,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   const ERRS = [], keepErr = t => { ERRS.push(t); if(ERRS.length>5) ERRS.shift(); };
   window.addEventListener('error', e => keepErr(`${e.message} (${String(e.filename||'').split('/').pop()}:${e.lineno||'?'})`));
   window.addEventListener('unhandledrejection', e => keepErr('Unhandled: '+String((e.reason && e.reason.message) || e.reason)));
-  const MAX = 35, TOP = 25, MAXC = 4, FRAUD = 8, AP_NR = 36, BIG = 14, BIG_RANKED = 21;
+  const MAX = 35, TOP = 25, MAXC = 4, FRAUD = 8, AP_NR = 26, BIG = 14, BIG_RANKED = 21;
   const S = {teams:{}, teamsRaw:null, meta:null, model:null, schedule:null, ap:null, weeks:{}, cur:null, draft:[], dirty:false,
              canWrite:false, isOwner:false, me:null, wantTab:null, accessKnown:false, accessFor:'', cmp:[], tab:'home', ws:'ballot',
              r:{show:'top', confOff:[], q:'', ms:'wolp', col:'ms', rev:false, xax:'wolp'}, f:'off', pc:'', q:'', sort:'frank',
@@ -1214,8 +1222,10 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     const apR=(S.ap&&S.ap.ranks)||{}, hasAp=Object.keys(apR).length>0 && list.length>0;
     const wrow = a => `<button class="wrow" data-open="${esc(a)}">${logo(a)}<div class="wn"><b>${esc(nm(a))}</b><small>${S.teams[a]?rec(S.teams[a].w,S.teams[a].l)+' · '+esc(S.teams[a].conf||''):''}</small></div>
       <div class="wk"><span><small>AP</small>${apR[a]?'#'+apR[a]:'NR'}</span><span><small>Straw</small>${ranks[a] && ranks[a]<=TOP?'#'+ranks[a]:'NR'}</span></div></button>`;
-    const fraud = Object.keys(apR).filter(a=>S.teams[a] && (ranks[a]||MAX+1)-apR[a]>=FRAUD).sort((a,b)=>((ranks[b]||MAX+1)-apR[b])-((ranks[a]||MAX+1)-apR[a]) || apR[a]-apR[b]);
-    const radar = list.filter(a=>(apR[a]||AP_NR)-ranks[a]>=FRAUD).sort((a,b)=>((apR[b]||AP_NR)-ranks[b])-((apR[a]||AP_NR)-ranks[a]));
+    // outside a Top 25 counts as #26 on both sides (Straw Poll 26-35 included)
+    const sr = a => ranks[a] && ranks[a]<=TOP ? ranks[a] : TOP+1, ar = a => apR[a] || AP_NR;
+    const fraud = Object.keys(apR).filter(a=>S.teams[a] && sr(a)-apR[a]>=FRAUD).sort((a,b)=>(sr(b)-apR[b])-(sr(a)-apR[a]) || apR[a]-apR[b]);
+    const radar = list.slice(0, TOP).filter(a=>ar(a)-sr(a)>=FRAUD).sort((a,b)=>(ar(b)-sr(b))-(ar(a)-sr(a)));
     const none = '<p class="lead" style="margin:0">No one this week.</p>', wait='<p class="lead" style="margin:0">Waiting for the AP poll and a saved ballot.</p>';
     // the biggest gaps first; the rest behind a button, so this column stays about as tall as the Top 25 beside it
     const FEW = 4, watchList = (L, k) => !L.length ? none : (S.more[k] ? L : L.slice(0, FEW)).map(wrow).join('')
@@ -1250,10 +1260,11 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     const nCand = S.isOwner ? upsetCands().filter(x=>x.cand).length : 0;
     const review = S.isOwner ? `<div class="game" style="display:flex;flex-direction:column;justify-content:center;gap:8px;border-style:dashed"><b style="font:700 18px var(--cond)">${Object.keys(upW).length ? 'Edit upset watch' : `No week ${sch.week} upset watch published yet`}</b><span class="lead" style="margin:0">${nCand} candidate${nCand===1?'':'s'} this week. Only you see this box.</span><button class="btn primary" data-go="admin" style="align-self:flex-start">Review and publish →</button></div>` : '';
     $('hUps').innerHTML = ups.map(g=>card(g, upNow[g.id])).join('') + review;
-    const imp = g => Math.min(ranks[g.home]||99, ranks[g.away]||99, apR[g.home]||99, apR[g.away]||99);
+    const top = r => r && r<=TOP ? r : 99;   // Straw Poll Top 25 only
+    const imp = g => Math.min(top(ranks[g.home]), top(ranks[g.away]), apR[g.home]||99, apR[g.away]||99);
     const fav = g => typeof g.line==='number' ? Math.abs(g.line) : typeof g.model==='number' ? Math.abs(g.model) : 0;  // spread: line, else model
-    const rkd = a => !!(ranks[a] || apR[a]), both = g => rkd(g.home) && rkd(g.away);  // ranked matchups get a wider window
-    const big = games.filter(g=>imp(g)<99 && fav(g)<=(both(g) ? BIG_RANKED : BIG)).sort((x,y)=>((ranks[x.home]||45)+(ranks[x.away]||45)) - ((ranks[y.home]||45)+(ranks[y.away]||45)) || imp(x)-imp(y));
+    const rkd = a => top(ranks[a])<99 || !!apR[a], both = g => rkd(g.home) && rkd(g.away);  // ranked matchups get a wider window
+    const big = games.filter(g=>imp(g)<99 && fav(g)<=(both(g) ? BIG_RANKED : BIG)).sort((x,y)=>((top(ranks[x.home])<99?ranks[x.home]:45)+(top(ranks[x.away])<99?ranks[x.away]:45)) - ((top(ranks[y.home])<99?ranks[y.home]:45)+(top(ranks[y.away])<99?ranks[y.away]:45)) || imp(x)-imp(y));
     $('hBigWrap').hidden = !games.length;
     $('hBigT').innerHTML = `This week's big games${sch.week!=null?`<small>Week ${sch.week}</small>`:''}`;
     $('hBig').innerHTML = big.map(g=>card(g, upW[g.id])).join('') || '<p class="lead">No close-looking ranked games this week.</p>';
