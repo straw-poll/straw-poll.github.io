@@ -295,9 +295,6 @@ td.c-mv{padding-left:0;width:30px}
 .wkrow{display:grid;grid-template-columns:24px 30px 20px minmax(0,1fr);gap:6px;align-items:center;width:100%;background:none;border:0;border-bottom:1px solid var(--line2);box-shadow:inset 3px 0 var(--tc,transparent);padding:4px 0 4px 6px;text-align:left;color:var(--ink)}
 .wkrow .rk{font:700 15px var(--cond);text-align:right} .wkrow .lg{width:20px;height:20px}
 .wkrow .tn{font:600 14px var(--cond);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.hist td.t,.hist th.t{text-align:left;position:sticky;left:0;background:var(--panel)}
-.hist td.t{font:700 16px var(--cond)}
-.hist td.t span{display:flex;align-items:center;gap:8px}
 .hist td.r{font:700 16px var(--cond)} .hist td.r.top5{color:var(--gold)} .hist td.nr{color:#2a3b52}
 .hist th{position:sticky;top:0;background:var(--panel)}
 
@@ -358,6 +355,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 .gbox{min-height:44px;margin:12px 0 4px}
 .linkbtn{background:none;border:0;padding:0;color:var(--gold);text-decoration:underline;cursor:pointer;font:inherit}
 .linkbtn.danger{color:var(--loss)}
+.linkbtn.vname{color:var(--ink);text-decoration:none;font-weight:600} .linkbtn.vname:hover{text-decoration:underline}
 .acctdel{margin-top:18px;border-top:1px solid var(--line);padding-top:12px;display:flex;flex-direction:column;gap:4px}
 .acctdel small{color:var(--muted);font-size:12px}
 .priv{font-size:14px}
@@ -565,13 +563,9 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       <label class="xsel"><span class="lab">Week</span><select id="wkSel" class="fsel xpick" aria-label="Choose a week"></select></label></div>
       <div class="wkgrid" id="wkGrid"></div>
       <p class="note">Each list is the Top 25 going into that week's games. Wolp+<span class="sp-only"> and Straw+</span> lists start at week 6 of 2026; weeks 1–5 are the site owner's own rankings from before ballots opened. Arrows show movement from the previous week.</p></div>
-    <div class="card" id="balCard" style="margin-bottom:22px" hidden><div class="ch"><h2>Ballots<small id="balSub"></small></h2></div>
-      <div class="wkgrid" id="balGrid"></div>
-      <p class="note">Every voter's ballot for this week, shown once the week's Straw Poll is published.</p></div>
     <div class="card" id="scoreCard" style="margin-bottom:22px"><div class="ch"><h2>Scorecard<small>Who picks more winners: the Straw Poll, the AP poll, or the model?</small></h2></div>
       <div class="tblw" id="scoreBody"></div>
       <p class="note">Games with a Straw Poll Top 25 or AP Top 25 team. The Straw Poll and AP pick the better-ranked team (that week's ballot and poll; outside the Straw Poll 35 or AP 25 counts as unranked, and a game with neither team ranked in a list gets no pick from it). Model and Line pick the favorite in the model's spread and the betting line, both as of the last update before kickoff.</p></div>
-    <div class="card hist"><div class="ch"><h2>Straw Poll by week</h2></div><div class="tblw" id="histBody"></div></div>
   </section>
 
   <!-- METHODOLOGY -->
@@ -599,7 +593,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       <ul>
         <li><b>Before the deadline:</b> only you.</li>
         <li><b>After the deadline:</b> the site owner, who compiles the poll, and the members of your private leagues.</li>
-        <li><b>Once the Straw Poll is published (Wednesday morning):</b> everyone. Every ballot is shown with its voter's username on the History tab.</li>
+        <li><b>Once the Straw Poll is published (Wednesday morning):</b> everyone. Ballots are shown with their voter's username.</li>
       </ul>
 
       <h2 class="lg-only">Pick'em</h2>
@@ -752,9 +746,6 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       <section class="sec" id="lgPollSec"><div class="sh"><h2>League poll<small id="lgPollSub"></small></h2>
         <label class="xsel"><span class="lab">Week</span><select id="lgPollWk" class="fsel xpick" aria-label="League poll week"></select></label></div>
         <div id="lgPoll"></div></section>
-      <section class="sec" id="lgBalSec"><div class="sh"><h2>Ballots<small>shown once voting closes</small></h2>
-        <label class="xsel"><span class="lab">Week</span><select id="lgBalWk" class="fsel xpick" aria-label="Ballots week"></select></label></div>
-        <div class="wkgrid" id="lgBal"></div></section>
       <section class="sec" id="lgManage"></section>
     </div>
   </section>
@@ -777,7 +768,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       <button class="btn quiet" id="withdraw" hidden>Withdraw</button>
       <button class="btn primary" id="save" disabled>Submit ballot</button>
     </div>
-    <p class="dnote voter-only">Your ballot is private until that week's Straw Poll is published (Wednesday morning). Then everyone's ballots, with usernames, are shown on the History tab.</p>
+    <p class="dnote voter-only">Your ballot is private until that week's Straw Poll is published (Wednesday morning). After that, ballots are public, shown with usernames.</p>
     <div class="wsub" role="group" aria-label="Vote view">
       <span class="lab">View</span><button class="pill" data-ws="ballot">List</button><button class="pill" data-ws="map">Results Map</button>
     </div>
@@ -845,6 +836,14 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   <h4 class="dh" id="dNextH">Upcoming</h4>
   <ul class="glog nextg" id="dNext"></ul>
   <div class="trail" id="dTrail"></div>
+  <form method="dialog"><div class="dlgbtns"><button class="btn">Close</button></div></form>
+</dialog>
+<dialog id="voterDlg" aria-labelledby="vTitle">
+  <h3 id="vTitle" tabindex="-1"></h3>
+  <div class="sub" id="vSub"></div>
+  <label class="xsel" id="vWkLab"><span class="lab">Week</span><select id="vWk" class="fsel xpick" aria-label="Ballot week"></select></label>
+  <div class="wkgrid" id="vBal"></div>
+  <p class="dnote">A ballot is shown once that week's Straw Poll is published (in a private league, league-mates see each other's after the deadline).</p>
   <form method="dialog"><div class="dlgbtns"><button class="btn">Close</button></div></form>
 </dialog>
 <dialog id="gameDlg" aria-labelledby="gTitle">
@@ -1450,38 +1449,19 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       return `<div class="wkcol"><h3>${esc(name)}</h3>${top.length ? top.map(a=>`<button class="wkrow" data-open="${esc(a)}" style="--tc:${tc(a)}"><span class="rk">${m[a]}</span>${moveOf(a, m[a], prev)}${logo(a)}<span class="tn">${esc(nm(a))}</span></button>`).join('')
         : `<p class="note">Not available for week ${w}.</p>`}</div>`;
     }).join('');
-    renderPubBallots(w);
-  }
-  // everyone's ballots for a week, public once that week's Straw Poll is published (backend/013); one request per week
-  S.pubBal = {};
-  async function renderPubBallots(w){
-    const card=$('balCard'), season=S.meta && S.meta.season;
-    if(!sb || !season || !(S.weeks[w] && S.weeks[w].compiled)){ card.hidden=true; return; }
-    if(!(w in S.pubBal)){
-      card.hidden=true;
-      const r = await sb.rpc('published_ballots', {s: season, w});
-      S.pubBal[w] = r.error ? null : r.data;
-      if(S.hw!==w) return;
-    }
-    const B=S.pubBal[w];
-    card.hidden = !(B && B.length);
-    if(card.hidden) return;
-    $('balSub').textContent = `Week ${w} · ${B.length} ballot${B.length===1?'':'s'}`;
-    $('balGrid').innerHTML = B.map(b=>{ const m={}; b.ranking.forEach((a,i)=>m[a]=i+1); return `<div class="wkcol"><h3>${esc(b.username)}</h3>${teamList(m, null)}</div>`; }).join('');
   }
   $('wkSel').addEventListener('change', e=>{ S.hw=Number(e.target.value); renderWeekGrid(); });
+  // everyone's ballots for a week, public once that week's Straw Poll is published (backend/013): [{username, ranking}]
+  S.pubBal = {};
+  async function pubBallots(w){
+    const season = S.meta && S.meta.season;
+    if(!sb || !season || !(S.weeks[w] && S.weeks[w].compiled)) return [];
+    if(!(w in S.pubBal)){ const r = await sb.rpc('published_ballots', {s: season, w}); if(r.error) return []; S.pubBal[w] = r.data || []; }
+    return S.pubBal[w];
+  }
   function renderHistory(){
     renderWeekGrid();
     renderScore();
-    const nums=savedNums(), el=$('histBody');
-    if(!nums.length){ el.innerHTML='<div class="empty"><strong>No weeks yet</strong>Each week\'s Straw Poll will line up here.</div>'; return; }
-    const maps = nums.map(rankMap), last = maps[maps.length-1];
-    const all = new Set(); maps.forEach(m=>Object.keys(m).forEach(a=>all.add(a)));
-    const best = a => Math.min(...maps.map(m=>m[a]||99));
-    const rows=[...all].sort((a,b)=>((last[a]||99)-(last[b]||99)) || (best(a)-best(b)));
-    el.innerHTML = `<table><thead><tr class="cols"><th class="t">Team</th><th>Record</th>${nums.map(n=>`<th>Wk ${n}</th>`).join('')}<th>High</th></tr></thead><tbody>${
-      rows.map(a=>`<tr style="--tc:${tc(a)}"><td class="t"><span>${logo(a)}${esc(nm(a))}</span></td><td>${S.teams[a]?rec(S.teams[a].w,S.teams[a].l):'—'}</td>${maps.map(m=>m[a]?`<td class="r${m[a]<=5?' top5':''}">${m[a]}</td>`:'<td class="nr">–</td>').join('')}<td>${best(a)}</td></tr>`).join('')
-    }</tbody></table>`;
   }
 
   // ---------- METHODOLOGY ----------
@@ -1987,7 +1967,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     $('lgSel').innerHTML = S.lg.leagues.map(x=>`<option value="${esc(x.id)}"${x.id===S.lg.cur?' selected':''}>${esc(x.name)}</option>`).join('');
     const f=S.lg.form; $('lgForm').hidden = !f;
     if(f){ $('lgInput').placeholder = f==='join' ? 'Invite code' : 'League name'; $('lgInput').setAttribute('aria-label', f==='join' ? 'Invite code' : 'League name'); $('lgFormOk').textContent = f==='join' ? 'Join' : f==='rename' ? 'Rename' : 'Create'; }
-    if(!l){ $('lgStand').innerHTML='<tbody><tr><td class="dim">You’re not in a league yet.</td></tr></tbody>'; ['lgPollSec','lgBalSec'].forEach(id=>$(id).hidden=true); $('lgManage').innerHTML=''; return; }
+    if(!l){ $('lgStand').innerHTML='<tbody><tr><td class="dim">You’re not in a league yet.</td></tr></tbody>'; $('lgPollSec').hidden=true; $('lgManage').innerHTML=''; return; }
     // standings: league members who have submitted a ballot this season, by season points; the AP poll as a reference row
     const ids = (S.lg.members[l.id] || []).filter(id=>S.lg.voters.has(id) || S.lg.totals.some(t=>t.user_id===id) || (id===uid && Object.keys(S.vote.mine).length)), scored = [...new Set(S.lg.totals.map(t=>t.week))].sort((a,b)=>a-b), last = scored[scored.length-1];
     const latest = id => S.lg.totals.filter(t=>t.user_id===id).sort((a,b)=>b.week-a.week)[0];
@@ -1996,7 +1976,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     const apS = scored.map(w=>apPickem(w)).filter(Boolean), apSeason = apS.reduce((x,y)=>x+y.pts,0), apLast = last!=null ? apPickem(last) : null;
     $('lgStSub').textContent = last!=null ? `through week ${last}` : 'scoring starts after the first closed week’s games';
     $('lgStand').innerHTML = `<thead><tr class="cols"><th>#</th><th style="text-align:left">Voter</th><th>Total Points</th><th>${last!=null?`Week ${last}`:'Last Week'} Points</th><th>Record</th></tr></thead><tbody>${
-      rows.length ? rows.map((r,i)=>`<tr class="${r.id===uid?'me':''}"><td>${r.t?i+1:'–'}</td><td style="text-align:left">${esc(lgName(r.id))}${r.id===uid?' (you)':''}</td><td class="strong">${ptsTxt(r.t&&r.t.season_points)}</td><td>${ptsTxt(r.w&&r.w.points)}</td><td>${r.t?`${r.t.season_right}-${r.t.season_wrong}`:'–'}</td></tr>`).join('') : '<tr><td colspan="5" class="dim">Voters appear here after their first ballot.</td></tr>'}${
+      rows.length ? rows.map((r,i)=>`<tr class="${r.id===uid?'me':''}"><td>${r.t?i+1:'–'}</td><td style="text-align:left"><button class="linkbtn vname" data-voter="${esc(r.id)}">${esc(lgName(r.id))}</button>${r.id===uid?' (you)':''}</td><td class="strong">${ptsTxt(r.t&&r.t.season_points)}</td><td>${ptsTxt(r.w&&r.w.points)}</td><td>${r.t?`${r.t.season_right}-${r.t.season_wrong}`:'–'}</td></tr>`).join('') : '<tr><td colspan="5" class="dim">Voters appear here after their first ballot.</td></tr>'}${
       apS.length ? `<tr class="dim"><td></td><td style="text-align:left">AP poll <small>(reference, scored the same way)</small></td><td>${ptsTxt(apSeason)}</td><td>${ptsTxt(apLast&&apLast.pts)}</td><td>${apS.reduce((x,y)=>x+y.right,0)}-${apS.reduce((x,y)=>x+y.wrong,0)}</td></tr>` : ''}</tbody>`;
     // league poll (All voters' poll is the Straw Poll)
     const polls = S.lg.polls[l.id] || {}, pw = Object.keys(polls).map(Number).sort((a,b)=>a-b);
@@ -2007,15 +1987,6 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     const toRanks = p => p ? Object.fromEntries(p.results.map(r=>[r.team, r.rank])) : null;
     $('lgPollSub').textContent = P ? `Week ${P.week} · ${P.ballots} ballot${P.ballots===1?'':'s'}` : '';
     $('lgPoll').innerHTML = P ? `<div class="wkcol">${teamList(toRanks(P), toRanks(polls[prevP]))}</div>` : '<p class="lead">No league poll yet: it appears the morning after voting closes.</p>';
-    // members' ballots for closed weeks
-    const byWeek = S.lg.ballots[l.id] || {}, bw = Object.keys(byWeek).map(Number).filter(n=>lockOf(n) && phase(n)!=='open').sort((a,b)=>a-b);
-    $('lgBalSec').hidden = l.everyone || !l.shares_ballots;
-    if(!bw.includes(S.lg.balWk)) S.lg.balWk = bw[bw.length-1];
-    $('lgBalWk').innerHTML = bw.map(n=>`<option value="${n}"${n===S.lg.balWk?' selected':''}>${n}</option>`).join(''); $('lgBalWk').hidden = !bw.length;
-    const W = byWeek[S.lg.balWk] || {};
-    $('lgBal').innerHTML = bw.length ? Object.keys(W).sort((a,b)=>lgName(a).localeCompare(lgName(b))).map(id=>{ const m={}; W[id].forEach((a,i)=>m[a]=i+1);
-      return `<div class="wkcol"><h3>${esc(lgName(id))}${id===uid?' (you)':''}</h3>${teamList(m, null)}</div>`; }).join('')
-      : '<p class="lead">Members’ ballots appear here once a week’s voting closes.</p>';
     // manage
     const mine = l.owner_id===uid;
     $('lgManage').innerHTML = l.everyone ? '<p class="note">Every approved voter is in All voters automatically, so everyone can compare standings. It doesn’t share ballots.</p>'
@@ -2025,6 +1996,33 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
           <p><button class="btn" data-lg="rename">Rename</button> <button class="btn quiet danger" data-lg="delete">Delete league</button></p>`
         : `<p><button class="btn quiet" data-lg="leave">Leave league</button></p>`}`;
   }
+  // a voter's ballots, from a league's standings: your own any week; anyone's once that week's Straw Poll is published;
+  // in a private league that shares ballots, league-mates' from the deadline on
+  async function openVoter(id){
+    const l=curLeague(), uid=S.me && S.me.user.id, name=lgName(id), byWeek={};
+    if(id===uid) Object.entries(S.vote.mine||{}).forEach(([w,b])=>byWeek[w]=b.ranking);
+    Object.entries((l && S.lg.ballots[l.id]) || {}).forEach(([w,W])=>{ if(W[id] && lockOf(Number(w)) && phase(Number(w))!=='open') byWeek[w]=W[id]; });
+    $('vTitle').textContent = name + (id===uid ? ' (you)' : '');
+    $('vSub').textContent = 'Loading ballots…'; $('vBal').innerHTML=''; $('vWkLab').hidden=true;
+    $('voterDlg').showModal(); $('vTitle').focus();
+    const weeks = Object.keys(S.weeks).map(Number).filter(w=>S.weeks[w] && S.weeks[w].compiled);
+    for(const w of weeks){ const b=(await pubBallots(w)).find(x=>x.username===name); if(b && !byWeek[w]) byWeek[w]=b.ranking; }
+    S.vDlg = {id, byWeek, wk: Math.max(...Object.keys(byWeek).map(Number))};
+    renderVoter();
+  }
+  function renderVoter(){
+    const V=S.vDlg, ws=Object.keys(V.byWeek).map(Number).sort((a,b)=>a-b);
+    $('vWkLab').hidden = !ws.length;
+    if(!ws.length){ $('vSub').textContent=''; $('vBal').innerHTML='<p class="lead">No ballots to show yet.</p>'; return; }
+    $('vWk').innerHTML = ws.map(n=>`<option value="${n}"${n===V.wk?' selected':''}>${n}</option>`).join('');
+    const t = (S.lg.totals||[]).find(x=>x.user_id===V.id && x.week===V.wk);
+    $('vSub').textContent = `Week ${V.wk}` + (t ? ` · ${ptsTxt(t.points)} pick'em points (${t.picks_right}-${t.picks_wrong})` : '');
+    const m={}; V.byWeek[V.wk].forEach((a,i)=>m[a]=i+1);
+    $('vBal').innerHTML = `<div class="wkcol">${teamList(m, null)}</div>`;
+  }
+  $('vWk').addEventListener('change', e=>{ S.vDlg.wk=Number(e.target.value); renderVoter(); });
+  $('lgStand').addEventListener('click', e=>{ const b=e.target.closest('[data-voter]'); if(b) openVoter(b.dataset.voter); });
+
   // league actions: one request each; the database refuses anything not allowed, and the message says so
   async function leagueAction(kind, arg){
     const l=curLeague(), uid=S.me && S.me.user.id; if(!uid) return;
@@ -2070,7 +2068,6 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     leagueAction(f, v);
   });
   $('lgPollWk').addEventListener('change', e=>{ S.lg.pollWk=Number(e.target.value); renderLeagues(); });
-  $('lgBalWk').addEventListener('change', e=>{ S.lg.balWk=Number(e.target.value); renderLeagues(); });
   $('lgManage').addEventListener('click', e=>{
     const b=e.target.closest('[data-lg]'); if(!b) return;
     if(b.dataset.lg==='rename'){ S.lg.form='rename'; renderLeagues(); $('lgInput').value=curLeague().name; $('lgInput').focus(); return; }
@@ -2328,7 +2325,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   }
 
   // click outside a pop-up (on the dimmed background) to close it
-  ['dlg','cmpDlg','gameDlg','acctDlg','privDlg'].forEach(id=>$(id).addEventListener('click', e=>{
+  ['dlg','cmpDlg','gameDlg','voterDlg','acctDlg','privDlg'].forEach(id=>$(id).addEventListener('click', e=>{
     if(e.target!==e.currentTarget) return;
     const r=e.currentTarget.getBoundingClientRect();
     if(e.clientX<r.left || e.clientX>r.right || e.clientY<r.top || e.clientY>r.bottom) e.currentTarget.close();
