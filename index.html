@@ -711,7 +711,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       <form class="lgform" id="lgForm" hidden><input id="lgInput" maxlength="40" autocomplete="off"><button class="btn primary" id="lgFormOk" type="submit"></button><button class="btn quiet" id="lgFormCancel" type="button">Cancel</button></form>
       <section class="sec"><div class="sh"><h2>Standings<small id="lgStSub"></small></h2></div>
         <div class="tblw"><table id="lgStand"></table></div>
-        <p class="note">Each ballot is scored on the games involving AP Top 25 teams, and so is the AP poll. Your number is how far ahead (+) or behind (−) the AP you are; the record is correct and wrong picks. Scores update after each weekend's games.</p></section>
+        <p class="note">Pick'em points, updated after each weekend's games. See <button class="linkbtn" data-go="method" data-anchor="m-pickem">Methodology → Pick'em</button> for how picks are scored.</p></section>
       <section class="sec" id="lgPollSec"><div class="sh"><h2>League poll<small id="lgPollSub"></small></h2>
         <label class="xsel"><span class="lab">Week</span><select id="lgPollWk" class="fsel xpick" aria-label="League poll week"></select></label></div>
         <div id="lgPoll"></div></section>
@@ -1171,13 +1171,8 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     if(!list.length){ $('hTop').innerHTML = wk && wk.compiled ? '<div class="empty"><strong>Not enough ballots yet</strong>A team needs to be on at least 2 ballots to make the Straw Poll.</div>'
       : '<div class="empty"><strong>No ballot yet</strong>The first Straw Poll Top 25 will appear here.</div>'; $('hAlso').innerHTML=''; }
     else {
-      const top=list.slice(0,TOP), half=Math.ceil(top.length/2);
-      const row=(a,i)=>`<div class="trow${S.cmp.includes(a)?' sel':''}" data-abbr="${esc(a)}" style="--tc:${tc(a)}"><span class="rk">${i<TOP?i+1:''}</span>${moveOf(a,i+1,prev)}${logo(a)}<button class="tn tname" data-open="${esc(a)}">${esc(nm(a))}</button><span class="tr">${S.teams[a]?rec(S.teams[a].w,S.teams[a].l):''}</span></div>`;
-      $('hTop').innerHTML = `<div>${top.slice(0,half).map((a,i)=>row(a,i)).join('')}</div><div>${top.slice(half).map((a,i)=>row(a,i+half)).join('')}</div>`;
-      const rest=list.slice(TOP);
-      // Also receiving votes: 26-35 in order, like the Top 25 but without a rank number (only the Top 25 are ranked)
-      const rh=Math.ceil(rest.length/2);
-      $('hAlso').innerHTML = rest.length ? `<h3>Also receiving votes</h3><div class="t25"><div>${rest.slice(0,rh).map((a,i)=>row(a,TOP+i)).join('')}</div><div>${rest.slice(rh).map((a,i)=>row(a,TOP+rh+i)).join('')}</div></div>` : '';
+      const B=pollBlocks(list, prev, true);
+      $('hTop').innerHTML = B.top; $('hAlso').innerHTML = B.also;
     }
     // fraud watch / under the radar (the Straw Poll vs the AP)
     const apR=(S.ap&&S.ap.ranks)||{}, hasAp=Object.keys(apR).length>0 && list.length>0;
@@ -1938,6 +1933,14 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     }
     const n=right+wrong; return n ? {pts: pts/n*25, right, wrong, n} : null;
   }
+  // a poll as Home shows it: the Top 25 in two columns (rank, movement, logo, name, record), then the next teams as
+  // "Also receiving votes" without numbers. cmp: rows can be selected for Compare (Home's Straw Poll only).
+  function pollBlocks(list, prev, cmp){
+    const row=(a,i)=>`<div class="trow${cmp && S.cmp.includes(a)?' sel':''}"${cmp?` data-abbr="${esc(a)}"`:''} style="--tc:${tc(a)}"><span class="rk">${i<TOP?i+1:''}</span>${moveOf(a,i+1,prev)}${logo(a)}<button class="tn tname" data-open="${esc(a)}">${esc(nm(a))}</button><span class="tr">${S.teams[a]?rec(S.teams[a].w,S.teams[a].l):''}</span></div>`;
+    const cols=(L, start)=>{ const h=Math.ceil(L.length/2); return `<div>${L.slice(0,h).map((a,i)=>row(a,start+i)).join('')}</div><div>${L.slice(h).map((a,i)=>row(a,start+h+i)).join('')}</div>`; };
+    const top=list.slice(0,TOP), rest=list.slice(TOP);
+    return {top: cols(top, 0), also: rest.length ? `<h3>Also receiving votes</h3><div class="t25">${cols(rest, TOP)}</div>` : ''};
+  }
   const teamList = (ranks, prev) => Object.keys(ranks).filter(a=>ranks[a]<=TOP).sort((a,b)=>ranks[a]-ranks[b])
     .map(a=>`<button class="wkrow" data-open="${esc(a)}" style="--tc:${tc(a)}"><span class="rk">${ranks[a]}</span>${moveOf(a, ranks[a], prev)}${logo(a)}<span class="tn">${esc(nm(a))}</span></button>`).join('');
   function renderLeagues(){
@@ -1961,9 +1964,9 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       .sort((a,b)=>((b.t?b.t.season_points:-1e9)-(a.t?a.t.season_points:-1e9)) || lgName(a.id).localeCompare(lgName(b.id)));
     const apS = scored.map(w=>apPickem(w)).filter(Boolean), apSeason = apS.reduce((x,y)=>x+y.pts,0), apLast = last!=null ? apPickem(last) : null;
     $('lgStSub').textContent = last!=null ? `through week ${last}` : 'scoring starts after the first closed week’s games';
-    $('lgStand').innerHTML = `<thead><tr class="cols"><th>#</th><th style="text-align:left">Voter</th><th>Total Points</th><th>${last!=null?`Week ${last}`:'Last Week'} Points</th><th>Record</th></tr></thead><tbody>${
-      rows.length ? rows.map((r,i)=>`<tr class="${r.id===uid?'me':''}"><td>${r.t?i+1:'–'}</td><td style="text-align:left"><button class="linkbtn vname" data-voter="${esc(r.id)}">${esc(lgName(r.id))}</button>${r.id===uid?' (you)':''}</td><td class="strong">${ptsTxt(r.t&&r.t.season_points)}</td><td>${ptsTxt(r.w&&r.w.points)}</td><td>${r.t?`${r.t.season_right}-${r.t.season_wrong}`:'–'}</td></tr>`).join('') : '<tr><td colspan="5" class="dim">Voters appear here after their first ballot.</td></tr>'}${
-      apS.length ? `<tr class="dim"><td></td><td style="text-align:left">AP poll <small>(reference, scored the same way)</small></td><td>${ptsTxt(apSeason)}</td><td>${ptsTxt(apLast&&apLast.pts)}</td><td>${apS.reduce((x,y)=>x+y.right,0)}-${apS.reduce((x,y)=>x+y.wrong,0)}</td></tr>` : ''}</tbody>`;
+    $('lgStand').innerHTML = `<thead><tr class="cols"><th>#</th><th style="text-align:left">Voter</th><th>Total Points</th><th>${last!=null?`Week ${last}`:'Last Week'} Points</th><th>Record</th><th title="Correct picks of the team ranked lower in that week's AP poll">Upsets</th></tr></thead><tbody>${
+      rows.length ? rows.map((r,i)=>`<tr class="${r.id===uid?'me':''}"><td>${r.t?i+1:'–'}</td><td style="text-align:left"><button class="linkbtn vname" data-voter="${esc(r.id)}">${esc(lgName(r.id))}</button>${r.id===uid?' (you)':''}</td><td class="strong">${ptsTxt(r.t&&r.t.season_points)}</td><td>${ptsTxt(r.w&&r.w.points)}</td><td>${r.t?`${r.t.season_right}-${r.t.season_wrong}`:'–'}</td><td>${r.t && r.t.season_upsets!=null ? r.t.season_upsets : '–'}</td></tr>`).join('') : '<tr><td colspan="6" class="dim">Voters appear here after their first ballot.</td></tr>'}${
+      apS.length ? `<tr class="dim"><td></td><td style="text-align:left">AP poll <small>(reference, scored the same way)</small></td><td>${ptsTxt(apSeason)}</td><td>${ptsTxt(apLast&&apLast.pts)}</td><td>${apS.reduce((x,y)=>x+y.right,0)}-${apS.reduce((x,y)=>x+y.wrong,0)}</td><td>–</td></tr>` : ''}</tbody>`;
     // league poll (All voters' poll is the Straw Poll)
     const polls = S.lg.polls[l.id] || {}, pw = Object.keys(polls).map(Number).sort((a,b)=>a-b);
     $('lgPollSec').hidden = l.everyone;
@@ -1972,7 +1975,8 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     const P = polls[S.lg.pollWk], prevP = pw.filter(n=>n<S.lg.pollWk).pop();
     const toRanks = p => p ? Object.fromEntries(p.results.map(r=>[r.team, r.rank])) : null;
     $('lgPollSub').textContent = P ? `Week ${P.week} · ${P.ballots} ballot${P.ballots===1?'':'s'}` : '';
-    $('lgPoll').innerHTML = P ? `<div class="wkcol">${teamList(toRanks(P), toRanks(polls[prevP]))}</div>` : '<p class="lead">No league poll yet: it appears the morning after voting closes.</p>';
+    const LB = P ? pollBlocks(P.results.slice().sort((a,b)=>a.rank-b.rank).map(r=>r.team), toRanks(polls[prevP]), false) : null;
+    $('lgPoll').innerHTML = P ? `<div class="t25">${LB.top}</div>${LB.also ? `<div class="also">${LB.also}</div>` : ''}` : '<p class="lead">No league poll yet: it appears the morning after voting closes.</p>';
     // manage
     const mine = l.owner_id===uid;
     $('lgManage').innerHTML = l.everyone ? '<p class="note">Every approved voter is in All voters automatically, so everyone can compare standings. It doesn’t share ballots.</p>'
@@ -2138,7 +2142,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     MENUS.forEach(id=>{ const m=$(id); if(m.open && !m.contains(e.target)) m.open=false; });
     const op=e.target.closest('[data-open]'); if(op && !e.target.closest('.dot')) openTeam(op.dataset.open);
     const gm=e.target.closest('[data-game]'); if(gm && !op && !e.target.closest('dialog')) openGame(gm.dataset.game);
-    const go=e.target.closest('[data-go]'); if(go){ if(go.dataset.ws) S.ws=go.dataset.ws; showTab(go.dataset.go); }
+    const go=e.target.closest('[data-go]'); if(go){ if(go.dataset.ws) S.ws=go.dataset.ws; showTab(go.dataset.go); const t=go.dataset.anchor && document.getElementById(go.dataset.anchor); if(t) t.scrollIntoView({block:'start'}); }
   });
   document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ hideTip(); MENUS.forEach(id=>$(id).open=false); } });
   window.addEventListener('scroll', hideTip, true);
