@@ -433,7 +433,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
 
 /* narrower screens */
 @media (max-width:1100px){
-  .hero,.wgrid{grid-template-columns:1fr}
+  .hero,.wgrid{grid-template-columns:minmax(0,1fr)}  /* minmax: a plain 1fr grows to the widest table, so nothing could scroll sideways (bug #10) */
   .games{grid-template-columns:repeat(2,minmax(0,1fr))}
   .pool{position:static}
 }
