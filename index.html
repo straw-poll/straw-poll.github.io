@@ -563,9 +563,9 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       <label class="xsel"><span class="lab">Week</span><select id="wkSel" class="fsel xpick" aria-label="Choose a week"></select></label></div>
       <div class="wkgrid" id="wkGrid"></div>
       <p class="note">Each list is the Top 25 going into that week's games. Wolp+<span class="sp-only"> and Straw+</span> lists start at week 6 of 2026; weeks 1–5 are the site owner's own rankings from before ballots opened. Arrows show movement from the previous week.</p></div>
-    <div class="card" id="scoreCard" style="margin-bottom:22px"><div class="ch"><h2>Scorecard<small>Who picks more winners: the Straw Poll, the AP poll, or the model?</small></h2></div>
+    <div class="card" id="scoreCard" style="margin-bottom:22px"><div class="ch"><h2>Scorecard<small>Who picks more winners: Wolp+, ESPN's FPI or the betting line?</small></h2></div>
       <div class="tblw" id="scoreBody"></div>
-      <p class="note">Games with a Straw Poll Top 25 or AP Top 25 team. The Straw Poll and AP pick the better-ranked team (that week's ballot and poll; outside the Straw Poll 35 or AP 25 counts as unranked, and a game with neither team ranked in a list gets no pick from it). Model and Line pick the favorite in the model's spread and the betting line, both as of the last update before kickoff.</p></div>
+      <p class="note">Games: every finished game with a team in that week's Straw Poll Top 25 or AP Top 25. Each column is the share of those games it picked correctly (hover for the count). <b>Wolp+</b> and <b>ESPN FPI</b> pick the team with the higher rating going into the week (an FBS team over an FCS team); FPI ratings are saved from week 6 on, and week 5 uses Wolp+'s pre-kickoff spread. <b>Line</b> picks the betting favorite before kickoff.</p></div>
   </section>
 
   <!-- METHODOLOGY -->
@@ -626,7 +626,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       </nav>
       <article class="method">
         <h2 id="m-overview">Overview</h2>
-        <p>Straw Poll 2026 has two rankings of its own. <b>Wolp+</b> is a power rating for every FBS team, built from game results. <b>The Straw Poll</b> is a weekly Top 25 combined from members' ballots. The model also rates what each team has earned (quality wins). It never sees the Straw Poll, and the Straw Poll never feeds into it<span class="sp-only">; <b>Straw+</b> is the one place the two are blended</span>.</p>
+        <p>Straw Poll 2026 has two rankings of its own. <b>Wolp+</b> is a power rating for every FBS team, built from game results. <b>The Straw Poll</b> is a weekly Top 25 combined from members' ballots. Wolp+ also rates what each team has earned (quality wins). It never sees the Straw Poll, and the Straw Poll never feeds into it<span class="sp-only">; <b>Straw+</b> is the one place the two are blended</span>.</p>
 
         <h2 id="m-wolp">The Straw Poll</h2>
         <p>Every approved member submits a 25-team ballot each week, from Sunday morning (once the previous week's games are final) until Tuesday 11:59 PM ET. Nobody can see anyone else's ballot; only the combined poll is published, on Wednesday morning.</p>
@@ -641,9 +641,9 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
         <h2 id="m-ratings">The rankings</h2>
         <dl>
           <dt>Straw Poll</dt><dd>Members' weekly ballots, combined.</dd>
-          <dt class="sp-only">Straw+</dt><dd class="sp-only">Each Straw Poll team's Wolp+ rating moved 30% of the way toward the rating that its Straw Poll rank would carry in Wolp+ (the rating of Wolp+'s team at that rank). The crowd sets the order it leans toward; the model keeps the spacing. Teams outside the Straw Poll keep their Wolp+ rating.</dd>
+          <dt class="sp-only">Straw+</dt><dd class="sp-only">Each Straw Poll team's Wolp+ rating moved 30% of the way toward the rating that its Straw Poll rank would carry in Wolp+ (the rating of Wolp+'s team at that rank). The crowd sets the order it leans toward; Wolp+ keeps the spacing. Teams outside the Straw Poll keep their Wolp+ rating.</dd>
           <dt>AP</dt><dd>The Associated Press Top 25.</dd>
-          <dt>Wolp+</dt><dd>Teams ranked by the Model's power rating: points better than an average FBS team on a neutral field. The difference between two teams' ratings, plus the home edge, is the model's predicted margin. It picks winners better than the AP poll (see the Scorecard on Previous Rankings) and comes close to the best computer ratings: on 2023–25 games it missed by about 0.15 points a game more than ESPN's FPI and Sagarin, and beat 24 of 33 tracked systems.</dd>
+          <dt>Wolp+</dt><dd>Teams ranked by their power rating: points better than an average FBS team on a neutral field. The difference between two teams' ratings, plus the home edge, is Wolp+'s predicted margin. It picks winners better than the AP poll (see the Scorecard on Previous Rankings) and comes close to the best computer ratings: on 2023–25 games it missed by about 0.15 points a game more than ESPN's FPI and Sagarin, and beat 24 of 33 tracked systems.</dd>
         </dl>
         <p><b>Quality wins</b> and <b>Strength of résumé (SOR)</b> are shown alongside as résumé stats, not rankings: every win and loss, each weighted by how good the opponent is. Quality wins judges opponents by Model rank; SOR judges them by their records alone.</p>
         <p><b>Conference Modifier ▾</b> (Research tab): a just-for-fun what-if. Add points to a conference to see how the rankings would change. It only changes your screen, never the real ratings.</p>
@@ -658,7 +658,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
           <li><b>Recent form:</b> recent games count somewhat more than early-season ones.</li>
           <li><b>A preseason starting point:</b> based on last season, returning players and roster talent, which fades out as the season's results come in.</li>
         </ul>
-        <div class="box">Not used: betting lines (kept out so the model can disagree with them), per-play efficiency (it didn't improve predictions), and the Straw Poll. On a week-by-week replay of 2024–2026, the model's predicted margins were off by about 12.35 points per game on average; the closing betting line was off by about 12.0. That's a little behind the best computer ratings, such as ESPN's FPI and Sagarin, and ahead of most others.</div>
+        <div class="box">Not used: betting lines (kept out so Wolp+ can disagree with them), per-play efficiency (it didn't improve predictions), and the Straw Poll. On a week-by-week replay of 2024–2026, Wolp+'s predicted margins were off by about 12.35 points per game on average; the closing betting line was off by about 12.0. That's a little behind the best computer ratings, such as ESPN's FPI and Sagarin, and ahead of most others.</div>
 
         <h2 id="m-qw">Quality wins (résumé stat)</h2>
         <ul>
@@ -676,7 +676,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
 
         <h2 id="m-proj">Win chances and projections</h2>
         <ul>
-          <li><b>Win chance:</b> the model's spread is turned into a win chance based on how far real results usually land from it. A field goal favorite wins a bit more than half the time; a three-touchdown favorite almost always does.</li>
+          <li><b>Win chance:</b> Wolp+'s spread is turned into a win chance based on how far real results usually land from it. A field goal favorite wins a bit more than half the time; a three-touchdown favorite almost always does.</li>
           <li><b>Projected records:</b> the rest of the regular season is simulated thousands of times from those win chances, allowing for the fact that early-season ratings are themselves uncertain. That gives each team's expected record and its chances to finish unbeaten, win 10 games, or reach bowl eligibility.</li>
         </ul>
 
@@ -701,11 +701,11 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
         <dl>
           <dt>Fraud watch</dt><dd>Teams in the AP Top 25 that the Straw Poll ranks at least <b class="fthr">8</b> spots lower. A team outside the Straw Poll 35 counts as #36. Sorted by the size of the gap.</dd>
           <dt>Under the radar</dt><dd>Straw Poll teams that the Straw Poll ranks at least <b class="fthr">8</b> spots higher than the AP. A team outside the AP Top 25 counts as AP #36, the same as a team outside the Straw Poll 35 in Fraud watch.</dd>
-          <dt>Model spread</dt><dd>The model's predicted margin, written like a betting line (favorite −points, rounded to the half point). It never uses the betting line.</dd>
+          <dt>Wolp+ spread</dt><dd>Wolp+'s predicted margin, written like a betting line (favorite −points, rounded to the half point). It never uses the betting line.</dd>
           <dt>Line</dt><dd>The median spread across sportsbooks, from CollegeFootballData.com.</dd>
-          <dt>Upset watch</dt><dd>Games hand-picked each week, usually where the model favors the betting underdog or disagrees with the line by a touchdown or more.</dd>
-          <dt>Scorecard</dt><dd>On History: each week, how many winners the Straw Poll, the AP poll, the model and the betting line picked in games with a ranked team. Looking back at 2024–25, in games between two AP-ranked teams the better-ranked AP team won only 52% of the time; the model's pick won 66%, and the betting line's 64%.</dd>
-          <dt>Big games</dt><dd>This week's games with a Straw Poll ranked (1–35) or AP Top 25 team where the favorite is giving 14 points or less (by the betting line, or the model spread when there's no line). When both teams are ranked (the Straw Poll or AP), the limit is 21 points.</dd>
+          <dt>Upset watch</dt><dd>Games hand-picked each week, usually where Wolp+ favors the betting underdog or disagrees with the line by a touchdown or more.</dd>
+          <dt>Scorecard</dt><dd>On History: each week, how many winners the Straw Poll, the AP poll, Wolp+ and the betting line picked in games with a ranked team. Looking back at 2024–25, in games between two AP-ranked teams the better-ranked AP team won only 52% of the time; Wolp+'s pick won 66%, and the betting line's 64%.</dd>
+          <dt>Big games</dt><dd>This week's games with a Straw Poll ranked (1–35) or AP Top 25 team where the favorite is giving 14 points or less (by the betting line, or the Wolp+ spread when there's no line). When both teams are ranked (the Straw Poll or AP), the limit is 21 points.</dd>
         </dl>
 
         <h2 id="m-cols">Columns and flags</h2>
@@ -809,7 +809,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     <section class="sec"><div id="adminReqs"></div></section>
       <section class="sec"><div class="sh"><h2 id="uTitle">Upset watch</h2>
         <div class="row"><label style="font-size:13px;color:var(--muted)"><input type="checkbox" id="uAll"> Show all games</label><button class="btn primary" id="uSave" disabled>Publish upset watch</button></div></div>
-        <p class="note" style="margin:0 0 10px">Candidates (gold edge) are games where the model favors the betting underdog, or differs from the line by 7+ points. Tick the ones to publish; add an optional one-line note. Only ticked games appear on Home.</p>
+        <p class="note" style="margin:0 0 10px">Candidates (gold edge) are games where Wolp+ favors the betting underdog, or differs from the line by 7+ points. Tick the ones to publish; add an optional one-line note. Only ticked games appear on Home.</p>
         <div class="tblw"><table class="ups" id="uTable"></table></div></section>
   </section>
 </main>
@@ -820,7 +820,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   <button id="bMoreBtn" aria-expanded="false" aria-controls="bMore">More</button>
   <div class="bmore" id="bMore" hidden><button data-tab="history">History</button><button data-tab="method">How it works</button><button data-tab="admin" class="boss-only">Admin</button><button data-fb="bug" class="boss-only">Report a bug</button><button data-fb="idea" class="boss-only">Suggest an idea</button></div>
 </nav>
-<footer class="foot"><div class="wrapin"><span id="stamp">Loading team data…</span><span>Model spreads are the model’s predicted margin, written like a betting line; they never use betting lines. · <button id="privBtn">Privacy &amp; Terms</button></span></div></footer>
+<footer class="foot"><div class="wrapin"><span id="stamp">Loading team data…</span><span><button id="privBtn">Privacy &amp; Terms</button></span></div></footer>
 <button class="bugbtn boss-only" id="bugBtn" type="button" aria-expanded="false" aria-controls="fbMenu">Bug or idea</button>
 <div class="fbmenu boss-only" id="fbMenu" hidden><button type="button" data-fb="bug">Report a bug</button><button type="button" data-fb="idea">Suggest an idea</button></div>
 
@@ -988,10 +988,10 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     {k:'sosOff', h:'Offs faced', menu:'offenses faced (higher = tougher)', g:'Schedule', bw:'3.6rem', pw:'3.4rem', fmt:'n', off:true},
     {k:'apNow', h:'AP', menu:"this week's AP Top 25 rank", g:'Other rankings', bw:'2.7rem', pw:'2.6rem', fmt:'r', lo:true, val:a=>apRank(a)},
     {k:'fpiRank', h:'FPI', menu:'ESPN Football Power Index rank', g:'Other rankings', bw:'2.7rem', pw:'2.6rem', fmt:'r', lo:true},
-    {k:'splus', h:'Straw+', menu:'Wolp+ nudged toward the Straw Poll', g:'Model', bw:'3.4rem', pw:'3.2rem', fmt:'r', lo:true, val:a=>(strawPlusRank()||{})[a]},
-    {k:'frank', h:'Wolp+', menu:'power rating rank', g:'Model', bw:'3.4rem', pw:'3.2rem', fmt:'r', lo:true, strong:true, val:a=>mdl().crank[a]},
-    {k:'proj', h:'Proj. record', menu:'projected final record', g:'Model', bw:'4.6rem', pw:'4.4rem', off:true},
-    {k:'powerRating', h:'Rating', menu:'points vs an average team', g:'Model', bw:'3rem', pw:'2.9rem', fmt:'n1', off:true},
+    {k:'splus', h:'Straw+', menu:'Wolp+ nudged toward the Straw Poll', g:'Wolp+', bw:'3.4rem', pw:'3.2rem', fmt:'r', lo:true, val:a=>(strawPlusRank()||{})[a]},
+    {k:'frank', h:'Wolp+', menu:'power rating rank', g:'Wolp+', bw:'3.4rem', pw:'3.2rem', fmt:'r', lo:true, strong:true, val:a=>mdl().crank[a]},
+    {k:'proj', h:'Proj. record', menu:'projected final record', g:'Wolp+', bw:'4.6rem', pw:'4.4rem', off:true},
+    {k:'powerRating', h:'Rating', menu:'points vs an average team', g:'Wolp+', bw:'3rem', pw:'2.9rem', fmt:'n1', off:true},
     {k:'resumeRank', h:'Quality wins', menu:'rank', g:'Résumé', bw:'3.6rem', pw:'2.9rem', fmt:'r', lo:true},
     {k:'resultsRank', h:'SOR', menu:'strength of résumé rank, purely results', g:'Résumé', bw:'3.4rem', pw:'2.9rem', fmt:'r', lo:true},
     {k:'q1', h:'Q1', menu:'Quadrant 1 record (best opponents)', g:'Résumé', bw:'2.7rem', pw:'2.6rem', off:true},
@@ -1392,11 +1392,26 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   window.addEventListener('resize', ()=>{ if(S.tab==='rank') stackDots($('rMap')); if(S.tab==='work' && S.ws==='map') stackDots($('wMap')); });
 
   // ---------- PREVIOUS RANKINGS ----------
+  // Wolp+'s pick for a finished game: the higher power rating going into the week (saved from week 6 on); an FBS team
+  // over an FCS team; before week 6, the favorite in its pre-kickoff spread. true = home, null = no pick.
+  // a pick from saved ratings ({team: rating}): the higher rating; an FBS team over an FCS team; null without ratings
+  function ratingPick(R, g){
+    const fbsH = !!S.teams[g.home], fbsA = !!S.teams[g.away];
+    if(!R) return null;
+    if(fbsH !== fbsA) return fbsH;
+    return typeof R[g.home]==='number' && typeof R[g.away]==='number' && R[g.home]!==R[g.away] ? R[g.home] > R[g.away] : null;
+  }
+  function wolpPick(w, g){
+    const p = ratingPick(w.wolp, g);
+    if(p!==null) return p;
+    if(!!S.teams[g.home] !== !!S.teams[g.away]) return !!S.teams[g.home];
+    return typeof g.model==='number' && g.model!==0 ? g.model>0 : null;
+  }
   function renderScore(){
     const P=(S.picks||[]).filter(w=>w.games.some(g=>g.hp!=null)), el=$('scoreBody');
     if(!P.length){ el.innerHTML='<p class="lead" style="margin:0">The first week is graded once its games are final.</p>'; return; }
-    const SYS=['Straw Poll','AP','Model','Line'], tot={}; SYS.forEach(k=>tot[k]=[0,0]); let totN=0;
-    const fmt = r => r[0]+r[1] ? `${r[0]}-${r[1]} <span class="dim" style="color:var(--muted)">(${Math.round(100*r[0]/(r[0]+r[1]))}%)</span>` : '—';
+    const SYS=['Wolp+','ESPN FPI','Line'], tot={}; SYS.forEach(k=>tot[k]=[0,0]); let totN=0;
+    const fmt = r => r[0]+r[1] ? `<span title="${r[0]} of ${r[0]+r[1]} picks right">${Math.round(100*r[0]/(r[0]+r[1]))}%</span>` : '—';
     const rows = P.map(w=>{
       const rm = S.weeks[w.week] ? rankMap(w.week) : null, ap = w.ap || null, rec2={}; SYS.forEach(k=>rec2[k]=[0,0]); let n=0;
       w.games.forEach(g=>{
@@ -1404,10 +1419,8 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
         const inW = rm && ((rm[g.home]||99)<=TOP || (rm[g.away]||99)<=TOP), inA = ap && (ap[g.home] || ap[g.away]);
         if(!inW && !inA) return;
         n++; const homeWon = g.hp>g.ap;
-        const pick = (h,a,none) => (h===none && a===none) ? null : h<a;   // true = home
-        const picks = {'Straw Poll': rm ? pick(rm[g.home]||MAX+1, rm[g.away]||MAX+1, MAX+1) : null,
-                       'AP': ap ? pick(ap[g.home]||26, ap[g.away]||26, 26) : null,
-                       'Model': typeof g.model==='number' && g.model!==0 ? g.model>0 : null,
+        const picks = {'Wolp+': wolpPick(w, g),
+                       'ESPN FPI': ratingPick(w.fpi, g),
                        'Line': typeof g.line==='number' && g.line!==0 ? g.line>0 : null};
         SYS.forEach(k=>{ if(picks[k]===null) return; const ok = picks[k]===homeWon; rec2[k][ok?0:1]++; tot[k][ok?0:1]++; });
       });
@@ -1440,8 +1453,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     sel.innerHTML = weeks.map(n=>`<option value="${n}"${n===S.hw?' selected':''}>${n}</option>`).join('');
     const w=S.hw, before=weeks.filter(x=>x<w), pw = before.length ? before[before.length-1] : null;
     const cols = [['Straw Poll', strawWeek]].concat(seeSp() ? [['Straw+', strawPlusWeek]] : [], [['Wolp+', wolpWeek], ['AP', apWeek]]);
-    const myScore = S.me && seeLg() && (S.lg.totals||[]).find(t=>t.user_id===S.me.user.id && t.week===w);
-    if(myWeek(w)) cols.push([myScore ? `Your ballot · ${ptsTxt(myScore.points)} pick'em points (${myScore.picks_right}-${myScore.picks_wrong})` : 'Your ballot', myWeek]);
+    if(myWeek(w)) cols.push(['Your ballot', myWeek]);
     $('wkSub').textContent = S.weeks[w] && S.weeks[w].compiled ? `Week ${w} · ${S.weeks[w].ballots} ballot${S.weeks[w].ballots===1?'':'s'}` : `Week ${w}`;
     $('wkGrid').innerHTML = cols.map(([name, f])=>{
       const m=f(w), prev = pw!=null ? f(pw) : null;
@@ -2090,7 +2102,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     $('uTitle').innerHTML = `Upset watch${wk!=null?`<small>Week ${wk}</small>`:''}`;
     $('uSave').disabled = !S.uDirty;
     const ranks=pubMap(), L = upsetCands().filter(x=>S.uAll || x.cand || S.uDraft[x.g.id]);
-    if(!L.length){ $('uTable').innerHTML='<tbody><tr><td class="dim">No games with both a line and a model spread yet.</td></tr></tbody>'; return; }
+    if(!L.length){ $('uTable').innerHTML='<tbody><tr><td class="dim">No games with both a line and a Wolp+ spread yet.</td></tr></tbody>'; return; }
     const nmR = a => `${rkBadge(ranks[a])}${esc(nm(a))}`;
     $('uTable').innerHTML = `<thead><tr class="cols"><th>Publish</th><th style="text-align:left">Game</th><th>Line</th><th>Wolp+</th><th>Gap</th><th style="text-align:left">Note (optional)</th></tr></thead><tbody>${
       L.map(({g,dog,gap,cand})=>{ const on=!!S.uDraft[g.id];
