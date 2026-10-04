@@ -1069,8 +1069,8 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   // Wolp+ = the Model's power rating. Any viewer can apply a what-if Conference Modifier (their browser only, never published).
   // mdl().crank = {team: Wolp+ rank}, n = number of rated teams. Spreads and win chances always use the pure Model.
   S.adj = {}; S.adjPub = {};
-  const DIALS = ['SEC','Big Ten','Big 12','ACC','FBS Independents','Group of 5'];  // each Power 4 conference, Independents, all of the Group of 5
-  const dialOf = conf => DIALS.includes(conf) ? conf : 'Group of 5';
+  const DIALS = ['SEC','Big Ten','Big 12','ACC','FBS Independents','Group of 6'];  // each Power 4 conference, Independents, all of the Group of 6
+  const dialOf = conf => DIALS.includes(conf) ? conf : 'Group of 6';
   // the Conference Modifier is a Data-tab what-if: everywhere else Wolp+ is the pure rating
   const adjOf = a => S.tab==='rank' ? +(S.adj[dialOf((S.teams[a]||{}).conf)]||0) : 0;
   const fRating = a => S.teams[a].powerRating + adjOf(a);
@@ -1363,7 +1363,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   try{ const v=JSON.parse(localStorage.getItem('cfb2-rank')||'null'); if(v && ['wolp','comp','ap','fpi','best','worst'].includes(v.ms)) S.r.ms=v.ms; if(v && XAX[v.xax]) S.r.xax=v.xax; }catch(e){}
   function renderConfs(){
     $('pConf').innerHTML = `<option value="">All conferences</option>${DIALS.map(k=>`<option value="${esc(k)}"${S.pc===k?' selected':''}>${k==='FBS Independents'?'Independents':esc(k)}</option>`).join('')}`;
-    // one checkbox per Power 4 conference, Independents, and the whole Group of 5 (same groups as the conference dials)
+    // one checkbox per Power 4 conference, Independents, and the whole Group of 6 (same groups as the conference dials)
     const lab = k => k==='FBS Independents' ? 'Independents' : k, on = DIALS.filter(k=>!S.r.confOff.includes(k));
     $('rConfList').innerHTML = DIALS.map(k=>`<label><input type="checkbox" data-cf="${esc(k)}"${on.includes(k)?' checked':''}>${esc(lab(k))}</label>`).join('')
       + `<div class="cfall"><button class="more" data-cfall="1">Select all</button><button class="more" data-cfall="0">Clear</button></div>`;
@@ -2626,6 +2626,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   (async ()=>{
     const db = siteDb();
     const f = (()=>{ try{ return JSON.parse(localStorage.getItem('cfb-dials')||'null'); }catch(e){ return null; } })();  // each viewer's own what-if
+    if(f && typeof f==='object' && 'Group of 5' in f){ f['Group of 6'] = f['Group of 5']; delete f['Group of 5']; }  // renamed 2026-10-04
     if(f && typeof f==='object'){ const g=Object.fromEntries(Object.entries(f).filter(([k])=>DIALS.includes(k))); S.adj={...g}; S.adjPub={...g}; S._mdl=null; }
     loadUpsets();
     db.teams.then(d=>{
