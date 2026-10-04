@@ -428,6 +428,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 
 /* visitors: read-only */
 .viewonly .voter-only{display:none!important} body:not(.isowner) .boss-only{display:none!important}
+body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /* Leagues / Straw+ until public (LEAGUES_PUBLIC, SPLUS_PUBLIC) */
 #wsGate:empty{display:none} #view-work.gated>:not(#wsGate){display:none!important}
 #view-work.ro .grip,#view-work.ro .x,#view-work.ro .add,#view-work.ro .wslot{display:none!important}
 .dl{font-size:13px;color:var(--muted)} .dl b{color:var(--text)}
@@ -489,7 +490,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       <button class="tab" role="tab" id="tab-home" aria-selected="true">Home</button>
       <button class="tab" role="tab" id="tab-rank" aria-selected="false">Research</button>
       <button class="tab owner" role="tab" id="tab-work" aria-selected="false">Vote</button>
-      <button class="tab" role="tab" id="tab-leagues" aria-selected="false">Leagues</button>
+      <button class="tab lg-only" role="tab" id="tab-leagues" aria-selected="false">Leagues</button>
       <button class="tab" role="tab" id="tab-history" aria-selected="false">History</button>
       <button class="tab" role="tab" id="tab-method" aria-selected="false">How it works</button>
       <button class="tab owner boss-only" role="tab" id="tab-admin" aria-selected="false">Admin</button>
@@ -563,7 +564,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     <div class="card" style="margin-bottom:22px"><div class="ch"><h2>Week by week<small id="wkSub"></small></h2>
       <label class="xsel"><span class="lab">Week</span><select id="wkSel" class="fsel xpick" aria-label="Choose a week"></select></label></div>
       <div class="wkgrid" id="wkGrid"></div>
-      <p class="note">Each list is the Top 25 going into that week's games. Straw+ and Wolp+ are saved from week 6 of 2026 on; weeks 1–5 are the site owner's own rankings from before ballots opened. Arrows show movement from the previous week.</p></div>
+      <p class="note">Each list is the Top 25 going into that week's games. Wolp+<span class="sp-only"> and Straw+</span> lists start at week 6 of 2026; weeks 1–5 are the site owner's own rankings from before ballots opened. Arrows show movement from the previous week.</p></div>
     <div class="card" id="scoreCard" style="margin-bottom:22px"><div class="ch"><h2>Scorecard<small>Who picks more winners: the Straw Poll, the AP poll, or the model?</small></h2></div>
       <div class="tblw" id="scoreBody"></div>
       <p class="note">Games with a Straw Poll Top 25 or AP Top 25 team. The Straw Poll and AP pick the better-ranked team (that week's ballot and poll; outside the Straw Poll 35 or AP 25 counts as unranked, and a game with neither team ranked in a list gets no pick from it). Model and Line pick the favorite in the model's spread and the betting line, both as of the last update before kickoff.</p></div>
@@ -578,7 +579,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       <dl>
         <dt>Straw Poll</dt><dd>A weekly Top 25 combined from members' ballots, published Wednesday morning.</dd>
         <dt>Wolp+</dt><dd>A power rating for every FBS team, built only from game results: how many points better than an average FBS team a team would be on a neutral field. It never sees the Straw Poll, the AP poll or betting lines.</dd>
-        <dt>Straw+</dt><dd>Wolp+, adjusted 30% of the way toward the Straw Poll's order.</dd>
+        <dt class="sp-only">Straw+</dt><dd class="sp-only">Wolp+, adjusted 30% of the way toward the Straw Poll's order.</dd>
         <dt>AP</dt><dd>The Associated Press Top 25, for comparison.</dd>
       </dl>
 
@@ -597,15 +598,15 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
         <li><b>After the deadline:</b> the site owner, who compiles the poll, and (once leagues open) the members of your leagues. Nobody else; only the combined poll is public.</li>
       </ul>
 
-      <h2>Pick'em</h2>
-      <p>Coming with leagues. Your ballot doubles as a set of picks: in every game involving an AP Top 25 team, it picks the team you ranked higher. Each week you're scored against the AP poll's own picks on the same games, and the standings show how far ahead of or behind the AP you are. A confident pick (two teams far apart on your ballot) gains more when right and costs more when wrong. The exact scoring isn't published.</p>
+      <h2 class="lg-only">Pick'em</h2>
+      <p class="lg-only">Coming with leagues. Your ballot doubles as a set of picks: in every game involving an AP Top 25 team, it picks the team you ranked higher. Each week you're scored against the AP poll's own picks on the same games, and the standings show how far ahead of or behind the AP you are. A confident pick (two teams far apart on your ballot) gains more when right and costs more when wrong. The exact scoring isn't published.</p>
 
       <h2>FAQ</h2>
       <dl class="faq">
         <dt>Can I change my ballot after submitting?</dt><dd>Yes, as often as you like until Tuesday 11:59 PM ET.</dd>
         <dt>What if I miss the deadline?</dt><dd>You can still send it for up to 7 days afterward; it counts once the owner approves it.</dd>
         <dt>Can I start my ballot before voting opens?</dt><dd>Yes. It's saved in your browser, and you can submit it once voting opens Sunday morning.</dd>
-        <dt>Why doesn't Wolp+ match the Straw Poll?</dt><dd>Wolp+ only knows scores and where games were played; the Straw Poll is people's judgment. Straw+ blends the two.</dd>
+        <dt>Why doesn't Wolp+ match the Straw Poll?</dt><dd>Wolp+ only knows scores and where games were played; the Straw Poll is people's judgment.<span class="sp-only"> Straw+ blends the two.</span></dd>
         <dt>What's the Conference Modifier?</dt><dd>A what-if on the Research tab: add points to a conference and see how Wolp+ would reorder. It only changes your own screen.</dd>
         <dt>Where does the data come from?</dt><dd>CollegeFootballData.com. Results, stats and the AP poll update Sunday morning; the schedule and betting lines refresh Thursday.</dd>
       </dl>
@@ -619,7 +620,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
       </nav>
       <article class="method">
         <h2 id="m-overview">Overview</h2>
-        <p>Straw Poll 2026 has two rankings of its own. <b>Wolp+</b> is a power rating for every FBS team, built from game results. <b>The Straw Poll</b> is a weekly Top 25 combined from members' ballots. The model also rates what each team has earned (quality wins). It never sees the Straw Poll, and the Straw Poll never feeds into it; <b>Straw+</b> is the one place the two are blended.</p>
+        <p>Straw Poll 2026 has two rankings of its own. <b>Wolp+</b> is a power rating for every FBS team, built from game results. <b>The Straw Poll</b> is a weekly Top 25 combined from members' ballots. The model also rates what each team has earned (quality wins). It never sees the Straw Poll, and the Straw Poll never feeds into it<span class="sp-only">; <b>Straw+</b> is the one place the two are blended</span>.</p>
 
         <h2 id="m-wolp">The Straw Poll</h2>
         <p>Every approved member submits a 25-team ballot each week, from Sunday morning (once the previous week's games are final) until Tuesday 11:59 PM ET. Nobody can see anyone else's ballot; only the combined poll is published, on Wednesday morning.</p>
@@ -634,7 +635,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
         <h2 id="m-ratings">The rankings</h2>
         <dl>
           <dt>Straw Poll</dt><dd>Members' weekly ballots, combined.</dd>
-          <dt>Straw+</dt><dd>Each Straw Poll team's Wolp+ rating moved 30% of the way toward the rating that its Straw Poll rank would carry in Wolp+ (the rating of Wolp+'s team at that rank). The crowd sets the order it leans toward; the model keeps the spacing. Teams outside the Straw Poll keep their Wolp+ rating.</dd>
+          <dt class="sp-only">Straw+</dt><dd class="sp-only">Each Straw Poll team's Wolp+ rating moved 30% of the way toward the rating that its Straw Poll rank would carry in Wolp+ (the rating of Wolp+'s team at that rank). The crowd sets the order it leans toward; the model keeps the spacing. Teams outside the Straw Poll keep their Wolp+ rating.</dd>
           <dt>AP</dt><dd>The Associated Press Top 25.</dd>
           <dt>Wolp+</dt><dd>Teams ranked by the Model's power rating: points better than an average FBS team on a neutral field. The difference between two teams' ratings, plus the home edge, is the model's predicted margin. It picks winners better than the AP poll (see the Scorecard on Previous Rankings) and comes close to the best computer ratings: on 2023–25 games it missed by about 0.15 points a game more than ESPN's FPI and Sagarin, and beat 24 of 33 tracked systems.</dd>
         </dl>
@@ -811,7 +812,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 
 <!-- phones: bottom bar (the top tabs are hidden at phone widths) -->
 <nav class="bnav" id="bnav" aria-label="Sections">
-  <button data-tab="home">Home</button><button data-tab="rank">Research</button><button data-tab="work">Vote</button><button data-tab="leagues">Leagues</button>
+  <button data-tab="home">Home</button><button data-tab="rank">Research</button><button data-tab="work">Vote</button><button data-tab="leagues" class="lg-only">Leagues</button>
   <button id="bMoreBtn" aria-expanded="false" aria-controls="bMore">More</button>
   <div class="bmore" id="bMore" hidden><button data-tab="history">History</button><button data-tab="method">How it works</button><button data-tab="admin" class="boss-only">Admin</button><button data-fb="bug" class="boss-only">Report a bug</button><button data-fb="idea" class="boss-only">Suggest an idea</button></div>
 </nav>
@@ -847,7 +848,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   <h3 id="acctTitle">Sign in</h3>
   <div class="sub" id="acctSub"></div>
   <div id="acctOut">
-    <p class="dnote">Sign in to submit a Straw Poll ballot and join pick'em leagues. New accounts are approved by the site owner. Viewing the site never needs an account.</p>
+    <p class="dnote">Sign in to submit a Straw Poll ballot. New accounts are approved by the site owner. Viewing the site never needs an account.</p>
     <div id="gBtn" class="gbox"></div>
     <div class="dlgbtns" style="justify-content:flex-start"><button class="btn primary gbtn" id="acctGoogle" hidden>Continue with Google</button></div>
     <div id="acctEmailBox" hidden>
@@ -951,6 +952,10 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   // g = group heading in the Stats table; fmt n = 2 decimals, p = percent, r = rank; lo = lower is better; off = hidden by default
   // SHOW_QUADS: quadrant records are hidden from the page for now (code kept; set true to bring them back)
   const SHOW_QUADS = false;
+  // Leagues (with pick'em) and Straw+ are still being tested: only the owner sees them until these are true (2026-10-04)
+  const LEAGUES_PUBLIC = false, SPLUS_PUBLIC = false;
+  const seeLg = () => LEAGUES_PUBLIC || !!S.isOwner, seeSp = () => SPLUS_PUBLIC || !!S.isOwner;
+  const colOk = c => c.k!=='splus' || seeSp();
   const COLS_ALL = [
     {k:'rec',  h:'Record', menu:'win-loss record this season', g:'This season', bw:'2.9rem', pw:'2.7rem'},
     {k:'p4',   h:'vs P4',  menu:'record vs Power 4', g:'This season', bw:'2.9rem', pw:'2.7rem'},
@@ -993,12 +998,12 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   function loadVis(key, defOff, onlyOn){ const v={}; COLS.forEach(c=>v[c.k]= onlyOn ? onlyOn.includes(c.k) : (!c.off && !(defOff||[]).includes(c.k))); try{ const s=JSON.parse(localStorage.getItem(key)||'null'); if(s && typeof s==='object') COLS.forEach(c=>{ if(typeof s[c.k]==='boolean') v[c.k]=s[c.k]; }); }catch(e){} return v; }
   S.vis = {r:loadVis('cfb2-cols'), b:loadVis('cfb2-cols-list',null,['rec','p4','frank']), p:loadVis('cfb2-cols-add',null,['rec','p4','frank'])};  // Workspace list and Add teams: Record, vs P4, Wolp+ by default
   try{ const mg=localStorage.getItem('cfb2-cols-mig'); if(mg!=='2'){ if(mg!=='1'){ S.vis.r.q1=false; S.vis.r.proj=false; } S.vis.r.adjOffEpa=true; S.vis.r.adjDefEpa=true; S.vis.r.offEpa=false; S.vis.r.defEpa=false; localStorage.setItem('cfb2-cols', JSON.stringify(S.vis.r)); localStorage.setItem('cfb2-cols-mig','2'); } }catch(e){}
-  const shown = w => COLS.filter(c=>S.vis[w][c.k]);
+  const shown = w => COLS.filter(c=>S.vis[w][c.k] && colOk(c));
   const DEFS = {splus:"Wolp+ nudged 30% toward the Straw Poll: each Straw Poll team's rating moves part of the way toward the Wolp+ rating that goes with its Straw Poll rank. Shown once a Straw Poll has been published.", apNow:"This week's AP Top 25 rank (unranked teams sort last).",fpiRank:"ESPN's Football Power Index rank: ESPN's own predictive power rating, shown for comparison only (it never feeds into Wolp+).",adjOffEpa:'Expected points added per play on offense, adjusted for the defenses faced (garbage time excluded). Higher is better.',adjDefEpa:'Expected points added per play allowed on defense, adjusted for the offenses faced. Lower is better.',frank:"The power rating rank: points better than an average FBS team on a neutral field, built from game scores only.",resumeRank:"A results-based metric, with influence from opponents' Wolp+ rank.",resultsRank:'Strength of résumé: a purely results-based metric.',offEpa:'Expected points added per play on offense (garbage time excluded). Higher is better.',defEpa:'Expected points added per play allowed on defense. Lower is better.'};
   function renderDefs(){ let g='', h='<dl class="sdefs"><dt>Straw</dt><dd>Straw Poll rank (Top 25, then also receiving votes, 26–35).</dd>';
-    COLS.forEach(c=>{ if(c.g!==g){ h+=`<div class="sdh">${esc(c.g)}</div>`; g=c.g; } const d=DEFS[c.k]||(c.menu[0].toUpperCase()+c.menu.slice(1)+'.'); h+=`<dt>${esc(c.h)}</dt><dd>${d}</dd>`; });
+    COLS.filter(colOk).forEach(c=>{ if(c.g!==g){ h+=`<div class="sdh">${esc(c.g)}</div>`; g=c.g; } const d=DEFS[c.k]||(c.menu[0].toUpperCase()+c.menu.slice(1)+'.'); h+=`<dt>${esc(c.h)}</dt><dd>${d}</dd>`; });
     $('sdefs').innerHTML = h+'</dl>'; }
-  function colMenu(w){ let g=''; return COLS.map(c=>{ const h = c.g!==g ? `<div class="mh">${c.g}</div>` : ''; g=c.g; return h+`<label><input type="checkbox" data-col="${c.k}" data-w="${w}"${S.vis[w][c.k]?' checked':''}>${c.h}</label>`; }).join(''); }
+  function colMenu(w){ let g=''; return COLS.filter(colOk).map(c=>{ const h = c.g!==g ? `<div class="mh">${c.g}</div>` : ''; g=c.g; return h+`<label><input type="checkbox" data-col="${c.k}" data-w="${w}"${S.vis[w][c.k]?' checked':''}>${c.h}</label>`; }).join(''); }
   document.addEventListener('change', e=>{
     const k=e.target.dataset && e.target.dataset.col, w=e.target.dataset && e.target.dataset.w; if(!k||!w) return;
     S.vis[w][k]=e.target.checked; try{ localStorage.setItem({r:'cfb2-cols',b:'cfb2-cols-list',p:'cfb2-cols-add'}[w], JSON.stringify(S.vis[w])); }catch(err){}
@@ -1023,6 +1028,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   const alsoLabel = n => S.weeks[n] && S.weeks[n].compiled ? 'Also receiving votes' : 'Also ranked';
   // Straw+ rank for every team, from the latest published poll (null when there is none yet)
   function strawPlusRank(){
+    if(!seeSp()) return null;
     if(S._sp !== null && S._sp !== undefined) return S._sp;
     const n=pubNum(), w=n!=null && S.weeks[n];
     if(!w || !w.compiled || !w.results.length) return (S._sp = null);
@@ -1421,8 +1427,8 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     if(!weeks.includes(S.hw)) S.hw = weeks[weeks.length-1];
     sel.innerHTML = weeks.map(n=>`<option value="${n}"${n===S.hw?' selected':''}>${n}</option>`).join('');
     const w=S.hw, before=weeks.filter(x=>x<w), pw = before.length ? before[before.length-1] : null;
-    const cols = [['Straw Poll', strawWeek], ['Straw+', strawPlusWeek], ['Wolp+', wolpWeek], ['AP', apWeek]];
-    const myScore = S.me && (S.lg.totals||[]).find(t=>t.user_id===S.me.user.id && t.week===w);
+    const cols = [['Straw Poll', strawWeek]].concat(seeSp() ? [['Straw+', strawPlusWeek]] : [], [['Wolp+', wolpWeek], ['AP', apWeek]]);
+    const myScore = S.me && seeLg() && (S.lg.totals||[]).find(t=>t.user_id===S.me.user.id && t.week===w);
     if(myWeek(w)) cols.push([myScore ? `Your ballot · ${signed(myScore.vs_ap)} vs AP (${myScore.picks_right}-${myScore.picks_wrong})` : 'Your ballot', myWeek]);
     $('wkSub').textContent = S.weeks[w] && S.weeks[w].compiled ? `Week ${w} · ${S.weeks[w].ballots} ballot${S.weeks[w].ballots===1?'':'s'}` : `Week ${w}`;
     $('wkGrid').innerHTML = cols.map(([name, f])=>{
@@ -1674,8 +1680,8 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   async function submitBallot(){
     const n=S.cur, ph=phase(n);
     if(S.busy || !(ph==='open' || ph==='late') || !editable(n) || S.draft.length!==BMAX || !S.dirty) return;
-    if(!(S.me.profile && S.me.profile.username)){  // a ballot puts you on league standings, so it needs a name
-      renderAcct(); $('acctDlg').showModal(); acctMsg('Choose a username first: it’s how you appear on league standings. Then submit again.'); $('acctName').focus(); return;
+    if(!(S.me.profile && S.me.profile.username)){  // every voter needs a username (standings, admin lists)
+      renderAcct(); $('acctDlg').showModal(); acctMsg('Choose a username first, then submit again.'); $('acctName').focus(); return;
     }
     const late = ph==='late', table = late ? 'late_ballots' : 'ballots';
     S.busy=true; renderStatus();
@@ -2142,7 +2148,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
                  history:'history', how:'method', method:'method', methodology:'method', admin:'admin', home:'home'};
   const tabFromHash = h => ALIAS[(h||'').replace(/^#/, '').toLowerCase()] || null;
   function showTab(v){
-    const allowed = v==='admin' ? S.isOwner : true;
+    const allowed = v==='admin' ? S.isOwner : v==='leagues' ? seeLg() : true;
     if(!allowed){ if(!S.accessKnown) S.wantTab = v; v = 'home'; }  // reopened once sign-in is known (setAccess)
     S.tab=v;
     TABS.forEach(k=>{ $('tab-'+k).setAttribute('aria-selected', String(k===v)); $('view-'+k).hidden = k!==v; });
@@ -2370,6 +2376,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     const pr = S.me && S.me.profile, owner = !!(pr && pr.is_owner), vote = owner || !!(pr && pr.status==='approved');
     S.isOwner = owner; S.canWrite = vote;
     document.body.classList.toggle('viewonly', !S.me); document.body.classList.toggle('isowner', owner);
+    document.body.classList.toggle('see-lg', seeLg()); document.body.classList.toggle('see-sp', seeSp());
     $('view-work').classList.toggle('gated', !vote);
     $('wsGate').innerHTML = vote ? '' : !S.me
       ? `<strong>How to join</strong><ol class="steps"><li>Sign in with Google.</li><li>The site owner approves your account.</li><li>Rank your 25 teams here each week and submit by Tuesday 11:59 PM ET.</li></ol><button class="btn primary" data-signin>Sign in</button> <button class="linkbtn" data-go="method">How it works</button>`
@@ -2381,10 +2388,11 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     S.accessKnown = true;
     if(who===S.accessFor) return;  // loadMe runs on every account-window open; only react to real changes
     S.accessFor = who;
-    if(vote){ loadVoting(); loadLeagues(); } else { clearVoting(); clearLeagues(); }
+    if(vote){ loadVoting(); if(seeLg()) loadLeagues(); else clearLeagues(); } else { clearVoting(); clearLeagues(); }
+    if($('sdefs').children.length) renderDefs();  // Straw+ definition follows who's looking
     const want = S.wantTab; S.wantTab = null;
     if(want && owner) showTab(want);
-    else if(S.tab==='admin' && !owner) showTab('home');
+    else if((S.tab==='admin' && !owner) || (S.tab==='leagues' && !seeLg())) showTab('home');
     else renderCurrent();
   }
   async function loadReqs(){
