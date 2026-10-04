@@ -1216,8 +1216,8 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     const ranks=pubMap(), cr=mdl().crank, sp=strawPlusRank()||{}, q=S.r.q.trim().toLowerCase(), R=S.r;
     return Object.keys(S.teams).filter(a=>{
       const t=S.teams[a];
-      // Top 25 follows the Sort: Wolp+, AP or FPI = that Top 25; otherwise the Straw Poll (Top 25 + Also ranked 26-35)
-      if(R.show==='top' && (R.ms==='comp' ? !(cr[a]<=25) : R.ms==='splus' ? !(sp[a]<=25) : R.ms==='ap' ? !apRank(a) : R.ms==='fpi' ? !(t.fpiRank<=25) : !ranks[a])) return false;
+      // Top 25 follows the Sort: Wolp+, AP or FPI = that Top 25; otherwise the Straw Poll Top 25 (not 26-35)
+      if(R.show==='top' && (R.ms==='comp' ? !(cr[a]<=25) : R.ms==='splus' ? !(sp[a]<=25) : R.ms==='ap' ? !apRank(a) : R.ms==='fpi' ? !(t.fpiRank<=25) : !(ranks[a]<=TOP))) return false;
       if(R.confOff.includes(dialOf(t.conf))) return false;
       if(q && !(t.name.toLowerCase().includes(q))) return false;
       return true;
