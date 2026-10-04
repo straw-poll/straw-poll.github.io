@@ -604,10 +604,10 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
 
       <h2 class="lg-only">Pick'em</h2>
       <div class="lg-only">
-      <p>Your ballot doubles as your picks. Every regular-season week, each game one of your 25 teams plays is a pick for the team you ranked higher (a team not on your ballot counts as #31).</p>
+      <p>Your ballot doubles as your picks. Every regular-season week, each game one of your 25 teams plays is a pick for the team you ranked higher (a team not on your ballot counts as #26).</p>
       <ul>
         <li><b>Right:</b> +3 if the loser is in that week's AP top 10, +2 if it's AP 11–25, +1 otherwise.</li>
-        <li><b>Wrong:</b> −1 for every 5 spots between the two teams on your ballot (at least −1). Your #4 losing to a team you didn't rank: −6. Your #16 losing to your #18: −1.</li>
+        <li><b>Wrong:</b> the further apart the two teams were on your ballot, the more it costs. Your #1 losing to a team you ranked 2–5: −1; 6–10: −2; 11–15: −3; 16–20: −4; 21–25: −5; a team you didn't rank: −6. The same steps apply from any spot: your #16 losing to your #18 is −1.</li>
         <li><b>Byes don't hurt:</b> each week's points are scaled to 25 games (points ÷ games × 25). Your season is the sum of your weeks.</li>
         <li>The AP poll is scored exactly the same way, so you can see whether you're beating it.</li>
       </ul>
@@ -1967,9 +1967,9 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     for(const g of p.games){
       if(g.hp==null || g.ap==null || g.hp===g.ap) continue;
       const rh=p.ap[g.home], ra=p.ap[g.away]; if(rh==null && ra==null) continue;
-      const homePick = (rh||31) < (ra||31), loser = homePick ? g.away : g.home;
+      const homePick = (rh||26) < (ra||26), loser = homePick ? g.away : g.home;
       if(homePick === (g.hp>g.ap)){ const r=p.ap[loser]; pts += r!=null && r<=10 ? 3 : r!=null ? 2 : 1; right++; }
-      else { pts -= Math.max(1, Math.ceil(Math.abs((rh||31)-(ra||31))/5)); wrong++; }
+      else { pts -= Math.ceil((Math.abs((rh||26)-(ra||26))+1)/5); wrong++; }
     }
     const n=right+wrong; return n ? {pts: pts/n*25, right, wrong, n} : null;
   }
