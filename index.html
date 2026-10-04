@@ -565,6 +565,9 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       <label class="xsel"><span class="lab">Week</span><select id="wkSel" class="fsel xpick" aria-label="Choose a week"></select></label></div>
       <div class="wkgrid" id="wkGrid"></div>
       <p class="note">Each list is the Top 25 going into that week's games. Wolp+<span class="sp-only"> and Straw+</span> lists start at week 6 of 2026; weeks 1–5 are the site owner's own rankings from before ballots opened. Arrows show movement from the previous week.</p></div>
+    <div class="card" id="balCard" style="margin-bottom:22px" hidden><div class="ch"><h2>Ballots<small id="balSub"></small></h2></div>
+      <div class="wkgrid" id="balGrid"></div>
+      <p class="note">Every voter's ballot for this week, shown once the week's Straw Poll is published.</p></div>
     <div class="card" id="scoreCard" style="margin-bottom:22px"><div class="ch"><h2>Scorecard<small>Who picks more winners: the Straw Poll, the AP poll, or the model?</small></h2></div>
       <div class="tblw" id="scoreBody"></div>
       <p class="note">Games with a Straw Poll Top 25 or AP Top 25 team. The Straw Poll and AP pick the better-ranked team (that week's ballot and poll; outside the Straw Poll 35 or AP 25 counts as unranked, and a game with neither team ranked in a list gets no pick from it). Model and Line pick the favorite in the model's spread and the betting line, both as of the last update before kickoff.</p></div>
@@ -595,7 +598,8 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       <h2>Who sees your ballot</h2>
       <ul>
         <li><b>Before the deadline:</b> only you.</li>
-        <li><b>After the deadline:</b> the site owner, who compiles the poll, and (once leagues open) the members of your leagues. Nobody else; only the combined poll is public.</li>
+        <li><b>After the deadline:</b> the site owner, who compiles the poll, and the members of your private leagues.</li>
+        <li><b>Once the Straw Poll is published (Wednesday morning):</b> everyone. Every ballot is shown with its voter's username on the History tab.</li>
       </ul>
 
       <h2 class="lg-only">Pick'em</h2>
@@ -773,6 +777,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       <button class="btn quiet" id="withdraw" hidden>Withdraw</button>
       <button class="btn primary" id="save" disabled>Submit ballot</button>
     </div>
+    <p class="dnote voter-only">Your ballot is private until that week's Straw Poll is published (Wednesday morning). Then everyone's ballots, with usernames, are shown on the History tab.</p>
     <div class="wsub" role="group" aria-label="Vote view">
       <span class="lab">View</span><button class="pill" data-ws="ballot">List</button><button class="pill" data-ws="map">Results Map</button>
     </div>
@@ -894,8 +899,8 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     <p><b>Who can see your information.</b></p>
     <ul>
       <li>Your email address and note are visible only to you and the administrator.</li>
-      <li>Your username is visible to other approved members. Your scores are visible to you and to members of your leagues.</li>
-      <li>Your ballot is private until the weekly deadline. After the deadline, the administrator and members of your leagues (other than the All voters league) can see it, and ballots are combined into the public Straw Poll, which shows aggregate results only, not individual votes.</li>
+      <li>Your username is visible to other approved members, and to anyone viewing the Site next to your published ballots (see below). Your scores are visible to you and to members of your leagues.</li>
+      <li>Your ballot is private until the weekly deadline. After the deadline, the administrator and members of your leagues (other than the All voters league) can see it. Once that week's Straw Poll is published, your ballot is public: anyone viewing the Site can see it with your username.</li>
     </ul>
     <p><b>Service providers and outside services.</b> The Site is hosted on GitHub Pages. Accounts and ballots are stored with Supabase. Sign-in is provided by Google. Football data and team logos come from CollegeFootballData.com. When you open the Site, your browser also loads fonts from Google Fonts and code libraries from cdnjs and jsDelivr, and, while games are in progress, live scores from ESPN. Like any website, each of these services receives your IP address and basic browser information when your browser contacts it. Each provider handles data under its own privacy policy.</p>
     <p><b>Retention and deletion.</b> Your information is kept while your account is active. You may delete your account at any time with <b>Delete my account</b> in your account window, which permanently removes your account, ballots, league memberships, and scores. Previously published Straw Polls, which contain only aggregate results, are not affected. Service providers may keep technical logs for a limited period.</p>
@@ -1445,6 +1450,24 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       return `<div class="wkcol"><h3>${esc(name)}</h3>${top.length ? top.map(a=>`<button class="wkrow" data-open="${esc(a)}" style="--tc:${tc(a)}"><span class="rk">${m[a]}</span>${moveOf(a, m[a], prev)}${logo(a)}<span class="tn">${esc(nm(a))}</span></button>`).join('')
         : `<p class="note">Not available for week ${w}.</p>`}</div>`;
     }).join('');
+    renderPubBallots(w);
+  }
+  // everyone's ballots for a week, public once that week's Straw Poll is published (backend/013); one request per week
+  S.pubBal = {};
+  async function renderPubBallots(w){
+    const card=$('balCard'), season=S.meta && S.meta.season;
+    if(!sb || !season || !(S.weeks[w] && S.weeks[w].compiled)){ card.hidden=true; return; }
+    if(!(w in S.pubBal)){
+      card.hidden=true;
+      const r = await sb.rpc('published_ballots', {s: season, w});
+      S.pubBal[w] = r.error ? null : r.data;
+      if(S.hw!==w) return;
+    }
+    const B=S.pubBal[w];
+    card.hidden = !(B && B.length);
+    if(card.hidden) return;
+    $('balSub').textContent = `Week ${w} · ${B.length} ballot${B.length===1?'':'s'}`;
+    $('balGrid').innerHTML = B.map(b=>{ const m={}; b.ranking.forEach((a,i)=>m[a]=i+1); return `<div class="wkcol"><h3>${esc(b.username)}</h3>${teamList(m, null)}</div>`; }).join('');
   }
   $('wkSel').addEventListener('change', e=>{ S.hw=Number(e.target.value); renderWeekGrid(); });
   function renderHistory(){
