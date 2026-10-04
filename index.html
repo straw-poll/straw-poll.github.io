@@ -1637,6 +1637,9 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   async function submitBallot(){
     const n=S.cur, ph=phase(n);
     if(S.busy || !(ph==='open' || ph==='late') || !editable(n) || S.draft.length!==BMAX || !S.dirty) return;
+    if(!(S.me.profile && S.me.profile.username)){  // a ballot puts you on league standings, so it needs a name
+      renderAcct(); $('acctDlg').showModal(); acctMsg('Choose a username first: it’s how you appear on league standings. Then submit again.'); $('acctName').focus(); return;
+    }
     const late = ph==='late', table = late ? 'late_ballots' : 'ballots';
     S.busy=true; renderStatus();
     const row = {user_id:S.me.user.id, season:S.vote.season, week:n, ranking:S.draft.slice()};
@@ -1844,7 +1847,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
   S.lg = {state:'idle', leagues:[], members:{}, names:{}, totals:[], cur:null, polls:{}, ballots:{}, form:null};
   const curLeague = () => S.lg.leagues.find(l=>l.id===S.lg.cur) || null;
   const renderLeaguesIfShown = () => { if(S.tab==='leagues') renderLeagues(); if(S.tab==='history') renderWeekGrid(); };
-  const lgName = id => S.lg.names[id] || 'Unnamed voter';
+  const lgName = id => S.lg.names[id] || (S.me && id===S.me.user.id && S.me.profile && S.me.profile.username) || 'Unnamed voter';
   async function loadLeagues(){
     if(!sb || !S.canWrite || !S.me) return;
     await teamsReady;
@@ -1897,14 +1900,14 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
     const f=S.lg.form; $('lgForm').hidden = !f;
     if(f){ $('lgInput').placeholder = f==='join' ? 'Invite code' : 'League name'; $('lgInput').setAttribute('aria-label', f==='join' ? 'Invite code' : 'League name'); $('lgFormOk').textContent = f==='join' ? 'Join' : f==='rename' ? 'Rename' : 'Create'; }
     if(!l){ $('lgStand').innerHTML='<tbody><tr><td class="dim">You’re not in a league yet.</td></tr></tbody>'; ['lgPollSec','lgBalSec'].forEach(id=>$(id).hidden=true); $('lgManage').innerHTML=''; return; }
-    // standings: everyone in the league, by season points vs the AP
-    const ids = S.lg.members[l.id] || [], scored = [...new Set(S.lg.totals.map(t=>t.week))].sort((a,b)=>a-b), last = scored[scored.length-1];
+    // standings: league members who have voted (a score, or my own submitted ballot), by season points vs the AP
+    const ids = (S.lg.members[l.id] || []).filter(id=>S.lg.totals.some(t=>t.user_id===id) || (id===uid && Object.keys(S.vote.mine).length)), scored = [...new Set(S.lg.totals.map(t=>t.week))].sort((a,b)=>a-b), last = scored[scored.length-1];
     const latest = id => S.lg.totals.filter(t=>t.user_id===id).sort((a,b)=>b.week-a.week)[0];
     const rows = ids.map(id=>({id, t:latest(id), w:S.lg.totals.find(t=>t.user_id===id && t.week===last)}))
       .sort((a,b)=>((b.t?b.t.season_vs_ap:-1e9)-(a.t?a.t.season_vs_ap:-1e9)) || lgName(a.id).localeCompare(lgName(b.id)));
     $('lgStSub').textContent = last!=null ? `through week ${last}` : 'scoring starts after the first closed week’s games';
     $('lgStand').innerHTML = `<thead><tr class="cols"><th>#</th><th style="text-align:left">Voter</th><th>Season vs AP</th><th>${last!=null?`Week ${last}`:'Last week'} vs AP</th><th>Record</th></tr></thead><tbody>${
-      rows.map((r,i)=>`<tr class="${r.id===uid?'me':''}"><td>${r.t?i+1:'–'}</td><td style="text-align:left">${esc(lgName(r.id))}${r.id===uid?' (you)':''}</td><td class="strong">${signed(r.t&&r.t.season_vs_ap)}</td><td>${signed(r.w&&r.w.vs_ap)}</td><td>${r.t?`${r.t.season_right}-${r.t.season_wrong}`:'–'}</td></tr>`).join('')}</tbody>`;
+      rows.length ? rows.map((r,i)=>`<tr class="${r.id===uid?'me':''}"><td>${r.t?i+1:'–'}</td><td style="text-align:left">${esc(lgName(r.id))}${r.id===uid?' (you)':''}</td><td class="strong">${signed(r.t&&r.t.season_vs_ap)}</td><td>${signed(r.w&&r.w.vs_ap)}</td><td>${r.t?`${r.t.season_right}-${r.t.season_wrong}`:'–'}</td></tr>`).join('') : '<tr><td colspan="5" class="dim">Voters appear here after their first ballot.</td></tr>'}</tbody>`;
     // league poll (All voters' poll is the Straw Poll)
     const polls = S.lg.polls[l.id] || {}, pw = Object.keys(polls).map(Number).sort((a,b)=>a-b);
     $('lgPollSec').hidden = l.everyone;
