@@ -599,7 +599,15 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       </ul>
 
       <h2 class="lg-only">Pick'em</h2>
-      <p class="lg-only">Coming with leagues. Your ballot doubles as a set of picks: in every game involving an AP Top 25 team, it picks the team you ranked higher. Each week you're scored against the AP poll's own picks on the same games, and the standings show how far ahead of or behind the AP you are. A confident pick (two teams far apart on your ballot) gains more when right and costs more when wrong. The exact scoring isn't published.</p>
+      <div class="lg-only">
+      <p>Your ballot doubles as your picks. Every regular-season week, each game one of your 25 teams plays is a pick for the team you ranked higher (a team not on your ballot counts as #31).</p>
+      <ul>
+        <li><b>Right:</b> +3 if the loser is in that week's AP top 10, +2 if it's AP 11–25, +1 otherwise.</li>
+        <li><b>Wrong:</b> −1 for every 5 spots between the two teams on your ballot (at least −1). Your #4 losing to a team you didn't rank: −6. Your #16 losing to your #18: −1.</li>
+        <li><b>Byes don't hurt:</b> each week's points are scaled to 25 games (points ÷ games × 25). Your season is the sum of your weeks.</li>
+        <li>The AP poll is scored exactly the same way, so you can see whether you're beating it.</li>
+      </ul>
+      </div>
 
       <h2>FAQ</h2>
       <dl class="faq">
@@ -722,10 +730,10 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     </details>
   </section>
 
-  <!-- LEAGUES: friends' leagues plus "All voters" (everyone approved); pick'em standings vs the AP (scored privately on
+  <!-- LEAGUES: friends' leagues plus "All voters" (everyone approved); pick'em standings (points, scored on
        the Mac), each league's poll, and league-mates' ballots once voting has closed. The database decides who sees what. -->
   <section id="view-leagues" hidden>
-    <div class="ph"><div><h1>Leagues</h1><div class="sub">Pick'em against the AP poll, with friends</div></div></div>
+    <div class="ph"><div><h1>Leagues</h1><div class="sub">Pick'em with friends: your ballot is your picks</div></div></div>
     <div class="empty" id="lgGate" role="status"></div>
     <div id="lgMain" hidden>
       <div class="row lgbar">
@@ -1429,7 +1437,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     const w=S.hw, before=weeks.filter(x=>x<w), pw = before.length ? before[before.length-1] : null;
     const cols = [['Straw Poll', strawWeek]].concat(seeSp() ? [['Straw+', strawPlusWeek]] : [], [['Wolp+', wolpWeek], ['AP', apWeek]]);
     const myScore = S.me && seeLg() && (S.lg.totals||[]).find(t=>t.user_id===S.me.user.id && t.week===w);
-    if(myWeek(w)) cols.push([myScore ? `Your ballot · ${signed(myScore.vs_ap)} vs AP (${myScore.picks_right}-${myScore.picks_wrong})` : 'Your ballot', myWeek]);
+    if(myWeek(w)) cols.push([myScore ? `Your ballot · ${signed(myScore.points)} pick'em (${myScore.picks_right}-${myScore.picks_wrong})` : 'Your ballot', myWeek]);
     $('wkSub').textContent = S.weeks[w] && S.weeks[w].compiled ? `Week ${w} · ${S.weeks[w].ballots} ballot${S.weeks[w].ballots===1?'':'s'}` : `Week ${w}`;
     $('wkGrid').innerHTML = cols.map(([name, f])=>{
       const m=f(w), prev = pw!=null ? f(pw) : null;
@@ -1928,11 +1936,24 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   }
   function clearLeagues(){ Object.assign(S.lg, {state:'idle', leagues:[], members:{}, names:{}, totals:[], cur:null, polls:{}, ballots:{}, form:null}); }
   const signed = v => v==null ? '–' : (v>0 ? '+' : v<0 ? '−' : '') + Math.abs(v).toFixed(1);
+  // Pick'em (published rule, same as pickem.py): the AP poll's score for a week, scored like any ballot
+  function apPickem(w){
+    const p = pickWeek(w); if(!p || !p.ap || w>14) return null;
+    let pts=0, right=0, wrong=0;
+    for(const g of p.games){
+      if(g.hp==null || g.ap==null || g.hp===g.ap) continue;
+      const rh=p.ap[g.home], ra=p.ap[g.away]; if(rh==null && ra==null) continue;
+      const homePick = (rh||31) < (ra||31), loser = homePick ? g.away : g.home;
+      if(homePick === (g.hp>g.ap)){ const r=p.ap[loser]; pts += r!=null && r<=10 ? 3 : r!=null ? 2 : 1; right++; }
+      else { pts -= Math.max(1, Math.ceil(Math.abs((rh||31)-(ra||31))/5)); wrong++; }
+    }
+    const n=right+wrong; return n ? {pts: pts/n*25, right, wrong, n} : null;
+  }
   const teamList = (ranks, prev) => Object.keys(ranks).filter(a=>ranks[a]<=TOP).sort((a,b)=>ranks[a]-ranks[b])
     .map(a=>`<button class="wkrow" data-open="${esc(a)}" style="--tc:${tc(a)}"><span class="rk">${ranks[a]}</span>${moveOf(a, ranks[a], prev)}${logo(a)}<span class="tn">${esc(nm(a))}</span></button>`).join('');
   function renderLeagues(){
     const pr = S.me && S.me.profile;
-    const gate = !S.me ? `<strong>Sign in to join leagues</strong>Leagues are for approved voters: pick'em against the AP poll, your league's own poll, and each other's ballots once voting closes.<br><br><button class="btn primary" data-signin>Sign in</button>`
+    const gate = !S.me ? `<strong>Sign in to join leagues</strong>Leagues are for approved voters: pick'em with your ballot, your league's own poll, and each other's ballots once voting closes.<br><br><button class="btn primary" data-signin>Sign in</button>`
       : S.me.err ? `<strong>Couldn’t load your account</strong>${esc(sbErr(S.me.err, 'Reload the page to try again.'))}`
       : !S.canWrite ? (pr && pr.status==='declined' ? '<strong>Not approved</strong>Leagues are for approved voters.' : '<strong>Waiting for approval</strong>Once the owner approves your account, you’ll be in the All voters league automatically.')
       : S.lg.state==='error' ? `<strong>Leagues couldn’t load</strong>${esc(sbErr(S.lg.err, 'Reload the page to try again.'))}`
@@ -1944,14 +1965,16 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     const f=S.lg.form; $('lgForm').hidden = !f;
     if(f){ $('lgInput').placeholder = f==='join' ? 'Invite code' : 'League name'; $('lgInput').setAttribute('aria-label', f==='join' ? 'Invite code' : 'League name'); $('lgFormOk').textContent = f==='join' ? 'Join' : f==='rename' ? 'Rename' : 'Create'; }
     if(!l){ $('lgStand').innerHTML='<tbody><tr><td class="dim">You’re not in a league yet.</td></tr></tbody>'; ['lgPollSec','lgBalSec'].forEach(id=>$(id).hidden=true); $('lgManage').innerHTML=''; return; }
-    // standings: league members who have submitted a ballot this season, by season points vs the AP
+    // standings: league members who have submitted a ballot this season, by season points; the AP poll as a reference row
     const ids = (S.lg.members[l.id] || []).filter(id=>S.lg.voters.has(id) || S.lg.totals.some(t=>t.user_id===id) || (id===uid && Object.keys(S.vote.mine).length)), scored = [...new Set(S.lg.totals.map(t=>t.week))].sort((a,b)=>a-b), last = scored[scored.length-1];
     const latest = id => S.lg.totals.filter(t=>t.user_id===id).sort((a,b)=>b.week-a.week)[0];
     const rows = ids.map(id=>({id, t:latest(id), w:S.lg.totals.find(t=>t.user_id===id && t.week===last)}))
-      .sort((a,b)=>((b.t?b.t.season_vs_ap:-1e9)-(a.t?a.t.season_vs_ap:-1e9)) || lgName(a.id).localeCompare(lgName(b.id)));
+      .sort((a,b)=>((b.t?b.t.season_points:-1e9)-(a.t?a.t.season_points:-1e9)) || lgName(a.id).localeCompare(lgName(b.id)));
+    const apS = scored.map(w=>apPickem(w)).filter(Boolean), apSeason = apS.reduce((x,y)=>x+y.pts,0), apLast = last!=null ? apPickem(last) : null;
     $('lgStSub').textContent = last!=null ? `through week ${last}` : 'scoring starts after the first closed week’s games';
-    $('lgStand').innerHTML = `<thead><tr class="cols"><th>#</th><th style="text-align:left">Voter</th><th>Season vs AP</th><th>${last!=null?`Week ${last}`:'Last week'} vs AP</th><th>Record</th></tr></thead><tbody>${
-      rows.length ? rows.map((r,i)=>`<tr class="${r.id===uid?'me':''}"><td>${r.t?i+1:'–'}</td><td style="text-align:left">${esc(lgName(r.id))}${r.id===uid?' (you)':''}</td><td class="strong">${signed(r.t&&r.t.season_vs_ap)}</td><td>${signed(r.w&&r.w.vs_ap)}</td><td>${r.t?`${r.t.season_right}-${r.t.season_wrong}`:'–'}</td></tr>`).join('') : '<tr><td colspan="5" class="dim">Voters appear here after their first ballot.</td></tr>'}</tbody>`;
+    $('lgStand').innerHTML = `<thead><tr class="cols"><th>#</th><th style="text-align:left">Voter</th><th>Season</th><th>${last!=null?`Week ${last}`:'Last week'}</th><th>Record</th></tr></thead><tbody>${
+      rows.length ? rows.map((r,i)=>`<tr class="${r.id===uid?'me':''}"><td>${r.t?i+1:'–'}</td><td style="text-align:left">${esc(lgName(r.id))}${r.id===uid?' (you)':''}</td><td class="strong">${signed(r.t&&r.t.season_points)}</td><td>${signed(r.w&&r.w.points)}</td><td>${r.t?`${r.t.season_right}-${r.t.season_wrong}`:'–'}</td></tr>`).join('') : '<tr><td colspan="5" class="dim">Voters appear here after their first ballot.</td></tr>'}${
+      apS.length ? `<tr class="dim"><td></td><td style="text-align:left">AP poll <small>(reference, scored the same way)</small></td><td>${signed(apSeason)}</td><td>${signed(apLast&&apLast.pts)}</td><td>${apS.reduce((x,y)=>x+y.right,0)}-${apS.reduce((x,y)=>x+y.wrong,0)}</td></tr>` : ''}</tbody>`;
     // league poll (All voters' poll is the Straw Poll)
     const polls = S.lg.polls[l.id] || {}, pw = Object.keys(polls).map(Number).sort((a,b)=>a-b);
     $('lgPollSec').hidden = l.everyone;
