@@ -666,11 +666,12 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
         <div class="box">Not used: betting lines (kept out so Wolp+ can disagree with them), per-play efficiency (it didn't improve predictions), and the Straw Poll. On a week-by-week replay of 2024–26, Wolp+'s predictions missed by about 12.35 points a game; the closing betting line by about 12.0. Against 33 computer rating systems tracked on 2023–25 games, Wolp+ was more accurate than 24 of them, about 0.15 points a game behind the best (ESPN's FPI and Sagarin).</div>
 
         <h2 id="m-qw">Quality wins (résumé stat)</h2>
+        <p>What a team has earned, judged by who it beat and who it lost to.</p>
         <ul>
-          <li>Adds up a team's wins, each worth more the better the opponent, and subtracts its losses, each costing more the weaker the opponent. Wins count for more than losses cost.</li>
-          <li>Opponent strength comes from the opponent's Wolp+ rank: the same left-to-right position as its dot on the Results Map (Wolp+ x axis), so a row of dots far to the right means a high score.</li>
-          <li>Road wins count slightly more, decisive wins slightly more, and close losses cost less. Wins over FCS teams don't count; losses to them cost a lot.</li>
-          <li>Beating a weak team can never lower the score.</li>
+          <li>Every win adds points, more for better opponents; every loss subtracts, more for weaker opponents. Wins count for more than losses cost, and every loss costs something.</li>
+          <li>Opponent strength is the opponent's <b>Wolp+ rank</b>: the same left-to-right position as its dot on the Results Map, so a row of dots far to the right means a high score.</li>
+          <li>Road wins count a little more and home losses cost a little more; decisive wins count a little more and close losses cost less.</li>
+          <li>Wins over FCS teams don't count; losses to them cost a lot. Beating a weak team can never lower the score.</li>
         </ul>
 
 
@@ -704,7 +705,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
           <dt>Wolp+ spread</dt><dd>Wolp+'s predicted margin, written like a betting line (favorite −points, rounded to the half point). It never uses the betting line.</dd>
           <dt>Line</dt><dd>The median spread across sportsbooks, from CollegeFootballData.com.</dd>
           <dt>Upset watch</dt><dd>Games hand-picked each week, usually where Wolp+ favors the betting underdog or disagrees with the line by a touchdown or more.</dd>
-          <dt>Scorecard</dt><dd>On History: each week, how many winners the Straw Poll, the AP poll, Wolp+ and the betting line picked in games with a ranked team. Looking back at 2024–25, in games between two AP-ranked teams the better-ranked AP team won only 52% of the time; Wolp+'s pick won 66%, and the betting line's 64%.</dd>
+          <dt>Scorecard</dt><dd>On History: each week, the share of winners Wolp+, ESPN's FPI and the betting line picked correctly, in FBS games with a Straw Poll or AP Top 25 team. Wolp+ and FPI pick the team with the higher rating going into the week; the line picks the betting favorite.</dd>
           <dt>Big games</dt><dd>This week's games with a Straw Poll ranked (1–35) or AP Top 25 team where the favorite is giving 14 points or less (by the betting line, or the Wolp+ spread when there's no line). When both teams are ranked (the Straw Poll or AP), the limit is 21 points.</dd>
         </dl>
 
@@ -722,7 +723,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
         </dl>
 
         <h2 id="m-data">Data and updates</h2>
-        <p>Team data comes from <a href="https://collegefootballdata.com" target="_blank" rel="noopener">CollegeFootballData.com</a>. Results, stats, ratings and the AP poll update every Sunday morning; the schedule and betting lines refresh again on Thursday. Only FBS teams are rated.</p>
+        <p>Team data comes from <a href="https://collegefootballdata.com" target="_blank" rel="noopener">CollegeFootballData.com</a> and refreshes at 7 AM ET Thursday through Sunday: results, stats, ratings, the AP poll, ESPN's FPI, the schedule and betting lines. The Straw Poll is released Wednesday at 6 AM ET. Live scores come from ESPN while games are on. Only FBS teams are rated.</p>
       </article>
     </div>
     </details>
