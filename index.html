@@ -95,8 +95,9 @@ h2 small{font:400 13px var(--body);color:var(--muted);margin-left:10px}
 .trow .rk{font:800 21px/1 var(--cond);text-align:right}
 .tn{font:700 17px var(--cond);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tr{color:var(--muted);font-size:12.5px;font-variant-numeric:tabular-nums}
-.also{margin-top:14px;color:var(--muted);font-size:13px;line-height:1.7}
-.also b{color:var(--ink);font:700 15px var(--cond);margin-right:2px}
+.also{margin-top:14px}
+.also h3{font:700 13px var(--body);color:var(--muted);margin:0 0 4px;letter-spacing:.03em}
+.also .t25 .trow{opacity:.85}
 .side-col{display:grid;gap:22px}
 .lead{color:var(--muted);font-size:13px;margin:-4px 0 10px}
 .wrow{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line2);background:none;border-width:0 0 1px;width:100%;text-align:left;color:var(--ink)}
@@ -1208,10 +1209,12 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       : '<div class="empty"><strong>No ballot yet</strong>The first Straw Poll Top 25 will appear here.</div>'; $('hAlso').innerHTML=''; }
     else {
       const top=list.slice(0,TOP), half=Math.ceil(top.length/2);
-      const row=(a,i)=>`<button class="trow" data-open="${esc(a)}" style="--tc:${tc(a)}"><span class="rk">${i+1}</span>${moveOf(a,i+1,prev)}${logo(a)}<span class="tn">${esc(nm(a))}</span><span class="tr">${S.teams[a]?rec(S.teams[a].w,S.teams[a].l):''}</span></button>`;
+      const row=(a,i)=>`<button class="trow" data-open="${esc(a)}" style="--tc:${tc(a)}"><span class="rk">${i<TOP?i+1:''}</span>${moveOf(a,i+1,prev)}${logo(a)}<span class="tn">${esc(nm(a))}</span><span class="tr">${S.teams[a]?rec(S.teams[a].w,S.teams[a].l):''}</span></button>`;
       $('hTop').innerHTML = `<div>${top.slice(0,half).map((a,i)=>row(a,i)).join('')}</div><div>${top.slice(half).map((a,i)=>row(a,i+half)).join('')}</div>`;
       const rest=list.slice(TOP);
-      $('hAlso').innerHTML = rest.length ? `${alsoLabel(n)}: ${rest.map((a,i)=>`<b>${TOP+i+1}</b> ${esc(nm(a))}`).join(' · ')}` : '';
+      // 26-35 in order, like the Top 25 but without a rank number (only the Top 25 are ranked)
+      const rh=Math.ceil(rest.length/2);
+      $('hAlso').innerHTML = rest.length ? `<h3>${TOP+1}–${TOP+rest.length}</h3><div class="t25"><div>${rest.slice(0,rh).map((a,i)=>row(a,TOP+i)).join('')}</div><div>${rest.slice(rh).map((a,i)=>row(a,TOP+rh+i)).join('')}</div></div>` : '';
     }
     // fraud watch / under the radar (the Straw Poll vs the AP)
     const apR=(S.ap&&S.ap.ranks)||{}, hasAp=Object.keys(apR).length>0 && list.length>0;
