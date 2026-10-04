@@ -91,7 +91,8 @@ h2 small{font:400 13px var(--body);color:var(--muted);margin-left:10px}
 .hero{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:22px;align-items:start}
 .t25{display:grid;grid-template-columns:1fr 1fr;gap:0 26px}
 .trow{display:grid;grid-template-columns:30px 30px 24px minmax(0,1fr) auto;gap:8px;align-items:center;height:38px;border-bottom:1px solid var(--line2);box-shadow:inset 3px 0 var(--tc,transparent);padding-left:8px;background:none;border-width:0 0 1px;width:100%;text-align:left;color:var(--ink)}
-.trow:hover{background:var(--panel2)}
+.trow:hover{background:var(--panel2)} .trow{cursor:pointer} .trow.sel{background:#22314a;box-shadow:inset 3px 0 var(--gold)}
+.trow .tname{background:none;border:0;padding:0;color:inherit;text-align:left;cursor:pointer;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap} .trow .tname:hover{text-decoration:underline}
 .trow .rk{font:800 21px/1 var(--cond);text-align:right}
 .tn{font:700 17px var(--cond);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tr{color:var(--muted);font-size:12.5px;font-variant-numeric:tabular-nums}
@@ -570,7 +571,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       <p class="note">Each list is the Top 25 going into that week's games. Wolp+<span class="sp-only"> and Straw+</span> lists start at week 6 of 2026; weeks 1–5 are the site owner's own rankings from before ballots opened. Arrows show movement from the previous week.</p></div>
     <div class="card" id="scoreCard" style="margin-bottom:22px"><div class="ch"><h2>Scorecard<small>Who picks more winners: Wolp+, ESPN's FPI or the betting line?</small></h2></div>
       <div class="tblw" id="scoreBody"></div>
-      <p class="note">Games: every finished game with a team in that week's Straw Poll Top 25 or AP Top 25. Each column is the share of those games it picked correctly (hover for the count). <b>Wolp+</b> and <b>ESPN FPI</b> pick the team with the higher rating going into the week (an FBS team over an FCS team); FPI ratings are saved from week 6 on, and week 5 uses Wolp+'s pre-kickoff spread. <b>Line</b> picks the betting favorite before kickoff.</p></div>
+      <p class="note">Games: every finished FBS game with a team in that week's Straw Poll Top 25 or AP Top 25 (games against FCS teams don't count). Each column is the share of those games it picked correctly (hover for the count). <b>Wolp+</b> and <b>ESPN FPI</b> pick the team with the higher rating going into the week; FPI ratings are saved from week 6 on, and week 5 uses Wolp+'s pre-kickoff spread. <b>Line</b> picks the betting favorite before kickoff.</p></div>
   </section>
 
   <!-- METHODOLOGY -->
@@ -1209,17 +1210,17 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       : '<div class="empty"><strong>No ballot yet</strong>The first Straw Poll Top 25 will appear here.</div>'; $('hAlso').innerHTML=''; }
     else {
       const top=list.slice(0,TOP), half=Math.ceil(top.length/2);
-      const row=(a,i)=>`<button class="trow" data-open="${esc(a)}" style="--tc:${tc(a)}"><span class="rk">${i<TOP?i+1:''}</span>${moveOf(a,i+1,prev)}${logo(a)}<span class="tn">${esc(nm(a))}</span><span class="tr">${S.teams[a]?rec(S.teams[a].w,S.teams[a].l):''}</span></button>`;
+      const row=(a,i)=>`<div class="trow${S.cmp.includes(a)?' sel':''}" data-abbr="${esc(a)}" style="--tc:${tc(a)}"><span class="rk">${i<TOP?i+1:''}</span>${moveOf(a,i+1,prev)}${logo(a)}<button class="tn tname" data-open="${esc(a)}">${esc(nm(a))}</button><span class="tr">${S.teams[a]?rec(S.teams[a].w,S.teams[a].l):''}</span></div>`;
       $('hTop').innerHTML = `<div>${top.slice(0,half).map((a,i)=>row(a,i)).join('')}</div><div>${top.slice(half).map((a,i)=>row(a,i+half)).join('')}</div>`;
       const rest=list.slice(TOP);
-      // 26-35 in order, like the Top 25 but without a rank number (only the Top 25 are ranked)
+      // Just missed: 26-35 in order, like the Top 25 but without a rank number (only the Top 25 are ranked)
       const rh=Math.ceil(rest.length/2);
-      $('hAlso').innerHTML = rest.length ? `<h3>${TOP+1}–${TOP+rest.length}</h3><div class="t25"><div>${rest.slice(0,rh).map((a,i)=>row(a,TOP+i)).join('')}</div><div>${rest.slice(rh).map((a,i)=>row(a,TOP+rh+i)).join('')}</div></div>` : '';
+      $('hAlso').innerHTML = rest.length ? `<h3>Just missed</h3><div class="t25"><div>${rest.slice(0,rh).map((a,i)=>row(a,TOP+i)).join('')}</div><div>${rest.slice(rh).map((a,i)=>row(a,TOP+rh+i)).join('')}</div></div>` : '';
     }
     // fraud watch / under the radar (the Straw Poll vs the AP)
     const apR=(S.ap&&S.ap.ranks)||{}, hasAp=Object.keys(apR).length>0 && list.length>0;
     const wrow = a => `<button class="wrow" data-open="${esc(a)}">${logo(a)}<div class="wn"><b>${esc(nm(a))}</b><small>${S.teams[a]?rec(S.teams[a].w,S.teams[a].l)+' · '+esc(S.teams[a].conf||''):''}</small></div>
-      <div class="wk"><span><small>AP</small>${apR[a]?'#'+apR[a]:'NR'}</span><span><small>Straw</small>${ranks[a]?'#'+ranks[a]:'NR'}</span></div></button>`;
+      <div class="wk"><span><small>AP</small>${apR[a]?'#'+apR[a]:'NR'}</span><span><small>Straw</small>${ranks[a] && ranks[a]<=TOP?'#'+ranks[a]:'NR'}</span></div></button>`;
     const fraud = Object.keys(apR).filter(a=>S.teams[a] && (ranks[a]||MAX+1)-apR[a]>=FRAUD).sort((a,b)=>((ranks[b]||MAX+1)-apR[b])-((ranks[a]||MAX+1)-apR[a]) || apR[a]-apR[b]);
     const radar = list.filter(a=>(apR[a]||AP_NR)-ranks[a]>=FRAUD).sort((a,b)=>((apR[b]||AP_NR)-ranks[b])-((apR[a]||AP_NR)-ranks[a]));
     const none = '<p class="lead" style="margin:0">No one this week.</p>', wait='<p class="lead" style="margin:0">Waiting for the AP poll and a saved ballot.</p>';
@@ -1423,7 +1424,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     const rows = P.map(w=>{
       const rm = S.weeks[w.week] ? rankMap(w.week) : null, ap = w.ap || null, rec2={}; SYS.forEach(k=>rec2[k]=[0,0]); let n=0;
       w.games.forEach(g=>{
-        if(g.hp==null || g.hp===g.ap) return;
+        if(g.hp==null || g.hp===g.ap || !S.teams[g.home] || !S.teams[g.away]) return;   // FBS vs FBS only
         const inW = rm && ((rm[g.home]||99)<=TOP || (rm[g.away]||99)<=TOP), inA = ap && (ap[g.home] || ap[g.away]);
         if(!inW && !inA) return;
         n++; const homeWon = g.hp>g.ap;
@@ -2355,11 +2356,11 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   // Compare: click a team's row (anywhere but its name, a dot or a button) on Research or Vote to select it, up to 4;
   // the selected teams sit in a bar at the bottom with a Compare button.
   function syncCmp(){
-    document.querySelectorAll('#view-rank [data-abbr], #view-work [data-abbr]').forEach(r=>r.classList.toggle('sel', S.cmp.includes(r.dataset.abbr)));
+    document.querySelectorAll('#view-rank [data-abbr], #view-work [data-abbr], #hTop [data-abbr], #hAlso [data-abbr]').forEach(r=>r.classList.toggle('sel', S.cmp.includes(r.dataset.abbr)));
     renderCmpBar();
   }
   function renderCmpBar(){
-    const n=S.cmp.length, here = S.tab==='rank' || S.tab==='work';
+    const n=S.cmp.length, here = S.tab==='rank' || S.tab==='work' || S.tab==='home';
     $('cmpBar').hidden = !n || !here;
     $('cmpWho').innerHTML = S.cmp.map(a=>`<span class="cchip">${logo(a)}${esc(nm(a))}<button class="cx" data-uncmp="${esc(a)}" aria-label="Remove ${esc(nm(a))} from Compare">×</button></span>`).join('');
     $('cmpGo').disabled = n<2; $('cmpGo').textContent = n<2 ? 'Select one more' : `Compare ${n}`;
@@ -2371,8 +2372,8 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     syncCmp();
   }
   document.addEventListener('click', e=>{
-    if(S.tab!=='rank' && S.tab!=='work') return;
-    const row = e.target.closest('#rMap .mrow, #wMap .mrow, #rTable tbody tr, #ballot .brow, #pool .prow');
+    if(S.tab!=='rank' && S.tab!=='work' && S.tab!=='home') return;
+    const row = e.target.closest('#rMap .mrow, #wMap .mrow, #rTable tbody tr, #ballot .brow, #pool .prow, #hTop .trow, #hAlso .trow');
     if(!row || !row.dataset.abbr || e.target.closest('button, a, input, select, label, .dot')) return;
     toggleCmp(row.dataset.abbr);
   });
