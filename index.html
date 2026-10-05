@@ -173,7 +173,8 @@ h2 small{font:400 13px var(--body);color:var(--muted);margin-left:10px}
 .nm b{display:block;font:700 19px/1.05 var(--cond);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .nm small{color:var(--muted);font-size:12px;white-space:nowrap}
 .nm:hover b{text-decoration:underline}
-.mrow .nm{justify-self:start;max-width:100%}   /* only the name itself opens the team; the rest of the row selects it for Compare */
+.mrow .nm{justify-self:start;max-width:100%;cursor:inherit}   /* only the team name itself opens the team; the rest of the row selects it for Compare */
+.mrow .nm b{width:fit-content;max-width:100%;cursor:pointer}
 .track{position:relative;height:50px}
 .track::before{content:"";position:absolute;left:8px;right:8px;top:50%;border-top:1px solid var(--line)}
 .din{position:absolute;inset:0 12px}
@@ -2153,11 +2154,12 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   let lastPtr='';   // pointer type of the latest press: with a mouse, a click on a Results Map dot selects the row for Compare
   document.addEventListener('pointerdown', e=>{ lastPtr=e.pointerType; }, true);
   const mouseDot = e => lastPtr==='mouse' && e.target.closest('.mrow .dot');
+  const nameMiss = e => !!e.target.closest('.mrow .nm') && !e.target.closest('.mrow .nm b');   // Results Map: only the name itself opens the team
   document.addEventListener('click', e=>{
     const f= mouseDot(e) ? null : e.target.closest('[data-tip]');
     if(f){ if(tipFor===f && tipVia==='click') hideTip(); else showTip(f,'click'); } else if(tipFor && !mouseDot(e)) hideTip();
     MENUS.forEach(id=>{ const m=$(id); if(m.open && !m.contains(e.target)) m.open=false; });
-    const op=e.target.closest('[data-open]'); if(op && !e.target.closest('.dot')) openTeam(op.dataset.open);
+    const op=e.target.closest('[data-open]'); if(op && !e.target.closest('.dot') && !nameMiss(e)) openTeam(op.dataset.open);
     const gm=e.target.closest('[data-game]'); if(gm && !op && !e.target.closest('dialog')) openGame(gm.dataset.game);
     const go=e.target.closest('[data-go]'); if(go){ if(go.dataset.ws) S.ws=go.dataset.ws; showTab(go.dataset.go); const t=go.dataset.anchor && document.getElementById(go.dataset.anchor); if(t) t.scrollIntoView({block:'start'}); }
   });
@@ -2359,7 +2361,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   document.addEventListener('click', e=>{
     if(S.tab!=='rank' && S.tab!=='work' && S.tab!=='home') return;
     const row = e.target.closest('#rMap .mrow, #wMap .mrow, #rTable tbody tr, #ballot .brow, #pool .prow, #hTop .trow, #hAlso .trow');
-    if(!row || !row.dataset.abbr || (!mouseDot(e) && e.target.closest('button, a, input, select, label, .dot'))) return;
+    if(!row || !row.dataset.abbr || (!mouseDot(e) && !nameMiss(e) && e.target.closest('button, a, input, select, label, .dot'))) return;
     toggleCmp(row.dataset.abbr);
   });
   $('cmpBar').addEventListener('click', e=>{ const b=e.target.closest('[data-uncmp]'); if(b) toggleCmp(b.dataset.uncmp); });
