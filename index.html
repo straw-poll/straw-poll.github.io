@@ -83,7 +83,7 @@ h2 small{font:400 13px var(--body);color:var(--muted);margin-left:10px}
 .banner{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:12px;padding:10px 16px;margin-bottom:16px;color:var(--ink);font-size:14px}
 .empty strong{color:var(--ink);display:block;font:700 20px var(--cond);margin-bottom:4px}
 .mv{font:700 13px var(--cond);text-align:center;white-space:nowrap}
-.mv.up{color:var(--win)} .mv.dn{color:var(--loss)} .mv.new{color:var(--gold)} .mv.eq{color:var(--faint)}
+.mv.up{color:var(--win)} .mv.dn{color:var(--loss)} .mv.new{color:var(--gold)} .mv.eq{color:var(--muted)}
 
 /* home */
 .hero{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:22px;align-items:start}
@@ -104,7 +104,7 @@ h2 small{font:400 13px var(--body);color:var(--muted);margin-left:10px}
 .wrow .lg{width:26px;height:26px}
 .wn b{display:block;font:700 18px/1.05 var(--cond)} .wn small{color:var(--muted);font-size:12px}
 .wk{display:flex;gap:14px;font:700 17px var(--cond);text-align:center}
-.wk small{display:block;font:500 10.5px var(--body);color:var(--muted);letter-spacing:.04em}
+.wk small{display:block;font:500 11px var(--body);color:var(--muted);letter-spacing:.04em}
 .fraud .wk span:first-child{color:var(--loss)} .radar .wk span:nth-child(2){color:var(--win)}
 .badge{font:600 11px var(--body);letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:999px}
 .badge.f{background:#3a1d1f;color:#f29a8d} .badge.r{background:#173325;color:#8fdcab}
@@ -115,7 +115,7 @@ h2 small{font:400 13px var(--body);color:var(--muted);margin-left:10px}
 .game.hot.hit{border-color:#1f5a37;box-shadow:inset 0 3px 0 var(--win)} .game.hot.miss{border-color:#6b2a24;box-shadow:inset 0 3px 0 var(--loss)}  /* Upset Watch: underdog won / favorite won */
 .gtop{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px;min-height:22px}
 .when{color:var(--muted);font-size:12.5px}
-.tag{font:600 10.5px var(--body);letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:999px;white-space:nowrap}
+.tag{font:600 11px var(--body);letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:999px;white-space:nowrap}
 .tag.up{background:#3d3115;color:var(--gold)}
 .when.live,td.live{color:var(--loss);font-weight:600}
 .tag.hit{background:#163a26;color:var(--win)} .tag.miss{background:var(--panel2);color:var(--muted)}
@@ -186,7 +186,7 @@ h2 small{font:400 13px var(--body);color:var(--muted);margin-left:10px}
 .dot.close{box-shadow:0 0 0 1.5px var(--panel),0 0 0 3.5px var(--gold)}
 .dot.ot{box-shadow:0 0 0 1.5px var(--panel),0 0 0 3.5px var(--gold),0 0 0 5px var(--panel),0 0 0 7px var(--gold)}
 .drk{position:absolute;left:100%;top:50%;transform:translateY(-50%);margin-left:4px;font:700 11px/1 var(--cond);color:var(--ink);pointer-events:none}
-.dlb{position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:5px;font:600 9.5px/1 var(--body);letter-spacing:.05em;text-transform:uppercase;color:var(--muted);white-space:nowrap;pointer-events:none}
+.dlb{position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:5px;font:600 10px/1 var(--body);letter-spacing:.05em;text-transform:uppercase;color:var(--muted);white-space:nowrap;pointer-events:none}
 .dlb.up{top:auto;bottom:100%;margin:0 0 5px}
 .cr{font:700 15px var(--cond);color:var(--gold);text-align:right;padding-right:6px}
 .tblw{overflow-x:auto}
@@ -233,7 +233,10 @@ td.c-mv{padding-left:0;width:30px}
 .wbar select,.wbar input{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:6px 8px}
 .wbar input{width:4.2em}
 .weeklabel{font:700 24px var(--cond)}
-.status{font-size:13px;color:var(--muted)} .status.warn{color:var(--loss)}
+.jumpl{color:var(--gold);font-size:14px;font-weight:600;text-decoration:none} .jumpl:hover{text-decoration:underline}
+#gBtn iframe{color-scheme:light}   /* otherwise the browser paints a white box behind Google's button on this dark page */
+.dx{position:sticky;top:0;float:right;z-index:3;width:36px;height:36px;margin:-8px -8px 0 8px;border-radius:50%;border:1px solid var(--line);background:var(--panel2);color:var(--ink);font-size:22px;line-height:1;cursor:pointer} .dx:hover{border-color:var(--gold)}
+.status{font-size:13px;color:var(--muted)} .status.warn{color:var(--loss)} .status.nudge{color:var(--gold)}
 .spacer{flex:1}
 .wsub{display:flex;align-items:center;gap:8px;margin-bottom:14px}
 .wgrid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:22px;align-items:start}
@@ -257,8 +260,9 @@ td.c-mv{padding-left:0;width:30px}
 .grip svg{display:block;margin:auto}
 .tm{min-width:0}
 .tm .nmb{background:none;border:0;padding:0;text-align:left;font:700 18px/1.1 var(--cond);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink)}
+@media (max-width:700px){ .brow,.bcols{column-gap:4px} .brow .rk{font-size:20px} .brow .tm b,.brow .tm .nmb{font-size:16px} }
 .tm .nmb:hover{text-decoration:underline}
-.tm small{display:block;color:var(--muted);font-size:11.5px}
+.tm small{display:block;color:var(--muted);font-size:11.5px} .tm .lastl{color:var(--ink);font-weight:600} .tm .lastl small{display:inline;margin-left:4px;font-weight:500;color:var(--muted)}
 .flag{border:1px solid currentColor;background:none;border-radius:4px;padding:0 4px;margin-right:5px;font:700 11px/1.35 var(--cond);letter-spacing:.05em;color:var(--loss);vertical-align:1px}
 .flag.loop{color:var(--gold)}
 .st{text-align:center;font-variant-numeric:tabular-nums;font-weight:600;font-size:13px}
@@ -267,7 +271,7 @@ td.c-mv{padding-left:0;width:30px}
 .st.dim{color:var(--muted);font-weight:500}
 .x{border:0;background:none;color:var(--muted);font-size:18px;line-height:1;padding:4px} .brow .x{justify-self:end}
 .x:hover{color:var(--loss)}
-.slot{display:grid;grid-template-columns:44px 1fr;column-gap:8px;align-items:center;padding:8px 6px;border-bottom:1px dashed var(--line2);color:var(--faint)}
+.slot{display:grid;grid-template-columns:44px 1fr;column-gap:8px;align-items:center;padding:8px 6px;border-bottom:1px dashed var(--line2);color:var(--muted)}
 .slot .rk{color:#2a3b52;font-size:22px}
 .checks{margin-top:12px;border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:8px;padding:8px 12px;background:var(--panel);font-size:13px}
 .checks p{margin:0}.checks p+p{margin-top:8px}
@@ -481,8 +485,8 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   .dot.s1{width:6px;height:6px}.dot.s2{width:9px;height:9px}.dot.s3{width:12px;height:12px}
   .dot.close{box-shadow:0 0 0 1px var(--panel),0 0 0 2.5px var(--gold)}
   .dot.ot{box-shadow:0 0 0 1px var(--panel),0 0 0 2.5px var(--gold),0 0 0 3.5px var(--panel),0 0 0 5px var(--gold)}
-  .drk{font-size:9.5px;margin-left:3px}
-  .dlb{font-size:8px;margin-top:3px}
+  .drk{font-size:10px;margin-left:3px}
+  .dlb{font-size:10px;margin-top:3px}
   .legend{font-size:11.5px;gap:4px 12px}
   .rk{font-size:22px}
   .mtoc{display:none}
@@ -534,7 +538,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   <!-- RANKINGS -->
   <section id="view-rank" hidden>
     <div class="ph"><div><h1 id="rTitle">Research</h1><div class="sub" id="rSub"></div></div>
-      <div class="row"><a class="pill on" href="#map">Results Map</a><a class="pill" href="#stats">Stats table ↓</a></div></div>
+      <div class="row"><a class="jumpl" href="#stats">Stats table ↓</a></div></div>
     <div class="filters">
      <div class="frow">
       <span class="lab">Filter</span>
@@ -1132,7 +1136,8 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   function renderBanner(){
     const el=$('hBanner'), pr=S.me && S.me.profile, link = (go, t) => ` <button class="more" data-go="${go}">${t} →</button>`;
     let h='';
-    if(!S.me) h = 'A weekly college football Top 25 from members’ ballots, alongside Wolp+, a power rating built from game results.' + link('method', 'Methodology');
+    if(S.loadErr) h = '<b>Team data couldn’t load.</b> Reload the page to try again.';
+    else if(!S.me) h = 'A weekly college football Top 25 from members’ ballots, alongside Wolp+, a power rating built from game results.' + link('method', 'Methodology');
     else if(S.me.err) h = '';
     else if(!S.canWrite) h = pr && pr.status==='declined' ? '' : 'Your account is awaiting approval.';
     else if(S.vote.state==='ready'){
@@ -1216,13 +1221,13 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     const games=(held ? held.games : sch.games||[]).filter(g=>S.teams[g.home]||S.teams[g.away]);
     const upW = (S.upsets||{})[hw] || {}, upNext = (S.upsets||{})[sch.week] || {};
     // a game card; a finished game (final score from picks: hp/ap) shows the score and whether the betting underdog won
-    const card = (g, up) => { const mFav = typeof g.model==='number' ? (g.model>0?g.home:g.away) : null, lFav = typeof g.line==='number' ? (g.line>0?g.home:g.away) : null;
+    const card = (g, up, inUps) => { const mFav = typeof g.model==='number' ? (g.model>0?g.home:g.away) : null, lFav = typeof g.line==='number' ? (g.line>0?g.home:g.away) : null;
       const sc = gameScore(g), done = sc.state==='final', live = sc.state==='live', won = done ? (sc.hp>sc.ap ? g.home : g.away) : null;
       const result = !done || !lFav ? '' : won!==lFav ? '<span class="tag hit">Upset!</span>' : '<span class="tag miss">Favorite won</span>';
       const score = a => done || live ? `<span class="sc${done && a!==won ? ' lost' : ''}">${a===g.home ? sc.hp : sc.ap}</span>` : '';
       const side = a => `<div class="side${done||live?' scored':''}">${logo(a)}<div><b><button class="tname" data-open="${esc(a)}">${rkBadge(ranks[a])}${esc(nm(a))}</button></b><small>${S.teams[a]?rec(S.teams[a].w,S.teams[a].l):'FCS'}${apG[a]?' · AP #'+apG[a]:''}</small></div>${score(a)}</div>`;
       S.gmap[g.id] = g;
-      return `<div class="game${up?' hot':''}${up && result ? (won!==lFav?' hit':' miss') : ''}" data-game="${esc(g.id)}"><div class="gtop"><span class="when${live?' live':''}">${done ? 'Final' : live ? `Live · ${esc(sc.detail)}` : esc(kick(g.start))}</span>${result || (up?'<span class="tag up">Upset Watch</span>':'')}</div>
+      return `<div class="game${up?' hot':''}${up && result ? (won!==lFav?' hit':' miss') : ''}" data-game="${esc(g.id)}"><div class="gtop"><span class="when${live?' live':''}">${done ? 'Final' : live ? `Live · ${esc(sc.detail)}` : esc(kick(g.start))}</span>${result || (up && !inUps?'<span class="tag up">Upset Watch</span>':'')}</div>
         ${side(g.away)}<div class="at">${g.neutral?'vs':'at'}</div>${side(g.home)}
         <div class="nums"><div><small>Line</small><b>${spread(g.line,g.home,g.away)}</b></div><div><small>Wolp+</small><b class="${mFav && lFav && mFav!==lFav ? 'mup':''}">${modelTxt(g.model,g.home,g.away)}</b></div></div>
         ${up && up.note ? `<p class="gnote">${esc(up.note)}</p>` : ''}<button class="gov sr-only" data-game="${esc(g.id)}">Game overview: ${esc(nm(g.away))} ${g.neutral?'vs':'at'} ${esc(nm(g.home))}</button></div>`; };
@@ -1238,7 +1243,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     $('hUpsSub').textContent = upWk==null ? (sch.week!=null ? `Week ${hw}` : '') : upWk===hw && !held ? `Week ${upWk}` : `Week ${upWk} results`;
     const nCand = S.isOwner ? upsetCands().filter(x=>x.cand).length : 0;
     const review = S.isOwner ? `<div class="game" style="display:flex;flex-direction:column;justify-content:center;gap:8px;border-style:dashed"><b style="font:700 18px var(--cond)">${Object.keys(upNext).length ? `Edit week ${sch.week} Upset Watch` : `No week ${sch.week} Upset Watch published yet`}</b>${held ? `<span class="lead" style="margin:0">It shows on Home once the week ${sch.week} Straw Poll is out.</span>` : ''}<span class="lead" style="margin:0">${nCand} candidate${nCand===1?'':'s'} this week. Only you see this box.</span><button class="btn primary" data-go="admin" style="align-self:flex-start">Review and publish →</button></div>` : '';
-    $('hUps').innerHTML = ups.map(g=>card(g, upNow[g.id])).join('') + review;
+    $('hUps').innerHTML = ups.map(g=>card(g, upNow[g.id], true)).join('') + review;
     const top = r => r && r<=TOP ? r : 99;   // Straw Poll Top 25 only
     const imp = g => Math.min(top(ranks[g.home]), top(ranks[g.away]), apG[g.home]||99, apG[g.away]||99);
     const fav = g => typeof g.line==='number' ? Math.abs(g.line) : typeof g.model==='number' ? Math.abs(g.model) : 0;  // spread: line, else model
@@ -1661,9 +1666,9 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     [wSortable, S.sortBallot, S.sortPool].forEach(x=>{ if(x) x.option('disabled', !can); });
     $('deadline').innerHTML = ph==='soon' ? `Voting opens Sunday morning, once week ${esc(n-1)}’s games are final` : !L ? '' : ph==='open' ? `Voting closes <b>${esc(etTime(L))}</b>`
       : ph==='late' && !declined ? `Voting closed ${esc(etTime(L))} · late ballots need the site owner’s approval` : `Voting closed ${esc(etTime(L))}`;
-    let msg, warn=false, btn='Submit ballot';
+    let msg, warn=false, btn='Submit ballot';   // warn: 'err' (red) or true = a nudge (gold)
     if(S.vote.state==='loading') msg='Loading your ballots…';
-    else if(S.vote.state==='error'){ msg=sbErr(S.vote.err, 'Your ballots couldn’t load. Reload the page to try again.'); warn=true; }
+    else if(S.vote.state==='error'){ msg=sbErr(S.vote.err, 'Your ballots couldn’t load. Reload the page to try again.'); warn='err'; }
     else if(n==null) msg='No week is open for voting yet. Voting opens after the weekend’s games.';
     else if(declined) msg = 'Your late ballot wasn’t accepted' + (sub ? `; your on-time ballot (${atTime(sub.at)}) counts.` : '.');
     else if(!can) msg = sub ? 'Submitted ' + atTime(sub.at) : 'No ballot submitted';
@@ -1674,7 +1679,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     else if(S.dirty){ msg = sub ? 'Changes not submitted' : 'Ready to submit'; warn=true; }
     else if(pend){ msg = `Late ballot sent ${atTime(lt.at)}. It counts once the site owner approves it.`; btn='Pending'; }
     else { msg = 'Submitted ' + atTime(sub.at) + (ph==='open' ? ` · you can change it until ${etTime(L)}` : ''); btn='Submitted'; }
-    st.textContent=msg; st.className='status'+(warn?' warn':'');
+    st.textContent=msg; st.className='status'+(warn==='err'?' warn':warn?' nudge':'');
     sv.hidden = !can; sv.textContent = S.busy ? 'Sending…' : btn;
     sv.disabled = S.busy || !can || ph==='soon' || S.draft.length!==BMAX || !S.dirty;
     wd.hidden = !can || !(pend || (ph==='open' && sub)); wd.disabled = S.busy;
@@ -1763,9 +1768,14 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     setDirty(); renderWork();
     toast('Ballot withdrawn. Your teams are still here if you want to submit again.');
   }
+  // phones: the ballot list shows Last game as a line under the team, not a column (it pushed the stats off screen)
+  const NARROW = matchMedia('(max-width:700px)');
+  const ballotCols = () => shown('b').filter(c=>!(c.k==='last' && NARROW.matches));
+  NARROW.addEventListener('change', ()=>{ if(!S.teams || !Object.keys(S.teams).length) return; renderHeads(); renderBallot(); });
   function renderHeads(){
-    const b=shown('b'), p=shown('p');
-    const bc = `44px 34px 18px 24px minmax(7rem,13rem) ${b.map(c=>c.bw).join(' ')} minmax(26px,1fr)`;   // stats sit next to the team; spare width goes before the × at the right
+    const b=ballotCols(), p=shown('p');
+    const bc = NARROW.matches ? `26px 20px 16px 22px minmax(5.5rem,1fr) ${b.map(()=> '2.4rem').join(' ')} 20px`   // phones: everything fits in 390px
+      : `44px 34px 18px 24px minmax(7rem,13rem) ${b.map(c=>c.bw).join(' ')} minmax(26px,1fr)`;   // stats sit next to the team; spare width goes before the × at the right
     const pc = `minmax(7rem,1fr) ${p.map(c=>c.pw).join(' ')} 2.8rem`;
     $('dyncols').textContent = `.brow,.bcols{--bcols:${bc}}.phead,.prow{--pcols:${pc}}`;
     $('bcols').innerHTML = `<span style="text-align:right">Rank</span><span></span><span></span><span></span><span>Team</span>${b.map(c=>`<span>${c.h}</span>`).join('')}<span></span>`;
@@ -1806,11 +1816,11 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   function renderBallot(){
     hideTip();
     const prev = myPrevMap(S.cur);
-    const an = analyze(), cols = shown('b');
+    const an = analyze(), cols = ballotCols(), lastLine = NARROW.matches && S.vis.b.last;
     const row = (a,i) => { const t=S.teams[a]||{name:a,conf:''}, fl=an.flags[a], lp=an.loopOf[a];
       const marks = (fl ? `<button class="flag" data-tip="${esc(fl.join('\n'))}" aria-label="${esc(fl.join(' '))}">H2H</button>` : '') + (lp ? `<button class="flag loop" data-tip="${esc(lp.text+'\n'+lp.games.join('\n'))}" aria-label="${esc(lp.text)}">LOOP</button>` : '');
       return `<div class="brow${S.cmp.includes(a)?' sel':''}" data-abbr="${esc(a)}" style="--tc:${tc(a)}"><span class="rk">${i+1}</span>${moveOf(a,i+1,prev)}<button class="grip" aria-label="Move ${esc(t.name)}, rank ${i+1}. Use arrow keys." data-i="${i}">${GRIP}</button>${logo(a)}
-        <div class="tm"><button class="nmb" data-open="${esc(a)}">${esc(t.name)}</button><small>${marks}${esc(t.conf||'')}</small></div>${cols.map(c=>statCell(c,a,t,an.onB,false)).join('')}<button class="x" data-rm="${i}" aria-label="Remove ${esc(t.name)}">×</button></div>`; };
+        <div class="tm"><button class="nmb" data-open="${esc(a)}">${esc(t.name)}</button><small>${marks}${esc(t.conf||'')}</small>${lastLine ? `<small class="lastl">${lastCell(a).v}</small>` : ''}</div>${cols.map(c=>statCell(c,a,t,an.onB,false)).join('')}<button class="x" data-rm="${i}" aria-label="Remove ${esc(t.name)}">×</button></div>`; };
     $('ballot').innerHTML = S.draft.map(row).join('');
     let h='';
     if(!S.draft.length) h += editable(S.cur) ? `<div class="empty"><strong>The ballot is empty</strong>Add teams from the list, or drag them in.</div>` : `<div class="empty"><strong>No ballot for this week</strong></div>`;
@@ -2372,6 +2382,8 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     if(e.clientX<r.left || e.clientX>r.right || e.clientY<r.top || e.clientY>r.bottom) e.currentTarget.close();
   }));
 
+  // every pop-up gets a × at its top right (long pop-ups on phones only had Close at the bottom)
+  document.querySelectorAll('dialog').forEach(d=>{ const b=document.createElement('button'); b.type='button'; b.className='dx'; b.setAttribute('aria-label','Close'); b.textContent='×'; b.addEventListener('click', ()=>d.close()); d.prepend(b); });
   // ---------- compare ----------
   // Compare: click a team's row (anywhere but its name, a dot or a button) on Research or Vote to select it, up to 4;
   // the selected teams sit in a bar at the bottom with a Compare button.
@@ -2663,7 +2675,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       if(d.season){ $('brandYr').textContent=d.season; document.title=`Straw Poll ${d.season}`; }
       S._sp = null; S.teamsRaw = d.teams||{}; S.model = d.model||null; S.schedule = d.schedule||null; S.ap = d.ap||null; S.picks = d.picks||[];
       mergeModel(); renderConfs(); renderAll(); teamsLoaded(); pollLive();
-    }).catch(()=>{ $('stamp').textContent='Team data couldn’t load. Reload the page to try again.'; teamsLoaded(); });
+    }).catch(()=>{ $('stamp').textContent='Team data couldn’t load. Reload the page to try again.'; S.loadErr=true; renderBanner(); toast('Team data couldn’t load. Reload the page to try again.'); teamsLoaded(); });
     db.archive().then(w=>{ S.archive=w; mergeWeeks(); renderAll(); }).catch(()=>toast('Earlier rankings couldn’t load. Reload to try again.'));
     loadPolls();
   })();
