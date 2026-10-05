@@ -1209,14 +1209,18 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     $('hRadar').innerHTML = !hasAp ? wait : watchList(radar, 'radar');
     document.querySelectorAll('.fthr').forEach(el=>el.textContent=FRAUD);
     // this week's games
-    const sch=S.schedule||{}, games=(sch.games||[]).filter(g=>S.teams[g.home]||S.teams[g.away]);
-    const upW = (S.upsets||{})[sch.week] || {};
+    // Upset watch and big games move on to the new week together with the Straw Poll (Monday evening), not with
+    // Sunday's update: until the new poll is out, Home keeps the poll's week, with final scores from picks.
+    const sch=S.schedule||{}, held = sch.week!=null && n!=null && n<sch.week ? (S.picks||[]).find(p=>p.week===n) : null;
+    const hw = held ? n : sch.week, apG = held ? (held.ap||{}) : apR;
+    const games=(held ? held.games : sch.games||[]).filter(g=>S.teams[g.home]||S.teams[g.away]);
+    const upW = (S.upsets||{})[hw] || {}, upNext = (S.upsets||{})[sch.week] || {};
     // a game card; a finished game (final score from picks: hp/ap) shows the score and whether the betting underdog won
     const card = (g, up) => { const mFav = typeof g.model==='number' ? (g.model>0?g.home:g.away) : null, lFav = typeof g.line==='number' ? (g.line>0?g.home:g.away) : null;
       const sc = gameScore(g), done = sc.state==='final', live = sc.state==='live', won = done ? (sc.hp>sc.ap ? g.home : g.away) : null;
       const result = !done || !lFav ? '' : won!==lFav ? '<span class="tag hit">Upset!</span>' : '<span class="tag miss">Favorite won</span>';
       const score = a => done || live ? `<span class="sc${done && a!==won ? ' lost' : ''}">${a===g.home ? sc.hp : sc.ap}</span>` : '';
-      const side = a => `<div class="side${done||live?' scored':''}">${logo(a)}<div><b><button class="tname" data-open="${esc(a)}">${rkBadge(ranks[a])}${esc(nm(a))}</button></b><small>${S.teams[a]?rec(S.teams[a].w,S.teams[a].l):'FCS'}${apR[a]?' · AP #'+apR[a]:''}</small></div>${score(a)}</div>`;
+      const side = a => `<div class="side${done||live?' scored':''}">${logo(a)}<div><b><button class="tname" data-open="${esc(a)}">${rkBadge(ranks[a])}${esc(nm(a))}</button></b><small>${S.teams[a]?rec(S.teams[a].w,S.teams[a].l):'FCS'}${apG[a]?' · AP #'+apG[a]:''}</small></div>${score(a)}</div>`;
       S.gmap[g.id] = g;
       return `<div class="game${up?' hot':''}${up && result ? (won!==lFav?' hit':' miss') : ''}" data-game="${esc(g.id)}"><div class="gtop"><span class="when${live?' live':''}">${done ? 'Final' : live ? `Live · ${esc(sc.detail)}` : esc(kick(g.start))}</span>${result || (up?'<span class="tag up">Upset watch</span>':'')}</div>
         ${side(g.away)}<div class="at">${g.neutral?'vs':'at'}</div>${side(g.home)}
@@ -1226,22 +1230,22 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     // arrive with Sunday's update, the same run that moves the site on to the next week.)
     const weekPicks = w => Object.fromEntries((((S.picks||[]).find(p=>p.week===w)) || {games:[]}).games.map(g=>[String(g.id), g]));
     const pubWeeks = Object.keys(S.upsets||{}).map(Number).filter(w=>Object.keys(S.upsets[w]).length).sort((a,b)=>a-b);
-    const upWk = pubWeeks.includes(sch.week) ? sch.week : pubWeeks.filter(w=>sch.week==null || w<sch.week).pop();
+    const upWk = pubWeeks.includes(hw) ? hw : pubWeeks.filter(w=>hw==null || w<hw).pop();
     const upNow = upWk==null ? {} : S.upsets[upWk], past = upWk==null ? {} : weekPicks(upWk);
     const ups = Object.keys(upNow).map(id=>{ const p=past[id], g=games.find(x=>String(x.id)===id); return p && p.hp!=null ? p : g || p; })
       .filter(g=>g && (S.teams[g.home]||S.teams[g.away])).sort((a,b)=>String(a.start).localeCompare(String(b.start)));
     $('hUpsWrap').hidden = !ups.length && !S.isOwner;
-    $('hUpsSub').textContent = upWk==null ? (sch.week!=null ? `Week ${sch.week}` : '') : upWk===sch.week ? `Week ${upWk}` : `Week ${upWk} results`;
+    $('hUpsSub').textContent = upWk==null ? (sch.week!=null ? `Week ${hw}` : '') : upWk===hw && !held ? `Week ${upWk}` : `Week ${upWk} results`;
     const nCand = S.isOwner ? upsetCands().filter(x=>x.cand).length : 0;
-    const review = S.isOwner ? `<div class="game" style="display:flex;flex-direction:column;justify-content:center;gap:8px;border-style:dashed"><b style="font:700 18px var(--cond)">${Object.keys(upW).length ? 'Edit upset watch' : `No week ${sch.week} upset watch published yet`}</b><span class="lead" style="margin:0">${nCand} candidate${nCand===1?'':'s'} this week. Only you see this box.</span><button class="btn primary" data-go="admin" style="align-self:flex-start">Review and publish →</button></div>` : '';
+    const review = S.isOwner ? `<div class="game" style="display:flex;flex-direction:column;justify-content:center;gap:8px;border-style:dashed"><b style="font:700 18px var(--cond)">${Object.keys(upNext).length ? `Edit week ${sch.week} upset watch` : `No week ${sch.week} upset watch published yet`}</b>${held ? `<span class="lead" style="margin:0">It shows on Home once the week ${sch.week} Straw Poll is out.</span>` : ''}<span class="lead" style="margin:0">${nCand} candidate${nCand===1?'':'s'} this week. Only you see this box.</span><button class="btn primary" data-go="admin" style="align-self:flex-start">Review and publish →</button></div>` : '';
     $('hUps').innerHTML = ups.map(g=>card(g, upNow[g.id])).join('') + review;
     const top = r => r && r<=TOP ? r : 99;   // Straw Poll Top 25 only
-    const imp = g => Math.min(top(ranks[g.home]), top(ranks[g.away]), apR[g.home]||99, apR[g.away]||99);
+    const imp = g => Math.min(top(ranks[g.home]), top(ranks[g.away]), apG[g.home]||99, apG[g.away]||99);
     const fav = g => typeof g.line==='number' ? Math.abs(g.line) : typeof g.model==='number' ? Math.abs(g.model) : 0;  // spread: line, else model
-    const rkd = a => top(ranks[a])<99 || !!apR[a], both = g => rkd(g.home) && rkd(g.away);  // a game between two ranked teams is always big
+    const rkd = a => top(ranks[a])<99 || !!apG[a], both = g => rkd(g.home) && rkd(g.away);  // a game between two ranked teams is always big
     const big = games.filter(g=>imp(g)<99 && (both(g) || fav(g)<=BIG)).sort((x,y)=>((top(ranks[x.home])<99?ranks[x.home]:45)+(top(ranks[x.away])<99?ranks[x.away]:45)) - ((top(ranks[y.home])<99?ranks[y.home]:45)+(top(ranks[y.away])<99?ranks[y.away]:45)) || imp(x)-imp(y));
     $('hBigWrap').hidden = !games.length;
-    $('hBigT').innerHTML = `This week's big games${sch.week!=null?`<small>Week ${sch.week}</small>`:''}`;
+    $('hBigT').innerHTML = `${held ? 'Big games' : "This week's big games"}${hw!=null?`<small>Week ${hw}${held?' results':''}</small>`:''}`;
     $('hBig').innerHTML = big.map(g=>card(g, upW[g.id])).join('') || '<p class="lead">No close-looking ranked games this week.</p>';
     $('hAllBtn').textContent = S.showAll ? 'Hide all games' : `All ${games.length} games →`;
     $('hAll').hidden = !S.showAll;
