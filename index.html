@@ -948,7 +948,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   // SHOW_QUADS: quadrant records are hidden from the page for now (code kept; set true to bring them back)
   const SHOW_QUADS = false;
   // Leagues (with pick'em) and Straw+ are still being tested: only the owner sees them until these are true (2026-10-04)
-  const LEAGUES_PUBLIC = false, SPLUS_PUBLIC = false;
+  const LEAGUES_PUBLIC = true, SPLUS_PUBLIC = false;   // Leagues launched 2026-10-05
   const seeLg = () => LEAGUES_PUBLIC || !!S.isOwner, seeSp = () => SPLUS_PUBLIC || !!S.isOwner;
   const colOk = c => c.k!=='splus' || seeSp();
   const COLS_ALL = [
