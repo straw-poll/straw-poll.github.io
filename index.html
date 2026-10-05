@@ -112,7 +112,7 @@ h2 small{font:400 13px var(--body);color:var(--muted);margin-left:10px}
 .games{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
 .game{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
 .game.hot{border-color:#6b4f1a;box-shadow:inset 0 3px 0 var(--gold)}
-.game.hot.hit{border-color:#1f5a37;box-shadow:inset 0 3px 0 var(--win)} .game.hot.miss{border-color:#6b2a24;box-shadow:inset 0 3px 0 var(--loss)}  /* upset watch: underdog won / favorite won */
+.game.hot.hit{border-color:#1f5a37;box-shadow:inset 0 3px 0 var(--win)} .game.hot.miss{border-color:#6b2a24;box-shadow:inset 0 3px 0 var(--loss)}  /* Upset Watch: underdog won / favorite won */
 .gtop{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px;min-height:22px}
 .when{color:var(--muted);font-size:12.5px}
 .tag{font:600 10.5px var(--body);letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:999px;white-space:nowrap}
@@ -520,13 +520,13 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       <div class="card"><div class="ch"><h2 id="hTitle">Straw Poll Top 25</h2></div>
         <div class="t25" id="hTop"></div><div class="also" id="hAlso"></div></div>
       <div class="side-col">
-        <div class="card fraud"><div class="ch"><h2>Fraud watch</h2><span class="badge f">Overrated?</span></div>
+        <div class="card fraud"><div class="ch"><h2>Fraud Watch</h2><span class="badge f">Overrated?</span></div>
 <div id="hFraud"></div></div>
-        <div class="card radar"><div class="ch"><h2>Under the radar</h2><span class="badge r">Underrated?</span></div>
+        <div class="card radar"><div class="ch"><h2>Under the Radar</h2><span class="badge r">Underrated?</span></div>
 <div id="hRadar"></div></div>
       </div>
     </div>
-    <div class="hsec" id="hUpsWrap" hidden><div class="ch"><h2>Upset watch<small id="hUpsSub"></small></h2></div><div class="games" id="hUps"></div></div>
+    <div class="hsec" id="hUpsWrap" hidden><div class="ch"><h2>Upset Watch<small id="hUpsSub"></small></h2></div><div class="games" id="hUps"></div></div>
     <div class="hsec" id="hBigWrap"><div class="ch"><h2 id="hBigT">This week's big games</h2><button class="more" id="hAllBtn">All games →</button></div>
       <div class="games" id="hBig"></div><div class="glist card" id="hAll" hidden></div></div>
   </section>
@@ -578,7 +578,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       <p class="note">Each list is the Top 25 going into that week's games. Wolp+<span class="sp-only"> and Straw+</span> lists start at week 6 of 2026; weeks 1–5 are the site owner's own rankings from before ballots opened. Arrows show movement from the previous week.</p></div>
     <div class="card" id="scoreCard" style="margin-bottom:22px"><div class="ch"><h2>Scorecard<small>Who picks more winners: Wolp+, ESPN's FPI or the betting line?</small></h2></div>
       <div class="tblw" id="scoreBody"></div>
-      <p class="note">Games: every finished FBS game with a team in that week's Straw Poll Top 25 or AP Top 25 (games against FCS teams don't count). Each column is the share of those games it picked correctly (hover for the count). <b>Wolp+</b> and <b>ESPN FPI</b> pick the team with the higher rating going into the week; FPI ratings are saved from week 6 on, and week 5 uses Wolp+'s pre-kickoff spread. <b>Line</b> picks the betting favorite before kickoff.</p></div>
+      <p class="note">Share of winners picked in FBS games with a Straw Poll or AP Top 25 team. Wolp+ and FPI pick the higher-rated team; the line picks the favorite.</p></div>
   </section>
 
   <!-- METHODOLOGY -->
@@ -649,11 +649,11 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
 
         <h2 id="m-home">Home page</h2>
         <dl>
-          <dt>Fraud watch</dt><dd>AP Top 25 teams that the Straw Poll ranks at least <b class="fthr">8</b> spots lower. A team outside the Straw Poll Top 25 counts as #26. Biggest gaps first.</dd>
-          <dt>Under the radar</dt><dd>Straw Poll Top 25 teams ranked at least <b class="fthr">8</b> spots higher than the AP has them. A team outside the AP Top 25 counts as #26. Biggest gaps first.</dd>
+          <dt>Fraud Watch</dt><dd>AP Top 25 teams that the Straw Poll ranks at least <b class="fthr">8</b> spots lower. A team outside the Straw Poll Top 25 counts as #26. Biggest gaps first.</dd>
+          <dt>Under the Radar</dt><dd>Straw Poll Top 25 teams ranked at least <b class="fthr">8</b> spots higher than the AP has them. A team outside the AP Top 25 counts as #26. Biggest gaps first.</dd>
           <dt>Wolp+ spread</dt><dd>Wolp+'s predicted margin, written like a betting line (favorite −points, rounded to the half point). It never uses the betting line.</dd>
           <dt>Line</dt><dd>The median spread across sportsbooks, from CollegeFootballData.com.</dd>
-          <dt>Upset watch</dt><dd>Games hand-picked each week, usually where Wolp+ favors the betting underdog or disagrees with the line by a touchdown or more.</dd>
+          <dt>Upset Watch</dt><dd>Games hand-picked each week, usually where Wolp+ favors the betting underdog or disagrees with the line by a touchdown or more.</dd>
           <dt>Scorecard</dt><dd>On History: each week, the share of winners Wolp+, ESPN's FPI and the betting line picked correctly, in FBS games with a Straw Poll or AP Top 25 team. Wolp+ and FPI pick the team with the higher rating going into the week; the line picks the betting favorite.</dd>
           <dt>Big games</dt><dd>This week's games with a Straw Poll Top 25 or AP Top 25 team where the favorite is giving 14 points or less, or when both teams are ranked.</dd>
         </dl>
@@ -662,10 +662,10 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
         <dl>
           <dt>Straw</dt><dd>Straw Poll rank (Top 25; Also receiving votes after).</dd>
           <dt>AP</dt><dd>This week's AP rank.</dd>
-          <dt>Wolp+</dt><dd>Power-rating rank.</dd>
+          <dt>Wolp+</dt><dd>Game score based power rating calculating points better than an average FBS team on a neutral field.</dd>
           <dt>Proj. record</dt><dd>Expected final regular-season record.</dd>
           <dt>RS</dt><dd>Resume Strength rank (see Resume Strength).</dd>
-          <dt>FPI</dt><dd>ESPN's Football Power Index rank, for comparison only.</dd>
+          <dt>FPI</dt><dd>ESPN's predictive power rating.</dd>
           <dt>Run / pass</dt><dd>On the Game overview: EPA per play and success rate on runs and passes, offense and defense, not adjusted for opponents.</dd>
           <dt>vs P4</dt><dd>Record against SEC, Big Ten, Big 12 and ACC teams, plus Notre Dame.</dd>
           <dt>vs Straw 25</dt><dd>Record against teams in the current Straw Poll Top 25.</dd>
@@ -699,7 +699,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
           <dt>Can I start my ballot before voting opens?</dt><dd>Yes. It's saved in your browser, and you can submit it once voting opens Sunday morning.</dd>
           <dt>Why doesn't Wolp+ match the Straw Poll?</dt><dd>Wolp+ only knows results, plus a preseason estimate that fades out as games are played. The Straw Poll is voters' judgment.<span class="sp-only"> Straw+ blends the two.</span></dd>
           <dt>What's the Conference Modifier?</dt><dd>A what-if on the Research tab: add points to a conference and see how Wolp+ would reorder.</dd>
-          <dt>Where does the data come from?</dt><dd>CollegeFootballData.com: scores, stats, schedules, betting lines, the AP poll and ESPN's FPI. It refreshes at 7 AM Thursday through Sunday. Live scores come from ESPN.</dd>
+          <dt>Where does the data come from?</dt><dd>CollegeFootballData.com: scores, stats, schedules, betting lines, the AP poll and ESPN's FPI. It refreshes at 7 AM ET Thursday through Sunday. Live scores come from ESPN.</dd>
         </dl>
       </article>
     </div>
@@ -727,7 +727,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     </div>
   </section>
 
-  <!-- WORKSPACE (approved users: your own ballot; owner also gets Upset watch) -->
+  <!-- WORKSPACE (approved users: your own ballot; owner also gets Upset Watch) -->
   <section id="view-work" hidden>
     <div class="empty" id="wsGate" role="status"></div>
     <div class="guide" id="wsGuide" hidden><div><strong>How voting works</strong>
@@ -740,7 +740,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       <span class="weeklabel">Week</span>
       <select id="weekSel" aria-label="Choose week"></select>
       <span class="dl" id="deadline"></span>
-      <select id="startFrom" class="fsel" aria-label="Start this ballot from" hidden><option value="">Start from…</option><option value="last">My last ballot</option><option value="wolp">Wolp+ Top 25</option><option value="ap">AP Top 25</option><option value="empty">Empty ballot</option></select>
+      <select id="startFrom" class="fsel" aria-label="Start this ballot from" hidden><option value="">Start from…</option><option value="last">Your last ballot</option><option value="wolp">Wolp+ Top 25</option><option value="ap">AP Top 25</option><option value="empty">Empty ballot</option></select>
       <span class="spacer"></span>
       <span class="status" id="status"></span>
       <button class="btn quiet" id="withdraw" hidden>Withdraw</button>
@@ -784,10 +784,10 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     <div class="ph"><div><h1>Admin</h1><div class="sub">Owner tools</div></div></div>
     <section class="sec" style="margin-top:0"><div class="sh"><h2>Voting</h2><button class="btn" id="openWeek" hidden>Open voting…</button></div>
       <p id="adminVote" style="margin:0 0 6px"></p>
-      <p class="note">The Mac opens each week on Sunday morning, once the previous week's games are final. Use Open voting only if it didn't. To change a deadline, edit it in the Supabase dashboard (changes are logged publicly).</p></section>
+      <p class="note">The Sunday 7 AM update opens each week, once the previous week's games are final. Use Open voting only if it didn't. To change a deadline, edit it in the Supabase dashboard (changes are logged publicly).</p></section>
     <section class="sec"><div id="adminReqs"></div></section>
-      <section class="sec"><div class="sh"><h2 id="uTitle">Upset watch</h2>
-        <div class="row"><label style="font-size:13px;color:var(--muted)"><input type="checkbox" id="uAll"> Show all games</label><button class="btn primary" id="uSave" disabled>Publish upset watch</button></div></div>
+      <section class="sec"><div class="sh"><h2 id="uTitle">Upset Watch</h2>
+        <div class="row"><label style="font-size:13px;color:var(--muted)"><input type="checkbox" id="uAll"> Show all games</label><button class="btn primary" id="uSave" disabled>Publish Upset Watch</button></div></div>
         <p class="note" style="margin:0 0 10px">Candidates (gold edge) are games where Wolp+ favors the betting underdog, or differs from the line by 7+ points. Tick the ones to publish; add an optional one-line note. Only ticked games appear on Home.</p>
         <div class="tblw"><table class="ups" id="uTable"></table></div></section>
   </section>
@@ -851,7 +851,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   <div id="acctIn" hidden>
     <div class="acctstat" id="acctStatus"></div>
     <label class="acctf">Username<input id="acctName" maxlength="24" autocomplete="nickname" placeholder="2–24 letters, numbers, _ . -"><small class="lockednote" id="acctNameNote" hidden>Usernames can’t be changed. Ask the site owner if you need a new one.</small></label>
-    <label class="acctf" id="acctNoteRow">Note for the owner (optional)<input id="acctNote" maxlength="120" placeholder="e.g. Mike's roommate"></label>
+    <label class="acctf" id="acctNoteRow">Note for the site owner (optional)<input id="acctNote" maxlength="120" placeholder="e.g. Mike's roommate"></label>
     <div class="dlgbtns"><button class="btn primary" id="acctSaveMe">Save</button></div>
     <div id="acctAdminNote"></div>
     <div class="acctdel" id="acctDelRow"><button class="linkbtn danger" id="acctDel">Delete my account</button><small>Removes your account, ballots, league memberships and scores for good.</small></div>
@@ -1103,14 +1103,14 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     return (new Date(lastGame.top) - new Date(g.date)) / 864e5 >= 5 ? 'bye' : g; };
   const lastCell = a => { const g=lastGame(a); return !g || g==='bye' ? {v: g ? 'Bye' : '–', cls:'lastg dim'} : {v:`<span class="lres ${g.result}">${g.result}</span> ${gScore(g)}<small>${gAt(g)} ${esc(nm(g.opp))}</small>`, cls:'lastg'}; };
   const gScore = g => g.result==='W' ? `${g.pf}-${g.pa}` : `${g.pa}-${g.pf}`;
-  const gOppName = (o, ranks) => (ranks[o] ? '#'+ranks[o]+' ' : '') + nm(o);
+  const gOppName = (o, ranks) => (ranks[o] && ranks[o]<=TOP ? '#'+ranks[o]+' ' : '') + nm(o);   // a rank only for the Top 25
   const gOppRec = o => S.teams[o] ? rec(S.teams[o].w, S.teams[o].l) : 'FCS';
 
   // ---------- spreads ----------
   // home margin (positive = home favored) → "Team −3.5", rounded to the half point like a betting line
   function spread(m, h, a){
     if(typeof m!=='number') return '—';
-    const r=Math.round(Math.abs(m)*2)/2; if(r===0) return 'Pick’em';
+    const r=Math.round(Math.abs(m)*2)/2; if(r===0) return 'Even';
     return `${esc(nm(m>0?h:a))} −${r.toFixed(1)}`;
   }
   // win chance from a spread: normal curve with the model's typical game-to-game spread (SIM_SIGMA, about 16 points)
@@ -1123,7 +1123,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     for(const g of gamesOf(a)){ const r=mdl().crank[g.opp], cut=QT[g.site]||QT.neutral; const k = r ? (r<=cut[0]?1:r<=cut[1]?2:r<=cut[2]?3:4) : 4; q[k][g.result==='W'?0:1]++; }
     return q; }
   const qStr = a => { const q=quads(a); return [1,2,3,4].map(k=>`Q${k} ${q[k][0]}-${q[k][1]}`).join(' · '); };
-  const projTxt = t => { if(!t.proj) return '–'; const n=Math.round(t.proj.w+t.proj.l), w=Math.round(t.proj.w); return `${w}–${n-w}`; };  // whole games
+  const projTxt = t => { if(!t.proj) return '–'; const n=Math.round(t.proj.w+t.proj.l), w=Math.round(t.proj.w); return `${w}-${n-w}`; };  // whole games
   const kick = s => { const d=new Date(s); return isNaN(d) ? '' : d.toLocaleString('en-US',{weekday:'short',hour:'numeric',minute:'2-digit',timeZone:'America/New_York'})+' ET'; };
 
   // ---------- HOME ----------
@@ -1209,7 +1209,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     $('hRadar').innerHTML = !hasAp ? wait : watchList(radar, 'radar');
     document.querySelectorAll('.fthr').forEach(el=>el.textContent=FRAUD);
     // this week's games
-    // Upset watch and big games move on to the new week together with the Straw Poll (Monday evening), not with
+    // Upset Watch and big games move on to the new week together with the Straw Poll (Monday evening), not with
     // Sunday's update: until the new poll is out, Home keeps the poll's week, with final scores from picks.
     const sch=S.schedule||{}, held = sch.week!=null && n!=null && n<sch.week ? (S.picks||[]).find(p=>p.week===n) : null;
     const hw = held ? n : sch.week, apG = held ? (held.ap||{}) : apR;
@@ -1222,7 +1222,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       const score = a => done || live ? `<span class="sc${done && a!==won ? ' lost' : ''}">${a===g.home ? sc.hp : sc.ap}</span>` : '';
       const side = a => `<div class="side${done||live?' scored':''}">${logo(a)}<div><b><button class="tname" data-open="${esc(a)}">${rkBadge(ranks[a])}${esc(nm(a))}</button></b><small>${S.teams[a]?rec(S.teams[a].w,S.teams[a].l):'FCS'}${apG[a]?' · AP #'+apG[a]:''}</small></div>${score(a)}</div>`;
       S.gmap[g.id] = g;
-      return `<div class="game${up?' hot':''}${up && result ? (won!==lFav?' hit':' miss') : ''}" data-game="${esc(g.id)}"><div class="gtop"><span class="when${live?' live':''}">${done ? 'Final' : live ? `Live · ${esc(sc.detail)}` : esc(kick(g.start))}</span>${result || (up?'<span class="tag up">Upset watch</span>':'')}</div>
+      return `<div class="game${up?' hot':''}${up && result ? (won!==lFav?' hit':' miss') : ''}" data-game="${esc(g.id)}"><div class="gtop"><span class="when${live?' live':''}">${done ? 'Final' : live ? `Live · ${esc(sc.detail)}` : esc(kick(g.start))}</span>${result || (up?'<span class="tag up">Upset Watch</span>':'')}</div>
         ${side(g.away)}<div class="at">${g.neutral?'vs':'at'}</div>${side(g.home)}
         <div class="nums"><div><small>Line</small><b>${spread(g.line,g.home,g.away)}</b></div><div><small>Wolp+</small><b class="${mFav && lFav && mFav!==lFav ? 'mup':''}">${modelTxt(g.model,g.home,g.away)}</b></div></div>
         ${up && up.note ? `<p class="gnote">${esc(up.note)}</p>` : ''}<button class="gov sr-only" data-game="${esc(g.id)}">Game overview: ${esc(nm(g.away))} ${g.neutral?'vs':'at'} ${esc(nm(g.home))}</button></div>`; };
@@ -1237,7 +1237,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     $('hUpsWrap').hidden = !ups.length && !S.isOwner;
     $('hUpsSub').textContent = upWk==null ? (sch.week!=null ? `Week ${hw}` : '') : upWk===hw && !held ? `Week ${upWk}` : `Week ${upWk} results`;
     const nCand = S.isOwner ? upsetCands().filter(x=>x.cand).length : 0;
-    const review = S.isOwner ? `<div class="game" style="display:flex;flex-direction:column;justify-content:center;gap:8px;border-style:dashed"><b style="font:700 18px var(--cond)">${Object.keys(upNext).length ? `Edit week ${sch.week} upset watch` : `No week ${sch.week} upset watch published yet`}</b>${held ? `<span class="lead" style="margin:0">It shows on Home once the week ${sch.week} Straw Poll is out.</span>` : ''}<span class="lead" style="margin:0">${nCand} candidate${nCand===1?'':'s'} this week. Only you see this box.</span><button class="btn primary" data-go="admin" style="align-self:flex-start">Review and publish →</button></div>` : '';
+    const review = S.isOwner ? `<div class="game" style="display:flex;flex-direction:column;justify-content:center;gap:8px;border-style:dashed"><b style="font:700 18px var(--cond)">${Object.keys(upNext).length ? `Edit week ${sch.week} Upset Watch` : `No week ${sch.week} Upset Watch published yet`}</b>${held ? `<span class="lead" style="margin:0">It shows on Home once the week ${sch.week} Straw Poll is out.</span>` : ''}<span class="lead" style="margin:0">${nCand} candidate${nCand===1?'':'s'} this week. Only you see this box.</span><button class="btn primary" data-go="admin" style="align-self:flex-start">Review and publish →</button></div>` : '';
     $('hUps').innerHTML = ups.map(g=>card(g, upNow[g.id])).join('') + review;
     const top = r => r && r<=TOP ? r : 99;   // Straw Poll Top 25 only
     const imp = g => Math.min(top(ranks[g.home]), top(ranks[g.away]), apG[g.home]||99, apG[g.away]||99);
@@ -1250,7 +1250,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     $('hAllBtn').textContent = S.showAll ? 'Hide all games' : `All ${games.length} games →`;
     $('hAll').hidden = !S.showAll;
     if(S.showAll) $('hAll').innerHTML = `<div class="tblw"><table><thead><tr class="cols"><th style="text-align:left">Kickoff</th><th style="text-align:left">Away</th><th></th><th style="text-align:left">Home</th><th>Line</th><th>Wolp+</th></tr></thead><tbody>${
-      games.map(g=>{ const sc=gameScore(g), st = sc.state==='final' ? `Final ${sc.ap}–${sc.hp}` : sc.state==='live' ? `${sc.detail} · ${sc.ap}–${sc.hp}` : kick(g.start);
+      games.map(g=>{ const sc=gameScore(g), st = sc.state==='final' ? `Final ${sc.ap}-${sc.hp}` : sc.state==='live' ? `${sc.detail} · ${sc.ap}-${sc.hp}` : kick(g.start);
         S.gmap[g.id] = g;
         return `<tr data-game="${esc(g.id)}"><td class="dim${sc.state==='live'?' live':''}"><button class="gov" data-game="${esc(g.id)}" aria-label="Game overview: ${esc(nm(g.away))} ${g.neutral?'vs':'at'} ${esc(nm(g.home))}">${esc(st)}</button></td><td><button class="gl-n tname linkbtn" style="color:inherit;text-decoration:none" data-open="${esc(g.away)}">${logo(g.away)}${rkBadge(ranks[g.away])}${esc(nm(g.away))}</button></td><td class="dim">${g.neutral?'vs':'at'}</td><td><button class="gl-n tname linkbtn" style="color:inherit;text-decoration:none" data-open="${esc(g.home)}">${logo(g.home)}${rkBadge(ranks[g.home])}${esc(nm(g.home))}</button></td><td style="text-align:center">${spread(g.line,g.home,g.away)}</td><td style="text-align:center">${modelTxt(g.model,g.home,g.away)}</td></tr>`; }).join('')}</tbody></table></div>`;
   }
@@ -1276,7 +1276,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     const dots = gamesOf(a).map(g=>{
       const m=Math.abs(g.pf-g.pa), size = m<=8 ? 1 : m<=16 ? 2 : 3;
       const lab = bw.bw && bw.bw.g===g ? 'Best' : bw.wl && bw.wl.g===g ? 'Worst' : '';
-      const tip = `${g.result} ${gScore(g).replace('-','–')}${g.ot?' (OT)':''} ${gAt(g)} ${nm(g.opp)}, ${gOppRec(g.opp)}${xRank(g.opp)?`, ${XAX[S.r.xax]} #`+xRank(g.opp):''}`;
+      const tip = `${g.result} ${gScore(g)}${g.ot?' (OT)':''} ${gAt(g)} ${nm(g.opp)}, ${gOppRec(g.opp)}${xRank(g.opp)?`, ${XAX[S.r.xax]} #`+xRank(g.opp):''}`;
       return {size, lab, html:`<button class="dot ${g.result} s${size}${g.ot?' ot':isClose(g)?' close':''}" style="left:${(oppPos(g.opp)*100).toFixed(2)}%" data-tip="${esc(tip)}" aria-label="${esc(tip)}">${ranksForDots[g.opp]?`<span class="drk">${ranksForDots[g.opp]}</span>`:''}${lab?`<span class="dlb${lab==='Worst'?' up':''}">${lab}</span>`:''}</button>`};
     }).sort((p,q)=>(q.size-p.size) || ((p.lab?1:0)-(q.lab?1:0))).map(d=>d.html).join('');
     const rk = rank ? `<span class="rk">${rank}</span>` : '<span class="rk none">–</span>';
@@ -1293,7 +1293,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     // Straw+ exists once a poll is published; until then its Sort pills are hidden
     document.querySelectorAll('[data-ms="splus"]').forEach(b=>b.hidden=!sp);
     if(R.ms==='splus' && !sp) R.ms='wolp';
-    $('rSub').textContent = stampText() + (n!=null && S.weeks[n].savedAt ? ` · ${S.weeks[n].compiled ? 'Straw Poll published' : 'ballot saved'} ${new Date(S.weeks[n].savedAt).toLocaleDateString('en-US',{month:'short',day:'numeric',timeZone:'America/New_York'})}` : '');
+    $('rSub').textContent = stampText() + (n!=null && S.weeks[n].savedAt ? ` · Straw Poll published ${new Date(S.weeks[n].savedAt).toLocaleDateString('en-US',{month:'short',day:'numeric',timeZone:'America/New_York'})}` : '');
     document.querySelectorAll('[data-show]').forEach(b=>b.classList.toggle('on', b.dataset.show===R.show));
     document.querySelectorAll('[data-ms]').forEach(b=>b.classList.toggle('on', b.dataset.ms===R.ms && (!b.closest('#stats') || R.col==='ms')));
     $('legend1').innerHTML = legend(`Opponent’s ${XAX[R.xax]} rank (top 25)`);
@@ -1660,7 +1660,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     $('view-work').classList.toggle('ro', !can);
     [wSortable, S.sortBallot, S.sortPool].forEach(x=>{ if(x) x.option('disabled', !can); });
     $('deadline').innerHTML = ph==='soon' ? `Voting opens Sunday morning, once week ${esc(n-1)}’s games are final` : !L ? '' : ph==='open' ? `Voting closes <b>${esc(etTime(L))}</b>`
-      : ph==='late' && !declined ? `Voting closed ${esc(etTime(L))} · late ballots need the owner’s approval` : `Voting closed ${esc(etTime(L))}`;
+      : ph==='late' && !declined ? `Voting closed ${esc(etTime(L))} · late ballots need the site owner’s approval` : `Voting closed ${esc(etTime(L))}`;
     let msg, warn=false, btn='Submit ballot';
     if(S.vote.state==='loading') msg='Loading your ballots…';
     else if(S.vote.state==='error'){ msg=sbErr(S.vote.err, 'Your ballots couldn’t load. Reload the page to try again.'); warn=true; }
@@ -1670,9 +1670,9 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     else if(ph==='soon') msg = S.draft.length<BMAX ? `${S.draft.length} of ${BMAX} ranked · saved in this browser until voting opens`
       : 'Ready. Saved in this browser; submit it once voting opens Sunday morning.';
     else if(S.draft.length<BMAX){ msg=`${S.draft.length} of ${BMAX} ranked`; warn=true; }
-    else if(S.dirty && ph==='late'){ msg = sub && !pend ? `Your on-time ballot (${atTime(sub.at)}) counts. Changes now go in as a late ballot for the owner to approve.` : 'Ready to send as a late ballot'; warn=true; }
+    else if(S.dirty && ph==='late'){ msg = sub && !pend ? `Your on-time ballot (${atTime(sub.at)}) counts. Changes now go in as a late ballot for the site owner to approve.` : 'Ready to send as a late ballot'; warn=true; }
     else if(S.dirty){ msg = sub ? 'Changes not submitted' : 'Ready to submit'; warn=true; }
-    else if(pend){ msg = `Late ballot sent ${atTime(lt.at)}. It counts once the owner approves it.`; btn='Pending'; }
+    else if(pend){ msg = `Late ballot sent ${atTime(lt.at)}. It counts once the site owner approves it.`; btn='Pending'; }
     else { msg = 'Submitted ' + atTime(sub.at) + (ph==='open' ? ` · you can change it until ${etTime(L)}` : ''); btn='Submitted'; }
     st.textContent=msg; st.className='status'+(warn?' warn':'');
     sv.hidden = !can; sv.textContent = S.busy ? 'Sending…' : btn;
@@ -1710,7 +1710,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       const was=ph; refreshDirty();  // the server's time came back with the error, so the phase may have moved on
       const now=phase(n);
       toast(error.code==='P0001' && /teams?/i.test(error.message||'') ? error.message
-        : error.code==='42501' && was==='open' && now==='late' ? `Voting for week ${n} closed at ${etTime(lockOf(n))}. You can still send it as a late ballot for the owner to approve.`
+        : error.code==='42501' && was==='open' && now==='late' ? `Voting for week ${n} closed at ${etTime(lockOf(n))}. You can still send it as a late ballot for the site owner to approve.`
         : error.code==='42501' && now==='closed' ? `Week ${n} is no longer taking ballots.`
         : error.code==='42501' ? 'This ballot can’t be submitted. Reload the page and try again.'
         : sbErr(error, 'Couldn’t submit. Try again; your changes stay in this browser.'));
@@ -1719,7 +1719,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     if(late) S.vote.late[n] = {ranking:data.ranking, at:data.submitted_at, status:data.status};
     else S.vote.mine[n] = {ranking:data.ranking, at:data.submitted_at};
     S.draft = data.ranking.slice(); setDirty(); renderWork(); renderBanner();
-    toast(late ? `Late ballot sent for week ${n}. It counts once the owner approves it.` : `Week ${n} ballot submitted`);
+    toast(late ? `Late ballot sent for week ${n}. It counts once the site owner approves it.` : `Week ${n} ballot submitted`);
   }
   // the next Monday 5:00 PM Eastern still ahead (today, if it's Monday before 5), on the server's clock
   function nextMondayDeadline(){
@@ -1995,7 +1995,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     const pr = S.me && S.me.profile;
     const gate = !S.me ? `<strong>Sign in to join leagues</strong>Leagues are for approved voters: pick'em with your ballot, your league's own poll, and each other's ballots once voting closes.<br><br><button class="btn primary" data-signin>Sign in</button>`
       : S.me.err ? `<strong>Couldn’t load your account</strong>${esc(sbErr(S.me.err, 'Reload the page to try again.'))}`
-      : !S.canWrite ? (pr && pr.status==='declined' ? '<strong>Not approved</strong>Leagues are for approved voters.' : '<strong>Waiting for approval</strong>Once the owner approves your account, you’ll be in the All voters league automatically.')
+      : !S.canWrite ? (pr && pr.status==='declined' ? '<strong>Not approved</strong>Leagues are for approved voters.' : '<strong>Waiting for approval</strong>Once the site owner approves your account, you’ll be in the All voters league automatically.')
       : S.lg.state==='error' ? `<strong>Leagues couldn’t load</strong>${esc(sbErr(S.lg.err, 'Reload the page to try again.'))}`
       : S.lg.state!=='ready' ? '<strong>Loading leagues…</strong>' : '';
     $('lgGate').innerHTML = gate; $('lgGate').hidden = !gate; $('lgMain').hidden = !!gate;
@@ -2012,7 +2012,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       .sort((a,b)=>((b.t?b.t.season_points:-1e9)-(a.t?a.t.season_points:-1e9)) || lgName(a.id).localeCompare(lgName(b.id)));
     const apS = scored.map(w=>apPickem(w)).filter(Boolean), apSeason = apS.reduce((x,y)=>x+y.pts,0), apLast = last!=null ? apPickem(last) : null;
     $('lgStSub').textContent = last!=null ? `through week ${last}` : 'scoring starts after the first closed week’s games';
-    $('lgStand').innerHTML = `<thead><tr class="cols"><th>#</th><th style="text-align:left">Voter</th><th>Total Points</th><th>${last!=null?`Week ${last}`:'Last Week'} Points</th><th>Record</th><th title="Correct picks of the team ranked lower in that week's AP poll">Upsets Called</th></tr></thead><tbody>${
+    $('lgStand').innerHTML = `<thead><tr class="cols"><th>#</th><th style="text-align:left">Voter</th><th>Total points</th><th>${last!=null?`Week ${last}`:'Last week'} points</th><th>Record</th><th title="Correct picks of the team ranked lower in that week's AP poll">Upsets called</th></tr></thead><tbody>${
       rows.length ? rows.map((r,i)=>`<tr class="${r.id===uid?'me':''}"><td>${r.t?i+1:'–'}</td><td style="text-align:left"><button class="linkbtn vname" data-voter="${esc(r.id)}">${esc(lgName(r.id))}</button>${r.id===uid?' (you)':''}</td><td class="strong">${ptsTxt(r.t&&r.t.season_points)}</td><td>${ptsTxt(r.w&&r.w.points)}</td><td>${r.t?`${r.t.season_right}-${r.t.season_wrong}`:'–'}</td><td>${r.t && r.t.season_upsets!=null ? r.t.season_upsets : '–'}</td></tr>`).join('') : '<tr><td colspan="6" class="dim">Voters appear here after their first ballot.</td></tr>'}${
       apS.length ? `<tr class="dim"><td></td><td style="text-align:left">AP poll <small>(reference, scored the same way)</small></td><td>${ptsTxt(apSeason)}</td><td>${ptsTxt(apLast&&apLast.pts)}</td><td>${apS.reduce((x,y)=>x+y.right,0)}-${apS.reduce((x,y)=>x+y.wrong,0)}</td><td>–</td></tr>` : ''}</tbody>`;
     // league poll (All voters' poll is the Straw Poll)
@@ -2027,7 +2027,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     $('lgPoll').innerHTML = P ? `<div class="t25">${LB.top}</div>${LB.also ? `<div class="also">${LB.also}</div>` : ''}` : '<p class="lead">No league poll yet: it appears the morning after voting closes.</p>';
     // manage
     const mine = l.owner_id===uid;
-    $('lgManage').innerHTML = l.everyone ? '<p class="note">Every approved voter is in All voters automatically, so everyone can compare standings. It doesn’t share ballots.</p>'
+    $('lgManage').innerHTML = l.everyone ? '<p class="note">Every approved voter is in All voters automatically, so everyone can compare standings.</p>'
       : `<div class="sh"><h2>${mine ? 'Manage league' : 'League'}</h2></div>
         <p>Invite code: <b class="code">${esc(l.invite_code)}</b> <button class="linkbtn" data-lg="copy">Copy</button> <span class="dim">· share it with friends; they join with “Join with a code”.</span></p>
         ${mine ? `<div class="reqs" style="margin-top:6px">${ids.map(id=>`<div class="req"><div>${esc(lgName(id))}${id===uid?' (you, creator)':''}</div>${id===uid?'':`<button class="btn quiet" data-lg="remove" data-id="${esc(id)}">Remove</button>`}<span></span></div>`).join('')}</div>
@@ -2125,7 +2125,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   function renderUps(){
     const sch=S.schedule||{}, wk=sch.week;
     if(S.uDraft==null) S.uDraft = JSON.parse(JSON.stringify((S.upsets||{})[wk]||{}));
-    $('uTitle').innerHTML = `Upset watch${wk!=null?`<small>Week ${wk}</small>`:''}`;
+    $('uTitle').innerHTML = `Upset Watch${wk!=null?`<small>Week ${wk}</small>`:''}`;
     $('uSave').disabled = !S.uDirty;
     const ranks=pubMap(), L = upsetCands().filter(x=>S.uAll || x.cand || S.uDraft[x.g.id]);
     if(!L.length){ $('uTable').innerHTML='<tbody><tr><td class="dim">No games with both a line and a Wolp+ spread yet.</td></tr></tbody>'; return; }
@@ -2168,7 +2168,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     const error = del.error || up.error;
     if(error){ $('uSave').disabled=false; toast(sbErr(error, 'Couldn’t publish. Try again.')); return; }
     S.upsets = Object.assign({}, S.upsets, {[wk]: JSON.parse(JSON.stringify(S.uDraft))}); S.uDirty=false; renderUps(); renderHome();
-    toast(ids.length ? `${ids.length} game${ids.length===1?'':'s'} on upset watch` : 'Upset watch cleared');
+    toast(ids.length ? `${ids.length} game${ids.length===1?'':'s'} on Upset Watch` : 'Upset Watch cleared');
   });
 
   // ---------- tooltips, menus ----------
@@ -2273,18 +2273,18 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
 
   // ---------- team dialog ----------
   const gEpa = g => { const f=v=>typeof v==='number' ? (Math.abs(v)<0.005?0:v).toFixed(2) : '–';
-    return typeof g.offEpa==='number' ? `<span class="gepa">Off EPA <b>${f(g.offEpa)}</b> (opp D usually allows ${f(g.oppDefEpa)}) · Def EPA <b>${f(g.defEpa)}</b> (opp O usually gains ${f(g.oppOffEpa)})</span>` : ''; };
+    return typeof g.offEpa==='number' ? `<span class="gepa">Off EPA <b>${f(g.offEpa)}</b> (that defense usually allows ${f(g.oppDefEpa)}) · Def EPA <b>${f(g.defEpa)}</b> (that offense usually gains ${f(g.oppOffEpa)})</span>` : ''; };
   function openTeam(a){
     const t=S.teams[a]; if(!t) return;
     const ranks = S.tab==='work' ? draftMap() : pubMap(), apR=apRank(a);
     $('dName').innerHTML = logo(a) + esc(t.name);
-    $('dSub').textContent = `${t.conf}${t.p4?', Power 4':''}${ranks[a]?` · Straw Poll #${ranks[a]}`:''}${apR?` · AP #${apR}`:''}`;
+    $('dSub').textContent = `${t.conf}${t.p4?', Power 4':''}${ranks[a] && ranks[a]<=TOP?` · Straw Poll #${ranks[a]}`:' · Straw Poll NR'}${apR?` · AP #${apR}`:''}`;
     $('dFacts').innerHTML = `<dt>2026 record</dt><dd>${rec(t.w,t.l)}</dd><dt>vs P4</dt><dd>${rec(t.p4w,t.p4l)}</dd><dt>2025 record</dt><dd>${rec(t.lyW,t.lyL)}</dd><dt>2025 final AP</dt><dd>${t.lyAp?'#'+t.lyAp:'Not ranked'}</dd>`;
     $('dAdv').innerHTML = advTable(t) + modelFacts(a);
     const games=gamesOf(a), bwl=bestWorst(a), bw=bwl.bw&&bwl.bw.g, wl=bwl.wl&&bwl.wl.g;
-    const oppDesc = o => ranks[o] ? gOppName(o,ranks) : S.teams[o] ? `${nm(o)} (${rec(S.teams[o].w,S.teams[o].l)})` : `${o} (FCS)`;
+    const oppDesc = o => ranks[o] && ranks[o]<=TOP ? gOppName(o,ranks) : S.teams[o] ? `${nm(o)} (${rec(S.teams[o].w,S.teams[o].l)})` : `${o} (FCS)`;
     const t25=vsTop(a,ranks), one={w:0,l:0};
-    games.forEach(g=>{ if(Math.abs(g.pf-g.pa)<=CLOSE) one[g.result==='W'?'w':'l']++; });
+    games.forEach(g=>{ if(isClose(g)) one[g.result==='W'?'w':'l']++; });
     const ch=[];
     if(S.tab==='work'){ const an=analyze(); if(an.flags[a]) ch.push(`<div class="dflags">${esc(an.flags[a].join('\n'))}</div>`); if(an.loopOf[a]) ch.push(`<div class="dflags loop">${esc(an.loopOf[a].text+'\n'+an.loopOf[a].games.join('\n'))}</div>`); }
     $('dChecks').innerHTML = ch.join('');
@@ -2292,7 +2292,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       `<i>Best win</i> ${bw ? esc(oppDesc(bw.opp))+' '+gScore(bw) : 'none'}`,
       `<i>Worst loss</i> ${wl ? esc(oppDesc(wl.opp))+' '+gScore(wl) : 'none'}`,
       `<i>vs Straw Top 25</i> ${t25.w}-${t25.l}`,
-      `<i>One-score games</i> ${one.w}-${one.l}`].map(x=>`<span>${x}</span>`).join('') : '';
+      `<i>Close games</i> ${one.w}-${one.l}`].map(x=>`<span>${x}</span>`).join('') : '';
     $('dGames').innerHTML = games.map(g=>{ const c=isClose(g);
       return `<li class="${c?'close':''}"><span class="res ${g.result}">${g.result}</span><span class="sc">${gScore(g)}${g.ot?' OT':''}</span><span class="op">${gAt(g)} ${esc(gOppName(g.opp,ranks))}${g.site==='neutral'?' <span class="dt">(neutral)</span>':''}</span><span class="dt">${fmtDate(g.date)}</span>${gEpa(g)}</li>`; }).join('');
     $('dGames').hidden = !games.length;
@@ -2304,16 +2304,16 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       const o=x.opp, m=x.spread, r=Math.round(Math.abs(m)*2)/2, p=winPct(m), win = m>0 ? p : 100-p;
       const line = x.week===sch.week ? (sch.games||[]).find(g=>(g.home===a&&g.away===o) || (g.away===a&&g.home===o)) : null;
       const ln = line && typeof line.line==='number' ? ` · line ${spread(line.line,line.home,line.away)}` : '';
-      const sp = r===0 ? 'Pick’em' : `${esc(nm(m>0?a:o))} −${r.toFixed(1)}`;
+      const sp = r===0 ? 'Even' : `${esc(nm(m>0?a:o))} −${r.toFixed(1)}`;
       return `<li class="${win>=50?'fav':'dog'}"><span class="dt">${fmtDate(x.date)}</span><span class="op">${x.site==='away'?'at':'vs'} ${esc(oppDesc(o))}${x.site==='neutral'?' <span class="dt">(neutral)</span>':''}<span class="gepa">Wolp+: ${sp}${ln}</span></span><span class="pc">${win}%<small>win chance</small></span></li>`;
     }).join('');
     const nums=savedNums();
-    $('dTrail').innerHTML = nums.length ? '<span class="trl">Straw Poll by week</span>' + nums.map(n=>{ const r=rankMap(n)[a]; return `<span>Wk ${n}: <b>${r?'#'+r:'NR'}</b></span>`; }).join('') : '';
+    $('dTrail').innerHTML = nums.length ? '<span class="trl">Straw Poll by week</span>' + nums.map(n=>{ const r=rankMap(n)[a]; return `<span>Week ${n}: <b>${r?'#'+r:'NR'}</b></span>`; }).join('') : '';
     $('dlg').showModal(); $('dName').focus(); $('dlg').scrollTop = 0;
   }
 
   // ---------- game overview ----------
-  // Click a game (Home: upset watch, big games, all games): the two teams side by side. Win chances come from the
+  // Click a game (Home: Upset Watch, big games, all games): the two teams side by side. Win chances come from the
   // Wolp+ spread (and what the betting line implies); stats are national ranks among FBS teams.
   S.gmap = {};
   const GSTATS = [  // [label, key, lower is better, how to show the raw value]
@@ -2328,7 +2328,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     const A=g.away, H=g.home, ta=S.teams[A]||{}, th=S.teams[H]||{}, ranks=pubMap();
     const sc=gameScore(g), done=sc.state==='final', live=sc.state==='live';
     $('gTitle').innerHTML = `${logo(A)}${esc(nm(A))} <span class="gat">${g.neutral?'vs':'at'}</span> ${logo(H)}${esc(nm(H))}`;
-    $('gSub').textContent = (done ? `Final: ${nm(A)} ${sc.ap}, ${nm(H)} ${sc.hp}` : live ? `Live · ${sc.detail} · ${sc.ap}–${sc.hp}` : kick(g.start)) + (g.neutral ? ' · neutral site' : '');
+    $('gSub').textContent = (done ? `Final: ${nm(A)} ${sc.ap}, ${nm(H)} ${sc.hp}` : live ? `Live · ${sc.detail} · ${sc.ap}-${sc.hp}` : kick(g.start)) + (g.neutral ? ' · neutral site' : '');
     // win chances (home margin m: positive = home favored)
     const bar = (m, label) => { const ph = m>0 ? winPct(m) : 100-winPct(m), pa = 100-ph;
       return `<div class="wlab"><span><b>${pa}%</b> ${esc(nm(A))}</span><span>${label}</span><span>${esc(nm(H))} <b>${ph}%</b></span></div>
@@ -2337,7 +2337,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     $('gWin').innerHTML = (hasM ? bar(g.model, done ? 'Wolp+ win chance before kickoff' : 'Wolp+ win chance') : '<p class="dnote">No Wolp+ spread for this game.</p>')
       + `<div class="wl2">Wolp+: ${spread(g.model,H,A)}${hasL ? ` · Line: ${spread(g.line,H,A)} (implies ${g.line>0?winPct(g.line):100-winPct(g.line)}% ${esc(nm(H))})` : ' · no betting line'}</div>`;
     // side by side
-    const rk = v => v ? '#'+v : '–';
+    const rk = v => v ? '#'+v : '–', rkP = v => v && v<=TOP ? '#'+v : 'NR';   // polls: Top 25 or NR
     const row = (label, va, vh, better) => { const e = better ? better(va, vh) : 0;
       return `<tr><th>${label}</th><td class="${e<0?'edge':''}">${va}</td><td class="${e>0?'edge':''}">${vh}</td></tr>`; };
     const lowWins = (x, y) => { const a=parseInt(String(x).replace(/\D/g,''))||999, h=parseInt(String(y).replace(/\D/g,''))||999; return a===h ? 0 : a<h ? -1 : 1; };
@@ -2350,10 +2350,10 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       return `<tr><th>${label}</th><td class="${e<0?'edge':''}">${cell(A, ta, ra)}</td><td class="${e>0?'edge':''}">${cell(H, th, rh)}</td></tr>`; };
     $('gCmp').innerHTML = `<thead><tr><th></th><th>${esc(nm(A))}</th><th>${esc(nm(H))}</th></tr></thead><tbody>
       ${row('Record', S.teams[A]?rec(ta.w,ta.l):'FCS', S.teams[H]?rec(th.w,th.l):'FCS')}
-      ${row('vs Power 4', rec(ta.p4w,ta.p4l), rec(th.p4w,th.p4l))}
+      ${row('vs P4', rec(ta.p4w,ta.p4l), rec(th.p4w,th.p4l))}
       ${grp('Rankings')}
-      ${row('Straw Poll', rk(ranks[A]), rk(ranks[H]), lowWins)}
-      ${row('AP', rk(apRank(A)), rk(apRank(H)), lowWins)}
+      ${row('Straw Poll', rkP(ranks[A]), rkP(ranks[H]), lowWins)}
+      ${row('AP', rkP(apRank(A)), rkP(apRank(H)), lowWins)}
       ${row('Wolp+', rk(ta.powerRank), rk(th.powerRank), lowWins)}
       ${row('ESPN FPI', rk(ta.fpiRank), rk(th.fpiRank), lowWins)}
       ${row('Resume Strength', rk(ta.resumeRank), rk(th.resumeRank), lowWins)}
@@ -2404,7 +2404,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     const ranks = S.tab==='work' ? draftMap() : pubMap();
     $('cmpGrid').innerHTML = S.cmp.map(a=>{
       const t=S.teams[a]||{name:a,conf:''}, r=vsTop(a,ranks), games=gamesOf(a);
-      return `<div class="cmpcol"><h4>${logo(a)}${esc(t.name)}</h4><div class="sub">${esc(t.conf||'')} · ${ranks[a]?'Straw Poll #'+ranks[a]:'Not in the Straw Poll 35'}</div>
+      return `<div class="cmpcol"><h4>${logo(a)}${esc(t.name)}</h4><div class="sub">${esc(t.conf||'')} · ${ranks[a] && ranks[a]<=TOP?'Straw Poll #'+ranks[a]:'Straw Poll NR'}</div>
         <dl class="facts"><dt>Record</dt><dd>${rec(t.w,t.l)}</dd><dt>vs P4</dt><dd>${rec(t.p4w,t.p4l)}</dd><dt>vs Straw 25</dt><dd>${r.w}-${r.l}</dd></dl>
         ${advTable(t)}${modelFacts(a)}
         <ul class="glog">${games.map(g=>`<li class="${isClose(g)?'close':''}"><span class="res ${g.result}">${g.result}</span><span class="sc">${gScore(g)}</span><span class="op">${gAt(g)} ${esc(gOppName(g.opp,ranks))}</span><span class="dt">${gOppRec(g.opp)}</span></li>`).join('')}</ul>
@@ -2467,7 +2467,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       : S.me.err ? `<strong>Couldn’t load your account</strong>${esc(sbErr(S.me.err, 'Reload the page to try again.'))}`
       : pr && pr.status==='declined'
       ? '<strong>Not approved</strong>Your request to join wasn’t approved, so you can’t submit ballots. You can still view everything on the site.'
-      : '<strong>Waiting for approval</strong>Your request to join has been sent. Once the owner approves it, you can build and submit your ballot here.';
+      : '<strong>Waiting for approval</strong>Your request to join has been sent. Once the site owner approves it, you can build and submit your ballot here.';
     const who = S.me ? S.me.user.id + (vote ? ':voter' : S.me.err ? ':error' : '') + (owner ? ':owner' : '') : '';
     S.accessKnown = true;
     if(who===S.accessFor) return;  // loadMe runs on every account-window open; only react to real changes
@@ -2513,7 +2513,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     $('acctDelRow').hidden = !!(pr && pr.is_owner);
     $('acctAdminNote').innerHTML = !(pr && pr.is_owner) ? '' : n
       ? `<p class="dnote">${n} waiting for you on the Admin tab. <button class="linkbtn" id="acctToAdmin">Open Admin</button></p>`
-      : '<p class="dnote">Approvals, late ballots, upset watch and Open voting are on the Admin tab.</p>';
+      : '<p class="dnote">Approvals, late ballots, Upset Watch and Open voting are on the Admin tab.</p>';
   }
   document.addEventListener('click', e=>{ if(e.target.closest('[data-signin]')) $('acctBtn').click(); });
   // links to a methodology section scroll there (without changing the page address)
@@ -2523,7 +2523,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     const t=document.getElementById(a.getAttribute('href').slice(1)); if(t) t.scrollIntoView({block:'start'});
   });
   $('acctAdminNote').addEventListener('click', e=>{ if(e.target.id==='acctToAdmin'){ $('acctDlg').close(); showTab('admin'); } });
-  // Admin tab (owner): voting status + Open voting fallback, join requests, late ballots, upset watch
+  // Admin tab (owner): voting status + Open voting fallback, join requests, late ballots, Upset Watch
   function renderAdmin(){
     if(!S.isOwner) return;
     const o=openWeekNum(), nx=S.vote.next;
