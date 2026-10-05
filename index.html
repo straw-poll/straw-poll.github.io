@@ -1399,18 +1399,19 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   window.addEventListener('resize', ()=>{ if(S.tab==='rank') stackDots($('rMap')); if(S.tab==='work' && S.ws==='map') stackDots($('wMap')); });
 
   // ---------- PREVIOUS RANKINGS ----------
-  // Wolp+'s pick for a finished game: the higher power rating going into the week (saved from week 6 on); an FBS team
-  // over an FCS team; before week 6, the favorite in its pre-kickoff spread. true = home, null = no pick.
-  // a pick from saved ratings ({team: rating}): the higher rating; an FBS team over an FCS team; null without ratings
-  function ratingPick(R, g){
+  // Scorecard picks (owner, 2026-10-05): each system's GAME prediction, home field included.
+  // Wolp+: the favorite in its pre-kickoff spread (g.model, saved before kickoff; includes home field and travel).
+  // ESPN FPI: the higher FPI rating saved before the week, plus a home-field allowance (the Wolp+ HOME_FIELD setting,
+  // none at neutral sites). An FBS team is always picked over an FCS team. true = home, false = away, null = no pick.
+  const fpiHome = () => (((S.model||{}).settings||{}).HOME_FIELD) || 2.5;
+  function fpiPick(R, g){
     const fbsH = !!S.teams[g.home], fbsA = !!S.teams[g.away];
-    if(!R) return null;
     if(fbsH !== fbsA) return fbsH;
-    return typeof R[g.home]==='number' && typeof R[g.away]==='number' && R[g.home]!==R[g.away] ? R[g.home] > R[g.away] : null;
+    if(!R || typeof R[g.home]!=='number' || typeof R[g.away]!=='number') return null;
+    const edge = R[g.home] - R[g.away] + (g.neutral ? 0 : fpiHome());
+    return edge ? edge > 0 : null;
   }
   function wolpPick(w, g){
-    const p = ratingPick(w.wolp, g);
-    if(p!==null) return p;
     if(!!S.teams[g.home] !== !!S.teams[g.away]) return !!S.teams[g.home];
     return typeof g.model==='number' && g.model!==0 ? g.model>0 : null;
   }
@@ -1427,7 +1428,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
         if(!inW && !inA) return;
         n++; const homeWon = g.hp>g.ap;
         const picks = {'Wolp+': wolpPick(w, g),
-                       'ESPN FPI': ratingPick(w.fpi, g),
+                       'ESPN FPI': fpiPick(w.fpi, g),
                        'Line': typeof g.line==='number' && g.line!==0 ? g.line>0 : null};
         SYS.forEach(k=>{ if(picks[k]===null) return; const ok = picks[k]===homeWon; rec2[k][ok?0:1]++; tot[k][ok?0:1]++; });
       });
