@@ -556,7 +556,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       <div class="row"><span style="color:var(--muted);font-size:13px">Sort</span><button class="pill" data-ms="wolp">Straw</button><button class="pill" data-ms="comp">Wolp+</button><button class="pill" data-ms="splus" hidden>Straw+</button><button class="pill" data-ms="ap">AP</button><button class="pill" data-ms="fpi">FPI</button><button class="pill" data-ms="best">Best win</button><button class="pill" data-ms="worst">Worst loss</button>
       <details class="colmenu" id="colMenu"><summary class="pill">Columns ▾</summary><div class="menu" id="colList"></div></details></div></div>
       <div class="tblw"><table id="rTable"></table></div>
-      <p class="note">Tip: click a team's row (not its name) here or on the Results Map to select it, then Compare up to 4 side by side. The Sort buttons match the Results Map (choosing one sorts both). You can also click a column heading to sort (click again to reverse). Click any team for its full game log.</p>
+      <p class="note">Tip: click a team's row (not its name) here or on the Results Map to select it, then compare up to 4 side by side. Click any team for its full game log.</p>
       <div id="sdefs"></div>
     </section>
   </section>
@@ -655,7 +655,6 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
           <dt>Straw</dt><dd>Straw Poll rank (Top 25; Also receiving votes after).</dd>
           <dt>AP</dt><dd>This week's AP rank.</dd>
           <dt>Wolp+</dt><dd>Power-rating rank.</dd>
-          <dt>Rating</dt><dd>Wolp+ points better than an average FBS team.</dd>
           <dt>Proj. record</dt><dd>Expected final regular-season record.</dd>
           <dt>RS</dt><dd>Résumé strength rank (see Résumé strength).</dd>
           <dt>FPI</dt><dd>ESPN's Football Power Index rank, for comparison only.</dd>
@@ -947,7 +946,6 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     {k:'ap25', h:'vs AP 25', menu:'record vs the AP Top 25', g:'This season', bw:'3.2rem', pw:'3rem', off:true},
     {k:'proj', h:'Proj. record', menu:'projected final record', g:'This season', bw:'4.6rem', pw:'4.4rem', off:true},
     {k:'frank', h:'Wolp+', menu:'power rating rank', g:'Power rating', bw:'3.4rem', pw:'3.2rem', fmt:'r', lo:true, strong:true, val:a=>mdl().crank[a]},
-    {k:'powerRating', h:'Rating', menu:'points vs an average team', g:'Power rating', bw:'3rem', pw:'2.9rem', fmt:'n1', off:true},
     {k:'fpiRank', h:'FPI', menu:'ESPN Football Power Index rank', g:'Power rating', bw:'2.7rem', pw:'2.6rem', fmt:'r', lo:true},
     {k:'splus', h:'Straw+', menu:'Wolp+ nudged toward the Straw Poll', g:'Power rating', bw:'3.4rem', pw:'3.2rem', fmt:'r', lo:true, val:a=>(strawPlusRank()||{})[a]},
     {k:'resumeRank', h:'RS', menu:'Résumé strength rank', g:'Résumé', bw:'3.6rem', pw:'2.9rem', fmt:'r', lo:true},
@@ -982,7 +980,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   S.vis = {r:loadVis('cfb2-cols'), b:loadVis('cfb2-cols-list',null,['rec','p4','frank']), p:loadVis('cfb2-cols-add',null,['rec','p4','frank'])};  // Workspace list and Add teams: Record, vs P4, Wolp+ by default
   try{ const mg=localStorage.getItem('cfb2-cols-mig'); if(mg!=='2'){ if(mg!=='1'){ S.vis.r.q1=false; S.vis.r.proj=false; } S.vis.r.adjOffEpa=true; S.vis.r.adjDefEpa=true; S.vis.r.offEpa=false; S.vis.r.defEpa=false; localStorage.setItem('cfb2-cols', JSON.stringify(S.vis.r)); localStorage.setItem('cfb2-cols-mig','2'); } }catch(e){}
   const shown = w => COLS.filter(c=>S.vis[w][c.k] && colOk(c));
-  const DEFS = {splus:"Wolp+ nudged 30% toward the Straw Poll: each Straw Poll team's rating moves part of the way toward the Wolp+ rating that goes with its Straw Poll rank. Shown once a Straw Poll has been published.", apNow:"This week's AP Top 25 rank (unranked teams sort last).",fpiRank:"ESPN's predictive power rating. It never feeds into Wolp+.",adjOffEpa:'Expected points added per play on offense, adjusted for the defenses faced (garbage time excluded). Higher is better.',adjDefEpa:'Expected points added per play allowed on defense, adjusted for the offenses faced. Lower is better.',frank:"How many points better than an average FBS team on a neutral field, based on game scores only.",resumeRank:"Résumé strength: a results-based metric, with influence from opponents' Wolp+ rank.",offEpa:'Expected points added per play on offense (garbage time excluded). Higher is better.',defEpa:'Expected points added per play allowed on defense. Lower is better.'};
+  const DEFS = {splus:"Wolp+ nudged 30% toward the Straw Poll: each Straw Poll team's rating moves part of the way toward the Wolp+ rating that goes with its Straw Poll rank. Shown once a Straw Poll has been published.", apNow:"This week's AP Top 25 rank (unranked teams sort last).",fpiRank:"ESPN's predictive power rating.",adjOffEpa:'Expected points added per play on offense, adjusted for the defenses faced (garbage time excluded). Higher is better.',adjDefEpa:'Expected points added per play allowed on defense, adjusted for the offenses faced. Lower is better.',frank:'Game score based power rating calculating points better than an average FBS team on a neutral field. <button class="linkbtn" data-go="method" data-anchor="m-power">More on Wolp+</button>',resumeRank:"Résumé strength (RS): a results-based metric, with influence from opponents' Wolp+ rank.",offEpa:'Expected points added per play on offense (garbage time excluded). Higher is better.',defEpa:'Expected points added per play allowed on defense. Lower is better.'};
   const NODEF = new Set(['This season','Last season']);   // the Research definitions skip AP and these groups (owner, #19)
   function renderDefs(){ let g='', h='<dl class="sdefs">';
     COLS.filter(c=>colOk(c) && !NODEF.has(c.g) && c.k!=='apNow').forEach(c=>{ if(c.g!==g){ h+=`<div class="sdh">${esc(c.g)}</div>`; g=c.g; } const d=DEFS[c.k]||(c.menu[0].toUpperCase()+c.menu.slice(1)+'.'); h+=`<dt>${esc(c.h)}</dt><dd>${d}</dd>`; });
@@ -2151,9 +2149,12 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   document.addEventListener('pointerover', e=>{ if(e.pointerType!=='mouse') return; const f=e.target.closest('[data-tip]'); if(f && f!==tipFor) showTip(f,'hover'); });
   document.addEventListener('pointerout', e=>{ if(e.pointerType!=='mouse' || tipVia!=='hover') return; const f=e.target.closest('[data-tip]'); if(f && !f.contains(e.relatedTarget)) hideTip(); });
   const MENUS=['colMenu','colMenuP','colMenuB','fMenu','rConfMenu'];
+  let lastPtr='';   // pointer type of the latest press: with a mouse, a click on a Results Map dot selects the row for Compare
+  document.addEventListener('pointerdown', e=>{ lastPtr=e.pointerType; }, true);
+  const mouseDot = e => lastPtr==='mouse' && e.target.closest('.mrow .dot');
   document.addEventListener('click', e=>{
-    const f=e.target.closest('[data-tip]');
-    if(f){ if(tipFor===f && tipVia==='click') hideTip(); else showTip(f,'click'); } else if(tipFor) hideTip();
+    const f= mouseDot(e) ? null : e.target.closest('[data-tip]');
+    if(f){ if(tipFor===f && tipVia==='click') hideTip(); else showTip(f,'click'); } else if(tipFor && !mouseDot(e)) hideTip();
     MENUS.forEach(id=>{ const m=$(id); if(m.open && !m.contains(e.target)) m.open=false; });
     const op=e.target.closest('[data-open]'); if(op && !e.target.closest('.dot')) openTeam(op.dataset.open);
     const gm=e.target.closest('[data-game]'); if(gm && !op && !e.target.closest('dialog')) openGame(gm.dataset.game);
@@ -2357,7 +2358,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   document.addEventListener('click', e=>{
     if(S.tab!=='rank' && S.tab!=='work' && S.tab!=='home') return;
     const row = e.target.closest('#rMap .mrow, #wMap .mrow, #rTable tbody tr, #ballot .brow, #pool .prow, #hTop .trow, #hAlso .trow');
-    if(!row || !row.dataset.abbr || e.target.closest('button, a, input, select, label, .dot')) return;
+    if(!row || !row.dataset.abbr || (!mouseDot(e) && e.target.closest('button, a, input, select, label, .dot'))) return;
     toggleCmp(row.dataset.abbr);
   });
   $('cmpBar').addEventListener('click', e=>{ const b=e.target.closest('[data-uncmp]'); if(b) toggleCmp(b.dataset.uncmp); });
