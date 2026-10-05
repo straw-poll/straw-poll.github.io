@@ -92,7 +92,7 @@ h2 small{font:400 13px var(--body);color:var(--muted);margin-left:10px}
 .trow:hover{background:var(--panel2)} .trow{cursor:pointer} .trow.sel{background:#22314a;box-shadow:inset 3px 0 var(--gold)}
 .trow .tname{background:none;border:0;padding:0;color:inherit;text-align:left;cursor:pointer;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap} .trow .tname:hover{text-decoration:underline}
 .trow .pp{color:var(--muted);font-size:12px;margin-right:8px;font-variant-numeric:tabular-nums}
-.trow .rk{font:800 21px/1 var(--cond);text-align:right}
+.trow .rk{font:800 21px/1 var(--cond);text-align:right} .trow .rk.t{font-size:15px}
 .tn{font:700 17px var(--cond);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tr{color:var(--muted);font-size:12.5px;font-variant-numeric:tabular-nums}
 .also{margin-top:14px}
@@ -587,7 +587,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
         <ul>
           <li>Each ballot gives 25 points to its #1 team, 24 to its #2, and so on down to 1 point for #25.</li>
           <li>Teams on at least 2 ballots are ranked by total points. A team on only 1 ballot can only fill the spots after them, so one voter can never put a team ahead of the rest.</li>
-          <li>Ties go to the team with more first-place votes, then the team on more ballots.</li>
+          <li>Ties go to the team with more first-place votes, then the team on more ballots. Teams still level share a rank (shown as T-3, with the next team #5).</li>
           <li>The top 25 are ranked; the next ten are listed as <b>Also receiving votes</b>.</li>
         </ul>
         <p>Ballots stay private until the poll is published; then every ballot is shown with its voter's username. Weeks 1–5 of 2026 are the site owner's own rankings, from before ballots opened.</p>
@@ -1023,7 +1023,9 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   const eff = w => !w ? [] : (w.ranking||[]).concat((w.others||[]).filter(a=>!(w.ranking||[]).includes(a))).slice(0, MAX);
   const savedNums = () => Object.keys(S.weeks).map(Number).sort((a,b)=>a-b);
   const pubNum = () => { const n=savedNums(); return n.length ? n[n.length-1] : null; };
-  const rankMap = n => { const m={}; eff(S.weeks[n]).forEach((a,i)=>m[a]=i+1); return m; };
+  const rankMap = n => { const w=S.weeks[n];
+    if(w && w.compiled && (w.results||[]).length) return Object.fromEntries(w.results.map(r=>[r.team, r.rank]));   // shared ranks for ties
+    const m={}; eff(w).forEach((a,i)=>m[a]=i+1); return m; };
   function prevNum(n){ const s=savedNums().filter(x=>x<n); return s.length ? s[s.length-1] : null; }
   const pub = () => { const n=pubNum(); return n==null ? [] : eff(S.weeks[n]); };
   const pubMap = () => { const n=pubNum(); return n==null ? {} : rankMap(n); };
@@ -1945,10 +1947,13 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   // info: {team: {points, first}} from a compiled poll, shown as "(first-place votes)" and points (AP style)
   function pollBlocks(list, prev, cmp, info){
     const pf = a => { const x=info && info[a]; return x && typeof x.points==='number' ? `<small class="pp">${x.first?`(${x.first}) `:''}${x.points}</small>` : ''; };
-    const row=(a,i)=>`<div class="trow${cmp && S.cmp.includes(a)?' sel':''}"${cmp?` data-abbr="${esc(a)}"`:''} style="--tc:${tc(a)}"><span class="rk">${i<TOP?i+1:''}</span>${moveOf(a,i+1,prev)}${logo(a)}<button class="tn tname" data-open="${esc(a)}">${esc(nm(a))}</button><span class="tr">${pf(a)}${S.teams[a]?rec(S.teams[a].w,S.teams[a].l):''}</span></div>`;
+    const rk = (a,i) => info && info[a] && info[a].rank ? info[a].rank : i+1;
+    const tied = r => info && Object.values(info).filter(x=>x.rank===r).length > 1;
+    const row=(a,i)=>{ const r=rk(a,i); return `<div class="trow${cmp && S.cmp.includes(a)?' sel':''}"${cmp?` data-abbr="${esc(a)}"`:''} style="--tc:${tc(a)}"><span class="rk${tied(r)?' t':''}">${r<=TOP?(tied(r)?'T-':'')+r:''}</span>${moveOf(a,r,prev)}${logo(a)}<button class="tn tname" data-open="${esc(a)}">${esc(nm(a))}</button><span class="tr">${pf(a)}${S.teams[a]?rec(S.teams[a].w,S.teams[a].l):''}</span></div>`; };
     const cols=(L, start)=>{ const h=Math.ceil(L.length/2); return `<div>${L.slice(0,h).map((a,i)=>row(a,start+i)).join('')}</div><div>${L.slice(h).map((a,i)=>row(a,start+h+i)).join('')}</div>`; };
-    const top=list.slice(0,TOP), rest=list.slice(TOP);
-    return {top: cols(top, 0), also: rest.length ? `<h3>Also receiving votes</h3><div class="t25">${cols(rest, TOP)}</div>` : ''};
+    const cut = info ? list.filter((a,i)=>rk(a,i)<=TOP).length : TOP;   // a tie at #25 keeps both teams in the Top 25
+    const top=list.slice(0,cut), rest=list.slice(cut);
+    return {top: cols(top, 0), also: rest.length ? `<h3>Also receiving votes</h3><div class="t25">${cols(rest, cut)}</div>` : ''};
   }
   const teamList = (ranks, prev) => Object.keys(ranks).filter(a=>ranks[a]<=TOP).sort((a,b)=>ranks[a]-ranks[b])
     .map(a=>`<button class="wkrow" data-open="${esc(a)}" style="--tc:${tc(a)}"><span class="rk">${ranks[a]}</span>${moveOf(a, ranks[a], prev)}${logo(a)}<span class="tn">${esc(nm(a))}</span></button>`).join('');
