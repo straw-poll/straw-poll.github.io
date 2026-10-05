@@ -1999,7 +1999,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   // "Also receiving votes" without numbers. cmp: rows can be selected for Compare (Home's Straw Poll only).
   // info: {team: {points, first}} from a compiled poll, shown as "(first-place votes)" and points (AP style)
   function pollBlocks(list, prev, cmp, info){
-    const pf = a => { const x=info && info[a]; return x && typeof x.points==='number' ? `<small class="pp">${x.first?`(${x.first}) `:''}${x.points}</small>` : ''; };
+    const pf = a => { const x=info && info[a]; return x && x.first ? `<small class="pp">(${x.first})</small>` : ''; };   // first-place votes only; point totals hidden (owner, 2026-10-05)
     const rk = (a,i) => info && info[a] && info[a].rank ? info[a].rank : i+1;
     const tied = r => info && Object.values(info).filter(x=>x.rank===r).length > 1;
     const row=(a,i)=>{ const r=rk(a,i); return `<div class="trow${cmp && S.cmp.includes(a)?' sel':''}"${cmp?` data-abbr="${esc(a)}"`:''} style="--tc:${tc(a)}"><span class="rk${tied(r)?' t':''}">${r<=TOP?(tied(r)?'T-':'')+r:''}</span>${moveOf(a,r,prev)}${logo(a)}<button class="tn tname" data-open="${esc(a)}">${esc(nm(a))}</button><span class="tr">${pf(a)}${S.teams[a]?rec(S.teams[a].w,S.teams[a].l):''}</span></div>`; };
