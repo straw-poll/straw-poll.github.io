@@ -543,7 +543,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       <span class="lab">Sort</span>
       <button class="pill" data-ms="wolp">Straw</button><button class="pill" data-ms="comp">Wolp+</button><button class="pill" data-ms="splus" hidden>Straw+</button><button class="pill" data-ms="ap">AP</button><button class="pill" data-ms="fpi">FPI</button><button class="pill" data-ms="best">Best win</button><button class="pill" data-ms="worst">Worst loss</button>
 
-      <label class="xsel"><span class="lab">X axis</span><select id="xAx" class="fsel xpick" aria-label="Results Map x axis"><option value="wolp">Wolp+</option><option value="fpi">FPI</option><option value="qw">Resume strength</option></select></label>
+      <label class="xsel"><span class="lab">X axis</span><select id="xAx" class="fsel xpick" aria-label="Results Map x axis"><option value="wolp">Wolp+</option><option value="fpi">FPI</option><option value="qw">Resume Strength</option></select></label>
       <details class="colmenu fright" id="fMenu"><summary class="pill" id="fSum">Conference Modifier ▾</summary>
         <div class="menu fmix"><div class="mt">Conference Modifier</div>
           <p class="mixhelp">Add or subtract points for a conference to see how the rankings would change.</p>
@@ -582,7 +582,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     <div class="mwrap">
       <nav class="toc" aria-label="Methodology sections">
         <a href="#m-wolp">The Straw Poll</a><a href="#m-power">Wolp+</a>
-        <a href="#m-qw">Resume strength</a><a href="#m-proj">Win chances and projections</a><a href="#m-map">Results Map</a><a href="#m-home">Home page</a><a href="#m-cols">Columns and flags</a><a href="#m-data">Data and updates</a><a href="#m-pickem" class="lg-only">Pick'em</a><a href="#m-faq">FAQ</a>
+        <a href="#m-qw">Resume Strength</a><a href="#m-proj">Win chances and projections</a><a href="#m-map">Results Map</a><a href="#m-home">Home page</a><a href="#m-cols">Columns and flags</a><a href="#m-data">Data and updates</a><a href="#m-pickem" class="lg-only">Pick'em</a><a href="#m-faq">FAQ</a>
       </nav>
       <article class="method">
         <h2 id="m-wolp">The Straw Poll</h2>
@@ -609,7 +609,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
         <div class="box">Not used: betting lines, per-play efficiency and the Straw Poll.</div>
         <ul><li><b>Track record:</b> On a week-by-week replay of 2024–26, Wolp+'s predictions missed by about 12.35 points a game; the closing betting line by about 12.0. Against 33 computer rating systems tracked on 2023–25 games, Wolp+ was more accurate than 24 of them, about 0.15 points a game behind the best (ESPN's FPI and Sagarin).</li></ul>
 
-        <h2 id="m-qw">Resume strength</h2>
+        <h2 id="m-qw">Resume Strength</h2>
         <p>What a team has earned, judged by who it beat and who it lost to.</p>
         <ul>
           <li>Every win adds points, more for better opponents; every loss subtracts, more for weaker opponents. Wins count for more than losses cost, and every loss costs something.</li>
@@ -636,7 +636,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
 
         <h2 id="m-map">Results Map</h2>
         <ul>
-          <li>Each row shows a team's games, placed left to right by the <b>opponent's rank</b> in the metric chosen under <b>X axis</b>: Wolp+ (the default), FPI or Resume strength (#1 at the far right; FCS opponents at the far left). Best and Worst follow the same choice.</li>
+          <li>Each row shows a team's games, placed left to right by the <b>opponent's rank</b> in the metric chosen under <b>X axis</b>: Wolp+ (the default), FPI or Resume Strength (#1 at the far right; FCS opponents at the far left). Best and Worst follow the same choice.</li>
           <li>Green = win, red = loss. Dot size = margin (1–8, 9–16, 17+). Gold ring = close game; double ring = overtime.</li>
           <li>A small number beside a dot is the opponent's rank in the X axis metric, shown only for opponents in that metric's top 25 (on the Vote tab, it is the opponent's Straw Poll rank). <b>Best</b> marks the win over the highest-ranked opponent (the rightmost green dot) and <b>Worst</b> the loss to the lowest-ranked one (the leftmost red dot).</li>
           <li>Dots for similarly ranked opponents are stacked slightly above and below the line so none are hidden.</li>
@@ -659,7 +659,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
           <dt>AP</dt><dd>This week's AP rank.</dd>
           <dt>Wolp+</dt><dd>Power-rating rank.</dd>
           <dt>Proj. record</dt><dd>Expected final regular-season record.</dd>
-          <dt>RS</dt><dd>Resume strength rank (see Resume strength).</dd>
+          <dt>RS</dt><dd>Resume Strength rank (see Resume Strength).</dd>
           <dt>FPI</dt><dd>ESPN's Football Power Index rank, for comparison only.</dd>
           <dt>Run / pass</dt><dd>On the Game overview: EPA per play and success rate on runs and passes, offense and defense, not adjusted for opponents.</dd>
           <dt>vs P4</dt><dd>Record against SEC, Big Ten, Big 12 and ACC teams, plus Notre Dame.</dd>
@@ -748,7 +748,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     <div id="ws-build" class="wgrid wbuild">
       <div>
         <div id="ws-map">
-          <div class="row wmaphead"><div class="legend" id="legend2"></div><span class="spacer"></span><label class="xsel"><span class="lab">X axis</span><select id="xAx2" class="fsel xpick" aria-label="Results Map x axis"><option value="wolp">Wolp+</option><option value="fpi">FPI</option><option value="qw">Resume strength</option></select></label></div>
+          <div class="row wmaphead"><div class="legend" id="legend2"></div><span class="spacer"></span><label class="xsel"><span class="lab">X axis</span><select id="xAx2" class="fsel xpick" aria-label="Results Map x axis"><option value="wolp">Wolp+</option><option value="fpi">FPI</option><option value="qw">Resume Strength</option></select></label></div>
           <div id="wMap" class="map drag"></div>
           <div id="wNotes"></div>
           <p class="note">Drag a row's handle to reorder (or focus it and use the arrow keys). Drag a team in from the list, or tap +. Your ballot is exactly 25 teams; submit it before the deadline and change it as often as you like until then. Only you can see it until voting closes. <b>H2H</b> marks a head-to-head result that disagrees with the order; <b>LOOP</b> marks teams that beat each other in a circle. Both are reminders only; tap one to see why.</p>
@@ -951,7 +951,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     {k:'frank', h:'Wolp+', menu:'power rating rank', g:'Power rating', bw:'3.4rem', pw:'3.2rem', fmt:'r', lo:true, strong:true, val:a=>mdl().crank[a]},
     {k:'fpiRank', h:'FPI', menu:'ESPN Football Power Index rank', g:'Power rating', bw:'2.7rem', pw:'2.6rem', fmt:'r', lo:true},
     {k:'splus', h:'Straw+', menu:'Wolp+ nudged toward the Straw Poll', g:'Power rating', bw:'3.4rem', pw:'3.2rem', fmt:'r', lo:true, val:a=>(strawPlusRank()||{})[a]},
-    {k:'resumeRank', h:'RS', menu:'Resume strength rank', g:'Resume', bw:'3.6rem', pw:'2.9rem', fmt:'r', lo:true},
+    {k:'resumeRank', h:'RS', menu:'Resume Strength rank', g:'Resume', bw:'3.6rem', pw:'2.9rem', fmt:'r', lo:true},
     {k:'q1', h:'Q1', menu:'Quadrant 1 record (best opponents)', g:'Resume', bw:'2.7rem', pw:'2.6rem', off:true},
     {k:'q2', h:'Q2', menu:'Quadrant 2 record', g:'Resume', bw:'2.7rem', pw:'2.6rem', off:true},
     {k:'ly',   h:'2025',   menu:'last season\'s record', g:'Last season', bw:'2.9rem', pw:'2.7rem'},
@@ -983,7 +983,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   S.vis = {r:loadVis('cfb2-cols'), b:loadVis('cfb2-cols-list',null,['rec','p4','frank']), p:loadVis('cfb2-cols-add',null,['rec','p4','frank'])};  // Workspace list and Add teams: Record, vs P4, Wolp+ by default
   try{ const mg=localStorage.getItem('cfb2-cols-mig'); if(mg!=='2'){ if(mg!=='1'){ S.vis.r.q1=false; S.vis.r.proj=false; } S.vis.r.adjOffEpa=true; S.vis.r.adjDefEpa=true; S.vis.r.offEpa=false; S.vis.r.defEpa=false; localStorage.setItem('cfb2-cols', JSON.stringify(S.vis.r)); localStorage.setItem('cfb2-cols-mig','2'); } }catch(e){}
   const shown = w => COLS.filter(c=>S.vis[w][c.k] && colOk(c));
-  const DEFS = {splus:"Wolp+ nudged 30% toward the Straw Poll: each Straw Poll team's rating moves part of the way toward the Wolp+ rating that goes with its Straw Poll rank. Shown once a Straw Poll has been published.", apNow:"This week's AP Top 25 rank (unranked teams sort last).",fpiRank:"ESPN's predictive power rating.",adjOffEpa:'Expected points added per play on offense, adjusted for the defenses faced (garbage time excluded). Higher is better.',adjDefEpa:'Expected points added per play allowed on defense, adjusted for the offenses faced. Lower is better.',frank:'Game score based power rating calculating points better than an average FBS team on a neutral field. <button class="linkbtn" data-go="method" data-anchor="m-power">More on Wolp+</button>',resumeRank:"Resume strength (RS): a results-based metric, with influence from opponents' Wolp+ rank.",offEpa:'Expected points added per play on offense (garbage time excluded). Higher is better.',defEpa:'Expected points added per play allowed on defense. Lower is better.'};
+  const DEFS = {splus:"Wolp+ nudged 30% toward the Straw Poll: each Straw Poll team's rating moves part of the way toward the Wolp+ rating that goes with its Straw Poll rank. Shown once a Straw Poll has been published.", apNow:"This week's AP Top 25 rank (unranked teams sort last).",fpiRank:"ESPN's predictive power rating.",adjOffEpa:'Expected points added per play on offense, adjusted for the defenses faced (garbage time excluded). Higher is better.',adjDefEpa:'Expected points added per play allowed on defense, adjusted for the offenses faced. Lower is better.',frank:'Game score based power rating calculating points better than an average FBS team on a neutral field. <button class="linkbtn" data-go="method" data-anchor="m-power">More on Wolp+</button>',resumeRank:"Resume Strength (RS): a results-based metric, with influence from opponents' Wolp+ rank.",offEpa:'Expected points added per play on offense (garbage time excluded). Higher is better.',defEpa:'Expected points added per play allowed on defense. Lower is better.'};
   const NODEF = new Set(['This season','Last season']);   // the Research definitions skip AP and these groups (owner, #19)
   function renderDefs(){ let g='', h='<dl class="sdefs">';
     COLS.filter(c=>colOk(c) && !NODEF.has(c.g) && c.k!=='apNow').forEach(c=>{ if(c.g!==g){ h+=`<div class="sdh">${esc(c.g)}</div>`; g=c.g; } const d=DEFS[c.k]||(c.menu[0].toUpperCase()+c.menu.slice(1)+'.'); h+=`<dt>${esc(c.h)}</dt><dd>${d}</dd>`; });
@@ -1056,7 +1056,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     return S._mdl={crank, n:Object.keys(crank).length};
   }
   // Results Map x axis: the opponent's rank in the chosen metric (S.r.xax); FCS opponents sit at the far left
-  const XAX = {wolp:'Wolp+', fpi:'FPI', qw:'Resume strength'};
+  const XAX = {wolp:'Wolp+', fpi:'FPI', qw:'Resume Strength'};
   const xRank = o => { const t=S.teams[o]; if(!t) return null; const k=S.r.xax; return k==='fpi' ? t.fpiRank : k==='qw' ? t.resumeRank : mdl().crank[o]; };
   const oppPos = o => { const m=mdl(), c=xRank(o); return c && m.n>1 ? 0.04 + 0.96*(m.n-c)/(m.n-1) : 0.02; };
   const isClose = g => typeof g.close==='boolean' ? g.close : Math.abs(g.pf-g.pa)<=CLOSE;
@@ -1083,7 +1083,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   }
   const modelFacts = a => { const t=S.teams[a]||{}, c=mdl().crank[a];
     return `<dl class="facts"><dt>Wolp+</dt><dd>${t.powerRank?'#'+t.powerRank:'–'}${adjOf(a)&&c?` <span style="color:var(--muted);font-weight:500">(with your Conference Modifier: #${c})</span>`:''}</dd>
-      <dt>Resume strength</dt><dd>${t.resumeRank?'#'+t.resumeRank:'–'}</dd>
+      <dt>Resume Strength</dt><dd>${t.resumeRank?'#'+t.resumeRank:'–'}</dd>
       <dt>AP</dt><dd>${apRank(a)?'#'+apRank(a):'Not ranked'}</dd>
       <dt>ESPN FPI</dt><dd>${t.fpiRank?'#'+t.fpiRank:'–'}</dd>
       ${SHOW_QUADS?`<dt>Quadrants</dt><dd>${qStr(a)}</dd>`:''}
@@ -2324,7 +2324,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       ${row('AP', rk(apRank(A)), rk(apRank(H)), lowWins)}
       ${row('Wolp+', rk(ta.powerRank), rk(th.powerRank), lowWins)}
       ${row('ESPN FPI', rk(ta.fpiRank), rk(th.fpiRank), lowWins)}
-      ${row('Resume strength', rk(ta.resumeRank), rk(th.resumeRank), lowWins)}
+      ${row('Resume Strength', rk(ta.resumeRank), rk(th.resumeRank), lowWins)}
       ${grp('Offense and defense')}
       ${GSTATS.map(stat).join('')}</tbody>`;
     // results so far (no upcoming games)
