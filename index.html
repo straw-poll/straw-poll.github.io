@@ -237,7 +237,10 @@ td.c-mv{padding-left:0;width:30px}
 .spacer{flex:1}
 .wsub{display:flex;align-items:center;gap:8px;margin-bottom:14px}
 .wgrid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:22px;align-items:start}
-.wbuild{grid-template-columns:minmax(0,1fr) minmax(360px,400px)}  /* room for Record, vs P4, Wolp+ and the + button */
+.wbuild{grid-template-columns:minmax(0,1fr) var(--poolw,minmax(360px,400px))}
+.wdiv{position:absolute;left:-17px;top:0;bottom:0;width:12px;cursor:col-resize;touch-action:none;border-radius:6px}
+.wdiv::after{content:"";position:absolute;left:5px;top:50%;height:44px;margin-top:-22px;width:3px;border-radius:2px;background:var(--line)}
+.wdiv:hover::after,.wdiv:focus-visible::after,.wdiv.drag::after{background:var(--gold)}  /* room for Record, vs P4, Wolp+ and the + button */
 .map.drag .wx{display:flex;gap:4px;align-items:center;justify-content:flex-end}
 .wslot{grid-template-columns:44px 1fr;border:1px dashed var(--line);border-radius:8px;margin-top:6px}
 .wmaphead{align-items:center;margin-bottom:6px}
@@ -259,6 +262,7 @@ td.c-mv{padding-left:0;width:30px}
 .flag{border:1px solid currentColor;background:none;border-radius:4px;padding:0 4px;margin-right:5px;font:700 11px/1.35 var(--cond);letter-spacing:.05em;color:var(--loss);vertical-align:1px}
 .flag.loop{color:var(--gold)}
 .st{text-align:center;font-variant-numeric:tabular-nums;font-weight:600;font-size:13px}
+.lastg{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:left!important;font-weight:500} .lres{font-weight:800} .lres.W{color:var(--win)} .lres.L{color:var(--loss)}
 .st.dim{color:var(--muted);font-weight:500}
 .x{border:0;background:none;color:var(--muted);font-size:18px;line-height:1;padding:4px}
 .x:hover{color:var(--loss)}
@@ -443,7 +447,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
 @media (max-width:1100px){
   .hero,.wgrid{grid-template-columns:minmax(0,1fr)}  /* minmax: a plain 1fr grows to the widest table, so nothing could scroll sideways (bug #10) */
   .games{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .pool{position:static}
+  .pool{position:static} .wdiv{display:none}
 }
 @media (max-width:700px){
   .bar .inner,.wrap,.foot{padding-left:16px;padding-right:16px}
@@ -760,6 +764,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
         </div>
       </div>
       <aside class="pool" aria-label="Add teams">
+        <div class="wdiv" id="wDiv" role="separator" aria-orientation="vertical" aria-label="Resize the ballot and Add teams panels" tabindex="0" title="Drag to resize (double-click to reset)"></div>
         <div class="ch" style="margin-bottom:10px"><h2>Add teams</h2><details class="colmenu" id="colMenuP"><summary class="pill">Columns ▾</summary><div class="menu" id="colListP"></div></details></div>
         <input type="search" id="q" placeholder="Search teams" aria-label="Search teams">
         <div class="chips" role="group" aria-label="Filter">
@@ -944,6 +949,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   const COLS_ALL = [
     {k:'apNow', h:'AP', menu:"this week's AP Top 25 rank", g:'Rankings', bw:'2.7rem', pw:'2.6rem', fmt:'r', lo:true, val:a=>apRank(a)},
     {k:'rec',  h:'Record', menu:'win-loss record this season', g:'This season', bw:'2.9rem', pw:'2.7rem'},
+    {k:'last', h:'Last game', menu:"last game's result, or Bye", g:'This season', bw:'8.5rem', pw:'8rem', off:true, val:a=>{ const g=lastGame(a); return g && g!=='bye' ? (g.result==='W'?1:-1)*Math.abs(g.pf-g.pa) : null; }},   // sorts by margin
     {k:'p4',   h:'vs P4',  menu:'record vs Power 4', g:'This season', bw:'2.9rem', pw:'2.7rem'},
     {k:'t25',  h:'vs Straw 25', menu:'record vs the Straw Poll Top 25', g:'This season', bw:'3.4rem', pw:'3.2rem'},
     {k:'ap25', h:'vs AP 25', menu:'record vs the AP Top 25', g:'This season', bw:'3.2rem', pw:'3rem', off:true},
@@ -980,7 +986,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     </tbody></table>`;
   // three independent column choices: Stats table (r), ballot (b), Teams list (p)
   function loadVis(key, defOff, onlyOn){ const v={}; COLS.forEach(c=>v[c.k]= onlyOn ? onlyOn.includes(c.k) : (!c.off && !(defOff||[]).includes(c.k))); try{ const s=JSON.parse(localStorage.getItem(key)||'null'); if(s && typeof s==='object') COLS.forEach(c=>{ if(typeof s[c.k]==='boolean') v[c.k]=s[c.k]; }); }catch(e){} return v; }
-  S.vis = {r:loadVis('cfb2-cols'), b:loadVis('cfb2-cols-list',null,['rec','p4','frank']), p:loadVis('cfb2-cols-add',null,['rec','p4','frank'])};  // Workspace list and Add teams: Record, vs P4, Wolp+ by default
+  S.vis = {r:loadVis('cfb2-cols'), b:loadVis('cfb2-cols-list',null,['rec','last','p4','frank']), p:loadVis('cfb2-cols-add',null,['rec','p4','frank'])};  // Workspace list and Add teams: Record, vs P4, Wolp+ by default
   try{ const mg=localStorage.getItem('cfb2-cols-mig'); if(mg!=='2'){ if(mg!=='1'){ S.vis.r.q1=false; S.vis.r.proj=false; } S.vis.r.adjOffEpa=true; S.vis.r.adjDefEpa=true; S.vis.r.offEpa=false; S.vis.r.defEpa=false; localStorage.setItem('cfb2-cols', JSON.stringify(S.vis.r)); localStorage.setItem('cfb2-cols-mig','2'); } }catch(e){}
   const shown = w => COLS.filter(c=>S.vis[w][c.k] && colOk(c));
   const DEFS = {splus:"Wolp+ nudged 30% toward the Straw Poll: each Straw Poll team's rating moves part of the way toward the Wolp+ rating that goes with its Straw Poll rank. Shown once a Straw Poll has been published.", apNow:"This week's AP Top 25 rank (unranked teams sort last).",fpiRank:"ESPN's predictive power rating.",adjOffEpa:'Expected points added per play on offense, adjusted for the defenses faced (garbage time excluded). Higher is better.',adjDefEpa:'Expected points added per play allowed on defense, adjusted for the offenses faced. Lower is better.',frank:'Game score based power rating calculating points better than an average FBS team on a neutral field. <button class="linkbtn" data-go="method" data-anchor="m-power">More on Wolp+</button>',resumeRank:"Resume Strength (RS): a results-based metric, with influence from opponents' Wolp+ rank.",offEpa:'Expected points added per play on offense (garbage time excluded). Higher is better.',defEpa:'Expected points added per play allowed on defense. Lower is better.'};
@@ -1079,7 +1085,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
         t.games.forEach((g,i)=>{ const x=mg[i]||[]; g.close=!!x[0]; g.value=x[1];
           if(x.length>2){ g.offEpa=x[2]; g.defEpa=x[3]; g.oppDefEpa=x[4]; g.oppOffEpa=x[5]; } });
     }
-    S.teams=T; S._mdl=null;
+    S.teams=T; S._mdl=null; lastGame.top=null;
   }
   const modelFacts = a => { const t=S.teams[a]||{}, c=mdl().crank[a];
     return `<dl class="facts"><dt>Wolp+</dt><dd>${t.powerRank?'#'+t.powerRank:'–'}${adjOf(a)&&c?` <span style="color:var(--muted);font-weight:500">(with your Conference Modifier: #${c})</span>`:''}</dd>
@@ -1090,6 +1096,11 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       ${t.proj?`<dt>Projected</dt><dd>${projTxt(t)}</dd>`:''}
 </dl>`; };
   const gAt = g => g.site==='away' ? 'at' : 'vs';
+  // a team's most recent game, or 'bye' when it didn't play in the latest week (its last game is 5+ days older than the newest game anywhere)
+  const lastGame = a => { const g=gamesOf(a).filter(x=>x.result).slice(-1)[0]; if(!g) return null;
+    if(!lastGame.top) lastGame.top = Object.keys(S.teams).reduce((m,x)=>{ const y=gamesOf(x).filter(z=>z.result).slice(-1)[0]; return y && y.date>m ? y.date : m; }, '');
+    return (new Date(lastGame.top) - new Date(g.date)) / 864e5 >= 5 ? 'bye' : g; };
+  const lastCell = a => { const g=lastGame(a); return !g || g==='bye' ? {v: g ? 'Bye' : '–', cls:'dim'} : {v:`<span class="lres ${g.result}">${g.result}</span> ${gScore(g)} ${gAt(g)} ${esc(nm(g.opp))}`, cls:'lastg'}; };
   const gScore = g => g.result==='W' ? `${g.pf}-${g.pa}` : `${g.pa}-${g.pf}`;
   const gOppName = (o, ranks) => (ranks[o] ? '#'+ranks[o]+' ' : '') + nm(o);
   const gOppRec = o => S.teams[o] ? rec(S.teams[o].w, S.teams[o].l) : 'FCS';
@@ -1317,6 +1328,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       switch(c.k){ case 'rec': v=rec(t.w,t.l); break; case 'p4': v=rec(t.p4w,t.p4l); if(t.p4w==null) cls='dim'; break;
         case 't25': { const r=vsTop(a,ranks); v=r.w+'-'+r.l; if(!r.w&&!r.l) cls='dim'; break; }
         case 'ap25': { const r=vsTop(a,(S.ap&&S.ap.ranks)||{}); v=r.w+'-'+r.l; if(!r.w&&!r.l) cls='dim'; break; }
+        case 'last': ({v, cls}=lastCell(a)); break;
         case 'ly': v=rec(t.lyW,t.lyL); cls='dim'; break; case 'lyAp': v=t.lyAp?'#'+t.lyAp:'NR'; cls='dim'; break;
         case 'proj': v=projTxt(t); break;
         case 'q1': case 'q2': { const q=quads(a)[c.k==='q1'?1:2]; v=q[0]+'-'+q[1]; if(!q[0]&&!q[1]) cls='dim'; break; }
@@ -1765,12 +1777,27 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       case 'ap25': { const r=vsTop(a,(S.ap&&S.ap.ranks)||{}); v=r.w+'-'+r.l; if(!r.w&&!r.l) cls=' dim'; break; }
       case 'ly': v=rec(t.lyW,t.lyL); cls=' dim'; break;
       case 'lyAp': v = t.lyAp ? '#'+t.lyAp : 'NR'; cls=' dim'; break;
+      case 'last': ({v, cls}=lastCell(a)); cls=' '+cls; break;
       case 'proj': v=projTxt(t); break;
       case 'q1': case 'q2': { const q=quads(a)[c.k==='q1'?1:2]; v=q[0]+'-'+q[1]; if(!q[0]&&!q[1]) cls=' dim'; break; }
       default: v = fmtStat(c, colVal(c, a, t)); if(v==null){ v='–'; cls=' dim'; }
     }
     return `<span class="${pool?'c':'st'}${cls}">${v}</span>`;
   }
+  // desktop: drag the divider between the ballot and Add teams to resize them (width saved in this browser)
+  (function(){ const d=$('wDiv'), box=$('ws-build'), KEY='sp-poolw';
+    const set = w => { if(w==null){ box.style.removeProperty('--poolw'); return; } const max=Math.max(300, box.getBoundingClientRect().width-420);
+      w=Math.round(Math.min(max, Math.max(300, w))); box.style.setProperty('--poolw', w+'px'); return w; };
+    const save = w => { try{ w==null ? localStorage.removeItem(KEY) : localStorage.setItem(KEY, w); }catch(e){} };
+    try{ const w=+localStorage.getItem(KEY); if(w) box.style.setProperty('--poolw', w+'px'); }catch(e){}
+    d.addEventListener('pointerdown', e=>{ e.preventDefault(); d.classList.add('drag'); });
+    window.addEventListener('pointermove', e=>{ if(!d.classList.contains('drag')) return; set(box.getBoundingClientRect().right - e.clientX - 11); });
+    const end = ()=>{ if(!d.classList.contains('drag')) return; d.classList.remove('drag'); const v=box.style.getPropertyValue('--poolw'); save(v ? parseInt(v) : null); };
+    window.addEventListener('pointerup', end); window.addEventListener('pointercancel', end);
+    d.addEventListener('dblclick', ()=>{ set(null); save(null); });
+    d.addEventListener('keydown', e=>{ const step = e.key==='ArrowLeft' ? 20 : e.key==='ArrowRight' ? -20 : 0; if(!step) return; e.preventDefault();
+      save(set($('wDiv').parentElement.getBoundingClientRect().width + step)); });
+  })();
   function renderBallot(){
     hideTip();
     const prev = myPrevMap(S.cur);
