@@ -662,6 +662,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
           <dt>Run / pass</dt><dd>On the Game overview: EPA per play and success rate on runs and passes, offense and defense, not adjusted for opponents.</dd>
           <dt>vs P4</dt><dd>Record against SEC, Big Ten, Big 12 and ACC teams, plus Notre Dame.</dd>
           <dt>vs Straw 25</dt><dd>Record against teams in the current Straw Poll Top 25.</dd>
+          <dt>vs AP 25</dt><dd>Record against teams in the current AP Top 25.</dd>
           <dt>2025, Final AP</dt><dd>Last season's regular-season record and final AP rank.</dd>
           <dt>Off / Def EPA</dt><dd>Expected points added per play on offense, and allowed on defense (garbage time excluded). Defense: lower is better.</dd>
           <dt>SR, Expl</dt><dd>Success rate (share of plays that keep a drive on schedule) and explosiveness (size of successful plays).</dd>
@@ -939,9 +940,19 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   const seeLg = () => LEAGUES_PUBLIC || !!S.isOwner, seeSp = () => SPLUS_PUBLIC || !!S.isOwner;
   const colOk = c => c.k!=='splus' || seeSp();
   const COLS_ALL = [
+    {k:'apNow', h:'AP', menu:"this week's AP Top 25 rank", g:'Rankings', bw:'2.7rem', pw:'2.6rem', fmt:'r', lo:true, val:a=>apRank(a)},
     {k:'rec',  h:'Record', menu:'win-loss record this season', g:'This season', bw:'2.9rem', pw:'2.7rem'},
     {k:'p4',   h:'vs P4',  menu:'record vs Power 4', g:'This season', bw:'2.9rem', pw:'2.7rem'},
     {k:'t25',  h:'vs Straw 25', menu:'record vs the Straw Poll Top 25', g:'This season', bw:'3.4rem', pw:'3.2rem'},
+    {k:'ap25', h:'vs AP 25', menu:'record vs the AP Top 25', g:'This season', bw:'3.2rem', pw:'3rem', off:true},
+    {k:'proj', h:'Proj. record', menu:'projected final record', g:'This season', bw:'4.6rem', pw:'4.4rem', off:true},
+    {k:'frank', h:'Wolp+', menu:'power rating rank', g:'Power rating', bw:'3.4rem', pw:'3.2rem', fmt:'r', lo:true, strong:true, val:a=>mdl().crank[a]},
+    {k:'powerRating', h:'Rating', menu:'points vs an average team', g:'Power rating', bw:'3rem', pw:'2.9rem', fmt:'n1', off:true},
+    {k:'fpiRank', h:'FPI', menu:'ESPN Football Power Index rank', g:'Power rating', bw:'2.7rem', pw:'2.6rem', fmt:'r', lo:true},
+    {k:'splus', h:'Straw+', menu:'Wolp+ nudged toward the Straw Poll', g:'Power rating', bw:'3.4rem', pw:'3.2rem', fmt:'r', lo:true, val:a=>(strawPlusRank()||{})[a]},
+    {k:'resumeRank', h:'Quality wins', menu:'rank', g:'Résumé', bw:'3.6rem', pw:'2.9rem', fmt:'r', lo:true},
+    {k:'q1', h:'Q1', menu:'Quadrant 1 record (best opponents)', g:'Résumé', bw:'2.7rem', pw:'2.6rem', off:true},
+    {k:'q2', h:'Q2', menu:'Quadrant 2 record', g:'Résumé', bw:'2.7rem', pw:'2.6rem', off:true},
     {k:'ly',   h:'2025',   menu:'last season\'s record', g:'Last season', bw:'2.9rem', pw:'2.7rem'},
     {k:'lyAp', h:'Final AP', menu:'2025 final AP rank', g:'Last season', bw:'3rem', pw:'2.8rem'},
     {k:'adjOffEpa', h:'Adj Off EPA', menu:'offense EPA, adjusted for opponents', g:'Efficiency', bw:'3.6rem', pw:'3.4rem', fmt:'n'},
@@ -956,15 +967,6 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     {k:'defXpl', h:'Def Expl', menu:'defense explosiveness allowed', g:'Efficiency', bw:'3.2rem', pw:'3rem', fmt:'n', lo:true, off:true},
     {k:'sosDef', h:'Defs faced', menu:'defenses faced (lower = tougher)', g:'Schedule', bw:'3.6rem', pw:'3.4rem', fmt:'n', lo:true, off:true},
     {k:'sosOff', h:'Offs faced', menu:'offenses faced (higher = tougher)', g:'Schedule', bw:'3.6rem', pw:'3.4rem', fmt:'n', off:true},
-    {k:'apNow', h:'AP', menu:"this week's AP Top 25 rank", g:'Other rankings', bw:'2.7rem', pw:'2.6rem', fmt:'r', lo:true, val:a=>apRank(a)},
-    {k:'fpiRank', h:'FPI', menu:'ESPN Football Power Index rank', g:'Other rankings', bw:'2.7rem', pw:'2.6rem', fmt:'r', lo:true},
-    {k:'splus', h:'Straw+', menu:'Wolp+ nudged toward the Straw Poll', g:'Wolp+', bw:'3.4rem', pw:'3.2rem', fmt:'r', lo:true, val:a=>(strawPlusRank()||{})[a]},
-    {k:'frank', h:'Wolp+', menu:'power rating rank', g:'Wolp+', bw:'3.4rem', pw:'3.2rem', fmt:'r', lo:true, strong:true, val:a=>mdl().crank[a]},
-    {k:'proj', h:'Proj. record', menu:'projected final record', g:'Wolp+', bw:'4.6rem', pw:'4.4rem', off:true},
-    {k:'powerRating', h:'Rating', menu:'points vs an average team', g:'Wolp+', bw:'3rem', pw:'2.9rem', fmt:'n1', off:true},
-    {k:'resumeRank', h:'Quality wins', menu:'rank', g:'Résumé', bw:'3.6rem', pw:'2.9rem', fmt:'r', lo:true},
-    {k:'q1', h:'Q1', menu:'Quadrant 1 record (best opponents)', g:'Résumé', bw:'2.7rem', pw:'2.6rem', off:true},
-    {k:'q2', h:'Q2', menu:'Quadrant 2 record', g:'Résumé', bw:'2.7rem', pw:'2.6rem', off:true}
   ];
   const COLS = COLS_ALL.filter(c=>SHOW_QUADS || (c.k!=='q1' && c.k!=='q2'));
   const ADV = COLS.filter(c=>c.fmt);
@@ -1299,25 +1301,27 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     const cols = shown('r'), key = c => c==='wolp' ? (a=>-(ranks[a]||99)*1000-(cr[a]||999)) : c==='name' ? (a=>nm(a)) : (()=>{
       const C=COLS.find(x=>x.k===c), t=a=>S.teams[a];
       if(c==='rec') return a=>rv(t(a).w,t(a).l); if(c==='p4') return a=>rv(t(a).p4w,t(a).p4l); if(c==='ly') return a=>rv(t(a).lyW,t(a).lyL);
-      if(c==='lyAp') return a=>-(t(a).lyAp||99); if(c==='proj') return a=>t(a).proj?t(a).proj.w:-1; if(c==='q1'||c==='q2') return a=>{ const q=quads(a)[c==='q1'?1:2]; return q[0]-q[1]/100; }; if(c==='t25') return a=>{ const r=vsTop(a,ranks); return r.w-r.l/100; };
+      if(c==='lyAp') return a=>-(t(a).lyAp||99); if(c==='proj') return a=>t(a).proj?t(a).proj.w:-1; if(c==='q1'||c==='q2') return a=>{ const q=quads(a)[c==='q1'?1:2]; return q[0]-q[1]/100; }; if(c==='ap25') return a=>{ const r=vsTop(a,(S.ap&&S.ap.ranks)||{}); return r.w-r.l/100; }; if(c==='t25') return a=>{ const r=vsTop(a,ranks); return r.w-r.l/100; };
       return a=>{ const v=colVal(C,a,t(a)); return typeof v!=='number' ? -1e9 : C.lo ? -v : v; };
     })();
     if(R.col!=='ms' && R.col!=='wolp' && R.col!=='name' && !cols.some(c=>c.k===R.col)) { R.col='ms'; R.rev=false; }
-    const k=R.col==='ms' ? null : key(R.col), T = R.col==='ms' ? M.slice() : L.slice().sort((a,b)=>{ const x=k(a), y=k(b); const d = typeof x==='string' ? x.localeCompare(y) : y-x; return (R.rev?-d:d) || wsort(ranks)(a,b); });
-    const groups=[]; cols.forEach(c=>{ const g=groups[groups.length-1]; if(g && g.g===c.g) g.n++; else groups.push({g:c.g, n:1}); });
+    const k=R.col==='ms' ? null : key(R.col), T = R.col==='ms' ? (R.rev ? M.slice().reverse() : M.slice()) : L.slice().sort((a,b)=>{ const x=k(a), y=k(b); const d = typeof x==='string' ? x.localeCompare(y) : y-x; return (R.rev?-d:d) || wsort(ranks)(a,b); });
+    const apCol = cols.find(c=>c.k==='apNow'), rcols = cols.filter(c=>c.k!=='apNow');   // AP sits next to Straw under 'Rankings'
+    const groups=[]; rcols.forEach(c=>{ const g=groups[groups.length-1]; if(g && g.g===c.g) g.n++; else groups.push({g:c.g, n:1}); });
     const cell = (c,a) => { const t=S.teams[a]; let v, cls='';
       switch(c.k){ case 'rec': v=rec(t.w,t.l); break; case 'p4': v=rec(t.p4w,t.p4l); if(t.p4w==null) cls='dim'; break;
         case 't25': { const r=vsTop(a,ranks); v=r.w+'-'+r.l; if(!r.w&&!r.l) cls='dim'; break; }
+        case 'ap25': { const r=vsTop(a,(S.ap&&S.ap.ranks)||{}); v=r.w+'-'+r.l; if(!r.w&&!r.l) cls='dim'; break; }
         case 'ly': v=rec(t.lyW,t.lyL); cls='dim'; break; case 'lyAp': v=t.lyAp?'#'+t.lyAp:'NR'; cls='dim'; break;
         case 'proj': v=projTxt(t); break;
         case 'q1': case 'q2': { const q=quads(a)[c.k==='q1'?1:2]; v=q[0]+'-'+q[1]; if(!q[0]&&!q[1]) cls='dim'; break; }
         default: v=fmtStat(c,colVal(c,a,t)); if(v==null){ v='–'; cls='dim'; } if(c.strong) cls='strong'; }
       return `<td class="${cls}">${v}</td>`; };
-    const firstOf = new Set(); { let g=''; cols.forEach(c=>{ if(c.g!==g) firstOf.add(c.k); g=c.g; }); }
+    const firstOf = new Set(); { let g=''; rcols.forEach(c=>{ if(c.g!==g) firstOf.add(c.k); g=c.g; }); }
     const th = (c,label,extra='') => `<th data-c="${c}" class="${R.col===c?'on':''}${R.col===c&&R.rev?' rev':''}${extra}">${label}</th>`;
-    $('rTable').innerHTML = `<thead><tr class="grph"><th colspan="3"></th>${groups.map(g=>`<th class="g1" colspan="${g.n}">${esc(g.g)}</th>`).join('')}</tr>
-      <tr class="cols">${th('wolp','Straw')}<th></th>${th('name','Team','" style="text-align:left')}${cols.map(c=>th(c.k,c.h,firstOf.has(c.k)?' g1':'')).join('')}</tr></thead>
-      <tbody>${T.map(a=>`<tr class="${S.cmp.includes(a)?'sel':''}" data-abbr="${esc(a)}" style="--tc:${tc(a)}"><td class="rkc${ranks[a]?'':' none'}">${ranks[a]||'–'}</td><td class="c-mv">${ranks[a]?moveOf(a,ranks[a],prev):''}</td><td class="tmc"><button class="tb" data-open="${esc(a)}">${logo(a)}<span>${esc(nm(a))}</span></button></td>${cols.map(c=>cell(c,a).replace('<td class="', `<td class="${firstOf.has(c.k)?'g1 ':''}`)).join('')}</tr>`).join('')}</tbody>`;
+    $('rTable').innerHTML = `<thead><tr class="grph"><th colspan="${apCol?3:2}">Rankings</th><th></th>${groups.map(g=>`<th class="g1" colspan="${g.n}">${esc(g.g)}</th>`).join('')}</tr>
+      <tr class="cols">${th('ms', SORTLAB[R.ms]==='#' ? '#' : SORTLAB[R.ms])}<th></th>${apCol?th(apCol.k,apCol.h):''}${th('name','Team','" style="text-align:left')}${rcols.map(c=>th(c.k,c.h,firstOf.has(c.k)?' g1':'')).join('')}</tr></thead>
+      <tbody>${T.map(a=>`<tr class="${S.cmp.includes(a)?'sel':''}" data-abbr="${esc(a)}" style="--tc:${tc(a)}"><td class="rkc${rkOf(a)?'':' none'}">${rkOf(a)||'–'}</td><td class="c-mv">${R.ms==='wolp' && ranks[a]?moveOf(a,ranks[a],prev):''}</td>${apCol?cell(apCol,a):''}<td class="tmc"><button class="tb" data-open="${esc(a)}">${logo(a)}<span>${esc(nm(a))}</span></button></td>${rcols.map(c=>cell(c,a).replace('<td class="', `<td class="${firstOf.has(c.k)?'g1 ':''}`)).join('')}</tr>`).join('')}</tbody>`;
     $('colList').innerHTML = colMenu('r');
     if(!$('sdefs').children.length) renderDefs();
   }
@@ -1752,6 +1756,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       case 'rec': v=rec(t.w,t.l); break;
       case 'p4': v=rec(t.p4w,t.p4l); if(t.p4w==null) cls=' dim'; break;
       case 't25': { const r=vsTop(a,onB); v=r.w+'-'+r.l; if(!r.w&&!r.l) cls=' dim'; break; }
+      case 'ap25': { const r=vsTop(a,(S.ap&&S.ap.ranks)||{}); v=r.w+'-'+r.l; if(!r.w&&!r.l) cls=' dim'; break; }
       case 'ly': v=rec(t.lyW,t.lyL); cls=' dim'; break;
       case 'lyAp': v = t.lyAp ? '#'+t.lyAp : 'NR'; cls=' dim'; break;
       case 'proj': v=projTxt(t); break;
