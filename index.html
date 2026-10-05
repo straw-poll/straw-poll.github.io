@@ -233,6 +233,9 @@ td.c-mv{padding-left:0;width:30px}
 .wbar select,.wbar input{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:6px 8px}
 .wbar input{width:4.2em}
 .weeklabel{font:700 24px var(--cond)}
+.optbtn{display:none}
+@media (max-width:900px){ .dot:has(.dlb) .drk{display:none} }
+@media (max-width:700px){ .optbtn{display:inline-flex} .filters:not(.open) .fopts{display:none} .pill,.colmenu summary.pill{min-height:40px;display:inline-flex;align-items:center} }   /* phones: options folded away; taller pills (touch) */
 .jumpl{color:var(--gold);font-size:14px;font-weight:600;text-decoration:none} .jumpl:hover{text-decoration:underline}
 #gBtn iframe{color-scheme:light}   /* otherwise the browser paints a white box behind Google's button on this dark page */
 .dx{position:sticky;top:0;float:right;z-index:3;width:36px;height:36px;margin:-8px -8px 0 8px;border-radius:50%;border:1px solid var(--line);background:var(--panel2);color:var(--ink);font-size:22px;line-height:1;cursor:pointer} .dx:hover{border-color:var(--gold)}
@@ -547,8 +550,9 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       <details class="colmenu confmenu" id="rConfMenu"><summary class="pill" id="rConfSum">All conferences ▾</summary><div class="menu" id="rConfList"></div></details>
       <input id="rQ" type="search" placeholder="Search teams" aria-label="Search teams">
       <span class="count" id="rCount"></span>
+      <button class="pill optbtn" id="rOpts" type="button" aria-expanded="false" aria-controls="rOptRow">Sort ▾</button>
      </div>
-     <div class="frow">
+     <div class="frow fopts" id="rOptRow">
       <span class="lab">Sort</span>
       <button class="pill" data-ms="wolp">Straw</button><button class="pill" data-ms="comp">Wolp+</button><button class="pill" data-ms="splus" hidden>Straw+</button><button class="pill" data-ms="ap">AP</button><button class="pill" data-ms="fpi">FPI</button><button class="pill" data-ms="best">Best win</button><button class="pill" data-ms="worst">Worst loss</button>
 
@@ -819,7 +823,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   <h4 class="dh" id="dNextH">Upcoming</h4>
   <ul class="glog nextg" id="dNext"></ul>
   <div class="trail" id="dTrail"></div>
-  <form method="dialog"><div class="dlgbtns"><button class="btn">Close</button></div></form>
+  <form method="dialog"><div class="dlgbtns"><button class="btn quiet" type="button" id="dCmp" hidden></button><button class="btn">Close</button></div></form>
 </dialog>
 <dialog id="voterDlg" aria-labelledby="vTitle">
   <h3 id="vTitle" tabindex="-1"></h3>
@@ -1293,7 +1297,9 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   const axis = (drag, rkLabel, noRight) => `<div class="axis"><span class="axrk">${rkLabel||''}</span><span></span>${drag?'<span></span>':''}<span></span><span></span><div class="ax"><span>#${mdl().n||''}</span><span>Opponent ${XAX[S.r.xax]} rank</span><span>#1</span></div>${noRight||drag?(drag?'<span></span>':''):'<span style="text-align:right">Wolp+</span>'}</div>`;
   const legend = dotLab => `<span><i class="dot W s2"></i>Win</span><span><i class="dot L s2"></i>Loss</span><span><i class="dot s1"></i><i class="dot s2"></i><i class="dot s3"></i>Margin 1–8 · 9–16 · 17+</span><span><i class="dot s2 close"></i>Close game</span><span><i class="dot s2 ot"></i>Overtime</span><span><b>6</b>${dotLab}</span>`;
   const SORTLAB = {wolp:'Straw', comp:'Wolp+', splus:'Straw+', ap:'AP', fpi:'FPI', best:'#', worst:'#'};
+  $('rOpts').addEventListener('click', ()=>{ const f=$('rOpts').closest('.filters'), o=f.classList.toggle('open'); $('rOpts').setAttribute('aria-expanded', o); });
   function renderRank(){
+    { const b=document.querySelector(`[data-ms="${S.r.ms}"]`); $('rOpts').textContent = `Sort: ${b ? b.textContent : 'Straw'} ▾`; }
     const n=pubNum(), ranks=pubMap(), prev = n!=null && prevNum(n)!=null ? rankMap(prevNum(n)) : null, R=S.r, cr=mdl().crank, sp=strawPlusRank();
     // Straw+ exists once a poll is published; until then its Sort pills are hidden
     document.querySelectorAll('[data-ms="splus"]').forEach(b=>b.hidden=!sp);
@@ -1345,7 +1351,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
         default: v=fmtStat(c,colVal(c,a,t)); if(v==null){ v='–'; cls='dim'; } if(c.strong) cls='strong'; }
       return `<td class="${cls}">${v}</td>`; };
     const firstOf = new Set(); { let g=''; rcols.forEach(c=>{ if(c.g!==g) firstOf.add(c.k); g=c.g; }); }
-    const th = (c,label,extra='') => `<th data-c="${c}" class="${R.col===c?'on':''}${R.col===c&&R.rev?' rev':''}${extra}">${label}</th>`;
+    const th = (c,label,extra='') => `<th data-c="${c}" tabindex="0" aria-sort="${R.col===c?(R.rev?'ascending':'descending'):'none'}" class="${R.col===c?'on':''}${R.col===c&&R.rev?' rev':''}${extra}">${label}</th>`;
     $('rTable').innerHTML = `<thead><tr class="grph"><th colspan="${apCol?3:2}">Rankings</th><th></th>${groups.map(g=>`<th class="g1" colspan="${g.n}">${esc(g.g)}</th>`).join('')}</tr>
       <tr class="cols">${th('ms', SORTLAB[R.ms]==='#' ? '#' : SORTLAB[R.ms])}<th></th>${apCol?th(apCol.k,apCol.h):''}${th('name','Team','" style="text-align:left')}${rcols.map(c=>th(c.k,c.h,firstOf.has(c.k)?' g1':'')).join('')}</tr></thead>
       <tbody>${T.map(a=>`<tr class="${S.cmp.includes(a)?'sel':''}" data-abbr="${esc(a)}" style="--tc:${tc(a)}"><td class="rkc${rkOf(a)?'':' none'}">${rkOf(a)||'–'}</td><td class="c-mv">${R.ms==='wolp' && ranks[a]?moveOf(a,ranks[a],prev):''}</td>${apCol?cell(apCol,a):''}<td class="tmc"><button class="tb" data-open="${esc(a)}">${logo(a)}<span>${esc(nm(a))}</span></button></td>${rcols.map(c=>cell(c,a).replace('<td class="', `<td class="${firstOf.has(c.k)?'g1 ':''}`)).join('')}</tr>`).join('')}</tbody>`;
@@ -1354,6 +1360,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   }
   document.querySelectorAll('[data-show]').forEach(b=>b.addEventListener('click',()=>{ S.r.show=b.dataset.show; saveR(); renderRank(); }));
   document.querySelectorAll('[data-ms]').forEach(b=>b.addEventListener('click',()=>{ S.r.ms=b.dataset.ms; S.r.col='ms'; S.r.rev=false; saveR(); renderRank(); }));
+  $('rTable').addEventListener('keydown', e=>{ const th=e.target.closest('th[data-c]'); if(th && (e.key==='Enter' || e.key===' ')){ e.preventDefault(); th.click(); setTimeout(()=>{ const n=$('rTable').querySelector(`th[data-c="${th.dataset.c}"]`); if(n) n.focus(); }); } });
   $('rTable').addEventListener('click', e=>{ const th=e.target.closest('th[data-c]'); if(!th) return; const c=th.dataset.c; S.r.rev = c===S.r.col ? !S.r.rev : false; S.r.col=c; renderRank(); });
   $('rConfList').addEventListener('change', e=>{ const k=e.target.dataset.cf; if(!k) return; S.r.confOff = e.target.checked ? S.r.confOff.filter(x=>x!==k) : [...S.r.confOff, k]; renderConfs(); renderRank(); });
   $('rConfList').addEventListener('click', e=>{ const b=e.target.closest('[data-cfall]'); if(!b) return; S.r.confOff = b.dataset.cfall==='1' ? [] : DIALS.slice(); renderConfs(); renderRank(); });
@@ -1387,6 +1394,8 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
         }
         g.forEach(p=>{ p.d.style.top = p.y ? `calc(50% + ${p.y}px)` : ''; const lb=p.d.querySelector('.dlb'); if(lb) lb.classList.toggle('up', p.y<0 || (p.y===0 && lb.textContent==='Worst')); });
       });
+      const lbs = dots.filter(p=>p.d.querySelector('.dlb'));   // Best and Worst close together: Worst above, Best below
+      if(lbs.length===2 && Math.abs(lbs[0].x-lbs[1].x) < 48) lbs.forEach(p=>{ const lb=p.d.querySelector('.dlb'); lb.classList.toggle('up', lb.textContent==='Worst'); });
     });
   }
   window.addEventListener('resize', ()=>{ if(S.tab==='rank') stackDots($('rMap')); if(S.tab==='work' && S.ws==='map') stackDots($('wMap')); });
@@ -2284,7 +2293,11 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   // ---------- team dialog ----------
   const gEpa = g => { const f=v=>typeof v==='number' ? (Math.abs(v)<0.005?0:v).toFixed(2) : '–';
     return typeof g.offEpa==='number' ? `<span class="gepa">Off EPA <b>${f(g.offEpa)}</b> (that defense usually allows ${f(g.oppDefEpa)}) · Def EPA <b>${f(g.defEpa)}</b> (that offense usually gains ${f(g.oppOffEpa)})</span>` : ''; };
+  const syncDCmp = () => { const b=$('dCmp'), a=b.dataset.abbr, here = S.tab==='rank' || S.tab==='work' || S.tab==='home';
+    b.hidden = !a || !here; b.textContent = S.cmp.includes(a) ? 'Remove from compare' : 'Add to compare'; };
+  $('dCmp').addEventListener('click', ()=>{ toggleCmp($('dCmp').dataset.abbr); syncDCmp(); });
   function openTeam(a){
+    $('dCmp').dataset.abbr = a; syncDCmp();
     const t=S.teams[a]; if(!t) return;
     const ranks = S.tab==='work' ? draftMap() : pubMap(), apR=apRank(a);
     $('dName').innerHTML = logo(a) + esc(t.name);
