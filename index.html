@@ -786,6 +786,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   <!-- ADMIN (owner only). Hiding it is tidiness: the database enforces every rule whoever asks. -->
   <section id="view-admin" class="boss-only" hidden>
     <div class="ph"><div><h1>Admin</h1><div class="sub">Owner tools</div></div></div>
+    <div class="card" style="margin-bottom:22px"><div class="ch"><h2>Methodology (detailed)</h2></div><p class="note" style="margin:0">Every rule, setting and number behind the site, kept in the private engine repo (opens only when you're signed in to GitHub). <a class="jumpl" href="https://github.com/straw-poll/straw-poll-engine/blob/main/docs/methodology-detailed.md" target="_blank" rel="noopener">Open the detailed methodology →</a></p></div>
     <section class="sec" style="margin-top:0"><div class="sh"><h2>Voting</h2><button class="btn" id="openWeek" hidden>Open voting…</button></div>
       <p id="adminVote" style="margin:0 0 6px"></p>
       <p class="note">The Sunday 7 AM update opens each week, once the previous week's games are final. Use Open voting only if it didn't. To change a deadline, edit it in the Supabase dashboard (changes are logged publicly).</p></section>
