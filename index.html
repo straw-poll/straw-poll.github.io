@@ -657,8 +657,8 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
 
         <h2 id="m-home">Home page</h2>
         <dl>
-          <dt>Fraud Watch</dt><dd>AP Top 25 teams that the Straw Poll ranks at least <b class="fthr">8</b> spots lower. A team outside the Straw Poll Top 25 counts as #26. Biggest gaps first.</dd>
-          <dt>Under the Radar</dt><dd>Straw Poll Top 25 teams ranked at least <b class="fthr">8</b> spots higher than the AP has them. A team outside the AP Top 25 counts as #26. Biggest gaps first.</dd>
+          <dt>Fraud Watch</dt><dd>AP Top 25 teams that the Straw Poll ranks at least <b class="fthr">5</b> spots lower, counting a team's place in Also receiving votes (a team with no votes counts as #36). Biggest gaps first.</dd>
+          <dt>Under the Radar</dt><dd>Straw Poll Top 25 teams ranked at least <b class="fthr">5</b> spots higher than the AP has them, plus every Straw Poll Top 25 team the AP doesn't rank. Biggest gaps first.</dd>
           <dt>Wolp+ spread</dt><dd>Wolp+'s predicted margin, written like a betting line (favorite −points, rounded to the half point). It never uses the betting line.</dd>
           <dt>Line</dt><dd>The median spread across sportsbooks, from CollegeFootballData.com.</dd>
           <dt>Upset Watch</dt><dd>Games hand-picked each week, usually where Wolp+ favors the betting underdog or disagrees with the line by a touchdown or more.</dd>
@@ -921,7 +921,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   const ERRS = [], keepErr = t => { ERRS.push(t); if(ERRS.length>5) ERRS.shift(); };
   window.addEventListener('error', e => keepErr(`${e.message} (${String(e.filename||'').split('/').pop()}:${e.lineno||'?'})`));
   window.addEventListener('unhandledrejection', e => keepErr('Unhandled: '+String((e.reason && e.reason.message) || e.reason)));
-  const MAX = 35, TOP = 25, MAXC = 4, FRAUD = 8, AP_NR = 26, BIG = 14;
+  const MAX = 35, TOP = 25, MAXC = 4, FRAUD = 5, AP_NR = 26, BIG = 14;
   const S = {teams:{}, teamsRaw:null, meta:null, model:null, schedule:null, ap:null, weeks:{}, cur:null, draft:[], dirty:false,
              canWrite:false, isOwner:false, me:null, wantTab:null, accessKnown:false, accessFor:'', cmp:[], tab:'home', ws:'ballot',
              r:{show:'top', confOff:[], q:'', ms:'wolp', col:'ms', rev:false, xax:'wolp'}, f:'off', pc:'', q:'', sort:'frank',
@@ -1205,10 +1205,12 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     const apR=(S.ap&&S.ap.ranks)||{}, hasAp=Object.keys(apR).length>0 && list.length>0;
     const wrow = a => `<button class="wrow" data-open="${esc(a)}">${logo(a)}<div class="wn"><b>${esc(nm(a))}</b><small>${S.teams[a]?rec(S.teams[a].w,S.teams[a].l)+' · '+esc(S.teams[a].conf||''):''}</small></div>
       <div class="wk"><span><small>AP</small>${apR[a]?'#'+apR[a]:'NR'}</span><span><small>Straw</small>${ranks[a] && ranks[a]<=TOP?'#'+ranks[a]:'NR'}</span></div></button>`;
-    // outside a Top 25 counts as #26 on both sides (Straw Poll 26-35 included)
-    const sr = a => ranks[a] && ranks[a]<=TOP ? ranks[a] : TOP+1, ar = a => apR[a] || AP_NR;
-    const fraud = Object.keys(apR).filter(a=>S.teams[a] && sr(a)-apR[a]>=FRAUD).sort((a,b)=>(sr(b)-apR[b])-(sr(a)-apR[a]) || apR[a]-apR[b]);
-    const radar = list.slice(0, TOP).filter(a=>ar(a)-sr(a)>=FRAUD).sort((a,b)=>(ar(b)-sr(b))-(ar(a)-sr(a)));
+    // (owner, 2026-10-05) Fraud Watch: AP teams the Straw Poll has 5+ spots lower, counting its real place in Also receiving
+    // votes (26-35; no votes = #36), shown as NR outside the Top 25. Under the Radar: Straw Top 25 teams the AP has 5+ spots
+    // lower, plus every one the AP doesn't rank.
+    const sr = a => ranks[a] && ranks[a]<=TOP ? ranks[a] : TOP+1, ar = a => apR[a] || AP_NR, srAll = a => ranks[a] || MAX+1;
+    const fraud = Object.keys(apR).filter(a=>S.teams[a] && srAll(a)-apR[a]>=FRAUD).sort((a,b)=>(srAll(b)-apR[b])-(srAll(a)-apR[a]) || apR[a]-apR[b]);
+    const radar = list.slice(0, TOP).filter(a=>sr(a)<=TOP && (!apR[a] || apR[a]-sr(a)>=FRAUD)).sort((a,b)=>(ar(b)-sr(b))-(ar(a)-sr(a)) || sr(a)-sr(b));
     const none = '<p class="lead" style="margin:0">No one this week.</p>', wait='<p class="lead" style="margin:0">Waiting for the AP poll and a saved ballot.</p>';
     // the biggest gaps first; the rest behind a button, so this column stays about as tall as the Top 25 beside it
     const FEW = 4, watchList = (L, k) => !L.length ? none : (S.more[k] ? L : L.slice(0, FEW)).map(wrow).join('')
