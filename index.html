@@ -91,6 +91,7 @@ h2 small{font:400 13px var(--body);color:var(--muted);margin-left:10px}
 .trow{display:grid;grid-template-columns:30px 30px 24px minmax(0,1fr) auto;gap:8px;align-items:center;height:38px;border-bottom:1px solid var(--line2);box-shadow:inset 3px 0 var(--tc,transparent);padding-left:8px;background:none;border-width:0 0 1px;width:100%;text-align:left;color:var(--ink)}
 .trow:hover{background:var(--panel2)} .trow{cursor:pointer} .trow.sel{background:#22314a;box-shadow:inset 3px 0 var(--gold)}
 .trow .tname{background:none;border:0;padding:0;color:inherit;text-align:left;cursor:pointer;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap} .trow .tname:hover{text-decoration:underline}
+.trow .pp{color:var(--muted);font-size:12px;margin-right:8px;font-variant-numeric:tabular-nums}
 .trow .rk{font:800 21px/1 var(--cond);text-align:right}
 .tn{font:700 17px var(--cond);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tr{color:var(--muted);font-size:12.5px;font-variant-numeric:tabular-nums}
@@ -582,12 +583,11 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       </nav>
       <article class="method">
         <h2 id="m-wolp">The Straw Poll</h2>
-        <p>From Sunday 7 AM to Tuesday 11:59 PM ET, approved members each rank 25 teams. On Wednesday morning the ballots are combined:</p>
+        <p>From Sunday 7 AM to Monday 5 PM ET, approved members each rank 25 teams. Right after voting closes, the ballots are combined the way the AP poll does it:</p>
         <ul>
-          <li>Each team's average rank across all ballots.</li>
-          <li>The most extreme ranks for each team are set aside first, so one unusual ballot can't swing a team.</li>
-          <li>A team must be on at least 2 ballots, and on a reasonable share of them, so no single voter can put a team in the poll.</li>
-          <li>Ties go to the team on more ballots.</li>
+          <li>Each ballot gives 25 points to its #1 team, 24 to its #2, and so on down to 1 point for #25.</li>
+          <li>Teams on at least 2 ballots are ranked by total points. A team on only 1 ballot can only fill the spots after them, so one voter can never put a team ahead of the rest.</li>
+          <li>Ties go to the team with more first-place votes, then the team on more ballots.</li>
           <li>The top 25 are ranked; the next ten are listed as <b>Also receiving votes</b>.</li>
         </ul>
         <p>Ballots stay private until the poll is published; then every ballot is shown with its voter's username. Weeks 1–5 of 2026 are the site owner's own rankings, from before ballots opened.</p>
@@ -673,7 +673,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
         </dl>
 
         <h2 id="m-data">Data and updates</h2>
-        <p>Team data comes from <a href="https://collegefootballdata.com" target="_blank" rel="noopener">CollegeFootballData.com</a> and refreshes at 7 AM ET Thursday through Sunday: results, stats, ratings, the AP poll, ESPN's FPI, the schedule and betting lines. The Straw Poll is released Wednesday at 6 AM ET. Live scores come from ESPN while games are on. Only FBS teams are rated.</p>
+        <p>Team data comes from <a href="https://collegefootballdata.com" target="_blank" rel="noopener">CollegeFootballData.com</a> and refreshes at 7 AM ET Thursday through Sunday: results, stats, ratings, the AP poll, ESPN's FPI, the schedule and betting lines. The Straw Poll is released Monday at about 5:15 PM ET, right after voting closes. Live scores come from ESPN while games are on. Only FBS teams are rated.</p>
 
         <h2 class="lg-only" id="m-pickem">Pick'em</h2>
         <div class="lg-only">
@@ -688,7 +688,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
 
         <h2 id="m-faq">FAQ</h2>
         <dl class="faq">
-          <dt>Can I change my ballot after submitting?</dt><dd>Yes, as often as you like until Tuesday 11:59 PM ET.</dd>
+          <dt>Can I change my ballot after submitting?</dt><dd>Yes, as often as you like until Monday 5 PM ET.</dd>
           <dt>Can I start my ballot before voting opens?</dt><dd>Yes. It's saved in your browser, and you can submit it once voting opens Sunday morning.</dd>
           <dt>Why doesn't Wolp+ match the Straw Poll?</dt><dd>Wolp+ only knows results, plus a preseason estimate that fades out as games are played. The Straw Poll is voters' judgment.<span class="sp-only"> Straw+ blends the two.</span></dd>
           <dt>What's the Conference Modifier?</dt><dd>A what-if on the Research tab: add points to a conference and see how Wolp+ would reorder.</dd>
@@ -726,8 +726,8 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     <div class="guide" id="wsGuide" hidden><div><strong>How voting works</strong>
       <ol class="steps"><li>Pick a starting point with <b>Start from…</b> (your last ballot, Wolp+, the AP, or empty).</li>
       <li>Drag teams to rank exactly 25, or tap + in Add teams.</li>
-      <li>Voting opens Sunday at 7 AM and closes Tuesday at 11:59 PM ET. Submit before then; you can change your ballot until the deadline.</li>
-      <li>The Straw Poll is released Wednesday at 6 AM ET. Until then your ballot is private; after that, ballots are public with usernames.</li></ol></div>
+      <li>Voting opens Sunday at 7 AM and closes Monday at 5 PM ET. Submit before then; you can change your ballot until the deadline.</li>
+      <li>The Straw Poll is released right after voting closes (about 5:15 PM ET). Until then your ballot is private; after that, ballots are public with usernames.</li></ol></div>
       <button class="btn quiet" id="wsGuideOk">Got it</button></div>
     <div class="wbar">
       <span class="weeklabel">Week</span>
@@ -739,7 +739,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       <button class="btn quiet" id="withdraw" hidden>Withdraw</button>
       <button class="btn primary" id="save" disabled>Submit ballot</button>
     </div>
-    <p class="dnote voter-only">Voting opens Sunday at 7 AM and closes Tuesday at 11:59 PM ET. Your ballot is private until the Straw Poll is released (Wednesday at 6 AM ET); after that, ballots are public, shown with usernames.</p>
+    <p class="dnote voter-only">Voting opens Sunday at 7 AM and closes Monday at 5 PM ET. Your ballot is private until the Straw Poll is released, right after voting closes; after that, ballots are public, shown with usernames.</p>
     <div class="wsub" role="group" aria-label="Vote view">
       <span class="lab">View</span><button class="pill" data-ws="ballot">List</button><button class="pill" data-ws="map">Results Map</button>
     </div>
@@ -1173,7 +1173,8 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     if(!list.length){ $('hTop').innerHTML = wk && wk.compiled ? '<div class="empty"><strong>Not enough ballots yet</strong>A team needs to be on at least 2 ballots to make the Straw Poll.</div>'
       : '<div class="empty"><strong>No ballot yet</strong>The first Straw Poll Top 25 will appear here.</div>'; $('hAlso').innerHTML=''; }
     else {
-      const B=pollBlocks(list, prev, true);
+      const info = wk && wk.compiled ? Object.fromEntries((wk.results||[]).map(r=>[r.team, r])) : null;
+      const B=pollBlocks(list, prev, true, info);
       $('hTop').innerHTML = B.top; $('hAlso').innerHTML = B.also;
     }
     // fraud watch / under the radar (the Straw Poll vs the AP)
@@ -1699,14 +1700,15 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     S.draft = data.ranking.slice(); setDirty(); renderWork(); renderBanner();
     toast(late ? `Late ballot sent for week ${n}. It counts once the owner approves it.` : `Week ${n} ballot submitted`);
   }
-  // the coming Tuesday 11:59:59 PM Eastern (today, if it's Tuesday), on the server's clock
-  function nextTuesdayDeadline(){
+  // the next Monday 5:00 PM Eastern still ahead (today, if it's Monday before 5), on the server's clock
+  function nextMondayDeadline(){
     const parts = t => Object.fromEntries(new Intl.DateTimeFormat('en-US', {timeZone:'America/New_York', year:'numeric', month:'numeric', day:'numeric',
       weekday:'short', hour:'numeric', minute:'numeric', second:'numeric', hourCycle:'h23'}).formatToParts(t).map(x=>[x.type, x.value]));
-    const p = parts(new Date(serverNow())), add = (2 - ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].indexOf(p.weekday) + 7) % 7;
-    // 23:59:59 that day read as UTC, then shifted by Eastern's offset on that day (handles daylight saving)
-    const guess = Date.UTC(+p.year, +p.month-1, +p.day + add, 23, 59, 59), g = parts(new Date(guess));
-    return new Date(guess + (guess - Date.UTC(+g.year, +g.month-1, +g.day, +g.hour, +g.minute, +g.second)));
+    const now = serverNow(), p = parts(new Date(now)), base = (1 - ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].indexOf(p.weekday) + 7) % 7;
+    // 17:00 that day read as UTC, then shifted by Eastern's offset on that day (handles daylight saving)
+    const at = add => { const guess = Date.UTC(+p.year, +p.month-1, +p.day + add, 17, 0, 0), g = parts(new Date(guess));
+      return new Date(guess + (guess - Date.UTC(+g.year, +g.month-1, +g.day, +g.hour, +g.minute, +g.second))); };
+    const d = at(base); return d.getTime() > now ? d : at(base + 7);
   }
   // Owner fallback when the Mac didn't open the week (it normally does on Sunday): add one week's deadline.
   // Only adds; an existing deadline is changed in the Supabase dashboard (and logged publicly).
@@ -1717,7 +1719,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     if(raw==null || !raw.trim()) return;  // canceled (Number(null) would be week 0)
     const w = Number(raw);
     if(!Number.isInteger(w) || w<0 || w>20){ toast('Enter a week from 0 to 20.'); return; }
-    const d = nextTuesdayDeadline();
+    const d = nextMondayDeadline();
     if(!confirm(`Open week ${w} voting until ${etTime(d)}?`)) return;
     S.busy=true; renderStatus();
     const { error } = await sb.from('weeks').insert({season:S.vote.season, week:w, lock_at:d.toISOString()});
@@ -1940,8 +1942,10 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   }
   // a poll as Home shows it: the Top 25 in two columns (rank, movement, logo, name, record), then the next teams as
   // "Also receiving votes" without numbers. cmp: rows can be selected for Compare (Home's Straw Poll only).
-  function pollBlocks(list, prev, cmp){
-    const row=(a,i)=>`<div class="trow${cmp && S.cmp.includes(a)?' sel':''}"${cmp?` data-abbr="${esc(a)}"`:''} style="--tc:${tc(a)}"><span class="rk">${i<TOP?i+1:''}</span>${moveOf(a,i+1,prev)}${logo(a)}<button class="tn tname" data-open="${esc(a)}">${esc(nm(a))}</button><span class="tr">${S.teams[a]?rec(S.teams[a].w,S.teams[a].l):''}</span></div>`;
+  // info: {team: {points, first}} from a compiled poll, shown as "(first-place votes)" and points (AP style)
+  function pollBlocks(list, prev, cmp, info){
+    const pf = a => { const x=info && info[a]; return x && typeof x.points==='number' ? `<small class="pp">${x.first?`(${x.first}) `:''}${x.points}</small>` : ''; };
+    const row=(a,i)=>`<div class="trow${cmp && S.cmp.includes(a)?' sel':''}"${cmp?` data-abbr="${esc(a)}"`:''} style="--tc:${tc(a)}"><span class="rk">${i<TOP?i+1:''}</span>${moveOf(a,i+1,prev)}${logo(a)}<button class="tn tname" data-open="${esc(a)}">${esc(nm(a))}</button><span class="tr">${pf(a)}${S.teams[a]?rec(S.teams[a].w,S.teams[a].l):''}</span></div>`;
     const cols=(L, start)=>{ const h=Math.ceil(L.length/2); return `<div>${L.slice(0,h).map((a,i)=>row(a,start+i)).join('')}</div><div>${L.slice(h).map((a,i)=>row(a,start+h+i)).join('')}</div>`; };
     const top=list.slice(0,TOP), rest=list.slice(TOP);
     return {top: cols(top, 0), also: rest.length ? `<h3>Also receiving votes</h3><div class="t25">${cols(rest, TOP)}</div>` : ''};
@@ -1980,7 +1984,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     const P = polls[S.lg.pollWk], prevP = pw.filter(n=>n<S.lg.pollWk).pop();
     const toRanks = p => p ? Object.fromEntries(p.results.map(r=>[r.team, r.rank])) : null;
     $('lgPollSub').textContent = P ? `Week ${P.week} · ${P.ballots} ballot${P.ballots===1?'':'s'}` : '';
-    const LB = P ? pollBlocks(P.results.slice().sort((a,b)=>a.rank-b.rank).map(r=>r.team), toRanks(polls[prevP]), false) : null;
+    const LB = P ? pollBlocks(P.results.slice().sort((a,b)=>a.rank-b.rank).map(r=>r.team), toRanks(polls[prevP]), false, Object.fromEntries(P.results.map(r=>[r.team, r]))) : null;
     $('lgPoll').innerHTML = P ? `<div class="t25">${LB.top}</div>${LB.also ? `<div class="also">${LB.also}</div>` : ''}` : '<p class="lead">No league poll yet: it appears the morning after voting closes.</p>';
     // manage
     const mine = l.owner_id===uid;
@@ -2416,7 +2420,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     document.body.classList.toggle('see-lg', seeLg()); document.body.classList.toggle('see-sp', seeSp());
     $('view-work').classList.toggle('gated', !vote);
     $('wsGate').innerHTML = vote ? '' : !S.me
-      ? `<strong>How to join</strong><ol class="steps"><li>Sign in with Google.</li><li>The site owner approves your account.</li><li>Rank your 25 teams here each week and submit by Tuesday 11:59 PM ET.</li></ol><button class="btn primary" data-signin>Sign in</button> <button class="linkbtn" data-go="method">Methodology</button>`
+      ? `<strong>How to join</strong><ol class="steps"><li>Sign in with Google.</li><li>The site owner approves your account.</li><li>Rank your 25 teams here each week and submit by Monday 5 PM ET.</li></ol><button class="btn primary" data-signin>Sign in</button> <button class="linkbtn" data-go="method">Methodology</button>`
       : S.me.err ? `<strong>Couldn’t load your account</strong>${esc(sbErr(S.me.err, 'Reload the page to try again.'))}`
       : pr && pr.status==='declined'
       ? '<strong>Not approved</strong>Your request to join wasn’t approved, so you can’t submit ballots. You can still view everything on the site.'
