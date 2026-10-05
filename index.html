@@ -262,9 +262,10 @@ td.c-mv{padding-left:0;width:30px}
 .flag{border:1px solid currentColor;background:none;border-radius:4px;padding:0 4px;margin-right:5px;font:700 11px/1.35 var(--cond);letter-spacing:.05em;color:var(--loss);vertical-align:1px}
 .flag.loop{color:var(--gold)}
 .st{text-align:center;font-variant-numeric:tabular-nums;font-weight:600;font-size:13px}
-.lastg{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:left!important;font-weight:500} .lres{font-weight:800} .lres.W{color:var(--win)} .lres.L{color:var(--loss)}
+.lastg{text-align:left!important;font-weight:600;line-height:1.2}  /* result on top, full opponent name below (wraps rather than cut off) */
+.lastg small{display:block;font-weight:500;font-size:12px;color:var(--muted)} .lres{font-weight:800} .lres.W{color:var(--win)} .lres.L{color:var(--loss)}
 .st.dim{color:var(--muted);font-weight:500}
-.x{border:0;background:none;color:var(--muted);font-size:18px;line-height:1;padding:4px}
+.x{border:0;background:none;color:var(--muted);font-size:18px;line-height:1;padding:4px} .brow .x{justify-self:end}
 .x:hover{color:var(--loss)}
 .slot{display:grid;grid-template-columns:44px 1fr;column-gap:8px;align-items:center;padding:8px 6px;border-bottom:1px dashed var(--line2);color:var(--faint)}
 .slot .rk{color:#2a3b52;font-size:22px}
@@ -948,8 +949,8 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   const colOk = c => c.k!=='splus' || seeSp();
   const COLS_ALL = [
     {k:'apNow', h:'AP', menu:"this week's AP Top 25 rank", g:'Rankings', bw:'2.7rem', pw:'2.6rem', fmt:'r', lo:true, val:a=>apRank(a)},
+    {k:'last', h:'Last game', menu:"last game's result, or Bye", g:'This season', bw:'9rem', pw:'9rem', off:true, val:a=>{ const g=lastGame(a); return g && g!=='bye' ? (g.result==='W'?1:-1)*Math.abs(g.pf-g.pa) : null; }},   // sorts by margin
     {k:'rec',  h:'Record', menu:'win-loss record this season', g:'This season', bw:'2.9rem', pw:'2.7rem'},
-    {k:'last', h:'Last game', menu:"last game's result, or Bye", g:'This season', bw:'8.5rem', pw:'8rem', off:true, val:a=>{ const g=lastGame(a); return g && g!=='bye' ? (g.result==='W'?1:-1)*Math.abs(g.pf-g.pa) : null; }},   // sorts by margin
     {k:'p4',   h:'vs P4',  menu:'record vs Power 4', g:'This season', bw:'2.9rem', pw:'2.7rem'},
     {k:'t25',  h:'vs Straw 25', menu:'record vs the Straw Poll Top 25', g:'This season', bw:'3.4rem', pw:'3.2rem'},
     {k:'ap25', h:'vs AP 25', menu:'record vs the AP Top 25', g:'This season', bw:'3.2rem', pw:'3rem', off:true},
@@ -1100,7 +1101,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   const lastGame = a => { const g=gamesOf(a).filter(x=>x.result).slice(-1)[0]; if(!g) return null;
     if(!lastGame.top) lastGame.top = Object.keys(S.teams).reduce((m,x)=>{ const y=gamesOf(x).filter(z=>z.result).slice(-1)[0]; return y && y.date>m ? y.date : m; }, '');
     return (new Date(lastGame.top) - new Date(g.date)) / 864e5 >= 5 ? 'bye' : g; };
-  const lastCell = a => { const g=lastGame(a); return !g || g==='bye' ? {v: g ? 'Bye' : '–', cls:'dim'} : {v:`<span class="lres ${g.result}">${g.result}</span> ${gScore(g)} ${gAt(g)} ${esc(nm(g.opp))}`, cls:'lastg'}; };
+  const lastCell = a => { const g=lastGame(a); return !g || g==='bye' ? {v: g ? 'Bye' : '–', cls:'lastg dim'} : {v:`<span class="lres ${g.result}">${g.result}</span> ${gScore(g)}<small>${gAt(g)} ${esc(nm(g.opp))}</small>`, cls:'lastg'}; };
   const gScore = g => g.result==='W' ? `${g.pf}-${g.pa}` : `${g.pa}-${g.pf}`;
   const gOppName = (o, ranks) => (ranks[o] ? '#'+ranks[o]+' ' : '') + nm(o);
   const gOppRec = o => S.teams[o] ? rec(S.teams[o].w, S.teams[o].l) : 'FCS';
@@ -1760,7 +1761,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   }
   function renderHeads(){
     const b=shown('b'), p=shown('p');
-    const bc = `44px 34px 18px 24px minmax(7rem,1fr) ${b.map(c=>c.bw).join(' ')} 26px`;
+    const bc = `44px 34px 18px 24px minmax(7rem,13rem) ${b.map(c=>c.bw).join(' ')} minmax(26px,1fr)`;   // stats sit next to the team; spare width goes before the × at the right
     const pc = `minmax(7rem,1fr) ${p.map(c=>c.pw).join(' ')} 2.8rem`;
     $('dyncols').textContent = `.brow,.bcols{--bcols:${bc}}.phead,.prow{--pcols:${pc}}`;
     $('bcols').innerHTML = `<span style="text-align:right">Rank</span><span></span><span></span><span></span><span>Team</span>${b.map(c=>`<span>${c.h}</span>`).join('')}<span></span>`;
