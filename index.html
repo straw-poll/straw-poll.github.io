@@ -795,6 +795,9 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
         <div class="row"><label style="font-size:13px;color:var(--muted)"><input type="checkbox" id="uAll"> Show all games</label><button class="btn primary" id="uSave" disabled>Publish Upset Watch</button></div></div>
         <p class="note" style="margin:0 0 10px">Candidates (gold edge) are games where Wolp+ favors the betting underdog, or differs from the line by 7+ points. Tick the ones to publish; add an optional one-line note. Only ticked games appear on Home.</p>
         <div class="tblw"><table class="ups" id="uTable"></table></div></section>
+      <section class="sec"><div class="sh"><h2>Upset Watch results</h2></div>
+        <p class="note" style="margin:0 0 10px">Finished games where Wolp+ and the line disagree (Wolp+ favors the underdog, or they differ by 7+ points), from the spreads saved before kickoff. <b>Underdog won</b> = the line's underdog won. <b>Wolp+ vs line</b> = the result landed on Wolp+'s side of the line (pushes left out). <b>Wolp+ winner</b> = the team Wolp+ favored won.</p>
+        <div class="tblw"><table id="uRec"></table></div></section>
   </section>
 </main>
 
@@ -2548,8 +2551,32 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   });
   $('acctAdminNote').addEventListener('click', e=>{ if(e.target.id==='acctToAdmin'){ $('acctDlg').close(); showTab('admin'); } });
   // Admin tab (owner): voting status + Open voting fallback, join requests, late ballots, Upset Watch
+  // Upset Watch results (#23): how Wolp+ does when it disagrees with the line, by week; published picks vs every candidate
+  function renderUpsetRecord(){
+    const rows=[], tot={pub:null, all:null}, wl = r => `${r[0]}-${r[1]}`, pct = r => r[0]+r[1] ? ` <small class="dim">${Math.round(100*r[0]/(r[0]+r[1]))}%</small>` : '';
+    const add = (t, g) => { const m=g.hp-g.ap, dog=(m>0)!==(g.line>0), ats=Math.sign(m-g.line)*Math.sign(g.model-g.line), su=(m>0)===(g.model>0);
+      t.n++; t.dog[dog?0:1]++; if(ats) t.ats[ats>0?0:1]++; t.su[su?0:1]++; };
+    const blank = () => ({n:0, dog:[0,0], ats:[0,0], su:[0,0]});
+    (S.picks||[]).slice().sort((a,b)=>a.week-b.week).forEach(w=>{
+      const pubIds = new Set(Object.keys((S.upsets||{})[w.week]||{})), t={pub:blank(), all:blank()};
+      w.games.forEach(g=>{
+        if(g.hp==null || g.hp===g.ap || !S.teams[g.home] || !S.teams[g.away] || typeof g.model!=='number' || typeof g.line!=='number' || Math.abs(g.line)<0.5) return;
+        const dogPick=(g.model>0)!==(g.line>0), gap=Math.abs(g.model-g.line);
+        if(!(dogPick || gap>=7)) return;
+        add(t.all, g); if(pubIds.has(String(g.id))) add(t.pub, g);
+      });
+      if(t.all.n) rows.push([w.week, t]);
+    });
+    const line = (lab, t, cls) => `<tr class="${cls||''}"><th style="text-align:left">${lab}</th><td>${t.n}</td><td>${wl(t.dog)}${pct(t.dog)}</td><td>${wl(t.ats)}${pct(t.ats)}</td><td>${wl(t.su)}${pct(t.su)}</td></tr>`;
+    const sum = k => rows.reduce((T,[,t])=>{ T.n+=t[k].n; ['dog','ats','su'].forEach(x=>{ T[x][0]+=t[k][x][0]; T[x][1]+=t[k][x][1]; }); return T; }, blank());
+    const head = '<thead><tr class="cols"><th style="text-align:left"></th><th>Games</th><th>Underdog won</th><th>Wolp+ vs line</th><th>Wolp+ winner</th></tr></thead>';
+    const sec = (title, k) => `<tr class="gsec"><th colspan="5" style="text-align:left">${title}</th></tr>` + rows.filter(([,t])=>t[k].n).map(([w,t])=>line('Week '+w, t[k])).join('') + line('Season', sum(k), 'tot');
+    $('uRec').innerHTML = rows.length ? head + '<tbody>' + sec('Published to Upset Watch', 'pub') + sec('All candidates', 'all') + '</tbody>'
+      : '<tbody><tr><td class="dim">No finished candidate games yet.</td></tr></tbody>';
+  }
   function renderAdmin(){
     if(!S.isOwner) return;
+    renderUpsetRecord();
     const o=openWeekNum(), nx=S.vote.next;
     $('adminVote').innerHTML = S.vote.state==='loading' ? 'Loading…' : S.vote.state==='error' ? esc(sbErr(S.vote.err, 'Voting status couldn’t load. Reload the page to try again.'))
       : o!=null ? `Week ${o} voting is open until <b>${esc(etTime(lockOf(o)))}</b>.`
