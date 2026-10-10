@@ -112,13 +112,12 @@ h2 small{font:400 13px var(--body);color:var(--muted);margin-left:10px}
 .games{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
 .game{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
 .game.hot{border-color:#6b4f1a;box-shadow:inset 0 3px 0 var(--gold)}
-.game.hot.hit{border-color:#1f5a37;box-shadow:inset 0 3px 0 var(--win)} .game.hot.miss{border-color:#6b2a24;box-shadow:inset 0 3px 0 var(--loss)}  /* Upset Watch: Wolp+ called it / missed */
+.game.hot.hit{border-color:#1f5a37;box-shadow:inset 0 3px 0 var(--win)} .game.hot.miss{border-color:#6b2a24;box-shadow:inset 0 3px 0 var(--loss)}  /* Upset Watch: underdog won / favorite won */
 .gtop{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px;min-height:22px}
 .when{color:var(--muted);font-size:12.5px}
 .tag{font:600 11px var(--body);letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:999px;white-space:nowrap}
 .tag.up{background:#3d3115;color:var(--gold)}
 .when.live,td.live{color:var(--loss);font-weight:600}
-.tag.wmiss{background:#3a1a17;color:var(--loss)}   /* Upset Watch: Wolp+ missed */
 .tag.hit{background:#163a26;color:var(--win)} .tag.miss{background:var(--panel2);color:var(--muted)}
 .side.scored{grid-template-columns:32px minmax(0,1fr) auto}
 .side .sc{font:800 24px var(--cond);color:var(--ink);font-variant-numeric:tabular-nums} .side .sc.lost{color:var(--muted)}
@@ -660,7 +659,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
         <dl>
           <dt>Wolp+ spread</dt><dd>Wolp+'s predicted margin, written like a betting line (favorite −points, rounded to the half point). It never uses the betting line.</dd>
           <dt>Line</dt><dd>The median spread across sportsbooks, from CollegeFootballData.com.</dd>
-          <dt>Upset Watch</dt><dd>Games hand-picked each week, usually where Wolp+ favors the betting underdog or disagrees with the line by a touchdown or more.</dd>
+          <dt>Upset Watch</dt><dd>Games picked each week where a ranked favorite could lose. When the game ends: Upset! (the betting underdog won) or Favorite won.</dd>
         </dl>
 
         <h2 id="m-cols">Columns and flags</h2>
@@ -794,11 +793,14 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     <section class="sec"><div id="adminReqs"></div></section>
       <section class="sec"><div class="sh"><h2 id="uTitle">Upset Watch</h2>
         <div class="row"><label style="font-size:13px;color:var(--muted)"><input type="checkbox" id="uAll"> Show all games</label><button class="btn primary" id="uSave" disabled>Publish Upset Watch</button></div></div>
-        <p class="note" style="margin:0 0 10px">Candidates (gold edge) are games where Wolp+ favors the betting underdog, or differs from the line by 7+ points. Tick the ones to publish; add an optional one-line note. Only ticked games appear on Home.</p>
+        <p class="note" style="margin:0 0 10px">Candidates (gold edge): the betting favorite is a Straw Poll or AP Top 25 team and Wolp+ gives the underdog at least a 35% chance. Tick the ones to publish; add an optional one-line note. Only ticked games appear on Home.</p>
         <div class="tblw"><table class="ups" id="uTable"></table></div></section>
       <section class="sec"><div class="sh"><h2>Upset Watch results</h2></div>
-        <p class="note" style="margin:0 0 10px">Finished games where Wolp+ and the line disagree (Wolp+ favors the underdog, or they differ by 7+ points), from the spreads saved before kickoff. <b>Underdog won</b> = the line's underdog won. <b>Wolp+ vs line</b> = the result landed on Wolp+'s side of the line (pushes left out). <b>Wolp+ winner</b> = the team Wolp+ favored won.</p>
+        <p class="note" style="margin:0 0 10px">Published Upset Watch games that are final: how many ended in an upset (the betting underdog at kickoff won). Lines inside 1 point are toss-ups and left out.</p>
         <div class="tblw"><table id="uRec"></table></div></section>
+      <section class="sec"><div class="sh"><h2>Wolp+ vs the line</h2></div>
+        <p class="note" style="margin:0 0 10px">Every finished FBS game where Wolp+ and the line disagree (Wolp+ favors the underdog, or they differ by 7+ points), from the spreads saved before kickoff; automatic, nothing to publish. <b>Wolp+ vs line</b> = the result landed on Wolp+'s side of the line (pushes left out). <b>Wolp+ winner</b> = the team Wolp+ favored won.</p>
+        <div class="tblw"><table id="lCmp"></table></div></section>
       <section class="sec"><div class="sh"><h2>Model comparison</h2></div>
         <p class="note" style="margin:0 0 10px">Winners picked in the Scorecard's games (FBS games with a Straw Poll or AP Top 25 team). Wolp+ = its pre-kickoff spread; ESPN FPI and SP+ = their ratings saved before the week plus home field; Line = the favorite. SP+ is saved from week 7 on. Hover a cell for the count.</p>
         <div class="tblw"><table id="mCmp"></table></div></section>
@@ -925,7 +927,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   const ERRS = [], keepErr = t => { ERRS.push(t); if(ERRS.length>5) ERRS.shift(); };
   window.addEventListener('error', e => keepErr(`${e.message} (${String(e.filename||'').split('/').pop()}:${e.lineno||'?'})`));
   window.addEventListener('unhandledrejection', e => keepErr('Unhandled: '+String((e.reason && e.reason.message) || e.reason)));
-  const MAX = 35, TOP = 25, MAXC = 4, FRAUD = 5, AP_NR = 26, BIG = 14;
+  const MAX = 35, TOP = 25, MAXC = 4, FRAUD = 5, UPSET_PCT = 35, AP_NR = 26, BIG = 14;
   const S = {teams:{}, teamsRaw:null, meta:null, model:null, schedule:null, ap:null, weeks:{}, cur:null, draft:[], dirty:false,
              canWrite:false, isOwner:false, me:null, wantTab:null, accessKnown:false, accessFor:'', cmp:[], tab:'home', ws:'ballot',
              r:{show:'top', confOff:[], q:'', ms:'wolp', col:'ms', rev:false, xax:'wolp'}, f:'off', pc:'', q:'', sort:'frank',
@@ -1230,18 +1232,15 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     const games=(held ? held.games : sch.games||[]).filter(g=>S.teams[g.home]||S.teams[g.away]);
     const upW = (S.upsets||{})[hw] || {}, upNext = (S.upsets||{})[sch.week] || {};
     // a game card; a finished game (final score from picks: hp/ap) shows the score and whether the betting underdog won
-    const card = (g, up, inUps) => { const mFav = typeof g.model==='number' && g.model!==0 ? (g.model>0?g.home:g.away) : null, lFav = typeof g.line==='number' ? (g.line>0?g.home:g.away) : null;
+    const card = (g, up, inUps) => { const mFav = typeof g.model==='number' && g.model!==0 ? (g.model>0?g.home:g.away) : null, lFav = typeof g.line==='number' && Math.abs(g.line)>=1 ? (g.line>0?g.home:g.away) : null;   // under 1 point = toss-up, no favorite
       const sc = gameScore(g), done = sc.state==='final', live = sc.state==='live', won = done ? (sc.hp>sc.ap ? g.home : g.away) : null;
-      // Upset Watch games (in its section and in big games) are judged by Wolp+'s call: green = Wolp+'s team won, red = it
-      // lost, gold while pending, so a line that moves before kickoff can't mislabel one (#26). Other big games keep
-      // Upset! / Favorite won by the line.
-      const call = up && done && mFav ? (won===mFav ? 'hit' : 'miss') : '';
-      const result = call ? `<span class="tag ${call==='hit' ? 'hit' : 'wmiss'}">${call==='hit' ? 'Wolp+ called it' : 'Wolp+ missed'}</span>`
-        : !done || !lFav ? '' : won!==lFav ? '<span class="tag hit">Upset!</span>' : '<span class="tag miss">Favorite won</span>';
+      // Upset! = the kickoff line's underdog won. Upset Watch games (in its section and highlighted in big games): gold while
+      // pending, then green Upset! / red Favorite won. Wolp+ vs the line is judged separately, on the Admin tab (owner, #26).
+      const result = !done || !lFav ? '' : won!==lFav ? '<span class="tag hit">Upset!</span>' : '<span class="tag miss">Favorite won</span>';
       const score = a => done || live ? `<span class="sc${done && a!==won ? ' lost' : ''}">${a===g.home ? sc.hp : sc.ap}</span>` : '';
       const side = a => `<div class="side${done||live?' scored':''}">${logo(a)}<div><b><button class="tname" data-open="${esc(a)}">${rkBadge(ranks[a])}${esc(nm(a))}</button></b><small>${S.teams[a]?rec(S.teams[a].w,S.teams[a].l):'FCS'}${apG[a]?' · AP #'+apG[a]:''}</small></div>${score(a)}</div>`;
       S.gmap[g.id] = g;
-      return `<div class="game${up?' hot':''}${call ? ' '+call : up && result ? (won!==lFav?' hit':' miss') : ''}" data-game="${esc(g.id)}"><div class="gtop"><span class="when${live?' live':''}">${done ? 'Final' : live ? `Live · ${esc(sc.detail)}` : esc(kick(g.start))}</span>${result || (up && !inUps?'<span class="tag up">Upset Watch</span>':'')}</div>
+      return `<div class="game${up?' hot':''}${up && result ? (won!==lFav?' hit':' miss') : ''}" data-game="${esc(g.id)}"><div class="gtop"><span class="when${live?' live':''}">${done ? 'Final' : live ? `Live · ${esc(sc.detail)}` : esc(kick(g.start))}</span>${result || (up && !inUps?'<span class="tag up">Upset Watch</span>':'')}</div>
         ${side(g.away)}<div class="at">${g.neutral?'vs':'at'}</div>${side(g.home)}
         <div class="nums"><div><small>Line</small><b>${spread(g.line,g.home,g.away)}</b></div><div><small>Wolp+</small><b class="${mFav && lFav && mFav!==lFav ? 'mup':''}">${modelTxt(g.model,g.home,g.away)}</b></div></div>
         ${up && up.note ? `<p class="gnote">${esc(up.note)}</p>` : ''}<button class="gov sr-only" data-game="${esc(g.id)}">Game overview: ${esc(nm(g.away))} ${g.neutral?'vs':'at'} ${esc(nm(g.home))}</button></div>`; };
@@ -2146,12 +2145,14 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   function upsetCands(){
     const sch=S.schedule||{}, have=new Set((sch.games||[]).map(g=>String(g.id))), pubd=(S.upsets||{})[sch.week]||{};
     const done=(((S.picks||[]).find(p=>p.week===sch.week))||{games:[]}).games.filter(g=>pubd[g.id] && !have.has(String(g.id)));   // published, already played
+    const ranks=pubMap(), apR=(S.ap&&S.ap.ranks)||{}, ranked = a => (ranks[a] && ranks[a]<=TOP) || !!apR[a];
+    // candidate (owner, 2026-10-10): the line's favorite is a Straw Poll or AP Top 25 team and Wolp+ gives the underdog 35%+
     return (sch.games||[]).concat(done).filter(g=>S.teams[g.home] && S.teams[g.away]).map(g=>{
-      const has = typeof g.model==='number' && typeof g.line==='number';
-      const dog = has && Math.abs(g.line)>=0.5 && (g.model>0)!==(g.line>0);
-      const gap = has ? Math.abs(g.model-g.line) : 0;
-      return {g, dog, gap, cand: dog || gap>=7};
-    }).sort((x,y)=>(y.cand-x.cand) || (y.dog-x.dog) || (y.gap-x.gap));
+      const has = typeof g.model==='number' && typeof g.line==='number' && Math.abs(g.line)>=1;
+      const fav = has ? (g.line>0 ? g.home : g.away) : null, p = has ? winPct(g.model) : 0;
+      const dogPct = !has ? null : g.model===0 ? 50 : ((g.model>0 ? g.home : g.away)===fav ? 100-p : p);
+      return {g, fav, dogPct, cand: has && ranked(fav) && dogPct>=UPSET_PCT};
+    }).sort((x,y)=>(y.cand-x.cand) || ((y.dogPct??-1)-(x.dogPct??-1)));
   }
   function renderUps(){
     const sch=S.schedule||{}, wk=sch.week;
@@ -2161,12 +2162,12 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     const ranks=pubMap(), L = upsetCands().filter(x=>S.uAll || x.cand || S.uDraft[x.g.id]);
     if(!L.length){ $('uTable').innerHTML='<tbody><tr><td class="dim">No games with both a line and a Wolp+ spread yet.</td></tr></tbody>'; return; }
     const nmR = a => `${rkBadge(ranks[a])}${esc(nm(a))}`;
-    $('uTable').innerHTML = `<thead><tr class="cols"><th>Publish</th><th style="text-align:left">Game</th><th>Line</th><th>Wolp+</th><th>Gap</th><th style="text-align:left">Note (optional)</th></tr></thead><tbody>${
-      L.map(({g,dog,gap,cand})=>{ const on=!!S.uDraft[g.id];
+    $('uTable').innerHTML = `<thead><tr class="cols"><th>Publish</th><th style="text-align:left">Game</th><th>Line</th><th>Wolp+</th><th>Underdog chance</th><th style="text-align:left">Note (optional)</th></tr></thead><tbody>${
+      L.map(({g,fav,dogPct,cand})=>{ const on=!!S.uDraft[g.id];
         return `<tr class="${cand?'cand':''}"><td><input type="checkbox" data-up="${g.id}"${on?' checked':''} aria-label="Publish ${esc(nm(g.away))} at ${esc(nm(g.home))}"></td>
           <td class="l"><div class="gl-n" style="display:flex;align-items:center;gap:6px;font:700 16px var(--cond)">${logo(g.away)}${nmR(g.away)} <span class="dim" style="font:400 12px var(--body);color:var(--muted)">${g.neutral?'vs':'at'}</span> ${logo(g.home)}${nmR(g.home)}</div>
-            <div class="why${dog?'':' g'}">${dog?'Wolp+ favors the underdog':cand?'Wolp+ and the line differ by 7+':''}</div></td>
-          <td>${spread(g.line,g.home,g.away)}</td><td>${modelTxt(g.model,g.home,g.away)}</td><td>${typeof g.model==='number'&&typeof g.line==='number'?gap.toFixed(1):'–'}</td>
+            <div class="why">${cand?`Ranked ${esc(nm(fav))} could lose`:''}</div></td>
+          <td>${spread(g.line,g.home,g.away)}</td><td>${modelTxt(g.model,g.home,g.away)}</td><td>${dogPct!=null?dogPct+'%':'–'}</td>
           <td class="l"><input type="text" data-note="${g.id}" maxlength="140" placeholder="Why this one?" value="${esc((S.uDraft[g.id]||{}).note||'')}"${on?'':' disabled'}></td></tr>`; }).join('')}</tbody>`;
   }
   $('uTable').addEventListener('change', e=>{
@@ -2561,28 +2562,29 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   });
   $('acctAdminNote').addEventListener('click', e=>{ if(e.target.id==='acctToAdmin'){ $('acctDlg').close(); showTab('admin'); } });
   // Admin tab (owner): voting status + Open voting fallback, join requests, late ballots, Upset Watch
-  // Upset Watch results (#23): how Wolp+ does when it disagrees with the line, by week; published picks vs every candidate
+  // Upset Watch results: published games, upset or not (by the kickoff line). Wolp+ vs the line: every disagreement game.
   function renderUpsetRecord(){
-    const rows=[], tot={pub:null, all:null}, wl = r => `${r[0]}-${r[1]}`, pct = r => r[0]+r[1] ? ` <small class="dim">${Math.round(100*r[0]/(r[0]+r[1]))}%</small>` : '';
-    const add = (t, g) => { const m=g.hp-g.ap, dog=(m>0)!==(g.line>0), ats=Math.sign(m-g.line)*Math.sign(g.model-g.line), su=(m>0)===(g.model>0);
-      t.n++; t.dog[dog?0:1]++; if(ats) t.ats[ats>0?0:1]++; t.su[su?0:1]++; };
-    const blank = () => ({n:0, dog:[0,0], ats:[0,0], su:[0,0]});
+    const wl = r => `${r[0]}-${r[1]}`, pct = r => r[0]+r[1] ? ` <small class="dim">${Math.round(100*r[0]/(r[0]+r[1]))}%</small>` : '';
+    const fbs = g => g.hp!=null && g.hp!==g.ap && S.teams[g.home] && S.teams[g.away];
+    const up=[], cmp=[], U=[0,0], C={n:0, ats:[0,0], su:[0,0]};
     (S.picks||[]).slice().sort((a,b)=>a.week-b.week).forEach(w=>{
-      const pubIds = new Set(Object.keys((S.upsets||{})[w.week]||{})), t={pub:blank(), all:blank()};
+      const pubIds=new Set(Object.keys((S.upsets||{})[w.week]||{})), u=[0,0], c={n:0, ats:[0,0], su:[0,0]};
       w.games.forEach(g=>{
-        if(g.hp==null || g.hp===g.ap || !S.teams[g.home] || !S.teams[g.away] || typeof g.model!=='number' || typeof g.line!=='number' || Math.abs(g.line)<0.5) return;
-        const dogPick=(g.model>0)!==(g.line>0), gap=Math.abs(g.model-g.line);
-        if(!(dogPick || gap>=7)) return;
-        add(t.all, g); if(pubIds.has(String(g.id))) add(t.pub, g);
+        if(!fbs(g) || typeof g.line!=='number') return;
+        const m=g.hp-g.ap;
+        if(pubIds.has(String(g.id)) && Math.abs(g.line)>=1){ const upset=(m>0)!==(g.line>0); u[upset?0:1]++; U[upset?0:1]++; }
+        if(typeof g.model!=='number' || Math.abs(g.line)<0.5) return;
+        if(!((g.model>0)!==(g.line>0) || Math.abs(g.model-g.line)>=7)) return;
+        const ats=Math.sign(m-g.line)*Math.sign(g.model-g.line), su=(m>0)===(g.model>0);
+        [c,C].forEach(t=>{ t.n++; if(ats) t.ats[ats>0?0:1]++; t.su[su?0:1]++; });
       });
-      if(t.all.n) rows.push([w.week, t]);
+      if(u[0]+u[1]) up.push(`<tr><th style="text-align:left">Week ${w.week}</th><td>${u[0]+u[1]}</td><td>${wl(u)}${pct(u)}</td></tr>`);
+      if(c.n) cmp.push(`<tr><th style="text-align:left">Week ${w.week}</th><td>${c.n}</td><td>${wl(c.ats)}${pct(c.ats)}</td><td>${wl(c.su)}${pct(c.su)}</td></tr>`);
     });
-    const line = (lab, t, cls) => `<tr class="${cls||''}"><th style="text-align:left">${lab}</th><td>${t.n}</td><td>${wl(t.dog)}${pct(t.dog)}</td><td>${wl(t.ats)}${pct(t.ats)}</td><td>${wl(t.su)}${pct(t.su)}</td></tr>`;
-    const sum = k => rows.reduce((T,[,t])=>{ T.n+=t[k].n; ['dog','ats','su'].forEach(x=>{ T[x][0]+=t[k][x][0]; T[x][1]+=t[k][x][1]; }); return T; }, blank());
-    const head = '<thead><tr class="cols"><th style="text-align:left"></th><th>Games</th><th>Underdog won</th><th>Wolp+ vs line</th><th>Wolp+ winner</th></tr></thead>';
-    const sec = (title, k) => `<tr class="gsec"><th colspan="5" style="text-align:left">${title}</th></tr>` + rows.filter(([,t])=>t[k].n).map(([w,t])=>line('Week '+w, t[k])).join('') + line('Season', sum(k), 'tot');
-    $('uRec').innerHTML = rows.length ? head + '<tbody>' + sec('Published to Upset Watch', 'pub') + sec('All candidates', 'all') + '</tbody>'
-      : '<tbody><tr><td class="dim">No finished candidate games yet.</td></tr></tbody>';
+    $('uRec').innerHTML = up.length ? `<thead><tr class="cols"><th style="text-align:left">Week</th><th>Games</th><th>Upset – Favorite won</th></tr></thead><tbody>${up.join('')}<tr class="tot"><th style="text-align:left">Season</th><td>${U[0]+U[1]}</td><td>${wl(U)}${pct(U)}</td></tr></tbody>`
+      : '<tbody><tr><td class="dim">No finished Upset Watch games yet.</td></tr></tbody>';
+    $('lCmp').innerHTML = cmp.length ? `<thead><tr class="cols"><th style="text-align:left">Week</th><th>Games</th><th>Wolp+ vs line</th><th>Wolp+ winner</th></tr></thead><tbody>${cmp.join('')}<tr class="tot"><th style="text-align:left">Season</th><td>${C.n}</td><td>${wl(C.ats)}${pct(C.ats)}</td><td>${wl(C.su)}${pct(C.su)}</td></tr></tbody>`
+      : '<tbody><tr><td class="dim">No finished games where Wolp+ and the line disagree yet.</td></tr></tbody>';
   }
   // Model comparison (#25): the Scorecard's games and picks, plus SP+ (owner only)
   function renderModelCmp(){
