@@ -799,6 +799,9 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       <section class="sec"><div class="sh"><h2>Upset Watch results</h2></div>
         <p class="note" style="margin:0 0 10px">Finished games where Wolp+ and the line disagree (Wolp+ favors the underdog, or they differ by 7+ points), from the spreads saved before kickoff. <b>Underdog won</b> = the line's underdog won. <b>Wolp+ vs line</b> = the result landed on Wolp+'s side of the line (pushes left out). <b>Wolp+ winner</b> = the team Wolp+ favored won.</p>
         <div class="tblw"><table id="uRec"></table></div></section>
+      <section class="sec"><div class="sh"><h2>Model comparison</h2></div>
+        <p class="note" style="margin:0 0 10px">Winners picked in the Scorecard's games (FBS games with a Straw Poll or AP Top 25 team). Wolp+ = its pre-kickoff spread; ESPN FPI and SP+ = their ratings saved before the week plus home field; Line = the favorite. SP+ is saved from week 7 on. Hover a cell for the count.</p>
+        <div class="tblw"><table id="mCmp"></table></div></section>
   </section>
 </main>
 
@@ -2581,9 +2584,26 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     $('uRec').innerHTML = rows.length ? head + '<tbody>' + sec('Published to Upset Watch', 'pub') + sec('All candidates', 'all') + '</tbody>'
       : '<tbody><tr><td class="dim">No finished candidate games yet.</td></tr></tbody>';
   }
+  // Model comparison (#25): the Scorecard's games and picks, plus SP+ (owner only)
+  function renderModelCmp(){
+    const SYS=['Wolp+','ESPN FPI','SP+','Line'], tot={}; SYS.forEach(k=>tot[k]=[0,0]); let totN=0;
+    const cell = r => r[0]+r[1] ? `<td title="${r[0]} of ${r[0]+r[1]} right">${Math.round(100*r[0]/(r[0]+r[1]))}%</td>` : '<td class="dim">—</td>';
+    const rows = (S.picks||[]).filter(w=>w.games.some(g=>g.hp!=null)).map(w=>{
+      const rm = S.weeks[w.week] ? rankMap(w.week) : null, ap=w.ap||null, rec={}; SYS.forEach(k=>rec[k]=[0,0]); let n=0;
+      w.games.forEach(g=>{
+        if(g.hp==null || g.hp===g.ap || !S.teams[g.home] || !S.teams[g.away]) return;
+        if(!((rm && ((rm[g.home]||99)<=TOP || (rm[g.away]||99)<=TOP)) || (ap && (ap[g.home] || ap[g.away])))) return;
+        n++; const homeWon=g.hp>g.ap, picks={'Wolp+':wolpPick(w,g), 'ESPN FPI':fpiPick(w.fpi,g), 'SP+':fpiPick(w.sp,g), 'Line': typeof g.line==='number' && g.line!==0 ? g.line>0 : null};
+        SYS.forEach(k=>{ if(picks[k]===null) return; const ok=picks[k]===homeWon; rec[k][ok?0:1]++; tot[k][ok?0:1]++; });
+      });
+      totN+=n; return !n ? '' : `<tr><th style="text-align:left">Week ${w.week}</th><td>${n}</td>${SYS.map(k=>cell(rec[k])).join('')}</tr>`;
+    });
+    $('mCmp').innerHTML = rows.length ? `<thead><tr class="cols"><th style="text-align:left">Week</th><th>Games</th>${SYS.map(k=>`<th>${k}</th>`).join('')}</tr></thead><tbody>${rows.join('')}<tr class="tot"><th style="text-align:left">Season</th><td>${totN}</td>${SYS.map(k=>cell(tot[k])).join('')}</tr></tbody>`
+      : '<tbody><tr><td class="dim">The first week is graded once its games are final.</td></tr></tbody>';
+  }
   function renderAdmin(){
     if(!S.isOwner) return;
-    renderUpsetRecord();
+    renderUpsetRecord(); renderModelCmp();
     const o=openWeekNum(), nx=S.vote.next;
     $('adminVote').innerHTML = S.vote.state==='loading' ? 'Loading…' : S.vote.state==='error' ? esc(sbErr(S.vote.err, 'Voting status couldn’t load. Reload the page to try again.'))
       : o!=null ? `Week ${o} voting is open until <b>${esc(etTime(lockOf(o)))}</b>.`
