@@ -112,7 +112,7 @@ h2 small{font:400 13px var(--body);color:var(--muted);margin-left:10px}
 .games{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
 .game{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
 .game.hot{border-color:#6b4f1a;box-shadow:inset 0 3px 0 var(--gold)}
-.game.hot.hit{border-color:#1f5a37;box-shadow:inset 0 3px 0 var(--win)} .game.hot.miss{border-color:#6b2a24;box-shadow:inset 0 3px 0 var(--loss)}  /* Upset Watch: underdog won / favorite won */
+.game.hot.hit{border-color:#1f5a37;box-shadow:inset 0 3px 0 var(--win)} .game.hot.miss{border-color:var(--line);box-shadow:inset 0 3px 0 var(--neutral)}  /* Upset Watch: underdog won / favorite won */
 .gtop{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px;min-height:22px}
 .when{color:var(--muted);font-size:12.5px}
 .tag{font:600 11px var(--body);letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:999px;white-space:nowrap}
@@ -1235,7 +1235,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     const card = (g, up, inUps) => { const mFav = typeof g.model==='number' && g.model!==0 ? (g.model>0?g.home:g.away) : null, lFav = typeof g.line==='number' && Math.abs(g.line)>=1 ? (g.line>0?g.home:g.away) : null;   // under 1 point = toss-up, no favorite
       const sc = gameScore(g), done = sc.state==='final', live = sc.state==='live', won = done ? (sc.hp>sc.ap ? g.home : g.away) : null;
       // Upset! = the kickoff line's underdog won. Upset Watch games (in its section and highlighted in big games): gold while
-      // pending, then green Upset! / red Favorite won. Wolp+ vs the line is judged separately, on the Admin tab (owner, #26).
+      // pending, then green Upset! / gray Favorite won. Wolp+ vs the line is judged separately, on the Admin tab (owner, #26).
       const result = !done || !lFav ? '' : won!==lFav ? '<span class="tag hit">Upset!</span>' : '<span class="tag miss">Favorite won</span>';
       const score = a => done || live ? `<span class="sc${done && a!==won ? ' lost' : ''}">${a===g.home ? sc.hp : sc.ap}</span>` : '';
       const side = a => `<div class="side${done||live?' scored':''}">${logo(a)}<div><b><button class="tname" data-open="${esc(a)}">${rkBadge(ranks[a])}${esc(nm(a))}</button></b><small>${S.teams[a]?rec(S.teams[a].w,S.teams[a].l):'FCS'}${apG[a]?' · AP #'+apG[a]:''}</small></div>${score(a)}</div>`;
