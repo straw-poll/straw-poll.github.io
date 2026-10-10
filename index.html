@@ -112,14 +112,13 @@ h2 small{font:400 13px var(--body);color:var(--muted);margin-left:10px}
 .games{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
 .game{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
 .game.hot{border-color:#6b4f1a;box-shadow:inset 0 3px 0 var(--gold)}
-.game.hot.hit{border-color:#1f5a37;box-shadow:inset 0 3px 0 var(--win)} .game.hot.miss{border-color:#6b2a24;box-shadow:inset 0 3px 0 var(--loss)}  /* Upset Watch: underdog won / favorite won */
+.game.hot.hit{border-color:#1f5a37;box-shadow:inset 0 3px 0 var(--win)} .game.hot.miss{border-color:#6b2a24;box-shadow:inset 0 3px 0 var(--loss)}  /* Upset Watch: Wolp+ called it / missed */
 .gtop{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px;min-height:22px}
 .when{color:var(--muted);font-size:12.5px}
 .tag{font:600 11px var(--body);letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:999px;white-space:nowrap}
 .tag.up{background:#3d3115;color:var(--gold)}
 .when.live,td.live{color:var(--loss);font-weight:600}
-.tag.wcall{background:#3d3115;color:var(--gold)} .tag.wmiss{background:var(--panel2);color:var(--muted)}
-.game.hot.wcall{border-color:var(--gold);box-shadow:inset 0 3px 0 var(--gold)} .game.hot.wmiss{border-color:var(--line);box-shadow:inset 0 3px 0 var(--neutral)}   /* Upset Watch: Wolp+ called it / missed */
+.tag.wmiss{background:#3a1a17;color:var(--loss)}   /* Upset Watch: Wolp+ missed */
 .tag.hit{background:#163a26;color:var(--win)} .tag.miss{background:var(--panel2);color:var(--muted)}
 .side.scored{grid-template-columns:32px minmax(0,1fr) auto}
 .side .sc{font:800 24px var(--cond);color:var(--ink);font-variant-numeric:tabular-nums} .side .sc.lost{color:var(--muted)}
@@ -1230,10 +1229,11 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     // a game card; a finished game (final score from picks: hp/ap) shows the score and whether the betting underdog won
     const card = (g, up, inUps) => { const mFav = typeof g.model==='number' && g.model!==0 ? (g.model>0?g.home:g.away) : null, lFav = typeof g.line==='number' ? (g.line>0?g.home:g.away) : null;
       const sc = gameScore(g), done = sc.state==='final', live = sc.state==='live', won = done ? (sc.hp>sc.ap ? g.home : g.away) : null;
-      // Upset Watch section: judged by Wolp+'s call (gold = called it, gray = missed), so a line that moves before kickoff
-      // can't mislabel it (#26). Big games keep Upset! / Favorite won by the line.
-      const call = inUps && done && mFav ? (won===mFav ? 'wcall' : 'wmiss') : '';
-      const result = call ? `<span class="tag ${call}">${call==='wcall' ? 'Wolp+ called it' : 'Wolp+ missed'}</span>`
+      // Upset Watch games (in its section and in big games) are judged by Wolp+'s call: green = Wolp+'s team won, red = it
+      // lost, gold while pending, so a line that moves before kickoff can't mislabel one (#26). Other big games keep
+      // Upset! / Favorite won by the line.
+      const call = up && done && mFav ? (won===mFav ? 'hit' : 'miss') : '';
+      const result = call ? `<span class="tag ${call==='hit' ? 'hit' : 'wmiss'}">${call==='hit' ? 'Wolp+ called it' : 'Wolp+ missed'}</span>`
         : !done || !lFav ? '' : won!==lFav ? '<span class="tag hit">Upset!</span>' : '<span class="tag miss">Favorite won</span>';
       const score = a => done || live ? `<span class="sc${done && a!==won ? ' lost' : ''}">${a===g.home ? sc.hp : sc.ap}</span>` : '';
       const side = a => `<div class="side${done||live?' scored':''}">${logo(a)}<div><b><button class="tname" data-open="${esc(a)}">${rkBadge(ranks[a])}${esc(nm(a))}</button></b><small>${S.teams[a]?rec(S.teams[a].w,S.teams[a].l):'FCS'}${apG[a]?' · AP #'+apG[a]:''}</small></div>${score(a)}</div>`;
@@ -2141,8 +2141,9 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
 
   // ---------- WORKSPACE: upset alerts ----------
   function upsetCands(){
-    const sch=S.schedule||{};
-    return (sch.games||[]).filter(g=>S.teams[g.home] && S.teams[g.away]).map(g=>{
+    const sch=S.schedule||{}, have=new Set((sch.games||[]).map(g=>String(g.id))), pubd=(S.upsets||{})[sch.week]||{};
+    const done=(((S.picks||[]).find(p=>p.week===sch.week))||{games:[]}).games.filter(g=>pubd[g.id] && !have.has(String(g.id)));   // published, already played
+    return (sch.games||[]).concat(done).filter(g=>S.teams[g.home] && S.teams[g.away]).map(g=>{
       const has = typeof g.model==='number' && typeof g.line==='number';
       const dog = has && Math.abs(g.line)>=0.5 && (g.model>0)!==(g.line>0);
       const gap = has ? Math.abs(g.model-g.line) : 0;
