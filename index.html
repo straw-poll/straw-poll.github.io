@@ -118,6 +118,8 @@ h2 small{font:400 13px var(--body);color:var(--muted);margin-left:10px}
 .tag{font:600 11px var(--body);letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:999px;white-space:nowrap}
 .tag.up{background:#3d3115;color:var(--gold)}
 .when.live,td.live{color:var(--loss);font-weight:600}
+.tag.wcall{background:#3d3115;color:var(--gold)} .tag.wmiss{background:var(--panel2);color:var(--muted)}
+.game.hot.wcall{border-color:var(--gold);box-shadow:inset 0 3px 0 var(--gold)} .game.hot.wmiss{border-color:var(--line);box-shadow:inset 0 3px 0 var(--neutral)}   /* Upset Watch: Wolp+ called it / missed */
 .tag.hit{background:#163a26;color:var(--win)} .tag.miss{background:var(--panel2);color:var(--muted)}
 .side.scored{grid-template-columns:32px minmax(0,1fr) auto}
 .side .sc{font:800 24px var(--cond);color:var(--ink);font-variant-numeric:tabular-nums} .side .sc.lost{color:var(--muted)}
@@ -1226,13 +1228,17 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     const games=(held ? held.games : sch.games||[]).filter(g=>S.teams[g.home]||S.teams[g.away]);
     const upW = (S.upsets||{})[hw] || {}, upNext = (S.upsets||{})[sch.week] || {};
     // a game card; a finished game (final score from picks: hp/ap) shows the score and whether the betting underdog won
-    const card = (g, up, inUps) => { const mFav = typeof g.model==='number' ? (g.model>0?g.home:g.away) : null, lFav = typeof g.line==='number' ? (g.line>0?g.home:g.away) : null;
+    const card = (g, up, inUps) => { const mFav = typeof g.model==='number' && g.model!==0 ? (g.model>0?g.home:g.away) : null, lFav = typeof g.line==='number' ? (g.line>0?g.home:g.away) : null;
       const sc = gameScore(g), done = sc.state==='final', live = sc.state==='live', won = done ? (sc.hp>sc.ap ? g.home : g.away) : null;
-      const result = !done || !lFav ? '' : won!==lFav ? '<span class="tag hit">Upset!</span>' : '<span class="tag miss">Favorite won</span>';
+      // Upset Watch section: judged by Wolp+'s call (gold = called it, gray = missed), so a line that moves before kickoff
+      // can't mislabel it (#26). Big games keep Upset! / Favorite won by the line.
+      const call = inUps && done && mFav ? (won===mFav ? 'wcall' : 'wmiss') : '';
+      const result = call ? `<span class="tag ${call}">${call==='wcall' ? 'Wolp+ called it' : 'Wolp+ missed'}</span>`
+        : !done || !lFav ? '' : won!==lFav ? '<span class="tag hit">Upset!</span>' : '<span class="tag miss">Favorite won</span>';
       const score = a => done || live ? `<span class="sc${done && a!==won ? ' lost' : ''}">${a===g.home ? sc.hp : sc.ap}</span>` : '';
       const side = a => `<div class="side${done||live?' scored':''}">${logo(a)}<div><b><button class="tname" data-open="${esc(a)}">${rkBadge(ranks[a])}${esc(nm(a))}</button></b><small>${S.teams[a]?rec(S.teams[a].w,S.teams[a].l):'FCS'}${apG[a]?' · AP #'+apG[a]:''}</small></div>${score(a)}</div>`;
       S.gmap[g.id] = g;
-      return `<div class="game${up?' hot':''}${up && result ? (won!==lFav?' hit':' miss') : ''}" data-game="${esc(g.id)}"><div class="gtop"><span class="when${live?' live':''}">${done ? 'Final' : live ? `Live · ${esc(sc.detail)}` : esc(kick(g.start))}</span>${result || (up && !inUps?'<span class="tag up">Upset Watch</span>':'')}</div>
+      return `<div class="game${up?' hot':''}${call ? ' '+call : up && result ? (won!==lFav?' hit':' miss') : ''}" data-game="${esc(g.id)}"><div class="gtop"><span class="when${live?' live':''}">${done ? 'Final' : live ? `Live · ${esc(sc.detail)}` : esc(kick(g.start))}</span>${result || (up && !inUps?'<span class="tag up">Upset Watch</span>':'')}</div>
         ${side(g.away)}<div class="at">${g.neutral?'vs':'at'}</div>${side(g.home)}
         <div class="nums"><div><small>Line</small><b>${spread(g.line,g.home,g.away)}</b></div><div><small>Wolp+</small><b class="${mFav && lFav && mFav!==lFav ? 'mup':''}">${modelTxt(g.model,g.home,g.away)}</b></div></div>
         ${up && up.note ? `<p class="gnote">${esc(up.note)}</p>` : ''}<button class="gov sr-only" data-game="${esc(g.id)}">Game overview: ${esc(nm(g.away))} ${g.neutral?'vs':'at'} ${esc(nm(g.home))}</button></div>`; };
