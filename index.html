@@ -1562,11 +1562,11 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   // ---------- my ballots (Supabase) ----------
   // The database decides who may submit, until when, and what a valid ballot is. The page mirrors those rules so
   // people see the right controls, and shows the database's answer in plain English when it refuses.
-  // A week is OPEN until its deadline, then LATE for 7 days (a ballot sent then waits for the owner's approval,
+  // A week is OPEN until its deadline, then LATE until Saturday 11 AM ET (a ballot sent then waits for the owner's approval,
   // backend/008_late_ballots.sql), then CLOSED. Before it opens (the Mac opens it on Sunday morning, once the previous
   // week's games are final) the coming week is SOON: people can build their ballot, kept in this browser, but not submit.
   const BMAX = 25;          // a Straw Poll ballot is exactly 25 teams (the archived weeks 1-5 ballots had up to 35)
-  const LATE_MS = 7*864e5;  // must match the late window in backend/008_late_ballots.sql
+  const LATE_MS = (4*24+18)*36e5;  // deadline + 4 days 18 hours = Saturday 11 AM ET; must match backend/015_late_window.sql
   S.vote = {season:null, state:'idle', weeks:{}, mine:{}, late:{}, next:null};  // weeks: {week: deadline}; mine/late: {week: ballot}; next: the SOON week
   S.busy = false;
   const serverNow = () => Date.now() + (S.clockSkew||0);  // S.clockSkew: see the accounts section
@@ -1644,7 +1644,9 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     const open=openWeekNum(), sw=S.schedule && S.schedule.week;
     if(open==null && sw!=null && !S.vote.weeks[sw+1]) S.vote.next = sw+1;
     const menu=weekMenu();
-    loadWeek(open!=null ? open : S.vote.next!=null ? S.vote.next : menu.length ? menu[menu.length-1] : null);
+    // voting closed and you haven't voted that week: show the late week (its window ends Saturday 11 AM ET), not next week's draft (#28)
+    const lateWk = open!=null ? null : Object.keys(S.vote.weeks).map(Number).filter(w=>phase(w)==='late' && !S.vote.mine[w] && !(S.vote.late[w] && S.vote.late[w].status==='declined')).sort((a,b)=>b-a)[0];
+    loadWeek(open!=null ? open : lateWk!=null ? lateWk : S.vote.next!=null ? S.vote.next : menu.length ? menu[menu.length-1] : null);
   }
   function clearVoting(){ S.vote = {season:null, state:'idle', weeks:{}, mine:{}, late:{}, next:null}; S.cur=null; S.draft=[]; S.dirty=false; clearTimeout(lockTimer); }
   function loadWeek(n){
