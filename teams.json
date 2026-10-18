@@ -1,6 +1,6 @@
 {
  "season": 2026,
- "updatedAt": "2026-10-18T11:07:39.513843+00:00",
+ "updatedAt": "2026-10-18T19:07:27.355384+00:00",
  "through": "games through Sat, Oct 17",
  "teams": {
   "Air Force": {
@@ -14,8 +14,8 @@
    "lyW": 4,
    "lyL": 8,
    "lyAp": null,
-   "fpi": -3.467,
-   "fpiRank": 82,
+   "fpi": -2.141,
+   "fpiRank": 79,
    "games": [
     {
      "date": "2026-09-05",
@@ -100,8 +100,8 @@
    "lyW": 5,
    "lyL": 7,
    "lyAp": null,
-   "fpi": -20.995,
-   "fpiRank": 132,
+   "fpi": -22.111,
+   "fpiRank": 134,
    "games": [
     {
      "date": "2026-09-03",
@@ -195,8 +195,8 @@
    "lyW": 10,
    "lyL": 3,
    "lyAp": 9,
-   "fpi": 26.634,
-   "fpiRank": 5,
+   "fpi": 24.21,
+   "fpiRank": 6,
    "games": [
     {
      "date": "2026-09-05",
@@ -290,8 +290,8 @@
    "lyW": 5,
    "lyL": 7,
    "lyAp": null,
-   "fpi": -9.496,
-   "fpiRank": 104,
+   "fpi": -8.908,
+   "fpiRank": 101,
    "games": [
     {
      "date": "2026-09-05",
@@ -376,8 +376,8 @@
    "lyW": 9,
    "lyL": 3,
    "lyAp": null,
-   "fpi": 10.441,
-   "fpiRank": 35,
+   "fpi": 10.495,
+   "fpiRank": 33,
    "games": [
     {
      "date": "2026-09-05",
@@ -462,8 +462,8 @@
    "lyW": 8,
    "lyL": 4,
    "lyAp": null,
-   "fpi": -0.264,
-   "fpiRank": 70,
+   "fpi": -1.291,
+   "fpiRank": 75,
    "games": [
     {
      "date": "2026-09-05",
@@ -548,8 +548,8 @@
    "lyW": 2,
    "lyL": 10,
    "lyAp": null,
-   "fpi": 1.307,
-   "fpiRank": 61,
+   "fpi": 2.157,
+   "fpiRank": 58,
    "games": [
     {
      "date": "2026-09-05",
@@ -643,8 +643,8 @@
    "lyW": 6,
    "lyL": 6,
    "lyAp": null,
-   "fpi": -9.726,
-   "fpiRank": 106,
+   "fpi": -8.535,
+   "fpiRank": 99,
    "games": [
     {
      "date": "2026-09-05",
@@ -738,8 +738,8 @@
    "lyW": 6,
    "lyL": 6,
    "lyAp": null,
-   "fpi": -3.089,
-   "fpiRank": 79,
+   "fpi": -0.043,
+   "fpiRank": 69,
    "games": [
     {
      "date": "2026-09-05",
@@ -824,8 +824,8 @@
    "lyW": 5,
    "lyL": 7,
    "lyAp": null,
-   "fpi": 11.443,
-   "fpiRank": 31,
+   "fpi": 13.426,
+   "fpiRank": 21,
    "games": [
     {
      "date": "2026-09-05",
@@ -910,7 +910,7 @@
    "lyW": 11,
    "lyL": 2,
    "lyAp": 11,
-   "fpi": 15.723,
+   "fpi": 17.359,
    "fpiRank": 14,
    "games": [
     {
@@ -996,8 +996,8 @@
    "lyW": 4,
    "lyL": 8,
    "lyAp": null,
-   "fpi": -21.592,
-   "fpiRank": 133,
+   "fpi": -21.084,
+   "fpiRank": 132,
    "games": [
     {
      "date": "2026-09-05",
@@ -1091,8 +1091,8 @@
    "lyW": 5,
    "lyL": 7,
    "lyAp": null,
-   "fpi": 11.118,
-   "fpiRank": 33,
+   "fpi": 9.965,
+   "fpiRank": 34,
    "games": [
     {
      "date": "2026-09-05",
@@ -1177,8 +1177,8 @@
    "lyW": 9,
    "lyL": 4,
    "lyAp": null,
-   "fpi": 11.907,
-   "fpiRank": 29,
+   "fpi": 11.356,
+   "fpiRank": 30,
    "games": [
     {
      "date": "2026-09-05",
@@ -1263,8 +1263,8 @@
    "lyW": 2,
    "lyL": 10,
    "lyAp": null,
-   "fpi": -5.323,
-   "fpiRank": 91,
+   "fpi": -2.615,
+   "fpiRank": 82,
    "games": [
     {
      "date": "2026-09-05",
@@ -1349,8 +1349,8 @@
    "lyW": 4,
    "lyL": 8,
    "lyAp": null,
-   "fpi": -16.795,
-   "fpiRank": 128,
+   "fpi": -17.657,
+   "fpiRank": 129,
    "games": [
     {
      "date": "2026-09-05",
@@ -1444,8 +1444,8 @@
    "lyW": 5,
    "lyL": 7,
    "lyAp": null,
-   "fpi": -12.807,
-   "fpiRank": 115,
+   "fpi": -12.876,
+   "fpiRank": 114,
    "games": [
     {
      "date": "2026-09-03",
@@ -1539,8 +1539,8 @@
    "lyW": 7,
    "lyL": 5,
    "lyAp": null,
-   "fpi": -1.847,
-   "fpiRank": 75,
+   "fpi": -3.946,
+   "fpiRank": 88,
    "games": [
     {
      "date": "2026-09-05",
@@ -1634,8 +1634,8 @@
    "lyW": 7,
    "lyL": 5,
    "lyAp": null,
-   "fpi": -14.442,
-   "fpiRank": 123,
+   "fpi": -14.289,
+   "fpiRank": 121,
    "games": [
     {
      "date": "2026-09-05",
@@ -1729,8 +1729,8 @@
    "lyW": 1,
    "lyL": 11,
    "lyAp": null,
-   "fpi": -25.21,
-   "fpiRank": 137,
+   "fpi": -21.918,
+   "fpiRank": 133,
    "games": [
     {
      "date": "2026-09-05",
@@ -1824,7 +1824,7 @@
    "lyW": 7,
    "lyL": 5,
    "lyAp": null,
-   "fpi": 3.595,
+   "fpi": 3.511,
    "fpiRank": 56,
    "games": [
     {
@@ -1910,8 +1910,8 @@
    "lyW": 7,
    "lyL": 5,
    "lyAp": null,
-   "fpi": 6.766,
-   "fpiRank": 45,
+   "fpi": 6.459,
+   "fpiRank": 48,
    "games": [
     {
      "date": "2026-09-05",
@@ -1996,8 +1996,8 @@
    "lyW": 6,
    "lyL": 6,
    "lyAp": null,
-   "fpi": -12.618,
-   "fpiRank": 111,
+   "fpi": -13.063,
+   "fpiRank": 115,
    "games": [
     {
      "date": "2026-09-05",
@@ -2091,8 +2091,8 @@
    "lyW": 3,
    "lyL": 9,
    "lyAp": null,
-   "fpi": -0.398,
-   "fpiRank": 71,
+   "fpi": 0.965,
+   "fpiRank": 63,
    "games": [
     {
      "date": "2026-09-03",
@@ -2177,8 +2177,8 @@
    "lyW": 2,
    "lyL": 10,
    "lyAp": null,
-   "fpi": -9.641,
-   "fpiRank": 105,
+   "fpi": -12.59,
+   "fpiRank": 113,
    "games": [
     {
      "date": "2026-09-05",
@@ -2263,8 +2263,8 @@
    "lyW": 6,
    "lyL": 6,
    "lyAp": null,
-   "fpi": -12.623,
-   "fpiRank": 112,
+   "fpi": -14.074,
+   "fpiRank": 120,
    "games": [
     {
      "date": "2026-09-03",
@@ -2349,8 +2349,8 @@
    "lyW": 8,
    "lyL": 5,
    "lyAp": null,
-   "fpi": 8.034,
-   "fpiRank": 43,
+   "fpi": 7.762,
+   "fpiRank": 44,
    "games": [
     {
      "date": "2026-09-05",
@@ -2435,8 +2435,8 @@
    "lyW": 8,
    "lyL": 4,
    "lyAp": null,
-   "fpi": -3.849,
-   "fpiRank": 84,
+   "fpi": -5.244,
+   "fpiRank": 90,
    "games": [
     {
      "date": "2026-09-05",
@@ -2521,8 +2521,8 @@
    "lyW": 4,
    "lyL": 8,
    "lyAp": null,
-   "fpi": -15.384,
-   "fpiRank": 125,
+   "fpi": -16.706,
+   "fpiRank": 128,
    "games": [
     {
      "date": "2026-08-29",
@@ -2625,8 +2625,8 @@
    "lyW": 4,
    "lyL": 8,
    "lyAp": null,
-   "fpi": 12.615,
-   "fpiRank": 25,
+   "fpi": 14.335,
+   "fpiRank": 19,
    "games": [
     {
      "date": "2026-09-05",
@@ -2720,8 +2720,8 @@
    "lyW": 4,
    "lyL": 8,
    "lyAp": null,
-   "fpi": -7.587,
-   "fpiRank": 98,
+   "fpi": -10.1,
+   "fpiRank": 107,
    "games": [
     {
      "date": "2026-09-05",
@@ -2806,8 +2806,8 @@
    "lyW": 7,
    "lyL": 5,
    "lyAp": null,
-   "fpi": -8.991,
-   "fpiRank": 101,
+   "fpi": -9.152,
+   "fpiRank": 103,
    "games": [
     {
      "date": "2026-09-05",
@@ -2892,8 +2892,8 @@
    "lyW": 5,
    "lyL": 7,
    "lyAp": null,
-   "fpi": 8.387,
-   "fpiRank": 41,
+   "fpi": 9.585,
+   "fpiRank": 36,
    "games": [
     {
      "date": "2026-08-29",
@@ -2987,8 +2987,8 @@
    "lyW": 8,
    "lyL": 4,
    "lyAp": null,
-   "fpi": 1.071,
-   "fpiRank": 64,
+   "fpi": -0.671,
+   "fpiRank": 73,
    "games": [
     {
      "date": "2026-09-04",
@@ -3082,8 +3082,8 @@
    "lyW": 12,
    "lyL": 1,
    "lyAp": 6,
-   "fpi": 28.683,
-   "fpiRank": 2,
+   "fpi": 26.68,
+   "fpiRank": 3,
    "games": [
     {
      "date": "2026-09-05",
@@ -3177,8 +3177,8 @@
    "lyW": 6,
    "lyL": 6,
    "lyAp": null,
-   "fpi": -5.206,
-   "fpiRank": 90,
+   "fpi": -4.637,
+   "fpiRank": 89,
    "games": [
     {
      "date": "2026-09-05",
@@ -3272,8 +3272,8 @@
    "lyW": 1,
    "lyL": 11,
    "lyAp": null,
-   "fpi": -3.47,
-   "fpiRank": 83,
+   "fpi": -5.867,
+   "fpiRank": 92,
    "games": [
     {
      "date": "2026-09-04",
@@ -3358,8 +3358,8 @@
    "lyW": 9,
    "lyL": 3,
    "lyAp": null,
-   "fpi": 0.477,
-   "fpiRank": 67,
+   "fpi": 0.337,
+   "fpiRank": 68,
    "games": [
     {
      "date": "2026-09-03",
@@ -3444,8 +3444,8 @@
    "lyW": 8,
    "lyL": 4,
    "lyAp": null,
-   "fpi": -12.765,
-   "fpiRank": 114,
+   "fpi": -12.256,
+   "fpiRank": 111,
    "games": [
     {
      "date": "2026-08-29",
@@ -3539,7 +3539,7 @@
    "lyW": 9,
    "lyL": 3,
    "lyAp": 22,
-   "fpi": 14.802,
+   "fpi": 14.765,
    "fpiRank": 18,
    "games": [
     {
@@ -3634,7 +3634,7 @@
    "lyW": 8,
    "lyL": 4,
    "lyAp": null,
-   "fpi": 4.485,
+   "fpi": 4.367,
    "fpiRank": 53,
    "games": [
     {
@@ -3720,8 +3720,8 @@
    "lyW": 13,
    "lyL": 0,
    "lyAp": 1,
-   "fpi": 25.53,
-   "fpiRank": 7,
+   "fpi": 25.357,
+   "fpiRank": 5,
    "games": [
     {
      "date": "2026-09-05",
@@ -3815,8 +3815,8 @@
    "lyW": 8,
    "lyL": 4,
    "lyAp": 17,
-   "fpi": 13.104,
-   "fpiRank": 23,
+   "fpi": 13.068,
+   "fpiRank": 25,
    "games": [
     {
      "date": "2026-09-05",
@@ -3901,8 +3901,8 @@
    "lyW": 8,
    "lyL": 4,
    "lyAp": null,
-   "fpi": 4.222,
-   "fpiRank": 55,
+   "fpi": 4.276,
+   "fpiRank": 54,
    "games": [
     {
      "date": "2026-09-05",
@@ -3987,8 +3987,8 @@
    "lyW": 8,
    "lyL": 5,
    "lyAp": null,
-   "fpi": -8.553,
-   "fpiRank": 99,
+   "fpi": -8.35,
+   "fpiRank": 97,
    "games": [
     {
      "date": "2026-08-29",
@@ -4082,8 +4082,8 @@
    "lyW": 12,
    "lyL": 1,
    "lyAp": 19,
-   "fpi": 5.119,
-   "fpiRank": 51,
+   "fpi": 6.976,
+   "fpiRank": 46,
    "games": [
     {
      "date": "2026-09-05",
@@ -4177,8 +4177,8 @@
    "lyW": 5,
    "lyL": 7,
    "lyAp": null,
-   "fpi": 4.914,
-   "fpiRank": 52,
+   "fpi": 3.727,
+   "fpiRank": 55,
    "games": [
     {
      "date": "2026-09-04",
@@ -4263,8 +4263,8 @@
    "lyW": 6,
    "lyL": 6,
    "lyAp": null,
-   "fpi": 6.816,
-   "fpiRank": 44,
+   "fpi": 7.617,
+   "fpiRank": 45,
    "games": [
     {
      "date": "2026-09-05",
@@ -4349,8 +4349,8 @@
    "lyW": 10,
    "lyL": 3,
    "lyAp": null,
-   "fpi": -10.406,
-   "fpiRank": 108,
+   "fpi": -11.406,
+   "fpiRank": 109,
    "games": [
     {
      "date": "2026-09-03",
@@ -4435,8 +4435,8 @@
    "lyW": 5,
    "lyL": 7,
    "lyAp": null,
-   "fpi": -21.638,
-   "fpiRank": 134,
+   "fpi": -22.334,
+   "fpiRank": 135,
    "games": [
     {
      "date": "2026-09-05",
@@ -4530,8 +4530,8 @@
    "lyW": 5,
    "lyL": 7,
    "lyAp": null,
-   "fpi": 11.716,
-   "fpiRank": 30,
+   "fpi": 12.74,
+   "fpiRank": 26,
    "games": [
     {
      "date": "2026-09-05",
@@ -4625,7 +4625,7 @@
    "lyW": 7,
    "lyL": 5,
    "lyAp": null,
-   "fpi": 20.937,
+   "fpi": 22.965,
    "fpiRank": 8,
    "games": [
     {
@@ -4720,8 +4720,8 @@
    "lyW": 4,
    "lyL": 8,
    "lyAp": null,
-   "fpi": 0.978,
-   "fpiRank": 65,
+   "fpi": 0.689,
+   "fpiRank": 64,
    "games": [
     {
      "date": "2026-09-05",
@@ -4806,8 +4806,8 @@
    "lyW": 6,
    "lyL": 6,
    "lyAp": null,
-   "fpi": -4.7,
-   "fpiRank": 86,
+   "fpi": -1.798,
+   "fpiRank": 76,
    "games": [
     {
      "date": "2026-09-05",
@@ -4901,8 +4901,8 @@
    "lyW": 7,
    "lyL": 5,
    "lyAp": null,
-   "fpi": -5.056,
-   "fpiRank": 88,
+   "fpi": -3.683,
+   "fpiRank": 87,
    "games": [
     {
      "date": "2026-09-05",
@@ -4987,8 +4987,8 @@
    "lyW": 8,
    "lyL": 4,
    "lyAp": null,
-   "fpi": 12.686,
-   "fpiRank": 24,
+   "fpi": 13.344,
+   "fpiRank": 23,
    "games": [
     {
      "date": "2026-09-06",
@@ -5082,8 +5082,8 @@
    "lyW": 5,
    "lyL": 7,
    "lyAp": null,
-   "fpi": -16.807,
-   "fpiRank": 129,
+   "fpi": -16.466,
+   "fpiRank": 126,
    "games": [
     {
      "date": "2026-09-05",
@@ -5168,8 +5168,8 @@
    "lyW": 4,
    "lyL": 8,
    "lyAp": null,
-   "fpi": -2.36,
-   "fpiRank": 77,
+   "fpi": -3.649,
+   "fpiRank": 85,
    "games": [
     {
      "date": "2026-09-05",
@@ -5263,8 +5263,8 @@
    "lyW": 0,
    "lyL": 12,
    "lyAp": null,
-   "fpi": -13.56,
-   "fpiRank": 121,
+   "fpi": -13.841,
+   "fpiRank": 118,
    "games": [
     {
      "date": "2026-09-03",
@@ -5358,8 +5358,8 @@
    "lyW": 8,
    "lyL": 4,
    "lyAp": null,
-   "fpi": 4.364,
-   "fpiRank": 54,
+   "fpi": 2.954,
+   "fpiRank": 57,
    "games": [
     {
      "date": "2026-08-29",
@@ -5453,7 +5453,7 @@
    "lyW": 10,
    "lyL": 2,
    "lyAp": 2,
-   "fpi": 27.675,
+   "fpi": 26.503,
    "fpiRank": 4,
    "games": [
     {
@@ -5539,8 +5539,8 @@
    "lyW": 7,
    "lyL": 6,
    "lyAp": null,
-   "fpi": -10.085,
-   "fpiRank": 107,
+   "fpi": -9.83,
+   "fpiRank": 106,
    "games": [
     {
      "date": "2026-09-05",
@@ -5634,8 +5634,8 @@
    "lyW": 9,
    "lyL": 3,
    "lyAp": 21,
-   "fpi": 10.864,
-   "fpiRank": 34,
+   "fpi": 10.897,
+   "fpiRank": 32,
    "games": [
     {
      "date": "2026-09-05",
@@ -5720,8 +5720,8 @@
    "lyW": 4,
    "lyL": 8,
    "lyAp": null,
-   "fpi": 1.362,
-   "fpiRank": 60,
+   "fpi": 1.669,
+   "fpiRank": 61,
    "games": [
     {
      "date": "2026-09-04",
@@ -5815,8 +5815,8 @@
    "lyW": 3,
    "lyL": 9,
    "lyAp": null,
-   "fpi": -19.391,
-   "fpiRank": 131,
+   "fpi": -18.275,
+   "fpiRank": 130,
    "games": [
     {
      "date": "2026-09-05",
@@ -5901,8 +5901,8 @@
    "lyW": 7,
    "lyL": 5,
    "lyAp": null,
-   "fpi": 0.254,
-   "fpiRank": 68,
+   "fpi": -0.247,
+   "fpiRank": 72,
    "games": [
     {
      "date": "2026-09-03",
@@ -5987,8 +5987,8 @@
    "lyW": 5,
    "lyL": 7,
    "lyAp": null,
-   "fpi": 12.166,
-   "fpiRank": 27,
+   "fpi": 9.077,
+   "fpiRank": 38,
    "games": [
     {
      "date": "2026-09-05",
@@ -6073,8 +6073,8 @@
    "lyW": 8,
    "lyL": 4,
    "lyAp": null,
-   "fpi": 15.095,
-   "fpiRank": 17,
+   "fpi": 12.266,
+   "fpiRank": 27,
    "games": [
     {
      "date": "2026-09-03",
@@ -6168,8 +6168,8 @@
    "lyW": 7,
    "lyL": 5,
    "lyAp": null,
-   "fpi": -16.406,
-   "fpiRank": 126,
+   "fpi": -14.74,
+   "fpiRank": 123,
    "games": [
     {
      "date": "2026-09-05",
@@ -6254,8 +6254,8 @@
    "lyW": 7,
    "lyL": 5,
    "lyAp": null,
-   "fpi": 0.941,
-   "fpiRank": 66,
+   "fpi": 1.125,
+   "fpiRank": 62,
    "games": [
     {
      "date": "2026-08-29",
@@ -6340,8 +6340,8 @@
    "lyW": 10,
    "lyL": 2,
    "lyAp": 23,
-   "fpi": -6.166,
-   "fpiRank": 93,
+   "fpi": -5.509,
+   "fpiRank": 91,
    "games": [
     {
      "date": "2026-09-05",
@@ -6426,8 +6426,8 @@
    "lyW": 7,
    "lyL": 5,
    "lyAp": null,
-   "fpi": 17.398,
-   "fpiRank": 12,
+   "fpi": 17.137,
+   "fpiRank": 15,
    "games": [
     {
      "date": "2026-09-05",
@@ -6521,8 +6521,8 @@
    "lyW": 3,
    "lyL": 9,
    "lyAp": null,
-   "fpi": -8.554,
-   "fpiRank": 100,
+   "fpi": -8.409,
+   "fpiRank": 98,
    "games": [
     {
      "date": "2026-09-05",
@@ -6607,8 +6607,8 @@
    "lyW": 9,
    "lyL": 3,
    "lyAp": null,
-   "fpi": 8.998,
-   "fpiRank": 38,
+   "fpi": 7.84,
+   "fpiRank": 43,
    "games": [
     {
      "date": "2026-09-05",
@@ -6693,8 +6693,8 @@
    "lyW": 4,
    "lyL": 8,
    "lyAp": null,
-   "fpi": -13.426,
-   "fpiRank": 119,
+   "fpi": -13.172,
+   "fpiRank": 116,
    "games": [
     {
      "date": "2026-08-29",
@@ -6779,8 +6779,8 @@
    "lyW": 4,
    "lyL": 8,
    "lyAp": null,
-   "fpi": 8.568,
-   "fpiRank": 39,
+   "fpi": 8.68,
+   "fpiRank": 41,
    "games": [
     {
      "date": "2026-08-29",
@@ -6865,8 +6865,8 @@
    "lyW": null,
    "lyL": null,
    "lyAp": null,
-   "fpi": 0.018,
-   "fpiRank": 69,
+   "fpi": -0.206,
+   "fpiRank": 71,
    "games": [
     {
      "date": "2026-08-29",
@@ -6960,7 +6960,7 @@
    "lyW": 11,
    "lyL": 2,
    "lyAp": 24,
-   "fpi": 1.644,
+   "fpi": 2.126,
    "fpiRank": 59,
    "games": [
     {
@@ -7046,8 +7046,8 @@
    "lyW": 3,
    "lyL": 9,
    "lyAp": null,
-   "fpi": -18.442,
-   "fpiRank": 130,
+   "fpi": -20.063,
+   "fpiRank": 131,
    "games": [
     {
      "date": "2026-09-05",
@@ -7132,8 +7132,8 @@
    "lyW": 6,
    "lyL": 6,
    "lyAp": null,
-   "fpi": 13.996,
-   "fpiRank": 20,
+   "fpi": 13.079,
+   "fpiRank": 24,
    "games": [
     {
      "date": "2026-09-05",
@@ -7218,8 +7218,8 @@
    "lyW": 10,
    "lyL": 2,
    "lyAp": 10,
-   "fpi": 29.463,
-   "fpiRank": 1,
+   "fpi": 27.858,
+   "fpiRank": 2,
    "games": [
     {
      "date": "2026-09-06",
@@ -7313,8 +7313,8 @@
    "lyW": 8,
    "lyL": 4,
    "lyAp": null,
-   "fpi": -9.304,
-   "fpiRank": 103,
+   "fpi": -7.085,
+   "fpiRank": 95,
    "games": [
     {
      "date": "2026-09-05",
@@ -7408,8 +7408,8 @@
    "lyW": 12,
    "lyL": 1,
    "lyAp": 5,
-   "fpi": 28.23,
-   "fpiRank": 3,
+   "fpi": 28.237,
+   "fpiRank": 1,
    "games": [
     {
      "date": "2026-09-05",
@@ -7503,8 +7503,8 @@
    "lyW": 10,
    "lyL": 2,
    "lyAp": 13,
-   "fpi": 15.124,
-   "fpiRank": 16,
+   "fpi": 13.348,
+   "fpiRank": 22,
    "games": [
     {
      "date": "2026-09-04",
@@ -7589,8 +7589,8 @@
    "lyW": 1,
    "lyL": 11,
    "lyAp": null,
-   "fpi": 8.271,
-   "fpiRank": 42,
+   "fpi": 8.952,
+   "fpiRank": 40,
    "games": [
     {
      "date": "2026-09-05",
@@ -7675,8 +7675,8 @@
    "lyW": 9,
    "lyL": 3,
    "lyAp": null,
-   "fpi": -13.324,
-   "fpiRank": 117,
+   "fpi": -14.021,
+   "fpiRank": 119,
    "games": [
     {
      "date": "2026-09-05",
@@ -7770,8 +7770,8 @@
    "lyW": 11,
    "lyL": 1,
    "lyAp": 3,
-   "fpi": 15.668,
-   "fpiRank": 15,
+   "fpi": 18.757,
+   "fpiRank": 11,
    "games": [
     {
      "date": "2026-09-06",
@@ -7856,8 +7856,8 @@
    "lyW": 11,
    "lyL": 1,
    "lyAp": 4,
-   "fpi": 19.465,
-   "fpiRank": 9,
+   "fpi": 19.04,
+   "fpiRank": 10,
    "games": [
     {
      "date": "2026-09-05",
@@ -7942,7 +7942,7 @@
    "lyW": 2,
    "lyL": 10,
    "lyAp": null,
-   "fpi": 6.043,
+   "fpi": 5.99,
    "fpiRank": 49,
    "games": [
     {
@@ -8037,8 +8037,8 @@
    "lyW": 6,
    "lyL": 6,
    "lyAp": null,
-   "fpi": 12.483,
-   "fpiRank": 26,
+   "fpi": 11.725,
+   "fpiRank": 28,
    "games": [
     {
      "date": "2026-09-05",
@@ -8132,8 +8132,8 @@
    "lyW": 8,
    "lyL": 4,
    "lyAp": null,
-   "fpi": 11.413,
-   "fpiRank": 32,
+   "fpi": 9.228,
+   "fpiRank": 37,
    "games": [
     {
      "date": "2026-09-05",
@@ -8227,8 +8227,8 @@
    "lyW": 2,
    "lyL": 10,
    "lyAp": null,
-   "fpi": 3.266,
-   "fpiRank": 58,
+   "fpi": 1.865,
+   "fpiRank": 60,
    "games": [
     {
      "date": "2026-09-04",
@@ -8322,8 +8322,8 @@
    "lyW": 5,
    "lyL": 7,
    "lyAp": null,
-   "fpi": -13.388,
-   "fpiRank": 118,
+   "fpi": -15.391,
+   "fpiRank": 124,
    "games": [
     {
      "date": "2026-09-05",
@@ -8417,8 +8417,8 @@
    "lyW": 5,
    "lyL": 7,
    "lyAp": null,
-   "fpi": -5.038,
-   "fpiRank": 87,
+   "fpi": -3.062,
+   "fpiRank": 83,
    "games": [
     {
      "date": "2026-09-03",
@@ -8503,8 +8503,8 @@
    "lyW": 8,
    "lyL": 4,
    "lyAp": null,
-   "fpi": 8.439,
-   "fpiRank": 40,
+   "fpi": 9.805,
+   "fpiRank": 35,
    "games": [
     {
      "date": "2026-09-07",
@@ -8589,7 +8589,7 @@
    "lyW": 0,
    "lyL": 1,
    "lyAp": null,
-   "fpi": -29.454,
+   "fpi": -32.438,
    "fpiRank": 138,
    "games": [
     {
@@ -8684,8 +8684,8 @@
    "lyW": 2,
    "lyL": 10,
    "lyAp": null,
-   "fpi": -14.213,
-   "fpiRank": 122,
+   "fpi": -16.672,
+   "fpiRank": 127,
    "games": [
     {
      "date": "2026-09-05",
@@ -8770,8 +8770,8 @@
    "lyW": 9,
    "lyL": 3,
    "lyAp": null,
-   "fpi": -10.879,
-   "fpiRank": 109,
+   "fpi": -8.849,
+   "fpiRank": 100,
    "games": [
     {
      "date": "2026-09-05",
@@ -8865,8 +8865,8 @@
    "lyW": 3,
    "lyL": 9,
    "lyAp": null,
-   "fpi": -12.709,
-   "fpiRank": 113,
+   "fpi": -12.517,
+   "fpiRank": 112,
    "games": [
     {
      "date": "2026-08-29",
@@ -8960,8 +8960,8 @@
    "lyW": 4,
    "lyL": 8,
    "lyAp": null,
-   "fpi": -7.415,
-   "fpiRank": 97,
+   "fpi": -6.821,
+   "fpiRank": 94,
    "games": [
     {
      "date": "2026-09-05",
@@ -9046,8 +9046,8 @@
    "lyW": 4,
    "lyL": 8,
    "lyAp": null,
-   "fpi": 12.131,
-   "fpiRank": 28,
+   "fpi": 11.629,
+   "fpiRank": 29,
    "games": [
     {
      "date": "2026-09-05",
@@ -9132,8 +9132,8 @@
    "lyW": 9,
    "lyL": 3,
    "lyAp": null,
-   "fpi": -2.666,
-   "fpiRank": 78,
+   "fpi": -2.179,
+   "fpiRank": 80,
    "games": [
     {
      "date": "2026-09-05",
@@ -9227,8 +9227,8 @@
    "lyW": 7,
    "lyL": 5,
    "lyAp": null,
-   "fpi": -13.444,
-   "fpiRank": 120,
+   "fpi": -14.674,
+   "fpiRank": 122,
    "games": [
     {
      "date": "2026-09-05",
@@ -9313,8 +9313,8 @@
    "lyW": 4,
    "lyL": 8,
    "lyAp": null,
-   "fpi": -11.749,
-   "fpiRank": 110,
+   "fpi": -11.375,
+   "fpiRank": 108,
    "games": [
     {
      "date": "2026-08-29",
@@ -9408,8 +9408,8 @@
    "lyW": 3,
    "lyL": 9,
    "lyAp": null,
-   "fpi": 1.098,
-   "fpiRank": 63,
+   "fpi": 0.526,
+   "fpiRank": 65,
    "games": [
     {
      "date": "2026-09-05",
@@ -9494,8 +9494,8 @@
    "lyW": 8,
    "lyL": 4,
    "lyAp": 25,
-   "fpi": 6.634,
-   "fpiRank": 47,
+   "fpi": 8.607,
+   "fpiRank": 42,
    "games": [
     {
      "date": "2026-08-29",
@@ -9580,8 +9580,8 @@
    "lyW": 5,
    "lyL": 7,
    "lyAp": null,
-   "fpi": -7.351,
-   "fpiRank": 96,
+   "fpi": -9.297,
+   "fpiRank": 104,
    "games": [
     {
      "date": "2026-09-05",
@@ -9675,8 +9675,8 @@
    "lyW": 8,
    "lyL": 4,
    "lyAp": null,
-   "fpi": 17.219,
-   "fpiRank": 13,
+   "fpi": 18.052,
+   "fpiRank": 12,
    "games": [
     {
      "date": "2026-09-05",
@@ -9770,8 +9770,8 @@
    "lyW": 9,
    "lyL": 3,
    "lyAp": 12,
-   "fpi": 25.548,
-   "fpiRank": 6,
+   "fpi": 23.637,
+   "fpiRank": 7,
    "games": [
     {
      "date": "2026-09-05",
@@ -9856,8 +9856,8 @@
    "lyW": 11,
    "lyL": 1,
    "lyAp": 8,
-   "fpi": 13.705,
-   "fpiRank": 21,
+   "fpi": 13.505,
+   "fpiRank": 20,
    "games": [
     {
      "date": "2026-09-05",
@@ -9951,8 +9951,8 @@
    "lyW": 6,
    "lyL": 6,
    "lyAp": null,
-   "fpi": -3.147,
-   "fpiRank": 80,
+   "fpi": -0.139,
+   "fpiRank": 70,
    "games": [
     {
      "date": "2026-09-05",
@@ -10037,8 +10037,8 @@
    "lyW": 12,
    "lyL": 1,
    "lyAp": 7,
-   "fpi": 18.613,
-   "fpiRank": 11,
+   "fpi": 19.374,
+   "fpiRank": 9,
    "games": [
     {
      "date": "2026-09-05",
@@ -10123,8 +10123,8 @@
    "lyW": 8,
    "lyL": 4,
    "lyAp": null,
-   "fpi": -4.446,
-   "fpiRank": 85,
+   "fpi": -3.414,
+   "fpiRank": 84,
    "games": [
     {
      "date": "2026-09-04",
@@ -10218,8 +10218,8 @@
    "lyW": 8,
    "lyL": 5,
    "lyAp": null,
-   "fpi": -6.173,
-   "fpiRank": 94,
+   "fpi": -9.566,
+   "fpiRank": 105,
    "games": [
     {
      "date": "2026-09-05",
@@ -10304,8 +10304,8 @@
    "lyW": 11,
    "lyL": 2,
    "lyAp": 18,
-   "fpi": -3.34,
-   "fpiRank": 81,
+   "fpi": -1.156,
+   "fpiRank": 74,
    "games": [
     {
      "date": "2026-09-05",
@@ -10390,8 +10390,8 @@
    "lyW": 4,
    "lyL": 8,
    "lyAp": null,
-   "fpi": -5.113,
-   "fpiRank": 89,
+   "fpi": -3.667,
+   "fpiRank": 86,
    "games": [
     {
      "date": "2026-09-05",
@@ -10485,8 +10485,8 @@
    "lyW": 4,
    "lyL": 8,
    "lyAp": null,
-   "fpi": -14.636,
-   "fpiRank": 124,
+   "fpi": -13.787,
+   "fpiRank": 117,
    "games": [
     {
      "date": "2026-09-03",
@@ -10580,8 +10580,8 @@
    "lyW": 5,
    "lyL": 7,
    "lyAp": null,
-   "fpi": 5.429,
-   "fpiRank": 50,
+   "fpi": 5.194,
+   "fpiRank": 51,
    "games": [
     {
      "date": "2026-09-03",
@@ -10666,8 +10666,8 @@
    "lyW": 3,
    "lyL": 9,
    "lyAp": null,
-   "fpi": 10.345,
-   "fpiRank": 36,
+   "fpi": 10.982,
+   "fpiRank": 31,
    "games": [
     {
      "date": "2026-09-05",
@@ -10752,8 +10752,8 @@
    "lyW": 9,
    "lyL": 3,
    "lyAp": null,
-   "fpi": -5.521,
-   "fpiRank": 92,
+   "fpi": -5.999,
+   "fpiRank": 93,
    "games": [
     {
      "date": "2026-09-05",
@@ -10838,8 +10838,8 @@
    "lyW": 3,
    "lyL": 9,
    "lyAp": null,
-   "fpi": -24.93,
-   "fpiRank": 136,
+   "fpi": -26.276,
+   "fpiRank": 137,
    "games": [
     {
      "date": "2026-09-05",
@@ -10924,8 +10924,8 @@
    "lyW": 10,
    "lyL": 3,
    "lyAp": null,
-   "fpi": -0.499,
-   "fpiRank": 73,
+   "fpi": -2.108,
+   "fpiRank": 78,
    "games": [
     {
      "date": "2026-08-29",
@@ -11019,8 +11019,8 @@
    "lyW": 9,
    "lyL": 3,
    "lyAp": 20,
-   "fpi": 14.6,
-   "fpiRank": 19,
+   "fpi": 14.948,
+   "fpiRank": 17,
    "games": [
     {
      "date": "2026-08-29",
@@ -11114,8 +11114,8 @@
    "lyW": 2,
    "lyL": 10,
    "lyAp": null,
-   "fpi": -23.742,
-   "fpiRank": 135,
+   "fpi": -24.418,
+   "fpiRank": 136,
    "games": [
     {
      "date": "2026-09-04",
@@ -11209,8 +11209,8 @@
    "lyW": 6,
    "lyL": 6,
    "lyAp": null,
-   "fpi": -1.242,
-   "fpiRank": 74,
+   "fpi": -1.872,
+   "fpiRank": 77,
    "games": [
     {
      "date": "2026-09-05",
@@ -11304,8 +11304,8 @@
    "lyW": 10,
    "lyL": 2,
    "lyAp": 14,
-   "fpi": 18.774,
-   "fpiRank": 10,
+   "fpi": 17.421,
+   "fpiRank": 13,
    "games": [
     {
      "date": "2026-09-03",
@@ -11390,8 +11390,8 @@
    "lyW": 6,
    "lyL": 6,
    "lyAp": null,
-   "fpi": -7.155,
-   "fpiRank": 95,
+   "fpi": -7.623,
+   "fpiRank": 96,
    "games": [
     {
      "date": "2026-09-05",
@@ -11476,8 +11476,8 @@
    "lyW": 10,
    "lyL": 2,
    "lyAp": 15,
-   "fpi": 1.303,
-   "fpiRank": 62,
+   "fpi": 0.452,
+   "fpiRank": 66,
    "games": [
     {
      "date": "2026-09-05",
@@ -11571,8 +11571,8 @@
    "lyW": 10,
    "lyL": 3,
    "lyAp": 16,
-   "fpi": 6.252,
-   "fpiRank": 48,
+   "fpi": 5.645,
+   "fpiRank": 50,
    "games": [
     {
      "date": "2026-08-29",
@@ -11666,8 +11666,8 @@
    "lyW": 3,
    "lyL": 9,
    "lyAp": null,
-   "fpi": 6.645,
-   "fpiRank": 46,
+   "fpi": 6.59,
+   "fpiRank": 47,
    "games": [
     {
      "date": "2026-09-05",
@@ -11761,8 +11761,8 @@
    "lyW": 8,
    "lyL": 4,
    "lyAp": null,
-   "fpi": 13.617,
-   "fpiRank": 22,
+   "fpi": 15.351,
+   "fpiRank": 16,
    "games": [
     {
      "date": "2026-09-03",
@@ -11856,8 +11856,8 @@
    "lyW": 8,
    "lyL": 4,
    "lyAp": null,
-   "fpi": 3.526,
-   "fpiRank": 57,
+   "fpi": 4.711,
+   "fpiRank": 52,
    "games": [
     {
      "date": "2026-09-06",
@@ -11951,7 +11951,7 @@
    "lyW": 6,
    "lyL": 6,
    "lyAp": null,
-   "fpi": -9.233,
+   "fpi": -8.979,
    "fpiRank": 102,
    "games": [
     {
@@ -12046,8 +12046,8 @@
    "lyW": 4,
    "lyL": 8,
    "lyAp": null,
-   "fpi": -0.4,
-   "fpiRank": 72,
+   "fpi": 0.358,
+   "fpiRank": 67,
    "games": [
     {
      "date": "2026-09-05",
@@ -12141,8 +12141,8 @@
    "lyW": 8,
    "lyL": 4,
    "lyAp": null,
-   "fpi": -13.21,
-   "fpiRank": 116,
+   "fpi": -11.915,
+   "fpiRank": 110,
    "games": [
     {
      "date": "2026-09-05",
@@ -12236,8 +12236,8 @@
    "lyW": 9,
    "lyL": 4,
    "lyAp": null,
-   "fpi": -1.966,
-   "fpiRank": 76,
+   "fpi": -2.483,
+   "fpiRank": 81,
    "games": [
     {
      "date": "2026-09-05",
@@ -12331,8 +12331,8 @@
    "lyW": 4,
    "lyL": 8,
    "lyAp": null,
-   "fpi": 10.345,
-   "fpiRank": 37,
+   "fpi": 9.011,
+   "fpiRank": 39,
    "games": [
     {
      "date": "2026-09-06",
@@ -12417,8 +12417,8 @@
    "lyW": 4,
    "lyL": 8,
    "lyAp": null,
-   "fpi": -16.789,
-   "fpiRank": 127,
+   "fpi": -15.429,
+   "fpiRank": 125,
    "games": [
     {
      "date": "2026-09-05",
@@ -12529,7 +12529,7 @@
     "home": "Marshall",
     "away": "South Alabama",
     "neutral": false,
-    "line": -3.5,
+    "line": -3,
     "model": -6.5
    },
    {
@@ -12542,6 +12542,15 @@
     "model": -0.1
    },
    {
+    "id": 401871056,
+    "start": "2026-10-22T23:00:00.000Z",
+    "home": "Kennesaw State",
+    "away": "Liberty",
+    "neutral": false,
+    "line": -10.5,
+    "model": -7.7
+   },
+   {
     "id": 401869845,
     "start": "2026-10-22T23:00:00.000Z",
     "home": "App State",
@@ -12549,15 +12558,6 @@
     "neutral": false,
     "line": -10.5,
     "model": -13.8
-   },
-   {
-    "id": 401871056,
-    "start": "2026-10-22T23:00:00.000Z",
-    "home": "Kennesaw State",
-    "away": "Liberty",
-    "neutral": false,
-    "line": -9.5,
-    "model": -7.7
    },
    {
     "id": 401862807,
@@ -12601,7 +12601,7 @@
     "home": "Wyoming",
     "away": "Air Force",
     "neutral": false,
-    "line": -7.5,
+    "line": -7,
     "model": -8.6
    },
    {
@@ -12614,22 +12614,22 @@
     "model": -4.5
    },
    {
-    "id": 401858276,
-    "start": "2026-10-24T04:00:00.000Z",
-    "home": "Clemson",
-    "away": "Virginia Tech",
-    "neutral": false,
-    "line": -1.5,
-    "model": 6.7
-   },
-   {
     "id": 401856836,
     "start": "2026-10-24T04:00:00.000Z",
     "home": "Oklahoma State",
     "away": "Colorado",
     "neutral": false,
-    "line": null,
+    "line": 13.5,
     "model": 7.8
+   },
+   {
+    "id": 401858276,
+    "start": "2026-10-24T04:00:00.000Z",
+    "home": "Clemson",
+    "away": "Virginia Tech",
+    "neutral": false,
+    "line": 2.5,
+    "model": 6.7
    },
    {
     "id": 401856838,
@@ -12641,40 +12641,40 @@
     "model": 10.2
    },
    {
-    "id": 401858497,
-    "start": "2026-10-24T04:00:00.000Z",
-    "home": "Minnesota",
-    "away": "Iowa",
-    "neutral": false,
-    "line": -5.5,
-    "model": -12.8
-   },
-   {
-    "id": 401856834,
-    "start": "2026-10-24T04:00:00.000Z",
-    "home": "Kansas",
-    "away": "Baylor",
-    "neutral": false,
-    "line": null,
-    "model": -4.1
-   },
-   {
     "id": 401858495,
     "start": "2026-10-24T04:00:00.000Z",
     "home": "Illinois",
     "away": "Oregon",
     "neutral": false,
-    "line": null,
+    "line": -12.5,
     "model": -8.9
    },
    {
-    "id": 401856835,
+    "id": 401858499,
     "start": "2026-10-24T04:00:00.000Z",
-    "home": "UCF",
-    "away": "BYU",
+    "home": "UCLA",
+    "away": "Michigan State",
     "neutral": false,
-    "line": -7.5,
-    "model": -9.0
+    "line": 13.5,
+    "model": 19.9
+   },
+   {
+    "id": 401856837,
+    "start": "2026-10-24T04:00:00.000Z",
+    "home": "Utah",
+    "away": "Houston",
+    "neutral": false,
+    "line": 6.5,
+    "model": 9.4
+   },
+   {
+    "id": 401858497,
+    "start": "2026-10-24T04:00:00.000Z",
+    "home": "Minnesota",
+    "away": "Iowa",
+    "neutral": false,
+    "line": -6,
+    "model": -12.8
    },
    {
     "id": 401856839,
@@ -12682,7 +12682,7 @@
     "home": "Arizona State",
     "away": "Kansas State",
     "neutral": false,
-    "line": null,
+    "line": -3,
     "model": -4.0
    },
    {
@@ -12695,58 +12695,22 @@
     "model": -14.3
    },
    {
-    "id": 401856837,
+    "id": 401856834,
     "start": "2026-10-24T04:00:00.000Z",
-    "home": "Utah",
-    "away": "Houston",
+    "home": "Kansas",
+    "away": "Baylor",
     "neutral": false,
-    "line": 6.5,
-    "model": 9.4
+    "line": -1.5,
+    "model": -4.1
    },
    {
-    "id": 401858499,
+    "id": 401856835,
     "start": "2026-10-24T04:00:00.000Z",
-    "home": "UCLA",
-    "away": "Michigan State",
+    "home": "UCF",
+    "away": "BYU",
     "neutral": false,
-    "line": 13.5,
-    "model": 19.9
-   },
-   {
-    "id": 401856728,
-    "start": "2026-10-24T16:00:00.000Z",
-    "home": "Auburn",
-    "away": "LSU",
-    "neutral": false,
-    "line": -5.5,
-    "model": -7.1
-   },
-   {
-    "id": 401858270,
-    "start": "2026-10-24T16:00:00.000Z",
-    "home": "SMU",
-    "away": "California",
-    "neutral": false,
-    "line": null,
-    "model": 16.3
-   },
-   {
-    "id": 401862809,
-    "start": "2026-10-24T16:00:00.000Z",
-    "home": "Florida Atlantic",
-    "away": "Rice",
-    "neutral": false,
-    "line": null,
-    "model": 10.3
-   },
-   {
-    "id": 401856841,
-    "start": "2026-10-24T16:00:00.000Z",
-    "home": "TCU",
-    "away": "West Virginia",
-    "neutral": false,
-    "line": null,
-    "model": 13.9
+    "line": -7,
+    "model": -9.0
    },
    {
     "id": 401858496,
@@ -12756,6 +12720,24 @@
     "neutral": false,
     "line": -8.5,
     "model": -11.2
+   },
+   {
+    "id": 401856728,
+    "start": "2026-10-24T16:00:00.000Z",
+    "home": "Auburn",
+    "away": "LSU",
+    "neutral": false,
+    "line": -7,
+    "model": -7.1
+   },
+   {
+    "id": 401858270,
+    "start": "2026-10-24T16:00:00.000Z",
+    "home": "SMU",
+    "away": "California",
+    "neutral": false,
+    "line": 17.5,
+    "model": 16.3
    },
    {
     "id": 401858274,
@@ -12776,22 +12758,31 @@
     "model": 17.8
    },
    {
+    "id": 401862809,
+    "start": "2026-10-24T16:00:00.000Z",
+    "home": "Florida Atlantic",
+    "away": "Rice",
+    "neutral": false,
+    "line": 10.5,
+    "model": 10.3
+   },
+   {
+    "id": 401856841,
+    "start": "2026-10-24T16:00:00.000Z",
+    "home": "TCU",
+    "away": "West Virginia",
+    "neutral": false,
+    "line": 7,
+    "model": 13.9
+   },
+   {
     "id": 401866450,
     "start": "2026-10-24T16:00:00.000Z",
     "home": "Toledo",
     "away": "Western Michigan",
     "neutral": false,
-    "line": null,
+    "line": 3.5,
     "model": 3.7
-   },
-   {
-    "id": 401866476,
-    "start": "2026-10-24T17:00:00.000Z",
-    "home": "Central Michigan",
-    "away": "Miami (OH)",
-    "neutral": false,
-    "line": null,
-    "model": -2.7
    },
    {
     "id": 401866446,
@@ -12799,8 +12790,26 @@
     "home": "Kent State",
     "away": "Akron",
     "neutral": false,
-    "line": null,
+    "line": 3.5,
     "model": 7.7
+   },
+   {
+    "id": 401866476,
+    "start": "2026-10-24T17:00:00.000Z",
+    "home": "Central Michigan",
+    "away": "Miami (OH)",
+    "neutral": false,
+    "line": 1.5,
+    "model": -2.7
+   },
+   {
+    "id": 401864526,
+    "start": "2026-10-24T19:30:00.000Z",
+    "home": "Northern Illinois",
+    "away": "Hawai'i",
+    "neutral": false,
+    "line": -6.5,
+    "model": 0.6
    },
    {
     "id": 401856727,
@@ -12812,40 +12821,13 @@
     "model": 14.6
    },
    {
-    "id": 401866447,
-    "start": "2026-10-24T19:30:00.000Z",
-    "home": "Ball State",
-    "away": "Sacramento State",
-    "neutral": false,
-    "line": null,
-    "model": 15.3
-   },
-   {
-    "id": 401856731,
-    "start": "2026-10-24T19:30:00.000Z",
-    "home": "South Carolina",
-    "away": "Tennessee",
-    "neutral": false,
-    "line": -3,
-    "model": -4.5
-   },
-   {
     "id": 401856730,
     "start": "2026-10-24T19:30:00.000Z",
     "home": "Mississippi State",
     "away": "Oklahoma",
     "neutral": false,
-    "line": null,
+    "line": -2.5,
     "model": -0.1
-   },
-   {
-    "id": 401862810,
-    "start": "2026-10-24T19:30:00.000Z",
-    "home": "Navy",
-    "away": "North Texas",
-    "neutral": false,
-    "line": null,
-    "model": -6.0
    },
    {
     "id": 401866448,
@@ -12853,8 +12835,35 @@
     "home": "Buffalo",
     "away": "Bowling Green",
     "neutral": false,
-    "line": null,
+    "line": 4.5,
     "model": 4.4
+   },
+   {
+    "id": 401856731,
+    "start": "2026-10-24T19:30:00.000Z",
+    "home": "South Carolina",
+    "away": "Tennessee",
+    "neutral": false,
+    "line": -2.5,
+    "model": -4.5
+   },
+   {
+    "id": 401866447,
+    "start": "2026-10-24T19:30:00.000Z",
+    "home": "Ball State",
+    "away": "Sacramento State",
+    "neutral": false,
+    "line": 10.5,
+    "model": 15.3
+   },
+   {
+    "id": 401862810,
+    "start": "2026-10-24T19:30:00.000Z",
+    "home": "Navy",
+    "away": "North Texas",
+    "neutral": false,
+    "line": -2.5,
+    "model": -6.0
    },
    {
     "id": 401858273,
@@ -12862,26 +12871,8 @@
     "home": "Georgia Tech",
     "away": "Boston College",
     "neutral": false,
-    "line": null,
+    "line": 4.5,
     "model": 9.7
-   },
-   {
-    "id": 401864526,
-    "start": "2026-10-24T19:30:00.000Z",
-    "home": "Northern Illinois",
-    "away": "Hawai'i",
-    "neutral": false,
-    "line": null,
-    "model": 0.6
-   },
-   {
-    "id": 401866449,
-    "start": "2026-10-24T20:00:00.000Z",
-    "home": "Ohio",
-    "away": "Eastern Michigan",
-    "neutral": false,
-    "line": null,
-    "model": 12.2
    },
    {
     "id": 401871094,
@@ -12889,8 +12880,26 @@
     "home": "Troy",
     "away": "UL Monroe",
     "neutral": false,
-    "line": null,
+    "line": 17.5,
     "model": 17.2
+   },
+   {
+    "id": 401866449,
+    "start": "2026-10-24T20:00:00.000Z",
+    "home": "Ohio",
+    "away": "Eastern Michigan",
+    "neutral": false,
+    "line": 10,
+    "model": 12.2
+   },
+   {
+    "id": 401864528,
+    "start": "2026-10-24T21:00:00.000Z",
+    "home": "Nevada",
+    "away": "San Jos\u00e9 State",
+    "neutral": false,
+    "line": 5.5,
+    "model": 4.6
    },
    {
     "id": 401869967,
@@ -12898,7 +12907,7 @@
     "home": "Southern Miss",
     "away": "Louisiana",
     "neutral": false,
-    "line": null,
+    "line": -10.5,
     "model": -10.1
    },
    {
@@ -12907,17 +12916,8 @@
     "home": "Louisiana Tech",
     "away": "Old Dominion",
     "neutral": false,
-    "line": null,
+    "line": 8.5,
     "model": 12.9
-   },
-   {
-    "id": 401864528,
-    "start": "2026-10-24T21:00:00.000Z",
-    "home": "Nevada",
-    "away": "San Jos\u00e9 State",
-    "neutral": false,
-    "line": null,
-    "model": 4.6
    },
    {
     "id": 401860907,
@@ -12925,7 +12925,7 @@
     "home": "Washington State",
     "away": "Boise State",
     "neutral": false,
-    "line": null,
+    "line": -14,
     "model": -12.6
    },
    {
@@ -12934,7 +12934,7 @@
     "home": "Colorado State",
     "away": "San Diego State",
     "neutral": false,
-    "line": null,
+    "line": -3,
     "model": 0.1
    },
    {
@@ -12943,17 +12943,17 @@
     "home": "Arkansas State",
     "away": "Georgia State",
     "neutral": false,
-    "line": null,
+    "line": -1.5,
     "model": 1.8
    },
    {
-    "id": 401858275,
+    "id": 401856732,
     "start": "2026-10-24T23:30:00.000Z",
-    "home": "North Carolina",
-    "away": "Syracuse",
+    "home": "Texas",
+    "away": "Ole Miss",
     "neutral": false,
-    "line": null,
-    "model": 11.7
+    "line": 3,
+    "model": 2.2
    },
    {
     "id": 401858500,
@@ -12970,17 +12970,8 @@
     "home": "Texas State",
     "away": "Utah State",
     "neutral": false,
-    "line": null,
+    "line": 9.5,
     "model": 13.4
-   },
-   {
-    "id": 401856732,
-    "start": "2026-10-24T23:30:00.000Z",
-    "home": "Texas",
-    "away": "Ole Miss",
-    "neutral": false,
-    "line": 3,
-    "model": 2.2
    },
    {
     "id": 401856729,
@@ -12992,12 +12983,21 @@
     "model": 15.1
    },
    {
+    "id": 401858275,
+    "start": "2026-10-24T23:30:00.000Z",
+    "home": "North Carolina",
+    "away": "Syracuse",
+    "neutral": false,
+    "line": 9.5,
+    "model": 11.7
+   },
+   {
     "id": 401862811,
     "start": "2026-10-25T00:00:00.000Z",
     "home": "Tulane",
     "away": "UTSA",
     "neutral": false,
-    "line": null,
+    "line": -3,
     "model": 3.1
    },
    {
@@ -13012,33 +13012,33 @@
   ]
  },
  "ap": {
-  "week": 7,
+  "week": 8,
   "ranks": {
-   "Georgia": 1,
-   "Notre Dame": 2,
-   "Miami": 3,
-   "Ohio State": 4,
-   "Indiana": 5,
-   "Alabama": 6,
-   "Texas": 7,
-   "BYU": 8,
-   "Ole Miss": 9,
-   "Texas Tech": 10,
-   "Utah": 11,
-   "UCLA": 12,
-   "Missouri": 13,
-   "Tennessee": 14,
-   "Kentucky": 15,
-   "Mississippi State": 16,
-   "Iowa": 17,
-   "Oklahoma State": 18,
-   "USC": 19,
-   "Houston": 20,
-   "Wake Forest": 21,
-   "LSU": 22,
-   "Boise State": 23,
-   "SMU": 24,
-   "Northwestern": 25
+   "Miami": 1,
+   "BYU": 2,
+   "Ohio State": 3,
+   "Notre Dame": 4,
+   "Georgia": 5,
+   "Indiana": 6,
+   "Ole Miss": 7,
+   "Texas Tech": 8,
+   "UCLA": 9,
+   "Utah": 10,
+   "Tennessee": 11,
+   "Kentucky": 12,
+   "Alabama": 13,
+   "Houston": 14,
+   "Iowa": 15,
+   "USC": 16,
+   "Wake Forest": 17,
+   "LSU": 18,
+   "Texas": 19,
+   "Florida": 20,
+   "Boise State": 21,
+   "Missouri": 22,
+   "SMU": 23,
+   "Northwestern": 24,
+   "Arizona": 25
   }
  },
  "picks": [
@@ -16091,7 +16091,33 @@
   },
   {
    "week": 8,
-   "ap": null,
+   "ap": {
+    "Miami": 1,
+    "BYU": 2,
+    "Ohio State": 3,
+    "Notre Dame": 4,
+    "Georgia": 5,
+    "Indiana": 6,
+    "Ole Miss": 7,
+    "Texas Tech": 8,
+    "UCLA": 9,
+    "Utah": 10,
+    "Tennessee": 11,
+    "Kentucky": 12,
+    "Alabama": 13,
+    "Houston": 14,
+    "Iowa": 15,
+    "USC": 16,
+    "Wake Forest": 17,
+    "LSU": 18,
+    "Texas": 19,
+    "Florida": 20,
+    "Boise State": 21,
+    "Missouri": 22,
+    "SMU": 23,
+    "Northwestern": 24,
+    "Arizona": 25
+   },
    "wolp": {
     "Air Force": -4.8053,
     "Akron": -22.5924,
@@ -16233,144 +16259,144 @@
     "Wyoming": -16.021
    },
    "fpi": {
-    "UAB": -14.636,
-    "South Alabama": -7.415,
-    "Arkansas": 1.307,
-    "Arizona State": -0.264,
-    "Arizona": 10.441,
-    "San Diego State": -10.879,
-    "California": -1.847,
-    "Colorado": -0.398,
-    "Delaware": -12.623,
-    "Jacksonville State": -8.553,
-    "South Florida": -2.666,
-    "Georgia Tech": 0.477,
-    "Georgia": 28.683,
-    "Boise State": 11.907,
-    "Iowa State": 4.222,
-    "Massachusetts": -13.56,
-    "Maryland": -2.36,
-    "Michigan State": 1.362,
-    "Ole Miss": 15.668,
-    "Duke": 8.034,
-    "Wake Forest": 13.617,
-    "Rutgers": -5.038,
-    "New Mexico": 8.998,
-    "Bowling Green": -16.795,
-    "Miami (OH)": -10.085,
-    "Oklahoma State": 8.271,
-    "Oregon State": 6.043,
-    "Temple": -7.351,
-    "Pittsburgh": 11.413,
-    "Vanderbilt": 1.303,
-    "Rice": -13.388,
-    "Houston": 14.802,
-    "Utah": 18.774,
-    "James Madison": 5.119,
-    "Washington State": -9.233,
-    "Wisconsin": 10.345,
-    "Marshall": -16.807,
-    "West Virginia": -0.4,
-    "Louisiana": -4.7,
-    "Coastal Carolina": -12.618,
-    "Texas State": -3.147,
-    "Utah State": -7.155,
-    "Alabama": 26.634,
-    "Kennesaw State": -10.406,
-    "Army": -3.089,
-    "Air Force": -3.467,
-    "App State": -9.496,
-    "Arkansas State": -9.726,
-    "Ball State": -21.592,
-    "Buffalo": -12.807,
-    "UCF": 5.429,
-    "Cincinnati": 3.595,
-    "Florida Atlantic": -7.587,
-    "Florida International": -8.991,
-    "Georgia State": -3.47,
-    "Kent State": -21.638,
-    "Liberty": 0.978,
-    "Louisiana Tech": -5.056,
-    "Middle Tennessee": -19.391,
-    "Charlotte": -25.21,
-    "UL Monroe": -24.93,
-    "UNLV": -0.499,
-    "Nevada": -8.554,
-    "Northern Illinois": -18.442,
-    "Purdue": 3.266,
-    "Sam Houston": -14.213,
-    "Southern Miss": -13.444,
-    "South Carolina": 12.131,
-    "Missouri State": -16.406,
-    "TCU": 6.634,
-    "Tennessee": 17.219,
-    "UTSA": -1.242,
-    "Toledo": -4.446,
-    "Troy": -6.173,
-    "Tulane": -3.34,
-    "San Jos\u00e9 State": -12.709,
-    "Western Michigan": -1.966,
-    "USC": 14.6,
-    "Colorado State": -9.641,
-    "UConn": -5.521,
-    "Hawai'i": -12.765,
-    "Northwestern": 13.996,
-    "Indiana": 25.53,
-    "Notre Dame": 29.463,
-    "Louisville": 12.686,
-    "Western Kentucky": -13.21,
-    "LSU": 20.937,
-    "East Carolina": -3.849,
-    "Nebraska": 17.398,
-    "New Mexico State": -13.426,
-    "Syracuse": 1.098,
-    "Ohio State": 28.23,
-    "Kentucky": 11.716,
-    "Ohio": -9.304,
-    "Oklahoma": 15.124,
-    "Penn State": 12.483,
-    "Florida State": 8.387,
-    "Florida": 12.615,
-    "Clemson": 6.766,
-    "North Texas": 1.644,
-    "Texas": 25.548,
-    "BYU": 15.723,
-    "Virginia Tech": 6.645,
-    "Fresno State": 1.071,
-    "Georgia Southern": -5.206,
-    "Old Dominion": -13.324,
-    "Akron": -20.995,
-    "Central Michigan": -14.442,
-    "Eastern Michigan": -15.384,
-    "Iowa": 13.104,
-    "Michigan": 10.864,
-    "Kansas State": 6.816,
-    "Miami": 27.675,
-    "Minnesota": 0.254,
-    "Oregon": 19.465,
-    "SMU": 8.439,
-    "Texas Tech": 18.613,
-    "Missouri": 15.095,
-    "NC State": 0.941,
-    "North Carolina": 8.568,
-    "Tulsa": -5.113,
-    "Texas A&M": 13.705,
-    "Memphis": 4.364,
-    "Virginia": 6.252,
-    "Washington": 3.526,
-    "Mississippi State": 12.166,
-    "Illinois": 4.485,
-    "Kansas": 4.914,
-    "North Dakota State": 0.018,
-    "Auburn": 11.443,
-    "UTEP": -23.742,
-    "Wyoming": -16.789,
-    "Stanford": -11.749,
-    "Baylor": 11.118,
-    "Boston College": -5.323,
-    "Navy": -6.166,
-    "Sacramento State": -29.454,
-    "UCLA": 10.345
+    "UAB": -13.787,
+    "South Alabama": -6.821,
+    "Arkansas": 2.157,
+    "Arizona State": -1.291,
+    "Arizona": 10.495,
+    "San Diego State": -8.849,
+    "California": -3.946,
+    "Colorado": 0.965,
+    "Delaware": -14.074,
+    "Jacksonville State": -8.35,
+    "South Florida": -2.179,
+    "Georgia Tech": 0.337,
+    "Georgia": 26.68,
+    "Boise State": 11.356,
+    "Iowa State": 4.276,
+    "Massachusetts": -13.841,
+    "Maryland": -3.649,
+    "Michigan State": 1.669,
+    "Ole Miss": 18.757,
+    "Duke": 7.762,
+    "Wake Forest": 15.351,
+    "Rutgers": -3.062,
+    "New Mexico": 7.84,
+    "Bowling Green": -17.657,
+    "Miami (OH)": -9.83,
+    "Oklahoma State": 8.952,
+    "Oregon State": 5.99,
+    "Temple": -9.297,
+    "Pittsburgh": 9.228,
+    "Vanderbilt": 0.452,
+    "Rice": -15.391,
+    "Houston": 14.765,
+    "Utah": 17.421,
+    "James Madison": 6.976,
+    "Washington State": -8.979,
+    "Wisconsin": 9.011,
+    "Marshall": -16.466,
+    "West Virginia": 0.358,
+    "Louisiana": -1.798,
+    "Coastal Carolina": -13.063,
+    "Texas State": -0.139,
+    "Utah State": -7.623,
+    "Alabama": 24.21,
+    "Kennesaw State": -11.406,
+    "Army": -0.043,
+    "Air Force": -2.141,
+    "App State": -8.908,
+    "Arkansas State": -8.535,
+    "Ball State": -21.084,
+    "Buffalo": -12.876,
+    "UCF": 5.194,
+    "Cincinnati": 3.511,
+    "Florida Atlantic": -10.1,
+    "Florida International": -9.152,
+    "Georgia State": -5.867,
+    "Kent State": -22.334,
+    "Liberty": 0.689,
+    "Louisiana Tech": -3.683,
+    "Middle Tennessee": -18.275,
+    "Charlotte": -21.918,
+    "UL Monroe": -26.276,
+    "UNLV": -2.108,
+    "Nevada": -8.409,
+    "Northern Illinois": -20.063,
+    "Purdue": 1.865,
+    "Sam Houston": -16.672,
+    "Southern Miss": -14.674,
+    "South Carolina": 11.629,
+    "Missouri State": -14.74,
+    "TCU": 8.607,
+    "Tennessee": 18.052,
+    "UTSA": -1.872,
+    "Toledo": -3.414,
+    "Troy": -9.566,
+    "Tulane": -1.156,
+    "San Jos\u00e9 State": -12.517,
+    "Western Michigan": -2.483,
+    "USC": 14.948,
+    "Colorado State": -12.59,
+    "UConn": -5.999,
+    "Hawai'i": -12.256,
+    "Northwestern": 13.079,
+    "Indiana": 25.357,
+    "Notre Dame": 27.858,
+    "Louisville": 13.344,
+    "Western Kentucky": -11.915,
+    "LSU": 22.965,
+    "East Carolina": -5.244,
+    "Nebraska": 17.137,
+    "New Mexico State": -13.172,
+    "Syracuse": 0.526,
+    "Ohio State": 28.237,
+    "Kentucky": 12.74,
+    "Ohio": -7.085,
+    "Oklahoma": 13.348,
+    "Penn State": 11.725,
+    "Florida State": 9.585,
+    "Florida": 14.335,
+    "Clemson": 6.459,
+    "North Texas": 2.126,
+    "Texas": 23.637,
+    "BYU": 17.359,
+    "Virginia Tech": 6.59,
+    "Fresno State": -0.671,
+    "Georgia Southern": -4.637,
+    "Old Dominion": -14.021,
+    "Akron": -22.111,
+    "Central Michigan": -14.289,
+    "Eastern Michigan": -16.706,
+    "Iowa": 13.068,
+    "Michigan": 10.897,
+    "Kansas State": 7.617,
+    "Miami": 26.503,
+    "Minnesota": -0.247,
+    "Oregon": 19.04,
+    "SMU": 9.805,
+    "Texas Tech": 19.374,
+    "Missouri": 12.266,
+    "NC State": 1.125,
+    "North Carolina": 8.68,
+    "Tulsa": -3.667,
+    "Texas A&M": 13.505,
+    "Memphis": 2.954,
+    "Virginia": 5.645,
+    "Washington": 4.711,
+    "Mississippi State": 9.077,
+    "Illinois": 4.367,
+    "Kansas": 3.727,
+    "North Dakota State": -0.206,
+    "Auburn": 13.426,
+    "UTEP": -24.418,
+    "Wyoming": -15.429,
+    "Stanford": -11.375,
+    "Baylor": 9.965,
+    "Boston College": -2.615,
+    "Navy": -5.509,
+    "Sacramento State": -32.438,
+    "UCLA": 10.982
    },
    "sp": {
     "Ohio State": 29.5,
@@ -16541,7 +16567,7 @@
      "neutral": false,
      "start": "2026-10-20T23:30:00.000Z",
      "model": -6.5,
-     "line": -3.5,
+     "line": -3,
      "id": 401871092,
      "hp": null,
      "ap": null
@@ -16574,7 +16600,7 @@
      "neutral": false,
      "start": "2026-10-22T23:00:00.000Z",
      "model": -7.7,
-     "line": -9.5,
+     "line": -10.5,
      "id": 401871056,
      "hp": null,
      "ap": null
@@ -16629,7 +16655,7 @@
      "neutral": false,
      "start": "2026-10-24T01:00:00.000Z",
      "model": -8.6,
-     "line": -7.5,
+     "line": -7,
      "id": 401864525,
      "hp": null,
      "ap": null
@@ -16651,7 +16677,7 @@
      "neutral": false,
      "start": "2026-10-24T04:00:00.000Z",
      "model": 6.7,
-     "line": -1.5,
+     "line": 2.5,
      "id": 401858276,
      "hp": null,
      "ap": null
@@ -16662,7 +16688,7 @@
      "neutral": false,
      "start": "2026-10-24T04:00:00.000Z",
      "model": 7.8,
-     "line": null,
+     "line": 13.5,
      "id": 401856836,
      "hp": null,
      "ap": null
@@ -16684,7 +16710,7 @@
      "neutral": false,
      "start": "2026-10-24T04:00:00.000Z",
      "model": -12.8,
-     "line": -5.5,
+     "line": -6,
      "id": 401858497,
      "hp": null,
      "ap": null
@@ -16695,7 +16721,7 @@
      "neutral": false,
      "start": "2026-10-24T04:00:00.000Z",
      "model": -4.1,
-     "line": null,
+     "line": -1.5,
      "id": 401856834,
      "hp": null,
      "ap": null
@@ -16706,7 +16732,7 @@
      "neutral": false,
      "start": "2026-10-24T04:00:00.000Z",
      "model": -8.9,
-     "line": null,
+     "line": -12.5,
      "id": 401858495,
      "hp": null,
      "ap": null
@@ -16717,7 +16743,7 @@
      "neutral": false,
      "start": "2026-10-24T04:00:00.000Z",
      "model": -9.0,
-     "line": -7.5,
+     "line": -7,
      "id": 401856835,
      "hp": null,
      "ap": null
@@ -16728,7 +16754,7 @@
      "neutral": false,
      "start": "2026-10-24T04:00:00.000Z",
      "model": -4.0,
-     "line": null,
+     "line": -3,
      "id": 401856839,
      "hp": null,
      "ap": null
@@ -16772,7 +16798,7 @@
      "neutral": false,
      "start": "2026-10-24T16:00:00.000Z",
      "model": -7.1,
-     "line": -5.5,
+     "line": -7,
      "id": 401856728,
      "hp": null,
      "ap": null
@@ -16783,7 +16809,7 @@
      "neutral": false,
      "start": "2026-10-24T16:00:00.000Z",
      "model": 16.3,
-     "line": null,
+     "line": 17.5,
      "id": 401858270,
      "hp": null,
      "ap": null
@@ -16794,7 +16820,7 @@
      "neutral": false,
      "start": "2026-10-24T16:00:00.000Z",
      "model": 10.3,
-     "line": null,
+     "line": 10.5,
      "id": 401862809,
      "hp": null,
      "ap": null
@@ -16805,7 +16831,7 @@
      "neutral": false,
      "start": "2026-10-24T16:00:00.000Z",
      "model": 13.9,
-     "line": null,
+     "line": 7,
      "id": 401856841,
      "hp": null,
      "ap": null
@@ -16849,7 +16875,7 @@
      "neutral": false,
      "start": "2026-10-24T16:00:00.000Z",
      "model": 3.7,
-     "line": null,
+     "line": 3.5,
      "id": 401866450,
      "hp": null,
      "ap": null
@@ -16860,7 +16886,7 @@
      "neutral": false,
      "start": "2026-10-24T17:00:00.000Z",
      "model": -2.7,
-     "line": null,
+     "line": 1.5,
      "id": 401866476,
      "hp": null,
      "ap": null
@@ -16871,7 +16897,7 @@
      "neutral": false,
      "start": "2026-10-24T17:00:00.000Z",
      "model": 7.7,
-     "line": null,
+     "line": 3.5,
      "id": 401866446,
      "hp": null,
      "ap": null
@@ -16893,7 +16919,7 @@
      "neutral": false,
      "start": "2026-10-24T19:30:00.000Z",
      "model": 15.3,
-     "line": null,
+     "line": 10.5,
      "id": 401866447,
      "hp": null,
      "ap": null
@@ -16904,7 +16930,7 @@
      "neutral": false,
      "start": "2026-10-24T19:30:00.000Z",
      "model": -4.5,
-     "line": -3,
+     "line": -2.5,
      "id": 401856731,
      "hp": null,
      "ap": null
@@ -16915,7 +16941,7 @@
      "neutral": false,
      "start": "2026-10-24T19:30:00.000Z",
      "model": -0.1,
-     "line": null,
+     "line": -2.5,
      "id": 401856730,
      "hp": null,
      "ap": null
@@ -16926,7 +16952,7 @@
      "neutral": false,
      "start": "2026-10-24T19:30:00.000Z",
      "model": -6.0,
-     "line": null,
+     "line": -2.5,
      "id": 401862810,
      "hp": null,
      "ap": null
@@ -16937,7 +16963,7 @@
      "neutral": false,
      "start": "2026-10-24T19:30:00.000Z",
      "model": 4.4,
-     "line": null,
+     "line": 4.5,
      "id": 401866448,
      "hp": null,
      "ap": null
@@ -16948,7 +16974,7 @@
      "neutral": false,
      "start": "2026-10-24T19:30:00.000Z",
      "model": 9.7,
-     "line": null,
+     "line": 4.5,
      "id": 401858273,
      "hp": null,
      "ap": null
@@ -16959,7 +16985,7 @@
      "neutral": false,
      "start": "2026-10-24T19:30:00.000Z",
      "model": 0.6,
-     "line": null,
+     "line": -6.5,
      "id": 401864526,
      "hp": null,
      "ap": null
@@ -16970,7 +16996,7 @@
      "neutral": false,
      "start": "2026-10-24T20:00:00.000Z",
      "model": 12.2,
-     "line": null,
+     "line": 10,
      "id": 401866449,
      "hp": null,
      "ap": null
@@ -16981,7 +17007,7 @@
      "neutral": false,
      "start": "2026-10-24T20:00:00.000Z",
      "model": 17.2,
-     "line": null,
+     "line": 17.5,
      "id": 401871094,
      "hp": null,
      "ap": null
@@ -16992,7 +17018,7 @@
      "neutral": false,
      "start": "2026-10-24T21:00:00.000Z",
      "model": -10.1,
-     "line": null,
+     "line": -10.5,
      "id": 401869967,
      "hp": null,
      "ap": null
@@ -17003,7 +17029,7 @@
      "neutral": false,
      "start": "2026-10-24T21:00:00.000Z",
      "model": 12.9,
-     "line": null,
+     "line": 8.5,
      "id": 401871093,
      "hp": null,
      "ap": null
@@ -17014,7 +17040,7 @@
      "neutral": false,
      "start": "2026-10-24T21:00:00.000Z",
      "model": 4.6,
-     "line": null,
+     "line": 5.5,
      "id": 401864528,
      "hp": null,
      "ap": null
@@ -17025,7 +17051,7 @@
      "neutral": false,
      "start": "2026-10-24T22:00:00.000Z",
      "model": -12.6,
-     "line": null,
+     "line": -14,
      "id": 401860907,
      "hp": null,
      "ap": null
@@ -17036,7 +17062,7 @@
      "neutral": false,
      "start": "2026-10-24T22:30:00.000Z",
      "model": 0.1,
-     "line": null,
+     "line": -3,
      "id": 401860905,
      "hp": null,
      "ap": null
@@ -17047,7 +17073,7 @@
      "neutral": false,
      "start": "2026-10-24T23:00:00.000Z",
      "model": 1.8,
-     "line": null,
+     "line": -1.5,
      "id": 401869935,
      "hp": null,
      "ap": null
@@ -17058,7 +17084,7 @@
      "neutral": false,
      "start": "2026-10-24T23:30:00.000Z",
      "model": 11.7,
-     "line": null,
+     "line": 9.5,
      "id": 401858275,
      "hp": null,
      "ap": null
@@ -17080,7 +17106,7 @@
      "neutral": false,
      "start": "2026-10-24T23:30:00.000Z",
      "model": 13.4,
-     "line": null,
+     "line": 9.5,
      "id": 401860906,
      "hp": null,
      "ap": null
@@ -17113,7 +17139,7 @@
      "neutral": false,
      "start": "2026-10-25T00:00:00.000Z",
      "model": 3.1,
-     "line": null,
+     "line": -3,
      "id": 401862811,
      "hp": null,
      "ap": null
@@ -17134,7 +17160,7 @@
  ],
  "model": {
   "season": 2026,
-  "updatedAt": "2026-10-18T11:07:39.513843+00:00",
+  "updatedAt": "2026-10-18T19:07:27.355384+00:00",
   "teams": {
    "Air Force": {
     "powerRating": -4.8053,
@@ -17200,7 +17226,7 @@
      "w": 8.5,
      "l": 3.5,
      "unb": 0.0,
-     "w10": 0.184,
+     "w10": 0.185,
      "bowl": 0.996
     },
     "upcoming": [
@@ -17437,7 +17463,7 @@
      "w": 8.9,
      "l": 3.1,
      "unb": 0.0,
-     "w10": 0.281,
+     "w10": 0.288,
      "bowl": 1.0
     },
     "upcoming": [
@@ -17542,8 +17568,8 @@
      "w": 6.8,
      "l": 5.2,
      "unb": 0.0,
-     "w10": 0.015,
-     "bowl": 0.856
+     "w10": 0.014,
+     "bowl": 0.858
     },
     "upcoming": [
      {
@@ -17654,8 +17680,8 @@
      "w": 8.5,
      "l": 3.5,
      "unb": 0.0,
-     "w10": 0.218,
-     "bowl": 0.992
+     "w10": 0.22,
+     "bowl": 0.993
     },
     "upcoming": [
      {
@@ -17767,7 +17793,7 @@
      "l": 7.1,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.282
+     "bowl": 0.288
     },
     "upcoming": [
      {
@@ -17887,7 +17913,7 @@
      "l": 7.7,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.135
+     "bowl": 0.142
     },
     "upcoming": [
      {
@@ -18000,7 +18026,7 @@
      "l": 6.1,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.645
+     "bowl": 0.642
     },
     "upcoming": [
      {
@@ -18104,8 +18130,8 @@
      "w": 7.7,
      "l": 4.3,
      "unb": 0.0,
-     "w10": 0.069,
-     "bowl": 0.953
+     "w10": 0.073,
+     "bowl": 0.955
     },
     "upcoming": [
      {
@@ -18220,8 +18246,8 @@
      "w": 7.1,
      "l": 4.9,
      "unb": 0.0,
-     "w10": 0.016,
-     "bowl": 0.938
+     "w10": 0.014,
+     "bowl": 0.933
     },
     "upcoming": [
      {
@@ -18331,7 +18357,7 @@
     "proj": {
      "w": 10.3,
      "l": 1.7,
-     "unb": 0.15,
+     "unb": 0.148,
      "w10": 0.776,
      "bowl": 1.0
     },
@@ -18453,7 +18479,7 @@
      "l": 7.7,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.146
+     "bowl": 0.143
     },
     "upcoming": [
      {
@@ -18558,7 +18584,7 @@
      "l": 5.3,
      "unb": 0.0,
      "w10": 0.015,
-     "bowl": 0.817
+     "bowl": 0.822
     },
     "upcoming": [
      {
@@ -18775,7 +18801,7 @@
      "l": 7.7,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.13
+     "bowl": 0.128
     },
     "upcoming": [
      {
@@ -18895,7 +18921,7 @@
      "l": 8.0,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.089
+     "bowl": 0.09
     },
     "upcoming": [
      {
@@ -19000,11 +19026,11 @@
      ]
     ],
     "proj": {
-     "w": 6.7,
-     "l": 5.3,
+     "w": 6.6,
+     "l": 5.4,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.828
+     "bowl": 0.825
     },
     "upcoming": [
      {
@@ -19113,11 +19139,11 @@
      ]
     ],
     "proj": {
-     "w": 4.6,
-     "l": 7.4,
+     "w": 4.7,
+     "l": 7.3,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.213
+     "bowl": 0.218
     },
     "upcoming": [
      {
@@ -19230,7 +19256,7 @@
      "l": 6.2,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.594
+     "bowl": 0.598
     },
     "upcoming": [
      {
@@ -19448,7 +19474,7 @@
      "l": 6.2,
      "unb": 0.0,
      "w10": 0.001,
-     "bowl": 0.571
+     "bowl": 0.567
     },
     "upcoming": [
      {
@@ -19560,7 +19586,7 @@
      "l": 4.8,
      "unb": 0.0,
      "w10": 0.035,
-     "bowl": 0.887
+     "bowl": 0.898
     },
     "upcoming": [
      {
@@ -19680,7 +19706,7 @@
      "l": 8.3,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.052
+     "bowl": 0.05
     },
     "upcoming": [
      {
@@ -19785,7 +19811,7 @@
      "l": 7.4,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.245
+     "bowl": 0.244
     },
     "upcoming": [
      {
@@ -19897,7 +19923,7 @@
      "l": 7.4,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.051
+     "bowl": 0.047
     },
     "upcoming": [
      {
@@ -20002,7 +20028,7 @@
      "l": 7.7,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.186
+     "bowl": 0.189
     },
     "upcoming": [
      {
@@ -20113,8 +20139,8 @@
      "w": 6.8,
      "l": 5.2,
      "unb": 0.0,
-     "w10": 0.008,
-     "bowl": 0.853
+     "w10": 0.007,
+     "bowl": 0.854
     },
     "upcoming": [
      {
@@ -20226,7 +20252,7 @@
      "l": 6.1,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.614
+     "bowl": 0.617
     },
     "upcoming": [
      {
@@ -20354,7 +20380,7 @@
      "l": 6.4,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.518
+     "bowl": 0.513
     },
     "upcoming": [
      {
@@ -20460,7 +20486,7 @@
      "l": 4.4,
      "unb": 0.0,
      "w10": 0.038,
-     "bowl": 0.977
+     "bowl": 0.974
     },
     "upcoming": [
      {
@@ -20564,8 +20590,8 @@
      "w": 6.4,
      "l": 5.6,
      "unb": 0.0,
-     "w10": 0.007,
-     "bowl": 0.762
+     "w10": 0.008,
+     "bowl": 0.756
     },
     "upcoming": [
      {
@@ -20677,7 +20703,7 @@
      "l": 5.4,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.817
+     "bowl": 0.819
     },
     "upcoming": [
      {
@@ -20797,7 +20823,7 @@
      "l": 6.0,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.667
+     "bowl": 0.662
     },
     "upcoming": [
      {
@@ -20914,7 +20940,7 @@
      "l": 5.0,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.694
+     "bowl": 0.704
     },
     "upcoming": [
      {
@@ -21019,7 +21045,7 @@
      "w": 9.8,
      "l": 2.2,
      "unb": 0.0,
-     "w10": 0.639,
+     "w10": 0.636,
      "bowl": 1.0
     },
     "upcoming": [
@@ -21238,7 +21264,7 @@
      "l": 4.6,
      "unb": 0.0,
      "w10": 0.048,
-     "bowl": 0.915
+     "bowl": 0.914
     },
     "upcoming": [
      {
@@ -21350,7 +21376,7 @@
      "l": 7.9,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.118
+     "bowl": 0.121
     },
     "upcoming": [
      {
@@ -21474,7 +21500,7 @@
      "l": 8.5,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.032
+     "bowl": 0.031
     },
     "upcoming": [
      {
@@ -21586,7 +21612,7 @@
      "w": 9.1,
      "l": 2.9,
      "unb": 0.0,
-     "w10": 0.366,
+     "w10": 0.369,
      "bowl": 1.0
     },
     "upcoming": [
@@ -21692,7 +21718,7 @@
      "l": 6.9,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.346
+     "bowl": 0.358
     },
     "upcoming": [
      {
@@ -21811,7 +21837,7 @@
      "w": 10.1,
      "l": 1.9,
      "unb": 0.0,
-     "w10": 0.778,
+     "w10": 0.772,
      "bowl": 1.0
     },
     "upcoming": [
@@ -21917,7 +21943,7 @@
      "l": 3.0,
      "unb": 0.0,
      "w10": 0.363,
-     "bowl": 0.996
+     "bowl": 0.997
     },
     "upcoming": [
      {
@@ -22029,7 +22055,7 @@
      "l": 6.1,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.619
+     "bowl": 0.617
     },
     "upcoming": [
      {
@@ -22148,8 +22174,8 @@
      "w": 8.1,
      "l": 3.9,
      "unb": 0.0,
-     "w10": 0.106,
-     "bowl": 0.986
+     "w10": 0.11,
+     "bowl": 0.984
     },
     "upcoming": [
      {
@@ -22260,8 +22286,8 @@
     "proj": {
      "w": 11.1,
      "l": 0.9,
-     "unb": 0.375,
-     "w10": 0.944,
+     "unb": 0.368,
+     "w10": 0.943,
      "bowl": 1.0
     },
     "upcoming": [
@@ -22367,7 +22393,7 @@
      "l": 7.7,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.187
+     "bowl": 0.18
     },
     "upcoming": [
      {
@@ -22475,11 +22501,11 @@
      ]
     ],
     "proj": {
-     "w": 6.9,
-     "l": 5.1,
+     "w": 6.8,
+     "l": 5.2,
      "unb": 0.0,
-     "w10": 0.018,
-     "bowl": 0.838
+     "w10": 0.024,
+     "bowl": 0.834
     },
     "upcoming": [
      {
@@ -22591,7 +22617,7 @@
      "l": 8.0,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.138
+     "bowl": 0.144
     },
     "upcoming": [
      {
@@ -22711,7 +22737,7 @@
      "l": 7.6,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.187
+     "bowl": 0.182
     },
     "upcoming": [
      {
@@ -22820,10 +22846,10 @@
      ]
     ],
     "proj": {
-     "w": 8.8,
-     "l": 3.2,
+     "w": 8.7,
+     "l": 3.3,
      "unb": 0.0,
-     "w10": 0.264,
+     "w10": 0.265,
      "bowl": 1.0
     },
     "upcoming": [
@@ -22936,8 +22962,8 @@
      "w": 8.2,
      "l": 3.8,
      "unb": 0.0,
-     "w10": 0.123,
-     "bowl": 0.989
+     "w10": 0.12,
+     "bowl": 0.99
     },
     "upcoming": [
      {
@@ -23041,7 +23067,7 @@
      "w": 9.4,
      "l": 2.6,
      "unb": 0.0,
-     "w10": 0.502,
+     "w10": 0.499,
      "bowl": 0.999
     },
     "upcoming": [
@@ -23161,7 +23187,7 @@
      "w": 8.5,
      "l": 3.5,
      "unb": 0.0,
-     "w10": 0.181,
+     "w10": 0.178,
      "bowl": 0.996
     },
     "upcoming": [
@@ -23263,11 +23289,11 @@
      ]
     ],
     "proj": {
-     "w": 7.8,
-     "l": 4.2,
+     "w": 7.7,
+     "l": 4.3,
      "unb": 0.0,
-     "w10": 0.081,
-     "bowl": 0.957
+     "w10": 0.077,
+     "bowl": 0.956
     },
     "upcoming": [
      {
@@ -23387,7 +23413,7 @@
      "l": 4.9,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.928
+     "bowl": 0.927
     },
     "upcoming": [
      {
@@ -23492,7 +23518,7 @@
      "l": 6.7,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.433
+     "bowl": 0.425
     },
     "upcoming": [
      {
@@ -23721,7 +23747,7 @@
      "l": 5.7,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.762
+     "bowl": 0.755
     },
     "upcoming": [
      {
@@ -23833,7 +23859,7 @@
      "w": 8.2,
      "l": 3.8,
      "unb": 0.0,
-     "w10": 0.127,
+     "w10": 0.124,
      "bowl": 0.991
     },
     "upcoming": [
@@ -23937,8 +23963,8 @@
     "proj": {
      "w": 10.8,
      "l": 1.2,
-     "unb": 0.241,
-     "w10": 0.926,
+     "unb": 0.246,
+     "w10": 0.923,
      "bowl": 1.0
     },
     "upcoming": [
@@ -24059,7 +24085,7 @@
      "l": 5.3,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.853
+     "bowl": 0.851
     },
     "upcoming": [
      {
@@ -24168,7 +24194,7 @@
      "l": 5.6,
      "unb": 0.0,
      "w10": 0.003,
-     "bowl": 0.768
+     "bowl": 0.783
     },
     "upcoming": [
      {
@@ -24292,7 +24318,7 @@
      "l": 8.5,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.037
+     "bowl": 0.038
     },
     "upcoming": [
      {
@@ -24397,7 +24423,7 @@
      "l": 7.0,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.336
+     "bowl": 0.335
     },
     "upcoming": [
      {
@@ -24505,11 +24531,11 @@
      ]
     ],
     "proj": {
-     "w": 5.4,
-     "l": 6.6,
+     "w": 5.3,
+     "l": 6.7,
      "unb": 0.0,
-     "w10": 0.001,
-     "bowl": 0.402
+     "w10": 0.0,
+     "bowl": 0.385
     },
     "upcoming": [
      {
@@ -24624,8 +24650,8 @@
      "w": 7.0,
      "l": 5.0,
      "unb": 0.0,
-     "w10": 0.014,
-     "bowl": 0.892
+     "w10": 0.013,
+     "bowl": 0.895
     },
     "upcoming": [
      {
@@ -24744,8 +24770,8 @@
      "w": 7.6,
      "l": 4.4,
      "unb": 0.0,
-     "w10": 0.043,
-     "bowl": 0.969
+     "w10": 0.039,
+     "bowl": 0.966
     },
     "upcoming": [
      {
@@ -24850,7 +24876,7 @@
      "l": 7.4,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.241
+     "bowl": 0.239
     },
     "upcoming": [
      {
@@ -24962,7 +24988,7 @@
      "l": 5.9,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.668
+     "bowl": 0.67
     },
     "upcoming": [
      {
@@ -25074,7 +25100,7 @@
      "l": 7.4,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.22
+     "bowl": 0.223
     },
     "upcoming": [
      {
@@ -25193,8 +25219,8 @@
      "w": 7.9,
      "l": 4.1,
      "unb": 0.0,
-     "w10": 0.065,
-     "bowl": 0.987
+     "w10": 0.07,
+     "bowl": 0.986
     },
     "upcoming": [
      {
@@ -25299,7 +25325,7 @@
      "l": 7.5,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.197
+     "bowl": 0.194
     },
     "upcoming": [
      {
@@ -25410,7 +25436,7 @@
      "w": 9.7,
      "l": 2.3,
      "unb": 0.0,
-     "w10": 0.632,
+     "w10": 0.629,
      "bowl": 1.0
     },
     "upcoming": [
@@ -25523,7 +25549,7 @@
      "l": 7.1,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.333
+     "bowl": 0.331
     },
     "upcoming": [
      {
@@ -25635,7 +25661,7 @@
      "l": 4.6,
      "unb": 0.0,
      "w10": 0.037,
-     "bowl": 0.924
+     "bowl": 0.925
     },
     "upcoming": [
      {
@@ -25754,7 +25780,7 @@
      "w": 9.4,
      "l": 2.6,
      "unb": 0.0,
-     "w10": 0.466,
+     "w10": 0.467,
      "bowl": 1.0
     },
     "upcoming": [
@@ -25856,11 +25882,11 @@
      ]
     ],
     "proj": {
-     "w": 8.4,
-     "l": 3.6,
+     "w": 8.3,
+     "l": 3.7,
      "unb": 0.0,
-     "w10": 0.161,
-     "bowl": 0.991
+     "w10": 0.158,
+     "bowl": 0.989
     },
     "upcoming": [
      {
@@ -26083,7 +26109,7 @@
      "w": 8.3,
      "l": 3.7,
      "unb": 0.0,
-     "w10": 0.134,
+     "w10": 0.138,
      "bowl": 0.992
     },
     "upcoming": [
@@ -26204,10 +26230,10 @@
      ]
     ],
     "proj": {
-     "w": 10.4,
-     "l": 1.6,
+     "w": 10.3,
+     "l": 1.7,
      "unb": 0.0,
-     "w10": 0.885,
+     "w10": 0.884,
      "bowl": 1.0
     },
     "upcoming": [
@@ -26320,8 +26346,8 @@
      "w": 8.4,
      "l": 3.6,
      "unb": 0.0,
-     "w10": 0.154,
-     "bowl": 0.994
+     "w10": 0.166,
+     "bowl": 0.995
     },
     "upcoming": [
      {
@@ -26437,7 +26463,7 @@
      "w": 9.9,
      "l": 2.1,
      "unb": 0.0,
-     "w10": 0.713,
+     "w10": 0.709,
      "bowl": 1.0
     },
     "upcoming": [
@@ -26543,11 +26569,11 @@
      ]
     ],
     "proj": {
-     "w": 5.8,
-     "l": 6.2,
+     "w": 5.7,
+     "l": 6.3,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.569
+     "bowl": 0.559
     },
     "upcoming": [
      {
@@ -26658,7 +26684,7 @@
      "w": 7.1,
      "l": 4.9,
      "unb": 0.0,
-     "w10": 0.025,
+     "w10": 0.023,
      "bowl": 0.881
     },
     "upcoming": [
@@ -26999,8 +27025,8 @@
      "w": 8.0,
      "l": 4.0,
      "unb": 0.0,
-     "w10": 0.079,
-     "bowl": 0.979
+     "w10": 0.077,
+     "bowl": 0.98
     },
     "upcoming": [
      {
@@ -27120,7 +27146,7 @@
      "l": 3.4,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.981
+     "bowl": 0.982
     },
     "upcoming": [
      {
@@ -27230,7 +27256,7 @@
      "l": 5.7,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.757
+     "bowl": 0.761
     },
     "upcoming": [
      {
@@ -27339,8 +27365,8 @@
      ]
     ],
     "proj": {
-     "w": 7.3,
-     "l": 4.7,
+     "w": 7.2,
+     "l": 4.8,
      "unb": 0.0,
      "w10": 0.014,
      "bowl": 0.95
@@ -27456,7 +27482,7 @@
      "l": 7.3,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.218
+     "bowl": 0.207
     },
     "upcoming": [
      {
@@ -27674,7 +27700,7 @@
      "l": 8.3,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.076
+     "bowl": 0.077
     },
     "upcoming": [
      {
@@ -27786,7 +27812,7 @@
      "l": 3.6,
      "unb": 0.0,
      "w10": 0.177,
-     "bowl": 0.992
+     "bowl": 0.994
     },
     "upcoming": [
      {
@@ -27902,8 +27928,8 @@
      ]
     ],
     "proj": {
-     "w": 1.9,
-     "l": 10.1,
+     "w": 2.0,
+     "l": 10.0,
      "unb": 0.0,
      "w10": 0.0,
      "bowl": 0.001
@@ -28236,8 +28262,8 @@
      "w": 6.4,
      "l": 6.6,
      "unb": 0.0,
-     "w10": 0.004,
-     "bowl": 0.746
+     "w10": 0.006,
+     "bowl": 0.745
     },
     "upcoming": [
      {
@@ -28348,8 +28374,8 @@
      "w": 7.4,
      "l": 4.6,
      "unb": 0.0,
-     "w10": 0.05,
-     "bowl": 0.916
+     "w10": 0.052,
+     "bowl": 0.921
     },
     "upcoming": [
      {
@@ -28461,7 +28487,7 @@
      "l": 6.2,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.597
+     "bowl": 0.58
     },
     "upcoming": [
      {
@@ -28580,8 +28606,8 @@
      "w": 8.2,
      "l": 3.8,
      "unb": 0.0,
-     "w10": 0.135,
-     "bowl": 0.99
+     "w10": 0.14,
+     "bowl": 0.989
     },
     "upcoming": [
      {
@@ -28686,7 +28712,7 @@
      "l": 9.0,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.024
+     "bowl": 0.019
     },
     "upcoming": [
      {
@@ -28802,11 +28828,11 @@
      ]
     ],
     "proj": {
-     "w": 4.4,
-     "l": 7.6,
+     "w": 4.3,
+     "l": 7.7,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.137
+     "bowl": 0.133
     },
     "upcoming": [
      {
@@ -28911,7 +28937,7 @@
      "l": 8.0,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.115
+     "bowl": 0.114
     },
     "upcoming": [
      {
@@ -29023,7 +29049,7 @@
      "l": 5.8,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.719
+     "bowl": 0.717
     },
     "upcoming": [
      {
@@ -29143,7 +29169,7 @@
      "l": 7.8,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.132
+     "bowl": 0.131
     },
     "upcoming": [
      {
@@ -29255,7 +29281,7 @@
      "w": 9.1,
      "l": 2.9,
      "unb": 0.0,
-     "w10": 0.397,
+     "w10": 0.403,
      "bowl": 1.0
     },
     "upcoming": [
@@ -29364,8 +29390,8 @@
      "w": 7.6,
      "l": 4.4,
      "unb": 0.0,
-     "w10": 0.055,
-     "bowl": 0.95
+     "w10": 0.062,
+     "bowl": 0.955
     },
     "upcoming": [
      {
@@ -29691,10 +29717,10 @@
      ]
     ],
     "proj": {
-     "w": 10.7,
-     "l": 1.3,
-     "unb": 0.25,
-     "w10": 0.85,
+     "w": 10.6,
+     "l": 1.4,
+     "unb": 0.247,
+     "w10": 0.847,
      "bowl": 1.0
     },
     "upcoming": [
@@ -29811,11 +29837,11 @@
      ]
     ],
     "proj": {
-     "w": 8.6,
-     "l": 3.4,
+     "w": 8.5,
+     "l": 3.5,
      "unb": 0.0,
-     "w10": 0.19,
-     "bowl": 0.997
+     "w10": 0.183,
+     "bowl": 0.998
     },
     "upcoming": [
      {
@@ -30036,7 +30062,7 @@
      "l": 5.4,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.813
+     "bowl": 0.809
     },
     "upcoming": [
      {
@@ -30156,7 +30182,7 @@
      "l": 5.2,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.884
+     "bowl": 0.889
     },
     "upcoming": [
      {
@@ -30269,7 +30295,7 @@
      "l": 6.1,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.631
+     "bowl": 0.626
     },
     "upcoming": [
      {
@@ -30374,7 +30400,7 @@
      "l": 6.1,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.606
+     "bowl": 0.607
     },
     "upcoming": [
      {
@@ -30488,8 +30514,8 @@
     "proj": {
      "w": 10.6,
      "l": 1.4,
-     "unb": 0.209,
-     "w10": 0.842,
+     "unb": 0.206,
+     "w10": 0.841,
      "bowl": 1.0
     },
     "upcoming": [
@@ -30602,7 +30628,7 @@
      "l": 5.7,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.732
+     "bowl": 0.735
     },
     "upcoming": [
      {
@@ -30714,7 +30740,7 @@
      "l": 10.6,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.0
+     "bowl": 0.001
     },
     "upcoming": [
      {
@@ -30951,10 +30977,10 @@
      ]
     ],
     "proj": {
-     "w": 8.1,
-     "l": 3.9,
+     "w": 8.2,
+     "l": 3.8,
      "unb": 0.0,
-     "w10": 0.1,
+     "w10": 0.103,
      "bowl": 1.0
     },
     "upcoming": [
@@ -31068,7 +31094,7 @@
      "l": 9.5,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.002
+     "bowl": 0.003
     },
     "upcoming": [
      {
@@ -31180,7 +31206,7 @@
      "w": 8.7,
      "l": 3.3,
      "unb": 0.0,
-     "w10": 0.255,
+     "w10": 0.259,
      "bowl": 1.0
     },
     "upcoming": [
@@ -31284,8 +31310,8 @@
     "proj": {
      "w": 10.0,
      "l": 2.0,
-     "unb": 0.117,
-     "w10": 0.686,
+     "unb": 0.116,
+     "w10": 0.677,
      "bowl": 1.0
     },
     "upcoming": [
@@ -31511,7 +31537,7 @@
      "l": 8.0,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.073
+     "bowl": 0.075
     },
     "upcoming": [
      {
@@ -31624,7 +31650,7 @@
      "l": 5.7,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.748
+     "bowl": 0.755
     },
     "upcoming": [
      {
@@ -31736,8 +31762,8 @@
      "w": 7.1,
      "l": 4.9,
      "unb": 0.0,
-     "w10": 0.007,
-     "bowl": 0.948
+     "w10": 0.008,
+     "bowl": 0.95
     },
     "upcoming": [
      {
@@ -31853,7 +31879,7 @@
      "w": 9.8,
      "l": 2.2,
      "unb": 0.0,
-     "w10": 0.651,
+     "w10": 0.659,
      "bowl": 1.0
     },
     "upcoming": [
@@ -31963,11 +31989,11 @@
      ]
     ],
     "proj": {
-     "w": 5.8,
-     "l": 6.2,
+     "w": 5.7,
+     "l": 6.3,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.571
+     "bowl": 0.57
     },
     "upcoming": [
      {
@@ -32182,11 +32208,11 @@
      ]
     ],
     "proj": {
-     "w": 5.2,
-     "l": 6.8,
+     "w": 5.3,
+     "l": 6.7,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.361
+     "bowl": 0.371
     },
     "upcoming": [
      {
@@ -32299,7 +32325,7 @@
      "l": 6.3,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.559
+     "bowl": 0.56
     },
     "upcoming": [
      {
@@ -32411,8 +32437,8 @@
      "w": 8.4,
      "l": 3.6,
      "unb": 0.0,
-     "w10": 0.162,
-     "bowl": 0.995
+     "w10": 0.166,
+     "bowl": 0.996
     },
     "upcoming": [
      {
@@ -32513,11 +32539,11 @@
      ]
     ],
     "proj": {
-     "w": 7.7,
-     "l": 4.3,
+     "w": 7.8,
+     "l": 4.2,
      "unb": 0.0,
-     "w10": 0.068,
-     "bowl": 0.957
+     "w10": 0.07,
+     "bowl": 0.964
     },
     "upcoming": [
      {
@@ -32637,7 +32663,7 @@
      "l": 6.4,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.501
+     "bowl": 0.493
     },
     "upcoming": [
      {
