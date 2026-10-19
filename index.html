@@ -2168,7 +2168,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       L.map(({g,fav,dogPct,cand})=>{ const on=!!S.uDraft[g.id];
         return `<tr class="${cand?'cand':''}"><td><input type="checkbox" data-up="${g.id}"${on?' checked':''} aria-label="Publish ${esc(nm(g.away))} at ${esc(nm(g.home))}"></td>
           <td class="l"><div class="gl-n" style="display:flex;align-items:center;gap:6px;font:700 16px var(--cond)">${logo(g.away)}${nmR(g.away)} <span class="dim" style="font:400 12px var(--body);color:var(--muted)">${g.neutral?'vs':'at'}</span> ${logo(g.home)}${nmR(g.home)}</div>
-            <div class="why">${cand?`Ranked ${esc(nm(fav))} could lose`:''}</div></td>
+            <div class="why">${cand?`Wolp+ gives underdog ${esc(nm(fav===g.home?g.away:g.home))} a ${dogPct}% chance`:''}</div></td>   
           <td>${spread(g.line,g.home,g.away)}</td><td>${modelTxt(g.model,g.home,g.away)}</td><td>${dogPct!=null?dogPct+'%':'–'}</td>
           <td class="l"><input type="text" data-note="${g.id}" maxlength="140" placeholder="Why this one?" value="${esc((S.uDraft[g.id]||{}).note||'')}"${on?'':' disabled'}></td></tr>`; }).join('')}</tbody>`;
   }
