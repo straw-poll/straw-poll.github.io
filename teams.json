@@ -1,6 +1,6 @@
 {
  "season": 2026,
- "updatedAt": "2026-10-25T14:56:46.217650+00:00",
+ "updatedAt": "2026-10-25T19:07:25.774161+00:00",
  "through": "games through Sat, Oct 24",
  "teams": {
   "Air Force": {
@@ -13519,7 +13519,7 @@
     "home": "Western Kentucky",
     "away": "Delaware",
     "neutral": false,
-    "line": -2.5,
+    "line": -1.5,
     "model": 5.2
    },
    {
@@ -13528,7 +13528,7 @@
     "home": "Missouri State",
     "away": "Sam Houston",
     "neutral": false,
-    "line": 6.5,
+    "line": 5.5,
     "model": 3.9
    },
    {
@@ -13537,7 +13537,7 @@
     "home": "Middle Tennessee",
     "away": "Kennesaw State",
     "neutral": false,
-    "line": 2.5,
+    "line": 3,
     "model": 2.2
    },
    {
@@ -13550,22 +13550,22 @@
     "model": -1.0
    },
    {
-    "id": 401862812,
-    "start": "2026-10-29T23:30:00.000Z",
-    "home": "North Texas",
-    "away": "Florida Atlantic",
-    "neutral": false,
-    "line": 12.5,
-    "model": 16.8
-   },
-   {
     "id": 401869963,
     "start": "2026-10-29T23:30:00.000Z",
     "home": "James Madison",
     "away": "Troy",
     "neutral": false,
-    "line": 17.5,
+    "line": 19.5,
     "model": 20.0
+   },
+   {
+    "id": 401862812,
+    "start": "2026-10-29T23:30:00.000Z",
+    "home": "North Texas",
+    "away": "Florida Atlantic",
+    "neutral": false,
+    "line": 11.5,
+    "model": 16.8
    },
    {
     "id": 401862813,
@@ -13573,7 +13573,7 @@
     "home": "Charlotte",
     "away": "Tulane",
     "neutral": false,
-    "line": -13.5,
+    "line": -10.5,
     "model": -14.7
    },
    {
@@ -13591,62 +13591,17 @@
     "home": "Sacramento State",
     "away": "Kent State",
     "neutral": false,
-    "line": -10,
+    "line": -11.5,
     "model": -7.7
    },
    {
-    "id": 401858279,
+    "id": 401862816,
     "start": "2026-10-31T16:00:00.000Z",
-    "home": "Duke",
-    "away": "Boston College",
+    "home": "South Florida",
+    "away": "UAB",
     "neutral": false,
-    "line": null,
-    "model": 8.8
-   },
-   {
-    "id": 401859185,
-    "start": "2026-10-31T16:00:00.000Z",
-    "home": "Navy",
-    "away": "Notre Dame",
-    "neutral": true,
-    "line": -30.5,
-    "model": -31.9
-   },
-   {
-    "id": 401858503,
-    "start": "2026-10-31T16:00:00.000Z",
-    "home": "Maryland",
-    "away": "Illinois",
-    "neutral": false,
-    "line": null,
-    "model": -8.5
-   },
-   {
-    "id": 401858502,
-    "start": "2026-10-31T16:00:00.000Z",
-    "home": "Iowa",
-    "away": "Wisconsin",
-    "neutral": false,
-    "line": 3.5,
-    "model": 3.2
-   },
-   {
-    "id": 401858278,
-    "start": "2026-10-31T16:00:00.000Z",
-    "home": "Syracuse",
-    "away": "SMU",
-    "neutral": false,
-    "line": -9.5,
-    "model": -5.9
-   },
-   {
-    "id": 401858277,
-    "start": "2026-10-31T16:00:00.000Z",
-    "home": "NC State",
-    "away": "California",
-    "neutral": false,
-    "line": null,
-    "model": 12.7
+    "line": 8.5,
+    "model": 14.7
    },
    {
     "id": 401856842,
@@ -13658,22 +13613,67 @@
     "model": 2.8
    },
    {
-    "id": 401862816,
-    "start": "2026-10-31T16:00:00.000Z",
-    "home": "South Florida",
-    "away": "UAB",
-    "neutral": false,
-    "line": null,
-    "model": 14.7
-   },
-   {
     "id": 401866452,
     "start": "2026-10-31T16:00:00.000Z",
     "home": "Western Michigan",
     "away": "Bowling Green",
     "neutral": false,
-    "line": null,
+    "line": 14.5,
     "model": 14.0
+   },
+   {
+    "id": 401858503,
+    "start": "2026-10-31T16:00:00.000Z",
+    "home": "Maryland",
+    "away": "Illinois",
+    "neutral": false,
+    "line": -3,
+    "model": -8.5
+   },
+   {
+    "id": 401859185,
+    "start": "2026-10-31T16:00:00.000Z",
+    "home": "Navy",
+    "away": "Notre Dame",
+    "neutral": true,
+    "line": -30.5,
+    "model": -31.9
+   },
+   {
+    "id": 401858502,
+    "start": "2026-10-31T16:00:00.000Z",
+    "home": "Iowa",
+    "away": "Wisconsin",
+    "neutral": false,
+    "line": 3,
+    "model": 3.2
+   },
+   {
+    "id": 401858277,
+    "start": "2026-10-31T16:00:00.000Z",
+    "home": "NC State",
+    "away": "California",
+    "neutral": false,
+    "line": 8.5,
+    "model": 12.7
+   },
+   {
+    "id": 401858279,
+    "start": "2026-10-31T16:00:00.000Z",
+    "home": "Duke",
+    "away": "Boston College",
+    "neutral": false,
+    "line": 7,
+    "model": 8.8
+   },
+   {
+    "id": 401858278,
+    "start": "2026-10-31T16:00:00.000Z",
+    "home": "Syracuse",
+    "away": "SMU",
+    "neutral": false,
+    "line": -9.5,
+    "model": -5.9
    },
    {
     "id": 401858507,
@@ -13690,7 +13690,7 @@
     "home": "Ole Miss",
     "away": "Auburn",
     "neutral": false,
-    "line": 11.5,
+    "line": 13.5,
     "model": 12.0
    },
    {
@@ -13699,17 +13699,8 @@
     "home": "Old Dominion",
     "away": "Marshall",
     "neutral": false,
-    "line": null,
+    "line": -3,
     "model": 3.3
-   },
-   {
-    "id": 401856846,
-    "start": "2026-10-31T18:00:00.000Z",
-    "home": "Colorado",
-    "away": "Kansas State",
-    "neutral": false,
-    "line": null,
-    "model": -3.2
    },
    {
     "id": 401869944,
@@ -13717,17 +13708,17 @@
     "home": "Georgia State",
     "away": "Coastal Carolina",
     "neutral": false,
-    "line": null,
+    "line": 6.5,
     "model": 5.9
    },
    {
-    "id": 401862815,
-    "start": "2026-10-31T19:00:00.000Z",
-    "home": "East Carolina",
-    "away": "Temple",
+    "id": 401856846,
+    "start": "2026-10-31T18:00:00.000Z",
+    "home": "Colorado",
+    "away": "Kansas State",
     "neutral": false,
-    "line": null,
-    "model": 6.5
+    "line": -2.5,
+    "model": -3.2
    },
    {
     "id": 401861966,
@@ -13735,7 +13726,7 @@
     "home": "Air Force",
     "away": "UConn",
     "neutral": false,
-    "line": null,
+    "line": 2.5,
     "model": -1.0
    },
    {
@@ -13744,8 +13735,17 @@
     "home": "South Alabama",
     "away": "Louisiana Tech",
     "neutral": false,
-    "line": null,
+    "line": -4.5,
     "model": -3.2
+   },
+   {
+    "id": 401862815,
+    "start": "2026-10-31T19:00:00.000Z",
+    "home": "East Carolina",
+    "away": "Temple",
+    "neutral": false,
+    "line": 4.5,
+    "model": 6.5
    },
    {
     "id": 401858283,
@@ -13753,7 +13753,7 @@
     "home": "Louisville",
     "away": "Stanford",
     "neutral": false,
-    "line": null,
+    "line": 21,
     "model": 23.0
    },
    {
@@ -13762,71 +13762,8 @@
     "home": "UL Monroe",
     "away": "Southern Miss",
     "neutral": false,
-    "line": null,
+    "line": -3,
     "model": -3.9
-   },
-   {
-    "id": 401858505,
-    "start": "2026-10-31T19:30:00.000Z",
-    "home": "Oregon",
-    "away": "Northwestern",
-    "neutral": false,
-    "line": 4.5,
-    "model": 5.8
-   },
-   {
-    "id": 401864531,
-    "start": "2026-10-31T19:30:00.000Z",
-    "home": "North Dakota State",
-    "away": "UTEP",
-    "neutral": false,
-    "line": null,
-    "model": 24.5
-   },
-   {
-    "id": 401860910,
-    "start": "2026-10-31T19:30:00.000Z",
-    "home": "Utah State",
-    "away": "Colorado State",
-    "neutral": false,
-    "line": null,
-    "model": 6.5
-   },
-   {
-    "id": 401858501,
-    "start": "2026-10-31T19:30:00.000Z",
-    "home": "Indiana",
-    "away": "Minnesota",
-    "neutral": false,
-    "line": 20.5,
-    "model": 22.5
-   },
-   {
-    "id": 401856845,
-    "start": "2026-10-31T19:30:00.000Z",
-    "home": "TCU",
-    "away": "Kansas",
-    "neutral": false,
-    "line": null,
-    "model": 7.6
-   },
-   {
-    "id": 401856843,
-    "start": "2026-10-31T19:30:00.000Z",
-    "home": "BYU",
-    "away": "Arizona State",
-    "neutral": false,
-    "line": 14.5,
-    "model": 17.9
-   },
-   {
-    "id": 401871059,
-    "start": "2026-10-31T19:30:00.000Z",
-    "home": "Liberty",
-    "away": "Florida International",
-    "neutral": false,
-    "line": null,
-    "model": 14.9
    },
    {
     "id": 401856734,
@@ -13838,12 +13775,75 @@
     "model": 13.0
    },
    {
+    "id": 401864531,
+    "start": "2026-10-31T19:30:00.000Z",
+    "home": "North Dakota State",
+    "away": "UTEP",
+    "neutral": false,
+    "line": 26.5,
+    "model": 24.5
+   },
+   {
+    "id": 401860910,
+    "start": "2026-10-31T19:30:00.000Z",
+    "home": "Utah State",
+    "away": "Colorado State",
+    "neutral": false,
+    "line": 4.5,
+    "model": 6.5
+   },
+   {
+    "id": 401858501,
+    "start": "2026-10-31T19:30:00.000Z",
+    "home": "Indiana",
+    "away": "Minnesota",
+    "neutral": false,
+    "line": 19.5,
+    "model": 22.5
+   },
+   {
+    "id": 401856845,
+    "start": "2026-10-31T19:30:00.000Z",
+    "home": "TCU",
+    "away": "Kansas",
+    "neutral": false,
+    "line": 4.5,
+    "model": 7.6
+   },
+   {
+    "id": 401858505,
+    "start": "2026-10-31T19:30:00.000Z",
+    "home": "Oregon",
+    "away": "Northwestern",
+    "neutral": false,
+    "line": 3.5,
+    "model": 5.8
+   },
+   {
+    "id": 401871059,
+    "start": "2026-10-31T19:30:00.000Z",
+    "home": "Liberty",
+    "away": "Florida International",
+    "neutral": false,
+    "line": 13.5,
+    "model": 14.9
+   },
+   {
+    "id": 401856843,
+    "start": "2026-10-31T19:30:00.000Z",
+    "home": "BYU",
+    "away": "Arizona State",
+    "neutral": false,
+    "line": 14.5,
+    "model": 17.9
+   },
+   {
     "id": 401856848,
     "start": "2026-10-31T19:45:00.000Z",
     "home": "Cincinnati",
     "away": "Utah",
     "neutral": false,
-    "line": -6.5,
+    "line": -7,
     "model": -5.8
    },
    {
@@ -13852,7 +13852,7 @@
     "home": "Wake Forest",
     "away": "Virginia",
     "neutral": false,
-    "line": 13.5,
+    "line": 14,
     "model": 14.1
    },
    {
@@ -13861,17 +13861,8 @@
     "home": "San Jos\u00e9 State",
     "away": "New Mexico",
     "neutral": false,
-    "line": null,
+    "line": -14.5,
     "model": -15.4
-   },
-   {
-    "id": 401858506,
-    "start": "2026-10-31T20:15:00.000Z",
-    "home": "Penn State",
-    "away": "Purdue",
-    "neutral": false,
-    "line": null,
-    "model": 7.5
    },
    {
     "id": 401856736,
@@ -13888,8 +13879,17 @@
     "home": "UCLA",
     "away": "Nevada",
     "neutral": false,
-    "line": 23.5,
+    "line": 22.5,
     "model": 28.7
+   },
+   {
+    "id": 401858506,
+    "start": "2026-10-31T20:15:00.000Z",
+    "home": "Penn State",
+    "away": "Purdue",
+    "neutral": false,
+    "line": 7.5,
+    "model": 7.5
    },
    {
     "id": 401869846,
@@ -13897,7 +13897,7 @@
     "home": "Georgia Southern",
     "away": "App State",
     "neutral": false,
-    "line": null,
+    "line": 3.5,
     "model": 3.8
    },
    {
@@ -13906,7 +13906,7 @@
     "home": "Iowa State",
     "away": "Oklahoma State",
     "neutral": false,
-    "line": null,
+    "line": -10,
     "model": -2.6
    },
    {
@@ -13915,7 +13915,7 @@
     "home": "Florida State",
     "away": "Clemson",
     "neutral": false,
-    "line": 5.5,
+    "line": 6,
     "model": 7.4
    },
    {
@@ -13924,35 +13924,8 @@
     "home": "San Diego State",
     "away": "Washington State",
     "neutral": false,
-    "line": null,
+    "line": 3,
     "model": 2.1
-   },
-   {
-    "id": 401858282,
-    "start": "2026-10-31T23:30:00.000Z",
-    "home": "North Carolina",
-    "away": "Miami",
-    "neutral": false,
-    "line": -16.5,
-    "model": -16.8
-   },
-   {
-    "id": 401858281,
-    "start": "2026-10-31T23:30:00.000Z",
-    "home": "Pittsburgh",
-    "away": "Georgia Tech",
-    "neutral": false,
-    "line": null,
-    "model": 11.6
-   },
-   {
-    "id": 401856737,
-    "start": "2026-10-31T23:30:00.000Z",
-    "home": "Texas",
-    "away": "Mississippi State",
-    "neutral": false,
-    "line": 20.5,
-    "model": 13.4
    },
    {
     "id": 401858509,
@@ -13964,12 +13937,39 @@
     "model": -13.3
    },
    {
+    "id": 401856737,
+    "start": "2026-10-31T23:30:00.000Z",
+    "home": "Texas",
+    "away": "Mississippi State",
+    "neutral": false,
+    "line": 20.5,
+    "model": 13.4
+   },
+   {
+    "id": 401858282,
+    "start": "2026-10-31T23:30:00.000Z",
+    "home": "North Carolina",
+    "away": "Miami",
+    "neutral": false,
+    "line": -15.5,
+    "model": -16.8
+   },
+   {
+    "id": 401858281,
+    "start": "2026-10-31T23:30:00.000Z",
+    "home": "Pittsburgh",
+    "away": "Georgia Tech",
+    "neutral": false,
+    "line": 7,
+    "model": 11.6
+   },
+   {
     "id": 401856733,
     "start": "2026-10-31T23:45:00.000Z",
     "home": "Arkansas",
     "away": "Missouri",
     "neutral": false,
-    "line": -10.5,
+    "line": -10,
     "model": -8.3
    },
    {
@@ -13978,7 +13978,7 @@
     "home": "Memphis",
     "away": "Army",
     "neutral": false,
-    "line": null,
+    "line": 6.5,
     "model": 3.4
    },
    {
@@ -13996,7 +13996,7 @@
     "home": "Boise State",
     "away": "Texas State",
     "neutral": false,
-    "line": null,
+    "line": 12.5,
     "model": 12.0
    },
    {
@@ -14005,7 +14005,7 @@
     "home": "UNLV",
     "away": "Northern Illinois",
     "neutral": false,
-    "line": null,
+    "line": 24.5,
     "model": 25.6
    },
    {
@@ -18595,7 +18595,7 @@
      "neutral": false,
      "start": "2026-10-27T23:00:00.000Z",
      "model": 5.2,
-     "line": -2.5,
+     "line": -1.5,
      "id": 401871071,
      "hp": null,
      "ap": null
@@ -18606,7 +18606,7 @@
      "neutral": false,
      "start": "2026-10-28T00:00:00.000Z",
      "model": 3.9,
-     "line": 6.5,
+     "line": 5.5,
      "id": 401871072,
      "hp": null,
      "ap": null
@@ -18617,7 +18617,7 @@
      "neutral": false,
      "start": "2026-10-28T23:00:00.000Z",
      "model": 2.2,
-     "line": 2.5,
+     "line": 3,
      "id": 401871058,
      "hp": null,
      "ap": null
@@ -18639,7 +18639,7 @@
      "neutral": false,
      "start": "2026-10-29T23:30:00.000Z",
      "model": 16.8,
-     "line": 12.5,
+     "line": 11.5,
      "id": 401862812,
      "hp": null,
      "ap": null
@@ -18650,7 +18650,7 @@
      "neutral": false,
      "start": "2026-10-29T23:30:00.000Z",
      "model": 20.0,
-     "line": 17.5,
+     "line": 19.5,
      "id": 401869963,
      "hp": null,
      "ap": null
@@ -18661,7 +18661,7 @@
      "neutral": false,
      "start": "2026-10-30T23:00:00.000Z",
      "model": -14.7,
-     "line": -13.5,
+     "line": -10.5,
      "id": 401862813,
      "hp": null,
      "ap": null
@@ -18683,7 +18683,7 @@
      "neutral": false,
      "start": "2026-10-31T02:30:00.000Z",
      "model": -7.7,
-     "line": -10,
+     "line": -11.5,
      "id": 401866451,
      "hp": null,
      "ap": null
@@ -18694,7 +18694,7 @@
      "neutral": false,
      "start": "2026-10-31T16:00:00.000Z",
      "model": 8.8,
-     "line": null,
+     "line": 7,
      "id": 401858279,
      "hp": null,
      "ap": null
@@ -18716,7 +18716,7 @@
      "neutral": false,
      "start": "2026-10-31T16:00:00.000Z",
      "model": -8.5,
-     "line": null,
+     "line": -3,
      "id": 401858503,
      "hp": null,
      "ap": null
@@ -18727,7 +18727,7 @@
      "neutral": false,
      "start": "2026-10-31T16:00:00.000Z",
      "model": 3.2,
-     "line": 3.5,
+     "line": 3,
      "id": 401858502,
      "hp": null,
      "ap": null
@@ -18749,7 +18749,7 @@
      "neutral": false,
      "start": "2026-10-31T16:00:00.000Z",
      "model": 12.7,
-     "line": null,
+     "line": 8.5,
      "id": 401858277,
      "hp": null,
      "ap": null
@@ -18771,7 +18771,7 @@
      "neutral": false,
      "start": "2026-10-31T16:00:00.000Z",
      "model": 14.7,
-     "line": null,
+     "line": 8.5,
      "id": 401862816,
      "hp": null,
      "ap": null
@@ -18782,7 +18782,7 @@
      "neutral": false,
      "start": "2026-10-31T16:00:00.000Z",
      "model": 14.0,
-     "line": null,
+     "line": 14.5,
      "id": 401866452,
      "hp": null,
      "ap": null
@@ -18804,7 +18804,7 @@
      "neutral": false,
      "start": "2026-10-31T16:45:00.000Z",
      "model": 12.0,
-     "line": 11.5,
+     "line": 13.5,
      "id": 401856735,
      "hp": null,
      "ap": null
@@ -18815,7 +18815,7 @@
      "neutral": false,
      "start": "2026-10-31T17:00:00.000Z",
      "model": 3.3,
-     "line": null,
+     "line": -3,
      "id": 401871096,
      "hp": null,
      "ap": null
@@ -18826,7 +18826,7 @@
      "neutral": false,
      "start": "2026-10-31T18:00:00.000Z",
      "model": -3.2,
-     "line": null,
+     "line": -2.5,
      "id": 401856846,
      "hp": null,
      "ap": null
@@ -18837,7 +18837,7 @@
      "neutral": false,
      "start": "2026-10-31T18:00:00.000Z",
      "model": 5.9,
-     "line": null,
+     "line": 6.5,
      "id": 401869944,
      "hp": null,
      "ap": null
@@ -18848,7 +18848,7 @@
      "neutral": false,
      "start": "2026-10-31T19:00:00.000Z",
      "model": 6.5,
-     "line": null,
+     "line": 4.5,
      "id": 401862815,
      "hp": null,
      "ap": null
@@ -18859,7 +18859,7 @@
      "neutral": false,
      "start": "2026-10-31T19:00:00.000Z",
      "model": -1.0,
-     "line": null,
+     "line": 2.5,
      "id": 401861966,
      "hp": null,
      "ap": null
@@ -18870,7 +18870,7 @@
      "neutral": false,
      "start": "2026-10-31T19:00:00.000Z",
      "model": -3.2,
-     "line": null,
+     "line": -4.5,
      "id": 401871097,
      "hp": null,
      "ap": null
@@ -18881,7 +18881,7 @@
      "neutral": false,
      "start": "2026-10-31T19:15:00.000Z",
      "model": 23.0,
-     "line": null,
+     "line": 21,
      "id": 401858283,
      "hp": null,
      "ap": null
@@ -18892,7 +18892,7 @@
      "neutral": false,
      "start": "2026-10-31T19:30:00.000Z",
      "model": -3.9,
-     "line": null,
+     "line": -3,
      "id": 401871095,
      "hp": null,
      "ap": null
@@ -18903,7 +18903,7 @@
      "neutral": false,
      "start": "2026-10-31T19:30:00.000Z",
      "model": 5.8,
-     "line": 4.5,
+     "line": 3.5,
      "id": 401858505,
      "hp": null,
      "ap": null
@@ -18914,7 +18914,7 @@
      "neutral": false,
      "start": "2026-10-31T19:30:00.000Z",
      "model": 24.5,
-     "line": null,
+     "line": 26.5,
      "id": 401864531,
      "hp": null,
      "ap": null
@@ -18925,7 +18925,7 @@
      "neutral": false,
      "start": "2026-10-31T19:30:00.000Z",
      "model": 6.5,
-     "line": null,
+     "line": 4.5,
      "id": 401860910,
      "hp": null,
      "ap": null
@@ -18936,7 +18936,7 @@
      "neutral": false,
      "start": "2026-10-31T19:30:00.000Z",
      "model": 22.5,
-     "line": 20.5,
+     "line": 19.5,
      "id": 401858501,
      "hp": null,
      "ap": null
@@ -18947,7 +18947,7 @@
      "neutral": false,
      "start": "2026-10-31T19:30:00.000Z",
      "model": 7.6,
-     "line": null,
+     "line": 4.5,
      "id": 401856845,
      "hp": null,
      "ap": null
@@ -18969,7 +18969,7 @@
      "neutral": false,
      "start": "2026-10-31T19:30:00.000Z",
      "model": 14.9,
-     "line": null,
+     "line": 13.5,
      "id": 401871059,
      "hp": null,
      "ap": null
@@ -18991,7 +18991,7 @@
      "neutral": false,
      "start": "2026-10-31T19:45:00.000Z",
      "model": -5.8,
-     "line": -6.5,
+     "line": -7,
      "id": 401856848,
      "hp": null,
      "ap": null
@@ -19002,7 +19002,7 @@
      "neutral": false,
      "start": "2026-10-31T19:45:00.000Z",
      "model": 14.1,
-     "line": 13.5,
+     "line": 14,
      "id": 401858284,
      "hp": null,
      "ap": null
@@ -19013,7 +19013,7 @@
      "neutral": false,
      "start": "2026-10-31T20:00:00.000Z",
      "model": -15.4,
-     "line": null,
+     "line": -14.5,
      "id": 401864529,
      "hp": null,
      "ap": null
@@ -19024,7 +19024,7 @@
      "neutral": false,
      "start": "2026-10-31T20:15:00.000Z",
      "model": 7.5,
-     "line": null,
+     "line": 7.5,
      "id": 401858506,
      "hp": null,
      "ap": null
@@ -19046,7 +19046,7 @@
      "neutral": false,
      "start": "2026-10-31T20:15:00.000Z",
      "model": 28.7,
-     "line": 23.5,
+     "line": 22.5,
      "id": 401858508,
      "hp": null,
      "ap": null
@@ -19057,7 +19057,7 @@
      "neutral": false,
      "start": "2026-10-31T22:30:00.000Z",
      "model": 3.8,
-     "line": null,
+     "line": 3.5,
      "id": 401869846,
      "hp": null,
      "ap": null
@@ -19068,7 +19068,7 @@
      "neutral": false,
      "start": "2026-10-31T23:00:00.000Z",
      "model": -2.6,
-     "line": null,
+     "line": -10,
      "id": 401856847,
      "hp": null,
      "ap": null
@@ -19079,7 +19079,7 @@
      "neutral": false,
      "start": "2026-10-31T23:00:00.000Z",
      "model": 7.4,
-     "line": 5.5,
+     "line": 6,
      "id": 401858280,
      "hp": null,
      "ap": null
@@ -19090,7 +19090,7 @@
      "neutral": false,
      "start": "2026-10-31T23:00:00.000Z",
      "model": 2.1,
-     "line": null,
+     "line": 3,
      "id": 401860909,
      "hp": null,
      "ap": null
@@ -19101,7 +19101,7 @@
      "neutral": false,
      "start": "2026-10-31T23:30:00.000Z",
      "model": -16.8,
-     "line": -16.5,
+     "line": -15.5,
      "id": 401858282,
      "hp": null,
      "ap": null
@@ -19112,7 +19112,7 @@
      "neutral": false,
      "start": "2026-10-31T23:30:00.000Z",
      "model": 11.6,
-     "line": null,
+     "line": 7,
      "id": 401858281,
      "hp": null,
      "ap": null
@@ -19145,7 +19145,7 @@
      "neutral": false,
      "start": "2026-10-31T23:45:00.000Z",
      "model": -8.3,
-     "line": -10.5,
+     "line": -10,
      "id": 401856733,
      "hp": null,
      "ap": null
@@ -19156,7 +19156,7 @@
      "neutral": false,
      "start": "2026-11-01T00:00:00.000Z",
      "model": 3.4,
-     "line": null,
+     "line": 6.5,
      "id": 401862814,
      "hp": null,
      "ap": null
@@ -19178,7 +19178,7 @@
      "neutral": false,
      "start": "2026-11-01T02:00:00.000Z",
      "model": 12.0,
-     "line": null,
+     "line": 12.5,
      "id": 401860908,
      "hp": null,
      "ap": null
@@ -19189,7 +19189,7 @@
      "neutral": false,
      "start": "2026-11-01T02:30:00.000Z",
      "model": 25.6,
-     "line": null,
+     "line": 24.5,
      "id": 401864530,
      "hp": null,
      "ap": null
@@ -19210,7 +19210,7 @@
  ],
  "model": {
   "season": 2026,
-  "updatedAt": "2026-10-25T14:56:46.217650+00:00",
+  "updatedAt": "2026-10-25T19:07:25.774161+00:00",
   "teams": {
    "Air Force": {
     "powerRating": -7.9775,
@@ -19284,7 +19284,7 @@
      "w": 7.5,
      "l": 4.5,
      "unb": 0.0,
-     "w10": 0.023,
+     "w10": 0.021,
      "bowl": 0.976
     },
     "upcoming": [
@@ -19523,7 +19523,7 @@
      "w": 9.1,
      "l": 2.9,
      "unb": 0.0,
-     "w10": 0.322,
+     "w10": 0.32,
      "bowl": 1.0
     },
     "upcoming": [
@@ -19626,8 +19626,8 @@
      ]
     ],
     "proj": {
-     "w": 7.8,
-     "l": 4.2,
+     "w": 7.9,
+     "l": 4.1,
      "unb": 0.0,
      "w10": 0.07,
      "bowl": 0.983
@@ -19742,7 +19742,7 @@
      "w": 9.3,
      "l": 2.7,
      "unb": 0.0,
-     "w10": 0.454,
+     "w10": 0.46,
      "bowl": 1.0
     },
     "upcoming": [
@@ -19856,7 +19856,7 @@
      "l": 6.4,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.496
+     "bowl": 0.492
     },
     "upcoming": [
      {
@@ -19969,7 +19969,7 @@
      "l": 7.7,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.129
+     "bowl": 0.133
     },
     "upcoming": [
      {
@@ -20090,7 +20090,7 @@
      "l": 5.7,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.781
+     "bowl": 0.786
     },
     "upcoming": [
      {
@@ -20195,7 +20195,7 @@
      "w": 8.3,
      "l": 3.7,
      "unb": 0.0,
-     "w10": 0.132,
+     "w10": 0.14,
      "bowl": 0.992
     },
     "upcoming": [
@@ -20425,7 +20425,7 @@
      "w": 9.4,
      "l": 2.6,
      "unb": 0.0,
-     "w10": 0.512,
+     "w10": 0.502,
      "bowl": 1.0
     },
     "upcoming": [
@@ -20547,7 +20547,7 @@
      "l": 7.4,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.187
+     "bowl": 0.195
     },
     "upcoming": [
      {
@@ -20653,7 +20653,7 @@
      "l": 5.9,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.685
+     "bowl": 0.686
     },
     "upcoming": [
      {
@@ -20872,7 +20872,7 @@
      "l": 6.7,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.397
+     "bowl": 0.403
     },
     "upcoming": [
      {
@@ -20989,11 +20989,11 @@
      ]
     ],
     "proj": {
-     "w": 3.6,
-     "l": 8.4,
+     "w": 3.5,
+     "l": 8.5,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.021
+     "bowl": 0.019
     },
     "upcoming": [
      {
@@ -21103,7 +21103,7 @@
      "l": 5.0,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.932
+     "bowl": 0.929
     },
     "upcoming": [
      {
@@ -21217,7 +21217,7 @@
      "l": 7.7,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.119
+     "bowl": 0.116
     },
     "upcoming": [
      {
@@ -21331,7 +21331,7 @@
      "l": 6.7,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.418
+     "bowl": 0.422
     },
     "upcoming": [
      {
@@ -21549,8 +21549,8 @@
      "w": 7.2,
      "l": 4.8,
      "unb": 0.0,
-     "w10": 0.02,
-     "bowl": 0.938
+     "w10": 0.018,
+     "bowl": 0.943
     },
     "upcoming": [
      {
@@ -21663,7 +21663,7 @@
      "l": 5.6,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.768
+     "bowl": 0.76
     },
     "upcoming": [
      {
@@ -21776,7 +21776,7 @@
      "l": 8.0,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.087
+     "bowl": 0.088
     },
     "upcoming": [
      {
@@ -22108,7 +22108,7 @@
      "l": 6.7,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.419
+     "bowl": 0.416
     },
     "upcoming": [
      {
@@ -22221,7 +22221,7 @@
      "l": 4.8,
      "unb": 0.0,
      "w10": 0.011,
-     "bowl": 0.947
+     "bowl": 0.945
     },
     "upcoming": [
      {
@@ -22334,7 +22334,7 @@
      "l": 6.2,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.611
+     "bowl": 0.608
     },
     "upcoming": [
      {
@@ -22463,7 +22463,7 @@
      "l": 6.6,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.448
+     "bowl": 0.446
     },
     "upcoming": [
      {
@@ -22561,8 +22561,8 @@
      "w": 7.6,
      "l": 4.4,
      "unb": 0.0,
-     "w10": 0.035,
-     "bowl": 0.976
+     "w10": 0.037,
+     "bowl": 0.974
     },
     "upcoming": [
      {
@@ -22674,8 +22674,8 @@
      "w": 6.6,
      "l": 5.4,
      "unb": 0.0,
-     "w10": 0.005,
-     "bowl": 0.817
+     "w10": 0.007,
+     "bowl": 0.818
     },
     "upcoming": [
      {
@@ -22788,7 +22788,7 @@
      "l": 6.3,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.568
+     "bowl": 0.571
     },
     "upcoming": [
      {
@@ -22901,7 +22901,7 @@
      "l": 6.0,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.678
+     "bowl": 0.67
     },
     "upcoming": [
      {
@@ -23120,10 +23120,10 @@
      ]
     ],
     "proj": {
-     "w": 9.8,
-     "l": 2.2,
+     "w": 9.7,
+     "l": 2.3,
      "unb": 0.0,
-     "w10": 0.633,
+     "w10": 0.631,
      "bowl": 1.0
     },
     "upcoming": [
@@ -23350,7 +23350,7 @@
      "l": 5.3,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.837
+     "bowl": 0.842
     },
     "upcoming": [
      {
@@ -23463,7 +23463,7 @@
      "l": 8.9,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.011
+     "bowl": 0.013
     },
     "upcoming": [
      {
@@ -23588,7 +23588,7 @@
      "l": 7.8,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.089
+     "bowl": 0.087
     },
     "upcoming": [
      {
@@ -23701,7 +23701,7 @@
      "w": 8.8,
      "l": 3.2,
      "unb": 0.0,
-     "w10": 0.257,
+     "w10": 0.255,
      "bowl": 1.0
     },
     "upcoming": [
@@ -23808,7 +23808,7 @@
      "l": 5.9,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.689
+     "bowl": 0.683
     },
     "upcoming": [
      {
@@ -23928,7 +23928,7 @@
      "w": 10.4,
      "l": 1.6,
      "unb": 0.0,
-     "w10": 0.867,
+     "w10": 0.863,
      "bowl": 1.0
     },
     "upcoming": [
@@ -24034,7 +24034,7 @@
      "w": 7.8,
      "l": 4.2,
      "unb": 0.0,
-     "w10": 0.07,
+     "w10": 0.069,
      "bowl": 0.975
     },
     "upcoming": [
@@ -24148,7 +24148,7 @@
      "l": 6.8,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.406
+     "bowl": 0.404
     },
     "upcoming": [
      {
@@ -24260,8 +24260,8 @@
      "w": 8.0,
      "l": 4.0,
      "unb": 0.0,
-     "w10": 0.098,
-     "bowl": 0.986
+     "w10": 0.1,
+     "bowl": 0.987
     },
     "upcoming": [
      {
@@ -24381,7 +24381,7 @@
      "w": 10.1,
      "l": 1.9,
      "unb": 0.0,
-     "w10": 0.786,
+     "w10": 0.788,
      "bowl": 1.0
     },
     "upcoming": [
@@ -24484,11 +24484,11 @@
      ]
     ],
     "proj": {
-     "w": 4.9,
-     "l": 7.1,
+     "w": 5.0,
+     "l": 7.0,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.31
+     "bowl": 0.311
     },
     "upcoming": [
      {
@@ -24601,7 +24601,7 @@
      "l": 5.9,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.677
+     "bowl": 0.674
     },
     "upcoming": [
      {
@@ -24714,7 +24714,7 @@
      "l": 8.7,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.03
+     "bowl": 0.029
     },
     "upcoming": [
      {
@@ -24835,7 +24835,7 @@
      "l": 7.2,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.256
+     "bowl": 0.262
     },
     "upcoming": [
      {
@@ -24948,7 +24948,7 @@
      "w": 9.0,
      "l": 3.0,
      "unb": 0.0,
-     "w10": 0.323,
+     "w10": 0.327,
      "bowl": 1.0
     },
     "upcoming": [
@@ -25062,7 +25062,7 @@
      "w": 8.7,
      "l": 3.3,
      "unb": 0.0,
-     "w10": 0.215,
+     "w10": 0.22,
      "bowl": 1.0
     },
     "upcoming": [
@@ -25168,7 +25168,7 @@
      "w": 10.0,
      "l": 2.0,
      "unb": 0.0,
-     "w10": 0.733,
+     "w10": 0.727,
      "bowl": 1.0
     },
     "upcoming": [
@@ -25290,7 +25290,7 @@
      "l": 4.4,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.981
+     "bowl": 0.979
     },
     "upcoming": [
      {
@@ -25395,8 +25395,8 @@
      "w": 8.3,
      "l": 3.7,
      "unb": 0.0,
-     "w10": 0.14,
-     "bowl": 0.99
+     "w10": 0.141,
+     "bowl": 0.991
     },
     "upcoming": [
      {
@@ -25509,7 +25509,7 @@
      "l": 4.7,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.954
+     "bowl": 0.951
     },
     "upcoming": [
      {
@@ -25622,7 +25622,7 @@
      "l": 5.9,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.667
+     "bowl": 0.663
     },
     "upcoming": [
      {
@@ -25852,7 +25852,7 @@
      "l": 6.0,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.702
+     "bowl": 0.698
     },
     "upcoming": [
      {
@@ -25965,7 +25965,7 @@
      "w": 8.3,
      "l": 3.7,
      "unb": 0.0,
-     "w10": 0.121,
+     "w10": 0.125,
      "bowl": 1.0
     },
     "upcoming": [
@@ -26070,8 +26070,8 @@
     "proj": {
      "w": 11.0,
      "l": 1.0,
-     "unb": 0.283,
-     "w10": 0.96,
+     "unb": 0.29,
+     "w10": 0.963,
      "bowl": 1.0
     },
     "upcoming": [
@@ -26193,7 +26193,7 @@
      "l": 4.8,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.95
+     "bowl": 0.956
     },
     "upcoming": [
      {
@@ -26303,7 +26303,7 @@
      "l": 5.7,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.769
+     "bowl": 0.761
     },
     "upcoming": [
      {
@@ -26424,11 +26424,11 @@
      ]
     ],
     "proj": {
-     "w": 3.6,
-     "l": 8.4,
+     "w": 3.5,
+     "l": 8.5,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.029
+     "bowl": 0.028
     },
     "upcoming": [
      {
@@ -26534,7 +26534,7 @@
      "l": 5.9,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.71
+     "bowl": 0.703
     },
     "upcoming": [
      {
@@ -26647,7 +26647,7 @@
      "l": 5.8,
      "unb": 0.0,
      "w10": 0.002,
-     "bowl": 0.72
+     "bowl": 0.725
     },
     "upcoming": [
      {
@@ -26876,7 +26876,7 @@
      "w": 7.6,
      "l": 4.4,
      "unb": 0.0,
-     "w10": 0.038,
+     "w10": 0.04,
      "bowl": 0.966
     },
     "upcoming": [
@@ -26990,7 +26990,7 @@
      "l": 8.2,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.074
+     "bowl": 0.073
     },
     "upcoming": [
      {
@@ -27103,7 +27103,7 @@
      "l": 6.6,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.457
+     "bowl": 0.47
     },
     "upcoming": [
      {
@@ -27216,7 +27216,7 @@
      "l": 7.8,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.098
+     "bowl": 0.096
     },
     "upcoming": [
      {
@@ -27328,7 +27328,7 @@
      "w": 7.9,
      "l": 4.1,
      "unb": 0.0,
-     "w10": 0.07,
+     "w10": 0.068,
      "bowl": 0.987
     },
     "upcoming": [
@@ -27442,7 +27442,7 @@
      "l": 6.9,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.334
+     "bowl": 0.336
     },
     "upcoming": [
      {
@@ -27668,7 +27668,7 @@
      "l": 6.7,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.434
+     "bowl": 0.432
     },
     "upcoming": [
      {
@@ -27781,7 +27781,7 @@
      "l": 5.7,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.766
+     "bowl": 0.758
     },
     "upcoming": [
      {
@@ -28007,8 +28007,8 @@
      "w": 8.7,
      "l": 3.3,
      "unb": 0.0,
-     "w10": 0.236,
-     "bowl": 0.999
+     "w10": 0.242,
+     "bowl": 0.998
     },
     "upcoming": [
      {
@@ -28230,10 +28230,10 @@
      ]
     ],
     "proj": {
-     "w": 8.5,
-     "l": 3.5,
+     "w": 8.6,
+     "l": 3.4,
      "unb": 0.0,
-     "w10": 0.194,
+     "w10": 0.202,
      "bowl": 1.0
     },
     "upcoming": [
@@ -28350,7 +28350,7 @@
      "w": 10.3,
      "l": 1.7,
      "unb": 0.0,
-     "w10": 0.853,
+     "w10": 0.848,
      "bowl": 1.0
     },
     "upcoming": [
@@ -28471,7 +28471,7 @@
      "w": 8.5,
      "l": 3.5,
      "unb": 0.0,
-     "w10": 0.157,
+     "w10": 0.158,
      "bowl": 1.0
     },
     "upcoming": [
@@ -28581,7 +28581,7 @@
      "w": 10.0,
      "l": 2.0,
      "unb": 0.0,
-     "w10": 0.74,
+     "w10": 0.736,
      "bowl": 1.0
     },
     "upcoming": [
@@ -28695,11 +28695,11 @@
      ]
     ],
     "proj": {
-     "w": 6.3,
-     "l": 5.7,
+     "w": 6.2,
+     "l": 5.8,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.725
+     "bowl": 0.715
     },
     "upcoming": [
      {
@@ -28811,7 +28811,7 @@
      "w": 7.8,
      "l": 4.2,
      "unb": 0.0,
-     "w10": 0.077,
+     "w10": 0.076,
      "bowl": 0.977
     },
     "upcoming": [
@@ -28933,7 +28933,7 @@
      "l": 8.3,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.029
+     "bowl": 0.028
     },
     "upcoming": [
      {
@@ -29042,7 +29042,7 @@
      "w": 8.6,
      "l": 3.4,
      "unb": 0.0,
-     "w10": 0.18,
+     "w10": 0.187,
      "bowl": 1.0
     },
     "upcoming": [
@@ -29156,7 +29156,7 @@
      "l": 5.0,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.922
+     "bowl": 0.926
     },
     "upcoming": [
      {
@@ -29379,7 +29379,7 @@
      "l": 5.7,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.758
+     "bowl": 0.761
     },
     "upcoming": [
      {
@@ -29500,7 +29500,7 @@
      "l": 4.8,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.959
+     "bowl": 0.957
     },
     "upcoming": [
      {
@@ -29606,7 +29606,7 @@
      "l": 7.2,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.238
+     "bowl": 0.239
     },
     "upcoming": [
      {
@@ -29945,7 +29945,7 @@
      "w": 8.8,
      "l": 3.2,
      "unb": 0.0,
-     "w10": 0.25,
+     "w10": 0.257,
      "bowl": 1.0
     },
     "upcoming": [
@@ -30401,7 +30401,7 @@
      "l": 7.0,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.668
+     "bowl": 0.665
     },
     "upcoming": [
      {
@@ -30514,7 +30514,7 @@
      "l": 5.4,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.811
+     "bowl": 0.814
     },
     "upcoming": [
      {
@@ -30627,7 +30627,7 @@
      "l": 5.4,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.815
+     "bowl": 0.812
     },
     "upcoming": [
      {
@@ -30739,7 +30739,7 @@
      "w": 8.4,
      "l": 3.6,
      "unb": 0.0,
-     "w10": 0.161,
+     "w10": 0.165,
      "bowl": 0.992
     },
     "upcoming": [
@@ -30853,7 +30853,7 @@
      "l": 8.2,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.066
+     "bowl": 0.061
     },
     "upcoming": [
      {
@@ -30974,7 +30974,7 @@
      "l": 7.0,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.248
+     "bowl": 0.244
     },
     "upcoming": [
      {
@@ -31080,7 +31080,7 @@
      "l": 7.2,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.27
+     "bowl": 0.266
     },
     "upcoming": [
      {
@@ -31193,7 +31193,7 @@
      "l": 6.8,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.394
+     "bowl": 0.395
     },
     "upcoming": [
      {
@@ -31306,7 +31306,7 @@
      "l": 7.8,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.137
+     "bowl": 0.129
     },
     "upcoming": [
      {
@@ -31426,7 +31426,7 @@
      "w": 8.3,
      "l": 3.7,
      "unb": 0.0,
-     "w10": 0.122,
+     "w10": 0.12,
      "bowl": 1.0
     },
     "upcoming": [
@@ -31533,10 +31533,10 @@
      ]
     ],
     "proj": {
-     "w": 8.1,
-     "l": 3.9,
+     "w": 8.0,
+     "l": 4.0,
      "unb": 0.0,
-     "w10": 0.085,
+     "w10": 0.086,
      "bowl": 0.991
     },
     "upcoming": [
@@ -31658,7 +31658,7 @@
      "l": 6.2,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.59
+     "bowl": 0.6
     },
     "upcoming": [
      {
@@ -31764,7 +31764,7 @@
      "l": 5.0,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.688
+     "bowl": 0.692
     },
     "upcoming": [
      {
@@ -31869,7 +31869,7 @@
      "w": 9.4,
      "l": 2.6,
      "unb": 0.0,
-     "w10": 0.489,
+     "w10": 0.49,
      "bowl": 1.0
     },
     "upcoming": [
@@ -32097,7 +32097,7 @@
      "l": 7.4,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.207
+     "bowl": 0.208
     },
     "upcoming": [
      {
@@ -32214,7 +32214,7 @@
      "l": 6.4,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.537
+     "bowl": 0.538
     },
     "upcoming": [
      {
@@ -32441,7 +32441,7 @@
      "l": 6.1,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.625
+     "bowl": 0.62
     },
     "upcoming": [
      {
@@ -32554,7 +32554,7 @@
      "l": 5.1,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.873
+     "bowl": 0.869
     },
     "upcoming": [
      {
@@ -32784,7 +32784,7 @@
      "l": 5.2,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.864
+     "bowl": 0.866
     },
     "upcoming": [
      {
@@ -33014,7 +33014,7 @@
      "l": 4.8,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.947
+     "bowl": 0.951
     },
     "upcoming": [
      {
@@ -33135,10 +33135,10 @@
      ]
     ],
     "proj": {
-     "w": 7.6,
-     "l": 4.4,
+     "w": 7.5,
+     "l": 4.5,
      "unb": 0.0,
-     "w10": 0.016,
+     "w10": 0.015,
      "bowl": 1.0
     },
     "upcoming": [
@@ -33245,7 +33245,7 @@
      "l": 9.5,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.003
+     "bowl": 0.002
     },
     "upcoming": [
      {
@@ -33365,7 +33365,7 @@
      "w": 9.5,
      "l": 2.5,
      "unb": 0.0,
-     "w10": 0.518,
+     "w10": 0.519,
      "bowl": 1.0
     },
     "upcoming": [
@@ -33470,8 +33470,8 @@
     "proj": {
      "w": 10.1,
      "l": 1.9,
-     "unb": 0.105,
-     "w10": 0.704,
+     "unb": 0.115,
+     "w10": 0.705,
      "bowl": 1.0
     },
     "upcoming": [
@@ -33699,7 +33699,7 @@
      "l": 8.2,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.041
+     "bowl": 0.038
     },
     "upcoming": [
      {
@@ -33813,7 +33813,7 @@
      "l": 6.0,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.677
+     "bowl": 0.672
     },
     "upcoming": [
      {
@@ -33926,7 +33926,7 @@
      "w": 7.7,
      "l": 4.3,
      "unb": 0.0,
-     "w10": 0.013,
+     "w10": 0.015,
      "bowl": 1.0
     },
     "upcoming": [
@@ -34036,7 +34036,7 @@
      "w": 9.8,
      "l": 2.2,
      "unb": 0.0,
-     "w10": 0.668,
+     "w10": 0.661,
      "bowl": 1.0
     },
     "upcoming": [
@@ -34146,11 +34146,11 @@
      ]
     ],
     "proj": {
-     "w": 5.7,
-     "l": 6.3,
+     "w": 5.8,
+     "l": 6.2,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.567
+     "bowl": 0.573
     },
     "upcoming": [
      {
@@ -34378,7 +34378,7 @@
      "l": 5.8,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.78
+     "bowl": 0.776
     },
     "upcoming": [
      {
@@ -34484,7 +34484,7 @@
      "l": 6.5,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.517
+     "bowl": 0.519
     },
     "upcoming": [
      {
@@ -34605,7 +34605,7 @@
      "l": 4.0,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.995
+     "bowl": 0.993
     },
     "upcoming": [
      {
@@ -34707,11 +34707,11 @@
      ]
     ],
     "proj": {
-     "w": 8.4,
-     "l": 3.6,
+     "w": 8.5,
+     "l": 3.5,
      "unb": 0.0,
-     "w10": 0.157,
-     "bowl": 0.995
+     "w10": 0.164,
+     "bowl": 0.996
     },
     "upcoming": [
      {
@@ -34832,7 +34832,7 @@
      "l": 5.6,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.834
+     "bowl": 0.829
     },
     "upcoming": [
      {
