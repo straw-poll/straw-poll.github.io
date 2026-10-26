@@ -680,7 +680,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
           <dt>Adj …</dt><dd>The same stats, adjusted for the opponents faced.</dd>
           <dt>Defs / Offs faced</dt><dd>Strength of schedule: the average adjusted EPA of the FBS defenses (lower = tougher) and offenses (higher = tougher) a team has played.</dd>
           <dt>▲ ▼ NEW</dt><dd>Movement since the previous week's Straw Poll.</dd>
-          <dt>H2H, LOOP</dt><dd>Vote tab reminders: a head-to-head result that disagrees with the order, or teams that beat each other in a circle.</dd>
+          <dt>H2H, LOOP</dt><dd>Vote tab reminders: a head-to-head result that disagrees with the order (teams within 5 spots of each other), or teams that beat each other in a circle.</dd>
         </dl>
 
         <h2 id="m-data">Data and updates</h2>
@@ -760,7 +760,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
           <div class="row wmaphead"><div class="legend" id="legend2"></div><span class="spacer"></span><label class="xsel"><span class="lab">X axis</span><select id="xAx2" class="fsel xpick" aria-label="Results Map x axis"><option value="wolp">Wolp+</option><option value="fpi">FPI</option><option value="qw">Resume Strength</option></select></label></div>
           <div id="wMap" class="map drag"></div>
           <div id="wNotes"></div>
-          <p class="note">Drag a row's handle to reorder (or focus it and use the arrow keys). Drag a team in from the list, or tap +. Your ballot is exactly 25 teams; submit it before the deadline and change it as often as you like until then. Only you can see it until voting closes. <b>H2H</b> marks a head-to-head result that disagrees with the order; <b>LOOP</b> marks teams that beat each other in a circle. Both are reminders only; tap one to see why.</p>
+          <p class="note">Drag a row's handle to reorder (or focus it and use the arrow keys). Drag a team in from the list, or tap +. Your ballot is exactly 25 teams; submit it before the deadline and change it as often as you like until then. Only you can see it until voting closes. <b>H2H</b> marks a head-to-head result that disagrees with the order, for teams within 5 spots of each other; <b>LOOP</b> marks teams that beat each other in a circle. Both are reminders only; tap one to see why.</p>
         </div>
         <div id="ws-ballot" hidden>
           <div class="row" style="justify-content:flex-end;margin-bottom:8px"><details class="colmenu" id="colMenuB"><summary class="pill">Columns ▾</summary><div class="menu" id="colListB"></div></details></div>
@@ -1512,6 +1512,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   }
 
   // ---------- WORKSPACE: ballot ----------
+  const H2H_GAP = 5;
   function analyze(){
     const onB=draftMap(), T=S.draft.slice(), out={}, meets=[];
     T.forEach(a=>{ out[a]=[]; });
@@ -1539,7 +1540,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     });
     const flags={};
     meets.forEach(p=>{
-      if(!p.upset || (loopOf[p.hi] && loopOf[p.hi]===loopOf[p.lo])) return;
+      if(!p.upset || onB[p.lo]-onB[p.hi] > H2H_GAP) return;   // owner (#31): within 5 spots only; shown even when both teams are in a loop
       const sc=`${p.m.pa}-${p.m.pf}`, when=p.m.date?` (${fmtDate(p.m.date)})`:'';
       (flags[p.hi]=flags[p.hi]||[]).push(`Ranked above ${nm(p.lo)} (#${onB[p.lo]}), but lost to them ${sc}${when}.`);
       (flags[p.lo]=flags[p.lo]||[]).push(`Ranked below ${nm(p.hi)} (#${onB[p.hi]}), but beat them ${sc}${when}.`);
