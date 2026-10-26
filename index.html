@@ -680,7 +680,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
           <dt>Adj …</dt><dd>The same stats, adjusted for the opponents faced.</dd>
           <dt>Defs / Offs faced</dt><dd>Strength of schedule: the average adjusted EPA of the FBS defenses (lower = tougher) and offenses (higher = tougher) a team has played.</dd>
           <dt>▲ ▼ NEW</dt><dd>Movement since the previous week's Straw Poll.</dd>
-          <dt>H2H, LOOP</dt><dd>Vote tab reminders: a head-to-head result that disagrees with the order, or teams that beat each other in a circle.</dd>
+          <dt>H2H, LOOP</dt><dd>Vote tab reminders: a head-to-head result that disagrees with the order (teams within 5 spots of each other), or teams that beat each other in a circle.</dd>
         </dl>
 
         <h2 id="m-data">Data and updates</h2>
@@ -691,9 +691,10 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
         <p>Your ballot doubles as your picks. Every regular-season week, each game one of your 25 teams plays is a pick for the team you ranked higher (a team not on your ballot counts as #26).</p>
         <ul>
           <li><b>Right:</b> +3 if the loser is in that week's AP top 10, +2 if it's AP 11–25, +1 otherwise.</li>
-          <li><b>Wrong:</b> the further apart the two teams were on your ballot, the more it costs. Your #1 losing to a team you ranked 2–5: −1; 6–10: −2; 11–15: −3; 16–20: −4; 21–25: −5; a team you didn't rank: −6. The same steps apply from any spot: your #16 losing to your #18 is −1.</li>
+          <li><b>Upset bonus:</b> +1 more when the team you picked was ranked lower in that week's AP poll (an unranked team counts as #26), for example an unranked team you ranked beating an AP Top 25 team.</li>
+          <li><b>Wrong:</b> the further apart the two teams were on your ballot, the more it costs: 1–9 spots apart −1, 10–19 spots −2, 20 or more −3. A team you didn't rank counts as #26, so your #1 losing to it is −3.</li>
           <li><b>Byes don't hurt:</b> each week's points are scaled to 25 games (points ÷ games × 25). Your season is the sum of your weeks.</li>
-          <li>The AP poll is scored exactly the same way, so you can see whether you're beating it.</li>
+          <li>The standings show the AP poll's record (right and wrong picks, made the same way) so you can compare yours with it.</li>
         </ul>
         </div>
 
@@ -760,7 +761,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
           <div class="row wmaphead"><div class="legend" id="legend2"></div><span class="spacer"></span><label class="xsel"><span class="lab">X axis</span><select id="xAx2" class="fsel xpick" aria-label="Results Map x axis"><option value="wolp">Wolp+</option><option value="fpi">FPI</option><option value="qw">Resume Strength</option></select></label></div>
           <div id="wMap" class="map drag"></div>
           <div id="wNotes"></div>
-          <p class="note">Drag a row's handle to reorder (or focus it and use the arrow keys). Drag a team in from the list, or tap +. Your ballot is exactly 25 teams; submit it before the deadline and change it as often as you like until then. Only you can see it until voting closes. <b>H2H</b> marks a head-to-head result that disagrees with the order; <b>LOOP</b> marks teams that beat each other in a circle. Both are reminders only; tap one to see why.</p>
+          <p class="note">Drag a row's handle to reorder (or focus it and use the arrow keys). Drag a team in from the list, or tap +. Your ballot is exactly 25 teams; submit it before the deadline and change it as often as you like until then. Only you can see it until voting closes. <b>H2H</b> marks a head-to-head result that disagrees with the order, for teams within 5 spots of each other; <b>LOOP</b> marks teams that beat each other in a circle. Both are reminders only; tap one to see why.</p>
         </div>
         <div id="ws-ballot" hidden>
           <div class="row" style="justify-content:flex-end;margin-bottom:8px"><details class="colmenu" id="colMenuB"><summary class="pill">Columns ▾</summary><div class="menu" id="colListB"></div></details></div>
@@ -1512,6 +1513,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   }
 
   // ---------- WORKSPACE: ballot ----------
+  const H2H_GAP = 5;
   function analyze(){
     const onB=draftMap(), T=S.draft.slice(), out={}, meets=[];
     T.forEach(a=>{ out[a]=[]; });
@@ -1539,7 +1541,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     });
     const flags={};
     meets.forEach(p=>{
-      if(!p.upset || (loopOf[p.hi] && loopOf[p.hi]===loopOf[p.lo])) return;
+      if(!p.upset || onB[p.lo]-onB[p.hi] > H2H_GAP) return;   // owner (#31): within 5 spots only; shown even when both teams are in a loop
       const sc=`${p.m.pa}-${p.m.pf}`, when=p.m.date?` (${fmtDate(p.m.date)})`:'';
       (flags[p.hi]=flags[p.hi]||[]).push(`Ranked above ${nm(p.lo)} (#${onB[p.lo]}), but lost to them ${sc}${when}.`);
       (flags[p.lo]=flags[p.lo]||[]).push(`Ranked below ${nm(p.hi)} (#${onB[p.hi]}), but beat them ${sc}${when}.`);
@@ -2002,8 +2004,8 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       if(g.hp==null || g.ap==null || g.hp===g.ap) continue;
       const rh=p.ap[g.home], ra=p.ap[g.away]; if(rh==null && ra==null) continue;
       const homePick = (rh||26) < (ra||26), loser = homePick ? g.away : g.home;
-      if(homePick === (g.hp>g.ap)){ const r=p.ap[loser]; pts += r!=null && r<=10 ? 3 : r!=null ? 2 : 1; right++; }
-      else { pts -= Math.ceil((Math.abs((rh||26)-(ra||26))+1)/5); wrong++; }
+      if(homePick === (g.hp>g.ap)){ const r=p.ap[loser]; pts += r!=null && r<=10 ? 3 : r!=null ? 2 : 1; right++; }   // (the AP never gets the upset bonus: it can't pick against itself)
+      else { pts -= Math.ceil((Math.abs((rh||26)-(ra||26))+1)/10); wrong++; }
     }
     const n=right+wrong; return n ? {pts: pts/n*25, right, wrong, n} : null;
   }
@@ -2036,16 +2038,16 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     const f=S.lg.form; $('lgForm').hidden = !f;
     if(f){ $('lgInput').placeholder = f==='join' ? 'Invite code' : 'League name'; $('lgInput').setAttribute('aria-label', f==='join' ? 'Invite code' : 'League name'); $('lgFormOk').textContent = f==='join' ? 'Join' : f==='rename' ? 'Rename' : 'Create'; }
     if(!l){ $('lgStand').innerHTML='<tbody><tr><td class="dim">You’re not in a league yet.</td></tr></tbody>'; $('lgPollSec').hidden=true; $('lgManage').innerHTML=''; return; }
-    // standings: league members who have submitted a ballot this season, by season points; the AP poll as a reference row
+    // standings: league members who have submitted a ballot this season, by season points; the AP poll's record as a reference row
     const ids = (S.lg.members[l.id] || []).filter(id=>S.lg.voters.has(id) || S.lg.totals.some(t=>t.user_id===id) || (id===uid && Object.keys(S.vote.mine).length)), scored = [...new Set(S.lg.totals.map(t=>t.week))].sort((a,b)=>a-b), last = scored[scored.length-1];
     const latest = id => S.lg.totals.filter(t=>t.user_id===id).sort((a,b)=>b.week-a.week)[0];
     const rows = ids.map(id=>({id, t:latest(id), w:S.lg.totals.find(t=>t.user_id===id && t.week===last)}))
       .sort((a,b)=>((b.t?b.t.season_points:-1e9)-(a.t?a.t.season_points:-1e9)) || lgName(a.id).localeCompare(lgName(b.id)));
-    const apS = scored.map(w=>apPickem(w)).filter(Boolean), apSeason = apS.reduce((x,y)=>x+y.pts,0), apLast = last!=null ? apPickem(last) : null;
+    const apS = scored.map(w=>apPickem(w)).filter(Boolean);   // the AP row compares records only, not points (owner, 2026-10-26)
     $('lgStSub').textContent = last!=null ? `through week ${last}` : 'scoring starts after the first closed week’s games';
     $('lgStand').innerHTML = `<thead><tr class="cols"><th>#</th><th style="text-align:left">Voter</th><th>Total points</th><th>${last!=null?`Week ${last}`:'Last week'} points</th><th>Record</th><th title="Correct picks of the team ranked lower in that week's AP poll">Upsets called</th></tr></thead><tbody>${
       rows.length ? rows.map((r,i)=>`<tr class="${r.id===uid?'me':''}"><td>${r.t?i+1:'–'}</td><td style="text-align:left"><button class="linkbtn vname" data-voter="${esc(r.id)}">${esc(lgName(r.id))}</button>${r.id===uid?' (you)':''}</td><td class="strong">${ptsTxt(r.t&&r.t.season_points)}</td><td>${ptsTxt(r.w&&r.w.points)}</td><td>${r.t?`${r.t.season_right}-${r.t.season_wrong}`:'–'}</td><td>${r.t && r.t.season_upsets!=null ? r.t.season_upsets : '–'}</td></tr>`).join('') : '<tr><td colspan="6" class="dim">Voters appear here after their first ballot.</td></tr>'}${
-      apS.length ? `<tr class="dim"><td></td><td style="text-align:left">AP poll <small>(reference, scored the same way)</small></td><td>${ptsTxt(apSeason)}</td><td>${ptsTxt(apLast&&apLast.pts)}</td><td>${apS.reduce((x,y)=>x+y.right,0)}-${apS.reduce((x,y)=>x+y.wrong,0)}</td><td>–</td></tr>` : ''}</tbody>`;
+      apS.length ? `<tr class="dim"><td></td><td style="text-align:left">AP poll <small>(record for reference)</small></td><td>–</td><td>–</td><td>${apS.reduce((x,y)=>x+y.right,0)}-${apS.reduce((x,y)=>x+y.wrong,0)}</td><td>–</td></tr>` : ''}</tbody>`;
     // league poll (All voters' poll is the Straw Poll)
     const polls = S.lg.polls[l.id] || {}, pw = Object.keys(polls).map(Number).sort((a,b)=>a-b);
     $('lgPollSec').hidden = l.everyone;
