@@ -806,7 +806,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
         <p class="note" style="margin:0 0 10px">Every finished FBS game where Wolp+ and the line disagree (Wolp+ favors the underdog, or they differ by 7+ points), from the spreads saved before kickoff; automatic, nothing to publish. <b>Wolp+ vs line</b> = the result landed on Wolp+'s side of the line (pushes left out). <b>Wolp+ winner</b> = the team Wolp+ favored won.</p>
         <div class="tblw"><table id="lCmp"></table></div></section>
       <section class="sec"><div class="sh"><h2>Model comparison</h2></div>
-        <p class="note" style="margin:0 0 10px">Winners picked in the Scorecard's games (FBS games with a Straw Poll or AP Top 25 team). Wolp+ = its pre-kickoff spread; ESPN FPI and SP+ = their ratings saved before the week plus home field; Line = the favorite. SP+ is saved from week 7 on. Hover a cell for the count.</p>
+        <p class="note" style="margin:0 0 10px">Winners picked in the Scorecard's games (FBS games with a Straw Poll or AP Top 25 team). Wolp+ = its pre-kickoff spread; Straw+ = that spread shifted by the week's Straw Poll (30% of the way toward the crowd's order; weeks with a published poll, from week 6); ESPN FPI and SP+ = their ratings saved before the week plus home field; Line = the favorite. SP+ is saved from week 7 on. Average miss = how far each one's predicted margin was from the final margin, on average (lower is better), on the games where all five have a prediction. Hover a cell for the count.</p>
         <div class="tblw"><table id="mCmp"></table></div></section>
   </section>
 </main>
@@ -2594,20 +2594,38 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       : '<tbody><tr><td class="dim">No finished games where Wolp+ and the line disagree yet.</td></tr></tbody>';
   }
   // Model comparison (#25): the Scorecard's games and picks, plus SP+ (owner only)
+  // Straw+ (owner only, 2026-10-26): Wolp+'s pre-kickoff spread shifted by how far that week's Straw Poll moved each team
+  // (Straw+ rating - the Wolp+ rating saved for the week). Only weeks with a published poll and saved Wolp+ ratings (6+).
+  function strawPlusSpread(w, g){
+    const wk=S.weeks[w.week];
+    if(!wk || !wk.compiled || !w.wolp || typeof g.model!=='number') return null;
+    const d = a => { const r=wk.results.find(x=>x.team===a); return r && typeof r.plus==='number' && typeof w.wolp[a]==='number' ? r.plus - w.wolp[a] : 0; };
+    return g.model + d(g.home) - d(g.away);
+  }
+  function strawPlusPick(w, g){
+    if(!S.weeks[w.week] || !S.weeks[w.week].compiled || !w.wolp) return null;
+    if(!!S.teams[g.home] !== !!S.teams[g.away]) return !!S.teams[g.home];
+    const spread = strawPlusSpread(w, g);
+    return spread ? spread>0 : null;
+  }
+  // predicted home margins for the Model comparison's "Average miss" row (null = no prediction for that game)
+  const ratingSpread = (R, g) => R && typeof R[g.home]==='number' && typeof R[g.away]==='number' ? R[g.home] - R[g.away] + (g.neutral ? 0 : fpiHome()) : null;
   function renderModelCmp(){
-    const SYS=['Wolp+','ESPN FPI','SP+','Line'], tot={}; SYS.forEach(k=>tot[k]=[0,0]); let totN=0;
+    const SYS=['Wolp+','Straw+','ESPN FPI','SP+','Line'], tot={}, miss={}; SYS.forEach(k=>{ tot[k]=[0,0]; miss[k]=[]; }); let totN=0;
     const cell = r => r[0]+r[1] ? `<td title="${r[0]} of ${r[0]+r[1]} right">${Math.round(100*r[0]/(r[0]+r[1]))}%</td>` : '<td class="dim">—</td>';
     const rows = (S.picks||[]).filter(w=>w.games.some(g=>g.hp!=null)).map(w=>{
       const rm = S.weeks[w.week] ? rankMap(w.week) : null, ap=w.ap||null, rec={}; SYS.forEach(k=>rec[k]=[0,0]); let n=0;
       w.games.forEach(g=>{
         if(g.hp==null || g.hp===g.ap || !S.teams[g.home] || !S.teams[g.away]) return;
         if(!((rm && ((rm[g.home]||99)<=TOP || (rm[g.away]||99)<=TOP)) || (ap && (ap[g.home] || ap[g.away])))) return;
-        n++; const homeWon=g.hp>g.ap, picks={'Wolp+':wolpPick(w,g), 'ESPN FPI':fpiPick(w.fpi,g), 'SP+':fpiPick(w.sp,g), 'Line': typeof g.line==='number' && g.line!==0 ? g.line>0 : null};
+        n++; const homeWon=g.hp>g.ap, picks={'Wolp+':wolpPick(w,g), 'Straw+':strawPlusPick(w,g), 'ESPN FPI':fpiPick(w.fpi,g), 'SP+':fpiPick(w.sp,g), 'Line': typeof g.line==='number' && g.line!==0 ? g.line>0 : null};
         SYS.forEach(k=>{ if(picks[k]===null) return; const ok=picks[k]===homeWon; rec[k][ok?0:1]++; tot[k][ok?0:1]++; });
+        const pred = {'Wolp+': typeof g.model==='number' ? g.model : null, 'Straw+': strawPlusSpread(w,g), 'ESPN FPI': ratingSpread(w.fpi,g), 'SP+': ratingSpread(w.sp,g), 'Line': typeof g.line==='number' ? g.line : null};
+        if(SYS.every(k=>pred[k]!==null)) SYS.forEach(k=>miss[k].push(Math.abs(g.hp - g.ap - pred[k])));   // same games for all
       });
       totN+=n; return !n ? '' : `<tr><th style="text-align:left">Week ${w.week}</th><td>${n}</td>${SYS.map(k=>cell(rec[k])).join('')}</tr>`;
     });
-    $('mCmp').innerHTML = rows.length ? `<thead><tr class="cols"><th style="text-align:left">Week</th><th>Games</th>${SYS.map(k=>`<th>${k}</th>`).join('')}</tr></thead><tbody>${rows.join('')}<tr class="tot"><th style="text-align:left">Season</th><td>${totN}</td>${SYS.map(k=>cell(tot[k])).join('')}</tr></tbody>`
+    $('mCmp').innerHTML = rows.length ? `<thead><tr class="cols"><th style="text-align:left">Week</th><th>Games</th>${SYS.map(k=>`<th>${k}</th>`).join('')}</tr></thead><tbody>${rows.join('')}<tr class="tot"><th style="text-align:left">Season</th><td>${totN}</td>${SYS.map(k=>cell(tot[k])).join('')}</tr><tr class="tot"><th style="text-align:left">Average miss</th><td></td>${SYS.map(k=>miss[k].length ? `<td title="${miss[k].length} games">${(miss[k].reduce((a,b)=>a+b,0)/miss[k].length).toFixed(1)} pts</td>` : '<td class="dim">—</td>').join('')}</tr></tbody>`
       : '<tbody><tr><td class="dim">The first week is graded once its games are final.</td></tr></tbody>';
   }
   // Admin "Ballots": which approved voters have submitted for the latest week with a deadline (backend/016 ballot_status:
