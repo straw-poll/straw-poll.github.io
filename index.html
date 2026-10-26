@@ -586,7 +586,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       <p class="note">Each list is the Top 25 going into that week's games. Wolp+<span class="sp-only"> and Straw+</span> lists start at week 6 of 2026; weeks 1–5 are the site owner's own rankings from before ballots opened. Arrows show movement from the previous week.</p></div>
     <div class="card" id="scoreCard" style="margin-bottom:22px"><div class="ch"><h2>Scorecard<small>Who picks more winners: Wolp+, ESPN's FPI or the betting line?</small></h2></div>
       <div class="tblw" id="scoreBody"></div>
-      <p class="note">Share of winners picked in FBS games with a Straw Poll or AP Top 25 team. Wolp+ and FPI pick the higher-rated team; the line picks the favorite.</p></div>
+      <p class="note">Share of winners picked in FBS games with a Straw Poll or AP Top 25 team. Wolp+ picks the team its pre-kickoff spread favors; FPI picks the higher-rated team after home field; the line picks the favorite.</p></div>
   </section>
 
   <!-- METHODOLOGY -->
@@ -595,7 +595,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     <div class="mwrap">
       <nav class="toc" aria-label="Methodology sections">
         <a href="#m-wolp">The Straw Poll</a><a href="#m-power">Wolp+</a>
-        <a href="#m-qw">Resume Strength</a><a href="#m-proj">Win chances and projections</a><a href="#m-map">Results Map</a><a href="#m-home">Home page</a><a href="#m-cols">Columns and flags</a><a href="#m-data">Data and updates</a><a href="#m-pickem" class="lg-only">Pick'em</a><a href="#m-faq">FAQ</a>
+        <a href="#m-qw">Resume Strength</a><a href="#m-proj">Win chances and projections</a><a href="#m-map">Results Map</a><a href="#m-home">Home page</a><a href="#m-cols">Columns and flags</a><a href="#m-data">Data and updates</a><a href="#m-pickem" class="lg-only">Ballot Score</a><a href="#m-faq">FAQ</a>
       </nav>
       <article class="method">
         <h2 id="m-wolp">The Straw Poll</h2>
@@ -686,15 +686,15 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
         <h2 id="m-data">Data and updates</h2>
         <p>Team data comes from <a href="https://collegefootballdata.com" target="_blank" rel="noopener">CollegeFootballData.com</a> and refreshes at 7 AM ET Thursday through Sunday: results, stats, ratings, the AP poll, ESPN's FPI, the schedule and betting lines. The Straw Poll is released Monday at about 5:15 PM ET, right after voting closes. Live scores come from ESPN while games are on. Only FBS teams are rated.</p>
 
-        <h2 class="lg-only" id="m-pickem">Pick'em</h2>
+        <h2 class="lg-only" id="m-pickem">Ballot Score</h2>
         <div class="lg-only">
-        <p>Your ballot doubles as your picks. Every regular-season week, each game one of your 25 teams plays is a pick for the team you ranked higher (a team not on your ballot counts as #26).</p>
+        <p>Your ballot is scored against each week's results; you don't pick games separately. Every regular-season week, each game one of your 25 teams plays counts as a call for the team you ranked higher (a team not on your ballot counts as #26).</p>
         <ul>
           <li><b>Right:</b> +3 if the loser is in that week's AP top 10, +2 if it's AP 11–25, +1 otherwise.</li>
-          <li><b>Upset bonus:</b> +1 more when the team you picked was ranked lower in that week's AP poll (an unranked team counts as #26), for example an unranked team you ranked beating an AP Top 25 team.</li>
+          <li><b>Upset bonus:</b> +1 more when the team you called was ranked lower in that week's AP poll (an unranked team counts as #26), for example an unranked team you ranked beating an AP Top 25 team.</li>
           <li><b>Wrong:</b> the further apart the two teams were on your ballot, the more it costs: 1–9 spots apart −1, 10–19 spots −2, 20 or more −3. A team you didn't rank counts as #26, so your #1 losing to it is −3.</li>
           <li><b>Byes don't hurt:</b> each week's points are scaled to 25 games (points ÷ games × 25). Your season is the sum of your weeks.</li>
-          <li>The standings show the AP poll's record (right and wrong picks, made the same way) so you can compare yours with it.</li>
+          <li>The standings show the AP poll's record (right and wrong calls, made the same way) so you can compare yours with it.</li>
         </ul>
         </div>
 
@@ -713,7 +713,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   <!-- LEAGUES: friends' leagues plus "All voters" (everyone approved); pick'em standings (points, scored on
        the Mac), each league's poll, and league-mates' ballots once voting has closed. The database decides who sees what. -->
   <section id="view-leagues" hidden>
-    <div class="ph"><div><h1>Leagues</h1><div class="sub">Pick'em with friends: your ballot is your picks</div></div></div>
+    <div class="ph"><div><h1>Leagues</h1><div class="sub">Ballot Score standings with friends: your ballot, scored against each weekend's results</div></div></div>
     <div class="empty" id="lgGate" role="status"></div>
     <div id="lgMain" hidden>
       <div class="row lgbar">
@@ -724,7 +724,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       <form class="lgform" id="lgForm" hidden><input id="lgInput" maxlength="40" autocomplete="off"><button class="btn primary" id="lgFormOk" type="submit"></button><button class="btn quiet" id="lgFormCancel" type="button">Cancel</button></form>
       <section class="sec"><div class="sh"><h2>Standings<small id="lgStSub"></small></h2></div>
         <div class="tblw"><table id="lgStand"></table></div>
-        <p class="note">Pick'em points, updated after each weekend's games. See <button class="linkbtn" data-go="method" data-anchor="m-pickem">Methodology → Pick'em</button> for how picks are scored.</p></section>
+        <p class="note">Ballot Score points, updated after each weekend's games. See <button class="linkbtn" data-go="method" data-anchor="m-pickem">Methodology → Ballot Score</button> for how ballots are scored.</p></section>
       <section class="sec" id="lgPollSec"><div class="sh"><h2>League poll<small id="lgPollSub"></small></h2>
         <label class="xsel"><span class="lab">Week</span><select id="lgPollWk" class="fsel xpick" aria-label="League poll week"></select></label></div>
         <div id="lgPoll"></div></section>
@@ -1246,7 +1246,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       S.gmap[g.id] = g;
       return `<div class="game${up?' hot':''}${up && result ? (won!==lFav?' hit':' miss') : ''}" data-game="${esc(g.id)}"><div class="gtop"><span class="when${live?' live':''}">${done ? 'Final' : live ? `Live · ${esc(sc.detail)}` : esc(kick(g.start))}</span>${result || (up && !inUps?'<span class="tag up">Upset Watch</span>':'')}</div>
         ${side(g.away)}<div class="at">${g.neutral?'vs':'at'}</div>${side(g.home)}
-        <div class="nums"><div><small>Line</small><b>${spread(g.line,g.home,g.away)}</b></div><div><small>Wolp+</small><b class="${mFav && lFav && mFav!==lFav ? 'mup':''}">${modelTxt(g.model,g.home,g.away)}</b></div></div>
+        <div class="nums"><div><small>Line</small><b>${spread(g.line,g.home,g.away)}</b></div><div><small>Wolp+</small><b class="${mFav && lFav && mFav!==lFav ? 'mup':''}">${spread(g.model,g.home,g.away)}</b></div></div>
         ${up && up.note ? `<p class="gnote">${esc(up.note)}</p>` : ''}<button class="gov sr-only" data-game="${esc(g.id)}">Game overview: ${esc(nm(g.away))} ${g.neutral?'vs':'at'} ${esc(nm(g.home))}</button></div>`; };
     // Upset alerts: this week's; until this week's are published, last week's with final scores. (Saturday's results
     // arrive with Sunday's update, the same run that moves the site on to the next week.)
@@ -1274,7 +1274,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     if(S.showAll) $('hAll').innerHTML = `<div class="tblw"><table><thead><tr class="cols"><th style="text-align:left">Kickoff</th><th style="text-align:left">Away</th><th></th><th style="text-align:left">Home</th><th>Line</th><th>Wolp+</th></tr></thead><tbody>${
       games.map(g=>{ const sc=gameScore(g), st = sc.state==='final' ? `Final ${sc.ap}-${sc.hp}` : sc.state==='live' ? `${sc.detail} · ${sc.ap}-${sc.hp}` : kick(g.start);
         S.gmap[g.id] = g;
-        return `<tr data-game="${esc(g.id)}"><td class="dim${sc.state==='live'?' live':''}"><button class="gov" data-game="${esc(g.id)}" aria-label="Game overview: ${esc(nm(g.away))} ${g.neutral?'vs':'at'} ${esc(nm(g.home))}">${esc(st)}</button></td><td><button class="gl-n tname linkbtn" style="color:inherit;text-decoration:none" data-open="${esc(g.away)}">${logo(g.away)}${rkBadge(ranks[g.away])}${esc(nm(g.away))}</button></td><td class="dim">${g.neutral?'vs':'at'}</td><td><button class="gl-n tname linkbtn" style="color:inherit;text-decoration:none" data-open="${esc(g.home)}">${logo(g.home)}${rkBadge(ranks[g.home])}${esc(nm(g.home))}</button></td><td style="text-align:center">${spread(g.line,g.home,g.away)}</td><td style="text-align:center">${modelTxt(g.model,g.home,g.away)}</td></tr>`; }).join('')}</tbody></table></div>`;
+        return `<tr data-game="${esc(g.id)}"><td class="dim${sc.state==='live'?' live':''}"><button class="gov" data-game="${esc(g.id)}" aria-label="Game overview: ${esc(nm(g.away))} ${g.neutral?'vs':'at'} ${esc(nm(g.home))}">${esc(st)}</button></td><td><button class="gl-n tname linkbtn" style="color:inherit;text-decoration:none" data-open="${esc(g.away)}">${logo(g.away)}${rkBadge(ranks[g.away])}${esc(nm(g.away))}</button></td><td class="dim">${g.neutral?'vs':'at'}</td><td><button class="gl-n tname linkbtn" style="color:inherit;text-decoration:none" data-open="${esc(g.home)}">${logo(g.home)}${rkBadge(ranks[g.home])}${esc(nm(g.home))}</button></td><td style="text-align:center">${spread(g.line,g.home,g.away)}</td><td style="text-align:center">${spread(g.model,g.home,g.away)}</td></tr>`; }).join('')}</tbody></table></div>`;
   }
   $('hAllBtn').addEventListener('click', ()=>{ S.showAll=!S.showAll; renderHome(); });
   ['hFraud','hRadar'].forEach(id=>$(id).addEventListener('click', e=>{ const b=e.target.closest('[data-more]'); if(b){ S.more[b.dataset.more]=!S.more[b.dataset.more]; renderHome(); } }));
@@ -2029,7 +2029,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     .map(a=>`<button class="wkrow" data-open="${esc(a)}" style="--tc:${tc(a)}"><span class="rk">${ranks[a]}</span>${moveOf(a, ranks[a], prev)}${logo(a)}<span class="tn">${esc(nm(a))}</span></button>`).join('');
   function renderLeagues(){
     const pr = S.me && S.me.profile;
-    const gate = !S.me ? `<strong>Sign in to join leagues</strong>Leagues are for approved voters: pick'em with your ballot, your league's own poll, and each other's ballots once voting closes.<br><br><button class="btn primary" data-signin>Sign in</button>`
+    const gate = !S.me ? `<strong>Sign in to join leagues</strong>Leagues are for approved voters: Ballot Score standings, your league's own poll, and each other's ballots once voting closes.<br><br><button class="btn primary" data-signin>Sign in</button>`
       : S.me.err ? `<strong>Couldn’t load your account</strong>${esc(sbErr(S.me.err, 'Reload the page to try again.'))}`
       : !S.canWrite ? (pr && pr.status==='declined' ? '<strong>Not approved</strong>Leagues are for approved voters.' : '<strong>Waiting for approval</strong>Once the site owner approves your account, you’ll be in the All voters league automatically.')
       : S.lg.state==='error' ? `<strong>Leagues couldn’t load</strong>${esc(sbErr(S.lg.err, 'Reload the page to try again.'))}`
@@ -2048,7 +2048,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       .sort((a,b)=>((b.t?b.t.season_points:-1e9)-(a.t?a.t.season_points:-1e9)) || lgName(a.id).localeCompare(lgName(b.id)));
     const apS = scored.map(w=>apPickem(w)).filter(Boolean);   // the AP row compares records only, not points (owner, 2026-10-26)
     $('lgStSub').textContent = last!=null ? `through week ${last}` : 'scoring starts after the first closed week’s games';
-    $('lgStand').innerHTML = `<thead><tr class="cols"><th>#</th><th style="text-align:left">Voter</th><th>Total points</th><th>${last!=null?`Week ${last}`:'Last week'} points</th><th>Record</th><th title="Correct picks of the team ranked lower in that week's AP poll">Upsets called</th></tr></thead><tbody>${
+    $('lgStand').innerHTML = `<thead><tr class="cols"><th>#</th><th style="text-align:left">Voter</th><th>Total points</th><th>${last!=null?`Week ${last}`:'Last week'} points</th><th>Record</th><th title="Right calls where your team was ranked lower in that week's AP poll">Upsets called</th></tr></thead><tbody>${
       rows.length ? rows.map((r,i)=>`<tr class="${r.id===uid?'me':''}"><td>${r.t?i+1:'–'}</td><td style="text-align:left"><button class="linkbtn vname" data-voter="${esc(r.id)}">${esc(lgName(r.id))}</button>${r.id===uid?' (you)':''}</td><td class="strong">${ptsTxt(r.t&&r.t.season_points)}</td><td>${ptsTxt(r.w&&r.w.points)}</td><td>${r.t?`${r.t.season_right}-${r.t.season_wrong}`:'–'}</td><td>${r.t && r.t.season_upsets!=null ? r.t.season_upsets : '–'}</td></tr>`).join('') : '<tr><td colspan="6" class="dim">Voters appear here after their first ballot.</td></tr>'}${
       apS.length ? `<tr class="dim"><td></td><td style="text-align:left">AP poll <small>(record for reference)</small></td><td>–</td><td>–</td><td>${apS.reduce((x,y)=>x+y.right,0)}-${apS.reduce((x,y)=>x+y.wrong,0)}</td><td>–</td></tr>` : ''}</tbody>`;
     // league poll (All voters' poll is the Straw Poll)
@@ -2090,7 +2090,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     if(!ws.length){ $('vSub').textContent=''; $('vBal').innerHTML='<p class="lead">No ballots to show yet.</p>'; return; }
     $('vWk').innerHTML = ws.map(n=>`<option value="${n}"${n===V.wk?' selected':''}>${n}</option>`).join('');
     const t = (S.lg.totals||[]).find(x=>x.user_id===V.id && x.week===V.wk);
-    $('vSub').textContent = `Week ${V.wk}` + (t ? ` · ${ptsTxt(t.points)} pick'em points (${t.picks_right}-${t.picks_wrong})` : '');
+    $('vSub').textContent = `Week ${V.wk}` + (t ? ` · ${ptsTxt(t.points)} Ballot Score points (${t.picks_right}-${t.picks_wrong})` : '');
     const m={}; V.byWeek[V.wk].forEach((a,i)=>m[a]=i+1);
     $('vBal').innerHTML = `<div class="wkcol">${teamList(m, null)}</div>`;
   }
