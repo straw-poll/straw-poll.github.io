@@ -791,6 +791,9 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     <section class="sec" style="margin-top:0"><div class="sh"><h2>Voting</h2><button class="btn" id="openWeek" hidden>Open voting…</button></div>
       <p id="adminVote" style="margin:0 0 6px"></p>
       <p class="note">The Sunday 7 AM update opens each week, once the previous week's games are final. Use Open voting only if it didn't. To change a deadline, edit it in the Supabase dashboard (changes are logged publicly).</p></section>
+    <section class="sec"><div class="sh"><h2 id="bsTitle">Ballots</h2><button class="btn quiet" id="bsRefresh">Refresh</button></div>
+      <div id="adminBallots"></div>
+      <p class="note">Who has submitted and when. Ballots themselves stay private until the deadline, even from you.</p></section>
     <section class="sec"><div id="adminReqs"></div></section>
       <section class="sec"><div class="sh"><h2 id="uTitle">Upset Watch</h2>
         <div class="row"><label style="font-size:13px;color:var(--muted)"><input type="checkbox" id="uAll"> Show all games</label><button class="btn primary" id="uSave" disabled>Publish Upset Watch</button></div></div>
@@ -2607,9 +2610,31 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     $('mCmp').innerHTML = rows.length ? `<thead><tr class="cols"><th style="text-align:left">Week</th><th>Games</th>${SYS.map(k=>`<th>${k}</th>`).join('')}</tr></thead><tbody>${rows.join('')}<tr class="tot"><th style="text-align:left">Season</th><td>${totN}</td>${SYS.map(k=>cell(tot[k])).join('')}</tr></tbody>`
       : '<tbody><tr><td class="dim">The first week is graded once its games are final.</td></tr></tbody>';
   }
+  // Admin "Ballots": which approved voters have submitted for the latest week with a deadline (backend/016 ballot_status:
+  // who and when only, never the rankings). Loaded when Admin renders for a new week, or on Refresh.
+  S.bStat = {wk:null, state:'idle', rows:[], voters:[]};
+  async function loadBallotStatus(wk){
+    S.bStat = {wk, state:'loading', rows:[], voters:[]};
+    const [b, p] = await Promise.all([sb.rpc('ballot_status', {s: S.vote.season, w: wk}), sb.from('profiles').select('id,username,is_tester').eq('status','approved')]);
+    if(S.bStat.wk!==wk) return;
+    S.bStat = b.error || p.error ? {wk, state:'error', err: b.error || p.error, rows:[], voters:[]}
+      : {wk, state:'ready', rows: b.data || [], voters: (p.data || []).filter(x=>!x.is_tester)};
+    renderAdmin();
+  }
+  function renderBallotStatus(){
+    const ws = Object.keys(S.vote.weeks).map(Number).sort((a,b)=>a-b), wk = openWeekNum() ?? ws[ws.length-1];
+    $('bsRefresh').hidden = wk==null;
+    if(wk==null){ $('bsTitle').textContent='Ballots'; $('adminBallots').innerHTML = S.vote.state==='ready' ? '<p class="dnote">No voting week yet.</p>' : ''; return; }
+    if(S.bStat.wk!==wk){ loadBallotStatus(wk); return; }
+    const B=S.bStat, at=Object.fromEntries(B.rows.map(r=>[r.user_id, r.submitted_at]));
+    $('bsTitle').textContent = `Week ${wk} ballots` + (B.state==='ready' ? ` (${B.voters.filter(v=>at[v.id]).length} of ${B.voters.length})` : '');
+    if(B.state!=='ready'){ $('adminBallots').innerHTML = B.state==='error' ? `<p class="dnote">${esc(sbErr(B.err, 'Couldn’t load who has voted. Reload the page to try again.'))}</p>` : '<p class="dnote">Loading…</p>'; return; }
+    const list = B.voters.slice().sort((a,b)=>(!!at[b.id]-!!at[a.id]) || (at[a.id]||'').localeCompare(at[b.id]||'') || (a.username||'').localeCompare(b.username||''));
+    $('adminBallots').innerHTML = `<div class="reqs" style="margin-top:0;border-top:0;padding-top:0">${list.map(v=>`<div class="req"><div>${esc(v.username||'(no username yet)')}<small>${at[v.id] ? 'Submitted '+esc(atTime(at[v.id])) : 'Not submitted'}</small></div><span style="color:var(${at[v.id]?'--win':'--muted'})">${at[v.id]?'✓':'–'}</span><span></span></div>`).join('') || '<p class="dnote">No approved voters yet.</p>'}</div>`;
+  }
   function renderAdmin(){
     if(!S.isOwner) return;
-    renderUpsetRecord(); renderModelCmp();
+    renderUpsetRecord(); renderModelCmp(); renderBallotStatus();
     const o=openWeekNum(), nx=S.vote.next;
     $('adminVote').innerHTML = S.vote.state==='loading' ? 'Loading…' : S.vote.state==='error' ? esc(sbErr(S.vote.err, 'Voting status couldn’t load. Reload the page to try again.'))
       : o!=null ? `Week ${o} voting is open until <b>${esc(etTime(lockOf(o)))}</b>.`
@@ -2672,6 +2697,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     if(!$('acctNoteRow').hidden){ const r2 = await sb.from('join_requests').update({note: note || null}).eq('user_id', S.me.user.id); if(r2.error){ acctMsg('Saved your username, but not the note. Try again.'); return; } }
     acctMsg('Saved.'); loadMe();
   });
+  $('bsRefresh').addEventListener('click', ()=>{ if(S.bStat.wk!=null) loadBallotStatus(S.bStat.wk); renderAdmin(); });
   $('adminReqs').addEventListener('click', async e=>{
     const a=e.target.closest('[data-appr]'), d=e.target.closest('[data-decl]'); if(!a && !d) return;
     const id=(a||d).dataset.appr || (a||d).dataset.decl;
