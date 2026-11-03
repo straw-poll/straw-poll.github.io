@@ -447,6 +447,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 /* visitors: read-only */
 .viewonly .voter-only{display:none!important} body:not(.isowner) .boss-only{display:none!important}
 body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /* Leagues / Straw+ until public (LEAGUES_PUBLIC, SPLUS_PUBLIC) */
+body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while switched off (EDITOR_PICKS) */
 #wsGate:empty{display:none} #view-work.gated>:not(#wsGate){display:none!important}
 #view-work.ro .grip,#view-work.ro .x,#view-work.ro .add,#view-work.ro .wslot{display:none!important}
 .dl{font-size:13px;color:var(--muted)} .dl b{color:var(--text)}
@@ -660,7 +661,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
         <dl>
           <dt>Wolp+ spread</dt><dd>Wolp+'s predicted margin, written like a betting line (favorite −points, rounded to the half point). It never uses the betting line.</dd>
           <dt>Line</dt><dd>The median spread across sportsbooks, from CollegeFootballData.com.</dd>
-          <dt>Editor's Picks</dt><dd>Games the site owner picks each week where a ranked favorite could lose, with the team they think wins. When the game ends: Hit (that team won) or Miss.</dd>
+          <dt class="ep-only">Editor's Picks</dt><dd class="ep-only">Games the site owner picks each week where a ranked favorite could lose, with the team they think wins. When the game ends: Hit (that team won) or Miss.</dd>
           <dt>Wolp+ vs the Line</dt><dd>Games where Wolp+ and the betting line disagree: Wolp+ favors the other team, or the two spreads are 7+ points apart. When the game ends: Wolp+ right (the final margin landed on Wolp+'s side of the line), Line right, or Push.</dd>
         </dl>
 
@@ -797,11 +798,11 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
       <div id="adminBallots"></div>
       <p class="note">Who has submitted and when. Ballots themselves stay private until the deadline, even from you.</p></section>
     <section class="sec"><div id="adminReqs"></div></section>
-      <section class="sec"><div class="sh"><h2 id="uTitle">Editor's Picks</h2>
+      <section class="sec ep-only"><div class="sh"><h2 id="uTitle">Editor's Picks</h2>
         <div class="row"><label style="font-size:13px;color:var(--muted)"><input type="checkbox" id="uAll"> Show all games</label><button class="btn primary" id="uSave" disabled>Publish Editor's Picks</button></div></div>
         <p class="note" style="margin:0 0 10px">Candidates (gold edge): the betting favorite is a Straw Poll or AP Top 25 team and Wolp+ gives the underdog at least a 35% chance. Tick the ones to publish, choose the team you think wins (the underdog to start) and add an optional one-line note. Only ticked games appear on Home.</p>
         <div class="tblw"><table class="ups" id="uTable"></table></div></section>
-      <section class="sec"><div class="sh"><h2>Editor's Picks results</h2></div>
+      <section class="sec ep-only"><div class="sh"><h2>Editor's Picks results</h2></div>
         <p class="note" style="margin:0 0 10px">Published games that are final. <b>Hit – Miss</b> = your pick won or lost (games published with a pick). <b>Upset – Favorite won</b> = the betting underdog at kickoff won or not (lines inside 1 point are toss-ups and left out).</p>
         <div class="tblw"><table id="uRec"></table></div></section>
       <section class="sec"><div class="sh"><h2>Wolp+ vs the Line</h2></div>
@@ -967,6 +968,9 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   const SHOW_QUADS = false;
   // Leagues (with pick'em) and Straw+ are still being tested: only the owner sees them until these are true (2026-10-04)
   const LEAGUES_PUBLIC = true, SPLUS_PUBLIC = false;   // Leagues launched 2026-10-05
+  // Editor's Picks off for everyone, owner included (2026-11-03: they overlapped big games). true = back on; the data stays in upset_alerts.
+  const EDITOR_PICKS = false;
+  document.body.classList.toggle('see-ep', EDITOR_PICKS);
   const seeLg = () => LEAGUES_PUBLIC || !!S.isOwner, seeSp = () => SPLUS_PUBLIC || !!S.isOwner;
   const colOk = c => c.k!=='splus' || seeSp();
   const COLS_ALL = [
@@ -1266,7 +1270,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     const upNow = upWk==null ? {} : S.upsets[upWk], past = upWk==null ? {} : weekPicks(upWk);
     const ups = Object.keys(upNow).map(id=>{ const p=past[id], g=games.find(x=>String(x.id)===id); return p && p.hp!=null ? p : g || p; })
       .filter(g=>g && (S.teams[g.home]||S.teams[g.away])).sort((a,b)=>String(a.start).localeCompare(String(b.start)));
-    $('hUpsWrap').hidden = !ups.length && !S.isOwner;
+    $('hUpsWrap').hidden = !EDITOR_PICKS || (!ups.length && !S.isOwner);
     $('hUpsSub').textContent = upWk==null ? (sch.week!=null ? `Week ${hw}` : '') : upWk===hw && !held ? `Week ${upWk}` : `Week ${upWk} results`;
     const nCand = S.isOwner ? upsetCands().filter(x=>x.cand).length : 0;
     const review = S.isOwner ? `<div class="game" style="display:flex;flex-direction:column;justify-content:center;gap:8px;border-style:dashed"><b style="font:700 18px var(--cond)">${Object.keys(upNext).length ? `Edit week ${sch.week} Editor's Picks` : `No week ${sch.week} Editor's Picks published yet`}</b>${held ? `<span class="lead" style="margin:0">It shows on Home once the week ${sch.week} Straw Poll is out.</span>` : ''}<span class="lead" style="margin:0">${nCand} candidate${nCand===1?'':'s'} this week. Only you see this box.</span><button class="btn primary" data-go="admin" style="align-self:flex-start">Review and publish →</button></div>` : '';
@@ -2228,7 +2232,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
   // shows none. Before backend/017 there is no pick column: then they load without picks.
   async function loadUpsets(){
     await teamsReady;
-    const season = S.meta && S.meta.season; if(!sb || !season) return;
+    const season = S.meta && S.meta.season; if(!EDITOR_PICKS || !sb || !season) return;
     let { data, error } = await sb.from('upset_alerts').select('week,game_id,note,pick').eq('season', season);
     if(error) ({ data, error } = await sb.from('upset_alerts').select('week,game_id,note').eq('season', season));
     if(error) return;
@@ -2601,7 +2605,7 @@ body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /
     $('acctDelRow').hidden = !!(pr && pr.is_owner);
     $('acctAdminNote').innerHTML = !(pr && pr.is_owner) ? '' : n
       ? `<p class="dnote">${n} waiting for you on the Admin tab. <button class="linkbtn" id="acctToAdmin">Open Admin</button></p>`
-      : '<p class="dnote">Approvals, late ballots, Editor\'s Picks and Open voting are on the Admin tab.</p>';
+      : '<p class="dnote">Approvals, late ballots and Open voting are on the Admin tab.</p>';
   }
   document.addEventListener('click', e=>{ if(e.target.closest('[data-signin]')) $('acctBtn').click(); });
   // links to a methodology section scroll there (without changing the page address)
