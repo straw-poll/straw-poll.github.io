@@ -662,7 +662,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
           <dt>Wolp+ spread</dt><dd>Wolp+'s predicted margin, written like a betting line (favorite −points, rounded to the half point). It never uses the betting line.</dd>
           <dt>Line</dt><dd>The median spread across sportsbooks, from CollegeFootballData.com.</dd>
           <dt class="ep-only">Editor's Picks</dt><dd class="ep-only">Games the site owner picks each week where a ranked favorite could lose, with the team they think wins. When the game ends: Hit (that team won) or Miss.</dd>
-          <dt>Wolp+ vs the Line</dt><dd>Games where Wolp+ and the betting line disagree: Wolp+ favors the other team, or the two spreads are 7+ points apart. When the game ends: Wolp+ right (the final margin landed on Wolp+'s side of the line), Line right, or Push.</dd>
+          <dt>Wolp+ vs the Line</dt><dd>Games where Wolp+ and the betting line disagree: Wolp+ favors the other team and the two spreads are 4+ points apart, or they are 7+ points apart. When the game ends: Wolp+ right (the final margin landed on Wolp+'s side of the line), Line right, or Push.</dd>
         </dl>
 
         <h2 id="m-cols">Columns and flags</h2>
@@ -806,7 +806,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
         <p class="note" style="margin:0 0 10px">Published games that are final. <b>Hit – Miss</b> = your pick won or lost (games published with a pick). <b>Upset – Favorite won</b> = the betting underdog at kickoff won or not (lines inside 1 point are toss-ups and left out).</p>
         <div class="tblw"><table id="uRec"></table></div></section>
       <section class="sec"><div class="sh"><h2>Wolp+ vs the Line</h2></div>
-        <p class="note" style="margin:0 0 10px">Every finished FBS game where Wolp+ and the line disagree (Wolp+ favors the underdog, or they differ by 7+ points), from the spreads saved before kickoff; automatic, nothing to publish. This week's games and the season record against the line are also on Home. <b>Wolp+ vs line</b> = the result landed on Wolp+'s side of the line (pushes left out). <b>Wolp+ winner</b> = the team Wolp+ favored won.</p>
+        <p class="note" style="margin:0 0 10px">Every finished FBS game where Wolp+ and the line disagree (Wolp+ favors the underdog and they differ by 4+ points, or they differ by 7+ points), from the spreads saved before kickoff; automatic, nothing to publish. This week's games and the season record against the line are also on Home. <b>Wolp+ vs line</b> = the result landed on Wolp+'s side of the line (pushes left out). <b>Wolp+ winner</b> = the team Wolp+ favored won.</p>
         <div class="tblw"><table id="lCmp"></table></div></section>
       <section class="sec"><div class="sh"><h2>Straw Poll vs AP</h2></div>
         <p class="note" style="margin:0 0 10px">Each week's published Straw Poll against that week's AP poll, in the Scorecard's games (FBS games with a Straw Poll or AP Top 25 team): the higher-ranked team is the pick (not in a poll's Top 25 = #26; no pick when neither team is in it). <b>Split calls</b> = games where the two polls picked different winners, and who was right. <b>Ballot Score</b> = each poll scored like a ballot (weeks 1-14; the AP can't earn the upset bonus).</p>
@@ -2173,10 +2173,11 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
   });
 
   // ---------- WORKSPACE: upset alerts ----------
-  // Wolp+ vs the Line (#38): FBS games where Wolp+ favors the other team, or the two spreads are VS_GAP+ points apart
-  const VS_GAP = 7;
+  // Wolp+ vs the Line (#38): FBS games where Wolp+ favors the other team AND the spreads are VS_MIN+ points apart (owner,
+  // 2026-11-03: smaller flips were 6-6), or the two spreads are VS_GAP+ points apart
+  const VS_GAP = 7, VS_MIN = 4;
   const vsLine = g => !!(S.teams[g.home] && S.teams[g.away]) && typeof g.model==='number' && typeof g.line==='number' && Math.abs(g.line)>=0.5
-    && ((g.model>0)!==(g.line>0) || Math.abs(g.model-g.line)>=VS_GAP);
+    && (((g.model>0)!==(g.line>0) && Math.abs(g.model-g.line)>=VS_MIN) || Math.abs(g.model-g.line)>=VS_GAP);
   // a final game: 1 = the margin landed on Wolp+'s side of the line, -1 = the line's side, 0 = push
   const vsResult = g => Math.sign(g.hp-g.ap-g.line) * Math.sign(g.model-g.line);
   // Wolp+'s side of the line, e.g. "Mississippi State +21.0" (the team the line underrates, with that team's line)
