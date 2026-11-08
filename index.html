@@ -1242,7 +1242,12 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     // Sunday's update: until the new poll is out, Home keeps the poll's week, with final scores from picks.
     const sch=S.schedule||{}, held = sch.week!=null && n!=null && n<sch.week ? (S.picks||[]).find(p=>p.week===n) : null;
     const hw = held ? n : sch.week, apG = held ? (held.ap||{}) : apR;
-    const games=(held ? held.games : sch.games||[]).filter(g=>S.teams[g.home]||S.teams[g.away]);
+    // Each update drops finished games from the schedule (#42): this week's already-played ones come back from picks (final
+    // scores), so Home keeps every game of the week until it moves on
+    const playedWk = held ? [] : (((S.picks||[]).find(p=>p.week===sch.week))||{games:[]}).games
+      .filter(g=>g.hp!=null && !(sch.games||[]).some(x=>String(x.id)===String(g.id)));
+    const games=(held ? held.games : playedWk.concat(sch.games||[])).filter(g=>S.teams[g.home]||S.teams[g.away])
+      .sort((a,b)=>String(a.start).localeCompare(String(b.start)));
     const upW = (S.upsets||{})[hw] || {}, upNext = (S.upsets||{})[sch.week] || {};
     // a game card; a finished game (final score from picks: hp/ap) shows the score and whether the betting underdog won
     // vs = a Wolp+ vs the Line card: judged against the line instead (Wolp+ right / Line right / Push)
@@ -1276,10 +1281,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     const review = S.isOwner ? `<div class="game" style="display:flex;flex-direction:column;justify-content:center;gap:8px;border-style:dashed"><b style="font:700 18px var(--cond)">${Object.keys(upNext).length ? `Edit week ${sch.week} Editor's Picks` : `No week ${sch.week} Editor's Picks published yet`}</b>${held ? `<span class="lead" style="margin:0">It shows on Home once the week ${sch.week} Straw Poll is out.</span>` : ''}<span class="lead" style="margin:0">${nCand} candidate${nCand===1?'':'s'} this week. Only you see this box.</span><button class="btn primary" data-go="admin" style="align-self:flex-start">Review and publish →</button></div>` : '';
     $('hUps').innerHTML = ups.map(g=>card(g, upNow[g.id], true)).join('') + review;
     // Wolp+ vs the Line (#38): the same week's games, biggest disagreement first, and Wolp+'s season record against the line
-    // Each update drops finished games from the schedule, so this week's already-played ones come back from picks (final scores)
-    const playedWk = held ? [] : (((S.picks||[]).find(p=>p.week===sch.week))||{games:[]}).games
-      .filter(g=>g.hp!=null && !games.some(x=>String(x.id)===String(g.id)));
-    const vsG = games.concat(playedWk).filter(vsLine).sort((x,y)=>Math.abs(y.model-y.line)-Math.abs(x.model-x.line)), vr = vsRecord();
+    const vsG = games.filter(vsLine).sort((x,y)=>Math.abs(y.model-y.line)-Math.abs(x.model-x.line)), vr = vsRecord();
     $('hVsWrap').hidden = !vsG.length && !(vr.w+vr.l);
     $('hVsSub').textContent = hw!=null ? `Week ${hw}${held?' results':''}` : '';
     $('hVsRec').textContent = vr.w+vr.l ? `Wolp+ this season: ${vr.w}-${vr.l}${vr.p ? `-${vr.p}` : ''} against the line in these games${vr.p ? ' (wins-losses-pushes)' : ''}.` : '';
