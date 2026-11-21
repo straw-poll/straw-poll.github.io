@@ -2221,7 +2221,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
         + `<div class="who">${esc(nm(c.pick))} <span class="dim">over</span> ${esc(nm(c.opp))}<small>${rk(c.pr)} vs ${rk(c.or)} on this ballot${c.right===undefined && sc.state!=='final' ? ` · rooting for ${esc(nm(c.pick))}` : ''}</small></div>`
         + `<div class="res">${res}</div></div>`;
     };
-    return `<p class="callsum">${done.length ? `${right}-${done.length-right} so far` : 'No games final yet'}${left ? ` · ${left} still to play` : ''}</p><div class="calls">${C.map(row).join('')}</div>`;
+    return `<p class="callsum">${done.length ? `${right}-${done.length-right}${left ? ' so far' : ''}` : 'No games final yet'}${left ? ` · ${left} still to play` : ''}</p><div class="calls">${C.map(row).join('')}</div>`;
   }
   document.querySelectorAll('[data-vview]').forEach(b=>b.addEventListener('click', ()=>{ if(S.vDlg){ S.vDlg.view=b.dataset.vview; renderVoter(); } }));
   $('vWk').addEventListener('change', e=>{ S.vDlg.wk=Number(e.target.value); renderVoter(); });
