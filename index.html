@@ -218,6 +218,18 @@ h2 small{font:400 13px var(--body);color:var(--muted);margin-left:10px}
 .dlb.up{top:auto;bottom:100%;margin:0 0 5px}
 .cr{font:700 15px var(--cond);color:var(--gold);text-align:right;padding-right:6px}
 .tblw{overflow-x:auto}
+/* Research Stats: rank, movement and Team pinned on the left (solid background so scrolled cells pass underneath) */
+#rTable{--pa:2.5rem;--pm:2rem;--pt:11rem}
+#rTable .pin{position:sticky;z-index:1;background:var(--panel);box-sizing:border-box}
+#rTable .pa,#rTable .pm{padding-left:3px;padding-right:3px}
+#rTable.nomv{--pm:0px} #rTable.nomv .pm{padding:0;border:0;font-size:0} #rTable.nomv .pm>*{display:none}
+#rTable .pa{left:0;width:var(--pa);min-width:var(--pa);max-width:var(--pa)}
+#rTable th.pa[colspan]{width:calc(var(--pa) + var(--pm));min-width:calc(var(--pa) + var(--pm));max-width:calc(var(--pa) + var(--pm))}
+#rTable .pm{left:var(--pa);width:var(--pm);min-width:var(--pm);max-width:var(--pm)}
+#rTable .pt{left:calc(var(--pa) + var(--pm));width:var(--pt);min-width:var(--pt);max-width:var(--pt);box-shadow:inset -1px 0 var(--line)}
+#rTable tbody tr:hover td.pin{background:var(--panel2)} #rTable tr.sel td.pin{background:#22314a}
+#rTable .tmc .tb{max-width:100%} #rTable .tmc .tb span{white-space:normal;text-align:left;line-height:1.15}
+@media (max-width:700px){ #rTable{--pa:3.3rem;--pm:1.9rem;--pt:7.5rem} #rTable.nomv{--pt:8.25rem} }
 table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
 th,td{padding:7px 10px;text-align:center;white-space:nowrap;border-bottom:1px solid var(--line2)}
 thead tr.grph th{font:600 11px var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);border-bottom:0;padding-bottom:2px}
@@ -1565,13 +1577,15 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
         case 'ly': v=rec(t.lyW,t.lyL); cls='dim'; break; case 'lyAp': v=t.lyAp?'#'+t.lyAp:'NR'; cls='dim'; break;
         case 'proj': v=projTxt(t); break;
         case 'q1': case 'q2': { const q=quads(a)[c.k==='q1'?1:2]; v=q[0]+'-'+q[1]; if(!q[0]&&!q[1]) cls='dim'; break; }
-        default: v=fmtStat(c,colVal(c,a,t)); if(v==null){ v='–'; cls='dim'; } if(c.strong) cls='strong'; }
+        default: v=fmtStat(c,colVal(c,a,t)); if(v==null){ v = c.fmt==='r' ? 'NR' : '–'; cls='dim'; } if(c.strong) cls='strong'; }
       return `<td class="${cls}">${v}</td>`; };
     const firstOf = new Set(); { let g=''; rcols.forEach(c=>{ if(c.g!==g) firstOf.add(c.k); g=c.g; }); }
     const th = (c,label,extra='') => `<th data-c="${c}" tabindex="0" aria-sort="${R.col===c?(R.rev?'ascending':'descending'):'none'}" class="${R.col===c?'on':''}${R.col===c&&R.rev?' rev':''}${extra}">${label}</th>`;
-    $('rTable').innerHTML = `<thead><tr class="grph"><th colspan="${2+lead.length}">Rankings</th><th></th>${groups.map(g=>`<th class="g1" colspan="${g.n}">${esc(g.g)}</th>`).join('')}</tr>
-      <tr class="cols">${th('ms', SORTLAB[R.ms]==='#' ? '#' : SORTLAB[R.ms])}<th></th>${lead.map(c=>th(c.k,c.h)).join('')}${th('name','Team','" style="text-align:left')}${rcols.map(c=>th(c.k,c.h,firstOf.has(c.k)?' g1':'')).join('')}</tr></thead>
-      <tbody>${T.map(a=>`<tr class="${S.cmp.includes(a)?'sel':''}" data-abbr="${esc(a)}" style="--tc:${tc(a)}"><td class="rkc${rkOf(a)?'':' none'}">${rkOf(a)||'–'}</td><td class="c-mv">${R.ms==='wolp' && ranks[a]?moveOf(a,ranks[a],prev):''}</td>${lead.map(c=>cell(c,a)).join('')}<td class="tmc"><button class="tb" data-open="${esc(a)}">${logo(a)}<span>${esc(nm(a))}</span></button></td>${rcols.map(c=>cell(c,a).replace('<td class="', `<td class="${firstOf.has(c.k)?'g1 ':''}`)).join('')}</tr>`).join('')}</tbody>`;
+    $('rTable').classList.toggle('nomv', !(R.ms==='wolp' && prev));   // movement only shows for the Straw sort; otherwise its column folds away
+    // rank, movement and Team stay pinned on the left while the rest scrolls sideways (user, 2026-11-21: AP and CFP right after Team)
+    $('rTable').innerHTML = `<thead><tr class="grph"><th class="pin pa" colspan="2"></th><th class="pin pt"></th>${lead.length?`<th class="g1" colspan="${lead.length}">Rankings</th>`:''}${groups.map(g=>`<th class="g1" colspan="${g.n}">${esc(g.g)}</th>`).join('')}</tr>
+      <tr class="cols">${th('ms', SORTLAB[R.ms]==='#' ? '#' : SORTLAB[R.ms], ' pin pa rkc')}<th class="pin pm c-mv"></th>${th('name','Team',' pin pt tmc" style="text-align:left')}${lead.map((c,i)=>th(c.k,c.h,i===0?' g1':'')).join('')}${rcols.map(c=>th(c.k,c.h,firstOf.has(c.k)?' g1':'')).join('')}</tr></thead>
+      <tbody>${T.map(a=>`<tr class="${S.cmp.includes(a)?'sel':''}" data-abbr="${esc(a)}"><td class="pin pa rkc${rkOf(a)?'':' none'}">${rkOf(a)||'NR'}</td><td class="pin pm c-mv">${R.ms==='wolp' && ranks[a]?moveOf(a,ranks[a],prev):''}</td><td class="pin pt tmc"><button class="tb" data-open="${esc(a)}">${logo(a)}<span>${esc(nm(a))}</span></button></td>${lead.map((c,i)=>i===0 ? cell(c,a).replace('<td class="', '<td class="g1 ') : cell(c,a)).join('')}${rcols.map(c=>cell(c,a).replace('<td class="', `<td class="${firstOf.has(c.k)?'g1 ':''}`)).join('')}</tr>`).join('')}</tbody>`;
     $('colList').innerHTML = colMenu('r');
     if(!$('sdefs').children.length) renderDefs();
   }
