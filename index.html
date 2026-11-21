@@ -2556,7 +2556,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
       const hd = header && w>1 ? header(w-1) : '';   // the team pop-up: the game that produced this rank
       const tip = `<b>${w===1 ? 'Preseason' : `After week ${w-1}`}</b>${hd ? ` · ${esc(hd)}` : ''}` + at.map(v=>{ const res = v.team && w>1 ? weekResult(v.team, w-1) : '';
         return `<div><i style="background:${v.col}"></i>${esc(v.name)} <b>#${v.r}</b>${res ? `<span class="tres">${esc(res)}</span>` : ''}</div>`; }).join('');
-      return `<g class="wkcol"><line class="guide" x1="${X(w)}" x2="${X(w)}" y1="${T}" y2="${H-B}"/><rect x="${x0.toFixed(1)}" y="${T}" width="${(x1-x0).toFixed(1)}" height="${H-T-B}" data-tip="${CHART_TIPS.push(tip)-1}"/></g>`;
+      return `<g class="wkcol"><line class="guide" x1="${X(w)}" x2="${X(w)}" y1="${T}" y2="${H-B}"/><rect x="${x0.toFixed(1)}" y="${T}" width="${(x1-x0).toFixed(1)}" height="${H-T-B}" data-ctip="${CHART_TIPS.push(tip)-1}"/></g>`;
     }).join('');
     return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(label)}">${grid}${lines}${cols}</svg>`;
   }
@@ -2565,7 +2565,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     let cur = null;
     const show = (g, e) => { if(cur && cur!==g) cur.classList.remove('on'); cur=g; g.classList.add('on');
       const host = g.closest('dialog') || document.body; if(tip.parentNode!==host) host.appendChild(tip);   // a pop-up sits on top of the page, so the box must live inside it
-      tip.innerHTML = CHART_TIPS[g.querySelector('rect').dataset.tip] || ''; tip.hidden=false;
+      tip.innerHTML = CHART_TIPS[g.querySelector('rect').dataset.ctip] || ''; tip.hidden=false;
       const r = tip.getBoundingClientRect(), x = Math.min(e.clientX+14, innerWidth-r.width-8), y = Math.max(8, e.clientY-r.height-10);
       tip.style.left = x+'px'; tip.style.top = y+'px'; };
     const hide = () => { tip.hidden=true; if(cur){ cur.classList.remove('on'); cur=null; } };
