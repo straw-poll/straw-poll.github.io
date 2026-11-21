@@ -183,7 +183,7 @@ h2 small{font:400 13px var(--body);color:var(--muted);margin-left:10px}
 .legend .dot::after{content:none}
 .legend b{font:700 12px var(--cond);color:var(--ink)}
 .map{--mapcols:44px 30px 30px minmax(120px,190px) minmax(0,1fr) 56px}
-.map.drag{--mapcols:44px 30px 18px 30px minmax(110px,170px) minmax(0,1fr) 78px}
+.map.drag{--mapcols:2rem 4.25rem 30px minmax(110px,170px) minmax(0,1fr) 44px}   /* grip | movement + rank | logo | name | track | remove */
 .mrow,.axis{display:grid;grid-template-columns:var(--mapcols);gap:10px;align-items:center}
 .map.norc{--mapcols:44px 30px 30px minmax(120px,190px) minmax(0,1fr)}
 .xsel{display:inline-flex;align-items:center;gap:6px;color:var(--muted);font-size:13px;margin-left:8px}
@@ -275,7 +275,14 @@ td.c-mv{padding-left:0;width:30px}
 .wdiv{position:absolute;left:-17px;top:0;bottom:0;width:12px;cursor:col-resize;touch-action:none;border-radius:6px}
 .wdiv::after{content:"";position:absolute;left:5px;top:50%;height:44px;margin-top:-22px;width:3px;border-radius:2px;background:var(--line)}
 .wdiv:hover::after,.wdiv:focus-visible::after,.wdiv.drag::after{background:var(--gold)}  /* room for Record, vs P4, Wolp+ and the + button */
-.map.drag .wx{display:flex;gap:4px;align-items:center;justify-content:flex-end}
+.map.drag .mrow{position:relative}
+.map.drag .mrow::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--stripe,transparent);pointer-events:none}
+.mrow.h2h{--stripe:var(--loss)} .mrow.loop{--stripe:var(--gold)} .mrow.h2h.loop{--stripe:linear-gradient(var(--loss) 50%,var(--gold) 50%)}
+.map.drag .mrow.sel>*:first-child{box-shadow:none}
+.map.drag .grip{width:100%;height:44px}
+.map.drag .x{justify-self:center;width:44px;height:44px;display:grid;place-items:center;padding:0}
+.map.drag .x span{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;border:1.5px solid currentColor;font:700 15px/1 var(--body)}
+.wmaphead .flegend{margin-right:8px}
 .wslot{grid-template-columns:44px 1fr;border:1px dashed var(--line);border-radius:8px;margin-top:6px}
 .wmaphead{align-items:center;margin-bottom:6px}
 .prow .psub{display:block;color:var(--muted);font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -339,7 +346,7 @@ td.c-mv{padding-left:0;width:30px}
 .x:hover{color:var(--loss)}
 .slot{display:grid;grid-template-columns:44px 1fr;column-gap:8px;align-items:center;padding:8px 6px;border-bottom:1px dashed var(--line2);color:var(--muted)}
 .slot .rk{color:#2a3b52;font-size:22px}
-button.slot{width:100%;background:none;border-width:0 0 1px;text-align:left;font:inherit;cursor:pointer} button.slot span:last-child{color:var(--gold);font-weight:600}
+button.slot{width:100%;background:none;border-width:0 0 1px;text-align:left;font:inherit;cursor:pointer} button.wslot{border-width:1px} button.slot span:last-child{color:var(--gold);font-weight:600}
 .checks{margin-top:12px;border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:8px;padding:8px 12px;background:var(--panel);font-size:13px}
 .checks p{margin:0}.checks p+p{margin-top:8px}
 .checks small{display:block;color:var(--muted)}
@@ -563,9 +570,12 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
   .map{--mapcols:30px 0 24px minmax(0,1fr) 44px}
   .map .mrow,.map .axis{grid-template-columns:30px 24px minmax(0,1fr) 40px;row-gap:0}
   .map.norc .mrow,.map.norc .axis{grid-template-columns:30px 24px minmax(0,1fr)}
-  .map .mrow>.mv,.map .axis>span:nth-child(2){display:none}
+  .map:not(.drag) .mrow>.mv,.map:not(.drag) .axis>span:nth-child(2){display:none}
   .map .mrow .track,.map .axis .ax{grid-column:1 / -1;grid-row:2}
-  .map .mrow .grip{display:none}
+  .map:not(.drag) .mrow .grip{display:none}
+  .map.drag .mrow,.map.drag .axis{grid-template-columns:1.75rem 3.75rem 24px minmax(0,1fr) 40px}   /* Vote map: grip | rank | logo | name | remove, track below */
+  .map.drag .brk .rk{font-size:22px}
+  .map .mrow .nm b{flex:none;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}   /* the name keeps its room; the record line shortens */
   /* Results Map on a phone: one compact line per team (record beside the name), a shorter track, smaller dots and
      labels, and more room at the ends so dots near #1 or #138 and their numbers stay on screen */
   .mrow{min-height:0;padding:6px 0 2px 6px}
@@ -863,7 +873,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     <div id="ws-build" class="wgrid wbuild">
       <div>
         <div id="ws-map">
-          <div class="row wmaphead"><div class="legend" id="legend2"></div><span class="spacer"></span><label class="xsel"><span class="lab">X axis</span><select id="xAx2" class="fsel xpick" aria-label="Results Map x axis"><option value="wolp">Wolp+</option><option value="fpi">FPI</option><option value="qw">Resume Strength</option></select></label></div>
+          <div class="row wmaphead"><button class="btn addopen voter-only" type="button" data-addopen>+ Add teams</button><div class="flegend" aria-hidden="true"><span><i style="background:var(--loss)"></i>H2H</span><span><i style="background:var(--gold)"></i>Loop</span><span>Tap a team to see why</span></div><div class="legend" id="legend2"></div><span class="spacer"></span><label class="xsel"><span class="lab">X axis</span><select id="xAx2" class="fsel xpick" aria-label="Results Map x axis"><option value="wolp">Wolp+</option><option value="fpi">FPI</option><option value="qw">Resume Strength</option></select></label></div>
           <div id="wMap" class="map drag"></div>
           <div id="wNotes"></div>
           <p class="note">Drag a row's handle (on the left) to reorder, or focus it and use the arrow keys. Add teams with <b>+ Add teams</b>, or drag one in; remove one with the − on its right (you can undo it). Your ballot is exactly 25 teams; submit it before the deadline and change it as often as you like until then. Only you can see it until voting closes. A <b>red stripe</b> marks a head-to-head result that disagrees with the order (teams within 5 spots of each other); a <b>yellow stripe</b> marks teams that beat each other in a circle. Both are reminders only; tap the team to see why.</p>
@@ -1490,11 +1500,13 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     }).sort((p,q)=>(q.size-p.size) || ((p.lab?1:0)-(q.lab?1:0))).map(d=>d.html).join('');
     const rk = rank ? `<span class="rk">${rank}</span>` : '<span class="rk none">–</span>';
     const grip = drag ? `<button class="grip" aria-label="Move ${esc(t.name)}, rank ${rank}. Use arrow keys." data-i="${rank-1}">${GRIP}</button>` : '';
-    return `<div class="mrow${S.cmp.includes(a)?' sel':''}" data-abbr="${esc(a)}" style="--tc:${tc(a)}">${rk}${rank?moveOf(a,rank,prev):'<span class="mv"></span>'}${grip}${logo(a)}<button class="nm" data-open="${esc(a)}"><b>${esc(t.name)}</b><small>${rec(t.w,t.l)} · ${esc(t.conf||'')}</small></button><div class="track"><div class="din">${dots}</div></div>${drag ? wRight(a, rank) : noRight?'':`<span class="cr">${mdl().crank[a]?'#'+mdl().crank[a]:''}</span>`}</div>`;
+    if(drag){ const an=S._an||{flags:{},loopOf:{}}, fl=an.flags[a], lp=an.loopOf[a], why=[...(fl||[]), ...(lp?[lp.text]:[])];   // Vote map: same parts and order as the list rows
+      return `<div class="mrow${S.cmp.includes(a)?' sel':''}${fl?' h2h':''}${lp?' loop':''}" data-abbr="${esc(a)}"${why.length?` title="${esc(why.join('\n'))}"`:''}>${grip}<span class="brk">${moveSlot(a,rank,prev)}<span class="rk">${rank}</span></span>${logo(a)}<button class="nm" data-open="${esc(a)}"><b>${esc(t.name)}<span class="sr-only">${fl?' (head-to-head flag)':''}${lp?' (loop flag)':''}</span></b><small>${rec(t.w,t.l)} · ${esc(t.conf||'')}</small></button><div class="track"><div class="din">${dots}</div></div><button class="x" data-rm="${rank-1}" aria-label="Remove ${esc(t.name)} from your ballot"><span aria-hidden="true">−</span></button></div>`; }
+    return `<div class="mrow${S.cmp.includes(a)?' sel':''}" data-abbr="${esc(a)}">${rk}${rank?moveOf(a,rank,prev):'<span class="mv"></span>'}${grip}${logo(a)}<button class="nm" data-open="${esc(a)}"><b>${esc(t.name)}</b><small>${rec(t.w,t.l)} · ${esc(t.conf||'')}</small></button><div class="track"><div class="din">${dots}</div></div>${noRight?'':`<span class="cr">${mdl().crank[a]?'#'+mdl().crank[a]:''}</span>`}</div>`;
   }
-  const wRight = (a, rank) => { const an=S._an||{flags:{},loopOf:{}}, fl=an.flags[a], lp=an.loopOf[a], t=S.teams[a]||{name:a};
-    return `<span class="wx">${fl ? `<button class="flag" data-tip="${esc(fl.join('\n'))}" aria-label="${esc(fl.join(' '))}">H2H</button>` : ''}${lp ? `<button class="flag loop" data-tip="${esc(lp.text+'\n'+lp.games.join('\n'))}" aria-label="${esc(lp.text)}">LOOP</button>` : ''}<button class="x" data-rm="${rank-1}" aria-label="Remove ${esc(t.name)}">×</button></span>`; };
-  const axis = (drag, rkLabel, noRight) => `<div class="axis"><span class="axrk">${rkLabel||''}</span><span></span>${drag?'<span></span>':''}<span></span><span></span><div class="ax"><span>#${mdl().n||''}</span><span>Opponent ${XAX[S.r.xax]} rank</span><span>#1</span></div>${noRight||drag?(drag?'<span></span>':''):'<span style="text-align:right">Wolp+</span>'}</div>`;
+  const axTrack = () => `<div class="ax"><span>#${mdl().n||''}</span><span>Opponent ${XAX[S.r.xax]} rank</span><span>#1</span></div>`;
+  const axis = (drag, rkLabel, noRight) => drag ? `<div class="axis"><span></span><span class="axrk">${rkLabel||''}</span><span></span><span></span>${axTrack()}<span></span></div>`   // grip | rank | logo | name | track | remove
+    : `<div class="axis"><span class="axrk">${rkLabel||''}</span><span></span><span></span><span></span>${axTrack()}${noRight?'':'<span style="text-align:right">Wolp+</span>'}</div>`;
   const legend = dotLab => `<span><i class="dot W s2"></i>Win</span><span><i class="dot L s2"></i>Loss</span><span><i class="dot s1"></i><i class="dot s2"></i><i class="dot s3"></i>Margin 1–8 · 9–16 · 17+</span><span><i class="dot s2 close"></i>Close game</span><span><i class="dot s2 ot"></i>Overtime</span><span><b>6</b>${dotLab}</span>`;
   const SORTLAB = {wolp:'Straw', comp:'Wolp+', splus:'Straw+', ap:'AP', cfp:'CFP', fpi:'FPI', best:'#', worst:'#'};
   $('rOpts').addEventListener('click', ()=>{ const f=$('rOpts').closest('.filters'), o=f.classList.toggle('open'); $('rOpts').setAttribute('aria-expanded', o); });
@@ -2109,7 +2121,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     $('legend2').innerHTML = legend('Opponent’s Straw Poll rank'); $('xAx2').value = S.r.xax;
     if(wSortable){ wSortable.destroy(); wSortable=null; }
     S._an = an;  // mapRow (drag mode) reads the H2H / LOOP flags from here
-    const n=S.draft.length, slot = n<BMAX ? `<div class="slot wslot"><span class="rk">${n+1}</span><span>${n ? 'Open spot: drag a team here, or tap + in the list' : 'Drag teams here from the list, or tap +'}</span></div>` : '';
+    const n=S.draft.length, slot = n<BMAX ? `<button class="slot wslot" type="button" data-addopen><span class="rk">${n+1}</span><span>${n ? '+ Add a team (or drag one here)' : '+ Add teams (or drag them here)'}</span></button>` : '';
     el.innerHTML = axis(true, 'Straw') + `<div id="wTop">${S.draft.map((a,i)=>mapRow(a, i+1, prev, onB, true)).join('')}</div>` + slot;
     stackDots(el);
     $('wNotes').innerHTML = ballotNotes(an, prev);
