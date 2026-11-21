@@ -121,6 +121,8 @@ h2 small{font:400 13px var(--body);color:var(--muted);margin-left:10px}
 .trchip i{display:inline-block;width:14px;height:3px;border-radius:2px} .trchip{box-shadow:none !important}
 .trchip button{background:none;border:0;color:var(--muted);cursor:pointer;font-size:15px;line-height:1;padding:0 2px}
 .rhist .ax{stroke:var(--line2);stroke-width:1} .rhist text{fill:var(--muted);font-size:11px;font-family:inherit}
+.rhist .zero{stroke:var(--muted);stroke-dasharray:4 4;opacity:.6}
+.rhtop{display:flex;justify-content:flex-end;margin:0 0 4px} .rhmode{display:inline-flex;gap:4px} .rhmode .pill{padding:3px 10px;font-size:12px}
 .rhist .ln{fill:none;stroke-width:2.2;stroke-linejoin:round;stroke-linecap:round}
 .rhleg{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:var(--muted);margin:4px 0 0}
 .rhleg i{display:inline-block;width:14px;height:3px;border-radius:2px;vertical-align:middle;margin-right:5px}
@@ -606,9 +608,10 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
       <div class="legend" id="legend1"></div>
       <div id="rMap" class="map norc"></div>
     </section>
-    <section class="sec" id="trend"><div class="sh"><h2>Rank by week<small>compare teams over the season</small></h2></div>
+    <section class="sec" id="trend"><div class="sh"><h2><span id="trTitle">Rank by week</span><small>compare teams over the season</small></h2></div>
       <div class="row trbar">
-        <label class="xsel" style="margin-left:0"><span class="lab">Ranking</span><select id="trMetric" class="fsel xpick" aria-label="Ranking to chart"></select></label>
+        <span id="trMode"></span>
+        <label class="xsel"><span class="lab">Ranking</span><select id="trMetric" class="fsel xpick" aria-label="Ranking to chart"></select></label>
         <input id="trAdd" type="search" list="trTeams" placeholder="Add a team" aria-label="Add a team to the chart" autocomplete="off"><datalist id="trTeams"></datalist>
         <span id="trChips" class="trchips"></span>
       </div>
@@ -2509,10 +2512,11 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     ['Straw Poll', '#f4f1e8', w => { const m = S.weeks[w] ? rankMap(w) : null; return m; }, true],
     ['AP', '#5aa9ff', w => (S.ap && S.ap.weeks && S.ap.weeks[w]) || (pickWeek(w) || {}).ap || null, true],
     ['CFP', '#4fbf7a', w => cfpWeek(w), true],
-    ['Wolp+', '#e8b64c', w => wolpWeek(w), false],
-    ['ESPN FPI', '#f08a4b', w => { const p=pickWeek(w); return p && p.fpi ? ranksFromRatings(p.fpi) : null; }, false],
-    ['SP+', '#b48cff', w => { const p=pickWeek(w); return p && p.sp ? ranksFromRatings(p.sp) : null; }, false],
-  ];
+    ['Wolp+', '#e8b64c', w => wolpWeek(w), false, w => (pickWeek(w)||{}).wolp || null],
+    ['ESPN FPI', '#f08a4b', w => { const p=pickWeek(w); return p && p.fpi ? ranksFromRatings(p.fpi) : null; }, false, w => (pickWeek(w)||{}).fpi || null],
+    ['SP+', '#b48cff', w => { const p=pickWeek(w); return p && p.sp ? ranksFromRatings(p.sp) : null; }, false, w => (pickWeek(w)||{}).sp || null],
+  ];   // [name, color, ranks by week, poll (Top 25 only), ratings by week (power ratings only: the Ratings view)]
+  const fmtRating = v => (v>0 ? '+' : v<0 ? '\u2212' : '') + Math.abs(v).toFixed(1);
   const histWeeks = () => [...new Set(Object.keys(S.weeks).map(Number).concat((S.picks||[]).map(p=>p.week), cfpWeeks()))].filter(w=>w>=1).sort((x,y)=>x-y);
   // one series per line: {name, col, pts:[{w, r}]}; #1 at the top, a gap where a week has no rank
   // a game's week from its date: weeks run Tuesday-Monday (Eastern), anchored on the earliest saved week-5 kickoff;
@@ -2534,28 +2538,42 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     return w < last ? 'Bye' : '';
   }
   const CHART_TIPS = [];   // hover-box contents, looked up by index (kept out of the page's attributes)
-  function rankChart(series, weeks, label, header){
+  // rating: each point also has v (the rating, points vs an average team); the y axis then shows ratings, higher at the top
+  function rankChart(series, weeks, label, header, rating){
     series = series.filter(x=>x.pts.length);
     if(!series.length || !weeks.length) return '';
-    // the y axis fits the ranks shown (owner, 2026-11-21): a little room above the best and below the worst, at least 5 spots tall
-    const all = series.flatMap(x=>x.pts.map(p=>p.r)), best = Math.min(...all), worst = Math.max(...all), pad = Math.max(1, Math.round((worst-best)*0.08));
-    let ymin = Math.max(1, best-pad), ymax = worst+pad; if(ymax-ymin < 5){ ymax = ymin+5; }
-    const W=600, H=230, L=34, R=12, T=12, B=26, w0=weeks[0], w1=weeks[weeks.length-1];
-    const X = w => L + (w1===w0 ? (W-L-R)/2 : (w-w0)/(w1-w0)*(W-L-R)), Y = r => T + (r-ymin)/(ymax-ymin)*(H-T-B);
-    const step = [1, 2, 5, 10, 20, 25, 50].find(s=>(ymax-ymin)/s <= 6) || 50;
-    const ticks = [ymin].concat(Array.from({length: Math.floor(ymax/step)}, (_,i)=>(i+1)*step).filter(r=>r>ymin && r<=ymax && r-ymin > step/2));
-    const grid = ticks.map(r=>`<line class="ax" x1="${L}" x2="${W-R}" y1="${Y(r)}" y2="${Y(r)}"/><text x="${L-6}" y="${Y(r)+4}" text-anchor="end">#${r}</text>`).join('')
+    const W=600, H=230, L=38, R=12, T=12, B=26, w0=weeks[0], w1=weeks[weeks.length-1];
+    const X = w => L + (w1===w0 ? (W-L-R)/2 : (w-w0)/(w1-w0)*(W-L-R));
+    let Y, grid, val = p => rating ? p.v : p.r;
+    if(rating){   // the y axis fits the ratings shown, with a dashed 0 line (= an average team) when it's in range
+      const all = series.flatMap(x=>x.pts.map(p=>p.v)), lo = Math.min(...all), hi = Math.max(...all), pad = Math.max(1, (hi-lo)*0.08);
+      let ymin = lo-pad, ymax = hi+pad; if(ymax-ymin < 6){ const m=(ymax+ymin)/2; ymin=m-3; ymax=m+3; }
+      Y = v => T + (ymax-v)/(ymax-ymin)*(H-T-B);
+      const step = [1, 2, 5, 10, 20].find(s=>(ymax-ymin)/s <= 6) || 20, ticks = [];
+      for(let v=Math.ceil(ymin/step)*step; v<=ymax; v+=step) ticks.push(v);
+      grid = ticks.map(v=>`<line class="ax${v===0?' zero':''}" x1="${L}" x2="${W-R}" y1="${Y(v)}" y2="${Y(v)}"/><text x="${L-6}" y="${Y(v)+4}" text-anchor="end">${v>0?'+':v<0?'\u2212':''}${Math.abs(v)}</text>`).join('');
+    } else {
+      // the y axis fits the ranks shown (owner, 2026-11-21): a little room above the best and below the worst, at least 5 spots tall
+      const all = series.flatMap(x=>x.pts.map(p=>p.r)), best = Math.min(...all), worst = Math.max(...all), pad = Math.max(1, Math.round((worst-best)*0.08));
+      let ymin = Math.max(1, best-pad), ymax = worst+pad; if(ymax-ymin < 5){ ymax = ymin+5; }
+      Y = r => T + (r-ymin)/(ymax-ymin)*(H-T-B);
+      const step = [1, 2, 5, 10, 20, 25, 50].find(s=>(ymax-ymin)/s <= 6) || 50;
+      const ticks = [ymin].concat(Array.from({length: Math.floor(ymax/step)}, (_,i)=>(i+1)*step).filter(r=>r>ymin && r<=ymax && r-ymin > step/2));
+      grid = ticks.map(r=>`<line class="ax" x1="${L}" x2="${W-R}" y1="${Y(r)}" y2="${Y(r)}"/><text x="${L-6}" y="${Y(r)+4}" text-anchor="end">#${r}</text>`).join('');
+    }
+    grid += ''
       + weeks.map(w=>`<text x="${X(w)}" y="${H-8}" text-anchor="middle">${w===1 ? 'Pre' : w-1}</text>`).join('');   // a point = the rank going into week w = after week w-1 (week 1 = preseason)
-    const path = pts => { let d='', prev=null; pts.forEach(p=>{ d += (prev!=null && weeks.indexOf(p.w)===weeks.indexOf(prev)+1 ? 'L' : 'M') + X(p.w).toFixed(1) + ' ' + Y(p.r).toFixed(1); prev=p.w; }); return d; };
-    const lines = series.map(x=>`<path class="ln" stroke="${x.col}" d="${path(x.pts)}"/>` + x.pts.map(p=>`<circle cx="${X(p.w).toFixed(1)}" cy="${Y(p.r).toFixed(1)}" r="3" fill="${x.col}"><title>${p.w===1 ? 'Preseason' : `After week ${p.w-1}`} · ${esc(x.name)} #${p.r}</title></circle>`).join('')).join('');
+    const show = p => rating ? `${fmtRating(p.v)} (#${p.r})` : `#${p.r}`;
+    const path = pts => { let d='', prev=null; pts.forEach(p=>{ d += (prev!=null && weeks.indexOf(p.w)===weeks.indexOf(prev)+1 ? 'L' : 'M') + X(p.w).toFixed(1) + ' ' + Y(val(p)).toFixed(1); prev=p.w; }); return d; };
+    const lines = series.map(x=>`<path class="ln" stroke="${x.col}" d="${path(x.pts)}"/>` + x.pts.map(p=>`<circle cx="${X(p.w).toFixed(1)}" cy="${Y(val(p)).toFixed(1)}" r="3" fill="${x.col}"><title>${p.w===1 ? 'Preseason' : `After week ${p.w-1}`} · ${esc(x.name)} ${show(p)}</title></circle>`).join('')).join('');
     // hover / tap a week: a guide line and a box listing every line's rank that week (#chartTip)
     const cols = weeks.map((w,i)=>{
       const x0 = i ? (X(weeks[i-1])+X(w))/2 : L, x1 = i<weeks.length-1 ? (X(w)+X(weeks[i+1]))/2 : W-R;
-      const at = series.map(x=>({name:x.name, col:x.col, team:x.team, r:(x.pts.find(p=>p.w===w)||{}).r})).filter(v=>v.r).sort((a,b)=>a.r-b.r);
+      const at = series.map(x=>({name:x.name, col:x.col, team:x.team, p:x.pts.find(p=>p.w===w)})).filter(v=>v.p).sort((a,b)=>rating ? b.p.v-a.p.v : a.p.r-b.p.r);
       if(!at.length) return '';
       const hd = header && w>1 ? header(w-1) : '';   // the team pop-up: the game that produced this rank
       const tip = `<b>${w===1 ? 'Preseason' : `After week ${w-1}`}</b>${hd ? ` · ${esc(hd)}` : ''}` + at.map(v=>{ const res = v.team && w>1 ? weekResult(v.team, w-1) : '';
-        return `<div><i style="background:${v.col}"></i>${esc(v.name)} <b>#${v.r}</b>${res ? `<span class="tres">${esc(res)}</span>` : ''}</div>`; }).join('');
+        return `<div><i style="background:${v.col}"></i>${esc(v.name)} <b>${show(v.p)}</b>${res ? `<span class="tres">${esc(res)}</span>` : ''}</div>`; }).join('');
       return `<g class="wkcol"><line class="guide" x1="${X(w)}" x2="${X(w)}" y1="${T}" y2="${H-B}"/><rect x="${x0.toFixed(1)}" y="${T}" width="${(x1-x0).toFixed(1)}" height="${H-T-B}" data-ctip="${CHART_TIPS.push(tip)-1}"/></g>`;
     }).join('');
     return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(label)}">${grid}${lines}${cols}</svg>`;
@@ -2573,13 +2591,22 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     document.addEventListener('click', e=>{ const g=e.target.closest && e.target.closest('.rhist .wkcol'); g ? show(g, e) : hide(); });
     document.addEventListener('scroll', hide, true);
   })();
+  const histVals = (rf, f, a, weeks) => weeks.map(w=>{ const m=rf(w), v=m && m[a], rk=f(w); return typeof v==='number' ? {w, v, r: rk && rk[a]} : null; }).filter(Boolean);
   const histPts = (f, poll, a, weeks) => weeks.map(w=>{ const m=f(w), r=m && m[a]; return r && (!poll || r<=TOP) ? {w, r} : null; }).filter(Boolean);
+  // Ranks / Ratings view (owner, 2026-11-21), shared by both charts and kept in this browser
+  S.histMode = (()=>{ try{ return localStorage.getItem('sp-histmode')==='rating' ? 'rating' : 'rank'; }catch(e){ return 'rank'; } })();
+  const setHistMode = m => { S.histMode=m; try{ localStorage.setItem('sp-histmode', m); }catch(e){} };
+  const modePills = () => `<span class="rhmode"><button class="pill" data-hm="rank" aria-pressed="${S.histMode==='rank'}">Ranks</button><button class="pill" data-hm="rating" aria-pressed="${S.histMode==='rating'}">Ratings</button></span>`;
   function rankHistory(a){
-    const weeks = histWeeks();
-    const series = HIST.map(([name, col, f, poll])=>({name, col, pts: histPts(f, poll, a, weeks)})).filter(x=>x.pts.length);
-    const svg = rankChart(series, weeks, nm(a)+' rank by week', w=>weekResult(a, w)); if(!svg) return '';
-    return svg + `<div class="rhleg">${series.map(x=>`<span><i style="background:${x.col}"></i>${esc(x.name)}</span>`).join('')}<span>· hover over or tap a week to see each rank; polls show Top 25 only</span></div>`;
+    const weeks = histWeeks(), rating = S.histMode==='rating';
+    $('dHistH').textContent = rating ? 'Ratings by week' : 'Rank by week';
+    const series = HIST.filter(h=>!rating || h[4]).map(([name, col, f, poll, rf])=>({name, col, pts: rating ? histVals(rf, f, a, weeks) : histPts(f, poll, a, weeks)})).filter(x=>x.pts.length);
+    const svg = rankChart(series, weeks, nm(a)+(rating ? ' ratings' : ' rank')+' by week', w=>weekResult(a, w), rating); if(!svg) return '';
+    return `<div class="rhtop">${modePills()}</div>` + svg + `<div class="rhleg">${series.map(x=>`<span><i style="background:${x.col}"></i>${esc(x.name)}</span>`).join('')}<span>· ${rating ? 'points better than an average FBS team (0 = average)' : 'polls show Top 25 only'}; hover over or tap a week for details</span></div>`;
   }
+  document.addEventListener('click', e=>{ const b=e.target.closest('[data-hm]'); if(!b) return;
+    setHistMode(b.dataset.hm);
+    if(b.closest('#dHist')){ const a=$('dCmp').dataset.abbr; $('dHist').innerHTML = rankHistory(a); } else renderTrend(); });
   // Research "Rank by week": up to 6 teams on one ranking, a line per team in its own color (kept in this browser)
   const TR_MAX = 6, TR_COL = ['#e8b64c', '#5aa9ff', '#4fbf7a', '#f08a4b', '#b48cff', '#ff6b8b'];   // one distinct color per slot (team colors clash on the dark page)
   S.trend = (()=>{ try{ const x=JSON.parse(localStorage.getItem('sp-trend')||'null'); if(x && Array.isArray(x.teams)) return x; }catch(e){} return {metric:'Wolp+', teams:[]}; })();
@@ -2589,15 +2616,17 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     T.teams = T.teams.filter(a=>S.teams[a]);
     if(T.teams.length) T.seeded = true;
     else if(!T.seeded && pub().length){ T.seeded = true; T.teams = S.cmp.filter(a=>S.teams[a]).slice(0, TR_MAX); if(!T.teams.length) T.teams = pub().slice(0, 3).filter(a=>S.teams[a]); saveTrend(); }   // first visit: compared teams, else the Straw top 3
-    if(!HIST.some(h=>h[0]===T.metric)) T.metric = 'Wolp+';
-    $('trMetric').innerHTML = HIST.map(h=>`<option${h[0]===T.metric?' selected':''}>${esc(h[0])}</option>`).join('');
+    const rating = S.histMode==='rating', menu = HIST.filter(h=>!rating || h[4]);   // Ratings: only the power ratings have points
+    if(!menu.some(h=>h[0]===T.metric)) T.metric = 'Wolp+';
+    $('trMode').innerHTML = modePills(); $('trTitle').textContent = rating ? 'Ratings by week' : 'Rank by week';
+    $('trMetric').innerHTML = menu.map(h=>`<option${h[0]===T.metric?' selected':''}>${esc(h[0])}</option>`).join('');
     $('trTeams').innerHTML = Object.keys(S.teams).filter(a=>!T.teams.includes(a)).sort((x,y)=>nm(x).localeCompare(nm(y))).map(a=>`<option value="${esc(nm(a))}">`).join('');
     $('trAdd').disabled = T.teams.length>=TR_MAX; $('trAdd').placeholder = T.teams.length>=TR_MAX ? `Up to ${TR_MAX} teams` : 'Add a team';
     $('trChips').innerHTML = T.teams.map((a,i)=>`<span class="trchip" style="--tc:${TR_COL[i]}"><i style="background:${TR_COL[i]}"></i>${esc(nm(a))}<button data-trdel="${esc(a)}" aria-label="Remove ${esc(nm(a))}">×</button></span>`).join('');
     const h = HIST.find(x=>x[0]===T.metric), weeks = histWeeks();
     if(!T.teams.length){ $('trChart').innerHTML = '<p class="lead">Add a team to start.</p>'; return; }
-    const svg = rankChart(T.teams.map((a,i)=>({name: nm(a), team: a, col: TR_COL[i], pts: histPts(h[2], h[3], a, weeks)})), weeks, T.metric+' rank by week');
-    $('trChart').innerHTML = svg ? svg + `<div class="rhleg">${h[3] ? 'Top 25 only; a gap = not ranked that week. ' : ''}Hover over or tap a week to see each rank.</div>`
+    const svg = rankChart(T.teams.map((a,i)=>({name: nm(a), team: a, col: TR_COL[i], pts: rating ? histVals(h[4], h[2], a, weeks) : histPts(h[2], h[3], a, weeks)})), weeks, T.metric+(rating ? ' rating' : ' rank')+' by week', null, rating);
+    $('trChart').innerHTML = svg ? svg + `<div class="rhleg">${rating ? 'Points better than an average FBS team (0 = average). ' : h[3] ? 'Top 25 only; a gap = not ranked that week. ' : ''}Hover over or tap a week for details.</div>`
       : `<p class="lead">No ${esc(T.metric)} ranks for these teams yet${h[3] ? ' (only Top 25 teams appear)' : ''}.</p>`;
   }
   $('trMetric').addEventListener('change', e=>{ S.trend.metric=e.target.value; saveTrend(); renderTrend(); });
