@@ -293,7 +293,10 @@ td.c-mv{padding-left:0;width:30px}
 @media (max-width:359px){ #ws-ballot{--c-grip:1.5rem;--c-rk:3rem;--c-lg:1.1rem;--c-st:2.4rem;--c-x:2.25rem} #ws-ballot .brow,#ws-ballot .bcols{column-gap:4px} }
 @media (min-width:701px){ #ws-ballot{--c-grip:2rem;--c-rk:4.25rem;--c-lg:1.75rem;--c-x:2.75rem} }
 #view-work.ro #ws-ballot{--c-grip:0px;--c-x:0px}
-@media (max-width:700px){ #ws-ballot .bscroll{margin:0 -16px} #ws-ballot>.row{margin-bottom:6px} #ws-ballot .bcols{top:env(safe-area-inset-top,0px)} }   /* the top bar doesn't stick on phones */   /* phones: the list runs edge to edge (every pixel goes to the team name) */
+@media (max-width:700px){ #ws-ballot .bscroll{margin:0 -16px} #ws-ballot>.row{margin-bottom:6px} #ws-ballot .bcols{top:env(safe-area-inset-top,0px)}
+  #ws-ballot .bcols{text-transform:none;letter-spacing:0;white-space:normal;line-height:1.1;padding:4px 0} }
+/* more columns than fit: the list scrolls sideways in its own box (the header can't stay pinned then) */
+#ws-ballot .bscroll.over{overflow-x:auto} #ws-ballot .bscroll.over .brow,#ws-ballot .bscroll.over .bcols{min-width:max-content}   /* the top bar doesn't stick on phones */   /* phones: the list runs edge to edge (every pixel goes to the team name) */
 .brow,.bcols{display:grid;grid-template-columns:var(--bcols);column-gap:6px;align-items:center}
 .bcols{position:sticky;top:calc(env(safe-area-inset-top,0px) + 63px);z-index:3;background:var(--bg);min-height:32px;font:700 12px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line);white-space:nowrap}
 .bcols .r{text-align:right} .bcols [title]{cursor:help}
@@ -2076,6 +2079,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
         + `<button class="x" data-rm="${i}" aria-label="Remove ${esc(t.name)} from your ballot"><span aria-hidden="true">−</span></button>`
         + `<div class="bmore" id="bm-${i}">${open ? bDetails(a, an) : ''}</div></div>`; };
     $('ballot').innerHTML = S.draft.map(row).join('');
+    { const sc=$('ballot').parentElement; sc.classList.remove('over'); if(sc.scrollWidth > sc.clientWidth + 1 || $('ballot').scrollWidth > $('ballot').clientWidth + 1) sc.classList.add('over'); }
     let h='';
     if(!S.draft.length) h += editable(S.cur) ? `<div class="empty"><strong>The ballot is empty</strong>Add teams from the list, or drag them in.</div>` : `<div class="empty"><strong>No ballot for this week</strong></div>`;
     const ed=editable(S.cur);
