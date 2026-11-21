@@ -1002,7 +1002,11 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
   const tc = a => { const c=(S.teams[a]||{}).color; return /^#[0-9a-f]{3,8}$/i.test(c||'') ? c : 'transparent'; };
   const GRIP = '<svg width="10" height="16" viewBox="0 0 10 16" fill="currentColor"><circle cx="2" cy="2" r="1.6"/><circle cx="8" cy="2" r="1.6"/><circle cx="2" cy="8" r="1.6"/><circle cx="8" cy="8" r="1.6"/><circle cx="2" cy="14" r="1.6"/><circle cx="8" cy="14" r="1.6"/></svg>';
   // a rank number next to a team name: Top 25 only (owner's rule)
-  const rkBadge = r => r && r<=TOP ? `<span class="rkb">${r}</span>` : '';
+  const rkBadge = (r, lab) => r && r<=TOP ? `<span class="rkb"${lab?` title="${lab} #${r}"`:''}>${r}</span>` : '';
+  // the rank shown beside team names: the CFP once its rankings are out, the AP before that (owner, 2026-11-20); the
+  // Straw Poll rank stays visible in the small line under game-card names. The Vote tab keeps your own ballot's ranks.
+  const headLab = () => cfpWeeks().length ? 'CFP' : 'AP';
+  const headRank = a => cfpWeeks().length ? cfpRank(a) : apRank(a);
   function toast(msg){ const t=$('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove('show'),2400); }
 
   // ---------- columns ----------
@@ -1204,7 +1208,8 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     return (new Date(lastGame.top) - new Date(g.date)) / 864e5 >= 5 ? 'bye' : g; };
   const lastCell = a => { const g=lastGame(a); return !g || g==='bye' ? {v: g ? 'Bye' : '–', cls:'lastg dim'} : {v:`<span class="lres ${g.result}">${g.result}</span> ${gScore(g)}<small>${gAt(g)} ${esc(nm(g.opp))}</small>`, cls:'lastg'}; };
   const gScore = g => g.result==='W' ? `${g.pf}-${g.pa}` : `${g.pa}-${g.pf}`;
-  const gOppName = (o, ranks) => (ranks[o] && ranks[o]<=TOP ? '#'+ranks[o]+' ' : '') + nm(o);   // a rank only for the Top 25
+  const oppRank = (o, ranks) => S.tab==='work' ? ranks[o] : headRank(o);
+  const gOppName = (o, ranks) => { const r=oppRank(o, ranks); return (r && r<=TOP ? '#'+r+' ' : '') + nm(o); };   // a rank only for the Top 25
   const gOppRec = o => S.teams[o] ? rec(S.teams[o].w, S.teams[o].l) : 'FCS';
 
   // ---------- spreads ----------
@@ -1340,7 +1345,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
         : !done || !lFav ? '' : won!==lFav ? '<span class="tag hit">Upset!</span>' : '<span class="tag miss">Favorite won</span>';
       const hm = !up || !done ? '' : pick ? (ok ? ' hit' : ' miss') : result ? (won!==lFav ? ' hit' : ' miss') : '';
       const score = a => done || live ? `<span class="sc${done && a!==won ? ' lost' : ''}">${a===g.home ? sc.hp : sc.ap}</span>` : '';
-      const side = a => `<div class="side${done||live?' scored':''}">${logo(a)}<div><b><button class="tname" data-open="${esc(a)}">${rkBadge(ranks[a])}${esc(nm(a))}</button></b><small>${S.teams[a]?rec(S.teams[a].w,S.teams[a].l):'FCS'}${apG[a]?' · AP #'+apG[a]:''}${cfpRank(a)?' · CFP #'+cfpRank(a):''}</small></div>${score(a)}</div>`;
+      const side = a => `<div class="side${done||live?' scored':''}">${logo(a)}<div><b><button class="tname" data-open="${esc(a)}">${rkBadge(headRank(a), headLab())}${esc(nm(a))}</button></b><small>${S.teams[a]?rec(S.teams[a].w,S.teams[a].l):'FCS'}${ranks[a] && ranks[a]<=TOP?' · Straw #'+ranks[a]:''}${headLab()==='CFP' && apRank(a)?' · AP #'+apRank(a):''}</small></div>${score(a)}</div>`;
       S.gmap[g.id] = g;
       return `<div class="game${up?' hot':''}${hm}" data-game="${esc(g.id)}"><div class="gtop"><span class="when${live?' live':''}">${done ? 'Final' : live ? `Live · ${esc(sc.detail)}` : esc(kick(g.start))}</span>${result || (up && !inUps?'<span class="tag up">Editor\'s Pick</span>':'')}</div>
         ${side(g.away)}<div class="at">${g.neutral?'vs':'at'}</div>${side(g.home)}
@@ -1379,7 +1384,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     if(S.showAll) $('hAll').innerHTML = `<div class="tblw"><table><thead><tr class="cols"><th style="text-align:left">Kickoff</th><th style="text-align:left">Away</th><th></th><th style="text-align:left">Home</th><th>Line</th><th>Wolp+</th></tr></thead><tbody>${
       games.map(g=>{ const sc=gameScore(g), st = sc.state==='final' ? `Final ${sc.ap}-${sc.hp}` : sc.state==='live' ? `${sc.detail} · ${sc.ap}-${sc.hp}` : kick(g.start);
         S.gmap[g.id] = g;
-        return `<tr data-game="${esc(g.id)}"><td class="dim${sc.state==='live'?' live':''}"><button class="gov" data-game="${esc(g.id)}" aria-label="Game overview: ${esc(nm(g.away))} ${g.neutral?'vs':'at'} ${esc(nm(g.home))}">${esc(st)}</button></td><td><button class="gl-n tname linkbtn" style="color:inherit;text-decoration:none" data-open="${esc(g.away)}">${logo(g.away)}${rkBadge(ranks[g.away])}${esc(nm(g.away))}</button></td><td class="dim">${g.neutral?'vs':'at'}</td><td><button class="gl-n tname linkbtn" style="color:inherit;text-decoration:none" data-open="${esc(g.home)}">${logo(g.home)}${rkBadge(ranks[g.home])}${esc(nm(g.home))}</button></td><td style="text-align:center">${spread(g.line,g.home,g.away)}</td><td style="text-align:center">${spread(g.model,g.home,g.away)}</td></tr>`; }).join('')}</tbody></table></div>`;
+        return `<tr data-game="${esc(g.id)}"><td class="dim${sc.state==='live'?' live':''}"><button class="gov" data-game="${esc(g.id)}" aria-label="Game overview: ${esc(nm(g.away))} ${g.neutral?'vs':'at'} ${esc(nm(g.home))}">${esc(st)}</button></td><td><button class="gl-n tname linkbtn" style="color:inherit;text-decoration:none" data-open="${esc(g.away)}">${logo(g.away)}${rkBadge(headRank(g.away), headLab())}${esc(nm(g.away))}</button></td><td class="dim">${g.neutral?'vs':'at'}</td><td><button class="gl-n tname linkbtn" style="color:inherit;text-decoration:none" data-open="${esc(g.home)}">${logo(g.home)}${rkBadge(headRank(g.home), headLab())}${esc(nm(g.home))}</button></td><td style="text-align:center">${spread(g.line,g.home,g.away)}</td><td style="text-align:center">${spread(g.model,g.home,g.away)}</td></tr>`; }).join('')}</tbody></table></div>`;
   }
   $('hAllBtn').addEventListener('click', ()=>{ S.showAll=!S.showAll; renderHome(); });
   ['hFraud','hRadar'].forEach(id=>$(id).addEventListener('click', e=>{ const b=e.target.closest('[data-more]'); if(b){ S.more[b.dataset.more]=!S.more[b.dataset.more]; renderHome(); } }));
@@ -2556,7 +2561,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     $('dFacts').innerHTML = `<dt>2026 record</dt><dd>${rec(t.w,t.l)}</dd><dt>vs P4</dt><dd>${rec(t.p4w,t.p4l)}</dd><dt>2025 record</dt><dd>${rec(t.lyW,t.lyL)}</dd><dt>2025 final AP</dt><dd>${t.lyAp?'#'+t.lyAp:'Not ranked'}</dd>`;
     $('dAdv').innerHTML = advTable(t) + modelFacts(a);
     const games=gamesOf(a), bwl=bestWorst(a), bw=bwl.bw&&bwl.bw.g, wl=bwl.wl&&bwl.wl.g;
-    const oppDesc = o => ranks[o] && ranks[o]<=TOP ? gOppName(o,ranks) : S.teams[o] ? `${nm(o)} (${rec(S.teams[o].w,S.teams[o].l)})` : `${o} (FCS)`;
+    const oppDesc = o => oppRank(o, ranks) && oppRank(o, ranks)<=TOP ? gOppName(o,ranks) : S.teams[o] ? `${nm(o)} (${rec(S.teams[o].w,S.teams[o].l)})` : `${o} (FCS)`;
     const t25=vsTop(a,ranks), one={w:0,l:0};
     games.forEach(g=>{ if(isClose(g)) one[g.result==='W'?'w':'l']++; });
     const ch=[];
