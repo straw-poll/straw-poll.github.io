@@ -109,6 +109,16 @@ h2 small{font:400 13px var(--body);color:var(--muted);margin-left:10px}
 .badge{font:600 11px var(--body);letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:999px}
 .badge.f{background:#3a1d1f;color:#f29a8d} .badge.r{background:#173325;color:#8fdcab}
 .hsec{margin-top:28px}
+.cfprow{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:22px;align-items:start}
+.pods{display:grid;gap:10px}
+.pod{border:1px solid var(--line2);border-radius:10px;padding:6px 10px}
+.pod h4{margin:0 0 2px;font:600 12px var(--cond);letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.bt{display:grid;grid-template-columns:22px 20px minmax(0,1fr) auto;gap:6px;align-items:center;padding:3px 0}
+.bt .sd{font:700 15px var(--cond);color:var(--gold);text-align:right} .bt .lg{width:20px;height:20px}
+.bt .tname{background:none;border:0;padding:0;color:var(--ink);cursor:pointer;font:600 14px var(--cond);text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bt small{color:var(--muted);font-size:12px;white-space:nowrap}
+.bvs{font-size:11px;color:var(--muted);padding-left:28px}
+.bout{font-size:13px;color:var(--muted);margin:10px 0 0}
 .games{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
 .game{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
 .game.hot{border-color:#6b4f1a;box-shadow:inset 0 3px 0 var(--gold)}
@@ -476,7 +486,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
   .cmpbar{bottom:calc(env(safe-area-inset-bottom,0px) + 66px)}
   .tools{margin-left:0}
   h1{font-size:32px}
-  .games,.t25{grid-template-columns:1fr}
+  .games,.t25,.cfprow{grid-template-columns:1fr}
   .filters{position:static}
   .filters input{width:100%}
   .map{--mapcols:30px 0 24px minmax(0,1fr) 44px}
@@ -541,6 +551,10 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
 <div id="hRadar"></div></div>
       </div>
     </div>
+    <div class="hsec cfprow" id="hCfpWrap" hidden>
+      <div class="card"><div class="ch"><h2 id="hCfpT">CFP rankings</h2></div><div class="t25" id="hCfp"></div></div>
+      <div class="card"><div class="ch"><h2>Projected bracket<small>if the season ended today</small></h2></div><div id="hBracket"></div></div>
+    </div>
     <div class="hsec" id="hUpsWrap" hidden><div class="ch"><h2>Editor's Picks<small id="hUpsSub"></small></h2></div><div class="games" id="hUps"></div></div>
     <div class="hsec" id="hVsWrap" hidden><div class="ch"><h2>Wolp+ vs the Line<small id="hVsSub"></small></h2></div><p class="lead" id="hVsRec" style="margin:0 0 12px"></p><div class="games" id="hVs"></div></div>
     <div class="hsec" id="hBigWrap"><div class="ch"><h2 id="hBigT">This week's big games</h2><button class="more" id="hAllBtn">All games →</button></div>
@@ -563,7 +577,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
      </div>
      <div class="frow fopts" id="rOptRow">
       <span class="lab">Sort</span>
-      <button class="pill" data-ms="wolp">Straw</button><button class="pill" data-ms="comp">Wolp+</button><button class="pill" data-ms="splus" hidden>Straw+</button><button class="pill" data-ms="ap">AP</button><button class="pill" data-ms="fpi">FPI</button><button class="pill" data-ms="best">Best win</button><button class="pill" data-ms="worst">Worst loss</button>
+      <button class="pill" data-ms="wolp">Straw</button><button class="pill" data-ms="comp">Wolp+</button><button class="pill" data-ms="splus" hidden>Straw+</button><button class="pill" data-ms="ap">AP</button><button class="pill" data-ms="cfp">CFP</button><button class="pill" data-ms="fpi">FPI</button><button class="pill" data-ms="best">Best win</button><button class="pill" data-ms="worst">Worst loss</button>
 
       <label class="xsel"><span class="lab">X axis</span><select id="xAx" class="fsel xpick" aria-label="Results Map x axis"><option value="wolp">Wolp+</option><option value="fpi">FPI</option><option value="qw">Resume Strength</option></select></label>
       <details class="colmenu fright" id="fMenu"><summary class="pill" id="fSum">Conference Modifier ▾</summary>
@@ -578,7 +592,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
       <div id="rMap" class="map norc"></div>
     </section>
     <section class="sec" id="stats"><div class="sh"><h2>Stats</h2>
-      <div class="row"><span style="color:var(--muted);font-size:13px">Sort</span><button class="pill" data-ms="wolp">Straw</button><button class="pill" data-ms="comp">Wolp+</button><button class="pill" data-ms="splus" hidden>Straw+</button><button class="pill" data-ms="ap">AP</button><button class="pill" data-ms="fpi">FPI</button><button class="pill" data-ms="best">Best win</button><button class="pill" data-ms="worst">Worst loss</button>
+      <div class="row"><span style="color:var(--muted);font-size:13px">Sort</span><button class="pill" data-ms="wolp">Straw</button><button class="pill" data-ms="comp">Wolp+</button><button class="pill" data-ms="splus" hidden>Straw+</button><button class="pill" data-ms="ap">AP</button><button class="pill" data-ms="cfp">CFP</button><button class="pill" data-ms="fpi">FPI</button><button class="pill" data-ms="best">Best win</button><button class="pill" data-ms="worst">Worst loss</button>
       <details class="colmenu" id="colMenu"><summary class="pill">Columns ▾</summary><div class="menu" id="colList"></div></details></div></div>
       <div class="tblw"><table id="rTable"></table></div>
       <p class="note">Tip: click a team's row (not its name) here or on the Results Map to select it, then compare up to 4 side by side. Click any team for its full game log.</p>
@@ -676,6 +690,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
         <dl>
           <dt>Straw</dt><dd>Straw Poll rank (Top 25; Also receiving votes after).</dd>
           <dt>AP</dt><dd>This week's AP rank.</dd>
+          <dt>CFP</dt><dd>The latest College Football Playoff committee ranking (released Tuesdays from November).</dd>
           <dt>Wolp+</dt><dd>Game score based power rating calculating points better than an average FBS team on a neutral field.</dd>
           <dt>Proj. record</dt><dd>Expected final regular-season record.</dd>
           <dt>RS</dt><dd>Resume Strength rank (see Resume Strength).</dd>
@@ -984,6 +999,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
   const colOk = c => c.k!=='splus' || seeSp();
   const COLS_ALL = [
     {k:'apNow', h:'AP', menu:"this week's AP Top 25 rank", g:'Rankings', bw:'2.7rem', pw:'2.6rem', fmt:'r', lo:true, val:a=>apRank(a)},
+    {k:'cfpNow', h:'CFP', menu:"the latest College Football Playoff ranking", g:'Rankings', bw:'2.7rem', pw:'2.6rem', fmt:'r', lo:true, val:a=>cfpRank(a)},
     {k:'last', h:'Last game', menu:"last game's result, or Bye", g:'This season', bw:'9rem', pw:'9rem', off:true, val:a=>{ const g=lastGame(a); return g && g!=='bye' ? (g.result==='W'?1:-1)*Math.abs(g.pf-g.pa) : null; }},   // sorts by margin
     {k:'rec',  h:'Record', menu:'win-loss record this season', g:'This season', bw:'2.9rem', pw:'2.7rem'},
     {k:'p4',   h:'vs P4',  menu:'record vs Power 4', g:'This season', bw:'2.9rem', pw:'2.7rem'},
@@ -1076,6 +1092,36 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
   const draftMap = () => { const m={}; S.draft.forEach((a,i)=>m[a]=i+1); return m; };
   const gamesOf = a => { const g=(S.teams[a]||{}).games; return Array.isArray(g) ? g : []; };
   function vsTop(a, ranks){ let w=0,l=0; for(const g of gamesOf(a)) if(ranks[g.opp] && ranks[g.opp]<=TOP && g.opp!==a){ if(g.result==='W') w++; else l++; } return {w,l}; }
+  // Home: the latest CFP Top 25 (movement vs the previous release) and a projected 12-team bracket from it, 2026-27 rules:
+  // automatic bids for the ACC, Big Ten, Big 12 and SEC champions (projected = each one's top CFP team), the highest-ranked
+  // Group of Six team (champion or not) and Notre Dame if it's in the top 12; the rest at-large by rank. Seeded straight by
+  // CFP rank (seeds 1-4 get byes), except automatic qualifiers outside the top 12 go to the bottom seeds in rank order.
+  const P4_CONFS = ['ACC', 'Big Ten', 'Big 12', 'SEC'];
+  function cfpField(ranks){
+    const order = Object.keys(ranks).sort((a,b)=>ranks[a]-ranks[b]), conf = a => S.teams[a] && S.teams[a].conf, why = {};
+    P4_CONFS.forEach(c=>{ const t=order.find(a=>conf(a)===c); if(t) why[t] = c+' champ'; });
+    const g6 = order.find(a=>conf(a) && !P4_CONFS.includes(conf(a)) && conf(a)!=='FBS Independents'); if(g6) why[g6] = 'top Group of Six';
+    if(ranks['Notre Dame']<=12) why['Notre Dame'] = 'auto bid (top 12)';
+    const auto = Object.keys(why), atLarge = order.filter(a=>!why[a]).slice(0, Math.max(0, 12-auto.length-(g6?0:1)));   // no ranked G6 team: its bid stays TBD
+    const inTop = a => ranks[a]<=12, pool = auto.concat(atLarge);
+    const field = pool.filter(inTop).sort((a,b)=>ranks[a]-ranks[b]).concat(pool.filter(a=>!inTop(a)).sort((a,b)=>ranks[a]-ranks[b]));
+    if(!g6) field.push(null);
+    return {field, why, g6missing: !g6, out: order.filter(a=>!field.includes(a)).slice(0,4)};
+  }
+  function renderCfp(){
+    const ws=cfpWeeks(); $('hCfpWrap').hidden = !ws.length; if(!ws.length) return;
+    const w=ws[ws.length-1], ranks=cfpWeek(w), prev = ws.length>1 ? cfpWeek(ws[ws.length-2]) : null;
+    $('hCfpT').innerHTML = `CFP rankings<small>Week ${w}</small>`;
+    const B = pollBlocks(Object.keys(ranks).sort((a,b)=>ranks[a]-ranks[b]).filter(a=>ranks[a]<=TOP), prev, false, null);
+    $('hCfp').innerHTML = B.top;
+    const F = cfpField(ranks), sd = a => F.field.indexOf(a)+1;
+    const team = a => a ? `<div class="bt" style="--tc:${tc(a)}"><span class="sd">${sd(a)}</span>${logo(a)}<button class="tname" data-open="${esc(a)}">${esc(nm(a))}</button><small>CFP #${ranks[a]}${F.why[a] ? ' · '+esc(F.why[a]) : ''}</small></div>` : '<div class="bt"><span class="sd"></span><span></span><span class="dim">TBD</span><span></span></div>';
+    const s = n => F.field[n-1];
+    $('hBracket').innerHTML = `<div class="pods">${[[1,8,9],[2,7,10],[3,6,11],[4,5,12]].map(([b,x,y])=>
+      `<div class="pod"><h4>Bye</h4>${team(s(b))}<h4 style="margin-top:6px">First round, at ${esc(nm(s(x))||'TBD')}</h4>${team(s(x))}<div class="bvs">vs</div>${team(s(y))}</div>`).join('')}</div>`
+      + (F.g6missing ? '<p class="bout">No Group of Six team is in the CFP Top 25, so its automatic bid is TBD.</p>' : '')
+      + (F.out.length ? `<p class="bout">First teams out: ${F.out.map(a=>`${esc(nm(a))} (#${ranks[a]})`).join(', ')}</p>` : '');
+  }
   function moveOf(a, rank, prev){
     if(!prev) return '<span class="mv eq"></span>';
     const p=prev[a]; if(!p) return '<span class="mv new" title="Newly ranked">NEW</span>';
@@ -1127,6 +1173,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     return `<dl class="facts"><dt>Wolp+</dt><dd>${t.powerRank?'#'+t.powerRank:'–'}${adjOf(a)&&c?` <span style="color:var(--muted);font-weight:500">(with your Conference Modifier: #${c})</span>`:''}</dd>
       <dt>Resume Strength</dt><dd>${t.resumeRank?'#'+t.resumeRank:'–'}</dd>
       <dt>AP</dt><dd>${apRank(a)?'#'+apRank(a):'Not ranked'}</dd>
+      ${cfpWeeks().length?`<dt>CFP</dt><dd>${cfpRank(a)?'#'+cfpRank(a):'Not ranked'}</dd>`:''}
       <dt>ESPN FPI</dt><dd>${t.fpiRank?'#'+t.fpiRank:'–'}</dd>
       ${SHOW_QUADS?`<dt>Quadrants</dt><dd>${qStr(a)}</dd>`:''}
       ${t.proj?`<dt>Projected</dt><dd>${projTxt(t)}</dd>`:''}
@@ -1163,6 +1210,10 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
 
   // ---------- HOME ----------
   function apRank(a){ return S.ap && S.ap.ranks ? S.ap.ranks[a] : undefined; }
+  // College Football Playoff committee rankings (#40): teams.json cfp.weeks = {week: {team: rank}}, one per Tuesday release
+  const cfpWeeks = () => Object.keys((S.cfp && S.cfp.weeks) || {}).map(Number).sort((a,b)=>a-b);
+  const cfpWeek = w => (S.cfp && S.cfp.weeks && S.cfp.weeks[w]) || null;
+  function cfpRank(a){ const ws=cfpWeeks(); return ws.length ? cfpWeek(ws[ws.length-1])[a] : undefined; }
   // one line at the top of Home that changes with who is looking and where the week stands
   function renderBanner(){
     const el=$('hBanner'), pr=S.me && S.me.profile, link = (go, t) => ` <button class="more" data-go="${go}">${t} →</button>`;
@@ -1218,7 +1269,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
   }
   document.addEventListener('visibilitychange', ()=>{ if(document.visibilityState==='visible') pollLive(); else clearTimeout(liveTimer); });
   function renderHome(){
-    renderBanner();
+    renderBanner(); renderCfp();
     const n=pubNum(), list=pub(), ranks=pubMap(), prev = n!=null && prevNum(n)!=null ? rankMap(prevNum(n)) : null;
     const wk = n!=null ? S.weeks[n] : null, nb = wk && wk.compiled ? wk.ballots : null;
     $('hTitle').innerHTML = `Straw Poll Top 25${n!=null?`<small>Week ${n}${nb!=null?` · ${nb} ballot${nb===1?'':'s'}`:''}</small>`:''}`;
@@ -1270,7 +1321,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
         : !done || !lFav ? '' : won!==lFav ? '<span class="tag hit">Upset!</span>' : '<span class="tag miss">Favorite won</span>';
       const hm = !up || !done ? '' : pick ? (ok ? ' hit' : ' miss') : result ? (won!==lFav ? ' hit' : ' miss') : '';
       const score = a => done || live ? `<span class="sc${done && a!==won ? ' lost' : ''}">${a===g.home ? sc.hp : sc.ap}</span>` : '';
-      const side = a => `<div class="side${done||live?' scored':''}">${logo(a)}<div><b><button class="tname" data-open="${esc(a)}">${rkBadge(ranks[a])}${esc(nm(a))}</button></b><small>${S.teams[a]?rec(S.teams[a].w,S.teams[a].l):'FCS'}${apG[a]?' · AP #'+apG[a]:''}</small></div>${score(a)}</div>`;
+      const side = a => `<div class="side${done||live?' scored':''}">${logo(a)}<div><b><button class="tname" data-open="${esc(a)}">${rkBadge(ranks[a])}${esc(nm(a))}</button></b><small>${S.teams[a]?rec(S.teams[a].w,S.teams[a].l):'FCS'}${apG[a]?' · AP #'+apG[a]:''}${cfpRank(a)?' · CFP #'+cfpRank(a):''}</small></div>${score(a)}</div>`;
       S.gmap[g.id] = g;
       return `<div class="game${up?' hot':''}${hm}" data-game="${esc(g.id)}"><div class="gtop"><span class="when${live?' live':''}">${done ? 'Final' : live ? `Live · ${esc(sc.detail)}` : esc(kick(g.start))}</span>${result || (up && !inUps?'<span class="tag up">Editor\'s Pick</span>':'')}</div>
         ${side(g.away)}<div class="at">${g.neutral?'vs':'at'}</div>${side(g.home)}
@@ -1296,9 +1347,10 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     $('hVsRec').textContent = vr.w+vr.l ? `Wolp+ this season: ${vr.w}-${vr.l}${vr.p ? `-${vr.p}` : ''} against the line in these games${vr.p ? ' (wins-losses-pushes)' : ''}.` : '';
     $('hVs').innerHTML = vsG.map(g=>card(g, null, false, true)).join('') || '<p class="lead">No games where Wolp+ and the line disagree this week.</p>';
     const top = r => r && r<=TOP ? r : 99;   // Straw Poll Top 25 only
-    const imp = g => Math.min(top(ranks[g.home]), top(ranks[g.away]), apG[g.home]||99, apG[g.away]||99);
+    const cfpR = a => cfpRank(a) || 99;   // CFP Top 25 teams count as ranked too (#40)
+    const imp = g => Math.min(top(ranks[g.home]), top(ranks[g.away]), apG[g.home]||99, apG[g.away]||99, cfpR(g.home), cfpR(g.away));
     const fav = g => typeof g.line==='number' ? Math.abs(g.line) : typeof g.model==='number' ? Math.abs(g.model) : 0;  // spread: line, else model
-    const rkd = a => top(ranks[a])<99 || !!apG[a], both = g => rkd(g.home) && rkd(g.away);  // a game between two ranked teams is always big
+    const rkd = a => top(ranks[a])<99 || !!apG[a] || cfpR(a)<99, both = g => rkd(g.home) && rkd(g.away);  // a game between two ranked teams is always big
     const big = games.filter(g=>imp(g)<99 && (both(g) || fav(g)<=BIG)).sort((x,y)=>((top(ranks[x.home])<99?ranks[x.home]:45)+(top(ranks[x.away])<99?ranks[x.away]:45)) - ((top(ranks[y.home])<99?ranks[y.home]:45)+(top(ranks[y.away])<99?ranks[y.away]:45)) || imp(x)-imp(y));
     $('hBigWrap').hidden = !games.length;
     $('hBigT').innerHTML = `${held ? 'Big games' : "This week's big games"}${hw!=null?`<small>Week ${hw}${held?' results':''}</small>`:''}`;
@@ -1320,7 +1372,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     return Object.keys(S.teams).filter(a=>{
       const t=S.teams[a];
       // Top 25 follows the Sort: Wolp+, AP or FPI = that Top 25; otherwise the Straw Poll Top 25 (not 26-35)
-      if(R.show==='top' && (R.ms==='comp' ? !(cr[a]<=25) : R.ms==='splus' ? !(sp[a]<=25) : R.ms==='ap' ? !apRank(a) : R.ms==='fpi' ? !(t.fpiRank<=25) : !(ranks[a]<=TOP))) return false;
+      if(R.show==='top' && (R.ms==='comp' ? !(cr[a]<=25) : R.ms==='splus' ? !(sp[a]<=25) : R.ms==='ap' ? !apRank(a) : R.ms==='cfp' ? !(cfpRank(a)<=25) : R.ms==='fpi' ? !(t.fpiRank<=25) : !(ranks[a]<=TOP))) return false;
       if(R.confOff.includes(dialOf(t.conf))) return false;
       if(q && !(t.name.toLowerCase().includes(q))) return false;
       return true;
@@ -1343,7 +1395,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     return `<span class="wx">${fl ? `<button class="flag" data-tip="${esc(fl.join('\n'))}" aria-label="${esc(fl.join(' '))}">H2H</button>` : ''}${lp ? `<button class="flag loop" data-tip="${esc(lp.text+'\n'+lp.games.join('\n'))}" aria-label="${esc(lp.text)}">LOOP</button>` : ''}<button class="x" data-rm="${rank-1}" aria-label="Remove ${esc(t.name)}">×</button></span>`; };
   const axis = (drag, rkLabel, noRight) => `<div class="axis"><span class="axrk">${rkLabel||''}</span><span></span>${drag?'<span></span>':''}<span></span><span></span><div class="ax"><span>#${mdl().n||''}</span><span>Opponent ${XAX[S.r.xax]} rank</span><span>#1</span></div>${noRight||drag?(drag?'<span></span>':''):'<span style="text-align:right">Wolp+</span>'}</div>`;
   const legend = dotLab => `<span><i class="dot W s2"></i>Win</span><span><i class="dot L s2"></i>Loss</span><span><i class="dot s1"></i><i class="dot s2"></i><i class="dot s3"></i>Margin 1–8 · 9–16 · 17+</span><span><i class="dot s2 close"></i>Close game</span><span><i class="dot s2 ot"></i>Overtime</span><span><b>6</b>${dotLab}</span>`;
-  const SORTLAB = {wolp:'Straw', comp:'Wolp+', splus:'Straw+', ap:'AP', fpi:'FPI', best:'#', worst:'#'};
+  const SORTLAB = {wolp:'Straw', comp:'Wolp+', splus:'Straw+', ap:'AP', cfp:'CFP', fpi:'FPI', best:'#', worst:'#'};
   $('rOpts').addEventListener('click', ()=>{ const f=$('rOpts').closest('.filters'), o=f.classList.toggle('open'); $('rOpts').setAttribute('aria-expanded', o); });
   function renderRank(){
     { const b=document.querySelector(`[data-ms="${S.r.ms}"]`); $('rOpts').textContent = `Sort: ${b ? b.textContent : 'Straw'} ▾`; }
@@ -1360,13 +1412,13 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     // Results Map
     const bwv = a => { const x=bestWorst(a); return x; };
     const ord = {wolp:wsort(ranks), comp:(a,b)=>(cr[a]||999)-(cr[b]||999), splus:(a,b)=>((sp||{})[a]||999)-((sp||{})[b]||999),
-      ap:(a,b)=>(apRank(a)||999)-(apRank(b)||999) || (cr[a]||999)-(cr[b]||999), fpi:(a,b)=>(S.teams[a].fpiRank||999)-(S.teams[b].fpiRank||999),
+      ap:(a,b)=>(apRank(a)||999)-(apRank(b)||999) || (cr[a]||999)-(cr[b]||999), cfp:(a,b)=>(cfpRank(a)||999)-(cfpRank(b)||999) || (cr[a]||999)-(cr[b]||999), fpi:(a,b)=>(S.teams[a].fpiRank||999)-(S.teams[b].fpiRank||999),
       best:(a,b)=>{ const x=bwv(a).bw, y=bwv(b).bw; return (!x)-(!y) || (x&&y ? y.v-x.v : 0) || wsort(ranks)(a,b); },
       worst:(a,b)=>{ const x=bwv(a).wl, y=bwv(b).wl; return (!x)-(!y) || (x&&y ? x.v-y.v : 0) || wsort(ranks)(a,b); }}[R.ms];
     const M = L.slice().sort(ord);
     let h='';
     // the number on the left is the rank in whatever the map is sorted by (Best/Worst: position in that order)
-    const rkOf = {wolp:x=>ranks[x], comp:x=>cr[x], splus:x=>(sp||{})[x], ap:x=>apRank(x), fpi:x=>S.teams[x].fpiRank}[R.ms] || (x=>M.indexOf(x)+1);
+    const rkOf = {wolp:x=>ranks[x], comp:x=>cr[x], splus:x=>(sp||{})[x], ap:x=>apRank(x), cfp:x=>cfpRank(x), fpi:x=>S.teams[x].fpiRank}[R.ms] || (x=>M.indexOf(x)+1);
     const xr = {}; Object.keys(S.teams).forEach(o=>{ const r=xRank(o); if(r && r<=25) xr[o]=r; });  // dot numbers: x-axis rank, top 25 only
     const pv = R.ms==='wolp' ? prev : null, row = x=>{ const r=rkOf(x); return mapRow(x, r && r<=TOP ? r : null, pv, xr, false, true); }, lab = SORTLAB[R.ms];  // rank number: Top 25 only
     const noPoll = R.ms==='wolp' && n!=null && S.weeks[n].compiled && !S.weeks[n].ranking.length;
@@ -1509,7 +1561,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     if(!weeks.includes(S.hw)) S.hw = weeks[weeks.length-1];
     sel.innerHTML = weeks.map(n=>`<option value="${n}"${n===S.hw?' selected':''}>${n}</option>`).join('');
     const w=S.hw, before=weeks.filter(x=>x<w), pw = before.length ? before[before.length-1] : null;
-    const cols = [['Straw Poll', strawWeek]].concat(seeSp() ? [['Straw+', strawPlusWeek]] : [], [['Wolp+', wolpWeek], ['AP', apWeek]]);
+    const cols = [['Straw Poll', strawWeek]].concat(seeSp() ? [['Straw+', strawPlusWeek]] : [], [['Wolp+', wolpWeek], ['AP', apWeek]], cfpWeek(w) ? [['CFP', cfpWeek]] : []);
     if(myWeek(w)) cols.push(['Your ballot', myWeek]);
     $('wkSub').textContent = S.weeks[w] && S.weeks[w].compiled ? `Week ${w} · ${S.weeks[w].ballots} ballot${S.weeks[w].ballots===1?'':'s'}` : `Week ${w}`;
     $('wkGrid').innerHTML = cols.map(([name, f])=>{
@@ -2423,7 +2475,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     const t=S.teams[a]; if(!t) return;
     const ranks = S.tab==='work' ? draftMap() : pubMap(), apR=apRank(a);
     $('dName').innerHTML = logo(a) + esc(t.name);
-    $('dSub').textContent = `${t.conf}${t.p4?', Power 4':''}${ranks[a] && ranks[a]<=TOP?` · Straw Poll #${ranks[a]}`:' · Straw Poll NR'}${apR?` · AP #${apR}`:''}`;
+    $('dSub').textContent = `${t.conf}${t.p4?', Power 4':''}${ranks[a] && ranks[a]<=TOP?` · Straw Poll #${ranks[a]}`:' · Straw Poll NR'}${apR?` · AP #${apR}`:''}${cfpRank(a)?` · CFP #${cfpRank(a)}`:''}`;
     $('dFacts').innerHTML = `<dt>2026 record</dt><dd>${rec(t.w,t.l)}</dd><dt>vs P4</dt><dd>${rec(t.p4w,t.p4l)}</dd><dt>2025 record</dt><dd>${rec(t.lyW,t.lyL)}</dd><dt>2025 final AP</dt><dd>${t.lyAp?'#'+t.lyAp:'Not ranked'}</dd>`;
     $('dAdv').innerHTML = advTable(t) + modelFacts(a);
     const games=gamesOf(a), bwl=bestWorst(a), bw=bwl.bw&&bwl.bw.g, wl=bwl.wl&&bwl.wl.g;
@@ -2499,6 +2551,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
       ${grp('Rankings')}
       ${row('Straw Poll', rkP(ranks[A]), rkP(ranks[H]), lowWins)}
       ${row('AP', rkP(apRank(A)), rkP(apRank(H)), lowWins)}
+      ${cfpWeeks().length ? row('CFP', rkP(cfpRank(A)), rkP(cfpRank(H)), lowWins) : ''}
       ${row('Wolp+', rk(ta.powerRank), rk(th.powerRank), lowWins)}
       ${row('ESPN FPI', rk(ta.fpiRank), rk(th.fpiRank), lowWins)}
       ${row('Resume Strength', rk(ta.resumeRank), rk(th.resumeRank), lowWins)}
@@ -2922,7 +2975,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     db.teams.then(d=>{
       S.meta = {through:d.through, updatedAt:d.updatedAt, season:d.season};
       if(d.season){ $('brandYr').textContent=d.season; document.title=`Straw Poll ${d.season}`; }
-      S._sp = null; S.teamsRaw = d.teams||{}; S.model = d.model||null; S.schedule = d.schedule||null; S.ap = d.ap||null; S.picks = d.picks||[];
+      S._sp = null; S.teamsRaw = d.teams||{}; S.model = d.model||null; S.schedule = d.schedule||null; S.ap = d.ap||null; S.cfp = d.cfp||null; S.picks = d.picks||[];
       mergeModel(); renderConfs(); renderAll(); teamsLoaded(); pollLive();
     }).catch(()=>{ $('stamp').textContent='Team data couldn’t load. Reload the page to try again.'; S.loadErr=true; renderBanner(); toast('Team data couldn’t load. Reload the page to try again.'); teamsLoaded(); });
     db.archive().then(w=>{ S.archive=w; mergeWeeks(); renderAll(); }).catch(()=>toast('Earlier rankings couldn’t load. Reload to try again.'));
