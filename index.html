@@ -339,6 +339,7 @@ td.c-mv{padding-left:0;width:30px}
 .x:hover{color:var(--loss)}
 .slot{display:grid;grid-template-columns:44px 1fr;column-gap:8px;align-items:center;padding:8px 6px;border-bottom:1px dashed var(--line2);color:var(--muted)}
 .slot .rk{color:#2a3b52;font-size:22px}
+button.slot{width:100%;background:none;border-width:0 0 1px;text-align:left;font:inherit;cursor:pointer} button.slot span:last-child{color:var(--gold);font-weight:600}
 .checks{margin-top:12px;border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:8px;padding:8px 12px;background:var(--panel);font-size:13px}
 .checks p{margin:0}.checks p+p{margin-top:8px}
 .checks small{display:block;color:var(--muted)}
@@ -359,6 +360,22 @@ td.c-mv{padding-left:0;width:30px}
 .prow .on{font:700 14px var(--cond);color:var(--muted);text-align:center}
 .prow.sortable-chosen{background:var(--panel2)}
 .pscroll{max-height:62vh;overflow:auto}
+.addopen,.pclose{display:none}
+.addopen{border-color:var(--gold);color:var(--gold);font-weight:700}
+@media (max-width:1100px){
+  /* Add teams = a sheet that slides up (it used to sit below all 25 ballot rows) */
+  .addopen{display:inline-flex;align-items:center;min-height:40px}
+  #view-work.ro .addopen{display:none}
+  .pool{position:fixed!important;left:0;right:0;bottom:0;top:auto;z-index:60;max-height:85vh;margin:0;border-radius:16px 16px 0 0;border-bottom:0;
+    display:flex;flex-direction:column;box-shadow:0 -12px 40px rgba(0,0,0,.5);transform:translateY(105%);visibility:hidden;transition:transform .2s,visibility 0s .2s;padding-bottom:calc(14px + env(safe-area-inset-bottom,0px))}
+  .pool.on{transform:none;visibility:visible;transition:transform .2s}
+  .pool .pscroll{max-height:none;flex:1;min-height:0}
+  .pool .ch h2 small{margin-left:8px}
+  .pclose{display:grid;place-items:center;width:44px;height:44px;margin:-8px -8px -8px 4px;border:0;background:none;color:var(--muted);font-size:24px;cursor:pointer}
+  .pshade{position:fixed;inset:0;z-index:59;background:rgba(0,0,0,.45)}
+  .pool>.note{display:none}
+}
+@media (prefers-reduced-motion:reduce){ .pool{transition:none} }
 .pscroll .phead{position:sticky;top:0;z-index:2;background:var(--panel)}
 .ups td{vertical-align:middle}
 .ups td.l{text-align:left}
@@ -768,7 +785,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
           <dt>Adj …</dt><dd>The same stats, adjusted for the opponents faced.</dd>
           <dt>Defs / Offs faced</dt><dd>Strength of schedule: the average adjusted EPA of the FBS defenses (lower = tougher) and offenses (higher = tougher) a team has played.</dd>
           <dt>▲ ▼ NEW</dt><dd>Movement since the previous week's Straw Poll.</dd>
-          <dt>H2H, LOOP</dt><dd>Vote tab reminders: a head-to-head result that disagrees with the order (teams within 5 spots of each other), or teams that beat each other in a circle.</dd>
+          <dt>H2H, Loop</dt><dd>Vote tab reminders, shown as a stripe on the left of a team: red = a head-to-head result that disagrees with the order (teams within 5 spots of each other); yellow = teams that beat each other in a circle.</dd>
         </dl>
 
         <h2 id="m-data">Data and updates</h2>
@@ -825,7 +842,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     <div class="empty" id="wsGate" role="status"></div>
     <div class="guide" id="wsGuide" hidden><div><strong>How voting works</strong>
       <ol class="steps"><li>Pick a starting point with <b>Start from…</b> (your last ballot, Wolp+, the AP, or empty).</li>
-      <li>Drag teams to rank exactly 25, or tap + in Add teams.</li>
+      <li>Drag teams to rank exactly 25. Add a team with <b>+ Add teams</b> (or an open spot); remove one with the − on its right.</li>
       <li>Voting opens Sunday at 7 AM and closes Monday at 5 PM ET. Submit before then; you can change your ballot until the deadline.</li>
       <li>The Straw Poll is released right after voting closes (about 5:15 PM ET). Until then your ballot is private; after that, ballots are public with usernames.</li></ol></div>
       <button class="btn quiet" id="wsGuideOk">Got it</button></div>
@@ -849,17 +866,18 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
           <div class="row wmaphead"><div class="legend" id="legend2"></div><span class="spacer"></span><label class="xsel"><span class="lab">X axis</span><select id="xAx2" class="fsel xpick" aria-label="Results Map x axis"><option value="wolp">Wolp+</option><option value="fpi">FPI</option><option value="qw">Resume Strength</option></select></label></div>
           <div id="wMap" class="map drag"></div>
           <div id="wNotes"></div>
-          <p class="note">Drag a row's handle to reorder (or focus it and use the arrow keys). Drag a team in from the list, or tap +. Your ballot is exactly 25 teams; submit it before the deadline and change it as often as you like until then. Only you can see it until voting closes. <b>H2H</b> marks a head-to-head result that disagrees with the order, for teams within 5 spots of each other; <b>LOOP</b> marks teams that beat each other in a circle. Both are reminders only; tap one to see why.</p>
+          <p class="note">Drag a row's handle (on the left) to reorder, or focus it and use the arrow keys. Add teams with <b>+ Add teams</b>, or drag one in; remove one with the − on its right (you can undo it). Your ballot is exactly 25 teams; submit it before the deadline and change it as often as you like until then. Only you can see it until voting closes. A <b>red stripe</b> marks a head-to-head result that disagrees with the order (teams within 5 spots of each other); a <b>yellow stripe</b> marks teams that beat each other in a circle. Both are reminders only; tap the team to see why.</p>
         </div>
         <div id="ws-ballot" hidden>
-          <div class="row" style="justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px"><div class="flegend" aria-hidden="true"><span title="Head-to-head: lost to (or beat) a team within 5 spots, against your order"><i style="background:var(--loss)"></i>H2H</span><span title="Teams that beat each other in a circle"><i style="background:var(--gold)"></i>Loop</span><span>Tap a team to see why</span></div><details class="colmenu" id="colMenuB"><summary class="pill">Columns ▾</summary><div class="menu" id="colListB"></div></details></div>
+          <div class="row" style="justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px"><button class="btn addopen voter-only" type="button" data-addopen>+ Add teams</button><div class="flegend" aria-hidden="true"><span title="Head-to-head: lost to (or beat) a team within 5 spots, against your order"><i style="background:var(--loss)"></i>H2H</span><span title="Teams that beat each other in a circle"><i style="background:var(--gold)"></i>Loop</span><span>Tap a team to see why</span></div><details class="colmenu" id="colMenuB"><summary class="pill">Columns ▾</summary><div class="menu" id="colListB"></div></details></div>
           <div class="bscroll"><div class="bcols" id="bcols" aria-hidden="true"></div><div id="ballot" role="list" aria-label="Your ballot"></div><div id="slots"></div></div>
-          <p class="note">Drag the handle to reorder, or focus it and use the arrow keys. Add stat columns with Columns ▾. Same ballot as the Results Map.</p>
+          <p class="note">Drag the handle on the left to reorder, or focus it and use the arrow keys. Tap a team for why it's flagged and its last games. Add stat columns with Columns ▾. Same ballot as the Results Map.</p>
         </div>
       </div>
-      <aside class="pool" aria-label="Add teams">
+      <div class="pshade" id="poolShade" hidden></div>
+      <aside class="pool" id="poolPanel" aria-label="Add teams">
         <div class="wdiv" id="wDiv" role="separator" aria-orientation="vertical" aria-label="Resize the ballot and Add teams panels" tabindex="0" title="Drag to resize (double-click to reset)"></div>
-        <div class="ch" style="margin-bottom:10px"><h2>Add teams</h2><details class="colmenu" id="colMenuP"><summary class="pill">Columns ▾</summary><div class="menu" id="colListP"></div></details></div>
+        <div class="ch" style="margin-bottom:10px"><h2>Add teams<small id="poolCount"></small></h2><details class="colmenu" id="colMenuP"><summary class="pill">Columns ▾</summary><div class="menu" id="colListP"></div></details><button class="pclose" type="button" id="poolClose" aria-label="Close Add teams">×</button></div>
         <input type="search" id="q" placeholder="Search teams" aria-label="Search teams">
         <div class="chips" role="group" aria-label="Filter">
           <button class="pill" data-f="off" aria-pressed="true">Not ranked</button>
@@ -867,7 +885,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
           <select id="pConf" class="fsel" aria-label="Conference"></select>
         </div>
         <div class="pscroll"><div class="phead" id="phead" role="group" aria-label="Sort teams by"></div><div class="plist" id="pool"></div></div>
-        <p class="note">Drag a team into the map or list, or tap + to add it to the first open spot. Click a column heading to sort. Click a team for its game log, or <button class="linkbtn" data-go="rank">research a team →</button></p>
+        <p class="note">Tap + to add a team to the first open spot, or drag it into the map or list. Click a column heading to sort. Click a team for its game log, or <button class="linkbtn" data-go="rank">research a team →</button></p>
       </aside>
     </div>
   </section>
@@ -2048,7 +2066,8 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     $('ballot').innerHTML = S.draft.map(row).join('');
     let h='';
     if(!S.draft.length) h += editable(S.cur) ? `<div class="empty"><strong>The ballot is empty</strong>Add teams from the list, or drag them in.</div>` : `<div class="empty"><strong>No ballot for this week</strong></div>`;
-    for(let i=S.draft.length;i<BMAX && S.draft.length;i++) h += `<div class="slot"><span class="rk">${i+1}</span><span>Open spot</span></div>`;
+    const ed=editable(S.cur);
+    for(let i=S.draft.length;i<BMAX && S.draft.length;i++) h += ed ? `<button class="slot" type="button" data-addopen><span class="rk">${i+1}</span><span>+ Add a team</span></button>` : `<div class="slot"><span class="rk">${i+1}</span><span>Open spot</span></div>`;
     $('slots').innerHTML = h + ballotNotes(an, prev);
   }
   function ballotNotes(an, prev){  // circular results and teams that dropped out (list and map)
@@ -2062,6 +2081,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     return (na-nb) || (na ? 0 : lo ? a-b : b-a) || x[1].name.localeCompare(y[1].name); }; };
   function renderPool(){
     const onB = draftMap(), cols = shown('p'), q=S.q.trim().toLowerCase();
+    $('poolCount').textContent = `${S.draft.length} of ${BMAX}`;
     let list = Object.entries(S.teams).filter(([a,t])=>{
       if(S.f==='off' && onB[a]) return false; if(S.pc && dialOf(t.conf)!==S.pc) return false;
       if(q && !(t.name.toLowerCase().includes(q) || (t.conf||'').toLowerCase().includes(q))) return false; return true; });
@@ -2154,7 +2174,25 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
   }
   $('ballot').addEventListener('keydown', e=>arrowMove(e, '#ballot .grip'));
   $('wMap').addEventListener('keydown', e=>arrowMove(e, '#wMap .grip', renderWMap));
-  $('pool').addEventListener('click', e=>{ const ad=e.target.closest('[data-add]'); if(ad) addTeam(ad.dataset.add); });
+  $('pool').addEventListener('click', e=>{ const ad=e.target.closest('[data-add]'); if(!ad) return; const a=ad.dataset.add, had=S.draft.includes(a); addTeam(a);
+    if(!had && S.draft.includes(a)) toast(`Added ${nm(a)} at #${S.draft.indexOf(a)+1}`, 6000, {label:'Undo', fn:()=>{ const i=S.draft.indexOf(a); if(i<0 || !editable(S.cur)) return; S.draft.splice(i,1); setDirty(); refreshBuild(); }}); });
+  // Add teams under 1100px wide: a sheet that slides up (desktop: the side panel; the button just focuses its search)
+  const SHEET = matchMedia('(max-width:1100px)'); let sheetFrom=null;
+  function openPool(from){
+    if(!editable(S.cur)) return;
+    if(!SHEET.matches){ $('q').focus(); return; }
+    sheetFrom=from||null; $('poolPanel').classList.add('on'); $('poolShade').hidden=false; $('poolPanel').setAttribute('role','dialog'); $('poolPanel').setAttribute('aria-modal','true');
+    setTimeout(()=>$('q').focus(), 60);
+  }
+  function closePool(){
+    if(!$('poolPanel').classList.contains('on')) return;
+    $('poolPanel').classList.remove('on'); $('poolShade').hidden=true; $('poolPanel').removeAttribute('role'); $('poolPanel').removeAttribute('aria-modal');
+    if(sheetFrom && document.body.contains(sheetFrom)) sheetFrom.focus(); else { const b=document.querySelector('#view-work [data-addopen]'); if(b) b.focus(); }
+  }
+  document.addEventListener('click', e=>{ const b=e.target.closest('[data-addopen]'); if(b && b.closest('#view-work')) openPool(b); });
+  $('poolClose').addEventListener('click', closePool); $('poolShade').addEventListener('click', closePool);
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape') closePool(); });
+  SHEET.addEventListener('change', ()=>{ if(!SHEET.matches) closePool(); });
   $('q').addEventListener('input', e=>{ S.q=e.target.value; renderPool(); });
   $('phead').addEventListener('click', e=>{ const b=e.target.closest('[data-s]'); if(!b) return; S.sort=b.dataset.s; renderHeads(); renderPool(); });
   document.querySelectorAll('[data-f]').forEach(c=>c.addEventListener('click', ()=>{ S.f=c.dataset.f; document.querySelectorAll('[data-f]').forEach(x=>x.setAttribute('aria-pressed', x===c?'true':'false')); renderPool(); }));
@@ -2548,6 +2586,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
                  history:'history', how:'method', method:'method', methodology:'method', admin:'admin', home:'home'};
   const tabFromHash = h => ALIAS[(h||'').replace(/^#/, '').toLowerCase()] || null;
   function showTab(v){
+    if(typeof closePool==='function') closePool();
     const allowed = v==='admin' ? S.isOwner : v==='leagues' ? seeLg() : true;
     if(!allowed){ if(!S.accessKnown) S.wantTab = v; v = 'home'; }  // reopened once sign-in is known (setAccess)
     S.tab=v;
