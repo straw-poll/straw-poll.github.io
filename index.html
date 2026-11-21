@@ -1041,11 +1041,11 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     {k:'ap25', h:'vs AP 25', menu:'record vs the AP Top 25', g:'This season', bw:'3.2rem', pw:'3rem', off:true},
     {k:'proj', h:'Proj. record', menu:'projected final record', g:'This season', bw:'4.6rem', pw:'4.4rem', off:true},
     {k:'frank', h:'Wolp+', menu:'power rating rank', g:'Power rating', bw:'3.4rem', pw:'3.2rem', fmt:'r', lo:true, strong:true, val:a=>mdl().crank[a]},
-    {k:'wolpRtg', h:'Wolp+ pts', menu:'Wolp+ rating: points better than an average FBS team', g:'Power rating', bw:'3.6rem', pw:'3.4rem', fmt:'n1', val:a=>S.teams[a].powerRating},
     {k:'fpiRank', h:'FPI', menu:'ESPN Football Power Index rank', g:'Power rating', bw:'2.7rem', pw:'2.6rem', fmt:'r', lo:true},
-    {k:'fpiRtg', h:'FPI pts', menu:'ESPN FPI rating (points better than an average team)', g:'Power rating', bw:'3.4rem', pw:'3.2rem', fmt:'n1', val:a=>S.teams[a].fpi},
-    {k:'spRtg', h:'SP+', menu:'SP+ rating (latest)', g:'Power rating', bw:'3rem', pw:'2.8rem', fmt:'n1', val:a=>spNow().r[a]},
     {k:'splus', h:'Straw+', menu:'Wolp+ nudged toward the Straw Poll', g:'Power rating', bw:'3.4rem', pw:'3.2rem', fmt:'r', lo:true, val:a=>(strawPlusRank()||{})[a]},
+    {k:'wolpRtg', h:'Wolp+ pts', menu:'Wolp+ rating: points better than an average FBS team', g:'Power rating', bw:'3.6rem', pw:'3.4rem', fmt:'n1', val:a=>S.teams[a].powerRating},
+    {k:'fpiRtg', h:'FPI pts', menu:'ESPN FPI rating (points better than an average team)', g:'Power rating', bw:'3.4rem', pw:'3.2rem', fmt:'n1', val:a=>S.teams[a].fpi},
+    {k:'spRtg', h:'SP+ pts', menu:'SP+ rating (latest)', g:'Power rating', bw:'3rem', pw:'2.8rem', fmt:'n1', val:a=>spNow().r[a]},
     {k:'resumeRank', h:'RS', menu:'Resume Strength rank', g:'Resume', bw:'3.6rem', pw:'2.9rem', fmt:'r', lo:true},
     {k:'q1', h:'Q1', menu:'Quadrant 1 record (best opponents)', g:'Resume', bw:'2.7rem', pw:'2.6rem', off:true},
     {k:'q2', h:'Q2', menu:'Quadrant 2 record', g:'Resume', bw:'2.7rem', pw:'2.6rem', off:true},
@@ -1081,7 +1081,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
   const DEFS = {splus:"Wolp+ nudged 30% toward the Straw Poll: each Straw Poll team's rating moves part of the way toward the Wolp+ rating that goes with its Straw Poll rank. Shown once a Straw Poll has been published.", apNow:"This week's AP Top 25 rank (unranked teams sort last).",fpiRank:"ESPN's predictive power rating.",adjOffEpa:'Expected points added per play on offense, adjusted for the defenses faced (garbage time excluded). Higher is better.',adjDefEpa:'Expected points added per play allowed on defense, adjusted for the offenses faced. Lower is better.',frank:'Game score based power rating calculating points better than an average FBS team on a neutral field. <button class="linkbtn" data-go="method" data-anchor="m-power">More on Wolp+</button>',resumeRank:"Resume Strength (RS): a results-based metric, with influence from opponents' Wolp+ rank.",offEpa:'Expected points added per play on offense (garbage time excluded). Higher is better.',defEpa:'Expected points added per play allowed on defense. Lower is better.'};
   const NODEF = new Set(['This season','Last season']);   // the Research definitions skip AP and these groups (owner, #19)
   function renderDefs(){ let g='', h='<dl class="sdefs">';
-    COLS.filter(c=>colOk(c) && !NODEF.has(c.g) && c.k!=='apNow').forEach(c=>{ if(c.g!==g){ h+=`<div class="sdh">${esc(c.g)}</div>`; g=c.g; } const d=DEFS[c.k]||(c.menu[0].toUpperCase()+c.menu.slice(1)+'.'); h+=`<dt>${esc(c.h)}</dt><dd>${d}</dd>`; });
+    COLS.filter(c=>colOk(c) && !NODEF.has(c.g) && !['apNow','cfpNow'].includes(c.k)).forEach(c=>{ if(c.g!==g){ h+=`<div class="sdh">${esc(c.g)}</div>`; g=c.g; } const d=DEFS[c.k]||(c.menu[0].toUpperCase()+c.menu.slice(1)+'.'); h+=`<dt>${esc(c.h)}</dt><dd>${d}</dd>`; });
     $('sdefs').innerHTML = h+'</dl>'; }
   function colMenu(w){ let g=''; return COLS.filter(colOk).map(c=>{ const h = c.g!==g ? `<div class="mh">${c.g}</div>` : ''; g=c.g; return h+`<label><input type="checkbox" data-col="${c.k}" data-w="${w}"${S.vis[w][c.k]?' checked':''}>${c.h}</label>`; }).join(''); }
   document.addEventListener('change', e=>{
@@ -1211,11 +1211,11 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
   const withPts = v => typeof v==='number' ? ` <span class="rtg">(${fmtRating(v)})</span>` : '';   // a rating beside its rank, e.g. "#6 (+21.8)"
   const modelFacts = a => { const t=S.teams[a]||{}, c=mdl().crank[a], sp=spNow();
     return `<dl class="facts"><dt>Wolp+</dt><dd>${t.powerRank?'#'+t.powerRank:'–'}${t.powerRank?withPts(t.powerRating):''}${adjOf(a)&&c?` <span style="color:var(--muted);font-weight:500">(with your Conference Modifier: #${c})</span>`:''}</dd>
+      <dt>ESPN FPI</dt><dd>${t.fpiRank?'#'+t.fpiRank+withPts(t.fpi):'–'}</dd>
+      <dt>SP+</dt><dd>${sp.rk[a]?'#'+sp.rk[a]+withPts(sp.r[a]):'–'}</dd>
       <dt>Resume Strength</dt><dd>${t.resumeRank?'#'+t.resumeRank:'–'}</dd>
       <dt>AP</dt><dd>${apRank(a)?'#'+apRank(a):'Not ranked'}</dd>
       ${cfpWeeks().length?`<dt>CFP</dt><dd>${cfpRank(a)?'#'+cfpRank(a):'Not ranked'}</dd>`:''}
-      <dt>ESPN FPI</dt><dd>${t.fpiRank?'#'+t.fpiRank+withPts(t.fpi):'–'}</dd>
-      <dt>SP+</dt><dd>${sp.rk[a]?'#'+sp.rk[a]+withPts(sp.r[a]):'–'}</dd>
       ${SHOW_QUADS?`<dt>Quadrants</dt><dd>${qStr(a)}</dd>`:''}
       ${t.proj?`<dt>Projected</dt><dd>${projTxt(t)}</dd>`:''}
 </dl>`; };
@@ -1480,7 +1480,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     })();
     if(R.col!=='ms' && R.col!=='wolp' && R.col!=='name' && !cols.some(c=>c.k===R.col)) { R.col='ms'; R.rev=false; }
     const k=R.col==='ms' ? null : key(R.col), T = R.col==='ms' ? (R.rev ? M.slice().reverse() : M.slice()) : L.slice().sort((a,b)=>{ const x=k(a), y=k(b); const d = typeof x==='string' ? x.localeCompare(y) : y-x; return (R.rev?-d:d) || wsort(ranks)(a,b); });
-    const apCol = cols.find(c=>c.k==='apNow'), rcols = cols.filter(c=>c.k!=='apNow');   // AP sits next to Straw under 'Rankings'
+    const LEAD = ['apNow', 'cfpNow'], lead = cols.filter(c=>LEAD.includes(c.k)), rcols = cols.filter(c=>!LEAD.includes(c.k));   // AP and CFP sit next to Straw under 'Rankings'
     const groups=[]; rcols.forEach(c=>{ const g=groups[groups.length-1]; if(g && g.g===c.g) g.n++; else groups.push({g:c.g, n:1}); });
     const cell = (c,a) => { const t=S.teams[a]; let v, cls='';
       switch(c.k){ case 'rec': v=rec(t.w,t.l); break; case 'p4': v=rec(t.p4w,t.p4l); if(t.p4w==null) cls='dim'; break;
@@ -1494,9 +1494,9 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
       return `<td class="${cls}">${v}</td>`; };
     const firstOf = new Set(); { let g=''; rcols.forEach(c=>{ if(c.g!==g) firstOf.add(c.k); g=c.g; }); }
     const th = (c,label,extra='') => `<th data-c="${c}" tabindex="0" aria-sort="${R.col===c?(R.rev?'ascending':'descending'):'none'}" class="${R.col===c?'on':''}${R.col===c&&R.rev?' rev':''}${extra}">${label}</th>`;
-    $('rTable').innerHTML = `<thead><tr class="grph"><th colspan="${apCol?3:2}">Rankings</th><th></th>${groups.map(g=>`<th class="g1" colspan="${g.n}">${esc(g.g)}</th>`).join('')}</tr>
-      <tr class="cols">${th('ms', SORTLAB[R.ms]==='#' ? '#' : SORTLAB[R.ms])}<th></th>${apCol?th(apCol.k,apCol.h):''}${th('name','Team','" style="text-align:left')}${rcols.map(c=>th(c.k,c.h,firstOf.has(c.k)?' g1':'')).join('')}</tr></thead>
-      <tbody>${T.map(a=>`<tr class="${S.cmp.includes(a)?'sel':''}" data-abbr="${esc(a)}" style="--tc:${tc(a)}"><td class="rkc${rkOf(a)?'':' none'}">${rkOf(a)||'–'}</td><td class="c-mv">${R.ms==='wolp' && ranks[a]?moveOf(a,ranks[a],prev):''}</td>${apCol?cell(apCol,a):''}<td class="tmc"><button class="tb" data-open="${esc(a)}">${logo(a)}<span>${esc(nm(a))}</span></button></td>${rcols.map(c=>cell(c,a).replace('<td class="', `<td class="${firstOf.has(c.k)?'g1 ':''}`)).join('')}</tr>`).join('')}</tbody>`;
+    $('rTable').innerHTML = `<thead><tr class="grph"><th colspan="${2+lead.length}">Rankings</th><th></th>${groups.map(g=>`<th class="g1" colspan="${g.n}">${esc(g.g)}</th>`).join('')}</tr>
+      <tr class="cols">${th('ms', SORTLAB[R.ms]==='#' ? '#' : SORTLAB[R.ms])}<th></th>${lead.map(c=>th(c.k,c.h)).join('')}${th('name','Team','" style="text-align:left')}${rcols.map(c=>th(c.k,c.h,firstOf.has(c.k)?' g1':'')).join('')}</tr></thead>
+      <tbody>${T.map(a=>`<tr class="${S.cmp.includes(a)?'sel':''}" data-abbr="${esc(a)}" style="--tc:${tc(a)}"><td class="rkc${rkOf(a)?'':' none'}">${rkOf(a)||'–'}</td><td class="c-mv">${R.ms==='wolp' && ranks[a]?moveOf(a,ranks[a],prev):''}</td>${lead.map(c=>cell(c,a)).join('')}<td class="tmc"><button class="tb" data-open="${esc(a)}">${logo(a)}<span>${esc(nm(a))}</span></button></td>${rcols.map(c=>cell(c,a).replace('<td class="', `<td class="${firstOf.has(c.k)?'g1 ':''}`)).join('')}</tr>`).join('')}</tbody>`;
     $('colList').innerHTML = colMenu('r');
     if(!$('sdefs').children.length) renderDefs();
   }
