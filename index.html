@@ -115,7 +115,7 @@ h2 small{font:400 13px var(--body);color:var(--muted);margin-left:10px}
 .rhist .wkcol rect{fill:transparent;cursor:crosshair} .rhist .wkcol .guide{stroke:var(--muted);stroke-dasharray:3 3;opacity:0;pointer-events:none}
 .rhist .wkcol:hover .guide,.rhist .wkcol.on .guide{opacity:.7}
 #chartTip{position:fixed;z-index:60;pointer-events:none;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:6px 9px;font-size:12px;color:var(--ink);box-shadow:0 6px 18px rgba(0,0,0,.35);min-width:120px}
-#chartTip div{display:flex;align-items:center;gap:6px;margin-top:3px;white-space:nowrap} #chartTip i{display:inline-block;width:10px;height:3px;border-radius:2px}
+#chartTip div{display:flex;align-items:center;gap:6px;margin-top:3px;white-space:nowrap} #chartTip i{display:inline-block;width:10px;height:3px;border-radius:2px} #chartTip .tres{color:var(--muted);margin-left:6px}
 .trbar{gap:8px;flex-wrap:wrap;align-items:center;margin:0 0 10px} #trAdd{max-width:200px}
 .trchips{display:flex;flex-wrap:wrap;gap:6px} .trchip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:3px 6px 3px 10px;font-size:13px;box-shadow:inset 4px 0 var(--tc,transparent)}
 .trchip i{display:inline-block;width:14px;height:3px;border-radius:2px} .trchip{box-shadow:none !important}
@@ -2515,7 +2515,25 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
   ];
   const histWeeks = () => [...new Set(Object.keys(S.weeks).map(Number).concat((S.picks||[]).map(p=>p.week), cfpWeeks()))].filter(w=>w>=1).sort((x,y)=>x-y);
   // one series per line: {name, col, pts:[{w, r}]}; #1 at the top, a gap where a week has no rank
-  function rankChart(series, weeks, label){
+  // a game's week from its date: weeks run Tuesday-Monday (Eastern), anchored on the earliest saved week-5 kickoff;
+  // week 0 games count as week 1 (like CFBD)
+  function weekOfDate(d){
+    if(!weekOfDate.anchor){   // set once the team data has loaded
+      const p=(S.picks||[]).find(x=>x.week===5), first = p && p.games.map(g=>g.start).filter(Boolean).sort()[0];
+      if(first){ const t=new Date(new Date(first).toLocaleString('en-US',{timeZone:'America/New_York'})); t.setHours(0,0,0,0); t.setDate(t.getDate() - ((t.getDay()+5)%7)); weekOfDate.anchor=t; }   // back to Tuesday
+    }
+    if(!weekOfDate.anchor) return null;
+    const day = new Date(d+'T12:00:00');
+    return Math.max(1, 5 + Math.floor((day - weekOfDate.anchor)/(7*864e5)));
+  }
+  // a team's result(s) in a given week ("W 28-17 at USC"), "Bye" for a played week without a game, '' for future weeks
+  function weekResult(a, w){
+    const g = gamesOf(a).filter(x=>weekOfDate(x.date)===w);
+    if(g.length) return g.map(x=>`${x.result} ${gScore(x)}${x.ot?' OT':''} ${gAt(x)} ${nm(x.opp)}`).join(', ');
+    const last = Math.max(0, ...gamesOf(a).map(x=>weekOfDate(x.date)||0));
+    return w < last ? 'Bye' : '';
+  }
+  function rankChart(series, weeks, label, header){
     series = series.filter(x=>x.pts.length);
     if(!series.length || !weeks.length) return '';
     // the y axis fits the ranks shown (owner, 2026-11-21): a little room above the best and below the worst, at least 5 spots tall
@@ -2532,9 +2550,11 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     // hover / tap a week: a guide line and a box listing every line's rank that week (#chartTip)
     const cols = weeks.map((w,i)=>{
       const x0 = i ? (X(weeks[i-1])+X(w))/2 : L, x1 = i<weeks.length-1 ? (X(w)+X(weeks[i+1]))/2 : W-R;
-      const at = series.map(x=>({name:x.name, col:x.col, r:(x.pts.find(p=>p.w===w)||{}).r})).filter(v=>v.r).sort((a,b)=>a.r-b.r);
+      const at = series.map(x=>({name:x.name, col:x.col, team:x.team, r:(x.pts.find(p=>p.w===w)||{}).r})).filter(v=>v.r).sort((a,b)=>a.r-b.r);
       if(!at.length) return '';
-      const tip = `<b>Week ${w}</b>` + at.map(v=>`<div><i style="background:${v.col}"></i>${esc(v.name)} <b>#${v.r}</b></div>`).join('');
+      const hd = header ? header(w) : '';   // the team pop-up: that team's game that week
+      const tip = `<b>Week ${w}</b>${hd ? ` · ${esc(hd)}` : ''}` + at.map(v=>{ const res = v.team ? weekResult(v.team, w) : '';
+        return `<div><i style="background:${v.col}"></i>${esc(v.name)} <b>#${v.r}</b>${res ? `<span class="tres">${esc(res)}</span>` : ''}</div>`; }).join('');
       return `<g class="wkcol"><line class="guide" x1="${X(w)}" x2="${X(w)}" y1="${T}" y2="${H-B}"/><rect x="${x0.toFixed(1)}" y="${T}" width="${(x1-x0).toFixed(1)}" height="${H-T-B}" data-tip="${esc(tip)}"/></g>`;
     }).join('');
     return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(label)}">${grid}${lines}${cols}</svg>`;
@@ -2555,7 +2575,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
   function rankHistory(a){
     const weeks = histWeeks();
     const series = HIST.map(([name, col, f, poll])=>({name, col, pts: histPts(f, poll, a, weeks)})).filter(x=>x.pts.length);
-    const svg = rankChart(series, weeks, nm(a)+' rank by week'); if(!svg) return '';
+    const svg = rankChart(series, weeks, nm(a)+' rank by week', w=>weekResult(a, w)); if(!svg) return '';
     return svg + `<div class="rhleg">${series.map(x=>`<span><i style="background:${x.col}"></i>${esc(x.name)}</span>`).join('')}<span>· hover over or tap a week to see each rank; polls show Top 25 only</span></div>`;
   }
   // Research "Rank by week": up to 6 teams on one ranking, a line per team in its own color (kept in this browser)
@@ -2574,7 +2594,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     $('trChips').innerHTML = T.teams.map((a,i)=>`<span class="trchip" style="--tc:${TR_COL[i]}"><i style="background:${TR_COL[i]}"></i>${esc(nm(a))}<button data-trdel="${esc(a)}" aria-label="Remove ${esc(nm(a))}">×</button></span>`).join('');
     const h = HIST.find(x=>x[0]===T.metric), weeks = histWeeks();
     if(!T.teams.length){ $('trChart').innerHTML = '<p class="lead">Add a team to start.</p>'; return; }
-    const svg = rankChart(T.teams.map((a,i)=>({name: nm(a), col: TR_COL[i], pts: histPts(h[2], h[3], a, weeks)})), weeks, T.metric+' rank by week');
+    const svg = rankChart(T.teams.map((a,i)=>({name: nm(a), team: a, col: TR_COL[i], pts: histPts(h[2], h[3], a, weeks)})), weeks, T.metric+' rank by week');
     $('trChart').innerHTML = svg ? svg + `<div class="rhleg">${h[3] ? 'Top 25 only; a gap = not ranked that week. ' : ''}Hover over or tap a week to see each rank.</div>`
       : `<p class="lead">No ${esc(T.metric)} ranks for these teams yet${h[3] ? ' (only Top 25 teams appear)' : ''}.</p>`;
   }
