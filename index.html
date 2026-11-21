@@ -2545,16 +2545,16 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     const step = [1, 2, 5, 10, 20, 25, 50].find(s=>(ymax-ymin)/s <= 6) || 50;
     const ticks = [ymin].concat(Array.from({length: Math.floor(ymax/step)}, (_,i)=>(i+1)*step).filter(r=>r>ymin && r<=ymax && r-ymin > step/2));
     const grid = ticks.map(r=>`<line class="ax" x1="${L}" x2="${W-R}" y1="${Y(r)}" y2="${Y(r)}"/><text x="${L-6}" y="${Y(r)+4}" text-anchor="end">#${r}</text>`).join('')
-      + weeks.map(w=>`<text x="${X(w)}" y="${H-8}" text-anchor="middle">${w}</text>`).join('');
+      + weeks.map(w=>`<text x="${X(w)}" y="${H-8}" text-anchor="middle">${w===1 ? 'Pre' : w-1}</text>`).join('');   // a point = the rank going into week w = after week w-1 (week 1 = preseason)
     const path = pts => { let d='', prev=null; pts.forEach(p=>{ d += (prev!=null && weeks.indexOf(p.w)===weeks.indexOf(prev)+1 ? 'L' : 'M') + X(p.w).toFixed(1) + ' ' + Y(p.r).toFixed(1); prev=p.w; }); return d; };
-    const lines = series.map(x=>`<path class="ln" stroke="${x.col}" d="${path(x.pts)}"/>` + x.pts.map(p=>`<circle cx="${X(p.w).toFixed(1)}" cy="${Y(p.r).toFixed(1)}" r="3" fill="${x.col}"><title>Week ${p.w} · ${esc(x.name)} #${p.r}</title></circle>`).join('')).join('');
+    const lines = series.map(x=>`<path class="ln" stroke="${x.col}" d="${path(x.pts)}"/>` + x.pts.map(p=>`<circle cx="${X(p.w).toFixed(1)}" cy="${Y(p.r).toFixed(1)}" r="3" fill="${x.col}"><title>${p.w===1 ? 'Preseason' : `After week ${p.w-1}`} · ${esc(x.name)} #${p.r}</title></circle>`).join('')).join('');
     // hover / tap a week: a guide line and a box listing every line's rank that week (#chartTip)
     const cols = weeks.map((w,i)=>{
       const x0 = i ? (X(weeks[i-1])+X(w))/2 : L, x1 = i<weeks.length-1 ? (X(w)+X(weeks[i+1]))/2 : W-R;
       const at = series.map(x=>({name:x.name, col:x.col, team:x.team, r:(x.pts.find(p=>p.w===w)||{}).r})).filter(v=>v.r).sort((a,b)=>a.r-b.r);
       if(!at.length) return '';
-      const hd = header ? header(w) : '';   // the team pop-up: that team's game that week
-      const tip = `<b>Week ${w}</b>${hd ? ` · ${esc(hd)}` : ''}` + at.map(v=>{ const res = v.team ? weekResult(v.team, w) : '';
+      const hd = header && w>1 ? header(w-1) : '';   // the team pop-up: the game that produced this rank
+      const tip = `<b>${w===1 ? 'Preseason' : `After week ${w-1}`}</b>${hd ? ` · ${esc(hd)}` : ''}` + at.map(v=>{ const res = v.team && w>1 ? weekResult(v.team, w-1) : '';
         return `<div><i style="background:${v.col}"></i>${esc(v.name)} <b>#${v.r}</b>${res ? `<span class="tres">${esc(res)}</span>` : ''}</div>`; }).join('');
       return `<g class="wkcol"><line class="guide" x1="${X(w)}" x2="${X(w)}" y1="${T}" y2="${H-B}"/><rect x="${x0.toFixed(1)}" y="${T}" width="${(x1-x0).toFixed(1)}" height="${H-T-B}" data-tip="${CHART_TIPS.push(tip)-1}"/></g>`;
     }).join('');
