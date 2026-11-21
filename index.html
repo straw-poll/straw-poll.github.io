@@ -1338,9 +1338,10 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     $('hVsRec').textContent = vr.w+vr.l ? `Wolp+ this season: ${vr.w}-${vr.l}${vr.p ? `-${vr.p}` : ''} against the line in these games${vr.p ? ' (wins-losses-pushes)' : ''}.` : '';
     $('hVs').innerHTML = vsG.map(g=>card(g, null, false, true)).join('') || '<p class="lead">No games where Wolp+ and the line disagree this week.</p>';
     const top = r => r && r<=TOP ? r : 99;   // Straw Poll Top 25 only
-    const imp = g => Math.min(top(ranks[g.home]), top(ranks[g.away]), apG[g.home]||99, apG[g.away]||99);
+    const cfpR = a => cfpRank(a) || 99;   // CFP Top 25 teams count as ranked too (#40)
+    const imp = g => Math.min(top(ranks[g.home]), top(ranks[g.away]), apG[g.home]||99, apG[g.away]||99, cfpR(g.home), cfpR(g.away));
     const fav = g => typeof g.line==='number' ? Math.abs(g.line) : typeof g.model==='number' ? Math.abs(g.model) : 0;  // spread: line, else model
-    const rkd = a => top(ranks[a])<99 || !!apG[a], both = g => rkd(g.home) && rkd(g.away);  // a game between two ranked teams is always big
+    const rkd = a => top(ranks[a])<99 || !!apG[a] || cfpR(a)<99, both = g => rkd(g.home) && rkd(g.away);  // a game between two ranked teams is always big
     const big = games.filter(g=>imp(g)<99 && (both(g) || fav(g)<=BIG)).sort((x,y)=>((top(ranks[x.home])<99?ranks[x.home]:45)+(top(ranks[x.away])<99?ranks[x.away]:45)) - ((top(ranks[y.home])<99?ranks[y.home]:45)+(top(ranks[y.away])<99?ranks[y.away]:45)) || imp(x)-imp(y));
     $('hBigWrap').hidden = !games.length;
     $('hBigT').innerHTML = `${held ? 'Big games' : "This week's big games"}${hw!=null?`<small>Week ${hw}${held?' results':''}</small>`:''}`;
