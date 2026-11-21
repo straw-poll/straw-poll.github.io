@@ -1083,15 +1083,21 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
   const draftMap = () => { const m={}; S.draft.forEach((a,i)=>m[a]=i+1); return m; };
   const gamesOf = a => { const g=(S.teams[a]||{}).games; return Array.isArray(g) ? g : []; };
   function vsTop(a, ranks){ let w=0,l=0; for(const g of gamesOf(a)) if(ranks[g.opp] && ranks[g.opp]<=TOP && g.opp!==a){ if(g.result==='W') w++; else l++; } return {w,l}; }
-  // Home: the latest CFP Top 25 (movement vs the previous release) and a projected 12-team bracket from it:
-  // the 5 highest-ranked conference champions (projected = each conference's top CFP team; independents can't
-  // be champions) plus the 7 highest-ranked other teams, seeded by CFP rank; seeds 1-4 get first-round byes.
+  // Home: the latest CFP Top 25 (movement vs the previous release) and a projected 12-team bracket from it, 2026-27 rules:
+  // automatic bids for the ACC, Big Ten, Big 12 and SEC champions (projected = each one's top CFP team), the highest-ranked
+  // Group of Six team (champion or not) and Notre Dame if it's in the top 12; the rest at-large by rank. Seeded straight by
+  // CFP rank (seeds 1-4 get byes), except automatic qualifiers outside the top 12 go to the bottom seeds in rank order.
+  const P4_CONFS = ['ACC', 'Big Ten', 'Big 12', 'SEC'];
   function cfpField(ranks){
-    const order = Object.keys(ranks).sort((a,b)=>ranks[a]-ranks[b]), champ = {};
-    order.forEach(a=>{ const c=S.teams[a] && S.teams[a].conf; if(c && c!=='FBS Independents' && !Object.values(champ).includes(a) && !(c in champ)) champ[c]=a; });
-    const auto = Object.values(champ).sort((a,b)=>ranks[a]-ranks[b]).slice(0,5);
-    const field = auto.concat(order.filter(a=>!auto.includes(a)).slice(0, 12-auto.length)).sort((a,b)=>ranks[a]-ranks[b]);
-    return {field, auto, out: order.filter(a=>!field.includes(a)).slice(0,4)};
+    const order = Object.keys(ranks).sort((a,b)=>ranks[a]-ranks[b]), conf = a => S.teams[a] && S.teams[a].conf, why = {};
+    P4_CONFS.forEach(c=>{ const t=order.find(a=>conf(a)===c); if(t) why[t] = c+' champ'; });
+    const g6 = order.find(a=>conf(a) && !P4_CONFS.includes(conf(a)) && conf(a)!=='FBS Independents'); if(g6) why[g6] = 'top Group of Six';
+    if(ranks['Notre Dame']<=12) why['Notre Dame'] = 'auto bid (top 12)';
+    const auto = Object.keys(why), atLarge = order.filter(a=>!why[a]).slice(0, Math.max(0, 12-auto.length-(g6?0:1)));   // no ranked G6 team: its bid stays TBD
+    const inTop = a => ranks[a]<=12, pool = auto.concat(atLarge);
+    const field = pool.filter(inTop).sort((a,b)=>ranks[a]-ranks[b]).concat(pool.filter(a=>!inTop(a)).sort((a,b)=>ranks[a]-ranks[b]));
+    if(!g6) field.push(null);
+    return {field, why, g6missing: !g6, out: order.filter(a=>!field.includes(a)).slice(0,4)};
   }
   function renderCfp(){
     const ws=cfpWeeks(); $('hCfpWrap').hidden = !ws.length; if(!ws.length) return;
@@ -1100,10 +1106,11 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     const B = pollBlocks(Object.keys(ranks).sort((a,b)=>ranks[a]-ranks[b]).filter(a=>ranks[a]<=TOP), prev, false, null);
     $('hCfp').innerHTML = B.top;
     const F = cfpField(ranks), sd = a => F.field.indexOf(a)+1;
-    const team = a => a ? `<div class="bt" style="--tc:${tc(a)}"><span class="sd">${sd(a)}</span>${logo(a)}<button class="tname" data-open="${esc(a)}">${esc(nm(a))}</button><small>CFP #${ranks[a]}${F.auto.includes(a) ? ' · '+esc(S.teams[a].conf)+' champ' : ''}</small></div>` : '<div class="bt"><span class="sd"></span><span></span><span class="dim">TBD</span><span></span></div>';
+    const team = a => a ? `<div class="bt" style="--tc:${tc(a)}"><span class="sd">${sd(a)}</span>${logo(a)}<button class="tname" data-open="${esc(a)}">${esc(nm(a))}</button><small>CFP #${ranks[a]}${F.why[a] ? ' · '+esc(F.why[a]) : ''}</small></div>` : '<div class="bt"><span class="sd"></span><span></span><span class="dim">TBD</span><span></span></div>';
     const s = n => F.field[n-1];
     $('hBracket').innerHTML = `<div class="pods">${[[1,8,9],[2,7,10],[3,6,11],[4,5,12]].map(([b,x,y])=>
       `<div class="pod"><h4>Bye</h4>${team(s(b))}<h4 style="margin-top:6px">First round, at ${esc(nm(s(x))||'TBD')}</h4>${team(s(x))}<div class="bvs">vs</div>${team(s(y))}</div>`).join('')}</div>`
+      + (F.g6missing ? '<p class="bout">No Group of Six team is in the CFP Top 25, so its automatic bid is TBD.</p>' : '')
       + (F.out.length ? `<p class="bout">First teams out: ${F.out.map(a=>`${esc(nm(a))} (#${ranks[a]})`).join(', ')}</p>` : '');
   }
   function moveOf(a, rank, prev){
