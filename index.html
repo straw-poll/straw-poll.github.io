@@ -90,7 +90,7 @@ h2 small{font:400 13px var(--body);color:var(--muted);margin-left:10px}
 .t25{display:grid;grid-template-columns:1fr 1fr;gap:0 26px}
 .trow{display:grid;grid-template-columns:30px 30px 24px minmax(0,1fr) auto;gap:8px;align-items:center;height:38px;border-bottom:1px solid var(--line2);box-shadow:inset 3px 0 var(--tc,transparent);padding-left:8px;background:none;border-width:0 0 1px;width:100%;text-align:left;color:var(--ink)}
 .trow:hover{background:var(--panel2)} .trow{cursor:pointer} .trow.sel{background:#22314a;box-shadow:inset 3px 0 var(--gold)}
-.trow .tname{background:none;border:0;padding:0;color:inherit;text-align:left;cursor:pointer;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap} .trow .tname:hover{text-decoration:underline}
+.trow .tname{justify-self:start;max-width:100%;background:none;border:0;padding:0;color:inherit;text-align:left;cursor:pointer;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap} .trow .tname:hover{text-decoration:underline}
 .trow .pp{color:var(--muted);font-size:12px;margin-right:8px;font-variant-numeric:tabular-nums}
 .trow .rk{font:800 21px/1 var(--cond);text-align:right} .trow .rk.t{font-size:15px}
 .tn{font:700 17px var(--cond);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -110,6 +110,10 @@ h2 small{font:400 13px var(--body);color:var(--muted);margin-left:10px}
 .badge.f{background:#3a1d1f;color:#f29a8d} .badge.r{background:#173325;color:#8fdcab}
 .hsec{margin-top:28px}
 .rhist svg{width:100%;height:auto;display:block}
+.trbar{gap:8px;flex-wrap:wrap;align-items:center;margin:0 0 10px} #trAdd{max-width:200px}
+.trchips{display:flex;flex-wrap:wrap;gap:6px} .trchip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:3px 6px 3px 10px;font-size:13px;box-shadow:inset 4px 0 var(--tc,transparent)}
+.trchip i{display:inline-block;width:14px;height:3px;border-radius:2px} .trchip{box-shadow:none !important}
+.trchip button{background:none;border:0;color:var(--muted);cursor:pointer;font-size:15px;line-height:1;padding:0 2px}
 .rhist .ax{stroke:var(--line2);stroke-width:1} .rhist text{fill:var(--muted);font-size:11px;font-family:inherit}
 .rhist .ln{fill:none;stroke-width:2.2;stroke-linejoin:round;stroke-linecap:round}
 .rhleg{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:var(--muted);margin:4px 0 0}
@@ -120,7 +124,7 @@ h2 small{font:400 13px var(--body);color:var(--muted);margin-left:10px}
 .pod h4{margin:0 0 2px;font:600 12px var(--cond);letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
 .bt{display:grid;grid-template-columns:22px 20px minmax(0,1fr) auto;gap:6px;align-items:center;padding:3px 0}
 .bt .sd{font:700 15px var(--cond);color:var(--gold);text-align:right} .bt .lg{width:20px;height:20px}
-.bt .tname{background:none;border:0;padding:0;color:var(--ink);cursor:pointer;font:600 14px var(--cond);text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bt .tname{justify-self:start;max-width:100%;background:none;border:0;padding:0;color:var(--ink);cursor:pointer;font:600 14px var(--cond);text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .bt small{color:var(--muted);font-size:12px;white-space:nowrap}
 .bvs{font-size:11px;color:var(--muted);padding-left:28px}
 .bout{font-size:13px;color:var(--muted);margin:10px 0 0}
@@ -602,6 +606,14 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
       <div class="tblw"><table id="rTable"></table></div>
       <p class="note">Tip: click a team's row (not its name) here or on the Results Map to select it, then compare up to 4 side by side. Click any team for its full game log.</p>
       <div id="sdefs"></div>
+    </section>
+    <section class="sec" id="trend"><div class="sh"><h2>Rank by week<small>compare teams over the season</small></h2></div>
+      <div class="row trbar">
+        <label class="xsel" style="margin-left:0"><span class="lab">Ranking</span><select id="trMetric" class="fsel xpick" aria-label="Ranking to chart"></select></label>
+        <input id="trAdd" type="search" list="trTeams" placeholder="Add a team" aria-label="Add a team to the chart" autocomplete="off"><datalist id="trTeams"></datalist>
+        <span id="trChips" class="trchips"></span>
+      </div>
+      <div class="rhist" id="trChart"></div>
     </section>
   </section>
 
@@ -1405,6 +1417,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
   const SORTLAB = {wolp:'Straw', comp:'Wolp+', splus:'Straw+', ap:'AP', cfp:'CFP', fpi:'FPI', best:'#', worst:'#'};
   $('rOpts').addEventListener('click', ()=>{ const f=$('rOpts').closest('.filters'), o=f.classList.toggle('open'); $('rOpts').setAttribute('aria-expanded', o); });
   function renderRank(){
+    renderTrend();
     { const b=document.querySelector(`[data-ms="${S.r.ms}"]`); $('rOpts').textContent = `Sort: ${b ? b.textContent : 'Straw'} ▾`; }
     const n=pubNum(), ranks=pubMap(), prev = n!=null && prevNum(n)!=null ? rankMap(prevNum(n)) : null, R=S.r, cr=mdl().crank, sp=strawPlusRank();
     // Straw+ exists once a poll is published; until then its Sort pills are hidden
@@ -2488,22 +2501,52 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     ['ESPN FPI', '#f08a4b', w => { const p=pickWeek(w); return p && p.fpi ? ranksFromRatings(p.fpi) : null; }, false],
     ['SP+', '#b48cff', w => { const p=pickWeek(w); return p && p.sp ? ranksFromRatings(p.sp) : null; }, false],
   ];
-  function rankHistory(a){
-    const weeks = [...new Set(Object.keys(S.weeks).map(Number).concat((S.picks||[]).map(p=>p.week), cfpWeeks()))].filter(w=>w>=1).sort((x,y)=>x-y);
-    if(!weeks.length) return '';
-    const series = HIST.map(([name, col, f, poll])=>({name, col, pts: weeks.map(w=>{ const m=f(w), r=m && m[a]; return r && (!poll || r<=TOP) ? {w, r} : null; }).filter(Boolean)})).filter(x=>x.pts.length);
-    if(!series.length) return '';
+  const histWeeks = () => [...new Set(Object.keys(S.weeks).map(Number).concat((S.picks||[]).map(p=>p.week), cfpWeeks()))].filter(w=>w>=1).sort((x,y)=>x-y);
+  // one series per line: {name, col, pts:[{w, r}]}; #1 at the top, a gap where a week has no rank
+  function rankChart(series, weeks, label){
+    series = series.filter(x=>x.pts.length);
+    if(!series.length || !weeks.length) return '';
     const worst = Math.max(...series.flatMap(x=>x.pts.map(p=>p.r))), ymax = Math.max(25, Math.ceil(worst/10)*10);
     const W=600, H=230, L=34, R=12, T=12, B=26, w0=weeks[0], w1=weeks[weeks.length-1];
     const X = w => L + (w1===w0 ? (W-L-R)/2 : (w-w0)/(w1-w0)*(W-L-R)), Y = r => T + (r-1)/(ymax-1)*(H-T-B);
-    const ticks = [1].concat(Array.from({length: Math.floor(ymax/ (ymax>50?25:10))}, (_,i)=>(i+1)*(ymax>50?25:10)));
+    const step = ymax>50 ? 25 : 10, ticks = [1].concat(Array.from({length: Math.floor(ymax/step)}, (_,i)=>(i+1)*step));
     const grid = ticks.map(r=>`<line class="ax" x1="${L}" x2="${W-R}" y1="${Y(r)}" y2="${Y(r)}"/><text x="${L-6}" y="${Y(r)+4}" text-anchor="end">#${r}</text>`).join('')
       + weeks.map(w=>`<text x="${X(w)}" y="${H-8}" text-anchor="middle">${w}</text>`).join('');
     const path = pts => { let d='', prev=null; pts.forEach(p=>{ d += (prev!=null && weeks.indexOf(p.w)===weeks.indexOf(prev)+1 ? 'L' : 'M') + X(p.w).toFixed(1) + ' ' + Y(p.r).toFixed(1); prev=p.w; }); return d; };
     const lines = series.map(x=>`<path class="ln" stroke="${x.col}" d="${path(x.pts)}"/>` + x.pts.map(p=>`<circle cx="${X(p.w).toFixed(1)}" cy="${Y(p.r).toFixed(1)}" r="3" fill="${x.col}"><title>Week ${p.w} · ${esc(x.name)} #${p.r}</title></circle>`).join('')).join('');
-    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(nm(a))} rank by week">${grid}<text x="${W-R}" y="${H-8}" text-anchor="end"> </text>${lines}</svg>`
-      + `<div class="rhleg">${series.map(x=>`<span><i style="background:${x.col}"></i>${esc(x.name)}</span>`).join('')}<span>· week along the bottom; polls show Top 25 only</span></div>`;
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(label)}">${grid}${lines}</svg>`;
   }
+  const histPts = (f, poll, a, weeks) => weeks.map(w=>{ const m=f(w), r=m && m[a]; return r && (!poll || r<=TOP) ? {w, r} : null; }).filter(Boolean);
+  function rankHistory(a){
+    const weeks = histWeeks();
+    const series = HIST.map(([name, col, f, poll])=>({name, col, pts: histPts(f, poll, a, weeks)})).filter(x=>x.pts.length);
+    const svg = rankChart(series, weeks, nm(a)+' rank by week'); if(!svg) return '';
+    return svg + `<div class="rhleg">${series.map(x=>`<span><i style="background:${x.col}"></i>${esc(x.name)}</span>`).join('')}<span>· week along the bottom; polls show Top 25 only</span></div>`;
+  }
+  // Research "Rank by week": up to 6 teams on one ranking, a line per team in its own color (kept in this browser)
+  const TR_MAX = 6, TR_COL = ['#e8b64c', '#5aa9ff', '#4fbf7a', '#f08a4b', '#b48cff', '#ff6b8b'];   // one distinct color per slot (team colors clash on the dark page)
+  S.trend = (()=>{ try{ const x=JSON.parse(localStorage.getItem('sp-trend')||'null'); if(x && Array.isArray(x.teams)) return x; }catch(e){} return {metric:'Wolp+', teams:[]}; })();
+  const saveTrend = () => { try{ localStorage.setItem('sp-trend', JSON.stringify(S.trend)); }catch(e){} };
+  function renderTrend(){
+    const T=S.trend; if(!Object.keys(S.teams).length) return;   // wait for team data (never drop saved teams before it loads)
+    T.teams = T.teams.filter(a=>S.teams[a]);
+    if(T.teams.length) T.seeded = true;
+    else if(!T.seeded && pub().length){ T.seeded = true; T.teams = S.cmp.filter(a=>S.teams[a]).slice(0, TR_MAX); if(!T.teams.length) T.teams = pub().slice(0, 3).filter(a=>S.teams[a]); saveTrend(); }   // first visit: compared teams, else the Straw top 3
+    if(!HIST.some(h=>h[0]===T.metric)) T.metric = 'Wolp+';
+    $('trMetric').innerHTML = HIST.map(h=>`<option${h[0]===T.metric?' selected':''}>${esc(h[0])}</option>`).join('');
+    $('trTeams').innerHTML = Object.keys(S.teams).filter(a=>!T.teams.includes(a)).sort((x,y)=>nm(x).localeCompare(nm(y))).map(a=>`<option value="${esc(nm(a))}">`).join('');
+    $('trAdd').disabled = T.teams.length>=TR_MAX; $('trAdd').placeholder = T.teams.length>=TR_MAX ? `Up to ${TR_MAX} teams` : 'Add a team';
+    $('trChips').innerHTML = T.teams.map((a,i)=>`<span class="trchip" style="--tc:${TR_COL[i]}"><i style="background:${TR_COL[i]}"></i>${esc(nm(a))}<button data-trdel="${esc(a)}" aria-label="Remove ${esc(nm(a))}">×</button></span>`).join('');
+    const h = HIST.find(x=>x[0]===T.metric), weeks = histWeeks();
+    if(!T.teams.length){ $('trChart').innerHTML = '<p class="lead">Add a team to start.</p>'; return; }
+    const svg = rankChart(T.teams.map((a,i)=>({name: nm(a), col: TR_COL[i], pts: histPts(h[2], h[3], a, weeks)})), weeks, T.metric+' rank by week');
+    $('trChart').innerHTML = svg ? svg + `<div class="rhleg">${h[3] ? 'Top 25 only; a gap = not ranked that week. ' : ''}Hover a dot for the week and rank.</div>`
+      : `<p class="lead">No ${esc(T.metric)} ranks for these teams yet${h[3] ? ' (only Top 25 teams appear)' : ''}.</p>`;
+  }
+  $('trMetric').addEventListener('change', e=>{ S.trend.metric=e.target.value; saveTrend(); renderTrend(); });
+  $('trAdd').addEventListener('change', e=>{ const v=e.target.value.trim().toLowerCase(), a=Object.keys(S.teams).find(x=>nm(x).toLowerCase()===v || x.toLowerCase()===v);
+    e.target.value=''; if(!a){ toast('Pick a team from the list'); return; } if(!S.trend.teams.includes(a) && S.trend.teams.length<TR_MAX) S.trend.teams.push(a); saveTrend(); renderTrend(); });
+  $('trChips').addEventListener('click', e=>{ const b=e.target.closest('[data-trdel]'); if(!b) return; S.trend.teams=S.trend.teams.filter(a=>a!==b.dataset.trdel); saveTrend(); renderTrend(); });
   function openTeam(a){
     $('dCmp').dataset.abbr = a; syncDCmp();
     const t=S.teams[a]; if(!t) return;
