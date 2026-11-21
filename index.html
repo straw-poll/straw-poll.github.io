@@ -112,6 +112,10 @@ h2 small{font:400 13px var(--body);color:var(--muted);margin-left:10px}
 .acctchk{display:grid;grid-template-columns:auto 1fr;gap:2px 8px;align-items:center;margin:12px 0 4px;font-size:14px;cursor:pointer}
 .acctchk small{grid-column:2;color:var(--muted);font-size:12px}
 .rhist svg{width:100%;height:auto;display:block}
+.rhist .wkcol rect{fill:transparent;cursor:crosshair} .rhist .wkcol .guide{stroke:var(--muted);stroke-dasharray:3 3;opacity:0;pointer-events:none}
+.rhist .wkcol:hover .guide,.rhist .wkcol.on .guide{opacity:.7}
+#chartTip{position:fixed;z-index:60;pointer-events:none;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:6px 9px;font-size:12px;color:var(--ink);box-shadow:0 6px 18px rgba(0,0,0,.35);min-width:120px}
+#chartTip div{display:flex;align-items:center;gap:6px;margin-top:3px;white-space:nowrap} #chartTip i{display:inline-block;width:10px;height:3px;border-radius:2px}
 .trbar{gap:8px;flex-wrap:wrap;align-items:center;margin:0 0 10px} #trAdd{max-width:200px}
 .trchips{display:flex;flex-wrap:wrap;gap:6px} .trchip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:3px 6px 3px 10px;font-size:13px;box-shadow:inset 4px 0 var(--tc,transparent)}
 .trchip i{display:inline-block;width:14px;height:3px;border-radius:2px} .trchip{box-shadow:none !important}
@@ -2525,14 +2529,34 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
       + weeks.map(w=>`<text x="${X(w)}" y="${H-8}" text-anchor="middle">${w}</text>`).join('');
     const path = pts => { let d='', prev=null; pts.forEach(p=>{ d += (prev!=null && weeks.indexOf(p.w)===weeks.indexOf(prev)+1 ? 'L' : 'M') + X(p.w).toFixed(1) + ' ' + Y(p.r).toFixed(1); prev=p.w; }); return d; };
     const lines = series.map(x=>`<path class="ln" stroke="${x.col}" d="${path(x.pts)}"/>` + x.pts.map(p=>`<circle cx="${X(p.w).toFixed(1)}" cy="${Y(p.r).toFixed(1)}" r="3" fill="${x.col}"><title>Week ${p.w} · ${esc(x.name)} #${p.r}</title></circle>`).join('')).join('');
-    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(label)}">${grid}${lines}</svg>`;
+    // hover / tap a week: a guide line and a box listing every line's rank that week (#chartTip)
+    const cols = weeks.map((w,i)=>{
+      const x0 = i ? (X(weeks[i-1])+X(w))/2 : L, x1 = i<weeks.length-1 ? (X(w)+X(weeks[i+1]))/2 : W-R;
+      const at = series.map(x=>({name:x.name, col:x.col, r:(x.pts.find(p=>p.w===w)||{}).r})).filter(v=>v.r).sort((a,b)=>a.r-b.r);
+      if(!at.length) return '';
+      const tip = `<b>Week ${w}</b>` + at.map(v=>`<div><i style="background:${v.col}"></i>${esc(v.name)} <b>#${v.r}</b></div>`).join('');
+      return `<g class="wkcol"><line class="guide" x1="${X(w)}" x2="${X(w)}" y1="${T}" y2="${H-B}"/><rect x="${x0.toFixed(1)}" y="${T}" width="${(x1-x0).toFixed(1)}" height="${H-T-B}" data-tip="${esc(tip)}"/></g>`;
+    }).join('');
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(label)}">${grid}${lines}${cols}</svg>`;
   }
+  (()=>{   // one shared tooltip for every rank chart
+    const tip = document.createElement('div'); tip.id='chartTip'; tip.hidden=true; document.body.appendChild(tip);
+    let cur = null;
+    const show = (g, e) => { if(cur && cur!==g) cur.classList.remove('on'); cur=g; g.classList.add('on');
+      tip.innerHTML = g.querySelector('rect').dataset.tip; tip.hidden=false;
+      const r = tip.getBoundingClientRect(), x = Math.min(e.clientX+14, innerWidth-r.width-8), y = Math.max(8, e.clientY-r.height-10);
+      tip.style.left = x+'px'; tip.style.top = y+'px'; };
+    const hide = () => { tip.hidden=true; if(cur){ cur.classList.remove('on'); cur=null; } };
+    document.addEventListener('mousemove', e=>{ const g=e.target.closest && e.target.closest('.rhist .wkcol'); g ? show(g, e) : (cur && hide()); });
+    document.addEventListener('click', e=>{ const g=e.target.closest && e.target.closest('.rhist .wkcol'); g ? show(g, e) : hide(); });
+    document.addEventListener('scroll', hide, true);
+  })();
   const histPts = (f, poll, a, weeks) => weeks.map(w=>{ const m=f(w), r=m && m[a]; return r && (!poll || r<=TOP) ? {w, r} : null; }).filter(Boolean);
   function rankHistory(a){
     const weeks = histWeeks();
     const series = HIST.map(([name, col, f, poll])=>({name, col, pts: histPts(f, poll, a, weeks)})).filter(x=>x.pts.length);
     const svg = rankChart(series, weeks, nm(a)+' rank by week'); if(!svg) return '';
-    return svg + `<div class="rhleg">${series.map(x=>`<span><i style="background:${x.col}"></i>${esc(x.name)}</span>`).join('')}<span>· week along the bottom; polls show Top 25 only</span></div>`;
+    return svg + `<div class="rhleg">${series.map(x=>`<span><i style="background:${x.col}"></i>${esc(x.name)}</span>`).join('')}<span>· hover over or tap a week to see each rank; polls show Top 25 only</span></div>`;
   }
   // Research "Rank by week": up to 6 teams on one ranking, a line per team in its own color (kept in this browser)
   const TR_MAX = 6, TR_COL = ['#e8b64c', '#5aa9ff', '#4fbf7a', '#f08a4b', '#b48cff', '#ff6b8b'];   // one distinct color per slot (team colors clash on the dark page)
@@ -2551,7 +2575,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     const h = HIST.find(x=>x[0]===T.metric), weeks = histWeeks();
     if(!T.teams.length){ $('trChart').innerHTML = '<p class="lead">Add a team to start.</p>'; return; }
     const svg = rankChart(T.teams.map((a,i)=>({name: nm(a), col: TR_COL[i], pts: histPts(h[2], h[3], a, weeks)})), weeks, T.metric+' rank by week');
-    $('trChart').innerHTML = svg ? svg + `<div class="rhleg">${h[3] ? 'Top 25 only; a gap = not ranked that week. ' : ''}Hover a dot for the week and rank.</div>`
+    $('trChart').innerHTML = svg ? svg + `<div class="rhleg">${h[3] ? 'Top 25 only; a gap = not ranked that week. ' : ''}Hover over or tap a week to see each rank.</div>`
       : `<p class="lead">No ${esc(T.metric)} ranks for these teams yet${h[3] ? ' (only Top 25 teams appear)' : ''}.</p>`;
   }
   $('trMetric').addEventListener('change', e=>{ S.trend.metric=e.target.value; saveTrend(); renderTrend(); });
