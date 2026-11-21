@@ -1135,7 +1135,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     const ws=cfpWeeks(); $('hCfpWrap').hidden = !ws.length; if(!ws.length) return;
     const w=ws[ws.length-1], ranks=cfpWeek(w), prev = ws.length>1 ? cfpWeek(ws[ws.length-2]) : null;
     $('hCfpT').innerHTML = `CFP rankings<small>Week ${w}</small>`;
-    const B = pollBlocks(Object.keys(ranks).sort((a,b)=>ranks[a]-ranks[b]).filter(a=>ranks[a]<=TOP), prev, false, null);
+    const B = pollBlocks(Object.keys(ranks).sort((a,b)=>ranks[a]-ranks[b]).filter(a=>ranks[a]<=TOP), prev, true, null);   // rows can be selected for Compare, like the Straw Poll card
     $('hCfp').innerHTML = B.top;
     const F = cfpField(ranks), sd = a => F.field.indexOf(a)+1;
     const team = a => a ? `<div class="bt" style="--tc:${tc(a)}"><span class="sd">${sd(a)}</span>${logo(a)}<button class="tname" data-open="${esc(a)}">${esc(nm(a))}</button><small>CFP #${ranks[a]}${F.why[a] ? ' · '+esc(F.why[a]) : ''}</small></div>` : '<div class="bt"><span class="sd"></span><span></span><span class="dim">TBD</span><span></span></div>';
@@ -2659,7 +2659,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
   // Compare: click a team's row (anywhere but its name, a dot or a button) on Research or Vote to select it, up to 4;
   // the selected teams sit in a bar at the bottom with a Compare button.
   function syncCmp(){
-    document.querySelectorAll('#view-rank [data-abbr], #view-work [data-abbr], #hTop [data-abbr], #hAlso [data-abbr]').forEach(r=>r.classList.toggle('sel', S.cmp.includes(r.dataset.abbr)));
+    document.querySelectorAll('#view-rank [data-abbr], #view-work [data-abbr], #hTop [data-abbr], #hAlso [data-abbr], #hCfp [data-abbr]').forEach(r=>r.classList.toggle('sel', S.cmp.includes(r.dataset.abbr)));
     renderCmpBar();
   }
   function renderCmpBar(){
@@ -2676,7 +2676,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
   }
   document.addEventListener('click', e=>{
     if(S.tab!=='rank' && S.tab!=='work' && S.tab!=='home') return;
-    const row = e.target.closest('#rMap .mrow, #wMap .mrow, #rTable tbody tr, #ballot .brow, #pool .prow, #hTop .trow, #hAlso .trow');
+    const row = e.target.closest('#rMap .mrow, #wMap .mrow, #rTable tbody tr, #ballot .brow, #pool .prow, #hTop .trow, #hAlso .trow, #hCfp .trow');
     if(!row || !row.dataset.abbr || (!mouseDot(e) && !nameMiss(e) && e.target.closest('button, a, input, select, label, .dot'))) return;
     toggleCmp(row.dataset.abbr);
   });
