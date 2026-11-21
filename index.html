@@ -109,6 +109,11 @@ h2 small{font:400 13px var(--body);color:var(--muted);margin-left:10px}
 .badge{font:600 11px var(--body);letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:999px}
 .badge.f{background:#3a1d1f;color:#f29a8d} .badge.r{background:#173325;color:#8fdcab}
 .hsec{margin-top:28px}
+.rhist svg{width:100%;height:auto;display:block}
+.rhist .ax{stroke:var(--line2);stroke-width:1} .rhist text{fill:var(--muted);font-size:11px;font-family:inherit}
+.rhist .ln{fill:none;stroke-width:2.2;stroke-linejoin:round;stroke-linecap:round}
+.rhleg{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:var(--muted);margin:4px 0 0}
+.rhleg i{display:inline-block;width:14px;height:3px;border-radius:2px;vertical-align:middle;margin-right:5px}
 .cfprow{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:22px;align-items:start}
 .pods{display:grid;gap:10px}
 .pod{border:1px solid var(--line2);border-radius:10px;padding:6px 10px}
@@ -858,6 +863,8 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
   <div class="summ" id="dSumm"></div>
   <ul class="glog" id="dGames"></ul>
   <p class="dnote" id="dNote"></p>
+  <h4 class="dh" id="dHistH">Rank by week</h4>
+  <div class="rhist" id="dHist"></div>
   <h4 class="dh" id="dNextH">Upcoming</h4>
   <ul class="glog nextg" id="dNext"></ul>
   <div class="trail" id="dTrail"></div>
@@ -2470,6 +2477,33 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
   const syncDCmp = () => { const b=$('dCmp'), a=b.dataset.abbr, here = S.tab==='rank' || S.tab==='work' || S.tab==='home';
     b.hidden = !a || !here; b.textContent = S.cmp.includes(a) ? 'Remove from compare' : 'Add to compare'; };
   $('dCmp').addEventListener('click', ()=>{ toggleCmp($('dCmp').dataset.abbr); syncDCmp(); });
+  // #41 team history: a team's rank each week going into that week's games. Polls (Straw, AP, CFP) plot their Top 25 only
+  // (a gap = not ranked); Wolp+ (saved weekly; weeks 1-5 rebuilt by replaying the model), ESPN FPI and SP+ (saved from
+  // weeks 6 and 7) are ranked among FBS teams from that week's saved ratings.
+  const HIST = [
+    ['Straw Poll', '#f4f1e8', w => { const m = S.weeks[w] ? rankMap(w) : null; return m; }, true],
+    ['AP', '#5aa9ff', w => (S.ap && S.ap.weeks && S.ap.weeks[w]) || (pickWeek(w) || {}).ap || null, true],
+    ['CFP', '#4fbf7a', w => cfpWeek(w), true],
+    ['Wolp+', '#e8b64c', w => wolpWeek(w), false],
+    ['ESPN FPI', '#f08a4b', w => { const p=pickWeek(w); return p && p.fpi ? ranksFromRatings(p.fpi) : null; }, false],
+    ['SP+', '#b48cff', w => { const p=pickWeek(w); return p && p.sp ? ranksFromRatings(p.sp) : null; }, false],
+  ];
+  function rankHistory(a){
+    const weeks = [...new Set(Object.keys(S.weeks).map(Number).concat((S.picks||[]).map(p=>p.week), cfpWeeks()))].filter(w=>w>=1).sort((x,y)=>x-y);
+    if(!weeks.length) return '';
+    const series = HIST.map(([name, col, f, poll])=>({name, col, pts: weeks.map(w=>{ const m=f(w), r=m && m[a]; return r && (!poll || r<=TOP) ? {w, r} : null; }).filter(Boolean)})).filter(x=>x.pts.length);
+    if(!series.length) return '';
+    const worst = Math.max(...series.flatMap(x=>x.pts.map(p=>p.r))), ymax = Math.max(25, Math.ceil(worst/10)*10);
+    const W=600, H=230, L=34, R=12, T=12, B=26, w0=weeks[0], w1=weeks[weeks.length-1];
+    const X = w => L + (w1===w0 ? (W-L-R)/2 : (w-w0)/(w1-w0)*(W-L-R)), Y = r => T + (r-1)/(ymax-1)*(H-T-B);
+    const ticks = [1].concat(Array.from({length: Math.floor(ymax/ (ymax>50?25:10))}, (_,i)=>(i+1)*(ymax>50?25:10)));
+    const grid = ticks.map(r=>`<line class="ax" x1="${L}" x2="${W-R}" y1="${Y(r)}" y2="${Y(r)}"/><text x="${L-6}" y="${Y(r)+4}" text-anchor="end">#${r}</text>`).join('')
+      + weeks.map(w=>`<text x="${X(w)}" y="${H-8}" text-anchor="middle">${w}</text>`).join('');
+    const path = pts => { let d='', prev=null; pts.forEach(p=>{ d += (prev!=null && weeks.indexOf(p.w)===weeks.indexOf(prev)+1 ? 'L' : 'M') + X(p.w).toFixed(1) + ' ' + Y(p.r).toFixed(1); prev=p.w; }); return d; };
+    const lines = series.map(x=>`<path class="ln" stroke="${x.col}" d="${path(x.pts)}"/>` + x.pts.map(p=>`<circle cx="${X(p.w).toFixed(1)}" cy="${Y(p.r).toFixed(1)}" r="3" fill="${x.col}"><title>Week ${p.w} · ${esc(x.name)} #${p.r}</title></circle>`).join('')).join('');
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(nm(a))} rank by week">${grid}<text x="${W-R}" y="${H-8}" text-anchor="end"> </text>${lines}</svg>`
+      + `<div class="rhleg">${series.map(x=>`<span><i style="background:${x.col}"></i>${esc(x.name)}</span>`).join('')}<span>· week along the bottom; polls show Top 25 only</span></div>`;
+  }
   function openTeam(a){
     $('dCmp').dataset.abbr = a; syncDCmp();
     const t=S.teams[a]; if(!t) return;
@@ -2494,6 +2528,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
       return `<li class="${c?'close':''}"><span class="res ${g.result}">${g.result}</span><span class="sc">${gScore(g)}${g.ot?' OT':''}</span><span class="op">${gAt(g)} ${esc(gOppName(g.opp,ranks))}${g.site==='neutral'?' <span class="dt">(neutral)</span>':''}</span><span class="dt">${fmtDate(g.date)}</span>${gEpa(g)}</li>`; }).join('');
     $('dGames').hidden = !games.length;
     $('dNote').textContent = games.length ? '' : 'No games played yet.';
+    $('dHist').innerHTML = rankHistory(a); $('dHistH').hidden = !$('dHist').innerHTML;
     // remaining schedule: date, opponent, model spread and win chance from this team's side
     const up = Array.isArray(t.upcoming) ? t.upcoming : [], sch=S.schedule||{};
     $('dNextH').hidden = $('dNext').hidden = !up.length;
