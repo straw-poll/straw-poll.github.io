@@ -88,7 +88,7 @@ h2 small{font:400 13px var(--body);color:var(--muted);margin-left:10px}
 /* home */
 .hero{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:22px;align-items:start}
 .t25{display:grid;grid-template-columns:1fr 1fr;gap:0 26px}
-.trow{display:grid;grid-template-columns:30px 30px 24px minmax(0,1fr) auto;gap:8px;align-items:center;height:38px;border-bottom:1px solid var(--line2);box-shadow:inset 3px 0 var(--tc,transparent);padding-left:8px;background:none;border-width:0 0 1px;width:100%;text-align:left;color:var(--ink)}
+.trow{display:grid;grid-template-columns:30px 30px 24px minmax(0,1fr) auto;gap:8px;align-items:center;height:38px;border-bottom:1px solid var(--line2);padding-left:8px;background:none;border-width:0 0 1px;width:100%;text-align:left;color:var(--ink)}
 .trow:hover{background:var(--panel2)} .trow{cursor:pointer} .trow.sel{background:#22314a;box-shadow:inset 3px 0 var(--gold)}
 .trow .tname{justify-self:start;max-width:100%;background:none;border:0;padding:0;color:inherit;text-align:left;cursor:pointer;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap} .trow .tname:hover{text-decoration:underline}
 .trow .pp{color:var(--muted);font-size:12px;margin-right:8px;font-variant-numeric:tabular-nums}
@@ -190,7 +190,7 @@ h2 small{font:400 13px var(--body);color:var(--muted);margin-left:10px}
 .axis .axrk{font-weight:700;color:var(--ink);text-align:right}
 .axis{color:var(--muted);font-size:12px;padding:0 0 6px;border-bottom:1px solid var(--line)}
 .axis .ax{display:flex;justify-content:space-between;padding:0 12px}
-.mrow{min-height:52px;border-bottom:1px solid var(--line2);box-shadow:inset 3px 0 var(--tc,transparent);padding-left:6px}
+.mrow{min-height:52px;border-bottom:1px solid var(--line2);padding-left:6px}
 .mrow:hover{background:var(--panel2)}
 .mrow.sortable-chosen{background:var(--panel2)} .mrow.sortable-ghost{opacity:.35}
 .grp{font:700 18px var(--cond);margin:18px 0 4px;color:var(--muted)}
@@ -226,7 +226,7 @@ thead tr.cols th[data-c]{cursor:pointer;user-select:none}
 thead tr.cols th[data-c]:hover,thead tr.cols th.on{color:var(--ink)}
 thead tr.cols th.on::after{content:' ▼';font-size:9px;color:var(--gold)} thead tr.cols th.on.rev::after{content:' ▲'}
 .g1{border-left:1px solid var(--line)}
-tbody tr{box-shadow:inset 3px 0 var(--tc,transparent)} tbody tr:hover{background:var(--panel2)}
+tbody tr:hover{background:var(--panel2)}
 .rkc{font:800 20px var(--cond);text-align:right;width:44px} .rkc.none{color:#33465f;font-size:15px}
 td.tmc{text-align:left}
 .tmc .tb{display:flex;align-items:center;gap:10px;font:700 17px var(--cond);background:none;border:0;padding:0;color:var(--ink)}
@@ -280,23 +280,58 @@ td.c-mv{padding-left:0;width:30px}
 .wmaphead{align-items:center;margin-bottom:6px}
 .prow .psub{display:block;color:var(--muted);font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .chips .fsel{padding:4px 10px}
-.brow,.bcols{display:grid;grid-template-columns:var(--bcols);column-gap:8px;align-items:center}
-.bcols{font-size:12px;color:var(--muted);padding:0 6px 6px;border-bottom:1px solid var(--line)}
-.bcols span:nth-child(n+6){text-align:center}
-.brow{padding:4px 6px;border-bottom:1px solid var(--line2);box-shadow:inset 3px 0 var(--tc,transparent);min-height:44px}
+/* Vote list (redesign 2026-11-21): one grid for the header and every row, column widths set in renderHeads().
+   Order: grip | movement + rank | logo | name, last game under it | stats | one-tap remove. H2H / Loop = stripe on the left edge. */
+#ws-ballot{--c-grip:1.75rem;--c-rk:3.75rem;--c-lg:1.25rem;--c-st:2.6rem;--c-x:2.5rem}
+@media (max-width:359px){ #ws-ballot{--c-grip:1.5rem;--c-rk:3.2rem;--c-lg:1.1rem;--c-st:2.4rem;--c-x:2.25rem} }
+@media (min-width:701px){ #ws-ballot{--c-grip:2rem;--c-rk:4.25rem;--c-lg:1.75rem;--c-x:2.75rem} }
+#view-work.ro #ws-ballot{--c-grip:0px;--c-x:0px}
+@media (max-width:700px){ #ws-ballot .bscroll{margin:0 -16px} #ws-ballot>.row{margin-bottom:6px} #ws-ballot .bcols{top:env(safe-area-inset-top,0px)} }   /* the top bar doesn't stick on phones */   /* phones: the list runs edge to edge (every pixel goes to the team name) */
+.brow,.bcols{display:grid;grid-template-columns:var(--bcols);column-gap:6px;align-items:center}
+.bcols{position:sticky;top:calc(env(safe-area-inset-top,0px) + 63px);z-index:3;background:var(--bg);min-height:32px;font:700 12px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line);white-space:nowrap}
+.bcols .r{text-align:right} .bcols [title]{cursor:help}
+.brow{position:relative;border-bottom:1px solid var(--line2);min-height:52px}
+.brow::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--stripe,transparent);pointer-events:none}
+.brow.h2h{--stripe:var(--loss)} .brow.loop{--stripe:var(--gold)} .brow.h2h.loop{--stripe:linear-gradient(var(--loss) 50%,var(--gold) 50%)}
 .brow.sortable-chosen{background:var(--panel2)} .brow.sortable-ghost{opacity:.35}
-.brow .rk{font-size:24px}
-.brow .lg{width:24px;height:24px}
+.brow.sel>*:first-child{box-shadow:none}   /* Compare selection = row background here (the stripe owns the left edge) */
+.brk{display:grid;grid-template-columns:1.5rem 1.75rem;column-gap:6px;align-items:center;justify-items:end;padding-right:2px}
+.brk .rk{grid-column:2;grid-row:1;font-size:22px}
+.brk .mv{grid-column:1;grid-row:1;justify-self:center}
+.brk .mv.up,.brk .mv.dn{display:inline-grid;grid-template-columns:.6em auto;align-items:center;font:700 12px/1 var(--body);font-variant-numeric:tabular-nums}
+.brk .mv i{font-style:normal;font-size:9px} .brk .mv b{font-weight:700}
+.brow .lg{width:20px;height:20px}
+.brow .grip{width:100%;height:44px}
+.tm{min-width:0;display:flex;flex-direction:column;gap:3px;padding:5px 0}
+.tm .nmb{background:none;border:0;padding:0;text-align:left;font:700 16px/20px var(--cond);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink);cursor:pointer}
+.tm .nmb:hover{text-decoration:underline} .brow.open .tm .nmb{color:var(--gold)}
+@media (max-width:359px){ .tm .nmb{font-size:15px} .brk{grid-template-columns:1.25rem 1.6rem;column-gap:5px} .brk .rk{font-size:20px} .brow .lg{width:18px;height:18px} }
+.tm .lastl{display:block;font:500 12px/1.2 var(--body);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lastcol .tm .lastl{display:none}   /* desktop with the Last game column on */
+.st{text-align:right;font-variant-numeric:tabular-nums;font-weight:600;font-size:14px;white-space:nowrap}
+.st.key{color:var(--gold);font-weight:800}
+.st.two{display:grid;justify-items:end;gap:3px;line-height:1} .st.two small{font:500 12px/1 var(--body);color:var(--muted)}
+.brow .x{justify-self:center;width:44px;height:44px;display:grid;place-items:center;padding:0}
+.brow .x span{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;border:1.5px solid currentColor;font:700 15px/1 var(--body)}
+@media (min-width:701px){ .brow{min-height:46px} .brk .rk{font-size:24px} .tm .nmb{font-size:18px} .brk{grid-template-columns:2rem 1.75rem} }
+/* details panel under a row (tap the name) */
+.bmore{grid-column:1 / -1;display:none;padding:2px 12px 12px calc(var(--c-grip) + 6px)}
+.brow.open .bmore{display:block}
+.bwhy{margin:0 0 8px;padding:8px 10px;border-left:3px solid var(--loss);background:rgba(229,103,90,.08);border-radius:0 6px 6px 0;font-size:14px}
+.bwhy.loop{border-color:var(--gold);background:rgba(227,179,65,.08)} .bwhy small{display:block;color:var(--muted);margin-top:2px}
+.bfacts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 16px;margin:0 0 10px}
+.bfacts div{display:flex;justify-content:space-between;gap:8px;border-bottom:1px solid var(--line2);padding-bottom:4px}
+.bfacts dt{color:var(--muted);font-size:13px} .bfacts dd{margin:0;font-weight:700;font-variant-numeric:tabular-nums}
+@media (min-width:701px){ .bfacts{grid-template-columns:repeat(4,minmax(0,1fr))} }
+.blog{list-style:none;margin:0 0 10px;padding:0;font-variant-numeric:tabular-nums}
+.blog li{display:grid;grid-template-columns:1.1rem 3.6rem minmax(0,1fr) auto;gap:6px;align-items:center;min-height:28px;border-bottom:1px solid var(--line2);font-size:14px}
+.blog .op{overflow:hidden;text-overflow:ellipsis;white-space:nowrap} .blog .dt{font-size:12px;color:var(--muted)}
+.flegend{display:flex;flex-wrap:wrap;align-items:center;gap:4px 14px;color:var(--muted);font-size:12px}
+.flegend i{display:inline-block;width:5px;height:14px;border-radius:1px;margin-right:6px;vertical-align:-2px}
 .grip{width:18px;height:28px;border:0;background:none;padding:0;cursor:grab;color:var(--muted);touch-action:none}
 .grip svg{display:block;margin:auto}
-.tm{min-width:0}
-.tm .nmb{background:none;border:0;padding:0;text-align:left;font:700 18px/1.1 var(--cond);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink)}
-@media (max-width:700px){ .brow,.bcols{column-gap:4px} .brow .rk{font-size:20px} .brow .tm b,.brow .tm .nmb{font-size:16px} }
-.tm .nmb:hover{text-decoration:underline}
-.tm small{display:block;color:var(--muted);font-size:11.5px} .tm .lastl{color:var(--ink);font-weight:600} .tm .lastl small{display:inline;margin-left:4px;font-weight:500;color:var(--muted)}
 .flag{border:1px solid currentColor;background:none;border-radius:4px;padding:0 4px;margin-right:5px;font:700 11px/1.35 var(--cond);letter-spacing:.05em;color:var(--loss);vertical-align:1px}
 .flag.loop{color:var(--gold)}
-.st{text-align:center;font-variant-numeric:tabular-nums;font-weight:600;font-size:13px}
 .lastg{text-align:left!important;font-weight:600;line-height:1.2}  /* result on top, full opponent name below (wraps rather than cut off) */
 .lastg small{display:block;font-weight:500;font-size:12px;color:var(--muted)} .lres{font-weight:800} .lres.W{color:var(--win)} .lres.L{color:var(--loss)}
 .st.dim{color:var(--muted);font-weight:500}
@@ -307,7 +342,7 @@ td.c-mv{padding-left:0;width:30px}
 .checks{margin-top:12px;border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:8px;padding:8px 12px;background:var(--panel);font-size:13px}
 .checks p{margin:0}.checks p+p{margin-top:8px}
 .checks small{display:block;color:var(--muted)}
-.bscroll{overflow-x:auto}
+.bscroll{overflow:visible}   /* no sideways scroll box: the column header can stay pinned (position:sticky) */
 .pool{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 70px)}
 .pool input[type=search]{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg)}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
@@ -340,14 +375,14 @@ td.c-mv{padding-left:0;width:30px}
 .btn.danger{color:var(--loss)}
 .vbar{gap:6px;margin:8px 0 10px;align-items:center}
 .calls{display:grid;gap:0}
-.call{display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:8px;align-items:center;padding:7px 0 7px 6px;border-bottom:1px solid var(--line2);box-shadow:inset 3px 0 var(--tc,transparent)}
+.call{display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:8px;align-items:center;padding:7px 0 7px 6px;border-bottom:1px solid var(--line2)}
 .call .mk{font:700 15px var(--cond);text-align:center;color:var(--muted)} .call.ok .mk{color:var(--win)} .call.no .mk{color:var(--loss)} .call.pre .mk,.call.live .mk{color:var(--gold)}
 .call .who{font:600 14px var(--cond);min-width:0} .call .who small{display:block;font:400 12px var(--sans,inherit);color:var(--muted)}
 .call .res{font:600 13px var(--cond);text-align:right;white-space:nowrap} .call .res small{display:block;font-weight:400;color:var(--muted)}
 .callsum{font-size:13px;color:var(--muted);margin:0 0 6px}
 .wkgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px 18px}
 .wkcol h3{font:700 17px var(--cond);color:var(--gold);margin:0 0 6px;border-bottom:1px solid var(--line);padding-bottom:4px}
-.wkrow{display:grid;grid-template-columns:24px 30px 20px minmax(0,1fr);gap:6px;align-items:center;width:100%;background:none;border:0;border-bottom:1px solid var(--line2);box-shadow:inset 3px 0 var(--tc,transparent);padding:4px 0 4px 6px;text-align:left;color:var(--ink)}
+.wkrow{display:grid;grid-template-columns:24px 30px 20px minmax(0,1fr);gap:6px;align-items:center;width:100%;background:none;border:0;border-bottom:1px solid var(--line2);padding:4px 0 4px 6px;text-align:left;color:var(--ink)}
 .wkrow .rk{font:700 15px var(--cond);text-align:right} .wkrow .lg{width:20px;height:20px}
 .wkrow .tn{font:600 14px var(--cond);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .hist td.r{font:700 16px var(--cond)} .hist td.r.top5{color:var(--gold)} .hist td.nr{color:#2a3b52}
@@ -473,7 +508,8 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 .fbmenu button{background:none;border:0;color:var(--ink);font:500 14px var(--body);text-align:left;padding:9px 16px;cursor:pointer}
 .fbmenu button:hover,.fbmenu button:focus-visible{color:var(--gold)}
 .toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 20px);transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:8px;font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s;z-index:70}
-.toast.show{opacity:1}
+.toast.show{opacity:1} .toast.act.show{pointer-events:auto;display:flex;align-items:center;gap:12px;padding:6px 6px 6px 16px}
+.tact{background:none;border:0;border-radius:6px;min-height:36px;padding:0 12px;color:#8a5a00;font:800 14px var(--body);cursor:pointer}
 @media (prefers-reduced-motion: reduce){.toast{transition:none}}
 .foot{max-width:1440px;margin:0 auto;padding:16px 28px 40px;color:var(--muted);font-size:12.5px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .foot .wrapin{border-top:1px solid var(--line2);padding-top:16px;width:100%;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
@@ -816,8 +852,8 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
           <p class="note">Drag a row's handle to reorder (or focus it and use the arrow keys). Drag a team in from the list, or tap +. Your ballot is exactly 25 teams; submit it before the deadline and change it as often as you like until then. Only you can see it until voting closes. <b>H2H</b> marks a head-to-head result that disagrees with the order, for teams within 5 spots of each other; <b>LOOP</b> marks teams that beat each other in a circle. Both are reminders only; tap one to see why.</p>
         </div>
         <div id="ws-ballot" hidden>
-          <div class="row" style="justify-content:flex-end;margin-bottom:8px"><details class="colmenu" id="colMenuB"><summary class="pill">Columns ▾</summary><div class="menu" id="colListB"></div></details></div>
-          <div class="bscroll"><div class="bcols" id="bcols" aria-hidden="true"></div><div id="ballot" aria-label="Straw Poll ballot"></div><div id="slots"></div></div>
+          <div class="row" style="justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px"><div class="flegend" aria-hidden="true"><span title="Head-to-head: lost to (or beat) a team within 5 spots, against your order"><i style="background:var(--loss)"></i>H2H</span><span title="Teams that beat each other in a circle"><i style="background:var(--gold)"></i>Loop</span><span>Tap a team to see why</span></div><details class="colmenu" id="colMenuB"><summary class="pill">Columns ▾</summary><div class="menu" id="colListB"></div></details></div>
+          <div class="bscroll"><div class="bcols" id="bcols" aria-hidden="true"></div><div id="ballot" role="list" aria-label="Your ballot"></div><div id="slots"></div></div>
           <p class="note">Drag the handle to reorder, or focus it and use the arrow keys. Add stat columns with Columns ▾. Same ballot as the Results Map.</p>
         </div>
       </div>
@@ -1018,7 +1054,9 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
   // Straw Poll rank stays visible in the small line under game-card names. The Vote tab keeps your own ballot's ranks.
   const headLab = () => cfpWeeks().length ? 'CFP' : 'AP';
   const headRank = a => cfpWeeks().length ? cfpRank(a) : apRank(a);
-  function toast(msg, ms){ const t=$('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove('show'), ms||2400); }
+  function toast(msg, ms, act){ const t=$('toast'); t.textContent=msg;
+    if(act){ const b=document.createElement('button'); b.type='button'; b.className='tact'; b.textContent=act.label; b.addEventListener('click', ()=>{ t.classList.remove('show'); act.fn(); }); t.append(' ', b); }
+    t.classList.toggle('act', !!act); t.classList.add('show'); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove('show'), ms||2400); }
 
   // ---------- columns ----------
   // g = group heading in the Stats table; fmt n = 2 decimals, p = percent, r = rank; lo = lower is better; off = hidden by default
@@ -1928,16 +1966,19 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     toast('Ballot withdrawn. Your teams are still here if you want to submit again.');
   }
   // phones: the ballot list shows Last game as a line under the team, not a column (it pushed the stats off screen)
-  const NARROW = matchMedia('(max-width:700px)');
-  const ballotCols = () => shown('b').filter(c=>!(c.k==='last' && NARROW.matches));
-  NARROW.addEventListener('change', ()=>{ if(!S.teams || !Object.keys(S.teams).length) return; renderHeads(); renderBallot(); });
+  const NARROW = matchMedia('(max-width:700px)'), WIDE = matchMedia('(min-width:1000px)');
+  // Last game is its own column only on wide screens (elsewhere it's the line under the team name); on phones Record and
+  // vs P4 share one column (P4 small under the record) so the team name keeps its room
+  const ballotCols = () => { let b = shown('b').filter(c=>!(c.k==='last' && !WIDE.matches));
+    if(NARROW.matches && b.some(c=>c.k==='rec') && b.some(c=>c.k==='p4')) b = b.filter(c=>c.k!=='p4').map(c=>c.k==='rec' ? {...c, k:'recp4', h:'Rec', menu:'record, with record vs Power 4 under it'} : c);
+    return b; };
+  [NARROW, WIDE].forEach(m=>m.addEventListener('change', ()=>{ if(!S.teams || !Object.keys(S.teams).length) return; renderHeads(); renderBallot(); }));
   function renderHeads(){
     const b=ballotCols(), p=shown('p');
-    const bc = NARROW.matches ? `26px 20px 16px 22px minmax(5.5rem,1fr) ${b.map(()=> '2.4rem').join(' ')} 20px`   // phones: everything fits in 390px
-      : `44px 34px 18px 24px minmax(7rem,13rem) ${b.map(c=>c.bw).join(' ')} minmax(26px,1fr)`;   // stats sit next to the team; spare width goes before the × at the right
+    const bc = `var(--c-grip) var(--c-rk) var(--c-lg) minmax(${NARROW.matches ? '4.5rem' : '7rem'},1fr) ${b.map(c=>NARROW.matches ? 'var(--c-st)' : c.k==='last' ? '10rem' : c.bw).join(' ')} var(--c-x)`;   // the team column takes the spare width
     const pc = `minmax(7rem,1fr) ${p.map(c=>c.pw).join(' ')} 2.8rem`;
     $('dyncols').textContent = `.brow,.bcols{--bcols:${bc}}.phead,.prow{--pcols:${pc}}`;
-    $('bcols').innerHTML = `<span style="text-align:right">Rank</span><span></span><span></span><span></span><span>Team</span>${b.map(c=>`<span>${c.h}</span>`).join('')}<span></span>`;
+    $('bcols').innerHTML = `<span></span><span class="r">#</span><span></span><span>Team</span>${b.map(c=>`<span class="${c.k==='last'?'':'r'}" title="${esc(c.menu||'')}">${esc(c.h)}</span>`).join('')}<span></span>`;
     if(S.sort!=='name' && !p.some(c=>c.k===S.sort)) S.sort = p.length ? p[0].k : 'name';
     $('phead').innerHTML = `<button data-s="name" aria-pressed="${S.sort==='name'}">Team</button>${p.map(c=>`<button data-s="${c.k}" aria-pressed="${S.sort===c.k}">${c.h}</button>`).join('')}<span></span>`;
     $('colListP').innerHTML = colMenu('p'); $('colListB').innerHTML = colMenu('b');
@@ -1945,6 +1986,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
   function statCell(c, a, t, onB, pool){
     let v, cls='';
     switch(c.k){
+      case 'recp4': v=`${rec(t.w,t.l)}<small>${rec(t.p4w,t.p4l)} P4</small>`; cls=' two'; break;
       case 'rec': v=rec(t.w,t.l); break;
       case 'p4': v=rec(t.p4w,t.p4l); if(t.p4w==null) cls=' dim'; break;
       case 't25': { const r=vsTop(a,pubMap()); v=r.w+'-'+r.l; if(!r.w&&!r.l) cls=' dim'; break; }   // the Straw Poll, same as Research (it used to count your own ballot)
@@ -1955,7 +1997,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
       case 'last': ({v, cls}=lastCell(a)); cls=' '+cls; break;
       case 'proj': v=projTxt(t); break;
       case 'q1': case 'q2': { const q=quads(a)[c.k==='q1'?1:2]; v=q[0]+'-'+q[1]; if(!q[0]&&!q[1]) cls=' dim'; break; }
-      default: v = fmtStat(c, colVal(c, a, t)); if(v==null){ v='–'; cls=' dim'; }
+      default: v = fmtStat(c, colVal(c, a, t)); if(v==null){ v='–'; cls=' dim'; } else if(c.strong && !pool) cls=' key';
     }
     return `<span class="${pool?'c':'st'}${cls}">${v}</span>`;
   }
@@ -1973,14 +2015,36 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     d.addEventListener('keydown', e=>{ const step = e.key==='ArrowLeft' ? 20 : e.key==='ArrowRight' ? -20 : 0; if(!step) return; e.preventDefault();
       save(set($('wDiv').parentElement.getBoundingClientRect().width + step)); });
   })();
+  // movement for the Vote list: arrow and number in fixed slots so every row lines up; spoken as words
+  const moveSlot = (a, rank, prev) => {
+    if(!prev) return '<span class="mv eq"></span>';
+    const p=prev[a]; if(!p) return '<span class="mv new">NEW<span class="sr-only"> newly ranked</span></span>';
+    const d=p-rank; if(!d) return '<span class="mv eq"><span aria-hidden="true">–</span><span class="sr-only">no change</span></span>';
+    return `<span class="mv ${d>0?'up':'dn'}"><i aria-hidden="true">${d>0?'▲':'▼'}</i><b>${Math.abs(d)}</b><span class="sr-only"> ${d>0?'up':'down'} ${Math.abs(d)} from #${p}</span></span>`;
+  };
+  const lastLineOf = a => { const g=lastGame(a); return !g ? 'No games yet' : g==='bye' ? 'Bye' : `<span class="lres ${g.result}">${g.result}</span> ${gScore(g)} ${gAt(g)} ${esc(nm(g.opp))}`; };
+  S.bopen = new Set();   // Vote list rows whose details panel is open
+  function bDetails(a, an){   // the panel under a row: why it's flagged, a few facts, the last 4 games
+    const t=S.teams[a]||{}, fl=an.flags[a], lp=an.loopOf[a], G=gamesOf(a).filter(x=>x.result), cl=G.filter(isClose), cw=cl.filter(x=>x.result==='W').length, ranks=pubMap();
+    const vs = m => { const r=vsTop(a,m); return r.w+'-'+r.l; }, f = (k,v) => `<div><dt>${k}</dt><dd>${v}</dd></div>`;
+    const why = (fl ? fl.map(x=>`<p class="bwhy"><b>H2H:</b> ${esc(x)}</p>`).join('') : '') + (lp ? `<p class="bwhy loop"><b>Loop:</b> ${esc(lp.text.replace(/^Loop:\s*/,''))}<small>${lp.games.map(esc).join(' · ')}</small></p>` : '');
+    return why + `<dl class="bfacts">${f('Conference', esc(t.conf||'–'))}${f('vs Straw 25', vs(ranks))}${f('vs AP 25', vs((S.ap&&S.ap.ranks)||{}))}${f('vs CFP 25', cfpWeeks().length ? vs(cfpNowMap()) : '–')}${f('Close games', `${cw}-${cl.length-cw}`)}${f('Wolp+', mdl().crank[a] ? '#'+mdl().crank[a] : 'NR')}${f('2025 record', rec(t.lyW,t.lyL))}${f('2025 final AP', t.lyAp ? '#'+t.lyAp : 'NR')}</dl>`
+      + (G.length ? `<ul class="blog" aria-label="Last ${Math.min(4,G.length)} games">${G.slice(-4).reverse().map(x=>`<li><span class="lres ${x.result}">${x.result}</span><span>${gScore(x)}${x.ot?' OT':''}</span><span class="op">${gAt(x)} ${esc(gOppName(x.opp, ranks))}</span><span class="dt">${isClose(x)?'Close':fmtDate(x.date)}</span></li>`).join('')}</ul>` : '')
+      + `<button class="btn quiet" type="button" data-open="${esc(a)}">Full team card</button>`;
+  }
   function renderBallot(){
     hideTip();
     const prev = myPrevMap(S.cur);
-    const an = analyze(), cols = ballotCols(), lastLine = NARROW.matches && S.vis.b.last;
-    const row = (a,i) => { const t=S.teams[a]||{name:a,conf:''}, fl=an.flags[a], lp=an.loopOf[a];
-      const marks = (fl ? `<button class="flag" data-tip="${esc(fl.join('\n'))}" aria-label="${esc(fl.join(' '))}">H2H</button>` : '') + (lp ? `<button class="flag loop" data-tip="${esc(lp.text+'\n'+lp.games.join('\n'))}" aria-label="${esc(lp.text)}">LOOP</button>` : '');
-      return `<div class="brow${S.cmp.includes(a)?' sel':''}" data-abbr="${esc(a)}" style="--tc:${tc(a)}"><span class="rk">${i+1}</span>${moveOf(a,i+1,prev)}<button class="grip" aria-label="Move ${esc(t.name)}, rank ${i+1}. Use arrow keys." data-i="${i}">${GRIP}</button>${logo(a)}
-        <div class="tm"><button class="nmb" data-open="${esc(a)}">${esc(t.name)}</button><small>${marks}${esc(t.conf||'')}</small>${lastLine ? `<small class="lastl">${lastCell(a).v}</small>` : ''}</div>${cols.map(c=>statCell(c,a,t,an.onB,false)).join('')}<button class="x" data-rm="${i}" aria-label="Remove ${esc(t.name)}">×</button></div>`; };
+    const an = analyze(), cols = ballotCols();
+    $('ws-ballot').classList.toggle('lastcol', cols.some(c=>c.k==='last'));
+    const row = (a,i) => { const t=S.teams[a]||{name:a,conf:''}, fl=an.flags[a], lp=an.loopOf[a], open=S.bopen.has(a), why=[...(fl||[]), ...(lp?[lp.text]:[])];
+      return `<div class="brow${S.cmp.includes(a)?' sel':''}${fl?' h2h':''}${lp?' loop':''}${open?' open':''}" role="listitem" data-abbr="${esc(a)}"${why.length?` title="${esc(why.join('\n'))}"`:''}>`
+        + `<button class="grip" aria-label="Move ${esc(t.name)}, rank ${i+1}. Use arrow keys." data-i="${i}">${GRIP}</button>`
+        + `<span class="brk">${moveSlot(a,i+1,prev)}<span class="rk">${i+1}</span></span>${logo(a)}`
+        + `<div class="tm"><button class="nmb" data-exp="${esc(a)}" aria-expanded="${open}" aria-controls="bm-${i}">${esc(t.name)}<span class="sr-only">${fl?' (head-to-head flag)':''}${lp?' (loop flag)':''}</span></button><small class="lastl">${lastLineOf(a)}</small></div>`
+        + cols.map(c=>statCell(c,a,t,an.onB,false)).join('')
+        + `<button class="x" data-rm="${i}" aria-label="Remove ${esc(t.name)} from your ballot"><span aria-hidden="true">−</span></button>`
+        + `<div class="bmore" id="bm-${i}">${open ? bDetails(a, an) : ''}</div></div>`; };
     $('ballot').innerHTML = S.draft.map(row).join('');
     let h='';
     if(!S.draft.length) h += editable(S.cur) ? `<div class="empty"><strong>The ballot is empty</strong>Add teams from the list, or drag them in.</div>` : `<div class="empty"><strong>No ballot for this week</strong></div>`;
@@ -2066,10 +2130,18 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     if(at==null || at>S.draft.length) at=S.draft.length;
     S.draft.splice(at,0,a); setDirty(); refreshBuild();
   }
+  // remove = one tap; the Undo in the message puts the team back in the same spot (while the week is still editable)
+  function removeAt(i){
+    if(!editable(S.cur) || i<0 || i>=S.draft.length) return;
+    const [a]=S.draft.splice(i,1); S.bopen.delete(a); setDirty(); refreshBuild();
+    toast(`Removed ${nm(a)} (#${i+1})`, 6000, {label:'Undo', fn:()=>{ if(!editable(S.cur) || S.draft.includes(a) || S.draft.length>=BMAX) return; S.draft.splice(Math.min(i,S.draft.length),0,a); setDirty(); refreshBuild(); }});
+  }
   $('ballot').addEventListener('click', e=>{
-    const rm=e.target.closest('[data-rm]'); if(rm && editable(S.cur)){ S.draft.splice(Number(rm.dataset.rm),1); setDirty(); renderBallot(); renderPool(); return; }
+    const rm=e.target.closest('[data-rm]'); if(rm){ removeAt(Number(rm.dataset.rm)); return; }
+    const ex=e.target.closest('[data-exp]'); if(ex){ const a=ex.dataset.exp; S.bopen.has(a) ? S.bopen.delete(a) : S.bopen.add(a); renderBallot();
+      const nb=[...$('ballot').querySelectorAll('[data-exp]')].find(b=>b.dataset.exp===a); if(nb) nb.focus(); return; }
   });
-  $('wMap').addEventListener('click', e=>{ const rm=e.target.closest('[data-rm]'); if(rm && editable(S.cur)){ S.draft.splice(Number(rm.dataset.rm),1); setDirty(); refreshBuild(); } });
+  $('wMap').addEventListener('click', e=>{ const rm=e.target.closest('[data-rm]'); if(rm) removeAt(Number(rm.dataset.rm)); });
   $('xAx2').addEventListener('change', e=>{ S.r.xax=e.target.value; saveR(); renderWMap(); });
   $('pConf').addEventListener('change', e=>{ S.pc=e.target.value; renderPool(); });
   function arrowMove(e, sel, after){
@@ -2773,7 +2845,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
   document.addEventListener('click', e=>{
     if(S.tab!=='rank' && S.tab!=='work' && S.tab!=='home') return;
     const row = e.target.closest('#rMap .mrow, #wMap .mrow, #rTable tbody tr, #ballot .brow, #pool .prow, #hTop .trow, #hAlso .trow, #hCfp .trow');
-    if(!row || !row.dataset.abbr || (!mouseDot(e) && !nameMiss(e) && e.target.closest('button, a, input, select, label, .dot'))) return;
+    if(!row || !row.dataset.abbr || e.target.closest('.bmore') || (!mouseDot(e) && !nameMiss(e) && e.target.closest('button, a, input, select, label, .dot'))) return;
     toggleCmp(row.dataset.abbr);
   });
   $('cmpBar').addEventListener('click', e=>{ const b=e.target.closest('[data-uncmp]'); if(b) toggleCmp(b.dataset.uncmp); });
