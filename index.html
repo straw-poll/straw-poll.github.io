@@ -2514,10 +2514,13 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
   function rankChart(series, weeks, label){
     series = series.filter(x=>x.pts.length);
     if(!series.length || !weeks.length) return '';
-    const worst = Math.max(...series.flatMap(x=>x.pts.map(p=>p.r))), ymax = Math.max(25, Math.ceil(worst/10)*10);
+    // the y axis fits the ranks shown (owner, 2026-11-21): a little room above the best and below the worst, at least 5 spots tall
+    const all = series.flatMap(x=>x.pts.map(p=>p.r)), best = Math.min(...all), worst = Math.max(...all), pad = Math.max(1, Math.round((worst-best)*0.08));
+    let ymin = Math.max(1, best-pad), ymax = worst+pad; if(ymax-ymin < 5){ ymax = ymin+5; }
     const W=600, H=230, L=34, R=12, T=12, B=26, w0=weeks[0], w1=weeks[weeks.length-1];
-    const X = w => L + (w1===w0 ? (W-L-R)/2 : (w-w0)/(w1-w0)*(W-L-R)), Y = r => T + (r-1)/(ymax-1)*(H-T-B);
-    const step = ymax>50 ? 25 : 10, ticks = [1].concat(Array.from({length: Math.floor(ymax/step)}, (_,i)=>(i+1)*step));
+    const X = w => L + (w1===w0 ? (W-L-R)/2 : (w-w0)/(w1-w0)*(W-L-R)), Y = r => T + (r-ymin)/(ymax-ymin)*(H-T-B);
+    const step = [1, 2, 5, 10, 20, 25, 50].find(s=>(ymax-ymin)/s <= 6) || 50;
+    const ticks = [ymin].concat(Array.from({length: Math.floor(ymax/step)}, (_,i)=>(i+1)*step).filter(r=>r>ymin && r<=ymax && r-ymin > step/2));
     const grid = ticks.map(r=>`<line class="ax" x1="${L}" x2="${W-R}" y1="${Y(r)}" y2="${Y(r)}"/><text x="${L-6}" y="${Y(r)+4}" text-anchor="end">#${r}</text>`).join('')
       + weeks.map(w=>`<text x="${X(w)}" y="${H-8}" text-anchor="middle">${w}</text>`).join('');
     const path = pts => { let d='', prev=null; pts.forEach(p=>{ d += (prev!=null && weeks.indexOf(p.w)===weeks.indexOf(prev)+1 ? 'L' : 'M') + X(p.w).toFixed(1) + ' ' + Y(p.r).toFixed(1); prev=p.w; }); return d; };
