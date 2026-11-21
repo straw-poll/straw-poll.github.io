@@ -219,6 +219,7 @@ h2 small{font:400 13px var(--body);color:var(--muted);margin-left:10px}
 .dlb.up{top:auto;bottom:100%;margin:0 0 3px}
 .cr{font:700 15px var(--cond);color:var(--gold);text-align:right;padding-right:6px}
 .tblw{overflow-x:auto}
+table.pin1 tr>*:first-child{position:sticky;left:0;z-index:1;background:var(--panel);box-shadow:inset -1px 0 var(--line)}   /* Admin wide tables: the Week column stays put */
 /* Research Stats: rank, movement and Team pinned on the left (solid background so scrolled cells pass underneath) */
 #rTable{--pa:2.5rem;--pm:2rem;--pt:11rem}
 #rTable .pin{position:sticky;z-index:1;background:var(--panel);box-sizing:border-box}
@@ -938,10 +939,10 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
         <div class="tblw"><table id="lCmp"></table></div></section>
       <section class="sec"><div class="sh"><h2>Straw Poll vs AP</h2></div>
         <p class="note" style="margin:0 0 10px">Each week's published Straw Poll against that week's AP poll, in the Scorecard's games (FBS games with a Straw Poll or AP Top 25 team): the higher-ranked team is the pick (not in a poll's Top 25 = #26; no pick when neither team is in it). <b>Split calls</b> = games where the two polls picked different winners, and who was right. <b>Ballot Score</b> = each poll scored like a ballot (weeks 1-14; the AP can't earn the upset bonus).</p>
-        <div class="tblw"><table id="pCmp"></table></div></section>
+        <div class="tblw"><table class="pin1" id="pCmp"></table></div></section>
       <section class="sec"><div class="sh"><h2>Model comparison</h2></div>
         <p class="note" style="margin:0 0 10px">Winners picked in the Scorecard's games (FBS games with a Straw Poll or AP Top 25 team). Wolp+ = its pre-kickoff spread; Straw+ = that spread shifted by the week's Straw Poll (30% of the way toward the crowd's order; weeks with a published poll, from week 6); ESPN FPI and SP+ = their ratings saved before the week plus home field; Line = the favorite. SP+ is saved from week 7 on. Average miss = how far each one's predicted margin was from the final margin, on average (lower is better), on the games where all five have a prediction. Hover a cell for the count.</p>
-        <div class="tblw"><table id="mCmp"></table></div></section>
+        <div class="tblw"><table class="pin1" id="mCmp"></table></div></section>
   </section>
 </main>
 
