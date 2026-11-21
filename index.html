@@ -310,6 +310,13 @@ td.c-mv{padding-left:0;width:30px}
 .lgform{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px} .lgform input{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:6px 10px;min-width:14rem}
 #lgStand tr.me td{color:var(--gold)} .code{font-family:ui-monospace,Menlo,monospace;letter-spacing:.04em}
 .btn.danger{color:var(--loss)}
+.vbar{gap:6px;margin:8px 0 10px;align-items:center}
+.calls{display:grid;gap:0}
+.call{display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:8px;align-items:center;padding:7px 0 7px 6px;border-bottom:1px solid var(--line2);box-shadow:inset 3px 0 var(--tc,transparent)}
+.call .mk{font:700 15px var(--cond);text-align:center;color:var(--muted)} .call.ok .mk{color:var(--win)} .call.no .mk{color:var(--loss)} .call.pre .mk,.call.live .mk{color:var(--gold)}
+.call .who{font:600 14px var(--cond);min-width:0} .call .who small{display:block;font:400 12px var(--sans,inherit);color:var(--muted)}
+.call .res{font:600 13px var(--cond);text-align:right;white-space:nowrap} .call .res small{display:block;font-weight:400;color:var(--muted)}
+.callsum{font-size:13px;color:var(--muted);margin:0 0 6px}
 .wkgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px 18px}
 .wkcol h3{font:700 17px var(--cond);color:var(--gold);margin:0 0 6px;border-bottom:1px solid var(--line);padding-bottom:4px}
 .wkrow{display:grid;grid-template-columns:24px 30px 20px minmax(0,1fr);gap:6px;align-items:center;width:100%;background:none;border:0;border-bottom:1px solid var(--line2);box-shadow:inset 3px 0 var(--tc,transparent);padding:4px 0 4px 6px;text-align:left;color:var(--ink)}
@@ -844,8 +851,10 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
 <dialog id="voterDlg" aria-labelledby="vTitle">
   <h3 id="vTitle" tabindex="-1"></h3>
   <div class="sub" id="vSub"></div>
-  <label class="xsel" id="vWkLab"><span class="lab">Week</span><select id="vWk" class="fsel xpick" aria-label="Ballot week"></select></label>
+  <div class="row vbar"><label class="xsel" id="vWkLab" style="margin-left:0"><span class="lab">Week</span><select id="vWk" class="fsel xpick" aria-label="Ballot week"></select></label>
+    <span class="spacer"></span><button class="pill" data-vview="calls" aria-pressed="true">Calls</button><button class="pill" data-vview="ballot" aria-pressed="false">Ballot</button></div>
   <div class="wkgrid" id="vBal"></div>
+  <div id="vCalls"></div>
   <form method="dialog"><div class="dlgbtns"><button class="btn">Close</button></div></form>
 </dialog>
 <dialog id="gameDlg" aria-labelledby="gTitle">
@@ -2121,8 +2130,48 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     const t = (S.lg.totals||[]).find(x=>x.user_id===V.id && x.week===V.wk);
     $('vSub').textContent = `Week ${V.wk}` + (t ? ` · ${ptsTxt(t.points)} Ballot Score points (${t.picks_right}-${t.picks_wrong})` : '');
     const m={}; V.byWeek[V.wk].forEach((a,i)=>m[a]=i+1);
-    $('vBal').innerHTML = `<div class="wkcol">${teamList(m, null)}</div>`;
+    const view = V.view || 'calls';
+    document.querySelectorAll('[data-vview]').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.vview===view)));
+    $('vBal').hidden = view!=='ballot'; $('vCalls').hidden = view!=='calls';
+    $('vBal').innerHTML = view==='ballot' ? `<div class="wkcol">${teamList(m, null)}</div>` : '';
+    $('vCalls').innerHTML = view==='calls' ? callsHtml(m, V.wk) : '';
   }
+  // #43: a ballot's calls for one week, Ballot Score rules (pollPickem / pickem.py): every game one of its 25 teams
+  // plays is a call for the team ranked higher (not on the ballot = #26). Before kickoff = the team to root for;
+  // live = current score; final = right/wrong with that game's points.
+  function ballotCalls(ranks, w){
+    const p = pickWeek(w); if(!p) return [];
+    const R = a => ranks[a]!=null && ranks[a]<=TOP ? ranks[a] : null, ap = p.ap || {}, A = a => ap[a] || AP_NR;
+    return p.games.filter(g=>R(g.home)!=null || R(g.away)!=null).map(g=>{
+      const rh=R(g.home), ra=R(g.away), homePick = (rh||26) < (ra||26), pick = homePick ? g.home : g.away, opp = homePick ? g.away : g.home;
+      const sc = gameScore(g), c = {g, pick, opp, pr: homePick ? rh : ra, or: homePick ? ra : rh, sc};
+      if(sc.state==='final' && sc.hp!==sc.ap){
+        c.right = homePick === (sc.hp>sc.ap);
+        const r = ap[opp];
+        c.pts = c.right ? (r!=null && r<=10 ? 3 : r!=null ? 2 : 1) + (A(pick)>A(opp) ? 1 : 0) : -Math.ceil((Math.abs((rh||26)-(ra||26))+1)/10);
+      }
+      return c;
+    }).sort((a,b)=>String(a.g.start).localeCompare(String(b.g.start)));
+  }
+  function callsHtml(ranks, w){
+    if(w>14) return '<p class="lead">Ballot Score covers the regular season only.</p>';
+    const C = ballotCalls(ranks, w);
+    if(!C.length) return '<p class="lead">No games for this week yet.</p>';
+    const done = C.filter(c=>c.right!==undefined), right = done.filter(c=>c.right).length, left = C.length - done.length;
+    const pts = v => (v>0?'+':v<0?'−':'')+Math.abs(v);
+    const rk = r => r!=null ? `#${r}` : 'NR';
+    const row = c => {
+      const g=c.g, sc=c.sc, cls = c.right===true ? 'ok' : c.right===false ? 'no' : sc.state==='live' ? 'live' : 'pre';
+      const mine = c.pick===g.home ? sc.hp : sc.ap, theirs = c.pick===g.home ? sc.ap : sc.hp;
+      const res = c.right!==undefined ? `${c.right?'W':'L'} ${mine}-${theirs}<small>${pts(c.pts)}</small>`
+        : sc.state==='live' ? `${mine}-${theirs}<small>Live</small>` : sc.state==='final' ? `T ${mine}-${theirs}` : `<small>${esc(kick(g.start))}</small>`;
+      return `<div class="call ${cls}" style="--tc:${tc(c.pick)}"><span class="mk" aria-hidden="true">${cls==='ok'?'✓':cls==='no'?'✗':'•'}</span>`
+        + `<div class="who">${esc(nm(c.pick))} <span class="dim">over</span> ${esc(nm(c.opp))}<small>${rk(c.pr)} vs ${rk(c.or)} on this ballot${c.right===undefined && sc.state!=='final' ? ` · rooting for ${esc(nm(c.pick))}` : ''}</small></div>`
+        + `<div class="res">${res}</div></div>`;
+    };
+    return `<p class="callsum">${done.length ? `${right}-${done.length-right} so far` : 'No games final yet'}${left ? ` · ${left} still to play` : ''}</p><div class="calls">${C.map(row).join('')}</div>`;
+  }
+  document.querySelectorAll('[data-vview]').forEach(b=>b.addEventListener('click', ()=>{ if(S.vDlg){ S.vDlg.view=b.dataset.vview; renderVoter(); } }));
   $('vWk').addEventListener('change', e=>{ S.vDlg.wk=Number(e.target.value); renderVoter(); });
   $('lgStand').addEventListener('click', e=>{ const b=e.target.closest('[data-voter]'); if(b) openVoter(b.dataset.voter); });
 
