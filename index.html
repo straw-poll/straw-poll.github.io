@@ -1214,6 +1214,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
       <dt>ESPN FPI</dt><dd>${t.fpiRank?'#'+t.fpiRank+withPts(t.fpi):'–'}</dd>
       <dt>SP+</dt><dd>${sp.rk[a]?'#'+sp.rk[a]+withPts(sp.r[a]):'–'}</dd>
       <dt>Resume Strength</dt><dd>${t.resumeRank?'#'+t.resumeRank:'–'}</dd>
+      <dt>${S.tab==='work' ? 'Your ballot' : 'Straw Poll'}</dt><dd>${(()=>{ const r=(S.tab==='work' ? draftMap() : pubMap())[a]; return r && r<=TOP ? '#'+r : 'Not ranked'; })()}</dd>
       <dt>AP</dt><dd>${apRank(a)?'#'+apRank(a):'Not ranked'}</dd>
       ${cfpWeeks().length?`<dt>CFP</dt><dd>${cfpRank(a)?'#'+cfpRank(a):'Not ranked'}</dd>`:''}
       ${SHOW_QUADS?`<dt>Quadrants</dt><dd>${qStr(a)}</dd>`:''}
@@ -2646,7 +2647,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     const t=S.teams[a]; if(!t) return;
     const ranks = S.tab==='work' ? draftMap() : pubMap(), apR=apRank(a);
     $('dName').innerHTML = logo(a) + esc(t.name);
-    $('dSub').textContent = `${t.conf}${t.p4?', Power 4':''}${ranks[a] && ranks[a]<=TOP?` · Straw Poll #${ranks[a]}`:' · Straw Poll NR'}${apR?` · AP #${apR}`:''}${cfpRank(a)?` · CFP #${cfpRank(a)}`:''}`;
+    $('dSub').textContent = `${t.conf}${t.p4?', Power 4':''}`;   // ranks live in the list below (owner, 2026-11-21)
     $('dFacts').innerHTML = `<dt>2026 record</dt><dd>${rec(t.w,t.l)}</dd><dt>vs P4</dt><dd>${rec(t.p4w,t.p4l)}</dd><dt>2025 record</dt><dd>${rec(t.lyW,t.lyL)}</dd><dt>2025 final AP</dt><dd>${t.lyAp?'#'+t.lyAp:'Not ranked'}</dd>`;
     $('dAdv').innerHTML = advTable(t) + modelFacts(a);
     const games=gamesOf(a), bwl=bestWorst(a), bw=bwl.bw&&bwl.bw.g, wl=bwl.wl&&bwl.wl.g;
@@ -2776,7 +2777,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     const ranks = S.tab==='work' ? draftMap() : pubMap();
     $('cmpGrid').innerHTML = S.cmp.map(a=>{
       const t=S.teams[a]||{name:a,conf:''}, r=vsTop(a,ranks), games=gamesOf(a);
-      return `<div class="cmpcol"><h4>${logo(a)}${esc(t.name)}</h4><div class="sub">${esc(t.conf||'')} · ${ranks[a] && ranks[a]<=TOP?'Straw Poll #'+ranks[a]:'Straw Poll NR'}</div>
+      return `<div class="cmpcol"><h4>${logo(a)}${esc(t.name)}</h4><div class="sub">${esc(t.conf||'')}</div>
         <dl class="facts"><dt>Record</dt><dd>${rec(t.w,t.l)}</dd><dt>vs P4</dt><dd>${rec(t.p4w,t.p4l)}</dd><dt>vs Straw 25</dt><dd>${r.w}-${r.l}</dd></dl>
         ${advTable(t)}${modelFacts(a)}
         <ul class="glog">${games.map(g=>`<li class="${isClose(g)?'close':''}"><span class="res ${g.result}">${g.result}</span><span class="sc">${gScore(g)}</span><span class="op">${gAt(g)} ${esc(gOppName(g.opp,ranks))}</span><span class="dt">${gOppRec(g.opp)}</span></li>`).join('')}</ul>
