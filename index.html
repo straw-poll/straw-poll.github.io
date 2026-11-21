@@ -1039,6 +1039,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     {k:'p4',   h:'vs P4',  menu:'record vs Power 4', g:'This season', bw:'2.9rem', pw:'2.7rem'},
     {k:'t25',  h:'vs Straw 25', menu:'record vs the Straw Poll Top 25', g:'This season', bw:'3.4rem', pw:'3.2rem'},
     {k:'ap25', h:'vs AP 25', menu:'record vs the AP Top 25', g:'This season', bw:'3.2rem', pw:'3rem', off:true},
+    {k:'cfp25', h:'vs CFP 25', menu:'record vs the latest CFP Top 25', g:'This season', bw:'3.4rem', pw:'3.2rem', off:true},
     {k:'proj', h:'Proj. record', menu:'projected final record', g:'This season', bw:'4.6rem', pw:'4.4rem', off:true},
     {k:'frank', h:'Wolp+', menu:'power rating rank', g:'Power rating', bw:'3.4rem', pw:'3.2rem', fmt:'r', lo:true, strong:true, val:a=>mdl().crank[a]},
     {k:'fpiRank', h:'FPI', menu:'ESPN Football Power Index rank', g:'Power rating', bw:'2.7rem', pw:'2.6rem', fmt:'r', lo:true},
@@ -1257,6 +1258,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
   const cfpWeeks = () => Object.keys((S.cfp && S.cfp.weeks) || {}).map(Number).sort((a,b)=>a-b);
   const cfpWeek = w => (S.cfp && S.cfp.weeks && S.cfp.weeks[w]) || null;
   function cfpRank(a){ const ws=cfpWeeks(); return ws.length ? cfpWeek(ws[ws.length-1])[a] : undefined; }
+  const cfpNowMap = () => { const ws=cfpWeeks(); return ws.length ? cfpWeek(ws[ws.length-1]) : {}; };   // latest CFP ranking, {team: rank}
   // one line at the top of Home that changes with who is looking and where the week stands
   function renderBanner(){
     const el=$('hBanner'), pr=S.me && S.me.profile, link = (go, t) => ` <button class="more" data-go="${go}">${t} →</button>`;
@@ -1476,7 +1478,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     const cols = shown('r'), key = c => c==='wolp' ? (a=>-(ranks[a]||99)*1000-(cr[a]||999)) : c==='name' ? (a=>nm(a)) : (()=>{
       const C=COLS.find(x=>x.k===c), t=a=>S.teams[a];
       if(c==='rec') return a=>rv(t(a).w,t(a).l); if(c==='p4') return a=>rv(t(a).p4w,t(a).p4l); if(c==='ly') return a=>rv(t(a).lyW,t(a).lyL);
-      if(c==='lyAp') return a=>-(t(a).lyAp||99); if(c==='proj') return a=>t(a).proj?t(a).proj.w:-1; if(c==='q1'||c==='q2') return a=>{ const q=quads(a)[c==='q1'?1:2]; return q[0]-q[1]/100; }; if(c==='ap25') return a=>{ const r=vsTop(a,(S.ap&&S.ap.ranks)||{}); return r.w-r.l/100; }; if(c==='t25') return a=>{ const r=vsTop(a,ranks); return r.w-r.l/100; };
+      if(c==='lyAp') return a=>-(t(a).lyAp||99); if(c==='proj') return a=>t(a).proj?t(a).proj.w:-1; if(c==='q1'||c==='q2') return a=>{ const q=quads(a)[c==='q1'?1:2]; return q[0]-q[1]/100; }; if(c==='ap25') return a=>{ const r=vsTop(a,(S.ap&&S.ap.ranks)||{}); return r.w-r.l/100; }; if(c==='t25') return a=>{ const r=vsTop(a,ranks); return r.w-r.l/100; }; if(c==='cfp25') return a=>{ const r=vsTop(a,cfpNowMap()); return r.w-r.l/100; };
       return a=>{ const v=colVal(C,a,t(a)); return typeof v!=='number' ? -1e9 : C.lo ? -v : v; };
     })();
     if(R.col!=='ms' && R.col!=='wolp' && R.col!=='name' && !cols.some(c=>c.k===R.col)) { R.col='ms'; R.rev=false; }
@@ -1487,6 +1489,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
       switch(c.k){ case 'rec': v=rec(t.w,t.l); break; case 'p4': v=rec(t.p4w,t.p4l); if(t.p4w==null) cls='dim'; break;
         case 't25': { const r=vsTop(a,ranks); v=r.w+'-'+r.l; if(!r.w&&!r.l) cls='dim'; break; }
         case 'ap25': { const r=vsTop(a,(S.ap&&S.ap.ranks)||{}); v=r.w+'-'+r.l; if(!r.w&&!r.l) cls='dim'; break; }
+        case 'cfp25': { const r=vsTop(a,cfpNowMap()); v=r.w+'-'+r.l; if(!r.w&&!r.l) cls='dim'; break; }
         case 'last': ({v, cls}=lastCell(a)); break;
         case 'ly': v=rec(t.lyW,t.lyL); cls='dim'; break; case 'lyAp': v=t.lyAp?'#'+t.lyAp:'NR'; cls='dim'; break;
         case 'proj': v=projTxt(t); break;
@@ -1944,7 +1947,8 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     switch(c.k){
       case 'rec': v=rec(t.w,t.l); break;
       case 'p4': v=rec(t.p4w,t.p4l); if(t.p4w==null) cls=' dim'; break;
-      case 't25': { const r=vsTop(a,onB); v=r.w+'-'+r.l; if(!r.w&&!r.l) cls=' dim'; break; }
+      case 't25': { const r=vsTop(a,pubMap()); v=r.w+'-'+r.l; if(!r.w&&!r.l) cls=' dim'; break; }   // the Straw Poll, same as Research (it used to count your own ballot)
+      case 'cfp25': { const r=vsTop(a,cfpNowMap()); v=r.w+'-'+r.l; if(!r.w&&!r.l) cls=' dim'; break; }
       case 'ap25': { const r=vsTop(a,(S.ap&&S.ap.ranks)||{}); v=r.w+'-'+r.l; if(!r.w&&!r.l) cls=' dim'; break; }
       case 'ly': v=rec(t.lyW,t.lyL); cls=' dim'; break;
       case 'lyAp': v = t.lyAp ? '#'+t.lyAp : 'NR'; cls=' dim'; break;
@@ -1997,12 +2001,14 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     let list = Object.entries(S.teams).filter(([a,t])=>{
       if(S.f==='off' && onB[a]) return false; if(S.pc && dialOf(t.conf)!==S.pc) return false;
       if(q && !(t.name.toLowerCase().includes(q) || (t.conf||'').toLowerCase().includes(q))) return false; return true; });
-    const t25 = {}; list.forEach(([a])=>t25[a]=vsTop(a,onB));
+    const vsMap = {t25:pubMap(), ap25:(S.ap&&S.ap.ranks)||{}, cfp25:cfpNowMap()}, vs = {};   // vs Straw / AP / CFP Top 25 records, for sorting
+    if(vsMap[S.sort]) list.forEach(([a])=>vs[a]=vsTop(a,vsMap[S.sort]));
+    const byVs = (x,y)=> (vs[y[0]].w-vs[x[0]].w) || (vs[x[0]].l-vs[y[0]].l) || x[1].name.localeCompare(y[1].name);
     const cmp = { rec:(x,y)=> pct(y[1])-pct(x[1]) || (y[1].w-x[1].w) || ((y[1].p4?1:0)-(x[1].p4?1:0)) || x[1].name.localeCompare(y[1].name),
       p4:(x,y)=> rv(y[1].p4w,y[1].p4l)-rv(x[1].p4w,x[1].p4l) || x[1].name.localeCompare(y[1].name),
       ly:(x,y)=> rv(y[1].lyW,y[1].lyL)-rv(x[1].lyW,x[1].lyL) || x[1].name.localeCompare(y[1].name),
       lyAp:(x,y)=> ((x[1].lyAp||99)-(y[1].lyAp||99)) || x[1].name.localeCompare(y[1].name),
-      t25:(x,y)=> (t25[y[0]].w-t25[x[0]].w) || (t25[x[0]].l-t25[y[0]].l) || x[1].name.localeCompare(y[1].name),
+      t25:byVs, ap25:byVs, cfp25:byVs,
       proj:(x,y)=> ((y[1].proj?y[1].proj.w:-1)-(x[1].proj?x[1].proj.w:-1)) || x[1].name.localeCompare(y[1].name),
       q1:(x,y)=> { const a=quads(x[0])[1], b=quads(y[0])[1]; return (b[0]-a[0]) || (a[1]-b[1]) || x[1].name.localeCompare(y[1].name); },
       q2:(x,y)=> { const a=quads(x[0])[2], b=quads(y[0])[2]; return (b[0]-a[0]) || (a[1]-b[1]) || x[1].name.localeCompare(y[1].name); },
