@@ -121,6 +121,7 @@ h2 small{font:400 13px var(--body);color:var(--muted);margin-left:10px}
 .trchip i{display:inline-block;width:14px;height:3px;border-radius:2px} .trchip{box-shadow:none !important}
 .trchip button{background:none;border:0;color:var(--muted);cursor:pointer;font-size:15px;line-height:1;padding:0 2px}
 .rhist .ax{stroke:var(--line2);stroke-width:1} .rhist text{fill:var(--muted);font-size:11px;font-family:inherit}
+.facts .rtg{color:var(--muted);font-weight:500}
 .rhist .zero{stroke:var(--muted);stroke-dasharray:4 4;opacity:.6}
 .rhtop{display:flex;justify-content:flex-end;margin:0 0 4px} .rhmode{display:inline-flex;gap:4px} .rhmode .pill{padding:3px 10px;font-size:12px}
 .rhist .ln{fill:none;stroke-width:2.2;stroke-linejoin:round;stroke-linecap:round}
@@ -1040,7 +1041,10 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     {k:'ap25', h:'vs AP 25', menu:'record vs the AP Top 25', g:'This season', bw:'3.2rem', pw:'3rem', off:true},
     {k:'proj', h:'Proj. record', menu:'projected final record', g:'This season', bw:'4.6rem', pw:'4.4rem', off:true},
     {k:'frank', h:'Wolp+', menu:'power rating rank', g:'Power rating', bw:'3.4rem', pw:'3.2rem', fmt:'r', lo:true, strong:true, val:a=>mdl().crank[a]},
+    {k:'wolpRtg', h:'Wolp+ pts', menu:'Wolp+ rating: points better than an average FBS team', g:'Power rating', bw:'3.6rem', pw:'3.4rem', fmt:'n1', val:a=>S.teams[a].powerRating},
     {k:'fpiRank', h:'FPI', menu:'ESPN Football Power Index rank', g:'Power rating', bw:'2.7rem', pw:'2.6rem', fmt:'r', lo:true},
+    {k:'fpiRtg', h:'FPI pts', menu:'ESPN FPI rating (points better than an average team)', g:'Power rating', bw:'3.4rem', pw:'3.2rem', fmt:'n1', val:a=>S.teams[a].fpi},
+    {k:'spRtg', h:'SP+', menu:'SP+ rating (latest)', g:'Power rating', bw:'3rem', pw:'2.8rem', fmt:'n1', val:a=>spNow().r[a]},
     {k:'splus', h:'Straw+', menu:'Wolp+ nudged toward the Straw Poll', g:'Power rating', bw:'3.4rem', pw:'3.2rem', fmt:'r', lo:true, val:a=>(strawPlusRank()||{})[a]},
     {k:'resumeRank', h:'RS', menu:'Resume Strength rank', g:'Resume', bw:'3.6rem', pw:'2.9rem', fmt:'r', lo:true},
     {k:'q1', h:'Q1', menu:'Quadrant 1 record (best opponents)', g:'Resume', bw:'2.7rem', pw:'2.6rem', off:true},
@@ -1202,12 +1206,16 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     }
     S.teams=T; S._mdl=null; lastGame.top=null;
   }
-  const modelFacts = a => { const t=S.teams[a]||{}, c=mdl().crank[a];
-    return `<dl class="facts"><dt>Wolp+</dt><dd>${t.powerRank?'#'+t.powerRank:'–'}${adjOf(a)&&c?` <span style="color:var(--muted);font-weight:500">(with your Conference Modifier: #${c})</span>`:''}</dd>
+  // the latest saved SP+ ratings and ranks (SP+ is fetched every update and saved per week)
+  const spNow = () => { const p=(S.picks||[]).filter(x=>x.sp).sort((a,b)=>b.week-a.week)[0]; return p ? {r:p.sp, rk:ranksFromRatings(p.sp)} : {r:{}, rk:{}}; };
+  const withPts = v => typeof v==='number' ? ` <span class="rtg">(${fmtRating(v)})</span>` : '';   // a rating beside its rank, e.g. "#6 (+21.8)"
+  const modelFacts = a => { const t=S.teams[a]||{}, c=mdl().crank[a], sp=spNow();
+    return `<dl class="facts"><dt>Wolp+</dt><dd>${t.powerRank?'#'+t.powerRank:'–'}${t.powerRank?withPts(t.powerRating):''}${adjOf(a)&&c?` <span style="color:var(--muted);font-weight:500">(with your Conference Modifier: #${c})</span>`:''}</dd>
       <dt>Resume Strength</dt><dd>${t.resumeRank?'#'+t.resumeRank:'–'}</dd>
       <dt>AP</dt><dd>${apRank(a)?'#'+apRank(a):'Not ranked'}</dd>
       ${cfpWeeks().length?`<dt>CFP</dt><dd>${cfpRank(a)?'#'+cfpRank(a):'Not ranked'}</dd>`:''}
-      <dt>ESPN FPI</dt><dd>${t.fpiRank?'#'+t.fpiRank:'–'}</dd>
+      <dt>ESPN FPI</dt><dd>${t.fpiRank?'#'+t.fpiRank+withPts(t.fpi):'–'}</dd>
+      <dt>SP+</dt><dd>${sp.rk[a]?'#'+sp.rk[a]+withPts(sp.r[a]):'–'}</dd>
       ${SHOW_QUADS?`<dt>Quadrants</dt><dd>${qStr(a)}</dd>`:''}
       ${t.proj?`<dt>Projected</dt><dd>${projTxt(t)}</dd>`:''}
 </dl>`; };
