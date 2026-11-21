@@ -109,6 +109,8 @@ h2 small{font:400 13px var(--body);color:var(--muted);margin-left:10px}
 .badge{font:600 11px var(--body);letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:999px}
 .badge.f{background:#3a1d1f;color:#f29a8d} .badge.r{background:#173325;color:#8fdcab}
 .hsec{margin-top:28px}
+.acctchk{display:grid;grid-template-columns:auto 1fr;gap:2px 8px;align-items:center;margin:12px 0 4px;font-size:14px;cursor:pointer}
+.acctchk small{grid-column:2;color:var(--muted);font-size:12px}
 .rhist svg{width:100%;height:auto;display:block}
 .trbar{gap:8px;flex-wrap:wrap;align-items:center;margin:0 0 10px} #trAdd{max-width:200px}
 .trchips{display:flex;flex-wrap:wrap;gap:6px} .trchip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:3px 6px 3px 10px;font-size:13px;box-shadow:inset 4px 0 var(--tc,transparent)}
@@ -919,6 +921,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     <label class="acctf">Username<input id="acctName" maxlength="24" autocomplete="nickname" placeholder="2–24 letters, numbers, _ . -"><small class="lockednote" id="acctNameNote" hidden>Usernames can’t be changed. Ask the site owner if you need a new one.</small></label>
     <label class="acctf" id="acctNoteRow">Note for the site owner (optional)<input id="acctNote" maxlength="120" placeholder="e.g. Mike's roommate"></label>
     <div class="dlgbtns"><button class="btn primary" id="acctSaveMe">Save</button></div>
+    <label class="acctchk" id="acctRemRow" hidden><input type="checkbox" id="acctRem"> Email me ballot reminders<small>Sunday when voting opens, and Monday if you haven't voted yet.</small></label>
     <div id="acctAdminNote"></div>
     <div class="acctdel" id="acctDelRow"><button class="linkbtn danger" id="acctDel">Delete my account</button><small>Removes your account, ballots, league memberships and scores for good.</small></div>
   </div>
@@ -927,7 +930,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
 </dialog>
 <dialog id="privDlg" aria-labelledby="privTitle">
   <h3 id="privTitle">Privacy Policy &amp; Terms of Use</h3>
-  <div class="sub">Last updated October 2, 2026</div>
+  <div class="sub">Last updated November 21, 2026</div>
   <div class="priv">
     <p>Straw Poll ("the Site") is a free, non-commercial college football rankings website operated by an individual site administrator. This page explains what information the Site collects, how it is used, and the terms that apply when you use the Site.</p>
 
@@ -939,14 +942,14 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
       <li><b>Content you provide.</b> Your username, an optional note to the administrator, your weekly ballots, your league memberships, and the scores calculated from your ballots.</li>
       <li><b>Technical data.</b> Our service providers automatically record standard technical information, such as IP addresses and request times, for security and reliability.</li>
     </ul>
-    <p><b>How we use information.</b> To sign you in, review requests to join, run the weekly Straw Poll and league standings, and keep the Site secure. We do not sell, rent, or share personal information for marketing, and the Site does not use advertising or third-party tracking.</p>
+    <p><b>How we use information.</b> To sign you in, review requests to join, run the weekly Straw Poll and league standings, send ballot reminder emails (on for approved voters by default; turn them off in your account window or with the link in any reminder), and keep the Site secure. We do not sell, rent, or share personal information for marketing, and the Site does not use advertising or third-party tracking.</p>
     <p><b>Who can see your information.</b></p>
     <ul>
       <li>Your email address and note are visible only to you and the administrator.</li>
       <li>Your username is visible to other approved members, and to anyone viewing the Site next to your published ballots (see below). Your scores are visible to you and to members of your leagues.</li>
       <li>Your ballot is private until the weekly deadline. After the deadline, the administrator and members of your leagues (other than the All voters league) can see it. Once that week's Straw Poll is published, your ballot is public: anyone viewing the Site can see it with your username.</li>
     </ul>
-    <p><b>Service providers and outside services.</b> The Site is hosted on GitHub Pages. Accounts and ballots are stored with Supabase. Sign-in is provided by Google. Football data and team logos come from CollegeFootballData.com. When you open the Site, your browser also loads fonts from Google Fonts and code libraries from cdnjs and jsDelivr, and, while games are in progress, live scores from ESPN. Like any website, each of these services receives your IP address and basic browser information when your browser contacts it. Each provider handles data under its own privacy policy.</p>
+    <p><b>Service providers and outside services.</b> The Site is hosted on GitHub Pages. Accounts and ballots are stored with Supabase. Sign-in is provided by Google, and reminder emails are sent through Gmail. Football data and team logos come from CollegeFootballData.com. When you open the Site, your browser also loads fonts from Google Fonts and code libraries from cdnjs and jsDelivr, and, while games are in progress, live scores from ESPN. Like any website, each of these services receives your IP address and basic browser information when your browser contacts it. Each provider handles data under its own privacy policy.</p>
     <p><b>Retention and deletion.</b> Your information is kept while your account is active. You may delete your account at any time with <b>Delete my account</b> in your account window, which permanently removes your account, ballots, league memberships, and scores. Previously published Straw Polls, which contain only aggregate results, are not affected. Service providers may keep technical logs for a limited period.</p>
     <p><b>Children.</b> The Site is not intended for children under 13, and we do not knowingly collect information from them. If you believe a child under 13 has created an account, contact the administrator and it will be deleted.</p>
 
@@ -1007,7 +1010,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
   // Straw Poll rank stays visible in the small line under game-card names. The Vote tab keeps your own ballot's ranks.
   const headLab = () => cfpWeeks().length ? 'CFP' : 'AP';
   const headRank = a => cfpWeeks().length ? cfpRank(a) : apRank(a);
-  function toast(msg){ const t=$('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove('show'),2400); }
+  function toast(msg, ms){ const t=$('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove('show'), ms||2400); }
 
   // ---------- columns ----------
   // g = group heading in the Stats table; fmt n = 2 decimals, p = percent, r = rank; lo = lower is better; off = hidden by default
@@ -2732,6 +2735,8 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     const [p, r] = await Promise.all([sb.from('profiles').select('*').eq('id',uid).maybeSingle(), sb.from('join_requests').select('*').eq('user_id',uid).maybeSingle()]);
     // a failed load must not look like "waiting for approval": keep the error and show it instead
     S.me = {user:session.user, profile:p.data||null, request:r.data||null, err:p.error||null};
+    const rm = await sb.from('email_prefs').select('reminders').eq('user_id', uid).maybeSingle();   // #39 reminder emails
+    S.me.remind = rm.error ? null : rm.data ? rm.data.reminders : true;
     if(S.me.profile && S.me.profile.is_owner) await loadReqs(); else { S.reqs=[]; S.lateReqs=[]; }
     renderAcct(); setAccess();
     if(S.tab==='admin') renderAdmin();
@@ -2794,6 +2799,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     $('acctNoteRow').hidden = st!=='pending';
     $('acctSaveMe').parentElement.hidden = locked && st!=='pending';  // nothing left to save
     $('acctDelRow').hidden = !!(pr && pr.is_owner);
+    $('acctRemRow').hidden = st!=='approved' || me.remind==null; $('acctRem').checked = !!me.remind;
     $('acctAdminNote').innerHTML = !(pr && pr.is_owner) ? '' : n
       ? `<p class="dnote">${n} waiting for you on the Admin tab. <button class="linkbtn" id="acctToAdmin">Open Admin</button></p>`
       : '<p class="dnote">Approvals, late ballots and Open voting are on the Admin tab.</p>';
@@ -3038,6 +3044,20 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     if(error){ acctMsg('Couldn’t delete the account. Try again, or ask the site owner.'); return; }
     await sb.auth.signOut(); acctMsg('Your account and its data were deleted.'); loadMe();
   });
+  // reminder emails on/off: the voter's own email_prefs row (the server makes its unsubscribe code)
+  $('acctRem').addEventListener('change', async e=>{
+    if(!S.me) return; const on=e.target.checked;
+    const { error } = await sb.from('email_prefs').upsert({user_id:S.me.user.id, reminders:on}, {onConflict:'user_id'});
+    if(error){ e.target.checked=!on; acctMsg('Couldn’t save your reminder setting. Try again.'); return; }
+    S.me.remind=on; acctMsg(on ? 'Reminder emails are on.' : 'Reminder emails are off.');
+  });
+  // one-click unsubscribe from a reminder email: ?unsub=<code> (works without signing in)
+  (async ()=>{
+    const code = new URLSearchParams(location.search).get('unsub'); if(!code || !sb) return;
+    history.replaceState(null, '', location.pathname + location.hash);
+    const { data, error } = await sb.rpc('unsubscribe', {code});
+    toast(error ? 'Couldn’t unsubscribe from that link. Turn reminders off in your account window instead.' : data ? 'You won’t get reminder emails anymore. Turn them back on anytime in your account window.' : 'That unsubscribe link didn’t match an account.', 8000);
+  })();
   $('acctSignOut').addEventListener('click', async ()=>{ await sb.auth.signOut(); acctMsg('Signed out.'); loadMe(); });
   if(sb){
     sb.auth.onAuthStateChange((ev)=>{
