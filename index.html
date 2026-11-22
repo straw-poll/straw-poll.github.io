@@ -1116,7 +1116,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
   const COLS_ALL = [
     {k:'apNow', h:'AP', menu:"this week's AP Top 25 rank", g:'Rankings', bw:'2.7rem', pw:'2.6rem', fmt:'r', lo:true, val:a=>apRank(a)},
     {k:'cfpNow', h:'CFP', menu:"the latest College Football Playoff ranking", g:'Rankings', bw:'2.7rem', pw:'2.6rem', fmt:'r', lo:true, val:a=>cfpRank(a)},
-    {k:'last', h:'Last game', menu:"last game's result, or Bye", g:'This season', bw:'9rem', pw:'9rem', off:true, val:a=>{ const g=lastGame(a); return g && g!=='bye' ? (g.result==='W'?1:-1)*Math.abs(g.pf-g.pa) : null; }},   // sorts by margin
+    {k:'last', h:'Last game', menu:"last game's result, or Bye", g:'This season', bw:'9rem', pw:'9rem', off:true, val:a=>{ const g=lastGame(a); return g && g!=='bye' && !g.pending ? (g.result==='W'?1:-1)*Math.abs(g.pf-g.pa) : null; }},   // sorts by margin
     {k:'rec',  h:'Record', menu:'win-loss record this season', g:'This season', bw:'2.9rem', pw:'2.7rem'},
     {k:'p4',   h:'vs P4',  menu:'record vs Power 4', g:'This season', bw:'2.9rem', pw:'2.7rem'},
     {k:'t25',  h:'vs Straw 25', menu:'record vs the Straw Poll Top 25', g:'This season', bw:'3.4rem', pw:'3.2rem'},
@@ -1304,11 +1304,32 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
       ${t.proj?`<dt>Projected</dt><dd>${projTxt(t)}</dd>`:''}
 </dl>`; };
   const gAt = g => g.site==='away' ? 'at' : 'vs';
-  // a team's most recent game, or 'bye' when it didn't play in the latest week (its last game is 5+ days older than the newest game anywhere)
-  const lastGame = a => { const g=gamesOf(a).filter(x=>x.result).slice(-1)[0]; if(!g) return null;
-    if(!lastGame.top) lastGame.top = Object.keys(S.teams).reduce((m,x)=>{ const y=gamesOf(x).filter(z=>z.result).slice(-1)[0]; return y && y.date>m ? y.date : m; }, '');
-    return (new Date(lastGame.top) - new Date(g.date)) / 864e5 >= 5 ? 'bye' : g; };
-  const lastCell = a => { const g=lastGame(a); return !g || g==='bye' ? {v: g ? 'Bye' : '–', cls:'lastg dim'} : {v:`<span class="lres ${g.result}">${g.result}</span> ${gScore(g)}<small>${gAt(g)} ${esc(nm(g.opp))}</small>`, cls:'lastg'}; };
+  // A team's game in the latest week that has kicked off, from the real schedule (picks = every week's games, archived at
+  // kickoff; schedule = this week's games not yet final). Its result once the score is in; until then the game itself
+  // ({pending:true, opp, site, start}); 'bye' only when the team has no game that week. (Bug 2026-11-22: the old rule called a
+  // team on a bye when its last result was 5+ days older than the newest result anywhere, so before Saturday's scores arrived a
+  // Friday-night game made 114 of 138 teams show "Bye".)
+  function weekGames(){
+    const P=S.picks||[], sch=S.schedule||{}, now=serverNow();
+    if(weekGames.c && weekGames.c.P===P && weekGames.c.sch===sch && now-weekGames.c.t<60000) return weekGames.c;
+    const of = w => { const p=P.find(x=>x.week===w), L=(p && p.games || []).slice(); if(sch.week===w) (sch.games||[]).forEach(g=>{ if(!L.some(x=>String(x.id)===String(g.id))) L.push(g); }); return L; };
+    const weeks=[...new Set(P.map(x=>x.week).concat(sch.week!=null ? [sch.week] : []))].sort((x,y)=>y-x);
+    const W=weeks.find(w=>of(w).some(g=>Date.parse(g.start)<=now)), by={};
+    if(W!=null) of(W).forEach(g=>{ by[g.home]=g; by[g.away]=g; });
+    return weekGames.c={P, sch, t:now, W, by};
+  }
+  const lastGame = a => {
+    const res=gamesOf(a).filter(x=>x.result), last=res.slice(-1)[0], wk=weekGames();
+    if(wk.W==null) return last || null;   // no schedule data: the latest result
+    const g=wk.by[a]; if(!g) return res.length ? 'bye' : null;
+    const opp = g.home===a ? g.away : g.home, t=Date.parse(g.start);
+    const r = res.slice().reverse().find(x=>x.opp===opp && Math.abs(Date.parse(x.date)-t) < 4*864e5);
+    return r || {pending:true, opp, site: g.neutral ? 'neutral' : g.home===a ? 'home' : 'away', start:g.start};
+  };
+  const pendTxt = g => Date.parse(g.start) > serverNow() ? kick(g.start) : 'Result pending';
+  const lastCell = a => { const g=lastGame(a); return !g || g==='bye' ? {v: g ? 'Bye' : '–', cls:'lastg dim'}
+    : g.pending ? {v:`${gAt(g)} ${esc(nm(g.opp))}<small>${esc(pendTxt(g))}</small>`, cls:'lastg'}
+    : {v:`<span class="lres ${g.result}">${g.result}</span> ${gScore(g)}<small>${gAt(g)} ${esc(nm(g.opp))}</small>`, cls:'lastg'}; };
   const gScore = g => g.result==='W' ? `${g.pf}-${g.pa}` : `${g.pa}-${g.pf}`;
   const oppRank = (o, ranks) => S.tab==='work' ? ranks[o] : headRank(o);
   const gOppName = (o, ranks) => { const r=oppRank(o, ranks); return (r && r<=TOP ? '#'+r+' ' : '') + nm(o); };   // a rank only for the Top 25
@@ -2070,7 +2091,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     const d=p-rank; if(!d) return '<span class="mv eq"><span aria-hidden="true">–</span><span class="sr-only">no change</span></span>';
     return `<span class="mv ${d>0?'up':'dn'}"><i aria-hidden="true">${d>0?'▲':'▼'}</i><b>${Math.abs(d)}</b><span class="sr-only"> ${d>0?'up':'down'} ${Math.abs(d)} from #${p}</span></span>`;
   };
-  const lastLineOf = a => { const g=lastGame(a); return !g ? 'No games yet' : g==='bye' ? 'Bye' : `<span class="lres ${g.result}">${g.result}</span> ${gScore(g)} ${gAt(g)} ${esc(nm(g.opp))}`; };
+  const lastLineOf = a => { const g=lastGame(a); return !g ? 'No games yet' : g==='bye' ? 'Bye' : g.pending ? `${gAt(g)} ${esc(nm(g.opp))} · ${esc(pendTxt(g))}` : `<span class="lres ${g.result}">${g.result}</span> ${gScore(g)} ${gAt(g)} ${esc(nm(g.opp))}`; };
   S.bopen = new Set();   // Vote list rows whose details panel is open
   function bDetails(a, an){   // the panel under a row: why it's flagged, a few facts, the last 4 games
     const t=S.teams[a]||{}, fl=an.flags[a], lp=an.loopOf[a], G=gamesOf(a).filter(x=>x.result), cl=G.filter(isClose), cw=cl.filter(x=>x.result==='W').length, ranks=pubMap();
