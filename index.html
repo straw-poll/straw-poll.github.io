@@ -1512,7 +1512,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
       const m=Math.abs(g.pf-g.pa), size = m<=8 ? 1 : m<=16 ? 2 : 3;
       const lab = bw.bw && bw.bw.g===g ? 'Best' : bw.wl && bw.wl.g===g ? 'Worst' : '';
       const tip = `${lab==='Best' ? 'Best win: ' : lab==='Worst' ? 'Worst loss: ' : ''}${g.result} ${gScore(g)}${g.ot?' (OT)':''} ${gAt(g)} ${nm(g.opp)}, ${gOppRec(g.opp)}${xRank(g.opp)?`, ${XAX[S.r.xax]} #`+xRank(g.opp):''}`;
-      return {size, lab, html:`<button class="dot ${g.result} s${size}${g.ot?' ot':isClose(g)?' close':''}" style="left:${(oppPos(g.opp)*100).toFixed(2)}%" data-tip="${esc(tip)}" aria-label="${esc(tip)}">${ranksForDots[g.opp]?`<span class="drk">${ranksForDots[g.opp]}</span>`:''}${lab?`<span class="dlb ${lab==='Worst'?'wl up':'bw'}" aria-hidden="true">${lab==='Best'?'★':'✕'}</span>`:''}</button>`};
+      return {size, lab, html:`<button class="dot ${g.result} s${size}${g.ot?' ot':isClose(g)?' close':''}" style="left:${(oppPos(g.opp)*100).toFixed(2)}%" data-tip="${esc(tip)}" aria-label="${esc(tip)}">${ranksForDots[g.opp]?`<span class="drk">${ranksForDots[g.opp]}</span>`:''}</button>`};
     }).sort((p,q)=>(q.size-p.size) || ((p.lab?1:0)-(q.lab?1:0))).map(d=>d.html).join('');
     const rk = rank ? `<span class="rk">${rank}</span>` : '<span class="rk none">–</span>';
     const grip = drag ? `<button class="grip" aria-label="Move ${esc(t.name)}, rank ${rank}. Use arrow keys." data-i="${rank-1}">${GRIP}</button>` : '';
@@ -1523,7 +1523,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
   const axTrack = () => `<div class="ax"><span>#${mdl().n||''}</span><span>Opponent ${XAX[S.r.xax]} rank</span><span>#1</span></div>`;
   const axis = (drag, rkLabel, noRight) => drag ? `<div class="axis"><span></span><span class="axrk">${rkLabel||''}</span><span></span><span></span>${axTrack()}<span></span></div>`   // grip | rank | logo | name | track | remove
     : `<div class="axis"><span class="axrk">${rkLabel||''}</span><span></span><span></span><span></span>${axTrack()}${noRight?'':'<span style="text-align:right">Wolp+</span>'}</div>`;
-  const legend = dotLab => `<span><i class="dot W s2"></i>Win</span><span><i class="dot L s2"></i>Loss</span><span><i class="dot s1"></i><i class="dot s2"></i><i class="dot s3"></i>Margin 1–8 · 9–16 · 17+</span><span><i class="dot s2 close"></i>Close game</span><span><i class="dot s2 ot"></i>Overtime</span><span><b class="lmk bw">★</b>Best win</span><span><b class="lmk wl">✕</b>Worst loss</span><span><b>6</b>${dotLab}</span>`;
+  const legend = dotLab => `<span><i class="dot W s2"></i>Win</span><span><i class="dot L s2"></i>Loss</span><span><i class="dot s1"></i><i class="dot s2"></i><i class="dot s3"></i>Margin 1–8 · 9–16 · 17+</span><span><i class="dot s2 close"></i>Close game</span><span><i class="dot s2 ot"></i>Overtime</span><span><b>6</b>${dotLab}</span>`;
   const SORTLAB = {wolp:'Straw', comp:'Wolp+', splus:'Straw+', ap:'AP', cfp:'CFP', fpi:'FPI', best:'#', worst:'#'};
   $('rOpts').addEventListener('click', ()=>{ const f=$('rOpts').closest('.filters'), o=f.classList.toggle('open'); $('rOpts').setAttribute('aria-expanded', o); });
   function renderRank(){
