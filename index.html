@@ -1334,7 +1334,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     const ok = (c, a) => !race || !race[c] || race[c].includes(a);   // can still win its conference
     const order = Object.keys(ranks).sort((a,b)=>ranks[a]-ranks[b]), conf = a => S.teams[a] && S.teams[a].conf, why = {};
     P4_CONFS.forEach(c=>{ const t=pick[c] || order.find(a=>conf(a)===c && ok(c,a)); if(t) why[t] = c+' champ'; });
-    const g6 = pick.G6 || order.find(a=>g6Conf(conf(a)) && ok(conf(a),a)); if(g6) why[g6] = pick.G6 ? 'Group of Six bid' : 'top Group of Six';
+    const g6 = order.find(a=>g6Conf(conf(a))); if(g6) why[g6] = 'top Group of Six';   // the highest-ranked Group of Six TEAM, conference champion or not
     if(ranks['Notre Dame']<=12) why['Notre Dame'] = 'auto bid (top 12)';
     const auto = Object.keys(why), atLarge = order.filter(a=>!why[a]).slice(0, Math.max(0, 12-auto.length-(g6?0:1)));   // no ranked G6 team: its bid stays TBD
     const inTop = a => ranks[a]<=12, pool = auto.concat(atLarge);
@@ -1637,7 +1637,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     const ws=cfpWeeks(); if(!ws.length) return null; const w=ws[ws.length-1], real=cfpWeek(w), sc=S.poScn;
     if(sc.w!==w) Object.assign(sc, {w, champ:{}, order:null});   // new rankings: start over
     const race = confRace();   // a picked champion that can no longer win its conference is dropped
-    for(const [c,a] of Object.entries(sc.champ)) if(a && !((c==='G6' ? g6Conf(S.teams[a]&&S.teams[a].conf) : true) && (race[S.teams[a].conf]||[]).includes(a))) delete sc.champ[c];
+    for(const [c,a] of Object.entries(sc.champ)) if(a && !(P4_CONFS.includes(c) && (race[c]||[]).includes(a))) delete sc.champ[c];
     const base = Object.keys(real).sort((a,b)=>real[a]-real[b]), order = sc.order || base, r = {};
     order.forEach((a,i)=>r[a]=i+1);
     Object.values(sc.champ).filter(a=>a && !r[a]).sort((a,b)=>(S.teams[a].powerRank||999)-(S.teams[b].powerRank||999)).forEach(a=>r[a]=Object.keys(r).length+1);
@@ -1693,33 +1693,30 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
         <div class="card"><div class="ch"><h2>How the field is set</h2></div>
           <p class="po-note" style="color:var(--ink)">Automatic bids: ${Object.entries(F.why).map(([a,w])=>`<b>${esc(nm(a))}</b> (${esc(w)})`).join(', ')}.</p>
           ${F.g6missing ? '<p class="po-note">No Group of Six team is in the CFP Top 25, so its automatic bid is TBD.</p>' : ''}
-          <p class="po-note">The top 4 seeds get byes. Automatic qualifiers ranked outside the CFP top 12 take the bottom seeds. Conference champions are projected as each conference's highest-ranked team.</p>
+          <p class="po-note">The top 4 seeds get byes. Automatic qualifiers ranked outside the CFP top 12 take the bottom seeds. Power 4 champions are projected as each conference's highest-ranked team that can still win it. The Group of Six bid goes to the highest-ranked Group of Six team, conference champion or not.</p>
           ${F.out.length ? `<p class="po-note">First teams out: ${F.out.map(a=>`${esc(nm(a))} (#${F.ranks[a]})`).join(', ')}</p>` : ''}</div>
       </div>`;
     poSortable();
   }
   function poScnHtml(F){
-    const sc=S.poScn, race=F.race, champOf = c => Object.entries(F.why).find(([,w])=>w.startsWith(c==='G6' ? 'top Group' : c+' champ') || (c==='G6' && w==='Group of Six bid'))?.[0];
+    const sc=S.poScn, race=F.race, champOf = c => Object.entries(F.why).find(([,w])=>w===c+' champ')?.[0];
     const byRank = (a,b)=>(F.ranks[a]||99)-(F.ranks[b]||99) || (S.teams[a].powerRank||999)-(S.teams[b].powerRank||999);
-    const alive = c => Object.keys(S.teams).filter(a=>(c==='G6' ? g6Conf(S.teams[a].conf) : S.teams[a].conf===c) && (race[S.teams[a].conf]||[]).includes(a)).sort(byRank);
+    const alive = c => Object.keys(S.teams).filter(a=>S.teams[a].conf===c && (race[c]||[]).includes(a)).sort(byRank);
     const rc = a => { const R=race[S.teams[a].conf]||{}; return R.set==='clinched' ? 'in title game' : R.set==='won' ? 'champion' : R.rec && R.rec[a] ? R.rec[a] : ''; };
-    const chip = (c, a) => `<button type="button" class="po-chip${!sc.champ[c] && champOf(c)===a ? ' proj' : ''}" data-pchamp="${esc(c)}" data-pa="${esc(a)}" aria-pressed="${champOf(c)===a && !!sc.champ[c]}" title="${esc(nm(a))} wins the ${c==='G6' ? 'Group of Six bid' : c}">${logo(a)}${esc(nm(a))}<small>${[rc(a), F.real[a] ? '#'+F.real[a] : ''].filter(Boolean).join(' · ')}</small></button>`;
-    const confRow = (c, lab) => { const L=alive(c); if(!L.length) return '';
-      if(c!=='G6' || L.length<=4) return `<div class="po-conf"><span>${lab}</span><div class="po-chips">${L.map(a=>chip(c,a)).join('')}</div></div>`;
-      const top=L.slice(0,3).concat(sc.champ.G6 && !L.slice(0,3).includes(sc.champ.G6) ? [sc.champ.G6] : []), rest=L.filter(a=>!top.includes(a)), confs=[...new Set(rest.map(a=>S.teams[a].conf))];
-      return `<div class="po-conf"><span>${lab}</span><div class="po-chips">${top.map(a=>chip(c,a)).join('')}<select class="fsel" data-pg6 aria-label="Another Group of Six champion"><option value="">Other…</option>${confs.map(k=>`<optgroup label="${esc(k)}">${rest.filter(a=>S.teams[a].conf===k).map(a=>`<option value="${esc(a)}">${esc(nm(a))} (${rc(a)})</option>`).join('')}</optgroup>`).join('')}</select></div></div>`; };
+    const chip = (c, a) => `<button type="button" class="po-chip${!sc.champ[c] && champOf(c)===a ? ' proj' : ''}" data-pchamp="${esc(c)}" data-pa="${esc(a)}" aria-pressed="${champOf(c)===a && !!sc.champ[c]}" title="${esc(nm(a))} wins the ${c}">${logo(a)}${esc(nm(a))}<small>${[rc(a), F.real[a] ? '#'+F.real[a] : ''].filter(Boolean).join(' · ')}</small></button>`;
+    const confRow = (c, lab) => { const L=alive(c); return L.length ? `<div class="po-conf"><span>${lab}</span><div class="po-chips">${L.map(a=>chip(c,a)).join('')}</div></div>` : ''; };
     // what changed vs the committee's rankings as they stand
     const champOfReal = c => F.base.find(x=>S.teams[x] && S.teams[x].conf===c && (race[c]||[]).includes(x));
     const now=F.field.filter(Boolean), was=F.realField.filter(Boolean), sd=(L,a)=>L.indexOf(a)+1;
     const ins=now.filter(a=>!was.includes(a)), outs=was.filter(a=>!now.includes(a)), seeds=now.filter(a=>was.includes(a) && sd(now,a)!==sd(was,a));
     const changed = Object.values(sc.champ).some(Boolean) || !!sc.order;
     const diff = !changed ? '<p class="po-note" style="margin:0">Tap a champion or drag a team to try a scenario. The bracket and title odds below update as you go.</p>'
-      : `<div class="po-diff">${Object.entries(sc.champ).filter(([,a])=>a).map(([c,a])=>`<div><b>${c==='G6' ? 'Group of Six bid' : c}:</b> ${esc(nm(a))}${c!=='G6' && F.realField.includes(champOfReal(c)) && champOfReal(c)!==a ? ` (${esc(nm(champOfReal(c)))} ${F.field.includes(champOfReal(c)) ? 'stays in at-large' : 'drops out'})` : ''}</div>`).join('')}${ins.length ? `<div><b class="in">In:</b> ${ins.map(a=>`${esc(nm(a))} (${sd(now,a)} seed)`).join(', ')}</div>` : ''}${outs.length ? `<div><b class="out">Out:</b> ${outs.map(a=>esc(nm(a))).join(', ')}</div>` : ''}${seeds.length ? `<div><b>Seeds:</b> ${seeds.slice(0,6).map(a=>`${esc(nm(a))} ${sd(was,a)}→${sd(now,a)}`).join(', ')}${seeds.length>6?` and ${seeds.length-6} more`:''}</div>` : ''}${!ins.length && !outs.length && !seeds.length ? 'Same field and seeds as now.' : ''}</div>`;
+      : `<div class="po-diff">${Object.entries(sc.champ).filter(([,a])=>a).map(([c,a])=>`<div><b>${c}:</b> ${esc(nm(a))}${F.realField.includes(champOfReal(c)) && champOfReal(c)!==a ? ` (${esc(nm(champOfReal(c)))} ${F.field.includes(champOfReal(c)) ? 'stays in at-large' : 'drops out'})` : ''}</div>`).join('')}${ins.length ? `<div><b class="in">In:</b> ${ins.map(a=>`${esc(nm(a))} (${sd(now,a)} seed)`).join(', ')}</div>` : ''}${outs.length ? `<div><b class="out">Out:</b> ${outs.map(a=>esc(nm(a))).join(', ')}</div>` : ''}${seeds.length ? `<div><b>Seeds:</b> ${seeds.slice(0,6).map(a=>`${esc(nm(a))} ${sd(was,a)}→${sd(now,a)}`).join(', ')}${seeds.length>6?` and ${seeds.length-6} more`:''}</div>` : ''}${!ins.length && !outs.length && !seeds.length ? 'Same field and seeds as now.' : ''}</div>`;
     const showAll = sc.all || F.order.length<=16, list = showAll ? F.order : F.order.slice(0,16), cut = F.order[11];
-    const sum = [...Object.entries(sc.champ).filter(([,a])=>a).map(([c,a])=>`${nm(a)} ${c==='G6' ? 'gets the Group of Six bid' : 'wins the '+c}`), ...(sc.order ? [`${F.order.filter((a,i)=>F.real[a]!==i+1).length} teams moved`] : [])];
+    const sum = [...Object.entries(sc.champ).filter(([,a])=>a).map(([c,a])=>`${nm(a)} wins the ${c}`), ...(sc.order ? [`${F.order.filter((a,i)=>F.real[a]!==i+1).length} teams moved`] : [])];
     return `<details class="card po-scn" id="poScn"${sc.open?' open':''}><summary><h2>What if…</h2><span class="sdesc">${sum.length ? 'Showing: '+esc(sum.join(' · ')) : 'Pick conference champions or move teams to see how the bracket changes'}</span><span class="more"></span></summary>
-      <div class="po-sbody"><div class="po-sgrid"><div><h4>Conference champions</h4>${confRow('ACC','ACC')}${confRow('Big Ten','Big Ten')}${confRow('Big 12','Big 12')}${confRow('SEC','SEC')}${confRow('G6','Group of Six')}
-        <p class="po-note" style="margin:6px 0 0">Only teams that can still reach their title game ("in title game" = clinched). Dashed outline = projected champion; tap a team to make it champion, tap again to undo.</p>${diff}</div>
+      <div class="po-sbody"><div class="po-sgrid"><div><h4>Conference champions</h4>${confRow('ACC','ACC')}${confRow('Big Ten','Big Ten')}${confRow('Big 12','Big 12')}${confRow('SEC','SEC')}
+        <p class="po-note" style="margin:6px 0 0">Only teams that can still reach their title game ("in title game" = clinched). Dashed outline = projected champion; tap a team to make it champion, tap again to undo. The Group of Six bid follows the ranking: move teams to change it.</p>${diff}</div>
       <div><h4>CFP ranking · drag to reorder</h4><ol class="po-ord" id="poOrd">${list.map((a,i)=>`<li data-pa="${esc(a)}" class="${F.real[a]!==i+1?'moved':''}${a===cut?' cut':''}"><button type="button" class="grip" aria-label="Move ${esc(nm(a))}, now #${i+1}. Use arrow keys.">${GRIP}</button><span class="rk">${i+1}</span>${logo(a)}<b>${esc(nm(a))}</b><small>${F.real[a]!==i+1 ? 'was #'+F.real[a] : ''}</small></li>`).join('')}</ol>
         ${F.order.length>16 ? `<button class="more po-more" type="button" data-po="all">${showAll ? 'Show top 16 only' : `Show all ${F.order.length}`}</button>` : ''}</div></div>
       <button class="btn" type="button" data-po="scnreset" style="margin-top:14px"${changed?'':' disabled'}>Reset scenario</button></div></details>`;
@@ -1737,7 +1734,6 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     const a=g.closest('li').dataset.pa, i=poField().order.indexOf(a); poMove(a, i + (e.key==='ArrowUp' ? -1 : 1));
     const ng=$('poMain').querySelector(`#poOrd li[data-pa="${CSS.escape(a)}"] .grip`); if(ng) ng.focus(); });
   $('poMain').addEventListener('toggle', e=>{ if(e.target.id==='poScn') S.poScn.open = e.target.open; }, true);
-  $('poMain').addEventListener('change', e=>{ const c=e.target.closest('[data-pg6]'); if(c && c.value){ S.poScn.champ.G6 = c.value; renderPlayoffs(); } });
 
   $('poMain').addEventListener('click', e=>{
     const F=poField(); if(!F) return; const P=S.po.pick;
