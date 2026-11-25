@@ -1155,7 +1155,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
   const ERRS = [], keepErr = t => { ERRS.push(t); if(ERRS.length>5) ERRS.shift(); };
   window.addEventListener('error', e => keepErr(`${e.message} (${String(e.filename||'').split('/').pop()}:${e.lineno||'?'})`));
   window.addEventListener('unhandledrejection', e => keepErr('Unhandled: '+String((e.reason && e.reason.message) || e.reason)));
-  const MAX = 35, TOP = 25, MAXC = 4, FRAUD = 5, UPSET_PCT = 35, AP_NR = 26, BIG = 14;
+  const MAX = 35, TOP = 25, MAXC = 4, FRAUD = 5, UPSET_PCT = 35, AP_NR = 26, BIG = 14, CFP_BIG = 16;
   const S = {teams:{}, teamsRaw:null, meta:null, model:null, schedule:null, ap:null, weeks:{}, cur:null, draft:[], dirty:false,
              canWrite:false, isOwner:false, me:null, wantTab:null, accessKnown:false, accessFor:'', cmp:[], tab:'home', ws:'ballot',
              r:{show:'top', confOff:[], q:'', ms:'wolp', col:'ms', rev:false, xax:'wolp'}, f:'off', pc:'', q:'', sort:'frank',
@@ -1609,7 +1609,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     const imp = g => Math.min(top(ranks[g.home]), top(ranks[g.away]), apG[g.home]||99, apG[g.away]||99, cfpR(g.home), cfpR(g.away));
     const fav = g => typeof g.line==='number' ? Math.abs(g.line) : typeof g.model==='number' ? Math.abs(g.model) : 0;  // spread: line, else model
     const rkd = a => top(ranks[a])<99 || !!apG[a] || cfpR(a)<99, both = g => rkd(g.home) && rkd(g.away);  // a game between two ranked teams is always big
-    const big = games.filter(g=>imp(g)<99 && (both(g) || fav(g)<=BIG));   // already in kickoff order (games is sorted by start)
+    const big = games.filter(g=>imp(g)<99 && (both(g) || fav(g)<=BIG || Math.min(cfpR(g.home), cfpR(g.away))<=CFP_BIG));   // CFP top 16: any spread (user, 2026-11-24)   // already in kickoff order (games is sorted by start)
     $('hBigWrap').hidden = !games.length;
     $('hBigT').innerHTML = `${held ? 'Big games' : "This week's big games"}${hw!=null?`<small>Week ${hw}${held?' results':''}</small>`:''}`;
     $('hBig').innerHTML = big.map(g=>card(g, upW[g.id])).join('') || '<p class="lead">No close-looking ranked games this week.</p>';
