@@ -794,7 +794,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
       <label class="xsel"><span class="lab">Week</span><select id="wkSel" class="fsel xpick" aria-label="Choose a week"></select></label></div>
       <div class="wksw" id="wkSw" role="group" aria-label="Which list"></div>
       <div class="wkgrid" id="wkGrid"></div>
-      <p class="note">Each list is the Top 25 going into that week's games. Wolp+<span class="sp-only"> and Straw+</span> lists start at week 6 of 2026; weeks 1–5 are the site owner's own rankings from before ballots opened. Arrows show movement from the previous week.</p></div>
+      <p class="note">Each list is the Top 25 going into that week's games. Wolp+<span class="sp-only"> and Straw+</span> lists start at Week 6 of 2026; Weeks 1–5 are the site owner's own rankings from before ballots opened. Arrows show movement from the previous week.</p></div>
     <div class="card" id="scoreCard" style="margin-bottom:22px"><div class="ch"><h2>Scorecard<small>Who picks more winners: Wolp+, ESPN's FPI or the betting line?</small></h2></div>
       <div class="tblw" id="scoreBody"></div>
       <p class="note">Share of winners picked in FBS games with a Straw Poll or AP Top 25 team. Wolp+ picks the team its pre-kickoff spread favors; FPI picks the higher-rated team after home field; the line picks the favorite.</p></div>
@@ -1023,10 +1023,10 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
         <p class="note" style="margin:0 0 10px">Every finished FBS game where Wolp+ and the line disagree (Wolp+ favors the underdog and they differ by 4+ points, or they differ by 7+ points), from the spreads saved before kickoff; automatic, nothing to publish. This week's games and the season record against the line are also on Home. <b>Wolp+ vs line</b> = the result landed on Wolp+'s side of the line (pushes left out). <b>Wolp+ winner</b> = the team Wolp+ favored won.</p>
         <div class="tblw"><table id="lCmp"></table></div></section>
       <section class="sec"><div class="sh"><h2>Straw Poll vs AP</h2></div>
-        <p class="note" style="margin:0 0 10px">Each week's published Straw Poll against that week's AP poll, in the Scorecard's games (FBS games with a Straw Poll or AP Top 25 team): the higher-ranked team is the pick (not in a poll's Top 25 = #26; no pick when neither team is in it). <b>Split calls</b> = games where the two polls picked different winners, and who was right. <b>Ballot Score</b> = each poll scored like a ballot (weeks 1-14; the AP can't earn the upset bonus).</p>
+        <p class="note" style="margin:0 0 10px">Each week's published Straw Poll against that week's AP poll, in the Scorecard's games (FBS games with a Straw Poll or AP Top 25 team): the higher-ranked team is the pick (not in a poll's Top 25 = #26; no pick when neither team is in it). <b>Split calls</b> = games where the two polls picked different winners, and who was right. <b>Ballot Score</b> = each poll scored like a ballot (Weeks 1-14; the AP can't earn the upset bonus).</p>
         <div class="tblw"><table class="pin1" id="pCmp"></table></div></section>
       <section class="sec"><div class="sh"><h2>Model comparison</h2></div>
-        <p class="note" style="margin:0 0 10px">Winners picked in the Scorecard's games (FBS games with a Straw Poll or AP Top 25 team). Wolp+ = its pre-kickoff spread; Straw+ = that spread shifted by the week's Straw Poll (30% of the way toward the crowd's order; weeks with a published poll, from week 6); ESPN FPI and SP+ = their ratings saved before the week plus home field; Line = the favorite. SP+ is saved from week 7 on. Average miss = how far each one's predicted margin was from the final margin, on average (lower is better), on the games where all five have a prediction. Hover a cell for the count.</p>
+        <p class="note" style="margin:0 0 10px">Winners picked in the Scorecard's games (FBS games with a Straw Poll or AP Top 25 team). Wolp+ = its pre-kickoff spread; Straw+ = that spread shifted by the week's Straw Poll (30% of the way toward the crowd's order; weeks with a published poll, from Week 6); ESPN FPI and SP+ = their ratings saved before the week plus home field; Line = the favorite. SP+ is saved from Week 7 on. Average miss = how far each one's predicted margin was from the final margin, on average (lower is better), on the games where all five have a prediction. Hover a cell for the count.</p>
         <div class="tblw"><table class="pin1" id="mCmp"></table></div></section>
   </section>
 </main>
@@ -1596,7 +1596,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     $('hUpsWrap').hidden = !EDITOR_PICKS || (!ups.length && !S.isOwner);
     $('hUpsSub').textContent = upWk==null ? (sch.week!=null ? `Week ${hw}` : '') : upWk===hw && !held ? `Week ${upWk}` : `Week ${upWk} results`;
     const nCand = S.isOwner ? upsetCands().filter(x=>x.cand).length : 0;
-    const review = S.isOwner ? `<div class="game" style="display:flex;flex-direction:column;justify-content:center;gap:8px;border-style:dashed"><b style="font:700 18px var(--cond)">${Object.keys(upNext).length ? `Edit week ${sch.week} Editor's Picks` : `No week ${sch.week} Editor's Picks published yet`}</b>${held ? `<span class="lead" style="margin:0">It shows on Home once the week ${sch.week} Straw Poll is out.</span>` : ''}<span class="lead" style="margin:0">${nCand} candidate${nCand===1?'':'s'} this week. Only you see this box.</span><button class="btn primary" data-go="admin" style="align-self:flex-start">Review and publish →</button></div>` : '';
+    const review = S.isOwner ? `<div class="game" style="display:flex;flex-direction:column;justify-content:center;gap:8px;border-style:dashed"><b style="font:700 18px var(--cond)">${Object.keys(upNext).length ? `Edit Week ${sch.week} Editor's Picks` : `No Week ${sch.week} Editor's Picks published yet`}</b>${held ? `<span class="lead" style="margin:0">It shows on Home once the Week ${sch.week} Straw Poll is out.</span>` : ''}<span class="lead" style="margin:0">${nCand} candidate${nCand===1?'':'s'} this week. Only you see this box.</span><button class="btn primary" data-go="admin" style="align-self:flex-start">Review and publish →</button></div>` : '';
     $('hUps').innerHTML = ups.map(g=>card(g, upNow[g.id], true)).join('') + review;
     // Wolp+ vs the Line (#38): the same week's games in kickoff order, and Wolp+'s season record against the line
     const vsG = games.filter(vsLine), vr = vsRecord();   // kickoff order, like every game list
@@ -1683,7 +1683,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     if(!F){ $('poSub').textContent=''; $('poMain').innerHTML='<p class="lead">The bracket appears once the first CFP rankings are out.</p>'; return; }
     const key = F.w+':'+F.field.join('|'); if(S.po.key!==key){ S.po={pick:{}, odds:poOdds(F), key}; }   // new rankings: fresh bracket and odds
     const P=S.po.pick, seed = a => F.field.indexOf(a)+1;
-    $('poSub').textContent = `Projected 12-team field from the week ${F.w} CFP rankings, if the season ended today`;
+    $('poSub').textContent = `Projected 12-team field from the Week ${F.w} CFP rankings, if the season ended today`;
     const game = (id, label) => { const [a,b]=poTeams(F,id), h=id[0]==='f', w=P[id], p = a&&b ? poP(a,b,h) : null;
       const row = (x, px) => !x ? `<div class="po-t tbd"><span class="sd"></span><span></span><b>${id[0]==='f' ? 'TBD' : 'Winner of the earlier game'}</b><span></span></div>`
         : `<button class="po-t${w ? (w===x?' win':' lose') : ''}" type="button" data-pg="${id}" data-pa="${esc(x)}"${a&&b?'':' disabled'} aria-pressed="${w===x}">${'<span class="sd">'+seed(x)+'</span>'}${logo(x)}<b>${esc(nm(x))}</b><span class="p">${px==null?'':poPct(px)}</span></button>`;
@@ -1838,7 +1838,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     const xr = {}; Object.keys(S.teams).forEach(o=>{ const r=xRank(o); if(r && r<=25) xr[o]=r; });  // dot numbers: x-axis rank, top 25 only
     const pv = R.ms==='wolp' ? prev : null, row = x=>{ const r=rkOf(x); return mapRow(x, r && r<=TOP ? r : null, pv, xr, false, true); }, lab = SORTLAB[R.ms];  // rank number: Top 25 only
     const noPoll = R.ms==='wolp' && n!=null && S.weeks[n].compiled && !S.weeks[n].ranking.length;
-    if(!M.length) h = noPoll && R.show==='top' ? `<p class="lead">Not enough ballots for a week ${n} Straw Poll. Sort by Wolp+ or choose All FBS.</p>` : '<p class="lead">No teams match these filters.</p>';
+    if(!M.length) h = noPoll && R.show==='top' ? `<p class="lead">Not enough ballots for a Week ${n} Straw Poll. Sort by Wolp+ or choose All FBS.</p>` : '<p class="lead">No teams match these filters.</p>';
     else if(R.ms==='wolp' && R.show==='top'){
       const a=M.filter(x=>ranks[x]<=TOP), b=M.filter(x=>ranks[x]>TOP);
       h = axis(false, lab, true) + a.map(row).join('') + (b.length ? `<div class="grp">${alsoLabel(n)} (26–35)</div>${b.map(row).join('')}` : '');
@@ -1991,7 +1991,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
       const m=f(w), prev = pw!=null ? f(pw) : null;
       const top = m ? Object.keys(m).filter(a=>m[a]<=TOP).sort((a,b)=>m[a]-m[b]) : [];
       return `<div class="wkcol${i===cur?' on':''}"><h3>${esc(name)}</h3>${top.length ? top.map(a=>`<button class="wkrow" data-open="${esc(a)}" style="--tc:${tc(a)}"><span class="rk">${m[a]}</span>${moveOf(a, m[a], prev)}${logo(a)}<span class="tn">${esc(nm(a))}</span></button>`).join('')
-        : `<p class="note">Not available for week ${w}.</p>`}</div>`;
+        : `<p class="note">Not available for Week ${w}.</p>`}</div>`;
     }).join('');
   }
   $('wkSel').addEventListener('change', e=>{ S.hw=Number(e.target.value); renderWeekGrid(); });
@@ -2171,7 +2171,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     let draft = base ? base.ranking.slice() : null, kept = false;
     if(stash){
       const newer = base && base.at!==stash.base;  // submitted again elsewhere after this draft was started
-      const keep = !sameList(stash.ranking, draft) && (!newer || confirm(`This browser has unsubmitted changes to your week ${n} ballot, made before the one you submitted ${atTime(base.at)}. Keep those changes?\n\nOK keeps the changes; Cancel shows your submitted ballot.`));
+      const keep = !sameList(stash.ranking, draft) && (!newer || confirm(`This browser has unsubmitted changes to your Week ${n} ballot, made before the one you submitted ${atTime(base.at)}. Keep those changes?\n\nOK keeps the changes; Cancel shows your submitted ballot.`));
       if(keep){ draft = stash.ranking.slice(); kept = true; } else try{ localStorage.removeItem(draftKey(n)); }catch(e){}
     }
     if(!draft) draft = n!=null && editable(n) ? startList('last') : [];
@@ -2201,7 +2201,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     const sub=S.vote.mine[n], lt=S.vote.late[n], pend = lt && lt.status==='pending' && ph==='late', declined = lt && lt.status==='declined';
     $('view-work').classList.toggle('ro', !can);
     [wSortable, S.sortBallot, S.sortPool].forEach(x=>{ if(x) x.option('disabled', !can); });
-    $('deadline').innerHTML = ph==='soon' ? `Voting opens Sunday morning, once week ${esc(n-1)}’s games are final` : !L ? '' : ph==='open' ? `Voting closes <b>${esc(etTime(L))}</b>`
+    $('deadline').innerHTML = ph==='soon' ? `Voting opens Sunday morning, once Week ${esc(n-1)}’s games are final` : !L ? '' : ph==='open' ? `Voting closes <b>${esc(etTime(L))}</b>`
       : ph==='late' && !declined ? `Voting closed ${esc(etTime(L))} · late ballots need the site owner’s approval` : `Voting closed ${esc(etTime(L))}`;
     let msg, warn=false, btn='Submit ballot';   // warn: 'err' (red) or true = a nudge (gold)
     if(S.vote.state==='loading') msg='Loading your ballots…';
@@ -2252,7 +2252,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
       const was=ph; refreshDirty();  // the server's time came back with the error, so the phase may have moved on
       const now=phase(n);
       toast(error.code==='P0001' && /teams?/i.test(error.message||'') ? error.message
-        : error.code==='42501' && was==='open' && now==='late' ? `Voting for week ${n} closed at ${etTime(lockOf(n))}. You can still send it as a late ballot for the site owner to approve.`
+        : error.code==='42501' && was==='open' && now==='late' ? `Voting for Week ${n} closed at ${etTime(lockOf(n))}. You can still send it as a late ballot for the site owner to approve.`
         : error.code==='42501' && now==='closed' ? `Week ${n} is no longer taking ballots.`
         : error.code==='42501' ? 'This ballot can’t be submitted. Reload the page and try again.'
         : sbErr(error, 'Couldn’t submit. Try again; your changes stay in this browser.'));
@@ -2261,7 +2261,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     if(late) S.vote.late[n] = {ranking:data.ranking, at:data.submitted_at, status:data.status};
     else S.vote.mine[n] = {ranking:data.ranking, at:data.submitted_at};
     S.draft = data.ranking.slice(); setDirty(); renderWork(); renderBanner();
-    toast(late ? `Late ballot sent for week ${n}. It counts once the site owner approves it.` : `Week ${n} ballot submitted`);
+    toast(late ? `Late ballot sent for Week ${n}. It counts once the site owner approves it.` : `Week ${n} ballot submitted`);
   }
   // the next Monday 5:00 PM Eastern still ahead (today, if it's Monday before 5), on the server's clock
   function nextMondayDeadline(){
@@ -2283,7 +2283,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     const w = Number(raw);
     if(!Number.isInteger(w) || w<0 || w>20){ toast('Enter a week from 0 to 20.'); return; }
     const d = nextMondayDeadline();
-    if(!confirm(`Open week ${w} voting until ${etTime(d)}?`)) return;
+    if(!confirm(`Open Week ${w} voting until ${etTime(d)}?`)) return;
     S.busy=true; renderStatus();
     const { error } = await sb.from('weeks').insert({season:S.vote.season, week:w, lock_at:d.toISOString()});
     S.busy=false;
@@ -2294,7 +2294,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
   async function withdrawBallot(){
     const n=S.cur, late=phase(n)==='late';
     if(S.busy || !editable(n) || phase(n)==='soon') return;
-    if(!confirm(late ? `Withdraw your late ballot for week ${n}?` : `Withdraw your week ${n} ballot? It won’t count unless you submit again before the deadline.`)) return;
+    if(!confirm(late ? `Withdraw your late ballot for Week ${n}?` : `Withdraw your Week ${n} ballot? It won’t count unless you submit again before the deadline.`)) return;
     S.busy=true; renderStatus();
     const { data, error } = await sb.from(late ? 'late_ballots' : 'ballots').delete()
       .eq('user_id', S.me.user.id).eq('season', S.vote.season).eq('week', n).select('week');
@@ -2620,7 +2620,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     const rows = ids.map(id=>({id, t:latest(id), w:S.lg.totals.find(t=>t.user_id===id && t.week===last)}))
       .sort((a,b)=>((b.t?b.t.season_points:-1e9)-(a.t?a.t.season_points:-1e9)) || lgName(a.id).localeCompare(lgName(b.id)));
     const apS = scored.map(w=>apPickem(w)).filter(Boolean);   // the AP row compares records only, not points (owner, 2026-10-26)
-    $('lgStSub').textContent = last!=null ? `through week ${last}` : 'scoring starts after the first closed week’s games';
+    $('lgStSub').textContent = last!=null ? `through Week ${last}` : 'scoring starts after the first closed week’s games';
     $('lgStand').innerHTML = `<thead><tr class="cols"><th>#</th><th style="text-align:left">Voter</th><th>Total points</th><th>${last!=null?`Week ${last}`:'Last week'} points</th><th>Record</th><th title="Right calls where your team was ranked lower in that week's AP poll">Upsets called</th></tr></thead><tbody>${
       rows.length ? rows.map((r,i)=>`<tr class="${r.id===uid?'me':''}"><td>${r.t?i+1:'–'}</td><td style="text-align:left"><button class="linkbtn vname" data-voter="${esc(r.id)}">${esc(lgName(r.id))}</button>${r.id===uid?' (you)':''}</td><td class="strong">${ptsTxt(r.t&&r.t.season_points)}</td><td>${ptsTxt(r.w&&r.w.points)}</td><td>${r.t?`${r.t.season_right}-${r.t.season_wrong}`:'–'}</td><td>${r.t && r.t.season_upsets!=null ? r.t.season_upsets : '–'}</td></tr>`).join('') : '<tr><td colspan="6" class="dim">Voters appear here after their first ballot.</td></tr>'}${
       apS.length ? `<tr class="dim"><td></td><td style="text-align:left">AP poll <small>(record for reference)</small></td><td>–</td><td>–</td><td>${apS.reduce((x,y)=>x+y.right,0)}-${apS.reduce((x,y)=>x+y.wrong,0)}</td><td>–</td></tr>` : ''}</tbody>`;
@@ -3024,14 +3024,14 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
       + weeks.map(w=>`<text x="${X(w)}" y="${H-8}" text-anchor="middle">${w===1 ? 'Pre' : w-1}</text>`).join('');   // a point = the rank going into week w = after week w-1 (week 1 = preseason)
     const show = p => rating ? `${fmtRating(p.v)} (#${p.r})` : `#${p.r}`;
     const path = pts => { let d='', prev=null; pts.forEach(p=>{ d += (prev!=null && weeks.indexOf(p.w)===weeks.indexOf(prev)+1 ? 'L' : 'M') + X(p.w).toFixed(1) + ' ' + Y(val(p)).toFixed(1); prev=p.w; }); return d; };
-    const lines = series.map(x=>`<path class="ln" stroke="${x.col}" d="${path(x.pts)}"/>` + x.pts.map(p=>`<circle cx="${X(p.w).toFixed(1)}" cy="${Y(val(p)).toFixed(1)}" r="3" fill="${x.col}"><title>${p.w===1 ? 'Preseason' : `After week ${p.w-1}`} · ${esc(x.name)} ${show(p)}</title></circle>`).join('')).join('');
+    const lines = series.map(x=>`<path class="ln" stroke="${x.col}" d="${path(x.pts)}"/>` + x.pts.map(p=>`<circle cx="${X(p.w).toFixed(1)}" cy="${Y(val(p)).toFixed(1)}" r="3" fill="${x.col}"><title>${p.w===1 ? 'Preseason' : `After Week ${p.w-1}`} · ${esc(x.name)} ${show(p)}</title></circle>`).join('')).join('');
     // hover / tap a week: a guide line and a box listing every line's rank that week (#chartTip)
     const cols = weeks.map((w,i)=>{
       const x0 = i ? (X(weeks[i-1])+X(w))/2 : L, x1 = i<weeks.length-1 ? (X(w)+X(weeks[i+1]))/2 : W-R;
       const at = series.map(x=>({name:x.name, col:x.col, team:x.team, p:x.pts.find(p=>p.w===w)})).filter(v=>v.p).sort((a,b)=>rating ? b.p.v-a.p.v : a.p.r-b.p.r);
       if(!at.length) return '';
       const hd = header && w>1 ? header(w-1) : '';   // the team pop-up: the game that produced this rank
-      const tip = `<b>${w===1 ? 'Preseason' : `After week ${w-1}`}</b>${hd ? ` · ${esc(hd)}` : ''}` + at.map(v=>{ const res = v.team && w>1 ? weekResult(v.team, w-1) : '';
+      const tip = `<b>${w===1 ? 'Preseason' : `After Week ${w-1}`}</b>${hd ? ` · ${esc(hd)}` : ''}` + at.map(v=>{ const res = v.team && w>1 ? weekResult(v.team, w-1) : '';
         return `<div><i style="background:${v.col}"></i>${esc(v.name)} <b>${show(v.p)}</b>${res ? `<span class="tres">${esc(res)}</span>` : ''}</div>`; }).join('');
       return `<g class="wkcol"><line class="guide" x1="${X(w)}" x2="${X(w)}" y1="${T}" y2="${H-B}"/><rect x="${x0.toFixed(1)}" y="${T}" width="${(x1-x0).toFixed(1)}" height="${H-T-B}" data-ctip="${CHART_TIPS.push(tip)-1}"/></g>`;
     }).join('');
@@ -3487,11 +3487,11 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     const o=openWeekNum(), nx=S.vote.next;
     $('adminVote').innerHTML = S.vote.state==='loading' ? 'Loading…' : S.vote.state==='error' ? esc(sbErr(S.vote.err, 'Voting status couldn’t load. Reload the page to try again.'))
       : o!=null ? `Week ${o} voting is open until <b>${esc(etTime(lockOf(o)))}</b>.`
-      : nx!=null ? `No week is open. Week ${nx} opens Sunday morning, once week ${nx-1}’s games are final.` : 'No week is open.';
+      : nx!=null ? `No week is open. Week ${nx} opens Sunday morning, once Week ${nx-1}’s games are final.` : 'No week is open.';
     $('openWeek').hidden = !(S.vote.state==='ready' && o==null);
     $('adminReqs').innerHTML = `<div class="reqs"><h4>Requests to join${S.reqs.length?` (${S.reqs.length})`:''}</h4>${S.reqs.length ? S.reqs.map(x=>`<div class="req"><div>${esc(x.username||'(no username yet)')}<small>${esc(x.email||'')}${x.note?' · '+esc(x.note):''}</small></div><button class="btn primary" data-appr="${esc(x.id)}">Approve</button><button class="btn quiet" data-decl="${esc(x.id)}">Decline</button></div>`).join('') : '<p class="dnote">No pending requests.</p>'}</div>`
       + `<div class="reqs"><h4>Late ballots${S.lateReqs.length?` (${S.lateReqs.length})`:''}</h4>${S.lateReqs.length ? S.lateReqs.map(x=>{ const k=esc([x.user_id, x.season, x.week].join('|'));
-          return `<div class="req"><div>${esc(x.username||'(no username)')}<small>Week ${esc(x.week)} · sent ${esc(atTime(x.submitted_at))}</small></div><button class="btn primary" data-lapp="${k}" aria-label="Approve ${esc(x.username||'')}'s late week ${esc(x.week)} ballot">Approve</button><button class="btn quiet" data-ldec="${k}" aria-label="Decline ${esc(x.username||'')}'s late week ${esc(x.week)} ballot">Decline</button></div>`; }).join('')
+          return `<div class="req"><div>${esc(x.username||'(no username)')}<small>Week ${esc(x.week)} · sent ${esc(atTime(x.submitted_at))}</small></div><button class="btn primary" data-lapp="${k}" aria-label="Approve ${esc(x.username||'')}'s late Week ${esc(x.week)} ballot">Approve</button><button class="btn quiet" data-ldec="${k}" aria-label="Decline ${esc(x.username||'')}'s late Week ${esc(x.week)} ballot">Decline</button></div>`; }).join('')
         : S.lateErr ? `<p class="dnote">${esc(sbErr(S.lateErr, 'Late ballots couldn’t load. Reload the page to try again.'))}</p>` : '<p class="dnote">No late ballots waiting.</p>'}<p class="dnote">Approving makes it that person’s ballot for the week (replacing any on-time one). Declining is final for that week.</p></div>`;
     renderUps();
   }
@@ -3556,7 +3556,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
   $('adminReqs').addEventListener('click', async e=>{
     const a=e.target.closest('[data-lapp]'), d=e.target.closest('[data-ldec]'); if(!a && !d) return;
     const [who, season, week] = (a ? a.dataset.lapp : d.dataset.ldec).split('|'), s=Number(season), w=Number(week);
-    if(d && !confirm(`Decline this late week ${w} ballot? It can’t be sent again.`)) return;
+    if(d && !confirm(`Decline this late Week ${w} ballot? It can’t be sent again.`)) return;
     (a||d).disabled = true;
     const { error } = a ? await sb.rpc('approve_late_ballot', {who, s, w})
       : await sb.from('late_ballots').update({status:'declined'}).eq('user_id', who).eq('season', s).eq('week', w);
