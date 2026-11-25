@@ -132,6 +132,65 @@ h2 small{font:400 13px var(--body);color:var(--muted);margin-left:10px}
 .rhleg{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:var(--muted);margin:4px 0 0}
 .rhleg i{display:inline-block;width:14px;height:3px;border-radius:2px;vertical-align:middle;margin-right:5px}
 /* Playoffs tab: bracket (tap a team to advance it), title odds, how the field is set */
+/* Championship picks (Vote tab during championship week; backend/020) */
+.ch-card{margin:0 0 18px}
+.ch-top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:10px 14px;margin:0 0 14px}
+.ch-top h2{margin:0} .ch-top .sub{margin:4px 0 0;max-width:720px}
+.ch-prog{display:flex;align-items:center;gap:10px;font-weight:600;white-space:nowrap}
+.ch-prog .bar{width:120px;height:8px;border-radius:4px;background:var(--line2);overflow:hidden} .ch-prog .bar i{display:block;height:100%;background:var(--gold)}
+.ch-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:start}
+@media (max-width:820px){ .ch-grid{grid-template-columns:1fr} }
+.ch-gm{border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:var(--panel2)}
+.ch-gm .hd{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;color:var(--muted);margin-bottom:10px}
+.ch-gm .hd b{color:var(--gold);font:700 12.5px var(--body);letter-spacing:.04em;text-transform:uppercase}
+.ch-pair{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.ch-tm{display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:8px;align-items:center;border:1.5px solid var(--line);border-radius:10px;padding:7px 9px;background:var(--panel);color:var(--ink);cursor:pointer;font:inherit;text-align:left;min-width:0}
+.ch-tm:hover:not(:disabled){border-color:var(--gold)} .ch-tm:disabled{cursor:default}
+.ch-tm .lg{width:30px;height:30px}
+.ch-tm .nm{display:block;font:800 16px/1.1 var(--cond);white-space:nowrap;overflow:hidden;text-overflow:ellipsis} .ch-tm .rk{color:var(--gold);margin-right:3px}
+.ch-tm small{display:block;color:var(--muted);font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ch-tm .pct{font:800 16px var(--cond);text-align:right;white-space:nowrap}
+.ch-tm[aria-pressed="true"]{border-color:var(--gold);background:rgba(227,179,65,.16);box-shadow:0 0 0 1px var(--gold) inset}
+.ch-tm .mk{font-weight:800;margin-left:4px} .ch-tm .mk.pick{color:var(--gold)} .ch-tm .mk.ok{color:var(--win)} .ch-tm .mk.no{color:var(--loss)}
+.ch-tm.won{box-shadow:inset 0 -3px var(--win)} .ch-tm[aria-pressed="true"].won{box-shadow:0 0 0 1px var(--gold) inset,inset 0 -3px var(--win)} .ch-tm.lost{opacity:.6}
+.ch-who{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:4px;font-size:12px;line-height:1.3;color:var(--ink)} .ch-who b{color:var(--muted);font-weight:600}
+@media (max-width:520px){ .ch-pair,.ch-who{grid-template-columns:1fr} }
+.ch-wb{display:flex;height:6px;border-radius:3px;overflow:hidden;background:var(--faint);margin:10px 0 4px}
+.ch-wb span{display:block;background:var(--neutral)} .ch-wb span.fav{background:var(--gold)}
+.ch-ln{display:flex;flex-wrap:wrap;justify-content:space-between;gap:2px 8px;font-size:12px;color:var(--muted)}
+.ch-pv{margin-top:8px;border-top:1px solid var(--line2)}
+.ch-pv>summary{list-style:none;cursor:pointer;padding:9px 0 2px;font-weight:600;color:var(--gold);font-size:13px}
+.ch-pv>summary::-webkit-details-marker{display:none} .ch-pv>summary::after{content:" \25BE"} .ch-pv[open]>summary::after{content:" \25B4"}
+.ch-rm{margin:8px 0 2px;padding:8px 10px;border-radius:8px;background:var(--panel);font-size:13px}
+.ch-tg{font:700 11.5px/1 var(--body);letter-spacing:.05em;text-transform:uppercase;color:var(--muted);padding:12px 0 4px}
+.ch-sd,.ch-tr{display:grid;grid-template-columns:4.4em 5.8em minmax(0,1fr) 5.8em;gap:8px;align-items:center}
+.ch-sd{padding:14px 0 4px;font:600 12.5px/1 var(--body)}
+.ch-sd .lg{width:18px;height:18px;margin-right:5px}
+.ch-sd .sl{justify-self:end;display:flex;align-items:center;white-space:nowrap} .ch-sd .sr{display:flex;align-items:center;white-space:nowrap} .ch-sd .sv{justify-self:center;color:var(--muted);font-weight:500}
+.ch-tr{padding:5px 0;border-bottom:1px solid var(--line2)}
+.ch-tr .tl{color:var(--muted);font-size:12.5px}
+.ch-tr b{font:800 15px var(--cond)} .ch-tr .va{text-align:right} .ch-tr small{display:block;font:500 10.5px var(--body);color:var(--muted)}
+.ch-tug{position:relative;height:8px;border-radius:4px;background:linear-gradient(to right,transparent calc(33.33% - .5px),var(--faint) calc(33.33% - .5px),var(--faint) calc(33.33% + .5px),transparent calc(33.33% + .5px),transparent calc(66.67% - .5px),var(--faint) calc(66.67% - .5px),var(--faint) calc(66.67% + .5px),transparent calc(66.67% + .5px)),var(--line2)}
+.ch-tug::after{content:"";position:absolute;left:calc(50% - 1px);top:-4px;bottom:-4px;width:2px;background:var(--muted)}
+.ch-tug i{position:absolute;top:0;bottom:0} .ch-tug i.l{right:50%;border-radius:4px 0 0 4px} .ch-tug i.r{left:50%;border-radius:0 4px 4px 0}
+.ch-an{margin:8px 0 4px;padding:2px 12px 10px;border-left:3px solid var(--gold);background:var(--panel);border-radius:0 10px 10px 0}
+.ch-an p{margin:2px 0 0;font-size:14px;line-height:1.5;white-space:pre-line}
+.ch-an textarea{width:100%;box-sizing:border-box;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px;font:14px/1.45 var(--body);resize:vertical}
+.ch-an .act{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:6px} .ch-an .act .note{margin:0;font-size:12px}
+.ch-anb{margin:8px 0 2px}
+.ch-form{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
+.ch-form ul{list-style:none;margin:0;padding:0;font-size:12.5px} .ch-form li{display:flex;gap:6px;padding:2px 0;align-items:baseline}
+.ch-form .ork{color:var(--muted);font-size:11.5px} .ch-form .imp{font:700 12px var(--body);white-space:nowrap} .ch-form .imp.up{color:var(--win)} .ch-form .imp.dn{color:var(--loss)}
+.ch-form .r{font-weight:800;width:1em} .ch-form .W{color:var(--win)} .ch-form .L{color:var(--loss)}
+.ch-form h5{margin:0 0 2px;font:700 13px var(--cond)}
+.ch-st{width:100%;border-collapse:collapse;font-size:14px;margin-top:6px}
+.ch-st th{font:700 11.5px var(--body);letter-spacing:.05em;text-transform:uppercase;color:var(--muted);text-align:right;padding:6px;border-bottom:1px solid var(--line)}
+.ch-st th:nth-child(-n+2){text-align:left}
+.ch-st td{padding:6px;border-bottom:1px solid var(--line2);text-align:right;font-variant-numeric:tabular-nums}
+.ch-st td:nth-child(-n+2){text-align:left} .ch-st tr.me td{background:rgba(227,179,65,.08)}
+.ch-noballot{margin:0 0 18px}
+#view-work.champweek > :not(#champCard):not(#chNoBallot):not(#wsGate){display:none!important}   /* championship week: picks instead of a ballot */
+@media (max-width:420px){ .ch-tm .lg{width:34px;height:34px} .ch-tm .nm{font-size:16px} .ch-sd,.ch-tr{grid-template-columns:3.8em 5em minmax(0,1fr) 5em;gap:6px} .ch-sd{font-size:11.5px} }
 .po-bar{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;margin:0 0 16px}
 .po-note{color:var(--muted);font-size:13.5px;margin:0 0 12px}
 .po-scroll{overflow-x:auto;margin:0 -4px;padding:26px 4px 8px;scroll-snap-type:x mandatory}
@@ -631,7 +690,7 @@ dialog .sub{color:var(--muted);font-size:13px;margin:6px 0 14px}
 .viewonly .voter-only{display:none!important} body:not(.isowner) .boss-only{display:none!important}
 body:not(.see-lg) .lg-only,body:not(.see-sp) .sp-only{display:none!important}  /* Leagues / Straw+ until public (LEAGUES_PUBLIC, SPLUS_PUBLIC) */
 body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while switched off (EDITOR_PICKS) */
-#wsGate:empty{display:none} #view-work.gated>:not(#wsGate){display:none!important}
+#wsGate:empty{display:none} #view-work.gated>:not(#wsGate):not(#champCard){display:none!important}   /* the championship picks card (and its previews) is for everyone; only approved voters can pick */
 #view-work.ro .grip,#view-work.ro .x,#view-work.ro .add,#view-work.ro .wslot{display:none!important}
 .dl{font-size:13px;color:var(--muted)} .dl b{color:var(--text)}
 
@@ -715,6 +774,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
   <section id="view-home">
     <div class="banner" id="hBanner" role="status" hidden></div>
     <nav class="jump" id="hJump" aria-label="On this page"></nav>
+    <div class="card ch-card" id="hChamp" hidden></div>
     <div class="hero">
       <div class="card"><div class="ch"><h2 id="hTitle">Straw Poll Top 25</h2></div>
         <div class="t25" id="hTop"></div><div class="also" id="hAlso"></div></div>
@@ -947,6 +1007,8 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
 
   <!-- WORKSPACE (approved users: your own ballot; owner also gets Editor's Picks) -->
   <section id="view-work" hidden>
+    <section class="card ch-card" id="champCard" hidden></section>
+    <p class="empty ch-noballot" id="chNoBallot" hidden><strong>No Top 25 ballot this week</strong>Championship weekend has the picks above instead. Ballot voting returns the morning after the title games and closes Monday at 5 PM ET.</p>
     <div class="empty" id="wsGate" role="status"></div>
     <div class="guide" id="wsGuide" hidden><div><strong>How voting works</strong>
       <ol class="steps"><li>Pick a starting point with <b>Start from…</b> (your last ballot, Wolp+, the AP, or empty).</li>
@@ -1527,6 +1589,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
   }
   document.addEventListener('visibilitychange', ()=>{ if(document.visibilityState==='visible') pollLive(); else clearTimeout(liveTimer); });
   function renderHome(){
+    renderHomeChamp();
     renderBanner(); renderCfp();
     const n=pubNum(), list=pub(), ranks=pubMap(), prev = n!=null && prevNum(n)!=null ? rankMap(prevNum(n)) : null;
     const wk = n!=null ? S.weeks[n] : null, nb = wk && wk.compiled ? wk.ballots : null;
@@ -1627,6 +1690,168 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
   $('hAllBtn').addEventListener('click', ()=>{ S.showAll=!S.showAll; renderHome(); });
   $('hJump').addEventListener('click', e=>{ const b=e.target.closest('[data-jump]'); const el=b && document.querySelector('#view-home '+b.dataset.jump); if(el) el.scrollIntoView({behavior:'smooth', block:'start'}); });
   ['hFraud','hRadar'].forEach(id=>$(id).addEventListener('click', e=>{ const b=e.target.closest('[data-more]'); if(b){ S.more[b.dataset.more]=!S.more[b.dataset.more]; renderHome(); } }));
+
+  // ---------- CHAMPIONSHIP PICKS (backend/020) ----------
+  // Pick the winner of every FBS conference title game. All picks lock at the first title game's kickoff; then everyone's
+  // picks are public (contest_picks_public). Scoring (public): 1 per correct winner, +1 when the pick was the kickoff
+  // line's underdog (a line under 1 point = toss-up, no underdog). Results come from teams.json (picks archive / schedule).
+  S.champ = null;
+  async function loadChamp(){
+    await teamsReady;
+    const season = S.meta && S.meta.season; if(!sb || !season) return;
+    const k = await sb.from('contests').select('lock_at').eq('season', season).eq('contest', 'champ');
+    if(k.error || !k.data || !k.data.length){ S.champ = null; renderChampAll(); return; }   // no contest (or table not set up yet)
+    let g = await sb.from('contest_games').select('game_id,home,away,start,label,analysis').eq('season', season).eq('contest', 'champ');
+    if(g.error) g = await sb.from('contest_games').select('game_id,home,away,start,label').eq('season', season).eq('contest', 'champ');   // before backend/021
+    const lock = Date.parse(k.data[0].lock_at), locked = serverNow() >= lock, uid = S.me && S.me.user.id;
+    const mine = {};
+    if(uid){ const m = await sb.from('contest_picks').select('game_id,team').eq('season', season).eq('contest', 'champ').eq('user_id', uid); (m.data||[]).forEach(x=>mine[x.game_id]=x.team); }
+    const pub = locked ? ((await sb.rpc('contest_picks_public', {s: season, c: 'champ'})).data || []) : [];
+    S.champ = {season, lock, games: (g.data||[]).sort((a,b)=>String(a.start).localeCompare(String(b.start))), mine, pub};
+    renderChampAll();
+  }
+  const champLocked = () => !!S.champ && serverNow() >= S.champ.lock;
+  // a title game's result and kickoff line, from the picks archive (games that have kicked off) or this week's schedule
+  function champGame(id){
+    for(const p of (S.picks||[])) for(const g of (p.games||[])) if(String(g.id)===String(id)) return g;
+    return ((S.schedule && S.schedule.games) || []).find(g=>String(g.id)===String(id)) || null;
+  }
+  function champResult(c){   // {winner, underdog} (winner null until final)
+    const g = champGame(c.game_id) || {}, done = g.hp!=null && g.ap!=null && g.hp!==g.ap;
+    const fav = typeof g.line==='number' && Math.abs(g.line)>=1 ? (g.line>0 ? c.home : c.away) : null;
+    return {winner: done ? (g.hp>g.ap ? c.home : c.away) : null, underdog: fav ? (fav===c.home ? c.away : c.home) : null, line: g.line, model: g.model, g};
+  }
+  const champPts = (c, team) => { const r=champResult(c); return !r.winner ? null : team===r.winner ? 1 + (team===r.underdog ? 1 : 0) : 0; };
+  function champStandings(){
+    const by = {};
+    for(const x of S.champ.pub){ const c=S.champ.games.find(g=>String(g.game_id)===String(x.game_id)); if(!c) continue;
+      const o = by[x.username] = by[x.username] || {name:x.username, pts:0, right:0, wrong:0, picks:0}; o.picks++;
+      const p = champPts(c, x.team); if(p==null) continue; o.pts += p; if(p>0) o.right++; else o.wrong++; }
+    return Object.values(by).sort((a,b)=>b.pts-a.pts || b.right-a.right || a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
+  }
+  // one title game: a compact pick row (tap a team to pick it), Wolp+ win chance, the line, and a Matchup preview
+  // (design chosen 2026-11-25, plans/championship-picks.md: stat sheet, no verdict; plans/ux-review/champ-design.html)
+  const chRank = (k, low) => statRank(k, low);
+  // How far apart two teams are on a stat, in standard deviations across FBS (z; higher = better, so defense EPA is flipped).
+  // The bar is full at CH_ZFULL. Color steps by where the bar ends, in thirds of the whole track: middle third amber, the
+  // inner half of an outer third halfway to green, the extremes green.
+  const CH_ZFULL = 2, CH_STEP = ['#d9a23a', '#8cba5a', '#3fd17a'];
+  const chSpread = {};
+  function chZ(t, key, low, vals){   // vals: {team: value} (default: S.teams[team][key])
+    const ck = key + (vals ? ':x' : '');
+    if(!chSpread[ck]){ const v = Object.keys(S.teams).map(a=>vals ? vals[a] : S.teams[a][key]).filter(x=>typeof x==='number');
+      const m = v.reduce((a,b)=>a+b, 0) / (v.length||1), sd = Math.sqrt(v.reduce((a,b)=>a+(b-m)*(b-m), 0) / (v.length||1));
+      chSpread[ck] = {m, sd}; }
+    const x = vals ? vals[t] : (S.teams[t]||{})[key], z = chSpread[ck];
+    return typeof x==='number' && z.sd ? (low ? -1 : 1) * (x - z.m) / z.sd : null;
+  }
+  function chBar(za, zh){   // za = the left (away) team's z, zh = the right (home) team's
+    if(za==null || zh==null || Math.abs(za-zh) < 0.02) return '<div class="ch-tug"></div>';
+    const d = za - zh, s = Math.min(1, Math.abs(d)/CH_ZFULL), col = CH_STEP[s<=1/3 ? 0 : s<=2/3 ? 1 : 2];
+    return `<div class="ch-tug" title="${Math.abs(d).toFixed(2)} standard deviations apart"><i class="${d>0?'l':'r'}" style="width:${Math.max(4, s*50).toFixed(1)}%;background:${col}"></i></div>`;
+  }
+  function chAnalysis(c){
+    const txt = (c.analysis||'').trim(), show = txt ? `<div class="ch-an"><div class="ch-tg">Analysis</div><p>${esc(txt)}</p></div>` : '';
+    if(!S.isOwner) return show;
+    if(S.champEdit===String(c.game_id)) return `<div class="ch-an"><div class="ch-tg">Analysis <span style="text-transform:none;letter-spacing:0;font-weight:500">(leave it empty to hide this section)</span></div>
+      <textarea data-chan-text="${esc(c.game_id)}" rows="4" maxlength="600" placeholder="What should voters know about this game?">${esc(txt)}</textarea>
+      <div class="act"><button type="button" class="btn primary" data-chan-save="${esc(c.game_id)}">Save</button><button type="button" class="btn" data-chan-cancel>Cancel</button>${txt ? `<button type="button" class="btn" data-chan-clear="${esc(c.game_id)}">Remove analysis</button>` : ''}<span class="note" data-chan-count>${txt.length} / 600</span></div></div>`;
+    return show + `<button type="button" class="btn ch-anb" data-chan-edit="${esc(c.game_id)}">${txt ? '✎ Edit analysis' : '+ Add analysis'}</button>`;
+  }
+  function champPreview(c){
+    const A=c.away, H=c.home, ta=S.teams[A]||{}, th=S.teams[H]||{}, games = gamesOf(A).filter(x=>x.opp===H && x.result);
+    const rm = games.map(x=>`${fmtDate(x.date)}: ${esc(nm(x.result==='W'?A:H))} ${Math.max(x.pf,x.pa)}, ${esc(nm(x.result==='W'?H:A))} ${Math.min(x.pf,x.pa)}`).join(' · ');
+    const row = (lab, ra, rh, sa, sh, bar) => `<div class="ch-tr"><span class="tl">${lab}</span><b class="va">${ra?'#'+ra:'–'}${sa?`<small>${sa}</small>`:''}</b>${bar}<b>${rh?'#'+rh:'–'}${sh?`<small>${sh}</small>`:''}</b></div>`;
+    const ep = (t, k) => typeof t[k]==='number' ? `${t[k]>0?'+':''}${t[k].toFixed(2)} EPA` : '';
+    const R = (a, k, low) => chRank(k, low)[a];
+    const side = (l, lw, r, rw) => `<div class="ch-sd"><span></span><span class="sl" title="${esc(nm(l))}">${logo(l)}${lw}</span><span class="sv">vs</span><span class="sr" title="${esc(nm(r))}">${logo(r)}${rw}</span></div>`;
+    // l = the left team's side of the matchup, r = the right team's (k = Run/Pass)
+    const unit = (lt, lside, rt, rside, k) => { const kl = lside+k+'Epa', kr = rside+k+'Epa', ll = lside==='def', rl = rside==='def';
+      return row(k, R(lt,kl,ll), R(rt,kr,rl), ep(S.teams[lt]||{},kl), ep(S.teams[rt]||{},kr), chBar(chZ(lt,kl,ll), chZ(rt,kr,rl))); };
+    const pts = v => typeof v==='number' ? `${v>0?'+':''}${v.toFixed(1)}` : '';
+    // the 4 games that moved each team's Wolp+ most (teams.json games[].impact, from the update run), biggest first
+    const moved = t => gamesOf(t).filter(x=>x.result && typeof x.impact==='number').sort((x,y)=>Math.abs(y.impact)-Math.abs(x.impact)).slice(0,4)
+      .map(x=>{ const o=S.teams[x.opp], up=x.impact>0; return `<li><span class="r ${x.result}">${x.result}</span><span style="flex:1">${x.pf}-${x.pa} ${gAt(x)} <span class="ork">${o && o.powerRank ? '#'+o.powerRank : 'FCS'}</span> ${esc(nm(x.opp))}</span><b class="imp ${up?'up':'dn'}">${up?'▲':'▼'} ${Math.abs(x.impact).toFixed(1)}</b></li>`; }).join('');
+    const hasMoved = gamesOf(A).some(x=>typeof x.impact==='number') || gamesOf(H).some(x=>typeof x.impact==='number');
+    const sp = spNow();
+    return `<details class="ch-pv"><summary>Matchup preview</summary>
+      ${chAnalysis(c)}
+      ${rm ? `<div class="ch-rm"><b>Rematch.</b> ${rm}</div>` : ''}
+      <div class="ch-tg">Ratings</div>${row('Wolp+', ta.powerRank, th.powerRank, pts(ta.powerRating), pts(th.powerRating), chBar(chZ(A,'powerRating'), chZ(H,'powerRating')))}${row('ESPN FPI', ta.fpiRank, th.fpiRank, pts(ta.fpi), pts(th.fpi), chBar(chZ(A,'fpi'), chZ(H,'fpi')))}${sp.rk[A] || sp.rk[H] ? row('SP+', sp.rk[A], sp.rk[H], pts(sp.r[A]), pts(sp.r[H]), chBar(chZ(A,'sp',false,sp.r), chZ(H,'sp',false,sp.r))) : ''}
+      ${side(A,'Offense',H,'Defense')}${unit(A,'off',H,'def','Run')}${unit(A,'off',H,'def','Pass')}
+      ${side(A,'Defense',H,'Offense')}${unit(A,'def',H,'off','Run')}${unit(A,'def',H,'off','Pass')}
+      ${hasMoved ? `<div class="ch-tg">Games that moved Wolp+ most <span style="text-transform:none;letter-spacing:0;font-weight:500">(points up or down)</span></div><div class="ch-form"><div><h5>${esc(nm(A))}</h5><ul>${moved(A)}</ul></div><div><h5>${esc(nm(H))}</h5><ul>${moved(H)}</ul></div></div>` : ''}
+    </details>`;
+  }
+  function champGameHtml(c, interactive){
+    const r = champResult(c), mine = S.champ.mine[c.game_id], locked = champLocked(), A=c.away, H=c.home;
+    const counts = {}, who = {}; if(locked) S.champ.pub.forEach(x=>{ if(String(x.game_id)===String(c.game_id)){ counts[x.team]=(counts[x.team]||0)+1; (who[x.team]=who[x.team]||[]).push(x.username); } });
+    // Wolp+ margin for the home team: the schedule's (home field + travel included), else the ratings (+ home field unless neutral)
+    const g = r.g || {}, m = typeof g.model==='number' ? g.model : ((S.teams[H]||{}).powerRating||0) - ((S.teams[A]||{}).powerRating||0) + (g.neutral ? 0 : poHome());
+    const ph = winPct(m)/100, home = m>=0 ? ph : 1-ph, away = 1-home;
+    const tile = (t, p) => { const won = r.winner && t===r.winner, lost = r.winner && t!==r.winner, rk = headRank(t);
+      const mark = mine===t ? (r.winner ? (won ? '<span class="mk ok">✓</span>' : '<span class="mk no">✗</span>') : '<span class="mk pick" title="Your pick">✓</span>') : '';
+      const sub = [S.teams[t] ? rec(S.teams[t].w, S.teams[t].l) : '', t===r.underdog ? 'underdog' : '', locked ? `${counts[t]||0} pick${counts[t]===1?'':'s'}` : ''].filter(Boolean).join(' · ');
+      return `<button type="button" class="ch-tm${won?' won':''}${lost?' lost':''}" data-chpick="${esc(c.game_id)}" data-team="${esc(t)}" aria-pressed="${mine===t}"${interactive && !locked ? '' : ' disabled'} aria-label="${esc(nm(t))}${mine===t ? ', your pick' : ''}">`
+        + `${logo(t)}<span style="min-width:0"><span class="nm">${rk && rk<=TOP ? `<span class="rk">${rk}</span>` : ''}${esc(nm(t))}</span><small>${sub}</small></span><span class="pct">${Math.round(p*100)}%${mark}</span></button>`; };
+    const when = g.hp!=null && g.ap!=null ? `Final: ${esc(nm(A))} ${g.ap}, ${esc(nm(H))} ${g.hp}` : esc(kick(c.start));
+    const line = typeof r.line==='number' ? `Line: ${spread(r.line, H, A)}` : 'Line: not posted yet';
+    const names = locked && (who[A] || who[H]) ? `<div class="ch-who">${[A,H].map(t=>`<span>${who[t] ? `<b>${esc(nm(t))}:</b> ${who[t].map(esc).join(', ')}` : ''}</span>`).join('')}</div>` : '';
+    return `<div class="ch-gm"><div class="hd"><b>${esc(c.label||'')} Championship</b><span>${when}</span></div>
+      <div class="ch-pair">${tile(A, away)}${tile(H, home)}</div>${names}
+      <div class="ch-wb"><span class="${away>home?'fav':''}" style="width:${(away*100).toFixed(1)}%"></span><span class="${home>away?'fav':''}" style="width:${(home*100).toFixed(1)}%"></span></div>
+      <div class="ch-ln"><span>Wolp+ win chance${g.neutral ? '' : ` · at ${esc(nm(H))}`}</span><span>Wolp+: ${spread(m, H, A)} · ${line}</span></div>
+      ${champPreview(c)}</div>`;
+  }
+  const champTable = rows => { const me = S.me && S.me.profile && S.me.profile.username;
+    return rows.length ? `<table class="ch-st"><thead><tr><th>#</th><th>Voter</th><th>Points</th><th>Record</th></tr></thead><tbody>${rows.map((o,i)=>`<tr class="${o.name===me?'me':''}"><td>${i && o.pts===rows[i-1].pts && o.right===rows[i-1].right ? '' : i+1}</td><td>${esc(o.name)}</td><td>${o.pts}</td><td>${o.right}-${o.wrong}</td></tr>`).join('')}</tbody></table>` : '<p class="note">No picks were made.</p>'; };
+  function renderChamp(){
+    const box = $('champCard'); if(!box) return;
+    const C = S.champ; box.hidden = !C || !C.games.length; if(box.hidden) return;
+    const locked = champLocked(), can = S.canWrite, N = C.games.length, n = C.games.filter(g=>C.mine[g.game_id]).length;
+    const when = etTime(new Date(C.lock)), st = locked ? champStandings() : [];
+    const open = [...box.querySelectorAll('.ch-pv[open]')].map(d=>d.closest('.ch-gm').querySelector('[data-chpick]').dataset.chpick);   // keep previews open across re-renders
+    box.innerHTML = `<div class="ch-top"><div><h2>Championship picks</h2><p class="sub">${locked ? 'Picks are locked. Everyone’s picks are shown under each team.'
+        : can ? `Pick the winner of every conference title game. All picks lock at the first kickoff, <b>${esc(when)}</b>.`
+        : `Approved voters pick the winner of every conference title game. Picks lock at the first kickoff, ${esc(when)}; then everyone’s picks are shown here.`} 1 point for each right winner, +1 if you picked the underdog.</p></div>
+      ${can && !locked ? `<div class="ch-prog">${n} of ${N} picked<span class="bar"><i style="width:${(n/N*100).toFixed(0)}%"></i></span></div>` : ''}</div>
+      <div class="ch-grid">${C.games.map(c=>champGameHtml(c, can)).join('')}</div>
+      ${locked ? `<h3 style="margin:18px 0 0;font:700 20px var(--cond)">Standings</h3>${champTable(st)}` : ''}`;
+    open.forEach(id=>{ const t=box.querySelector(`[data-chpick="${CSS.escape(id)}"]`); const d=t && t.closest('.ch-gm').querySelector('.ch-pv'); if(d) d.open=true; });
+  }
+  function renderHomeChamp(){
+    const box = $('hChamp'); if(!box) return;
+    const C = S.champ; box.hidden = !C || !C.games.length; if(box.hidden) return;
+    const locked = champLocked(), st = locked ? champStandings().slice(0, 5) : [], go = '<button class="more" data-go="work">Championship picks →</button>';
+    box.innerHTML = locked
+      ? `<div class="ch"><h2>Championship picks</h2>${go}</div>${champTable(st)}`
+      : `<div class="ch"><h2>Championship picks</h2>${go}</div><p class="note" style="margin:0">Pick the winner of all ${C.games.length} conference title games. Picks lock ${esc(etTime(new Date(C.lock)))}.</p>`;
+  }
+  // championship week: the contest is on, no ballot week is open, and some title game isn't final yet
+  const champWeek = () => !!S.champ && S.champ.games.length > 0 && openWeekNum()==null && !S.champ.games.every(g=>champResult(g).winner);
+  function renderChampAll(){ renderChamp(); renderHomeChamp(); const cw = champWeek(); $('view-work').classList.toggle('champweek', cw); $('chNoBallot').hidden = !cw; }
+  document.addEventListener('click', async e=>{
+    const b = e.target.closest('[data-chpick]'); if(!b || b.disabled || !S.champ || !S.canWrite || champLocked()) return;
+    const C = S.champ, gid = Number(b.dataset.chpick), team = b.dataset.team, was = C.mine[gid];
+    C.mine[gid] = team; renderChampAll();
+    const r = await sb.from('contest_picks').upsert({user_id: S.me.user.id, season: C.season, contest: 'champ', game_id: gid, team});
+    if(r.error){ if(was) C.mine[gid] = was; else delete C.mine[gid]; renderChampAll(); toast(sbErr(r.error, 'Couldn’t save your pick. Try again.')); return; }
+    toast(`Picked ${nm(team)}`, 1500);
+  });
+  document.addEventListener('click', async e=>{
+    if(!S.champ || !S.isOwner) return;
+    const ed = e.target.closest('[data-chan-edit]'); if(ed){ S.champEdit = ed.dataset.chanEdit; renderChamp(); const ta = document.querySelector('[data-chan-text]'); if(ta){ ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); } return; }
+    if(e.target.closest('[data-chan-cancel]')){ S.champEdit = null; renderChamp(); return; }
+    const sv = e.target.closest('[data-chan-save],[data-chan-clear]'); if(!sv) return;
+    const gid = sv.dataset.chanSave || sv.dataset.chanClear, ta = document.querySelector(`[data-chan-text="${CSS.escape(gid)}"]`);
+    const v = sv.dataset.chanClear ? '' : (ta ? ta.value.trim() : '');
+    sv.disabled = true;
+    const r = await sb.from('contest_games').update({analysis: v || null}).eq('season', S.champ.season).eq('contest', 'champ').eq('game_id', Number(gid)).select('game_id');
+    if(r.error || !r.data || !r.data.length){ sv.disabled = false; toast(r.error && /analysis/.test(r.error.message||'') ? 'Run backend/021_contest_analysis.sql first.' : sbErr(r.error, 'Couldn’t save the analysis. Try again.')); return; }
+    const c = S.champ.games.find(x=>String(x.game_id)===String(gid)); if(c) c.analysis = v || null;
+    S.champEdit = null; renderChamp(); toast(v ? 'Analysis saved' : 'Analysis removed', 1500);
+  });
+  document.addEventListener('input', e=>{ const ta = e.target.closest('[data-chan-text]'); if(ta){ const c = document.querySelector('[data-chan-count]'); if(c) c.textContent = `${ta.value.length} / 600`; } });
 
   // ---------- PLAYOFFS ----------
   // The 12-team field from the latest CFP rankings (cfpField: 2026-27 rules), as a bracket the visitor can click through.
@@ -2447,6 +2672,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
   const guideSeen = () => { try{ return localStorage.getItem('sp-guide-seen')==='1'; }catch(e){ return false; } };
   $('wsGuideOk').addEventListener('click', ()=>{ try{ localStorage.setItem('sp-guide-seen','1'); }catch(e){} $('wsGuide').hidden=true; });
   function renderWork(){
+    renderChampAll();
     $('wsGuide').hidden = !S.canWrite || guideSeen();
     document.querySelectorAll('[data-ws]').forEach(b=>b.classList.toggle('on', b.dataset.ws===S.ws));
     ['ballot','map'].forEach(k=>$('ws-'+k).hidden = k!==S.ws);
@@ -2569,11 +2795,15 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
   function clearLeagues(){ Object.assign(S.lg, {state:'idle', leagues:[], members:{}, names:{}, totals:[], cur:null, polls:{}, ballots:{}, form:null}); }
   const ptsTxt = v => v==null ? '–' : (v<0 ? '−' : '') + Math.abs(v).toFixed(1);  // pick'em points: no + on positives
   // Pick'em (published rule, same as pickem.py): the AP poll's score for a week, scored like any ballot
+  // Ballot Score is regular season only: a week played mostly in December (championship weekend and later) doesn't count
+  // (pickem.py december_week; by date, because CFBD numbers championship weekend 14 or 15 depending on the season)
+  const decWeek = games => { const st=(games||[]).filter(g=>g.start), dec=st.filter(g=>new Date(g.start).toLocaleString('en-US',{month:'numeric', timeZone:'America/New_York'})==='12'); return st.length>0 && dec.length*2>st.length; };
+  const scoredWeek = w => { const p=pickWeek(w); return !!p && w<=14 && !decWeek(p.games); };
   function apPickem(w){ const p = pickWeek(w); return p && p.ap ? pollPickem(p.ap, w) : null; }
   // a whole poll's Ballot Score for week w, as if it were a ballot (pickem.py's rules): ranks = {team: rank}, Top 25 only.
   // (The AP never gets the upset bonus: it can't pick against itself.)
   function pollPickem(ranks, w){
-    const p = pickWeek(w); if(!p || !p.ap || w>14) return null;
+    const p = pickWeek(w); if(!p || !p.ap || !scoredWeek(w)) return null;
     const R = a => ranks[a]!=null && ranks[a]<=TOP ? ranks[a] : null, A = a => p.ap[a] || AP_NR;
     let pts=0, right=0, wrong=0;
     for(const g of p.games){
@@ -2689,7 +2919,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     }).sort((a,b)=>String(a.g.start).localeCompare(String(b.g.start)));
   }
   function callsHtml(ranks, w){
-    if(w>14) return '<p class="lead">Ballot Score covers the regular season only.</p>';
+    if(w>14 || (pickWeek(w) && !scoredWeek(w))) return '<p class="lead">Ballot Score covers the regular season only.</p>';
     const C = ballotCalls(ranks, w);
     if(!C.length) return '<p class="lead">No games for this week yet.</p>';
     const done = C.filter(c=>c.right!==undefined), right = done.filter(c=>c.right).length, left = C.length - done.length;
@@ -3296,6 +3526,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     if(who===S.accessFor) return;  // loadMe runs on every account-window open; only react to real changes
     S.accessFor = who;
     if(vote){ loadVoting(); if(seeLg()) loadLeagues(); else clearLeagues(); } else { clearVoting(); clearLeagues(); }
+    loadChamp();   // your own championship picks
     if($('sdefs').children.length) renderDefs();  // Straw+ definition follows who's looking
     const want = S.wantTab; S.wantTab = null;
     if(want && owner) showTab(want);
@@ -3630,7 +3861,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     const f = (()=>{ try{ return JSON.parse(localStorage.getItem('cfb-dials')||'null'); }catch(e){ return null; } })();  // each viewer's own what-if
     if(f && typeof f==='object' && 'Group of 5' in f){ f['Group of 6'] = f['Group of 5']; delete f['Group of 5']; }  // renamed 2026-10-04
     if(f && typeof f==='object'){ const g=Object.fromEntries(Object.entries(f).filter(([k])=>DIALS.includes(k))); S.adj={...g}; S.adjPub={...g}; S._mdl=null; }
-    loadUpsets(); loadCfpG6();
+    loadUpsets(); loadCfpG6(); loadChamp();
     db.teams.then(d=>{
       S.meta = {through:d.through, updatedAt:d.updatedAt, season:d.season};
       if(d.season){ $('brandYr').textContent=d.season; document.title=`Straw Poll ${d.season}`; }
