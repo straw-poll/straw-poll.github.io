@@ -1005,6 +1005,9 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     <section class="sec" style="margin-top:0"><div class="sh"><h2>Voting</h2><button class="btn" id="openWeek" hidden>Open voting…</button></div>
       <p id="adminVote" style="margin:0 0 6px"></p>
       <p class="note">The Sunday 7 AM update opens each week, once the previous week's games are final. Use Open voting only if it didn't. To change a deadline, edit it in the Supabase dashboard (changes are logged publicly).</p></section>
+    <section class="sec" id="admG6Sec" hidden><div class="sh"><h2>Playoffs: Group of Six bid</h2></div>
+      <div class="row" style="gap:10px"><select class="fsel" id="admG6" aria-label="Group of Six bid team"></select><button class="btn primary" id="admG6Save">Save</button><span class="note" id="admG6Msg" style="margin:0"></span></div>
+      <p class="note">The committee only publishes its Top 25. When its top Group of Six team is outside it, pick that team here (from the committee's projected bracket). It applies to this week's CFP release for everyone; visitors can still try others in What if. Automatic = the highest-ranked Group of Six team in the Top 25, or the committee's last one if none.</p></section>
     <section class="sec"><div class="sh"><h2 id="bsTitle">Ballots</h2><button class="btn quiet" id="bsRefresh">Refresh</button></div>
       <div id="adminBallots"></div>
       <p class="note">Who has submitted and when. Ballots themselves stay private until the deadline, even from you.</p></section>
@@ -1334,7 +1337,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     const ok = (c, a) => !race || !race[c] || race[c].includes(a);   // can still win its conference
     const order = Object.keys(ranks).sort((a,b)=>ranks[a]-ranks[b]), conf = a => S.teams[a] && S.teams[a].conf, why = {};
     P4_CONFS.forEach(c=>{ const t=pick[c] || order.find(a=>conf(a)===c && ok(c,a)); if(t) why[t] = c+' champ'; });
-    const g6 = order.find(a=>g6Conf(conf(a))); if(g6) why[g6] = 'top Group of Six';   // the highest-ranked Group of Six TEAM, conference champion or not
+    const g6 = pick.G6 || order.find(a=>g6Conf(conf(a))); if(g6) why[g6] = ranks[g6] > TOP ? 'top Group of Six, outside the CFP Top 25' : 'top Group of Six';   // the highest-ranked Group of Six TEAM, conference champion or not
     if(ranks['Notre Dame']<=12) why['Notre Dame'] = 'auto bid (top 12)';
     const auto = Object.keys(why), atLarge = order.filter(a=>!why[a]).slice(0, Math.max(0, 12-auto.length-(g6?0:1)));   // no ranked G6 team: its bid stays TBD
     const inTop = a => ranks[a]<=12, pool = auto.concat(atLarge);
@@ -1637,11 +1640,22 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     const ws=cfpWeeks(); if(!ws.length) return null; const w=ws[ws.length-1], real=cfpWeek(w), sc=S.poScn;
     if(sc.w!==w) Object.assign(sc, {w, champ:{}, order:null});   // new rankings: start over
     const race = confRace();   // a picked champion that can no longer win its conference is dropped
-    for(const [c,a] of Object.entries(sc.champ)) if(a && !(P4_CONFS.includes(c) && (race[c]||[]).includes(a))) delete sc.champ[c];
+    for(const [c,a] of Object.entries(sc.champ)) if(a && !(c==='G6' ? g6Conf(S.teams[a] && S.teams[a].conf) : P4_CONFS.includes(c) && (race[c]||[]).includes(a))) delete sc.champ[c];
     const base = Object.keys(real).sort((a,b)=>real[a]-real[b]), order = sc.order || base, r = {};
     order.forEach((a,i)=>r[a]=i+1);
+    // No Group of Six team in this Top 25: the committee still names its top G6 team (outside the Top 25, in its projected
+    // bracket). We only get the Top 25, so use the G6 team it ranked highest in its latest release that had one.
+    const isG6 = a => g6Conf(S.teams[a] && S.teams[a].conf), g6fb = base.some(isG6) ? null : (() => {
+      for(const pw of ws.slice(0, -1).reverse()){ const pr=cfpWeek(pw), t=Object.keys(pr).filter(isG6).sort((a,b)=>pr[a]-pr[b])[0]; if(t) return t; }
+      return null; })();
+    // the site owner can set the Group of Six team for this release (Admin); it replaces the automatic choice for everyone
+    const own = S.cfpG6[w] && S.teams[S.cfpG6[w]] && isG6(S.cfpG6[w]) ? S.cfpG6[w] : null, g6d = own || g6fb;
+    const realR = g6d && !real[g6d] ? Object.assign({}, real, {[g6d]: base.length + 1}) : real;
+    if(g6d && !r[g6d]) r[g6d] = Object.keys(r).length + 1;
     Object.values(sc.champ).filter(a=>a && !r[a]).sort((a,b)=>(S.teams[a].powerRank||999)-(S.teams[b].powerRank||999)).forEach(a=>r[a]=Object.keys(r).length+1);
-    return Object.assign(cfpField(r, sc.champ, race), {w, ranks:r, real, base, order, race, realField: cfpField(real, {}, race).field});
+    const pick = Object.assign({}, own ? {G6: own} : {}, sc.champ);
+    return Object.assign(cfpField(r, pick, race), {w, ranks:r, real, base, order, race, g6fb, g6own: own, g6default: g6d || base.find(isG6) || null,
+      realField: cfpField(realR, own ? {G6: own} : {}, race).field});
   }
   const poHome = () => (((S.model||{}).settings||{}).HOME_FIELD) || 2.5;
   const poMargin = (a, b, homeA) => ((S.teams[a]||{}).powerRating||0) - ((S.teams[b]||{}).powerRating||0) + (homeA ? poHome() : 0);   // a's expected margin
@@ -1693,30 +1707,41 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
         <div class="card"><div class="ch"><h2>How the field is set</h2></div>
           <p class="po-note" style="color:var(--ink)">Automatic bids: ${Object.entries(F.why).map(([a,w])=>`<b>${esc(nm(a))}</b> (${esc(w)})`).join(', ')}.</p>
           ${F.g6missing ? '<p class="po-note">No Group of Six team is in the CFP Top 25, so its automatic bid is TBD.</p>' : ''}
+          ${S.poScn.champ.G6 ? `<p class="po-note">Your scenario gives <b>${esc(nm(S.poScn.champ.G6))}</b> the Group of Six bid.</p>`
+            : F.g6own ? `<p class="po-note"><b>${esc(nm(F.g6own))}</b> holds the Group of Six bid as the committee's top Group of Six team this week${F.ranks[F.g6own] > TOP ? ' (outside the Top 25, which is all the committee publishes)' : ''}.</p>`
+            : F.g6fb ? `<p class="po-note">No Group of Six team is in this week's CFP Top 25 (the committee only publishes 25). <b>${esc(nm(F.g6fb))}</b> holds the Group of Six bid as the committee's top Group of Six team in its last release that had one.</p>` : ''}
           <p class="po-note">The top 4 seeds get byes. Automatic qualifiers ranked outside the CFP top 12 take the bottom seeds. Power 4 champions are projected as each conference's highest-ranked team that can still win it. The Group of Six bid goes to the highest-ranked Group of Six team, conference champion or not.</p>
           ${F.out.length ? `<p class="po-note">First teams out: ${F.out.map(a=>`${esc(nm(a))} (#${F.ranks[a]})`).join(', ')}</p>` : ''}</div>
       </div>`;
     poSortable();
   }
   function poScnHtml(F){
-    const sc=S.poScn, race=F.race, champOf = c => Object.entries(F.why).find(([,w])=>w===c+' champ')?.[0];
+    const sc=S.poScn, race=F.race, champOf = c => c==='G6' ? Object.entries(F.why).find(([,w])=>w.startsWith('top Group of Six'))?.[0] : Object.entries(F.why).find(([,w])=>w===c+' champ')?.[0];
     const byRank = (a,b)=>(F.ranks[a]||99)-(F.ranks[b]||99) || (S.teams[a].powerRank||999)-(S.teams[b].powerRank||999);
     const alive = c => Object.keys(S.teams).filter(a=>S.teams[a].conf===c && (race[c]||[]).includes(a)).sort(byRank);
     const rc = a => { const R=race[S.teams[a].conf]||{}; return R.set==='clinched' ? 'in title game' : R.set==='won' ? 'champion' : R.rec && R.rec[a] ? R.rec[a] : ''; };
     const chip = (c, a) => `<button type="button" class="po-chip${!sc.champ[c] && champOf(c)===a ? ' proj' : ''}" data-pchamp="${esc(c)}" data-pa="${esc(a)}" aria-pressed="${champOf(c)===a && !!sc.champ[c]}" title="${esc(nm(a))} wins the ${c}">${logo(a)}${esc(nm(a))}<small>${[rc(a), F.real[a] ? '#'+F.real[a] : ''].filter(Boolean).join(' · ')}</small></button>`;
     const confRow = (c, lab) => { const L=alive(c); return L.length ? `<div class="po-conf"><span>${lab}</span><div class="po-chips">${L.map(a=>chip(c,a)).join('')}</div></div>` : ''; };
+    const g6Row = () => {   // the projected team, then AP- and CFP-ranked ones, then Wolp+'s best; "Other..." for any team
+      const g6s = Object.keys(S.teams).filter(a=>g6Conf(S.teams[a].conf)), apR=(S.ap&&S.ap.ranks)||{};
+      const top = [...new Set([F.g6default, sc.champ.G6, ...g6s.filter(a=>F.real[a]).sort((a,b)=>F.real[a]-F.real[b]), ...g6s.filter(a=>apR[a]).sort((a,b)=>apR[a]-apR[b]),
+        ...g6s.filter(a=>S.teams[a].powerRank).sort((a,b)=>S.teams[a].powerRank-S.teams[b].powerRank)])].filter(Boolean).slice(0, 4);
+      const lab = a => [F.real[a] ? 'CFP #'+F.real[a] : '', apR[a] ? 'AP #'+apR[a] : '', S.teams[a].powerRank ? 'Wolp+ #'+S.teams[a].powerRank : ''].filter(Boolean)[0] || '';
+      const gchip = a => `<button type="button" class="po-chip${!sc.champ.G6 && F.g6default===a ? ' proj' : ''}" data-pchamp="G6" data-pa="${esc(a)}" aria-pressed="${sc.champ.G6===a}" title="${esc(nm(a))} gets the Group of Six bid">${logo(a)}${esc(nm(a))}<small>${esc(lab(a))}</small></button>`;
+      const rest = g6s.filter(a=>!top.includes(a)).sort((a,b)=>(S.teams[a].powerRank||999)-(S.teams[b].powerRank||999)), confs=[...new Set(rest.map(a=>S.teams[a].conf))];
+      return `<div class="po-conf"><span>Group of Six</span><div class="po-chips">${top.map(gchip).join('')}<select class="fsel" data-pg6 aria-label="Another Group of Six team"><option value="">Other…</option>${confs.map(k=>`<optgroup label="${esc(k)}">${rest.filter(a=>S.teams[a].conf===k).map(a=>`<option value="${esc(a)}">${esc(nm(a))}</option>`).join('')}</optgroup>`).join('')}</select></div></div>`; };
     // what changed vs the committee's rankings as they stand
     const champOfReal = c => F.base.find(x=>S.teams[x] && S.teams[x].conf===c && (race[c]||[]).includes(x));
     const now=F.field.filter(Boolean), was=F.realField.filter(Boolean), sd=(L,a)=>L.indexOf(a)+1;
     const ins=now.filter(a=>!was.includes(a)), outs=was.filter(a=>!now.includes(a)), seeds=now.filter(a=>was.includes(a) && sd(now,a)!==sd(was,a));
     const changed = Object.values(sc.champ).some(Boolean) || !!sc.order;
     const diff = !changed ? '<p class="po-note" style="margin:0">Tap a champion or drag a team to try a scenario. The bracket and title odds below update as you go.</p>'
-      : `<div class="po-diff">${Object.entries(sc.champ).filter(([,a])=>a).map(([c,a])=>`<div><b>${c}:</b> ${esc(nm(a))}${F.realField.includes(champOfReal(c)) && champOfReal(c)!==a ? ` (${esc(nm(champOfReal(c)))} ${F.field.includes(champOfReal(c)) ? 'stays in at-large' : 'drops out'})` : ''}</div>`).join('')}${ins.length ? `<div><b class="in">In:</b> ${ins.map(a=>`${esc(nm(a))} (${sd(now,a)} seed)`).join(', ')}</div>` : ''}${outs.length ? `<div><b class="out">Out:</b> ${outs.map(a=>esc(nm(a))).join(', ')}</div>` : ''}${seeds.length ? `<div><b>Seeds:</b> ${seeds.slice(0,6).map(a=>`${esc(nm(a))} ${sd(was,a)}→${sd(now,a)}`).join(', ')}${seeds.length>6?` and ${seeds.length-6} more`:''}</div>` : ''}${!ins.length && !outs.length && !seeds.length ? 'Same field and seeds as now.' : ''}</div>`;
+      : `<div class="po-diff">${Object.entries(sc.champ).filter(([,a])=>a).map(([c,a])=>`<div><b>${c==='G6' ? 'Group of Six bid' : c}:</b> ${esc(nm(a))}${c!=='G6' && F.realField.includes(champOfReal(c)) && champOfReal(c)!==a ? ` (${esc(nm(champOfReal(c)))} ${F.field.includes(champOfReal(c)) ? 'stays in at-large' : 'drops out'})` : ''}</div>`).join('')}${ins.length ? `<div><b class="in">In:</b> ${ins.map(a=>`${esc(nm(a))} (${sd(now,a)} seed)`).join(', ')}</div>` : ''}${outs.length ? `<div><b class="out">Out:</b> ${outs.map(a=>esc(nm(a))).join(', ')}</div>` : ''}${seeds.length ? `<div><b>Seeds:</b> ${seeds.slice(0,6).map(a=>`${esc(nm(a))} ${sd(was,a)}→${sd(now,a)}`).join(', ')}${seeds.length>6?` and ${seeds.length-6} more`:''}</div>` : ''}${!ins.length && !outs.length && !seeds.length ? 'Same field and seeds as now.' : ''}</div>`;
     const showAll = sc.all || F.order.length<=16, list = showAll ? F.order : F.order.slice(0,16), cut = F.order[11];
-    const sum = [...Object.entries(sc.champ).filter(([,a])=>a).map(([c,a])=>`${nm(a)} wins the ${c}`), ...(sc.order ? [`${F.order.filter((a,i)=>F.real[a]!==i+1).length} teams moved`] : [])];
+    const sum = [...Object.entries(sc.champ).filter(([,a])=>a).map(([c,a])=>`${nm(a)} ${c==='G6' ? 'gets the Group of Six bid' : 'wins the '+c}`), ...(sc.order ? [`${F.order.filter((a,i)=>F.real[a]!==i+1).length} teams moved`] : [])];
     return `<details class="card po-scn" id="poScn"${sc.open?' open':''}><summary><h2>What if…</h2><span class="sdesc">${sum.length ? 'Showing: '+esc(sum.join(' · ')) : 'Pick conference champions or move teams to see how the bracket changes'}</span><span class="more"></span></summary>
-      <div class="po-sbody"><div class="po-sgrid"><div><h4>Conference champions</h4>${confRow('ACC','ACC')}${confRow('Big Ten','Big Ten')}${confRow('Big 12','Big 12')}${confRow('SEC','SEC')}
-        <p class="po-note" style="margin:6px 0 0">Only teams that can still reach their title game ("in title game" = clinched). Dashed outline = projected champion; tap a team to make it champion, tap again to undo. The Group of Six bid follows the ranking: move teams to change it.</p>${diff}</div>
+      <div class="po-sbody"><div class="po-sgrid"><div><h4>Conference champions</h4>${confRow('ACC','ACC')}${confRow('Big Ten','Big Ten')}${confRow('Big 12','Big 12')}${confRow('SEC','SEC')}${g6Row()}
+        <p class="po-note" style="margin:6px 0 0">Only teams that can still reach their title game ("in title game" = clinched). Dashed outline = projected champion; tap a team to make it champion, tap again to undo. Group of Six: the team the committee ranks highest gets the bid; pick a different one to try it.</p>${diff}</div>
       <div><h4>CFP ranking · drag to reorder</h4><ol class="po-ord" id="poOrd">${list.map((a,i)=>`<li data-pa="${esc(a)}" class="${F.real[a]!==i+1?'moved':''}${a===cut?' cut':''}"><button type="button" class="grip" aria-label="Move ${esc(nm(a))}, now #${i+1}. Use arrow keys.">${GRIP}</button><span class="rk">${i+1}</span>${logo(a)}<b>${esc(nm(a))}</b><small>${F.real[a]!==i+1 ? 'was #'+F.real[a] : ''}</small></li>`).join('')}</ol>
         ${F.order.length>16 ? `<button class="more po-more" type="button" data-po="all">${showAll ? 'Show top 16 only' : `Show all ${F.order.length}`}</button>` : ''}</div></div>
       <button class="btn" type="button" data-po="scnreset" style="margin-top:14px"${changed?'':' disabled'}>Reset scenario</button></div></details>`;
@@ -1733,6 +1758,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
   $('poMain').addEventListener('keydown', e=>{ const g=e.target.closest('#poOrd .grip'); if(!g || (e.key!=='ArrowUp' && e.key!=='ArrowDown')) return; e.preventDefault();
     const a=g.closest('li').dataset.pa, i=poField().order.indexOf(a); poMove(a, i + (e.key==='ArrowUp' ? -1 : 1));
     const ng=$('poMain').querySelector(`#poOrd li[data-pa="${CSS.escape(a)}"] .grip`); if(ng) ng.focus(); });
+  $('poMain').addEventListener('change', e=>{ const c=e.target.closest('[data-pg6]'); if(c && c.value){ S.poScn.champ.G6 = c.value; renderPlayoffs(); } });
   $('poMain').addEventListener('toggle', e=>{ if(e.target.id==='poScn') S.poScn.open = e.target.open; }, true);
 
   $('poMain').addEventListener('click', e=>{
@@ -2794,6 +2820,16 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
   $('uAll').addEventListener('change', e=>{ S.uAll=e.target.checked; renderUps(); });
   // published Editor's Picks (table upset_alerts; everyone can read them; Home shows this week's). If they can't load, Home
   // shows none. Before backend/017 there is no pick column: then they load without picks.
+  // Playoffs: the site owner's Group of Six bid team per CFP release (backend/019 cfp_g6); {week: team}
+  S.cfpG6 = {};
+  async function loadCfpG6(){
+    await teamsReady;
+    const season = S.meta && S.meta.season; if(!sb || !season) return;
+    const { data, error } = await sb.from('cfp_g6').select('week,team').eq('season', season);
+    if(error) return;   // table not created yet: the automatic rule applies
+    S.cfpG6 = Object.fromEntries(data.map(x=>[x.week, x.team]));
+    if(S.tab==='playoffs' || S.tab==='admin') renderCurrent();
+  }
   async function loadUpsets(){
     await teamsReady;
     const season = S.meta && S.meta.season; if(!EDITOR_PICKS || !sb || !season) return;
@@ -3424,8 +3460,29 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     const list = B.voters.slice().sort((a,b)=>(!!at[b.id]-!!at[a.id]) || (at[a.id]||'').localeCompare(at[b.id]||'') || (a.username||'').localeCompare(b.username||''));
     $('adminBallots').innerHTML = `<div class="reqs" style="margin-top:0;border-top:0;padding-top:0">${list.map(v=>`<div class="req"><div>${esc(v.username||'(no username yet)')}<small>${at[v.id] ? 'Submitted '+esc(atTime(at[v.id])) : 'Not submitted'}</small></div><span style="color:var(${at[v.id]?'--win':'--muted'})">${at[v.id]?'✓':'–'}</span><span></span></div>`).join('') || '<p class="dnote">No approved voters yet.</p>'}</div>`;
   }
+  function renderAdminG6(){
+    const ws=cfpWeeks(); $('admG6Sec').hidden = !ws.length; if(!ws.length) return;
+    const w=ws[ws.length-1], cur=S.cfpG6[w]||'', apR=(S.ap&&S.ap.ranks)||{}, real=cfpWeek(w);
+    const sv=S.poScn.champ.G6; S.poScn.champ.G6=undefined; const own=S.cfpG6[w]; delete S.cfpG6[w];   // what "Automatic" would pick
+    const auto=(poField()||{}).g6default; S.poScn.champ.G6=sv; if(own) S.cfpG6[w]=own;
+    const g6s=Object.keys(S.teams).filter(a=>g6Conf(S.teams[a].conf)).sort((a,b)=>(real[a]||99)-(real[b]||99) || (apR[a]||99)-(apR[b]||99) || (S.teams[a].powerRank||999)-(S.teams[b].powerRank||999));
+    const lab=a=>[real[a]?'CFP #'+real[a]:'', apR[a]?'AP #'+apR[a]:'', S.teams[a].powerRank?'Wolp+ #'+S.teams[a].powerRank:''].filter(Boolean).join(', ');
+    if(document.activeElement!==$('admG6')) $('admG6').innerHTML = `<option value="">Automatic${auto?` (${esc(nm(auto))})`:''}</option>`
+      + g6s.map(a=>`<option value="${esc(a)}"${a===cur?' selected':''}>${esc(nm(a))} (${esc(S.teams[a].conf)}${lab(a)?', '+esc(lab(a)):''})</option>`).join('');
+    $('admG6Msg').textContent = `Week ${w} CFP release` + (cur ? ` · set to ${nm(cur)}` : ' · automatic');
+  }
+  $('admG6Save').addEventListener('click', async ()=>{
+    const ws=cfpWeeks(), season=S.meta&&S.meta.season; if(!ws.length || !sb || !season) return;
+    const w=ws[ws.length-1], team=$('admG6').value; $('admG6Save').disabled=true;
+    const r = team ? await sb.from('cfp_g6').upsert({season, week:w, team}) : await sb.from('cfp_g6').delete().eq('season', season).eq('week', w);
+    $('admG6Save').disabled=false;
+    if(r.error){ toast(sbErr(r.error, 'Couldn’t save. If the cfp_g6 table isn’t set up yet, run backend/019_cfp_g6.sql.')); return; }
+    if(team) S.cfpG6[w]=team; else delete S.cfpG6[w];
+    toast(team ? `${nm(team)} holds the Group of Six bid for everyone` : 'Group of Six bid back to automatic'); renderAdminG6();
+  });
   function renderAdmin(){
     if(!S.isOwner) return;
+    renderAdminG6();
     renderUpsetRecord(); renderPollCmp(); renderModelCmp(); renderBallotStatus();
     const o=openWeekNum(), nx=S.vote.next;
     $('adminVote').innerHTML = S.vote.state==='loading' ? 'Loading…' : S.vote.state==='error' ? esc(sbErr(S.vote.err, 'Voting status couldn’t load. Reload the page to try again.'))
@@ -3573,7 +3630,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     const f = (()=>{ try{ return JSON.parse(localStorage.getItem('cfb-dials')||'null'); }catch(e){ return null; } })();  // each viewer's own what-if
     if(f && typeof f==='object' && 'Group of 5' in f){ f['Group of 6'] = f['Group of 5']; delete f['Group of 5']; }  // renamed 2026-10-04
     if(f && typeof f==='object'){ const g=Object.fromEntries(Object.entries(f).filter(([k])=>DIALS.includes(k))); S.adj={...g}; S.adjPub={...g}; S._mdl=null; }
-    loadUpsets();
+    loadUpsets(); loadCfpG6();
     db.teams.then(d=>{
       S.meta = {through:d.through, updatedAt:d.updatedAt, season:d.season};
       if(d.season){ $('brandYr').textContent=d.season; document.title=`Straw Poll ${d.season}`; }
