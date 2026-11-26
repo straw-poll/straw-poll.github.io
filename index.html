@@ -1132,9 +1132,9 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
   <div class="sub" id="gSub"></div>
   <div class="gwin" id="gWin"></div>
   <table class="gcmp" id="gCmp"></table>
-  <h4 class="dh">Results so far</h4>
-  <div class="cmpgrid" id="gRes"></div>
-  <p class="dnote">Stat ranks are out of all FBS teams (#1 = best; for defense, the fewest allowed). EPA = expected points added per play; success rate = share of plays that kept the offense on schedule. Run and pass numbers are adjusted for the opponents faced and for home field. Shaded games were close.</p>
+  <div id="gMx"></div>
+  <details class="ch-pv" id="gAll"><summary>All results</summary><div class="cmpgrid" id="gRes"></div></details>
+  <p class="dnote">Ranks are out of all FBS teams (#1 = best; for defense, the fewest allowed). EPA = expected points added per play; run and pass numbers are adjusted for the opponents faced and for home field. Each bar points to the team with the edge; its length is how far apart the two teams are compared with the spread across FBS. Shaded results were close games.</p>
   <form method="dialog"><div class="dlgbtns"><button class="btn">Close</button></div></form>
 </dialog>
 <dialog id="acctDlg" aria-labelledby="acctTitle">
@@ -1758,8 +1758,10 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
       <div class="act"><button type="button" class="btn primary" data-chan-save="${esc(c.game_id)}">Save</button><button type="button" class="btn" data-chan-cancel>Cancel</button>${txt ? `<button type="button" class="btn" data-chan-clear="${esc(c.game_id)}">Remove analysis</button>` : ''}<span class="note" data-chan-count>${txt.length} / 600</span></div></div>`;
     return show + `<button type="button" class="btn ch-anb" data-chan-edit="${esc(c.game_id)}">${txt ? '✎ Edit analysis' : '+ Add analysis'}</button>`;
   }
-  function champPreview(c){
-    const A=c.away, H=c.home, ta=S.teams[A]||{}, th=S.teams[H]||{}, games = gamesOf(A).filter(x=>x.opp===H && x.result);
+  // The matchup format (championship previews and the game pop-up): rematch, ratings, offense vs defense with normalized
+  // bars, and the games that moved each team's Wolp+ most. A = left (away) team, H = right (home) team.
+  function matchupHtml(A, H, skipDate){   // skipDate: this game's own date (YYYY-MM-DD, Eastern), so a played game isn't its own rematch
+    const ta=S.teams[A]||{}, th=S.teams[H]||{}, games = gamesOf(A).filter(x=>x.opp===H && x.result && x.date!==skipDate);
     const rm = games.map(x=>`${fmtDate(x.date)}: ${esc(nm(x.result==='W'?A:H))} ${Math.max(x.pf,x.pa)}, ${esc(nm(x.result==='W'?H:A))} ${Math.min(x.pf,x.pa)}`).join(' · ');
     const row = (lab, ra, rh, sa, sh, bar) => `<div class="ch-tr"><span class="tl">${lab}</span><b class="va">${ra?'#'+ra:'–'}${sa?`<small>${sa}</small>`:''}</b>${bar}<b>${rh?'#'+rh:'–'}${sh?`<small>${sh}</small>`:''}</b></div>`;
     const ep = (t, k) => typeof t[k]==='number' ? `${t[k]>0?'+':''}${t[k].toFixed(2)} EPA` : '';
@@ -1774,15 +1776,13 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
       .map(x=>{ const o=S.teams[x.opp], up=x.impact>0; return `<li><span class="r ${x.result}">${x.result}</span><span style="flex:1">${x.pf}-${x.pa} ${gAt(x)} <span class="ork">${o && o.powerRank ? '#'+o.powerRank : 'FCS'}</span> ${esc(nm(x.opp))}</span><b class="imp ${up?'up':'dn'}">${up?'▲':'▼'} ${Math.abs(x.impact).toFixed(1)}</b></li>`; }).join('');
     const hasMoved = gamesOf(A).some(x=>typeof x.impact==='number') || gamesOf(H).some(x=>typeof x.impact==='number');
     const sp = spNow();
-    return `<details class="ch-pv"><summary>Matchup preview</summary>
-      ${chAnalysis(c)}
-      ${rm ? `<div class="ch-rm"><b>Rematch.</b> ${rm}</div>` : ''}
+    return `${rm ? `<div class="ch-rm"><b>Rematch.</b> ${rm}</div>` : ''}
       <div class="ch-tg">Ratings</div>${row('Wolp+', ta.powerRank, th.powerRank, pts(ta.powerRating), pts(th.powerRating), chBar(chZ(A,'powerRating'), chZ(H,'powerRating')))}${row('ESPN FPI', ta.fpiRank, th.fpiRank, pts(ta.fpi), pts(th.fpi), chBar(chZ(A,'fpi'), chZ(H,'fpi')))}${sp.rk[A] || sp.rk[H] ? row('SP+', sp.rk[A], sp.rk[H], pts(sp.r[A]), pts(sp.r[H]), chBar(chZ(A,'sp',false,sp.r), chZ(H,'sp',false,sp.r))) : ''}
       ${side(A,'Offense',H,'Defense')}${unit(A,'off',H,'def','Run')}${unit(A,'off',H,'def','Pass')}
       ${side(A,'Defense',H,'Offense')}${unit(A,'def',H,'off','Run')}${unit(A,'def',H,'off','Pass')}
-      ${hasMoved ? `<div class="ch-tg">Games that moved Wolp+ most <span style="text-transform:none;letter-spacing:0;font-weight:500">(points up or down)</span></div><div class="ch-form"><div><h5>${esc(nm(A))}</h5><ul>${moved(A)}</ul></div><div><h5>${esc(nm(H))}</h5><ul>${moved(H)}</ul></div></div>` : ''}
-    </details>`;
+      ${hasMoved ? `<div class="ch-tg">Games that moved Wolp+ most <span style="text-transform:none;letter-spacing:0;font-weight:500">(points up or down)</span></div><div class="ch-form"><div><h5>${esc(nm(A))}</h5><ul>${moved(A)}</ul></div><div><h5>${esc(nm(H))}</h5><ul>${moved(H)}</ul></div></div>` : ''}`;
   }
+  const champPreview = c => `<details class="ch-pv"><summary>Matchup preview</summary>${chAnalysis(c)}${matchupHtml(c.away, c.home)}</details>`;
   function champGameHtml(c, interactive){
     const r = champResult(c), mine = S.champ.mine[c.game_id], locked = champLocked(), A=c.away, H=c.home;
     const counts = {}, who = {}; if(locked) S.champ.pub.forEach(x=>{ if(String(x.game_id)===String(c.game_id)){ counts[x.team]=(counts[x.team]||0)+1; (who[x.team]=who[x.team]||[]).push(x.username); } });
@@ -3364,9 +3364,6 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
   // Click a game (Home: Editor's Picks, Wolp+ vs the Line, big games, all games): the two teams side by side. Win chances come from the
   // Wolp+ spread (and what the betting line implies); stats are national ranks among FBS teams.
   S.gmap = {};
-  const GSTATS = [  // [label, key, lower is better, how to show the raw value]
-    ['Offense (adjusted EPA)', 'adjOffEpa', false, 'e'], ['Run offense', 'offRunEpa', false, 'rs'], ['Pass offense', 'offPassEpa', false, 'ps'],
-    ['Defense (adjusted EPA)', 'adjDefEpa', true, 'e'], ['Run defense', 'defRunEpa', true, 'rs'], ['Pass defense', 'defPassEpa', true, 'ps']];
   function statRank(k, low){
     const v = Object.keys(S.teams).filter(a=>typeof S.teams[a][k]==='number').sort((a,b)=>low ? S.teams[a][k]-S.teams[b][k] : S.teams[b][k]-S.teams[a][k]);
     return Object.fromEntries(v.map((a,i)=>[a, i+1]));
@@ -3384,33 +3381,23 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
     const hasM = typeof g.model==='number', hasL = typeof g.line==='number';
     $('gWin').innerHTML = (hasM ? bar(g.model, done ? 'Wolp+ win chance before kickoff' : 'Wolp+ win chance') : '<p class="dnote">No Wolp+ spread for this game.</p>')
       + `<div class="wl2">Wolp+: ${spread(g.model,H,A)}${hasL ? ` · Line: ${spread(g.line,H,A)} (implies ${g.line>0?winPct(g.line):100-winPct(g.line)}% ${esc(nm(H))})` : ' · no betting line'}</div>`;
-    // side by side
-    const rk = v => v ? '#'+v : '–', rkP = v => v && v<=TOP ? '#'+v : 'NR';   // polls: Top 25 or NR
-    const row = (label, va, vh, better) => { const e = better ? better(va, vh) : 0;
-      return `<tr><th>${label}</th><td class="${e<0?'edge':''}">${va}</td><td class="${e>0?'edge':''}">${vh}</td></tr>`; };
-    const lowWins = (x, y) => { const a=parseInt(String(x).replace(/\D/g,''))||999, h=parseInt(String(y).replace(/\D/g,''))||999; return a===h ? 0 : a<h ? -1 : 1; };
-    const grp = t => `<tr class="gsec"><th colspan="3">${t}</th></tr>`;
-    const f2 = v => typeof v==='number' ? (Math.abs(v)<0.005?0:v).toFixed(2) : '–', pc = v => typeof v==='number' ? Math.round(v*100)+'%' : '–';
-    const raw = (t, k, how) => how==='e' ? `${f2(t[k])} EPA` : `${f2(t[k])} EPA · ${pc(t[k.replace('Epa','Sr')])} SR`;
-    const stat = ([label, k, low, how]) => { const r=statRank(k, low), ra=r[A], rh=r[H];
-      const cell = (a, t, v) => v ? `#${v}<small>${raw(t, k, how)}</small>` : '–';
-      const e = ra && rh && ra!==rh ? (ra<rh ? -1 : 1) : 0;
-      return `<tr><th>${label}</th><td class="${e<0?'edge':''}">${cell(A, ta, ra)}</td><td class="${e>0?'edge':''}">${cell(H, th, rh)}</td></tr>`; };
+    // at a glance: records and poll ranks (no bars: polls don't give an "edge"), then the matchup format
+    const rkP = v => v && v<=TOP ? '#'+v : 'NR';   // polls: Top 25 or NR
+    const row = (label, va, vh) => `<tr><th>${label}</th><td>${va}</td><td>${vh}</td></tr>`;
+    const isF = t => !S.teams[t];
     $('gCmp').innerHTML = `<thead><tr><th></th><th>${esc(nm(A))}</th><th>${esc(nm(H))}</th></tr></thead><tbody>
-      ${row('Record', S.teams[A]?rec(ta.w,ta.l):'FCS', S.teams[H]?rec(th.w,th.l):'FCS')}
-      ${row('vs P4', rec(ta.p4w,ta.p4l), rec(th.p4w,th.p4l))}
-      ${grp('Rankings')}
-      ${row('Straw Poll', rkP(ranks[A]), rkP(ranks[H]), lowWins)}
-      ${row('AP', rkP(apRank(A)), rkP(apRank(H)), lowWins)}
-      ${cfpWeeks().length ? row('CFP', rkP(cfpRank(A)), rkP(cfpRank(H)), lowWins) : ''}
-      ${row('Wolp+', rk(ta.powerRank), rk(th.powerRank), lowWins)}
-      ${row('ESPN FPI', rk(ta.fpiRank), rk(th.fpiRank), lowWins)}
-      ${row('Resume Strength', rk(ta.resumeRank), rk(th.resumeRank), lowWins)}
-      ${grp('Offense and defense')}
-      ${GSTATS.map(stat).join('')}</tbody>`;
-    // results so far (no upcoming games)
+      ${row('Record', isF(A)?'FCS':rec(ta.w,ta.l), isF(H)?'FCS':rec(th.w,th.l))}
+      ${row('vs P4', isF(A)?'–':rec(ta.p4w,ta.p4l), isF(H)?'–':rec(th.p4w,th.p4l))}
+      ${row('Straw Poll', rkP(ranks[A]), rkP(ranks[H]))}
+      ${row('AP', rkP(apRank(A)), rkP(apRank(H)))}
+      ${cfpWeeks().length ? row('CFP', rkP(cfpRank(A)), rkP(cfpRank(H))) : ''}
+      ${row('Resume Strength', ta.resumeRank ? '#'+ta.resumeRank : '–', th.resumeRank ? '#'+th.resumeRank : '–')}</tbody>`;
+    const day = g.start ? new Date(g.start).toLocaleDateString('en-CA', {timeZone:'America/New_York'}) : null;
+    $('gMx').innerHTML = isF(A) || isF(H) ? '' : matchupHtml(A, H, day);
+    // every result so far (no upcoming games), tucked away below
     $('gRes').innerHTML = [A, H].map(a=>{ const games=gamesOf(a);
       return `<div class="cmpcol"><h4>${logo(a)}${esc(nm(a))}</h4><ul class="glog">${games.map(x=>`<li class="${isClose(x)?'close':''}"><span class="res ${x.result}">${x.result}</span><span class="sc">${gScore(x)}${x.ot?' OT':''}</span><span class="op">${gAt(x)} ${esc(gOppName(x.opp,ranks))}</span><span class="dt">${gOppRec(x.opp)}</span></li>`).join('')}</ul>${games.length?'':'<p class="dnote">No games yet.</p>'}</div>`; }).join('');
+    $('gAll').open = false;
     $('gameDlg').showModal(); $('gTitle').focus(); $('gameDlg').scrollTop = 0;
   }
 
