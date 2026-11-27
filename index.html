@@ -1639,7 +1639,7 @@ body:not(.see-ep) .ep-only{display:none!important}  /* Editor's Picks while swit
       const pick = up && up.pick, ok = done && pick ? won===pick : null, vr = vs && done ? vsResult(g) : null;
       const result = vs ? (!done ? '' : vr>0 ? '<span class="tag hit">Wolp+ right</span>' : vr<0 ? '<span class="tag miss">Line right</span>' : '<span class="tag miss">Push</span>')
         : pick ? (!done ? '' : ok ? '<span class="tag hit">Hit</span>' : '<span class="tag miss">Miss</span>')
-        : !done || !lFav ? '' : won!==lFav ? '<span class="tag hit">Upset!</span>' : '<span class="tag miss">Favorite won</span>';
+        : !done || !lFav ? '' : won!==lFav ? '<span class="tag hit">Upset!</span>' : '';   // a favorite winning gets no tag
       const hm = !up || !done ? '' : pick ? (ok ? ' hit' : ' miss') : result ? (won!==lFav ? ' hit' : ' miss') : '';
       const score = a => done || live ? `<span class="sc${done && a!==won ? ' lost' : ''}">${a===g.home ? sc.hp : sc.ap}</span>` : '';
       const side = a => `<div class="side${done||live?' scored':''}">${logo(a)}<div><b><button class="tname" data-open="${esc(a)}">${rkBadge(headRank(a), headLab())}${esc(nm(a))}</button></b><small>${S.teams[a]?rec(S.teams[a].w,S.teams[a].l):'FCS'}${ranks[a] && ranks[a]<=TOP?' · Straw #'+ranks[a]:''}${headLab()==='CFP' && apRank(a)?' · AP #'+apRank(a):''}</small></div>${score(a)}</div>`;
