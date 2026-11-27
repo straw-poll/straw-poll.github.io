@@ -1,6 +1,6 @@
 {
  "season": 2026,
- "updatedAt": "2026-11-27T04:37:47.842249+00:00",
+ "updatedAt": "2026-11-27T12:07:37.248758+00:00",
  "through": "games through Thu, Nov 26",
  "teams": {
   "Air Force": {
@@ -19668,13 +19668,13 @@
   "week": 13,
   "games": [
    {
-    "id": 401856762,
+    "id": 401866472,
     "start": "2026-11-27T17:00:00.000Z",
-    "home": "Ole Miss",
-    "away": "Mississippi State",
+    "home": "Akron",
+    "away": "Buffalo",
     "neutral": false,
-    "line": 17.5,
-    "model": 18.4
+    "line": -7.25,
+    "model": -12.0
    },
    {
     "id": 401862840,
@@ -19695,22 +19695,22 @@
     "model": -4.6
    },
    {
-    "id": 401858536,
+    "id": 401856762,
     "start": "2026-11-27T17:00:00.000Z",
+    "home": "Ole Miss",
+    "away": "Mississippi State",
+    "neutral": false,
+    "line": 17.5,
+    "model": 18.4
+   },
+   {
+    "id": 401858536,
+    "start": "2026-11-27T17:08:00.000Z",
     "home": "Iowa",
     "away": "Nebraska",
     "neutral": false,
     "line": 3.5,
     "model": 7.1
-   },
-   {
-    "id": 401866472,
-    "start": "2026-11-27T17:00:00.000Z",
-    "home": "Akron",
-    "away": "Buffalo",
-    "neutral": false,
-    "line": -7.25,
-    "model": -12.0
    },
    {
     "id": 401869930,
@@ -19722,13 +19722,13 @@
     "model": 5.6
    },
    {
-    "id": 401862838,
+    "id": 401856759,
     "start": "2026-11-27T20:30:00.000Z",
-    "home": "Memphis",
-    "away": "Temple",
+    "home": "Florida State",
+    "away": "Florida",
     "neutral": false,
-    "line": 18.5,
-    "model": 20.3
+    "line": -6.5,
+    "model": -5.3
    },
    {
     "id": 401864549,
@@ -19740,13 +19740,13 @@
     "model": -8.0
    },
    {
-    "id": 401856759,
+    "id": 401862838,
     "start": "2026-11-27T20:30:00.000Z",
-    "home": "Florida State",
-    "away": "Florida",
+    "home": "Memphis",
+    "away": "Temple",
     "neutral": false,
-    "line": -6.5,
-    "model": -5.3
+    "line": 18.5,
+    "model": 20.3
    },
    {
     "id": 401864546,
@@ -19754,7 +19754,7 @@
     "home": "New Mexico",
     "away": "Air Force",
     "neutral": false,
-    "line": 6.5,
+    "line": 6.75,
     "model": 8.0
    },
    {
@@ -19763,7 +19763,7 @@
     "home": "Texas A&M",
     "away": "Texas",
     "neutral": false,
-    "line": -10.5,
+    "line": -10.75,
     "model": -12.2
    },
    {
@@ -19772,7 +19772,7 @@
     "home": "Wisconsin",
     "away": "Minnesota",
     "neutral": false,
-    "line": 9.25,
+    "line": 9.0,
     "model": 12.9
    },
    {
@@ -19781,17 +19781,8 @@
     "home": "Utah",
     "away": "West Virginia",
     "neutral": false,
-    "line": 26.5,
+    "line": 25.75,
     "model": 23.4
-   },
-   {
-    "id": 401862842,
-    "start": "2026-11-28T17:00:00.000Z",
-    "home": "Charlotte",
-    "away": "Navy",
-    "neutral": false,
-    "line": -16.5,
-    "model": -14.9
    },
    {
     "id": 401869954,
@@ -19803,13 +19794,22 @@
     "model": -0.6
    },
    {
-    "id": 401866474,
+    "id": 401861969,
     "start": "2026-11-28T17:00:00.000Z",
-    "home": "Ball State",
-    "away": "Central Michigan",
+    "home": "Wyoming",
+    "away": "UConn",
     "neutral": false,
     "line": -3.5,
-    "model": -3.6
+    "model": -3.2
+   },
+   {
+    "id": 401858540,
+    "start": "2026-11-28T17:00:00.000Z",
+    "home": "Ohio State",
+    "away": "Michigan",
+    "neutral": false,
+    "line": 10.25,
+    "model": 16.1
    },
    {
     "id": 401858313,
@@ -19821,13 +19821,13 @@
     "model": 6.7
    },
    {
-    "id": 401858311,
+    "id": 401866474,
     "start": "2026-11-28T17:00:00.000Z",
-    "home": "Miami",
-    "away": "Boston College",
+    "home": "Ball State",
+    "away": "Central Michigan",
     "neutral": false,
-    "line": 25.25,
-    "model": 27.3
+    "line": -3.5,
+    "model": -3.6
    },
    {
     "id": 401856761,
@@ -19839,15 +19839,6 @@
     "model": -3.6
    },
    {
-    "id": 401861969,
-    "start": "2026-11-28T17:00:00.000Z",
-    "home": "Wyoming",
-    "away": "UConn",
-    "neutral": false,
-    "line": -3.5,
-    "model": -3.2
-   },
-   {
     "id": 401858314,
     "start": "2026-11-28T17:00:00.000Z",
     "home": "Syracuse",
@@ -19857,13 +19848,22 @@
     "model": -20.8
    },
    {
-    "id": 401858540,
+    "id": 401862842,
     "start": "2026-11-28T17:00:00.000Z",
-    "home": "Ohio State",
-    "away": "Michigan",
+    "home": "Charlotte",
+    "away": "Navy",
     "neutral": false,
-    "line": 10.25,
-    "model": 16.1
+    "line": -16.5,
+    "model": -14.9
+   },
+   {
+    "id": 401858311,
+    "start": "2026-11-28T17:00:00.000Z",
+    "home": "Miami",
+    "away": "Boston College",
+    "neutral": false,
+    "line": 25.25,
+    "model": 27.3
    },
    {
     "id": 401858537,
@@ -19884,6 +19884,15 @@
     "model": -10.2
    },
    {
+    "id": 401870804,
+    "start": "2026-11-28T18:00:00.000Z",
+    "home": "Western Kentucky",
+    "away": "Kennesaw State",
+    "neutral": false,
+    "line": -3.25,
+    "model": -1.7
+   },
+   {
     "id": 401862837,
     "start": "2026-11-28T18:00:00.000Z",
     "home": "East Carolina",
@@ -19891,15 +19900,6 @@
     "neutral": false,
     "line": 1.25,
     "model": -0.5
-   },
-   {
-    "id": 401871102,
-    "start": "2026-11-28T18:00:00.000Z",
-    "home": "UL Monroe",
-    "away": "Marshall",
-    "neutral": false,
-    "line": -5.5,
-    "model": -2.6
    },
    {
     "id": 401871103,
@@ -19911,13 +19911,31 @@
     "model": 7.5
    },
    {
-    "id": 401870804,
+    "id": 401871102,
     "start": "2026-11-28T18:00:00.000Z",
-    "home": "Western Kentucky",
-    "away": "Kennesaw State",
+    "home": "UL Monroe",
+    "away": "Marshall",
     "neutral": false,
-    "line": -3.25,
-    "model": -1.7
+    "line": -5.5,
+    "model": -2.6
+   },
+   {
+    "id": 401856878,
+    "start": "2026-11-28T19:00:00.000Z",
+    "home": "Iowa State",
+    "away": "Kansas State",
+    "neutral": false,
+    "line": 4.0,
+    "model": 6.3
+   },
+   {
+    "id": 401871063,
+    "start": "2026-11-28T19:00:00.000Z",
+    "home": "Missouri State",
+    "away": "Liberty",
+    "neutral": false,
+    "line": -18.5,
+    "model": -14.8
    },
    {
     "id": 401856875,
@@ -19929,13 +19947,13 @@
     "model": 1.5
    },
    {
-    "id": 401869947,
+    "id": 401871083,
     "start": "2026-11-28T19:00:00.000Z",
-    "home": "James Madison",
-    "away": "Coastal Carolina",
+    "home": "Middle Tennessee",
+    "away": "New Mexico State",
     "neutral": false,
-    "line": 17.25,
-    "model": 14.7
+    "line": 3.0,
+    "model": 8.4
    },
    {
     "id": 401871082,
@@ -19943,17 +19961,17 @@
     "home": "Florida International",
     "away": "Sam Houston",
     "neutral": false,
-    "line": 11.5,
+    "line": 11.75,
     "model": 14.1
    },
    {
-    "id": 401871063,
+    "id": 401869947,
     "start": "2026-11-28T19:00:00.000Z",
-    "home": "Missouri State",
-    "away": "Liberty",
+    "home": "James Madison",
+    "away": "Coastal Carolina",
     "neutral": false,
-    "line": -18.25,
-    "model": -14.8
+    "line": 17.25,
+    "model": 14.7
    },
    {
     "id": 401869959,
@@ -19970,35 +19988,8 @@
     "home": "Rice",
     "away": "Army",
     "neutral": false,
-    "line": -5.5,
+    "line": -5.25,
     "model": -5.9
-   },
-   {
-    "id": 401856878,
-    "start": "2026-11-28T19:00:00.000Z",
-    "home": "Iowa State",
-    "away": "Kansas State",
-    "neutral": false,
-    "line": 3.75,
-    "model": 6.3
-   },
-   {
-    "id": 401871083,
-    "start": "2026-11-28T19:00:00.000Z",
-    "home": "Middle Tennessee",
-    "away": "New Mexico State",
-    "neutral": false,
-    "line": 3.0,
-    "model": 8.4
-   },
-   {
-    "id": 401856764,
-    "start": "2026-11-28T20:00:00.000Z",
-    "home": "Clemson",
-    "away": "South Carolina",
-    "neutral": false,
-    "line": -6.5,
-    "model": -2.2
    },
    {
     "id": 401869939,
@@ -20019,22 +20010,13 @@
     "model": -2.2
    },
    {
-    "id": 401856876,
-    "start": "2026-11-28T20:30:00.000Z",
-    "home": "BYU",
-    "away": "Cincinnati",
+    "id": 401856764,
+    "start": "2026-11-28T20:00:00.000Z",
+    "home": "Clemson",
+    "away": "South Carolina",
     "neutral": false,
-    "line": 15.75,
-    "model": 17.2
-   },
-   {
-    "id": 401871062,
-    "start": "2026-11-28T20:30:00.000Z",
-    "home": "Delaware",
-    "away": "Jacksonville State",
-    "neutral": false,
-    "line": 2.5,
-    "model": 1.4
+    "line": -6.5,
+    "model": -2.2
    },
    {
     "id": 401858539,
@@ -20055,6 +20037,15 @@
     "model": 8.2
    },
    {
+    "id": 401858316,
+    "start": "2026-11-28T20:30:00.000Z",
+    "home": "Stanford",
+    "away": "SMU",
+    "neutral": false,
+    "line": -7.25,
+    "model": -3.3
+   },
+   {
     "id": 401856760,
     "start": "2026-11-28T20:30:00.000Z",
     "home": "Georgia",
@@ -20062,15 +20053,6 @@
     "neutral": false,
     "line": 35.5,
     "model": 36.8
-   },
-   {
-    "id": 401858543,
-    "start": "2026-11-28T20:30:00.000Z",
-    "home": "UCLA",
-    "away": "USC",
-    "neutral": false,
-    "line": -6.5,
-    "model": 6.0
    },
    {
     "id": 401866475,
@@ -20082,13 +20064,31 @@
     "model": 3.7
    },
    {
-    "id": 401858312,
+    "id": 401856876,
     "start": "2026-11-28T20:30:00.000Z",
-    "home": "Wake Forest",
-    "away": "Duke",
+    "home": "BYU",
+    "away": "Cincinnati",
     "neutral": false,
-    "line": 14.5,
-    "model": 14.8
+    "line": 15.75,
+    "model": 17.2
+   },
+   {
+    "id": 401858543,
+    "start": "2026-11-28T20:30:00.000Z",
+    "home": "UCLA",
+    "away": "USC",
+    "neutral": false,
+    "line": -6.5,
+    "model": 6.0
+   },
+   {
+    "id": 401871062,
+    "start": "2026-11-28T20:30:00.000Z",
+    "home": "Delaware",
+    "away": "Jacksonville State",
+    "neutral": false,
+    "line": 2.5,
+    "model": 1.4
    },
    {
     "id": 401864550,
@@ -20100,13 +20100,13 @@
     "model": 5.8
    },
    {
-    "id": 401858316,
+    "id": 401858312,
     "start": "2026-11-28T20:30:00.000Z",
-    "home": "Stanford",
-    "away": "SMU",
+    "home": "Wake Forest",
+    "away": "Duke",
     "neutral": false,
-    "line": -7.25,
-    "model": -3.3
+    "line": 14.5,
+    "model": 14.8
    },
    {
     "id": 401862843,
@@ -20118,15 +20118,6 @@
     "model": 12.2
    },
    {
-    "id": 401858542,
-    "start": "2026-11-28T21:15:00.000Z",
-    "home": "Rutgers",
-    "away": "Michigan State",
-    "neutral": false,
-    "line": -2.75,
-    "model": -0.5
-   },
-   {
     "id": 401856763,
     "start": "2026-11-28T21:15:00.000Z",
     "home": "Missouri",
@@ -20134,6 +20125,15 @@
     "neutral": false,
     "line": 2.5,
     "model": 4.4
+   },
+   {
+    "id": 401858542,
+    "start": "2026-11-28T21:15:00.000Z",
+    "home": "Rutgers",
+    "away": "Michigan State",
+    "neutral": false,
+    "line": -2.75,
+    "model": -0.5
    },
    {
     "id": 401860926,
@@ -20181,13 +20181,13 @@
     "model": -16.7
    },
    {
-    "id": 401858315,
+    "id": 401858541,
     "start": "2026-11-29T00:30:00.000Z",
-    "home": "California",
-    "away": "Pittsburgh",
+    "home": "Oregon",
+    "away": "Washington",
     "neutral": false,
-    "line": -9.5,
-    "model": -9.3
+    "line": 13.5,
+    "model": 15.6
    },
    {
     "id": 401856757,
@@ -20199,13 +20199,13 @@
     "model": 16.8
    },
    {
-    "id": 401858541,
+    "id": 401858315,
     "start": "2026-11-29T00:30:00.000Z",
-    "home": "Oregon",
-    "away": "Washington",
+    "home": "California",
+    "away": "Pittsburgh",
     "neutral": false,
-    "line": 13.5,
-    "model": 15.6
+    "line": -9.5,
+    "model": -9.3
    },
    {
     "id": 401864548,
@@ -20231,7 +20231,7 @@
     "home": "Houston",
     "away": "Baylor",
     "neutral": false,
-    "line": 4.5,
+    "line": 4.75,
     "model": 1.6
    },
    {
@@ -31173,7 +31173,7 @@
      "home": "Iowa",
      "away": "Nebraska",
      "neutral": false,
-     "start": "2026-11-27T17:00:00.000Z",
+     "start": "2026-11-27T17:08:00.000Z",
      "model": 7.1,
      "line": 3.5,
      "id": 401858536,
@@ -31230,7 +31230,7 @@
      "neutral": false,
      "start": "2026-11-27T21:30:00.000Z",
      "model": 8.0,
-     "line": 6.5,
+     "line": 6.75,
      "id": 401864546,
      "hp": null,
      "ap": null
@@ -31241,7 +31241,7 @@
      "neutral": false,
      "start": "2026-11-28T00:30:00.000Z",
      "model": 12.9,
-     "line": 9.25,
+     "line": 9.0,
      "id": 401858544,
      "hp": null,
      "ap": null
@@ -31252,7 +31252,7 @@
      "neutral": false,
      "start": "2026-11-28T00:30:00.000Z",
      "model": -12.2,
-     "line": -10.5,
+     "line": -10.75,
      "id": 401856756,
      "hp": null,
      "ap": null
@@ -31263,7 +31263,7 @@
      "neutral": false,
      "start": "2026-11-28T02:00:00.000Z",
      "model": 23.4,
-     "line": 26.5,
+     "line": 25.75,
      "id": 401856880,
      "hp": null,
      "ap": null
@@ -31450,7 +31450,7 @@
      "neutral": false,
      "start": "2026-11-28T19:00:00.000Z",
      "model": -14.8,
-     "line": -18.25,
+     "line": -18.5,
      "id": 401871063,
      "hp": null,
      "ap": null
@@ -31461,7 +31461,7 @@
      "neutral": false,
      "start": "2026-11-28T19:00:00.000Z",
      "model": 6.3,
-     "line": 3.75,
+     "line": 4.0,
      "id": 401856878,
      "hp": null,
      "ap": null
@@ -31472,7 +31472,7 @@
      "neutral": false,
      "start": "2026-11-28T19:00:00.000Z",
      "model": -5.9,
-     "line": -5.5,
+     "line": -5.25,
      "id": 401862841,
      "hp": null,
      "ap": null
@@ -31494,7 +31494,7 @@
      "neutral": false,
      "start": "2026-11-28T19:00:00.000Z",
      "model": 14.1,
-     "line": 11.5,
+     "line": 11.75,
      "id": 401871082,
      "hp": null,
      "ap": null
@@ -31824,7 +31824,7 @@
      "neutral": false,
      "start": "2026-11-29T02:30:00.000Z",
      "model": 1.6,
-     "line": 4.5,
+     "line": 4.75,
      "id": 401856874,
      "hp": null,
      "ap": null
@@ -31856,7 +31856,7 @@
  ],
  "model": {
   "season": 2026,
-  "updatedAt": "2026-11-27T04:37:47.842249+00:00",
+  "updatedAt": "2026-11-27T12:07:37.248758+00:00",
   "teams": {
    "Air Force": {
     "powerRating": -2.1971,
@@ -31962,7 +31962,7 @@
      "w": 9.3,
      "l": 2.7,
      "unb": 0.0,
-     "w10": 0.322,
+     "w10": 0.313,
      "bowl": 1.0
     },
     "upcoming": [
@@ -32076,8 +32076,8 @@
      ]
     ],
     "proj": {
-     "w": 2.2,
-     "l": 9.8,
+     "w": 2.3,
+     "l": 9.7,
      "unb": 0.0,
      "w10": 0.0,
      "bowl": 0.0
@@ -32196,7 +32196,7 @@
      "w": 9.8,
      "l": 2.2,
      "unb": 0.0,
-     "w10": 0.835,
+     "w10": 0.837,
      "bowl": 1.0
     },
     "upcoming": [
@@ -32891,7 +32891,7 @@
      "l": 5.8,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.818
+     "bowl": 0.822
     },
     "upcoming": [
      {
@@ -33131,7 +33131,7 @@
      "w": 9.8,
      "l": 2.2,
      "unb": 0.0,
-     "w10": 0.84,
+     "w10": 0.834,
      "bowl": 1.0
     },
     "upcoming": [
@@ -33482,7 +33482,7 @@
      "w": 10.7,
      "l": 2.3,
      "unb": 0.0,
-     "w10": 0.967,
+     "w10": 0.969,
      "bowl": 1.0
     },
     "upcoming": [
@@ -33607,7 +33607,7 @@
      "l": 6.9,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.059
+     "bowl": 0.06
     },
     "upcoming": [
      {
@@ -33833,8 +33833,8 @@
      ]
     ],
     "proj": {
-     "w": 8.8,
-     "l": 3.2,
+     "w": 8.7,
+     "l": 3.3,
      "unb": 0.0,
      "w10": 0.0,
      "bowl": 1.0
@@ -34071,7 +34071,7 @@
      "l": 6.4,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.585
+     "bowl": 0.573
     },
     "upcoming": [
      {
@@ -34418,8 +34418,8 @@
      ]
     ],
     "proj": {
-     "w": 7.5,
-     "l": 4.5,
+     "w": 7.4,
+     "l": 4.6,
      "unb": 0.0,
      "w10": 0.0,
      "bowl": 1.0
@@ -35709,7 +35709,7 @@
      "l": 6.6,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.39
+     "bowl": 0.387
     },
     "upcoming": [
      {
@@ -36181,7 +36181,7 @@
      "l": 6.6,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.424
+     "bowl": 0.417
     },
     "upcoming": [
      {
@@ -36769,7 +36769,7 @@
      "w": 9.9,
      "l": 2.1,
      "unb": 0.0,
-     "w10": 0.868,
+     "w10": 0.873,
      "bowl": 1.0
     },
     "upcoming": [
@@ -36886,7 +36886,7 @@
      "w": 9.7,
      "l": 2.3,
      "unb": 0.0,
-     "w10": 0.66,
+     "w10": 0.654,
      "bowl": 1.0
     },
     "upcoming": [
@@ -37004,7 +37004,7 @@
      "l": 6.4,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.637
+     "bowl": 0.639
     },
     "upcoming": [
      {
@@ -37120,7 +37120,7 @@
      "w": 8.7,
      "l": 4.3,
      "unb": 0.0,
-     "w10": 0.108,
+     "w10": 0.112,
      "bowl": 1.0
     },
     "upcoming": [
@@ -37596,7 +37596,7 @@
      "l": 6.5,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.536
+     "bowl": 0.542
     },
     "upcoming": [
      {
@@ -38304,7 +38304,7 @@
      "w": 9.5,
      "l": 2.5,
      "unb": 0.0,
-     "w10": 0.519,
+     "w10": 0.507,
      "bowl": 1.0
     },
     "upcoming": [
@@ -38769,7 +38769,7 @@
      "l": 6.6,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.417
+     "bowl": 0.413
     },
     "upcoming": [
      {
@@ -39720,7 +39720,7 @@
      "l": 6.9,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.148
+     "bowl": 0.147
     },
     "upcoming": [
      {
@@ -40071,7 +40071,7 @@
      "l": 6.6,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.35
+     "bowl": 0.357
     },
     "upcoming": [
      {
@@ -40180,7 +40180,7 @@
      "l": 6.7,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.379
+     "bowl": 0.372
     },
     "upcoming": [
      {
@@ -40421,7 +40421,7 @@
      "l": 6.6,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.365
+     "bowl": 0.362
     },
     "upcoming": [
      {
@@ -40537,7 +40537,7 @@
      "w": 9.7,
      "l": 2.3,
      "unb": 0.0,
-     "w10": 0.678,
+     "w10": 0.687,
      "bowl": 1.0
     },
     "upcoming": [
@@ -40772,7 +40772,7 @@
      "l": 6.4,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.65
+     "bowl": 0.643
     },
     "upcoming": [
      {
@@ -40888,7 +40888,7 @@
      "w": 9.7,
      "l": 2.3,
      "unb": 0.0,
-     "w10": 0.671,
+     "w10": 0.675,
      "bowl": 1.0
     },
     "upcoming": [
@@ -43494,7 +43494,7 @@
      "l": 7.7,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.329
+     "bowl": 0.325
     },
     "upcoming": [
      {
@@ -43724,8 +43724,8 @@
      ]
     ],
     "proj": {
-     "w": 6.5,
-     "l": 5.5,
+     "w": 6.6,
+     "l": 5.4,
      "unb": 0.0,
      "w10": 0.0,
      "bowl": 1.0
@@ -44196,7 +44196,7 @@
      "l": 6.9,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.113
+     "bowl": 0.119
     },
     "upcoming": [
      {
@@ -44546,7 +44546,7 @@
      "w": 9.8,
      "l": 2.2,
      "unb": 0.0,
-     "w10": 0.834,
+     "w10": 0.833,
      "bowl": 1.0
     },
     "upcoming": [
@@ -44664,10 +44664,10 @@
      ]
     ],
     "proj": {
-     "w": 9.7,
-     "l": 2.3,
+     "w": 9.8,
+     "l": 2.2,
      "unb": 0.0,
-     "w10": 0.749,
+     "w10": 0.761,
      "bowl": 1.0
     },
     "upcoming": [
@@ -44781,8 +44781,8 @@
      ]
     ],
     "proj": {
-     "w": 4.3,
-     "l": 7.7,
+     "w": 4.2,
+     "l": 7.8,
      "unb": 0.0,
      "w10": 0.0,
      "bowl": 0.0
@@ -45023,13 +45023,21 @@
      ]
     ],
     "proj": {
-     "w": 11.0,
-     "l": 1.0,
+     "w": 11.5,
+     "l": 1.5,
      "unb": 0.0,
      "w10": 1.0,
      "bowl": 1.0
     },
-    "upcoming": []
+    "upcoming": [
+     {
+      "date": "2026-12-04",
+      "week": 14,
+      "opp": "Utah",
+      "site": "neutral",
+      "spread": -0.1
+     }
+    ]
    },
    "Toledo": {
     "powerRating": -2.8761,
@@ -45135,7 +45143,7 @@
      "w": 9.6,
      "l": 2.4,
      "unb": 0.0,
-     "w10": 0.602,
+     "w10": 0.606,
      "bowl": 1.0
     },
     "upcoming": [
@@ -46555,7 +46563,7 @@
      "w": 9.5,
      "l": 2.5,
      "unb": 0.0,
-     "w10": 0.512,
+     "w10": 0.51,
      "bowl": 1.0
     },
     "upcoming": [
@@ -46669,9 +46677,9 @@
      ]
     ],
     "proj": {
-     "w": 11.9,
-     "l": 0.1,
-     "unb": 0.909,
+     "w": 12.4,
+     "l": 0.6,
+     "unb": 0.468,
      "w10": 1.0,
      "bowl": 1.0
     },
@@ -46682,6 +46690,13 @@
       "opp": "West Virginia",
       "site": "home",
       "spread": 23.4
+     },
+     {
+      "date": "2026-12-04",
+      "week": 14,
+      "opp": "Texas Tech",
+      "site": "neutral",
+      "spread": 0.1
      }
     ]
    },
@@ -47616,7 +47631,7 @@
      "l": 6.9,
      "unb": 0.0,
      "w10": 0.0,
-     "bowl": 0.091
+     "bowl": 0.089
     },
     "upcoming": [
      {
